@@ -195,14 +195,21 @@ button:hover{transform:scale(1.05);}
 
 /* SOFT PULSE */
 .btn-glow.save{
-  box-shadow:0 0 15px rgba(255,107,107,0.5);
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
 }
+
 .btn-glow.wa{
-  box-shadow:0 0 15px rgba(78,205,196,0.5);
+  background: linear-gradient(135deg, #00c9ff, #92fe9d);
 }
 .btn-glow span{
   font-weight: 900;
   letter-spacing: 2px;
+}
+.btn-glow{
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.5),
+    inset 0 0 10px rgba(255,255,255,0.05);
 }
 </style>
 </head>
