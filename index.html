@@ -3,65 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radz Store Elite Panel</title>
+<title>Radz Store Elite</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-
-:root {
-  --accent-primary: linear-gradient(135deg,#ff6b6b,#4ecdc4);
-}
 
 body{
   margin:0;
   font-family:'Orbitron',monospace;
   background:#000;
   color:#fff;
-  overflow-x:hidden;
 }
 
-/* 🔥 GRID BACKGROUND */
-body::before{
-  content:"";
+/* BACKGROUND */
+#bg{
   position:fixed;
   width:100%;
   height:100%;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size:40px 40px;
   z-index:-1;
+  opacity:0.2;
 }
-
-/* 🔥 GLOW ANIMATION */
-body::after{
-  content:"";
-  position:fixed;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle, rgba(255,107,107,0.35), transparent);
-  top:20%;
-  left:30%;
-  filter:blur(120px);
-  z-index:-1;
-  animation:moveGlow 10s infinite alternate;
-}
-
-@keyframes moveGlow{
-  0%{transform:translate(-50px,-50px);}
-  100%{transform:translate(50px,50px);}
-}
-
-/* BACKGROUND VIDEO */
-#anime-bg{
-  position:fixed;
-  width:100%;
-  height:100%;
-  z-index:-2;
-  opacity:0.1;
-  pointer-events:none;
-}
-#anime-bg video{
+#bg video{
   width:100%;
   height:100%;
   object-fit:cover;
@@ -69,48 +31,18 @@ body::after{
 
 /* CONTAINER */
 .container{
-  position:relative;
-  z-index:10;
-  max-width:1000px;
+  max-width:900px;
   margin:auto;
-  padding:50px 20px;
+  padding:40px 20px;
 }
 
-/* HEADER */
-.header{
+/* TITLE */
+h1{
   text-align:center;
-  margin-bottom:40px;
-}
-.header h1{
-  font-size:50px;
-  background:var(--accent-primary);
+  font-size:40px;
+  background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-}
-
-/* TAB */
-.tab-container{
-  display:flex;
-  gap:10px;
-  margin-bottom:30px;
-}
-.tab-btn{
-  flex:1;
-  padding:15px;
-  border:none;
-  border-radius:10px;
-  background:#111;
-  color:#aaa;
-  cursor:pointer;
-  transition:0.3s;
-}
-.tab-btn:hover{ transform:translateY(-3px); }
-.tab-btn:active{ transform:scale(0.95); }
-.tab-btn.active{
-  background:var(--accent-primary);
-  color:black;
-  box-shadow:0 0 25px rgba(255,107,107,0.8),
-             0 0 60px rgba(78,205,196,0.5);
 }
 
 /* CARD */
@@ -118,11 +50,8 @@ body::after{
   background:rgba(255,255,255,0.05);
   padding:20px;
   border-radius:15px;
-  margin-bottom:20px;
-  transition:0.3s;
-}
-.card:hover{
-  transform:translateY(-6px) scale(1.02);
+  margin-top:20px;
+  box-shadow:0 0 20px rgba(255,107,107,0.3);
 }
 
 /* INPUT */
@@ -139,26 +68,51 @@ input{
 /* BUTTON */
 button{
   width:100%;
-  padding:12px;
+  padding:14px;
   border:none;
   border-radius:10px;
-  background:var(--accent-primary);
+  background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
   color:black;
+  font-weight:bold;
   cursor:pointer;
   transition:0.3s;
-  margin-top:12px; /* 🔥 jarak tombol */
 }
-button:hover{ transform:scale(1.03); }
-button:active{ transform:scale(0.96); }
+button:hover{
+  transform:scale(1.05);
+}
 
-/* STATUS */
-.status{
-  margin-top:10px;
-  padding:10px;
-  border-radius:10px;
+/* DASHBOARD */
+.dashboard{
+  display:none;
 }
-.success{background:green;}
-.error{background:red;}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.profile img{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  border:2px solid #ff6b6b;
+}
+
+.banner img{
+  width:100%;
+  border-radius:15px;
+  margin-top:20px;
+}
+
+.action{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+.action button{
+  flex:1;
+}
 
 .hidden{display:none;}
 </style>
@@ -166,8 +120,7 @@ button:active{ transform:scale(0.96); }
 
 <body>
 
-<!-- BACKGROUND -->
-<div id="anime-bg">
+<div id="bg">
   <video autoplay muted loop>
     <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-neon-lines-in-motion-12166-large.mp4">
   </video>
@@ -175,44 +128,41 @@ button:active{ transform:scale(0.96); }
 
 <div class="container">
 
-<div class="header">
-  <h1>RADZ STORE</h1>
+<h1>RADZ STORE</h1>
+
+<!-- LOGIN -->
+<div id="loginBox" class="card">
+  <h2>Login</h2>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">LOGIN</button>
+  <div id="status"></div>
 </div>
 
-<div class="tab-container">
-  <button class="tab-btn active" id="btnUser">USER</button>
-  <button class="tab-btn" id="btnAdmin">ADMIN</button>
-</div>
+<!-- DASHBOARD -->
+<div id="dashboard" class="dashboard">
 
-<!-- USER -->
-<div id="userTab">
+  <div class="card profile">
+    <img src="https://i.pinimg.com/736x/4c/9b/63/4c9b63c8c1d8d1f0c8b7c2c89f6f1d6f.jpg">
+    <div>
+      <b id="userEmail"></b><br>
+      <small style="color:#aaa;">Status: Active</small>
+    </div>
+  </div>
+
+  <div class="card banner">
+    <img src="https://i.pinimg.com/originals/5e/8c/63/5e8c632d8b63b85d76f3a1dfb8e1b1c2.gif">
+  </div>
+
+  <div class="action">
+    <button onclick="alert('Fitur Coming Soon')">FITUR 1</button>
+    <button onclick="alert('Fitur Coming Soon')">FITUR 2</button>
+  </div>
+
   <div class="card">
-    <h2>Login User</h2>
-    <input id="userEmail" placeholder="Email">
-    <input id="userPassword" type="password" placeholder="Password">
-    <button id="loginBtn">LOGIN</button>
-    <div id="userStatus"></div>
+    <button onclick="logout()">LOGOUT</button>
   </div>
 
-  <div id="userDashboard" class="hidden card">
-    <h3 id="userInfo"></h3>
-    <button id="logoutUser">LOGOUT</button>
-  </div>
-</div>
-
-<!-- ADMIN -->
-<div id="adminTab" class="hidden">
-  <div class="card">
-    <h2>Admin Panel</h2>
-    <div id="adminInfo"></div>
-
-    <input id="newEmail" placeholder="Email user">
-    <input id="newPass" type="password" placeholder="Password">
-    <button id="createBtn">CREATE USER</button>
-    <div id="createStatus"></div>
-
-    <button id="logoutAdmin">LOGOUT</button>
-  </div>
 </div>
 
 </div>
@@ -223,7 +173,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -240,61 +189,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* ELEMENT */
-const userTab = document.getElementById("userTab");
-const adminTab = document.getElementById("adminTab");
-const btnUser = document.getElementById("btnUser");
-const btnAdmin = document.getElementById("btnAdmin");
-
-/* TAB */
-btnUser.onclick = () => {
-  userTab.classList.remove("hidden");
-  adminTab.classList.add("hidden");
-  btnUser.classList.add("active");
-  btnAdmin.classList.remove("active");
-};
-
-btnAdmin.onclick = () => {
-  adminTab.classList.remove("hidden");
-  userTab.classList.add("hidden");
-  btnAdmin.classList.add("active");
-  btnUser.classList.remove("active");
-};
-
-/* LOGIN */
-loginBtn.onclick = () => {
-  signInWithEmailAndPassword(auth,userEmail.value,userPassword.value)
+// LOGIN
+window.login = function(){
+  signInWithEmailAndPassword(auth,email.value,password.value)
   .then(res=>{
-    userDashboard.classList.remove("hidden");
-    userInfo.innerText="Welcome "+res.user.email;
-    userStatus.innerHTML=`<div class="status success">Login Success</div>`;
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    userEmail.innerText = res.user.email;
   })
   .catch(err=>{
-    userStatus.innerHTML=`<div class="status error">${err.message}</div>`;
+    status.innerHTML = "<p style='color:red'>"+err.message+"</p>";
   });
 };
 
-/* CREATE USER */
-createBtn.onclick = () => {
-  createUserWithEmailAndPassword(auth,newEmail.value,newPass.value)
-  .then(()=>{
-    createStatus.innerHTML=`<div class="status success">User Created</div>`;
-  })
-  .catch(err=>{
-    createStatus.innerHTML=`<div class="status error">${err.message}</div>`;
-  });
-};
-
-/* LOGOUT */
-logoutUser.onclick = ()=>signOut(auth).then(()=>location.reload());
-logoutAdmin.onclick = ()=>signOut(auth).then(()=>location.reload());
-
-/* AUTO LOGIN */
+// AUTO LOGIN
 onAuthStateChanged(auth,user=>{
   if(user){
-    adminInfo.innerHTML=`<div class="status success">Login: ${user.email}</div>`;
+    loginBox.style.display="none";
+    dashboard.style.display="block";
+    userEmail.innerText = user.email;
   }
 });
+
+// LOGOUT
+window.logout = function(){
+  signOut(auth).then(()=>location.reload());
+};
 </script>
 
 </body>
