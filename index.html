@@ -3,29 +3,439 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radz Panel</title>
+<title>Radz Store Elite Panel</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #000000;
+  --bg-secondary: rgba(10, 10, 20, 0.95);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent-primary: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+  --accent-glow: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.9);
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --shadow-main: 0 25px 50px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 50px rgba(255, 107, 107, 0.4);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,107,107,0.3) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,107,107,0.3);
+  border-radius: 4px;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #1a002b, #2d004d);
-  color: white;
+  font-family: 'Orbitron', monospace;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* ANIMASI */
-.fade {
-  animation: fadeIn 0.6s ease;
-}
-@keyframes fadeIn {
-  from {opacity:0; transform: translateY(20px);}
-  to {opacity:1; transform: translateY(0);}
+/* ANIME BACKGROUND */
+#anime-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  opacity: 0.1;
 }
 
-/* CARD */
+#anime-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* FLOATING ELEMENTS */
+.floating {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.05;
+  animation: float 20s infinite linear;
+}
+
+.floating:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.floating:nth-child(2) { top: 20%; right: 10%; animation-delay: 5s; }
+.floating:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 10s; }
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+  100% { transform: translateY(0px) rotate(360deg); }
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 30px;
+  position: relative;
+  z-index: 10;
+}
+
+/* HEADER - RADZ STORE */
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+}
+
+.header h1 {
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  margin: 0;
+  background: var(--accent-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(255, 107, 107, 0.5);
+  animation: glowPulse 3s ease-in-out infinite alternate;
+}
+
+.header p {
+  font-size: 20px;
+  color: var(--text-muted);
+  margin: 20px 0 0 0;
+  letter-spacing: 2px;
+}
+
+@keyframes glowPulse {
+  0% { filter: drop-shadow(0 0 20px rgba(255,107,107,0.5)); }
+  100% { filter: drop-shadow(0 0 40px rgba(255,107,107,0.8)); }
+}
+
+/* TABS - CYBERPUNK */
+.tab-container {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 60px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  padding: 6px;
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: var(--shadow-main);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 22px 32px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+  border-radius: 16px;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  transform: translateY(-4px) scale(1.05);
+  text-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+.tab-btn:hover::before {
+  opacity: 0.15;
+}
+
+.tab-btn.active {
+  background: var(--accent-primary);
+  color: #000;
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* GLASS CARDS */
 .card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(10px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(50px);
+  border: 1px solid var(--glass-border);
+  padding: 48px;
+  margin: 32px 0;
+  border-radius: 28px;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-main);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  transform: rotate(45deg);
+  transition: all 0.6s;
+  opacity: 0;
+}
+
+.card:hover::before {
+  animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  border-color: rgba(255,107,107,0.4);
+  box-shadow: var(--shadow-glow), 0 0 60px rgba(0,0,0,0.6);
+}
+
+/* ADMIN CARD */
+.admin-card {
+  background: rgba(255,107,107,0.1);
+  border: 1px solid rgba(255,107,107,0.3);
+  padding: 32px;
+}
+
+/* INPUTS */
+input {
+  width: 100%;
+  padding: 24px 28px;
+  margin: 20px 0;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.02);
+  color: var(--text-primary);
+  font-family: 'Orbitron', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(20px);
+}
+
+input:focus {
+  outline: none;
+  border-color: transparent;
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 4px rgba(255,107,107,0.3);
+  transform: translateY(-2px);
+}
+
+/* BUTTONS */
+.btn {
+  width: 100%;
+  padding: 24px 32px;
+  border: none;
+  border-radius: 20px;
+  background: var(--accent-primary);
+  color: #000;
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  box-shadow: 0 10px 30px rgba(255,107,107,0.4);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.7s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(255,107,107,0.6);
+  text-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.btn-secondary { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+.btn-success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #000; }
+
+/* STATUS */
+.status {
+  padding: 20px 24px;
+  border-radius: 16px;
+  margin: 24px 0;
+  font-weight: 700;
+  font-size: 16px;
+  backdrop-filter: blur(20px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status.success { 
+  background: rgba(67, 233, 123, 0.2); 
+  border: 2px solid rgba(67, 233, 123, 0.5);
+  box-shadow: 0 0 20px rgba(67, 233, 123, 0.3);
+}
+
+.status.error { 
+  background: rgba(255, 107, 107, 0.2); 
+  border: 2px solid rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+}
+
+/* TITLES */
+h2 { 
+  font-size: 36px; 
+  font-weight: 900; 
+  margin: 0 0 24px 0;
+  background: var(--accent-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+
+h3 { 
+  font-size: 24px; 
+  font-weight: 700; 
+  margin: 0 0 28px 0;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+/* HIDDEN */
+.hidden { display: none !important; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .header h1 { font-size: 42px; }
+  .container { padding: 50px 20px; }
+  .card { padding: 32px 24px; }
+  .tab-container { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<!-- ANIME BACKGROUND -->
+<div id="anime-bg">
+  <video autoplay muted loop playsinline>
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-neon-lines-in-motion-12166-large.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- FLOATING LOGOS -->
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjQwIiBmaWxsPSJ1cmwoI3JhZGllbnQpIi8+CjxkZWZzPgo8cmFkaWFsR3JhZGllbnQgaWQ9InJhZGllbnQiIGN4PSI1MCIgY3k9IjUwIiByPSIzNSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjZiNmIiLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNGVjZGM0Ii8+CjwvcmFkaWFsR3JhZGllbnQ+CjwvZGVmcz4KPC9zdmc+" class="floating" style="width: 80px; height: 80px; animation-duration: 25s;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iMzAiIGZpbGw9InVybCgjZ3JhZCkiLz4KPGRlZnM+CjxyYWRpYWxHcmFkaWVudCBpZD0iZ3JhZCIgY3g9IjQwIiBjeT0iNDAiIHI9IjI1Ij4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ1YjdkMSIvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5NmNlYjQiLz4KPC9yYWRpYWxHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4=" class="floating" style="width: 60px; height: 60px; animation-duration: 30s;">
+
+<div class="container">
+  <div class="header">
+    <h1>RADZ STORE</h1>
+    <p>ELITE PANEL SYSTEM</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-container">
+    <button class="tab-btn active" onclick="switchTab('user')">👤 User Portal</button>
+    <button class="tab-btn" onclick="switchTab('admin')">👑 Admin Control</button>
+  </div>
+
+  <!-- USER TAB -->
+  <div id="userTab">
+    <div class="card">
+      <h2>User Authentication</h2>
+      <input type="email" id="userEmail" placeholder="🔐 Enter Email">
+      <input type="password" id="userPassword" placeholder="🔐 Enter Password">
+      <button class="btn" onclick="userLogin()">Access Portal</button>
+      <div id="userStatus"></div>
+    </div>
+
+    <div id="userDashboard" class="hidden">
+      <div class="card">
+        <h2>Dashboard Active</h2>
+        <div style="background: rgba(255,255,255,0.03); padding: 32px; border-radius: 20px; margin: 24px 0; border: 1px solid rgba(255,255,255,0.1);">
+          <p id="userInfo" style="margin: 0; font-size: 22px; font-weight: 700;">Welcome!</p>
+        </div>
+        <button class="btn btn-secondary" onclick="userLogout()">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN TAB -->
+  <div id="adminTab" class="hidden">
+    <div class="card">
+      <h2>Admin Dashboard</h2>
+      <div id="adminInfo"></div>
+      
+      <div class="card">
+        <h3>Create New User</h3>
+        <input type="email" id="newEmail" placeholder="User Email">
+        <input type="password" id="newPass" placeholder="User Password">
+        <button class="btn btn-success" onclick="createUser()">Generate Account</button>
+        <div id="createStatus"></div>
+      </div>
+
+      <div class="admin-card">
+        <h3>Admin Session</h3>
+        <button class="btn" onclick="adminLogout()" style="padding: 20px 28px; font-size: 16px;">Terminate Session</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https  backdrop-filter: blur(10px);
   padding: 20px;
   margin: 15px;
   border-radius: 15px;
