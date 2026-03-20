@@ -123,6 +123,83 @@ button:hover{transform:scale(1.05);}
 .error{background:#d50000;}
 
 .hidden{display:none;}
+
+  .btn-group{
+  display:flex;
+  gap:15px;
+  margin-top:20px;
+}
+
+.btn-glow{
+  flex:1;
+  position:relative;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  font-weight:600;
+  font-size:14px;
+  color:#000;
+  cursor:pointer;
+  overflow:hidden;
+  transition:all .3s ease;
+  z-index:1;
+}
+
+/* GRADIENT */
+.btn-glow.save{
+  background:linear-gradient(135deg,#ff6b6b,#ff9f43);
+}
+.btn-glow.wa{
+  background:linear-gradient(135deg,#4ecdc4,#1dd1a1);
+}
+
+/* GLOW EFFECT */
+.btn-glow::before{
+  content:'';
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.5),
+    transparent
+  );
+  transform:rotate(25deg);
+  opacity:0;
+  transition:0.5s;
+}
+
+.btn-glow:hover::before{
+  animation:shine 1s linear;
+  opacity:1;
+}
+
+@keyframes shine{
+  0%{transform:translateX(-100%) rotate(25deg);}
+  100%{transform:translateX(100%) rotate(25deg);}
+}
+
+/* HOVER */
+.btn-glow:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 0 20px rgba(255,255,255,0.2);
+}
+
+/* CLICK */
+.btn-glow:active{
+  transform:scale(0.96);
+}
+
+/* SOFT PULSE */
+.btn-glow.save{
+  box-shadow:0 0 15px rgba(255,107,107,0.5);
+}
+.btn-glow.wa{
+  box-shadow:0 0 15px rgba(78,205,196,0.5);
+}
 </style>
 </head>
 
