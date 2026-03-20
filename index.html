@@ -33,13 +33,13 @@ body{
 .container{
   max-width:900px;
   margin:auto;
-  padding:40px 20px;
+  padding:30px 15px;
 }
 
 /* TITLE */
 h1{
   text-align:center;
-  font-size:40px;
+  font-size:36px;
   background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -48,9 +48,9 @@ h1{
 /* CARD */
 .card{
   background:rgba(255,255,255,0.05);
-  padding:20px;
+  padding:18px;
   border-radius:15px;
-  margin-top:20px;
+  margin-top:15px;
   box-shadow:0 0 20px rgba(255,107,107,0.3);
 }
 
@@ -77,42 +77,50 @@ button{
   cursor:pointer;
   transition:0.3s;
 }
-button:hover{
-  transform:scale(1.05);
-}
+button:hover{transform:scale(1.05);}
 
-/* DASHBOARD */
-.dashboard{
-  display:none;
-}
-
+/* PROFILE */
 .profile{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:10px;
 }
-
 .profile img{
-  width:60px;
-  height:60px;
+  width:55px;
+  height:55px;
   border-radius:50%;
   border:2px solid #ff6b6b;
 }
 
+/* BANNER FIX */
 .banner img{
   width:100%;
-  border-radius:15px;
-  margin-top:20px;
+  border-radius:12px;
+  margin-top:10px;
 }
 
+/* ACTION */
 .action{
   display:flex;
   gap:10px;
-  margin-top:20px;
+  margin-top:15px;
 }
-.action button{
-  flex:1;
+.action button{flex:1;}
+
+/* POPUP */
+.popup{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:12px 20px;
+  border-radius:10px;
+  font-weight:bold;
+  display:none;
+  z-index:999;
 }
+.success{background:#00c853;}
+.error{background:#d50000;}
 
 .hidden{display:none;}
 </style>
@@ -126,6 +134,8 @@ button:hover{
   </video>
 </div>
 
+<div class="popup" id="popup"></div>
+
 <div class="container">
 
 <h1>RADZ STORE</h1>
@@ -136,27 +146,26 @@ button:hover{
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
   <button onclick="login()">LOGIN</button>
-  <div id="status"></div>
 </div>
 
 <!-- DASHBOARD -->
-<div id="dashboard" class="dashboard">
+<div id="dashboard" class="hidden">
 
   <div class="card profile">
-    <img src="https://i.ibb.co.com/yFpkJnMd/63b71c0e-3570-4880-a29c-ad16398d90f3.jpg">
+    <img src="https://i.pinimg.com/736x/4c/9b/63/4c9b63c8c1d8d1f0c8b7c2c89f6f1d6f.jpg">
     <div>
       <b id="userEmail"></b><br>
-      <small style="color:#aaa;">Status: Active</small>
+      <small>Status: Active</small>
     </div>
   </div>
 
   <div class="card banner">
-    <img src="https://i.ibb.co.com/v4zb2D55/eac08508-a22d-45a0-84da-d83f065820f1.jpg">
+    <img src="https://i.pinimg.com/originals/5e/8c/63/5e8c632d8b63b85d76f3a1dfb8e1b1c2.gif">
   </div>
 
   <div class="action">
-    <button onclick="alert('Fitur Coming Soon')">FITUR 1</button>
-    <button onclick="alert('Fitur Coming Soon')">FITUR 2</button>
+    <button onclick="saveContact()">Simpan Kontak</button>
+    <button onclick="openWA()">Hubungi Admin</button>
   </div>
 
   <div class="card">
@@ -189,31 +198,48 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// POPUP
+function showPopup(msg,type){
+  const p = document.getElementById("popup");
+  p.innerText = msg;
+  p.className = "popup "+type;
+  p.style.display="block";
+  setTimeout(()=>p.style.display="none",3000);
+}
+
 // LOGIN
 window.login = function(){
   signInWithEmailAndPassword(auth,email.value,password.value)
   .then(res=>{
-    document.getElementById("loginBox").style.display="none";
-    document.getElementById("dashboard").style.display="block";
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
     userEmail.innerText = res.user.email;
+    showPopup("Login Berhasil","success");
   })
-  .catch(err=>{
-    status.innerHTML = "<p style='color:red'>"+err.message+"</p>";
+  .catch(()=>{
+    showPopup("Login Gagal","error");
   });
 };
 
 // AUTO LOGIN
 onAuthStateChanged(auth,user=>{
   if(user){
-    loginBox.style.display="none";
-    dashboard.style.display="block";
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
     userEmail.innerText = user.email;
   }
 });
 
 // LOGOUT
-window.logout = function(){
-  signOut(auth).then(()=>location.reload());
+window.logout = ()=>signOut(auth).then(()=>location.reload());
+
+// FITUR AMAN
+window.saveContact = function(){
+  window.open("https://wa.me/6289603266259");
+};
+
+window.openWA = function(){
+  window.open("https://wa.me/6289603266259?text=Halo Admin");
 };
 </script>
 
