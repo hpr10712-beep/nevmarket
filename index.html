@@ -17,18 +17,49 @@ body{
   font-family:'Orbitron',monospace;
   background:#000;
   color:#fff;
+  overflow-x:hidden;
 }
 
-/* BACKGROUND FIX */
+/* 🔥 GRID BACKGROUND */
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+  z-index:-1;
+}
+
+/* 🔥 GLOW ANIMATION */
+body::after{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle, rgba(255,107,107,0.35), transparent);
+  top:20%;
+  left:30%;
+  filter:blur(120px);
+  z-index:-1;
+  animation:moveGlow 10s infinite alternate;
+}
+
+@keyframes moveGlow{
+  0%{transform:translate(-50px,-50px);}
+  100%{transform:translate(50px,50px);}
+}
+
+/* BACKGROUND VIDEO */
 #anime-bg{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   z-index:-2;
   opacity:0.1;
-  pointer-events:none; /* 🔥 FIX klik */
+  pointer-events:none;
 }
 #anime-bg video{
   width:100%;
@@ -78,7 +109,8 @@ body{
 .tab-btn.active{
   background:var(--accent-primary);
   color:black;
-  box-shadow:0 0 20px rgba(255,107,107,0.6);
+  box-shadow:0 0 25px rgba(255,107,107,0.8),
+             0 0 60px rgba(78,205,196,0.5);
 }
 
 /* CARD */
@@ -114,6 +146,7 @@ button{
   color:black;
   cursor:pointer;
   transition:0.3s;
+  margin-top:12px; /* 🔥 jarak tombol */
 }
 button:hover{ transform:scale(1.03); }
 button:active{ transform:scale(0.96); }
@@ -207,13 +240,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-/* ELEMENT FIX */
+/* ELEMENT */
 const userTab = document.getElementById("userTab");
 const adminTab = document.getElementById("adminTab");
 const btnUser = document.getElementById("btnUser");
 const btnAdmin = document.getElementById("btnAdmin");
 
-/* TAB SWITCH FIX */
+/* TAB */
 btnUser.onclick = () => {
   userTab.classList.remove("hidden");
   adminTab.classList.add("hidden");
@@ -228,7 +261,7 @@ btnAdmin.onclick = () => {
   btnUser.classList.remove("active");
 };
 
-/* LOGIN FIX */
+/* LOGIN */
 loginBtn.onclick = () => {
   signInWithEmailAndPassword(auth,userEmail.value,userPassword.value)
   .then(res=>{
