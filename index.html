@@ -8,33 +8,266 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-body {
-  margin: 0;
-  font-family: 'Orbitron', monospace;
-  background: #000;
-  color: white;
+:root {
+  --accent-primary: linear-gradient(135deg,#ff6b6b,#4ecdc4);
 }
 
-/* BACKGROUND */
-#anime-bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  opacity: 0.1;
-}
-#anime-bg video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+body{
+  margin:0;
+  font-family:'Orbitron',monospace;
+  background:#000;
+  color:#fff;
 }
 
-/* CONTAINER */
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 50px 20px;
+/* FIX BACKGROUND */
+#anime-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  opacity:0.1;
 }
+#anime-bg video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* FIX CLICK AREA */
+.container{
+  position:relative;
+  z-index:10;
+  max-width:1000px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  margin-bottom:40px;
+}
+.header h1{
+  font-size:50px;
+  background:var(--accent-primary);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* TAB */
+.tab-container{
+  display:flex;
+  gap:10px;
+  margin-bottom:30px;
+}
+.tab-btn{
+  flex:1;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  background:#111;
+  color:#aaa;
+  cursor:pointer;
+  transition:0.3s;
+}
+.tab-btn:hover{
+  transform:translateY(-3px);
+}
+.tab-btn:active{
+  transform:scale(0.95);
+}
+.tab-btn.active{
+  background:var(--accent-primary);
+  color:black;
+  box-shadow:0 0 20px rgba(255,107,107,0.6);
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+  transition:0.3s;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.02);
+}
+
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+  background:#111;
+  color:white;
+}
+
+/* BUTTON */
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:var(--accent-primary);
+  color:black;
+  cursor:pointer;
+  transition:0.3s;
+}
+button:hover{
+  transform:scale(1.03);
+}
+button:active{
+  transform:scale(0.96);
+}
+
+/* STATUS */
+.status{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+}
+.success{background:green;}
+.error{background:red;}
+
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div id="anime-bg">
+  <video autoplay muted loop>
+    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-neon-lines-in-motion-12166-large.mp4">
+  </video>
+</div>
+
+<div class="container">
+
+<div class="header">
+  <h1>RADZ STORE</h1>
+</div>
+
+<div class="tab-container">
+  <button class="tab-btn active" onclick="switchTab('user')">USER</button>
+  <button class="tab-btn" onclick="switchTab('admin')">ADMIN</button>
+</div>
+
+<!-- USER -->
+<div id="userTab">
+  <div class="card">
+    <h2>Login User</h2>
+    <input id="userEmail" placeholder="Email">
+    <input id="userPassword" type="password" placeholder="Password">
+    <button onclick="userLogin()">LOGIN</button>
+    <div id="userStatus"></div>
+  </div>
+
+  <div id="userDashboard" class="hidden card">
+    <h3 id="userInfo"></h3>
+    <button onclick="userLogout()">LOGOUT</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminTab" class="hidden">
+  <div class="card">
+    <h2>Admin Panel</h2>
+    <div id="adminInfo"></div>
+
+    <input id="newEmail" placeholder="Email user">
+    <input id="newPass" type="password" placeholder="Password">
+    <button onclick="createUser()">CREATE USER</button>
+    <div id="createStatus"></div>
+
+    <button onclick="adminLogout()">LOGOUT</button>
+  </div>
+</div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAgGd8-u_E_JKKs0Zf7rXZ6O4ADw85CUAU",
+  authDomain: "radzpanel-3a8a3.firebaseapp.com",
+  projectId: "radzpanel-3a8a3",
+  storageBucket: "radzpanel-3a8a3.firebasestorage.app",
+  messagingSenderId: "20608954308",
+  appId: "1:20608954308:web:0e09ba796c9086813fbe91"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// TAB SWITCH
+window.switchTab = function(tab){
+  userTab.classList.add("hidden");
+  adminTab.classList.add("hidden");
+
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+
+  if(tab==="user"){
+    userTab.classList.remove("hidden");
+    document.querySelectorAll(".tab-btn")[0].classList.add("active");
+  } else {
+    adminTab.classList.remove("hidden");
+    document.querySelectorAll(".tab-btn")[1].classList.add("active");
+  }
+};
+
+// LOGIN
+window.userLogin = function(){
+  signInWithEmailAndPassword(auth,userEmail.value,userPassword.value)
+  .then(res=>{
+    userDashboard.classList.remove("hidden");
+    userInfo.innerText="Welcome "+res.user.email;
+    userStatus.innerHTML=`<div class="status success">Login Success</div>`;
+  })
+  .catch(err=>{
+    userStatus.innerHTML=`<div class="status error">${err.message}</div>`;
+  });
+};
+
+// CREATE USER
+window.createUser = function(){
+  createUserWithEmailAndPassword(auth,newEmail.value,newPass.value)
+  .then(()=>{
+    createStatus.innerHTML=`<div class="status success">User Created</div>`;
+  })
+  .catch(err=>{
+    createStatus.innerHTML=`<div class="status error">${err.message}</div>`;
+  });
+};
+
+// LOGOUT
+window.userLogout = ()=>signOut(auth).then(()=>location.reload());
+window.adminLogout = ()=>signOut(auth).then(()=>location.reload());
+
+// AUTO LOGIN
+onAuthStateChanged(auth,user=>{
+  if(user){
+    adminInfo.innerHTML=`<div class="status success">Login: ${user.email}</div>`;
+  }
+});
+</script>
+
+</body>
+</html>}
 
 /* HEADER */
 .header {
