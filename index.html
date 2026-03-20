@@ -240,9 +240,14 @@ button:hover{transform:scale(1.05);}
     <img src="https://www.youtube.com/embed/FlTkL-L8OQQ">
   </div>
 
-  <div class="action">
-    <button onclick="saveContact()">Simpan Kontak</button>
-    <button onclick="openWA()">Hubungi Admin</button>
+  <div class="btn-group">
+  <button class="btn-glow save" onclick="saveContact()"> 
+    <span>💾 Simpan Kontak</span>
+  </button>
+
+  <button class="btn-glow wa" onclick="chatAdmin()"> 
+    <span>💬 Hubungi Admin</span>
+  </button>
   </div>
 
   <div class="card">
@@ -319,6 +324,30 @@ window.openWA = function(){
   window.open("https://wa.me/6289603266259?text=Halo Admin");
 };
 </script>
+
+  <script>
+function saveContact(){
+  const vcard = `
+BEGIN:VCARD
+VERSION:3.0
+FN:Radz Admin
+TEL:089603266259
+END:VCARD
+  `;
+
+  const blob = new Blob([vcard], { type: 'text/vcard' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "RadzAdmin.vcf";
+  a.click();
+}
+
+function chatAdmin(){
+  window.open("https://wa.me/6289603266259","_blank");
+}
+  </script>
 
 </body>
 </html>
