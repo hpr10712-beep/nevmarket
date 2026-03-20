@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radz Panel</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1a002b, #2d004d);
+  color: white;
+}
+
+/* ANIMASI */
+.fade {
+  animation: fadeIn 0.6s ease;
+}
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  margin: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255,0,255,0.2);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#ff00cc,#ff4d4d);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #ff00cc;
+}
+
+/* HEADER */
+.header {
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* HIDE */
+.hidden { display:none; }
+</style>
+</head>
+
+<body>
+
+<div class="header">✨ RADZ PANEL</div>
+
+<!-- LOGIN -->
+<div id="loginPage" class="fade">
+  <div class="card">
+    <h2>Login Admin</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">LOGIN</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden fade">
+
+  <div class="card">
+    <h2>🚀 OWNER DASHBOARD</h2>
+  </div>
+
+  <!-- CREATE USER -->
+  <div class="card">
+    <h3>Create Account</h3>
+    <input type="email" id="newEmail" placeholder="Email user">
+    <input type="password" id="newPass" placeholder="Password">
+    <button onclick="createUser()">CREATE ACCOUNT</button>
+  </div>
+
+  <!-- LOGOUT -->
+  <div class="card">
+    <button onclick="logout()">LOGOUT</button>
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAgGd8-u_E_JKKs0Zf7rXZ6O4ADw85CUAU",
+  authDomain: "radzpanel-3a8a3.firebaseapp.com",
+  projectId: "radzpanel-3a8a3",
+  storageBucket: "radzpanel-3a8a3.firebasestorage.app",
+  messagingSenderId: "20608954308",
+  appId: "1:20608954308:web:0e09ba796c9086813fbe91"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// LOGIN
+window.login = function() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => alert("Login berhasil"))
+    .catch(err => alert("Gagal: " + err.message));
+};
+
+// CREATE USER
+window.createUser = function() {
+  const email = document.getElementById("newEmail").value;
+  const password = document.getElementById("newPass").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => alert("User dibuat"))
+    .catch(err => alert(err.message));
+};
+
+// LOGOUT
+window.logout = function() {
+  signOut(auth);
+};
+
+// SWITCH PAGE
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginPage.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+  } else {
+    loginPage.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+  }
+});
+</script>
+
+</body>
+</html>
