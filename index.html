@@ -212,6 +212,30 @@ button:hover{transform:scale(1.05);}
     0 8px 25px rgba(0,0,0,0.5),
     inset 0 0 10px rgba(255,255,255,0.05);
 }
+  /* FULL BACKGROUND FIX */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Background bener-bener full */
+#anime-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  overflow: hidden;
+}
+
+#anime-bg video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  
+    }
 </style>
 </head>
 
