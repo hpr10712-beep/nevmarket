@@ -304,6 +304,54 @@ font-size:13px;
 opacity:0.9;
 margin-top:3px;
 }
+  .redeem-box{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.8);
+
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+.redeem-content{
+
+background:#111;
+padding:20px;
+
+border-radius:12px;
+text-align:center;
+width:80%;
+
+box-shadow:0 0 15px red;
+}
+
+.redeem-content input{
+
+width:90%;
+padding:10px;
+margin-top:10px;
+
+border:none;
+border-radius:8px;
+}
+
+.redeem-content button{
+
+margin-top:10px;
+padding:10px 15px;
+
+border:none;
+border-radius:8px;
+
+background:linear-gradient(90deg,#ff6a6a,#6affd3);
+}
 </style>
 </head>
 
@@ -380,7 +428,7 @@ margin-top:3px;
 <div class="shop-card" onclick="menuPremium()">
 <div class="title">⚡ Menu All Panel</div>
 <div class="price">Khusus Premium</div>
-</div>
+</div> 
 
   <div class="card">
     <button onclick="logout()">LOGOUT</button>
@@ -388,6 +436,26 @@ margin-top:3px;
   
 </div>
 </div>
+
+  <div class="shop-card" onclick="openRedeem()">
+<div class="title">🎟 Redeem Code</div>
+<div class="price">Masukkan kode hadiah</div>
+  </div>
+
+  <div id="redeemBox" class="redeem-box">
+
+<div class="redeem-content">
+<h3>🎟 Redeem Code</h3>
+
+<input type="text" id="redeemInput" placeholder="Masukkan kode...">
+
+<button onclick="checkRedeem()">Redeem</button>
+
+<button onclick="closeRedeem()">Tutup</button>
+
+</div>
+
+  </div>tukeran akun add , bosan make ni akun
 
 </div>
 
@@ -498,6 +566,36 @@ window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20memb
 
 function menuPremium(){
 window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Menu%20All%20Panel");
+}
+    function openRedeem(){
+document.getElementById("redeemBox").style.display="flex";
+}
+
+function closeRedeem(){
+document.getElementById("redeemBox").style.display="none";
+}
+
+function checkRedeem(){
+
+let code=document.getElementById("redeemInput").value;
+
+if(code=="VIPFREE"){
+
+alert("🎉 Kamu mendapatkan VIP 7 Hari");
+
+}
+
+else if(code=="PREMIUM123"){
+
+alert("🎉 Kamu mendapatkan Premium");
+
+}
+
+else{
+
+alert("❌ Kode tidak valid");
+
+
 }
   </script>
 
