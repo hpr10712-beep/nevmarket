@@ -264,6 +264,27 @@ button:hover{transform:scale(1.05);}
   0% { background-position: 0 0, 0 0; }
   100% { background-position: 100px 100px, 100px 100px; }
 }
+  .menu-panel{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.menu-panel button{
+padding:14px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+color:white;
+background:linear-gradient(45deg,#ff6a6a,#ffb86c);
+box-shadow:0 0 15px rgba(255,0,0,0.4);
+transition:0.3s;
+}
+
+.menu-panel button:hover{
+transform:scale(1.05);
+  }
 </style>
 </head>
 
@@ -316,6 +337,19 @@ button:hover{transform:scale(1.05);}
 
   <div class="card">
     <button onclick="logout()">LOGOUT</button>
+  </div>
+  <div class="menu-panel">
+
+<button onclick="buyVIP()">Buy VIP (1 Bulan) - Rp14.551</button>
+
+<button onclick="buyPremium()">Buy Premium + VIP (1 Bulan) - Rp22.140</button>
+
+<button onclick="panelVIP()">Panel Anti-Ban (Khusus VIP)</button>
+
+<button onclick="hologramVIP()">Hologram (Khusus VIP)</button>
+
+<button onclick="menuPremium()">Menu All Panel (Khusus Premium)</button>
+
   </div>
 
 </div>
@@ -410,6 +444,25 @@ END:VCARD
 
 function chatAdmin(){
   window.open("https://wa.me/6289603266259","_blank");
+}
+    function buyVIP(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Buy%20VIP%201%20Bulan");
+}
+
+function buyPremium(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Premium%20+%20VIP%201%20Bulan");
+}
+
+function panelVIP(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Panel%20Anti%20Ban");
+}
+
+function hologramVIP(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Hologram");
+}
+
+function menuPremium(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Menu%20All%20Panel");
 }
   </script>
 
