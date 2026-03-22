@@ -268,48 +268,41 @@ button:hover{transform:scale(1.05);}
 margin-top:25px;
 display:flex;
 flex-direction:column;
-gap:16px;
+gap:12px;
 }
 
-/* STYLE TOMBOL MENU */
-.menu-panel button{
-width:100%;
-padding:17px;
-border:none;
+/* CARD MENU */
+.shop-card{
+
+background:linear-gradient(135deg,#ff6a6a,#ffb36b);
+padding:16px;
 border-radius:14px;
 
-font-weight:700;
-font-size:15px;
-letter-spacing:0.5px;
+box-shadow:
+0 5px 15px rgba(0,0,0,0.5),
+0 0 10px rgba(255,0,0,0.3);
 
-color:white;
 cursor:pointer;
-
-/* warna tajam */
-background:linear-gradient(135deg,#ff3c3c,#ff8a3d);
-
-box-shadow:
-0 0 10px rgba(255,60,60,0.6),
-0 0 25px rgba(255,60,60,0.4),
-0 6px 18px rgba(0,0,0,0.7);
-
-transition:all 0.25s ease;
+transition:0.25s;
 }
 
-/* efek hover */
-.menu-panel button:hover{
-
-transform:translateY(-3px) scale(1.03);
-
-box-shadow:
-0 0 20px rgba(255,80,80,0.9),
-0 0 40px rgba(255,80,80,0.6),
-0 8px 25px rgba(0,0,0,0.8);
+/* HOVER */
+.shop-card:hover{
+transform:scale(1.03);
 }
 
-/* efek klik */
-.menu-panel button:active{
-transform:scale(0.96);
+/* JUDUL */
+.shop-card .title{
+font-size:16px;
+font-weight:700;
+color:white;
+}
+
+/* HARGA */
+.shop-card .price{
+font-size:13px;
+opacity:0.9;
+margin-top:3px;
 }
 </style>
 </head>
@@ -364,20 +357,34 @@ transform:scale(0.96);
   <div class="card">
     <button onclick="logout()">LOGOUT</button>
   </div>
-  <div class="menu-panel">
+<div class="menu-panel">
 
-<button onclick="buyVIP()">Buy VIP (1 Bulan) - Rp14.551</button>
+<div class="shop-card" onclick="buyVIP()">
+<div class="title">👑 Buy VIP</div>
+<div class="price">1 Bulan • Rp14.551</div>
+</div>
 
-<button onclick="buyPremium()">Buy Premium + VIP (1 Bulan) - Rp22.140</button>
+<div class="shop-card" onclick="buyPremium()">
+<div class="title">💎 Premium + VIP</div>
+<div class="price">1 Bulan • Rp22.140</div>
+</div>
 
-<button onclick="panelVIP()">Panel Anti-Ban (Khusus VIP)</button>
+<div class="shop-card" onclick="panelVIP()">
+<div class="title">🛡 Panel Anti-Ban</div>
+<div class="price">Khusus VIP</div>
+</div>
 
-<button onclick="hologramVIP()">Hologram (Khusus VIP)</button>
+<div class="shop-card" onclick="hologramVIP()">
+<div class="title">✨ Hologram</div>
+<div class="price">Khusus VIP</div>
+</div>
 
-<button onclick="menuPremium()">Menu All Panel (Khusus Premium)</button>
+<div class="shop-card" onclick="menuPremium()">
+<div class="title">⚡ Menu All Panel</div>
+<div class="price">Khusus Premium</div>
+</div>
 
-  </div>
-
+</div>
 </div>
 
 </div>
