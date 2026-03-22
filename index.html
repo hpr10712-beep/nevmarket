@@ -264,27 +264,53 @@ button:hover{transform:scale(1.05);}
   0% { background-position: 0 0, 0 0; }
   100% { background-position: 100px 100px, 100px 100px; }
 }
-  .menu-panel{
-margin-top:20px;
+.menu-panel{
+margin-top:25px;
 display:flex;
 flex-direction:column;
-gap:10px;
+gap:16px;
 }
 
+/* STYLE TOMBOL MENU */
 .menu-panel button{
-padding:14px;
+width:100%;
+padding:17px;
 border:none;
-border-radius:12px;
-font-weight:bold;
+border-radius:14px;
+
+font-weight:700;
+font-size:15px;
+letter-spacing:0.5px;
+
 color:white;
-background:linear-gradient(45deg,#ff6a6a,#ffb86c);
-box-shadow:0 0 15px rgba(255,0,0,0.4);
-transition:0.3s;
+cursor:pointer;
+
+/* warna tajam */
+background:linear-gradient(135deg,#ff3c3c,#ff8a3d);
+
+box-shadow:
+0 0 10px rgba(255,60,60,0.6),
+0 0 25px rgba(255,60,60,0.4),
+0 6px 18px rgba(0,0,0,0.7);
+
+transition:all 0.25s ease;
 }
 
+/* efek hover */
 .menu-panel button:hover{
-transform:scale(1.05);
-  }
+
+transform:translateY(-3px) scale(1.03);
+
+box-shadow:
+0 0 20px rgba(255,80,80,0.9),
+0 0 40px rgba(255,80,80,0.6),
+0 8px 25px rgba(0,0,0,0.8);
+}
+
+/* efek klik */
+.menu-panel button:active{
+transform:scale(0.96);
+}
 </style>
 </head>
 
