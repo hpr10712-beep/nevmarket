@@ -367,55 +367,91 @@ DAPATKAN EMAIL + PASSWORD LOGIN DENGAN MEMBAYAR SEJUMLAH 4.720 RUPIAH • HUBUNG
 <!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
 
-  <div class="card profile">
-    <img src="https://i.ibb.co.com/yFpkJnMd/63b71c0e-3570-4880-a29c-ad16398d90f3.jpg">
-    <div>
-      <b id="userEmail"></b><br>
-      <small>Status: Active 7 Day </small>
-    </div>
+  <div class="card image-card" style="height:140px;">
+  <img src="https://i.ibb.co.com/SDb6pFtv/4d166146-9325-4898-94b3-07f91c74dddd.jpg">
   </div>
 
+  <div class="card profile">
+  <img src="https://i.ibb.co.com/yFpkJnMd/63b71c0e-3570-4880-a29c-ad16398d90f3.jpg">
+  <div>
+    <b id="userEmail"></b> | <span id="statusUser">FREE</span><br>
+    <small>Status aktif</small>
+  </div>
+  </div>
+  
   <div class="card image-card">
     <img src="https://i.ibb.co.com/SDb6pFtv/4d166146-9325-4898-94b3-07f91c74dddd.jpg">
   </div>
 
-  <div class="btn-group">
-  <button class="btn-glow save" onclick="saveContact()"> 
-    <span>Simpan Kontak</span>
+<div class="btn-group">
+  <button class="btn-glow save" onclick="openPaket()"> 
+    <span>BELI PAKET</span>
   </button>
 
-  <button class="btn-glow wa" onclick="chatAdmin()"> 
-    <span>Hubungi Admin</span>
+  <button class="btn-glow wa" onclick="openMenu()"> 
+    <span>MENU</span>
   </button>
-  </div>
-
+</div>
 
 <div class="menu-panel">
 
-<div class="shop-card" onclick="buyVIP()">
-<div class="title">👑 Buy VIP</div>
-<div class="price">1 Bulan • Rp14.551</div>
+<div id="paketMenu" class="hidden">
+
+<div class="shop-card" onclick="beli('VIP 5.701/Bulan')">
+<div class="title">👑 VIP</div>
+<div class="price">Rp5.701 / Bulan</div>
 </div>
 
-<div class="shop-card" onclick="buyPremium()">
-<div class="title">💎 Premium + VIP</div>
-<div class="price">1 Bulan • Rp22.140</div>
+<div class="shop-card" onclick="beli('Premium 12.330/Bulan')">
+<div class="title">💎 Premium</div>
+<div class="price">Rp12.330 / Bulan</div>
 </div>
 
-<div class="shop-card" onclick="panelVIP()">
-<div class="title">🛡 Panel Anti-Ban</div>
-<div class="price">Khusus VIP</div>
+<div class="shop-card" onclick="beli('Premium + VIP 18.003')">
+<div class="title">🔥 Premium + VIP</div>
+<div class="price">Rp18.003</div>
 </div>
 
-<div class="shop-card" onclick="hologramVIP()">
-<div class="title">✨ Hologram</div>
-<div class="price">Khusus VIP</div>
+<div class="shop-card" onclick="beli('Seumur Hidup 69.208')">
+<div class="title">⚡ VVIP + Super Premium</div>
+<div class="price">Rp69.208</div>
 </div>
 
-<div class="shop-card" onclick="menuPremium()">
-<div class="title">⚡ Menu All Panel</div>
-<div class="price">Khusus Premium</div>
-</div> 
+</div>
+
+  <div id="bugMenu" class="hidden">
+
+<div class="shop-card">
+<div class="title">FORCE CLOSE</div>
+<div class="price">Butuh PRO</div>
+</div>
+
+<div class="shop-card">
+<div class="title">ERROR</div>
+<div class="price">Butuh PRO</div>
+</div>
+
+<div class="shop-card">
+<div class="title">BLANK</div>
+<div class="price">Butuh PRO</div>
+</div>
+
+<div class="shop-card">
+<div class="title">DELAY</div>
+<div class="price">Butuh PRO</div>
+</div>
+
+<div class="shop-card">
+<div class="title">MALWARE</div>
+<div class="price">Butuh PREMIUM</div>
+</div>
+
+<div class="shop-card">
+<div class="title">STUCK VIRUS</div>
+<div class="price">Butuh PREMIUM</div>
+</div>
+
+  </div>
 
   <div class="card">
     <button onclick="logout()">LOGOUT</button>
@@ -461,12 +497,25 @@ function showPopup(msg,type){
 // LOGIN
 window.login = function(){
   signInWithEmailAndPassword(auth,email.value,password.value)
-  .then(res=>{
-    loginBox.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-    userEmail.innerText = res.user.email;
-    showPopup("Login Berhasil","success");
-  })
+.then(res=>{
+  loginBox.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+  userEmail.innerText = res.user.email;
+
+  // STATUS USER
+  let status = "FREE";
+
+  if(res.user.email.includes("vip")){
+    status = "PRO";
+  }
+  if(res.user.email.includes("premium")){
+    status = "PREMIUM";
+  }
+
+  document.getElementById("statusUser").innerText = status;
+
+  showPopup("Login Berhasil","success");
+})
   .catch(()=>{
     showPopup("Login Gagal","error");
   });
@@ -538,6 +587,19 @@ window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20memb
     function getAkun(){
 window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20mendapatkan%20Email%20dan%20Password%20login%20dengan%20membayar%204.720%20Rupiah");
     }
+    function openPaket(){
+  paketMenu.classList.toggle("hidden");
+  bugMenu.classList.add("hidden");
+}
+
+function openMenu(){
+  bugMenu.classList.toggle("hidden");
+  paketMenu.classList.add("hidden");
+}
+
+function beli(paket){
+  window.open("https://wa.me/6289603266259?text=Halo admin saya ingin membeli "+paket);
+}
   </script>
 
 </body>
