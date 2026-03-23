@@ -221,12 +221,13 @@ button:hover{transform:scale(1.05);}
 
 /* GAMBAR FULL */
 .image-card img {
-  width: 50%;
-  height: 120; /* bisa kamu ubah */
-  object-fit: cover; /* biar nutup penuh */
-  display: blok;
+  display: block;
+  margin: 0 auto;      /* INI YANG BIKIN TENGAH */
+  width: 90%;          /* biar gak kepotong */
+  max-width: 400px;    /* biar rapi di HP */
+  height: auto;        /* biar proporsional */
   border-radius: 20px;
-  }
+}
   .image-card img {
   transition: 0.5s;
 }
