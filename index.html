@@ -349,7 +349,7 @@ margin-top:3px;
 
 <div class="popup" id="popup"></div>
 
-<div class="container">
+<div class="container" id="loginBox">
 
 <h1>RADZ STORE</h1>
 
@@ -445,6 +445,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+  const loginBox = document.getElementById("loginBox");
+const dashboard = document.getElementById("dashboard");
 
 // POPUP
 function showPopup(msg,type){
