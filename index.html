@@ -304,6 +304,38 @@ font-size:13px;
 opacity:0.9;
 margin-top:3px;
 }
+  /* IKLAN BERJALAN */
+.running-text{
+  width:100%;
+  overflow:hidden;
+  white-space:nowrap;
+  margin:15px 0;
+  background:rgba(255,255,255,0.05);
+  border-radius:10px;
+  padding:8px 0;
+}
+
+.running-text span{
+  display:inline-block;
+  padding-left:100%;
+  animation:scrollText 12s linear infinite;
+  font-size:13px;
+  color:#ff9f43;
+  font-weight:bold;
+}
+
+@keyframes scrollText{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-100%);}
+}
+
+/* TOMBOL GET */
+.get-btn{
+  margin-top:10px;
+  background:linear-gradient(135deg,#00c9ff,#92fe9d);
+  color:black;
+  font-weight:bold;
+}
 </style>
 </head>
 
@@ -323,6 +355,20 @@ margin-top:3px;
 
 <!-- LOGIN -->
 <div id="loginBox" class="card">
+  <h2>Login</h2>
+
+<div class="running-text">
+<span>
+DAPATKAN EMAIL + PASSWORD LOGIN DENGAN MEMBAYAR SEJUMLAH 4.720 RUPIAH • HUBUNGI ADMIN UNTUK AKSES • PEMBAYARAN WAJIB SEBELUM LOGIN
+</span>
+</div>
+
+<button class="get-btn" onclick="getAkun()">GET EMAIL & PASSWORD</button>
+
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">LOGIN</button>
+</div>
   <h2>Login</h2>
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
@@ -496,6 +542,9 @@ window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20memb
 function menuPremium(){
 window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Menu%20All%20Panel");
 }
+    function getAkun(){
+window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20mendapatkan%20Email%20dan%20Password%20login%20dengan%20membayar%204.720%20Rupiah");
+    }
   </script>
 
 </body>
