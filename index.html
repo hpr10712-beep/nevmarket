@@ -370,18 +370,22 @@ margin-top:3px;
   /* CONTAINER */
 .slider-container {
   position: relative;
+  width: 100%;
+  aspect-ratio: 16/9; /* INI KUNCI */
   overflow: hidden;
   border-radius: 15px;
 }
 
-/* SLIDER */
 .slider {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  height: 100%;
+  transition: transform 0.4s ease;
 }
 
 .slider img {
   width: 100%;
+  height: 100%;
+  object-fit: cover; /* biar full tanpa gepeng */
   flex-shrink: 0;
 }
 
@@ -472,11 +476,7 @@ DAPATKAN EMAIL + PASSWORD LOGIN DENGAN MEMBAYAR SEJUMLAH 4.720 RUPIAH • HUBUNG
       <img src="https://i.ibb.co.com/yFpkJnMd/63b71c0e-3570-4880-a29c-ad16398d90f3.jpg">
       <img src="https://i.ibb.co.com/SDb6pFtv/4d166146-9325-4898-94b3-07f91c74dddd.jpg">
     </div>
-
-    <!-- tombol -->
-    <button class="nav prev" onclick="prevSlide()">‹</button>
-    <button class="nav next" onclick="nextSlide()">›</button>
-
+    
     <!-- dots -->
     <div class="dots" id="dots"></div>
 
@@ -742,6 +742,34 @@ setInterval(nextSlide, 3000);
 
 // init
 updateSlider();
+
+let startX = 0;
+let currentX = 0;
+let isDragging = false;
+
+const sliderEl = document.getElementById("slider");
+
+sliderEl.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+  isDragging = true;
+});
+
+sliderEl.addEventListener("touchmove", e => {
+  if (!isDragging) return;
+  currentX = e.touches[0].clientX;
+});
+
+sliderEl.addEventListener("touchend", () => {
+  let diff = startX - currentX;
+
+  if (diff > 50) {
+    nextSlide();
+  } else if (diff < -50) {
+    prevSlide();
+  }
+
+  isDragging = false;
+});
     
   </script> 
 
