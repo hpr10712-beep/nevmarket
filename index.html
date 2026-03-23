@@ -66,17 +66,78 @@ input{
   color:white;
 }
 
-/* BUTTON */
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
-  color:black;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
+/* BASE BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  z-index: 1;
+}
+
+/* GRADIENT TIAP TOMBOL */
+.btn-beli {
+  background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+}
+
+.btn-menu {
+  background: linear-gradient(135deg, #00c9ff, #92fe9d);
+}
+
+.btn-logout {
+  background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+}
+
+/* EFEK KACA */
+button {
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.5),
+    inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+/* SHINE EFFECT */
+button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.4),
+    transparent
+  );
+  transform: rotate(25deg);
+  opacity: 0;
+}
+
+button:hover::before {
+  animation: shine 1s linear;
+  opacity: 1;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+
+/* HOVER */
+button:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* CLICK */
+button:active {
+  transform: scale(0.96);
 }
 button:hover{transform:scale(1.05);}
 
@@ -410,12 +471,12 @@ DAPATKAN EMAIL + PASSWORD LOGIN DENGAN MEMBAYAR SEJUMLAH 4.720 RUPIAH • HUBUNG
     <img src="https://i.ibb.co.com/SDb6pFtv/4d166146-9325-4898-94b3-07f91c74dddd.jpg">
   </div>
  
-<div class="btn-group">
+<div class="btn-beli">
   <button class="btn-glow save" onclick="openPaket()"> 
     <span>BELI PAKET</span>
   </button>
 
-  <button class="btn-glow wa" onclick="openMenu()"> 
+  <button class="btn-menu" onclick="openMenu()"> 
     <span>MENU</span>
   </button>
 </div>
