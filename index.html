@@ -8,6 +8,7 @@
         body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
     .header {
     .header {
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,7 +109,7 @@
     min-width: 0; /* 🔥 penting biar tidak overflow */
 }
         .value {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     white-space: nowrap;      /* 🔥 tidak turun baris */
     overflow: hidden;         
@@ -371,6 +372,9 @@ function drawChart() {
     candles = data.candles ?? [];
     currentPrice = data.currentPrice ?? 50000;
 
+historyData = data.historyData ?? [];
+renderHistory();
+
     // update tampilan
     document.getElementById('balanceDisplay').innerText =
         document.querySelector('#balanceDisplay .amount').innerText =
@@ -398,6 +402,7 @@ function drawChart() {
 // === DATA TRADING (PINDAH KE ATAS) ===
 let balance = 10000000;
 let position = null;
+let historyData = []; // 🔥 taruh di sini
 
 // === LOAD DATA ===
 loadData();
@@ -472,16 +477,14 @@ function closePosition() {
     balance += total;
 
     // history
-    const log = document.createElement('div');
-    log.className = "history-item";
-    log.innerHTML = `
-        <span>${position.type}</span>
-        <span class="${pl >= 0 ? 'profit' : 'loss'}">
-            ${Math.round(pl).toLocaleString('id-ID')}
-        </span>
-    `;
+    const historyItem = {
+    type: position.type,
+    pl: Math.round(pl)
+};
 
-    document.getElementById('historyList').prepend(log);
+historyData.unshift(historyItem);
+renderHistory();
+saveData();
 
     // reset
     position = null;
@@ -539,6 +542,8 @@ function resetData() {
     position = null;
     candles = [];
     historyData = [];
+historyData = [];
+document.getElementById('historyList').innerHTML = "";
     currentPrice = 50000;
 
     // update tampilan
@@ -551,6 +556,35 @@ function resetData() {
     // kosongkan chart
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    list.innerHTML = "";
+
+    historyData.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "history-item";
+
+        div.innerHTML = `
+            <span>${item.type}</span>
+            <span class="${item.pl >= 0 ? 'profit' : 'loss'}">
+                ${item.pl.toLocaleString('id-ID')}
+            </span>
+        `;
+
+        list.appendChild(div);
+    });
+}
+function saveData() {
+    const data = {
+        balance: balance,
+        position: position,
+        candles: candles,
+        currentPrice: currentPrice,
+        historyData: historyData // 🔥 tambahan
+    };
+
+    localStorage.setItem('tradingData', JSON.stringify(data));
+}
     
 </script>
 
