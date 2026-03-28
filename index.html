@@ -186,10 +186,72 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+        /* TOMBOL ☰ */
+.menu-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 1000;
+
+    background: #1e1e1e;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #333;
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* SIDEBAR */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -220px;
+    width: 200px;
+    height: 100%;
+    background: #1e1e1e;
+    border-right: 1px solid #333;
+
+    padding-top: 60px;
+
+    transition: 0.3s;
+    z-index: 999;
+}
+
+/* SAAT AKTIF */
+.side-menu.active {
+    left: 0;
+}
+
+/* ITEM MENU */
+.menu-item {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.menu-item:hover {
+    background: #2a2a2a;
+    color: #00ffcc;
+}
     
     </style>
 </head>
 <body>
+
+    <!-- HAMBURGER -->
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+<!-- SIDEBAR MENU -->
+<div id="sideMenu" class="side-menu">
+    <div class="menu-item" onclick="resetData()">Reset Data</div>
+    <div class="menu-item">Profil</div>
+    <div class="menu-item">Sering</div>
+</div>
+    
 <div class="header">
     <div class="balance-box">
         <div class="label">SALDO ANDA</div>
@@ -587,6 +649,10 @@ function saveData() {
 
     localStorage.setItem('tradingData', JSON.stringify(data));
 }
+    function toggleMenu() {
+    const menu = document.getElementById('sideMenu');
+    menu.classList.toggle('active');
+    }
     
 </script>
 
