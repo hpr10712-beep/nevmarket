@@ -120,13 +120,19 @@
 }
 
 .balance-box {
+    position: relative;
     padding: 10px 12px;
-    border-radius: 6px; /* sedikit kotak, tidak terlalu bulat */
+    border-radius: 6px;
 
-    background: #2a2a2a; /* 🔥 abu kotak */
-    border: 2px solid #555; /* 🔥 garis tepi tebal */
+    background-color: #262626;
 
-    box-shadow: none; /* hilangkan efek glow */
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+
+    background-size: 14px 14px;
+
+    border: 2px solid #555;
 }
 
 /* hapus efek sebelumnya */
