@@ -161,6 +161,7 @@
     <div class="actions" id="mainActions">
         <button class="btn-buy" onclick="openPosition('BUY')">BELI (LONG)</button>
         <button class="btn-sell" onclick="openPosition('SELL')">JUAL (SHORT)</button>
+   <button class="btn-close" onclick="resetData()">RESET DATA</button>
     </div>
 
     <div class="history">
@@ -458,7 +459,30 @@ saveData(); //
 
     requestAnimationFrame(animate);
     }
+function resetData() {
+    if (!confirm("Yakin mau reset semua data?")) return;
 
+    // hapus localStorage
+    localStorage.removeItem('tradingData');
+
+    // reset variabel
+    balance = 10000000;
+    position = null;
+    candles = [];
+    historyData = [];
+    currentPrice = 50000;
+
+    // update tampilan
+    document.getElementById('historyList').innerHTML = "";
+    document.getElementById('positionCard').style.display = 'none';
+    document.getElementById('mainActions').style.display = 'flex';
+
+    animateBalance(balance);
+
+    // kosongkan chart
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    
 </script>
 
 </body>
