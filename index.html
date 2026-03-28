@@ -1,575 +1,229 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radz Store Elite</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-
-body{
-  margin:0;
-  font-family:'Orbitron',monospace;
-  background:#000;
-  color:#fff;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Trading Pro</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
+    .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+    gap: 10px;
 }
 
-/* BACKGROUND */
-#bg{
-  position:fixed;
-  width:100%;
-  height:100%;
-  z-index:-1;
-  opacity:0.2;
-}
-#bg video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.balance-box, .price-box {
+    flex: 1;
 }
 
-/* CONTAINER */
-.container{
-  width:100%;
-  max-width:500px; /* biar tetap center tapi gak ganggu background */
-  margin:auto;
-  padding:40px 16px;
+.divider {
+    width: 1px;
+    height: 35px;
+    background: #333;
 }
 
-/* TITLE */
-h1{
-  text-align:center;
-  font-size:36px;
-  background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.label {
+    font-size: 10px;
+    color: #777;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+/* ANGKA */
+.value {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* SALDO ABU */
+.balance {
+    color: #9e9e9e;
+}
+
+/* HARGA HIJAU TUA */
+.price-up {
+    color: #00a86b;
+}
+
+.price-down {
+    color: #ff4444;
+}
+        .balance-box { text-align: left; }
+        .balance-box span { font-size: 0.8em; color: #aaa; }
+        .balance-box div { font-size: 1.4em; font-weight: bold; color: #00ff88; }
+        
+        #chart-container { background: #1e1e1e; height: 250px; border-radius: 10px; position: relative; border: 1px solid #333; margin-bottom: 15px; }
+        canvas { width: 100%; height: 100%; }
+
+        .trade-info { background: #1e1e1e; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #555; }
+        .profit { color: #00ff88; }
+        .loss { color: #ff4444; }
+
+        .actions { display: flex; gap: 10px; }
+        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
+        .btn-buy { background: #00c853; }
+        .btn-sell { background: #ff3d00; }
+        .btn-close { background: #555; margin-top: 10px; width: 100%; }
+
+        .history { margin-top: 20px; font-size: 0.9em; }
+        .history-item { border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
+   
+.login-container {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* CARD */
-.card{
-  background:rgba(255,255,255,0.05);
-  padding:18px;
-  border-radius:15px;
-  margin-top:15px;
-  box-shadow:0 0 20px rgba(255,107,107,0.3);
+.login-card {
+    background: rgba(30,30,30,0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 25px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,255,136,0.15);
+}
+
+/* TITLE */
+.login-card h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #00ff88;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 20px;
 }
 
 /* INPUT */
-input{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-  background:#111;
-  color:white;
+.login-card input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #121212;
+    color: white;
+    font-size: 13px;
+    outline: none;
+}
+
+.login-card input:focus {
+    border-color: #00ff88;
+    box-shadow: 0 0 8px rgba(0,255,136,0.3);
 }
 
 /* BUTTON */
-button{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg,#ff6b6b,#4ecdc4);
-  color:black;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
-}
-button:hover{transform:scale(1.05);}
-
-/* PROFILE */
-.profile{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.profile img{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  border:2px solid #ff6b6b;
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg,#00c853,#00ff88);
+    color: black;
+    font-weight: bold;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 
-/* BANNER FIX */
-.banner img{
-  width:100%;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-/* ACTION */
-.action{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-}
-.action button{flex:1;}
-
-/* POPUP */
-.popup{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:12px 20px;
-  border-radius:10px;
-  font-weight:bold;
-  display:none;
-  z-index:999;
-}
-.success{background:#00c853;}
-.error{background:#d50000;}
-
-.hidden{display:none;}
-
-  .btn-group{
-  display:flex;
-  gap:15px;
-  margin-top:20px;
-}
-
-.btn-glow{
-  flex:1;
-  position:relative;
-  padding:16px;
-  border:none;
-  border-radius:14px;
-  font-weight:600;
-  font-size:14px;
-  color:#000;
-  cursor:pointer;
-  overflow:hidden;
-  transition:all .3s ease;
-  z-index:1;
-}
-
-/* GRADIENT */
-.btn-glow.save {
-  background: linear-gradient(135deg, #8b0000, #ff4d4d);
-}
-
-.btn-glow.wa {
-  background: linear-gradient(135deg, #004e92, #000428);
-}
-
-/* GLOW EFFECT */
-.btn-glow::before{
-  content:'';
-  position:absolute;
-  top:-50%;
-  left:-50%;
-  width:200%;
-  height:200%;
-  background:linear-gradient(
-    120deg,
-    transparent,
-    rgba(255,255,255,0.5),
-    transparent
-  );
-  transform:rotate(25deg);
-  opacity:0;
-  transition:0.5s;
-}
-
-.btn-glow:hover::before{
-  animation:shine 1s linear;
-  opacity:1;
-}
-
-@keyframes shine{
-  0%{transform:translateX(-100%) rotate(25deg);}
-  100%{transform:translateX(100%) rotate(25deg);}
+.btn-register {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
 }
 
 /* HOVER */
-.btn-glow:hover{
-  transform:translateY(-4px) scale(1.03);
-  box-shadow:0 0 20px rgba(255,255,255,0.2);
+.btn-login:hover {
+    opacity: 0.9;
 }
 
-/* CLICK */
-.btn-glow:active{
-  transform:scale(0.96);
+.btn-register:hover {
+    border-color: #00ff88;
+    color: #00ff88;
 }
 
-/* SOFT PULSE */
-.btn-glow.save{
-  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-}
-
-.btn-glow.wa{
-  background: linear-gradient(135deg, #00c9ff, #92fe9d);
-}
-.btn-glow span{
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-.btn-glow{
-  backdrop-filter: blur(10px);
-  box-shadow:
-    0 8px 25px rgba(0,0,0,0.5),
-    inset 0 0 10px rgba(255,255,255,0.05);
-}
-  /* KHUSUS CARD GAMBAR */
-.image-card {
-  padding: 0; /* HILANGKAN padding biar gak ada hitam */
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-/* GAMBAR FULL */
-.image-card img {
-  display: block;
-  margin: 0 auto;      /* INI YANG BIKIN TENGAH */
-  width: 90%;          /* biar gak kepotong */
-  max-width: 400px;    /* biar rapi di HP */
-  height: auto;        /* biar proporsional */
-  border-radius: 20px;
-}
-  .image-card img {
-  transition: 0.5s;
-}
-
-.image-card:hover img {
-  transform: scale(1.05);
-  filter: brightness(1.1);
-}
-  /* OVERLAY KOTAK ABU */
-.image-card {
-  position: relative;
-  padding: 0;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-/* layer kotak-kotak */
-.image-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 5px);
-
-  background-size: 10px 10px; /* ukuran kotak */
-  pointer-events: none;
-}
-  .image-card::after {
-  animation: gridMove 10s linear infinite;
-}
-
-@keyframes gridMove {
-  0% { background-position: 0 0, 0 0; }
-  100% { background-position: 100px 100px, 100px 100px; }
-}
-.menu-panel{
-margin-top:25px;
-display:flex;
-flex-direction:column;
-gap:12px;
-}
-
-/* CARD MENU */
-.shop-card{
-
-background:linear-gradient(135deg,#ff6a6a,#ffb36b);
-padding:16px;
-border-radius:14px;
-
-box-shadow:
-0 5px 15px rgba(0,0,0,0.5),
-0 0 10px rgba(255,0,0,0.3);
-
-cursor:pointer;
-transition:0.25s;
-}
-
-/* HOVER */
-.shop-card:hover{
-transform:scale(1.03);
-}
-
-/* JUDUL */
-.shop-card .title{
-font-size:16px;
-font-weight:700;
-color:white;
-}
-
-/* HARGA */
-.shop-card .price{
-font-size:13px;
-opacity:0.9;
-margin-top:3px;
-}
-  /* IKLAN BERJALAN */
-.running-text{
-  width:100%;
-  overflow:hidden;
-  white-space:nowrap;
-  margin:15px 0;
-  background:rgba(255,255,255,0.05);
-  border-radius:10px;
-  padding:8px 0;
-}
-
-.running-text span{
-  display:inline-block;
-  padding-left:100%;
-  animation:scrollText 12s linear infinite;
-  font-size:13px;
-  color:#ff9f43;
-  font-weight:bold;
-}
-
-@keyframes scrollText{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-100%);}
-}
-
-/* TOMBOL GET */
-.get-btn{
-  margin-top:10px;
-  background:linear-gradient(135deg,#00c9ff,#92fe9d);
-  color:black;
-  font-weight:bold;
-}
-  .img-banner {
-  display: block;
-  margin: 0 auto;   /* bikin ke tengah */
-  width: 90%;       /* jangan full biar kelihatan center */
-  max-width: 400px; /* biar rapi di HP */
-  border-radius: 15px;
-  }
-  
-.image-card {
-  display: inline-block;   /* penting biar ikut ukuran gambar */
-  padding: 6px;
-  border-radius: 20px;
-  
-  border: 2px solid rgba(255, 0, 0, 0.7);
-  
-  box-shadow: 
-    0 0 10px rgba(255, 0, 0, 0.6),
-    0 0 25px rgba(255, 0, 0, 0.3);
-  
-  margin: 15px auto; /* biar tetap di tengah */
-}
-  .profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px;
-  border-radius: 15px;
-
-  border: 2px solid rgba(255, 0, 0, 0.6); /* GARIS TEPI MERAH */
-  }
-  /* CONTAINER */
-.slider-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9; /* INI KUNCI */
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-.slider {
-  display: flex;
-  height: 100%;
-  transition: transform 0.4s ease;
-}
-
-.slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* biar full tanpa gepeng */
-  flex-shrink: 0;
-}
-
-/* TOMBOL */
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0,0,0,0.4);
-  border: none;
-  color: white;
-  font-size: 22px;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.prev { left: 10px; }
-.next { right: 10px; }
-
-/* DOTS */
-.dots {
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-}
-
-.dots span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin: 0 4px;
-  background: rgba(255,255,255,0.4);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.dots .active {
-  background: #ff6b6b;
-  transform: scale(1.2);
-}
-
-</style>
+ </style> 
 </head>
-
 <body>
 
-<div id="bg">
-  <video autoplay muted loop>
-    <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-neon-lines-in-motion-12166-large.mp4">
-  </video>
-</div>
+<div id="loginPage" class="login-container">
 
-<div class="popup" id="popup"></div>
+    <div class="login-card">
+        <h2>TRADING PRO</h2>
+        <p class="subtitle">Login ke akun kamu</p>
 
-<div class="container" id="loginBox">
+        <input id="email" type="email" placeholder="Email">
+        <input id="password" type="password" placeholder="Password">
 
-<h1>RADZ STORE</h1>
-
-<div class="running-text">
-<span>
-DAPATKAN EMAIL + PASSWORD LOGIN DENGAN MEMBAYAR SEJUMLAH 4.720 RUPIAH • HUBUNGI ADMIN UNTUK AKSES • PEMBAYARAN WAJIB SEBELUM LOGIN
-</span>
-</div>
-  <h2>Login</h2>
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">LOGIN</button>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="hidden">
-
-  <div class="card profile">
-  <img src="https://i.ibb.co.com/yFpkJnMd/63b71c0e-3570-4880-a29c-ad16398d90f3.jpg">
-  <div>
-    <b id="userEmail"></b> | <span id="statusUser">FREE</span><br>
-    <small>Status aktif</small>
-  </div>
-  </div>
-  
-  <div class="card image-card">
-  <div class="slider-container">
-    
-    <div class="slider" id="slider">
-      <img src="https://i.ibb.co.com/WpKRSR7r/0b4b99dd-7367-485b-b199-b507b619ba9f.jpg">
-      <img src="https://i.ibb.co.com/q3J13mxc/1896e916-4c27-4303-8957-ea80be49958d.jpg">
-      <img src="https://i.ibb.co.com/nq9hHS0y/c2105a9e-946f-4999-b918-2042b53fe8dd.jpg">
+        <button class="btn-login" onclick="login()">MASUK</button>
+        <button class="btn-register" onclick="register()">DAFTAR</button>
     </div>
-    
-    <!-- dots -->
-    <div class="dots" id="dots"></div>
-
-  </div>
-  </div>
- 
-<div class="btn-group">
-  <button class="btn-glow save" onclick="openPaket()"> 
-    <span>BELI PAKET</span>
-  </button>
-
-  <button class="btn-glow wa" onclick="openMenu()"> 
-    <span>MENU</span>
-  </button>
-</div>
-
-<div class="menu-panel">
-
-<div id="paketMenu" class="hidden">
-
-<div class="shop-card" onclick="beli('VIP 5.701/Bulan')">
-<div class="title">👑 VIP</div>
-<div class="price">Rp5.701 / Bulan</div>
-</div>
-
-<div class="shop-card" onclick="beli('Premium 12.330/Bulan')">
-<div class="title">💎 Premium</div>
-<div class="price">Rp12.330 / Bulan</div>
-</div>
-
-<div class="shop-card" onclick="beli('Premium + VIP 18.003')">
-<div class="title">🔥 Premium + VIP</div>
-<div class="price">Rp18.003 / Bulan</div>
-</div>
-
-<div class="shop-card" onclick="beli('Seumur Hidup 69.208')">
-<div class="title">⚡ VVIP + Super Premium</div>
-<div class="price">Rp69.208 / Tahun</div>
-</div>
 
 </div>
 
-  <div id="bugMenu" class="hidden">
+<div id="appPage" style="display:none;">
 
-<div class="shop-card">
-<div class="title">FORCE CLOSE</div>
-<div class="price">Butuh PRO</div>
+<div class="header">
+    <div class="balance-box">
+        <div class="label">SALDO AKUN</div>
+        <div id="balanceDisplay" class="value balance">Rp 10.000.000</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="price-box" style="text-align:right;">
+        <div class="label">HARGA SAAT INI</div>
+        <div id="livePrice" class="value price-up">0</div>
+    </div>
 </div>
 
-<div class="shop-card">
-<div class="title">ERROR</div>
-<div class="price">Butuh PRO</div>
-</div>
+    <div id="chart-container">
+        <canvas id="tradingChart"></canvas>
+    </div>
 
-<div class="shop-card">
-<div class="title">BLANK</div>
-<div class="price">Butuh PRO</div>
-</div>
+    <div id="positionCard" class="trade-info" style="display: none;">
+        <strong>Posisi Terbuka: <span id="posType"></span></strong><br>
+        Harga Beli: <span id="entryPrice">0</span><br>
+        P/L: <span id="plDisplay" class="profit">Rp 0</span>
+        <button class="btn-close" onclick="closePosition()">TUTUP POSISI (TAKE PROFIT/CUT LOSS)</button>
+    </div>
 
-<div class="shop-card">
-<div class="title">DELAY</div>
-<div class="price">Butuh PRO</div>
-</div>
+    <div class="actions" id="mainActions">
+        <button class="btn-buy" onclick="openPosition('BUY')">BELI (LONG)</button>
+        <button class="btn-sell" onclick="openPosition('SELL')">JUAL (SHORT)</button>
+    </div>
 
-<div class="shop-card">
-<div class="title">MALWARE</div>
-<div class="price">Butuh PREMIUM</div>
-</div>
+    <div class="history">
+        <strong>Riwayat Transaksi:</strong>
+        <div id="historyList"></div>
+    </div>
 
-<div class="shop-card">
-<div class="title">STUCK VIRUS</div>
-<div class="price">Butuh PREMIUM</div>
-</div>
+<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  </div>
-
-  <div class="card">
-    <button onclick="logout()">LOGOUT</button>
-  </div>
-  
-</div>
-  
-<!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAgGd8-u_E_JKKs0Zf7rXZ6O4ADw85CUAU",
@@ -577,203 +231,283 @@ const firebaseConfig = {
   projectId: "radzpanel-3a8a3",
   storageBucket: "radzpanel-3a8a3.firebasestorage.app",
   messagingSenderId: "20608954308",
-  appId: "1:20608954308:web:0e09ba796c9086813fbe91",
-  measurementId: "G-VR4YG2S5L1"
+  appId: "1:20608954308:web:0e09ba796c9086813fbe91"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-  const loginBox = document.getElementById("loginBox");
-const dashboard = document.getElementById("dashboard");
+// ================= AUTH =================
 
-// POPUP
-function showPopup(msg,type){
-  const p = document.getElementById("popup");
-  p.innerText = msg;
-  p.className = "popup "+type;
-  p.style.display="block";
-  setTimeout(()=>p.style.display="none",3000);
+// REGISTER
+window.register = async function () {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    const userCred = await createUserWithEmailAndPassword(auth, email, pass);
+
+    // simpan data awal user
+    await setDoc(doc(db, "users", userCred.user.uid), {
+        balance: 10000000
+    });
+
+    alert("Daftar berhasil!");
 }
 
 // LOGIN
-window.login = function(){
-  signInWithEmailAndPassword(auth,email.value,password.value)
-.then(res=>{
-  loginBox.classList.add("hidden");
-  dashboard.classList.remove("hidden");
-  userEmail.innerText = res.user.email;
+window.login = async function () {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
 
-  // STATUS USER
-  let status = "FREE";
-
-  if(res.user.email.includes("vip")){
-    status = "PRO";
-  }
-  if(res.user.email.includes("premium")){
-    status = "PREMIUM";
-  }
-
-  document.getElementById("statusUser").innerText = status;
-
-  showPopup("Login Berhasil","success");
-})
-  .catch(()=>{
-    showPopup("Login Gagal","error");
-  });
-};
-
-// AUTO LOGIN
-onAuthStateChanged(auth,user=>{
-  if(user){
-    loginBox.classList.add("hidden");
-    dashboard.classList.remove("hidden");
-    userEmail.innerText = user.email;
-  }
-});
+    await signInWithEmailAndPassword(auth, email, pass);
+}
 
 // LOGOUT
-window.logout = ()=>signOut(auth).then(()=>location.reload());
-
-// FITUR AMAN
-window.saveContact = function(){
-  window.open("https://wa.me/6289603266259");
-};
-
-window.openWA = function(){
-  window.open("https://wa.me/6289603266259?text=Halo Admin");
-};
-</script>
-
-  <script>
-function saveContact(){
-  const vcard = `
-BEGIN:VCARD
-VERSION:3.0
-FN:Radz Admin
-TEL:089603266259
-END:VCARD
-  `;
-
-  const blob = new Blob([vcard], { type: 'text/vcard' });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "RadzAdmin.vcf";
-  a.click();
+window.logout = function () {
+    signOut(auth);
 }
 
-function chatAdmin(){
-  window.open("https://wa.me/6289603266259","_blank");
-}
-    function buyVIP(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Buy%20VIP%201%20Bulan");
-}
+// ================= LOAD DATA =================
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("appPage").style.display = "block";
 
-function buyPremium(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Premium%20+%20VIP%201%20Bulan");
-}
+        const ref = doc(db, "users", user.uid);
+        const snap = await getDoc(ref);
 
-function panelVIP(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Panel%20Anti%20Ban");
-}
-
-function hologramVIP(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Hologram");
-}
-
-function menuPremium(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20membeli%20Menu%20All%20Panel");
-}
-    function getAkun(){
-window.open("https://wa.me/6289603266259?text=Halo%20admin%20saya%20ingin%20mendapatkan%20Email%20dan%20Password%20login%20dengan%20membayar%204.720%20Rupiah");
+        if (snap.exists()) {
+            balance = snap.data().balance;
+            updateBalanceUI();
+        }
+    } else {
+        document.getElementById("loginPage").style.display = "block";
+        document.getElementById("appPage").style.display = "none";
     }
-    function openPaket(){
-  paketMenu.classList.toggle("hidden");
-  bugMenu.classList.add("hidden");
-}
-
-function openMenu(){
-  bugMenu.classList.toggle("hidden");
-  paketMenu.classList.add("hidden");
-}
-
-function beli(paket){
-  window.open("https://wa.me/6289603266259?text=Halo admin saya ingin membeli "+paket);
-}
-    
-let index = 0;
-const slider = document.getElementById("slider");
-const slides = slider.querySelectorAll("img");
-const dotsContainer = document.getElementById("dots");
-
-// buat dots
-slides.forEach((_, i) => {
-  const dot = document.createElement("span");
-  dot.onclick = () => goToSlide(i);
-  dotsContainer.appendChild(dot);
 });
 
-function updateSlider() {
-  slider.style.transform = "translateX(-" + index * 100 + "%)";
+// ================= SAVE BALANCE =================
+window.saveBalance = async function () {
+    const user = auth.currentUser;
+    if (!user) return;
 
-  document.querySelectorAll(".dots span").forEach((dot, i) => {
-    dot.classList.toggle("active", i === index);
-  });
+    await updateDoc(doc(db, "users", user.uid), {
+        balance: balance
+    });
 }
 
-// tombol
-function nextSlide() {
-  index = (index + 1) % slides.length;
-  updateSlider();
+// === INISIALISASI WAJIB (INI YANG KAMU KURANG) ===
+let currentPrice = 50000;
+const canvas = document.getElementById('tradingChart');
+const ctx = canvas.getContext('2d');
+
+// === DATA CANDLE ===
+let candles = [];
+let tick = 0;
+
+// === UPDATE MARKET ===
+function updateMarket() {
+    const change = (Math.random() - 0.5) * 2000000000000;
+    currentPrice += change;
+    if(currentPrice < 1000) currentPrice = 1000;
+
+    document.getElementById('livePrice').innerText =
+        Math.round(currentPrice).toLocaleString('id-ID');
+
+    // buat candle pertama
+    if (candles.length === 0) {
+        candles.push({
+            open: currentPrice,
+            high: currentPrice,
+            low: currentPrice,
+            close: currentPrice
+        });
+    }
+
+    let last = candles[candles.length - 1];
+
+    // update candle terakhir (biar gerak)
+    last.close = currentPrice;
+    if (currentPrice > last.high) last.high = currentPrice;
+    if (currentPrice < last.low) last.low = currentPrice;
+
+    tick++;
+
+    // bikin candle baru tiap beberapa tick
+    if (tick > 10) {
+        candles.push({
+            open: currentPrice,
+            high: currentPrice,
+            low: currentPrice,
+            close: currentPrice
+        });
+        tick = 0;
+    }
+
+    if (candles.length > 40) candles.shift();
+
+    drawChart();
+    calculatePL();
 }
 
-function prevSlide() {
-  index = (index - 1 + slides.length) % slides.length;
-  updateSlider();
+// === DRAW CHART ===
+function drawChart() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // GRID
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = 1;
+
+    for (let i = 0; i < canvas.height; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(canvas.width, i);
+        ctx.stroke();
+    }
+
+    const allPrices = candles.flatMap(c => [c.high, c.low]);
+    const min = Math.min(...allPrices);
+    const max = Math.max(...allPrices);
+    const range = max - min || 1;
+
+    const candleWidth = canvas.width / candles.length;
+
+    candles.forEach((c, i) => {
+        const x = i * candleWidth + candleWidth * 0.2;
+
+        const openY = canvas.height - ((c.open - min) / range * canvas.height);
+        const closeY = canvas.height - ((c.close - min) / range * canvas.height);
+        const highY = canvas.height - ((c.high - min) / range * canvas.height);
+        const lowY = canvas.height - ((c.low - min) / range * canvas.height);
+
+        const isUp = c.close > c.open;
+
+        // WICK
+        ctx.strokeStyle = isUp ? '#00ff88' : '#ff4444';
+        ctx.beginPath();
+        ctx.moveTo(x + candleWidth * 0.3, highY);
+        ctx.lineTo(x + candleWidth * 0.3, lowY);
+        ctx.stroke();
+
+        // BODY
+        ctx.fillStyle = isUp ? '#00c853' : '#ff3d00';
+
+        const bodyHeight = Math.abs(openY - closeY);
+        ctx.fillRect(
+            x,
+            Math.min(openY, closeY),
+            candleWidth * 0.6,
+            bodyHeight < 2 ? 2 : bodyHeight
+        );
+    });
 }
 
-function goToSlide(i) {
-  index = i;
-  updateSlider();
+// === START LOOP ===
+setInterval(updateMarket, 200);
+
+// === DATA TRADING ===
+let balance = 10000000;
+let position = null;
+
+// === BUKA POSISI ===
+function openPosition(type) {
+    if (position) {
+        alert("Selesaikan posisi dulu!");
+        return;
+    }
+
+    const tradeAmount = 1000000;
+
+    if (balance < tradeAmount) {
+        alert("Saldo tidak cukup!");
+        return;
+    }
+
+    balance -= tradeAmount;
+saveBalance();
+
+    position = {
+        type: type,
+        entry: currentPrice,
+        amount: tradeAmount
+    };
+
+    document.getElementById('balanceDisplay').innerText =
+        "Rp " + balance.toLocaleString('id-ID');
+
+    document.getElementById('positionCard').style.display = 'block';
+    document.getElementById('mainActions').style.display = 'none';
+
+    document.getElementById('posType').innerText = type;
+    document.getElementById('entryPrice').innerText =
+        Math.round(currentPrice).toLocaleString('id-ID');
 }
 
-// auto slide
-setInterval(nextSlide, 5000);
+// === HITUNG PROFIT LOSS ===
+function calculatePL() {
+    if (!position) return;
 
-// init
-updateSlider();
+    let diff = (currentPrice - position.entry) / position.entry;
 
-let startX = 0;
-let currentX = 0;
-let isDragging = false;
+    if (position.type === 'SELL') diff = -diff;
 
-const sliderEl = document.getElementById("slider");
+    const pl = position.amount * diff;
 
-sliderEl.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-  isDragging = true;
-});
+    const el = document.getElementById('plDisplay');
 
-sliderEl.addEventListener("touchmove", e => {
-  if (!isDragging) return;
-  currentX = e.touches[0].clientX;
-});
+    el.innerText =
+        (pl >= 0 ? "+" : "") +
+        "Rp " + Math.round(pl).toLocaleString('id-ID');
 
-sliderEl.addEventListener("touchend", () => {
-  let diff = startX - currentX;
+    el.className = pl >= 0 ? "profit" : "loss";
+}
 
-  if (diff > 50) {
-    nextSlide();
-  } else if (diff < -50) {
-    prevSlide();
-  }
+// === TUTUP POSISI ===
+function closePosition() { 
+saveBalance();
+    if (!position) return;
 
-  isDragging = false;
-});
-    
-  </script> 
+    let diff = (currentPrice - position.entry) / position.entry;
+
+    if (position.type === 'SELL') diff = -diff;
+
+    const pl = position.amount * diff;
+    const total = position.amount + pl;
+
+    balance += total;
+
+    // history
+    const log = document.createElement('div');
+    log.className = "history-item";
+    log.innerHTML = `
+        <span>${position.type}</span>
+        <span class="${pl >= 0 ? 'profit' : 'loss'}">
+            ${Math.round(pl).toLocaleString('id-ID')}
+        </span>
+    `;
+
+    document.getElementById('historyList').prepend(log);
+
+    // reset
+    position = null;
+
+    document.getElementById('balanceDisplay').innerText =
+        "Rp " + balance.toLocaleString('id-ID');
+
+    document.getElementById('positionCard').style.display = 'none';
+    document.getElementById('mainActions').style.display = 'flex';
+}
+
+function updateBalanceUI() {
+    document.getElementById('balanceDisplay').innerText =
+        "Rp " + balance.toLocaleString('id-ID');
+}
+
+</script>
 
 </body>
 </html>
