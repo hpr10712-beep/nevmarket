@@ -240,7 +240,10 @@ let tick = 0;
 
 // === UPDATE MARKET ===
 function updateMarket() {
-    const change = (Math.random() - 0.5) * 200000000000000;
+    let trend = 0.2; // arah naik
+
+const noise = (Math.random() - 0.5) * 5000;
+currentPrice += noise + trend;
     currentPrice += change;
 
 if (candles.length === 0) {
