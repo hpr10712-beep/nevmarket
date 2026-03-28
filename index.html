@@ -120,16 +120,19 @@
 }
 
 .balance-box {
-    position: relative;
     padding: 10px 12px;
-    border-radius: 8px;
+    border-radius: 6px; /* sedikit kotak, tidak terlalu bulat */
 
-    background: rgba(0, 255, 150, 0.05);
-    border: 1px solid rgba(0, 255, 150, 0.2);
+    background: #2a2a2a; /* 🔥 abu kotak */
+    border: 2px solid #555; /* 🔥 garis tepi tebal */
 
-    box-shadow: 0 0 8px rgba(0,255,150,0.08);
+    box-shadow: none; /* hilangkan efek glow */
 }
 
+/* hapus efek sebelumnya */
+.balance-box::before {
+    display: none;
+            }
 .balance-box::before {
     content: "";
     position: absolute;
