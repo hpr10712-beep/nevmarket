@@ -7,25 +7,22 @@
     <style>
         body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
     .header {
+    .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #333;
-    gap: 10px;
-}
-
+    gap: 8px; /* kecilin jarak */
+    }
 .balance-box, .price-box {
     flex: 1;
 }
 
 .divider {
     width: 1px;
-    height: 35px;
+    height: 30px;
     background: #333;
+    flex-shrink: 0; /* 🔥 biar tidak melebar */
+}
 }
 
 .label {
@@ -54,10 +51,28 @@
 .price-down {
     color: #ff4444;
 }
-        .balance-box { text-align: left; }
+        .balance-box div {
+    font-size: 0.5em; /* lebih kecil */
+    font-weight: 600;
+    color: #00ffcc;
+
+    background: linear-gradient(135deg, #00ffcc, #00c853);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    letter-spacing: 0.5px;
+        }
         .balance-box span { font-size: 0.8em; color: #aaa; }
-        .balance-box div { font-size: 1.4em; font-weight: bold; color: #00ff88; }
-        
+        .balance-box div {
+    font-size: 1.05em;
+    font-weight: 600;
+
+    background: linear-gradient(135deg, #00ffcc, #00c853);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    letter-spacing: 0.5px;
+        }
         #chart-container { background: #1e1e1e; height: 250px; border-radius: 10px; position: relative; border: 1px solid #333; margin-bottom: 15px; }
         canvas { width: 100%; height: 100%; }
 
@@ -73,115 +88,51 @@
 
         .history { margin-top: 20px; font-size: 0.9em; }
         .history-item { border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
-   
-.login-container {
-    position: fixed;
+
+.balance-box, .price-box {
+    flex: 1;
+    min-width: 0; /* 🔥 penting biar tidak overflow */
+}
+        .value {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;      /* 🔥 tidak turun baris */
+    overflow: hidden;         
+    text-overflow: ellipsis;  /* kalau kepanjangan jadi ... */
+        }
+        
+.price-box {
+    text-align: right;
+}
+
+        .balance-box {
+    position: relative;
+    padding: 8px 10px;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, rgba(0,255,150,0.08), rgba(0,200,83,0.05));
+    border: 1px solid rgba(0,255,150,0.15);
+
+    box-shadow: inset 0 0 10px rgba(0,255,150,0.05);
+        }
+
+        .balance-box::before {
+    content: "";
+    position: absolute;
     inset: 0;
-    background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* CARD */
-.login-card {
-    background: rgba(30,30,30,0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid #333;
-    border-radius: 15px;
-    padding: 25px;
-    width: 90%;
-    max-width: 320px;
-    text-align: center;
-    box-shadow: 0 0 25px rgba(0,255,136,0.15);
-}
-
-/* TITLE */
-.login-card h2 {
-    margin: 0;
-    font-size: 20px;
-    color: #00ff88;
-    letter-spacing: 1px;
-}
-
-.subtitle {
-    font-size: 12px;
-    color: #aaa;
-    margin-bottom: 20px;
-}
-
-/* INPUT */
-.login-card input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
     border-radius: 8px;
-    border: 1px solid #333;
-    background: #121212;
-    color: white;
-    font-size: 13px;
-    outline: none;
-}
 
-.login-card input:focus {
-    border-color: #00ff88;
-    box-shadow: 0 0 8px rgba(0,255,136,0.3);
-}
-
-/* BUTTON */
-.btn-login {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(135deg,#00c853,#00ff88);
-    color: black;
-    font-weight: bold;
-    margin-bottom: 8px;
-    cursor: pointer;
-}
-
-.btn-register {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #444;
-    border-radius: 8px;
-    background: transparent;
-    color: #aaa;
-    cursor: pointer;
-}
-
-/* HOVER */
-.btn-login:hover {
-    opacity: 0.9;
-}
-
-.btn-register:hover {
-    border-color: #00ff88;
-    color: #00ff88;
-}
-
- </style> 
+    background: radial-gradient(circle at top left, rgba(0,255,150,0.15), transparent 70%);
+    opacity: 0.6;
+    pointer-events: none;
+        }
+        .balance-box:hover {
+    box-shadow: 0 0 12px rgba(0,255,150,0.2);
+    transition: 0.3s;
+        }
+    </style>
 </head>
 <body>
-
-<div id="loginPage" class="login-container">
-
-    <div class="login-card">
-        <h2>TRADING PRO</h2>
-        <p class="subtitle">Login ke akun kamu</p>
-
-        <input id="email" type="email" placeholder="Email">
-        <input id="password" type="password" placeholder="Password">
-
-        <button class="btn-login" onclick="login()">MASUK</button>
-        <button class="btn-register" onclick="register()">DAFTAR</button>
-    </div>
-
-</div>
-
-<div id="appPage" style="display:none;">
-
 <div class="header">
     <div class="balance-box">
         <div class="label">SALDO AKUN</div>
@@ -218,85 +169,6 @@
     </div>
 
 <script>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
-import { getFirestore, doc, setDoc, getDoc, updateDoc } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAgGd8-u_E_JKKs0Zf7rXZ6O4ADw85CUAU",
-  authDomain: "radzpanel-3a8a3.firebaseapp.com",
-  projectId: "radzpanel-3a8a3",
-  storageBucket: "radzpanel-3a8a3.firebasestorage.app",
-  messagingSenderId: "20608954308",
-  appId: "1:20608954308:web:0e09ba796c9086813fbe91"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// ================= AUTH =================
-
-// REGISTER
-window.register = async function () {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-
-    const userCred = await createUserWithEmailAndPassword(auth, email, pass);
-
-    // simpan data awal user
-    await setDoc(doc(db, "users", userCred.user.uid), {
-        balance: 10000000
-    });
-
-    alert("Daftar berhasil!");
-}
-
-// LOGIN
-window.login = async function () {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-
-    await signInWithEmailAndPassword(auth, email, pass);
-}
-
-// LOGOUT
-window.logout = function () {
-    signOut(auth);
-}
-
-// ================= LOAD DATA =================
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("appPage").style.display = "block";
-
-        const ref = doc(db, "users", user.uid);
-        const snap = await getDoc(ref);
-
-        if (snap.exists()) {
-            balance = snap.data().balance;
-            updateBalanceUI();
-        }
-    } else {
-        document.getElementById("loginPage").style.display = "block";
-        document.getElementById("appPage").style.display = "none";
-    }
-});
-
-// ================= SAVE BALANCE =================
-window.saveBalance = async function () {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    await updateDoc(doc(db, "users", user.uid), {
-        balance: balance
-    });
-}
-
 // === INISIALISASI WAJIB (INI YANG KAMU KURANG) ===
 let currentPrice = 50000;
 const canvas = document.getElementById('tradingChart');
@@ -308,8 +180,18 @@ let tick = 0;
 
 // === UPDATE MARKET ===
 function updateMarket() {
-    const change = (Math.random() - 0.5) * 2000000000000;
+    const change = (Math.random() - 0.5) * 200000000000000;
     currentPrice += change;
+
+if (candles.length === 0) {
+    candles.push({
+        open: currentPrice,
+        high: currentPrice,
+        low: currentPrice,
+        close: currentPrice
+    });
+}
+    
     if(currentPrice < 1000) currentPrice = 1000;
 
     document.getElementById('livePrice').innerText =
@@ -349,6 +231,7 @@ function updateMarket() {
 
     drawChart();
     calculatePL();
+    saveData(); //
 }
 
 // === DRAW CHART ===
@@ -406,12 +289,51 @@ function drawChart() {
     });
 }
 
-// === START LOOP ===
-setInterval(updateMarket, 200);
+    function loadData() {
+    const saved = localStorage.getItem('tradingData');
 
-// === DATA TRADING ===
+    if (!saved) return;
+
+    const data = JSON.parse(saved);
+
+    balance = data.balance ?? 10000000;
+    position = data.position ?? null;
+    candles = data.candles ?? [];
+    currentPrice = data.currentPrice ?? 50000;
+
+    // update tampilan
+    document.getElementById('balanceDisplay').innerText =
+        "Rp " + balance.toLocaleString('id-ID');
+
+    document.getElementById('livePrice').innerText =
+        Math.round(currentPrice).toLocaleString('id-ID');
+
+    if (position) {
+        document.getElementById('positionCard').style.display = 'block';
+        document.getElementById('mainActions').style.display = 'none';
+
+        document.getElementById('posType').innerText = position.type;
+        document.getElementById('entryPrice').innerText =
+            Math.round(position.entry).toLocaleString('id-ID');
+    }
+
+    // 🔥 TAMBAHKAN DI SINI
+    if (candles.length > 0) {
+        drawChart();
+    }
+    }
+    
+
+// === START LOOP ===
+// === DATA TRADING (PINDAH KE ATAS) ===
 let balance = 10000000;
 let position = null;
+
+// === LOAD DATA ===
+loadData();
+
+// === START LOOP ===
+setInterval(updateMarket, 200);
 
 // === BUKA POSISI ===
 function openPosition(type) {
@@ -428,7 +350,6 @@ function openPosition(type) {
     }
 
     balance -= tradeAmount;
-saveBalance();
 
     position = {
         type: type,
@@ -445,6 +366,7 @@ saveBalance();
     document.getElementById('posType').innerText = type;
     document.getElementById('entryPrice').innerText =
         Math.round(currentPrice).toLocaleString('id-ID');
+saveData(); //
 }
 
 // === HITUNG PROFIT LOSS ===
@@ -467,8 +389,7 @@ function calculatePL() {
 }
 
 // === TUTUP POSISI ===
-function closePosition() { 
-saveBalance();
+function closePosition() {
     if (!position) return;
 
     let diff = (currentPrice - position.entry) / position.entry;
@@ -495,17 +416,48 @@ saveBalance();
     // reset
     position = null;
 
-    document.getElementById('balanceDisplay').innerText =
-        "Rp " + balance.toLocaleString('id-ID');
+    animateBalance(balance);
 
     document.getElementById('positionCard').style.display = 'none';
     document.getElementById('mainActions').style.display = 'flex';
+saveData(); //
 }
 
-function updateBalanceUI() {
-    document.getElementById('balanceDisplay').innerText =
-        "Rp " + balance.toLocaleString('id-ID');
+    function saveData() {
+    const data = {
+        balance: balance,
+        position: position,
+        candles: candles,
+        currentPrice: currentPrice
+    };
+
+    localStorage.setItem('tradingData', JSON.stringify(data));
 }
+
+    function animateBalance(target) {
+    const el = document.getElementById('balanceDisplay');
+
+    let start = parseInt(el.innerText.replace(/\D/g, '')) || 0;
+    let duration = 500; // durasi animasi (ms)
+    let startTime = null;
+
+    function animate(time) {
+        if (!startTime) startTime = time;
+        let progress = time - startTime;
+
+        let value = Math.floor(start + (target - start) * (progress / duration));
+
+        el.innerText = "Rp " + value.toLocaleString('id-ID');
+
+        if (progress < duration) {
+            requestAnimationFrame(animate);
+        } else {
+            el.innerText = "Rp " + target.toLocaleString('id-ID');
+        }
+    }
+
+    requestAnimationFrame(animate);
+    }
 
 </script>
 
