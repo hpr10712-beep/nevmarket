@@ -242,9 +242,11 @@ let tick = 0;
 function updateMarket() {
     let trend = 0.2; // arah naik
 
-const noise = (Math.random() - 0.5) * 50000;
-currentPrice += change;
+let trend = 0.2; // arah naik
 
+const noise = (Math.random() - 0.5) * 5000;
+currentPrice += noise + trend;
+    
 if (candles.length === 0) {
     candles.push({
         open: currentPrice,
