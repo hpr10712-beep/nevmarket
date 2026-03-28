@@ -255,14 +255,25 @@ function drawChart() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // 🔥 PADDING AREA (BIAR GA NEMPEL TEPI)
+    const padding = {
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10
+    };
+
+    const chartWidth = canvas.width - padding.left - padding.right;
+    const chartHeight = canvas.height - padding.top - padding.bottom;
+
     // GRID
     ctx.strokeStyle = '#222';
     ctx.lineWidth = 1;
 
-    for (let i = 0; i < canvas.height; i += 40) {
+    for (let i = 0; i < chartHeight; i += 40) {
         ctx.beginPath();
-        ctx.moveTo(0, i);
-        ctx.lineTo(canvas.width, i);
+        ctx.moveTo(padding.left, i + padding.top);
+        ctx.lineTo(canvas.width - padding.right, i + padding.top);
         ctx.stroke();
     }
 
@@ -271,15 +282,15 @@ function drawChart() {
     const max = Math.max(...allPrices);
     const range = max - min || 1;
 
-    const candleWidth = canvas.width / candles.length;
+    const candleWidth = chartWidth / candles.length;
 
     candles.forEach((c, i) => {
-        const x = i * candleWidth + candleWidth * 0.2;
+        const x = padding.left + i * candleWidth + candleWidth * 0.2;
 
-        const openY = canvas.height - ((c.open - min) / range * canvas.height);
-        const closeY = canvas.height - ((c.close - min) / range * canvas.height);
-        const highY = canvas.height - ((c.high - min) / range * canvas.height);
-        const lowY = canvas.height - ((c.low - min) / range * canvas.height);
+        const openY = padding.top + (chartHeight - ((c.open - min) / range * chartHeight));
+        const closeY = padding.top + (chartHeight - ((c.close - min) / range * chartHeight));
+        const highY = padding.top + (chartHeight - ((c.high - min) / range * chartHeight));
+        const lowY = padding.top + (chartHeight - ((c.low - min) / range * chartHeight));
 
         const isUp = c.close > c.open;
 
@@ -301,7 +312,7 @@ function drawChart() {
             bodyHeight < 2 ? 2 : bodyHeight
         );
     });
-}
+    }
 
     function loadData() {
     const saved = localStorage.getItem('tradingData');
