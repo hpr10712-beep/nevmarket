@@ -239,6 +239,25 @@
     background: #2a2a2a;
     color: #00ffcc;
 }
+
+        .chart-info {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+
+    font-size: 12px;
+    color: #ccc;
+}
+
+.chart-info div {
+    text-align: center;
+    }
     
     </style>
 </head>
@@ -251,7 +270,7 @@
 <div id="sideMenu" class="side-menu">
     <div class="menu-item" onclick="resetData()">Reset Data</div>
     <div class="menu-item">Profil</div>
-    <div class="menu-item">Sering</div>
+    <div class="menu-item">Seting</div>
 </div>
     
 <div class="header">
@@ -273,6 +292,13 @@
 
     <div id="chart-container">
         <canvas id="tradingChart"></canvas>
+    </div>
+
+    <div class="chart-info">
+    <div>Open: <span id="openPrice">0</span></div>
+    <div>High: <span id="highPrice">0</span></div>
+    <div>Low: <span id="lowPrice">0</span></div>
+    <div>Close: <span id="closePrice">0</span></div>
     </div>
 
     <div id="positionCard" class="trade-info" style="display: none;">
@@ -654,6 +680,24 @@ function saveData() {
     function toggleMenu() {
     const menu = document.getElementById('sideMenu');
     menu.classList.toggle('active');
+    }
+
+    function updateChartInfo(){
+    if(candles.length === 0) return;
+
+    let c = candles[candles.length - 1];
+
+    document.getElementById("openPrice").innerText =
+        Math.round(c.open).toLocaleString("id-ID");
+
+    document.getElementById("highPrice").innerText =
+        Math.round(c.high).toLocaleString("id-ID");
+
+    document.getElementById("lowPrice").innerText =
+        Math.round(c.low).toLocaleString("id-ID");
+
+    document.getElementById("closePrice").innerText =
+        Math.round(c.close).toLocaleString("id-ID");
     }
     
 </script>
