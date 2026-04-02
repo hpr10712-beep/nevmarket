@@ -330,26 +330,58 @@ let tick = 0;
 
 // === UPDATE MARKET ===
 function updateMarket() {
-    let trend = Math.sin(Date.now() / 5000) * 5000;
-const noise = (Math.random() - 0.5) * 5000;
+    let velocity = 0;
+let marketState = "SIDEWAYS";
+let stateTime = 0;
 
-currentPrice += noise + trend;
-    
-if (candles.length === 0) {
-    candles.push({
-        open: currentPrice,
-        high: currentPrice,
-        low: currentPrice,
-        close: currentPrice
-    });
-}
-    
-    if(currentPrice < 1000) currentPrice = 1000;
+function updateMarket() {
 
+    // ================== GANTI MODE MARKET ==================
+    stateTime++;
+
+    if (stateTime > 100) {
+        stateTime = 0;
+
+        const rnd = Math.random();
+
+        if (rnd < 0.4) marketState = "SIDEWAYS";
+        else if (rnd < 0.7) marketState = "UP";
+        else marketState = "DOWN";
+    }
+
+    // ================== LOGIC PERGERAKAN ==================
+    let drift = 0;
+
+    if (marketState === "UP") {
+        drift = 0.5; // naik pelan
+    } 
+    else if (marketState === "DOWN") {
+        drift = -0.5; // turun pelan
+    } 
+    else {
+        drift = 0; // sideways
+    }
+
+    // momentum (biar ga zigzag aneh)
+    velocity += drift + (Math.random() - 0.5) * 2;
+
+    // gesekan biar tidak terlalu liar
+    velocity *= 0.9;
+
+    currentPrice += velocity;
+
+    // ================== SPIKE (kayak news / whale) ==================
+    if (Math.random() < 0.01) {
+        currentPrice += (Math.random() - 0.5) * 1000;
+    }
+
+    if (currentPrice < 1000) currentPrice = 1000;
+
+    // ================== UPDATE UI ==================
     document.getElementById('livePrice').innerText =
         Math.round(currentPrice).toLocaleString('id-ID');
 
-    // buat candle pertama
+    // ================== CANDLE ==================
     if (candles.length === 0) {
         candles.push({
             open: currentPrice,
@@ -361,14 +393,12 @@ if (candles.length === 0) {
 
     let last = candles[candles.length - 1];
 
-    // update candle terakhir (biar gerak)
     last.close = currentPrice;
     if (currentPrice > last.high) last.high = currentPrice;
     if (currentPrice < last.low) last.low = currentPrice;
 
     tick++;
 
-    // bikin candle baru tiap beberapa tick
     if (tick > 10) {
         candles.push({
             open: currentPrice,
@@ -382,10 +412,10 @@ if (candles.length === 0) {
     if (candles.length > 40) candles.shift();
 
     drawChart();
+    updateChartInfo();
     calculatePL();
-    saveData(); //
+    saveData();
 }
-
 // === DRAW CHART ===
 function drawChart() {
     canvas.width = canvas.offsetWidth;
