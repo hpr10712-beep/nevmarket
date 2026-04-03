@@ -2,99 +2,126 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>ELITE LAGA PRO | OFFICIAL ARENA</title>
+    <meta name="viewport" content="width=1200, initial-scale=1"> 
+    <title>FREE FIRE ARENA | DESKTOP MODE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: #f8fafc; font-family: sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
+        /* Desktop Mode Constraint */
+        body { 
+            background: #050505; color: #fff; font-family: 'Inter', sans-serif; 
+            margin: 0 auto; width: 1200px; padding: 40px 0;
+            background-image: radial-gradient(circle at top right, #1e1b4b, #050505 50%);
+            overflow-x: hidden;
+        }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-bebas { font-family: 'Bebas Neue', cursive; }
+
+        /* Dashboard Saldo Keren */
+        .saldo-card {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(251, 191, 36, 0.1);
+            border-right: 5px solid #fbbf24;
+            position: relative; overflow: hidden;
+        }
+        .diamond-icon {
+            position: absolute; right: -15px; top: -10px; font-size: 80px;
+            color: rgba(255,255,255,0.03); transform: rotate(15deg);
+        }
+
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
         
-        /* Background Efek Agar Tidak Polos */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
-            z-index: -1;
+        /* Robot FF Style - Bergerak Halus */
+        .robot-frame { height: 320px; display: flex; align-items: center; justify-content: center; }
+        .robot-ff { 
+            height: 300px; filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.4));
+            animation: breathe 4s ease-in-out infinite;
+        }
+        .robot-red { filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.4)); }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); filter: brightness(1); }
+            50% { transform: translateY(-20px) scale(1.05); filter: brightness(1.2); }
         }
 
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        /* Frame Video RGB Desktop */
+        .rgb-frame {
+            position: relative; border-radius: 40px; padding: 6px;
+            background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24);
+            --angle: 0deg; animation: rotateBorder 4s linear infinite;
+        }
+        @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        @keyframes rotateBorder { to { --angle: 360deg; } }
         
-        /* Robot Styling - Menggunakan filter cerah agar muncul */
-        .robot-img { 
-            height: 240px; width: auto; object-fit: contain; 
-            animation: float 4s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
-        }
-        .robot-red { filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.5)); }
+        .video-box { background: #000; border-radius: 35px; overflow: hidden; height: 550px; width: 100%; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+        .btn-action { 
+            transition: all 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        /* Video / TikTok Container */
-        .video-wrapper {
-            position: relative; width: 100%; border-radius: 30px; 
-            overflow: hidden; border: 2px solid rgba(255,255,255,0.1);
-            background: #000; height: 500px;
-        }
-
-        /* Scanning Animation */
-        .scan-overlay {
-            position: absolute; inset: 0; z-index: 10;
-            background: #020617; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            animation: fadeOut 2.5s forwards 1.5s;
-        }
-        .line { width: 100%; height: 3px; background: #fbbf24; position: absolute; animation: scan 2s infinite; }
-        @keyframes scan { from { top: 0; } to { top: 100%; } }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
     </style>
 </head>
-<body class="flex justify-center">
+<body>
 
-<div class="w-full max-w-[1000px]">
-    <nav class="glass p-5 rounded-[2.5rem] flex justify-between items-center mb-6 border-t-2 border-yellow-500/50 shadow-yellow-500/10 shadow-2xl">
-        <div class="flex items-center gap-4">
-            <div class="h-12 w-12 bg-yellow-500 rounded-2xl flex items-center justify-center text-black font-black text-2xl font-orbitron shadow-lg">E</div>
+    <div class="flex justify-between items-center px-10 mb-12">
+        <div class="flex items-center gap-6">
+            <div class="h-20 w-20 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)]">
+                <img src="https://www.freeiconspng.com/uploads/free-fire-logo-png-17.png" class="w-14" alt="Logo">
+            </div>
             <div>
-                <h2 id="playerID" class="font-orbitron text-base font-bold tracking-widest text-white uppercase">PLAYER-LOADING</h2>
-                <p class="text-[8px] text-green-400 font-bold tracking-[0.4em] animate-pulse uppercase">Arena Live Connection</p>
+                <h1 id="playerID" class="font-bebas text-5xl tracking-[4px] text-white italic">PLAYER_LOADING</h1>
+                <div class="flex items-center gap-3">
+                    <span class="h-2 w-2 bg-green-500 rounded-full animate-ping"></span>
+                    <p class="text-xs font-orbitron font-bold text-green-400 tracking-[3px]">STATUS: ONLINE ARENA</p>
+                </div>
             </div>
         </div>
-        <div class="text-right px-4 border-l border-white/10">
-            <p class="text-[8px] text-slate-500 font-bold uppercase mb-1">Total Credits</p>
-            <h2 id="balanceTxt" class="text-xl font-orbitron font-black text-yellow-400">Rp 0</h2>
-        </div>
-    </nav>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div class="glass p-8 rounded-[3.5rem] text-center border-b-8 border-blue-600 relative overflow-hidden group">
-            <div class="absolute -top-10 -left-10 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl"></div>
-            <img src="https://pngimg.com/d/robot_PNG93.png" class="robot-img mx-auto mb-4" alt="Shotgun Bot">
-            <h3 class="text-lg font-orbitron font-black text-blue-400 mb-4 tracking-tighter uppercase italic">Striker Shotgun</h3>
-            <input type="number" id="amtA" class="w-full bg-slate-900/80 border border-slate-700 p-4 rounded-2xl mb-4 text-center text-xl font-bold text-white focus:border-blue-500 transition-all outline-none" placeholder="0">
-            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-orbitron font-black text-white shadow-lg active:scale-95 transition-all">PICK UNIT A</button>
-        </div>
-
-        <div class="glass p-8 rounded-[3.5rem] text-center border-b-8 border-red-600 relative overflow-hidden group">
-            <div class="absolute -top-10 -right-10 w-32 h-32 bg-red-600/10 rounded-full blur-3xl"></div>
-            <img src="https://pngimg.com/d/robot_PNG18.png" class="robot-img robot-red mx-auto mb-4" alt="Sniper Bot">
-            <h3 class="text-lg font-orbitron font-black text-red-400 mb-4 tracking-tighter uppercase italic">Hunter Sniper</h3>
-            <input type="number" id="amtB" class="w-full bg-slate-900/80 border border-slate-700 p-4 rounded-2xl mb-4 text-center text-xl font-bold text-white focus:border-red-500 transition-all outline-none" placeholder="0">
-            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-orbitron font-black text-white shadow-lg active:scale-95 transition-all">PICK UNIT B</button>
+        <div class="saldo-card px-12 py-5 rounded-[2rem] min-w-[350px]">
+            <div class="diamond-icon font-bebas">VIP</div>
+            <p class="text-xs text-yellow-500 font-bold uppercase tracking-widest mb-1">Diamond Balance</p>
+            <h2 id="balanceTxt" class="text-4xl font-orbitron font-black text-white italic tracking-tighter">Rp 0</h2>
         </div>
     </div>
 
-    <div class="video-wrapper shadow-2xl mb-10">
-        <div class="scan-overlay">
-            <div class="line"></div>
-            <h1 class="font-orbitron text-2xl text-yellow-500 italic font-black animate-pulse uppercase tracking-[0.3em]">Link Arena Sedang Dimuat</h1>
+    <div class="px-10 grid grid-cols-12 gap-10">
+        
+        <div class="col-span-12 grid grid-cols-2 gap-10">
+            <div class="glass p-10 rounded-[4rem] text-center border-b-[10px] border-blue-600 relative group overflow-hidden">
+                <div class="robot-frame">
+                    <img src="https://pngimg.com/d/robot_PNG93.png" class="robot-ff" alt="Bot A">
+                </div>
+                <h3 class="font-bebas text-4xl text-blue-400 mb-6 tracking-widest italic">STRIKER A (M1887)</h3>
+                <input type="number" id="amtA" class="w-full bg-black/60 border-2 border-blue-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-400" placeholder="0">
+                <button onclick="placeBet('A')" class="btn-action w-full bg-blue-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT A</button>
+            </div>
+
+            <div class="glass p-10 rounded-[4rem] text-center border-b-[10px] border-red-600 relative group overflow-hidden">
+                <div class="robot-frame">
+                    <img src="https://pngimg.com/d/robot_PNG18.png" class="robot-ff robot-red" alt="Bot B">
+                </div>
+                <h3 class="font-bebas text-4xl text-red-400 mb-6 tracking-widest italic">HUNTER B (AWM)</h3>
+                <input type="number" id="amtB" class="w-full bg-black/60 border-2 border-red-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-400" placeholder="0">
+                <button onclick="placeBet('B')" class="btn-action w-full bg-red-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT B</button>
+            </div>
         </div>
-        <iframe src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+        <div class="col-span-12 mt-10">
+            <div class="rgb-frame shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+                <div class="video-box relative">
+                    <iframe src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    
+                    <div class="absolute bottom-10 left-10 flex items-center gap-4 bg-black/60 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+                        <div class="h-3 w-3 bg-red-600 rounded-full animate-pulse"></div>
+                        <p class="font-bebas text-2xl tracking-widest uppercase">Live Battlefield Feed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -109,7 +136,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    let myID = localStorage.getItem('laga_player_id') || 'PLR-' + Math.floor(1000 + Math.random() * 9000);
+    let myID = localStorage.getItem('laga_player_id') || 'FF-' + Math.floor(1000 + Math.random() * 9000);
     localStorage.setItem('laga_player_id', myID);
     document.getElementById('playerID').innerText = myID;
 
@@ -132,9 +159,9 @@
 
         if (side === winner && amt > 0) {
             update(myRef, { balance: myBalance + (amt * 2) });
-            Swal.fire({ title: 'WINNER! 🏆', text: 'Saldo Berhasil Update!', icon: 'success', background: '#020617', color: '#fbbf24' });
+            Swal.fire({ title: 'BOOYAH! 🏆', text: 'Target Tereliminasi!', icon: 'success', background: '#0f172a', color: '#fff' });
         } else if (side) {
-            Swal.fire({ title: 'DEFEAT', text: 'Unit Hancur!', icon: 'error', background: '#020617', color: '#ef4444' });
+            Swal.fire({ title: 'ELIMINATED', text: 'Kembali Ke Lobby!', icon: 'error', background: '#1e1b4b', color: '#fff' });
         }
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
@@ -142,12 +169,12 @@
 
     window.placeBet = (side) => {
         const amt = parseInt(document.getElementById('amt' + side).value);
-        if (!amt || amt > myBalance) return Swal.fire('Error', 'Kredit tidak cukup!', 'error');
+        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
         localStorage.setItem('last_side', side);
         localStorage.setItem('last_amt', amt);
         update(myRef, { balance: myBalance - amt });
         document.getElementById('amt' + side).value = "";
-        Swal.fire('BERHASIL', `Unit ${side} Terpasang!`, 'success');
+        Swal.fire('READY', `Unit ${side} Terjun Ke Map!`, 'success');
     };
 </script>
 
