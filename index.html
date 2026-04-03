@@ -2,111 +2,113 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200"> 
-    <title>ELITE LAGA PRO | ONLINE ARENA</title>
+    <meta name="viewport" content="width=1200">
+    <title>ELITE LAGA | LOGIN & ARENA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-      // GANTI DENGAN CONFIG FIREBASE KAMU SENDIRI
-      const firebaseConfig = {
-        apiKey: "ISI_API_KEY_KAMU",
-        authDomain: "ISI_PROJECT_ID.firebaseapp.com",
-        databaseURL: "https://ISI_PROJECT_ID-default-rtdb.firebaseio.com",
-        projectId: "ISI_PROJECT_ID",
-        storageBucket: "ISI_PROJECT_ID.appspot.com",
-        messagingSenderId: "12345678",
-        appId: "1:12345678:web:abcdef"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app);
-
-      // --- LOGIKA SALDO ONLINE ---
-      let userId = "user_123"; // ID unik untuk tes
-      let balance = 10000000;
-      let currentBet = null;
-
-      // Ambil Saldo dari Database Cloud
-      onValue(ref(db, 'users/' + userId), (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-              balance = data.balance;
-              document.getElementById('balanceTxt').innerText = `Rp ${balance.toLocaleString('id-ID')}`;
-          } else {
-              // Jika user baru, buat data di cloud
-              set(ref(db, 'users/' + userId), { balance: 10000000 });
-          }
-      });
-
-      // MENDENGARKAN SINYAL MENANG DARI ADMIN (REALTIME)
-      onValue(ref(db, 'match/result'), (snapshot) => {
-          const winner = snapshot.val();
-          if (winner && currentBet) {
-              if (currentBet.side === winner) {
-                  let winAmt = currentBet.amount * 2;
-                  balance += winAmt;
-                  update(ref(db, 'users/' + userId), { balance: balance });
-                  confetti({ particleCount: 200, spread: 70 });
-                  Swal.fire({ title: '🎉 MENANG!', text: `+ Rp ${winAmt.toLocaleString()}`, icon: 'success', background: '#020617', color: '#fff' });
-              } else {
-                  Swal.fire({ title: '💀 KALAH', text: 'Jagoanmu Tumbang!', icon: 'error', background: '#020617', color: '#fff' });
-              }
-              currentBet = null;
-          }
-      });
-
-      window.placeBet = (side) => {
-          const amt = parseInt(document.getElementById('amt' + side).value);
-          if (amt > balance || !amt) return alert("Saldo tidak cukup!");
-          balance -= amt;
-          currentBet = { side, amount: amt };
-          update(ref(db, 'users/' + userId), { balance: balance });
-          Swal.fire('Bet Placed!', 'Menunggu hasil admin...', 'info');
-      };
-    </script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; width: 1200px; margin: 0 auto; overflow-x: hidden; padding: 40px; }
+        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; width: 1200px; margin: 0 auto; overflow-x: hidden; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .neon-blue { border-bottom: 5px solid #3b82f6; }
-        .neon-red { border-bottom: 5px solid #ef4444; }
-        .video-box { width: 100%; height: 400px; border-radius: 40px; overflow: hidden; margin: 40px 0; position: relative; }
-        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .neon-border { border: 1px solid rgba(59, 130, 246, 0.5); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        #authSection { display: flex; position: fixed; inset: 0; z-index: 100; background: #020617; justify-content: center; align-items: center; }
+        #gameSection { display: none; padding: 40px; }
     </style>
 </head>
 <body>
-    <nav class="flex justify-between items-center mb-10 glass p-8 rounded-[2.5rem]">
-        <h1 class="font-orbitron text-3xl font-black italic tracking-widest text-yellow-500">LAGA PRO ONLINE</h1>
-        <div class="glass px-10 py-3 rounded-2xl border-l-4 border-yellow-500">
-            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Saldo Cloud</p>
-            <h2 id="balanceTxt" class="text-2xl font-orbitron font-black text-yellow-400 italic text-right">Rp 0</h2>
-        </div>
-    </nav>
 
-    <div class="grid grid-cols-2 gap-10">
-        <div class="glass p-10 rounded-[3.5rem] text-center neon-blue">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Blue" class="h-48 mx-auto mb-6">
-            <h3 class="text-2xl font-orbitron font-black mb-6">SATRIA BIRU</h3>
-            <input type="number" id="amtA" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold" placeholder="Rp 0">
-            <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron tracking-widest uppercase">Confirm Pick A</button>
-        </div>
-
-        <div class="glass p-10 rounded-[3.5rem] text-center neon-red">
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Red" class="h-48 mx-auto mb-6">
-            <h3 class="text-2xl font-orbitron font-black mb-6">NAGA MERAH</h3>
-            <input type="number" id="amtB" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold" placeholder="Rp 0">
-            <button onclick="bet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron tracking-widest uppercase">Confirm Pick B</button>
+    <div id="authSection">
+        <div class="glass p-12 rounded-[3rem] w-[500px] text-center neon-border">
+            <h1 class="font-orbitron text-4xl font-black text-yellow-500 mb-2 italic">ELITE LAGA</h1>
+            <p class="text-slate-500 text-xs uppercase tracking-[0.4em] mb-10">Access the Pro Arena</p>
+            
+            <div class="space-y-6">
+                <input type="text" id="username" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl outline-none focus:border-yellow-500 text-center font-bold" placeholder="USERNAME">
+                <input type="password" id="password" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl outline-none focus:border-yellow-500 text-center font-bold" placeholder="PASSWORD">
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="handleAuth('login')" class="bg-slate-800 hover:bg-slate-700 py-5 rounded-2xl font-black font-orbitron transition">LOGIN</button>
+                    <button onclick="handleAuth('register')" class="bg-yellow-600 hover:bg-yellow-500 py-5 rounded-2xl font-black font-orbitron text-black transition">DAFTAR</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="video-box">
-        <video autoplay muted loop playsinline><source src="36577.mp4" type="video/mp4"></video>
+    <div id="gameSection">
+        <nav class="flex justify-between items-center mb-10 glass p-8 rounded-[2.5rem]">
+            <div class="flex items-center gap-4">
+                <div class="h-12 w-12 bg-yellow-500 rounded-xl flex items-center justify-center font-black text-black text-2xl font-orbitron">L</div>
+                <h2 id="userDisplay" class="font-orbitron text-xl font-bold italic tracking-widest uppercase">PLAYER</h2>
+            </div>
+            <div class="flex gap-6">
+                <div class="glass px-8 py-3 rounded-2xl border-l-4 border-yellow-500">
+                    <p class="text-[9px] text-slate-500 font-bold uppercase">Main Balance</p>
+                    <h2 id="balanceTxt" class="text-2xl font-orbitron font-black text-yellow-400 italic">Rp 0</h2>
+                </div>
+                <button onclick="logout()" class="text-red-500 font-bold uppercase text-xs hover:underline">Exit</button>
+            </div>
+        </nav>
+
+        <div class="grid grid-cols-2 gap-10">
+            </div>
+
+        <video autoplay muted loop class="w-full h-64 object-cover rounded-3xl mt-10 opacity-30">
+            <source src="36577.mp4" type="video/mp4">
+        </video>
     </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = { 
+            // GANTI DENGAN PUNYA ANDA
+            apiKey: "...", databaseURL: "..." 
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.handleAuth = (type) => {
+            const user = document.getElementById('username').value.toLowerCase();
+            const pass = document.getElementById('password').value;
+            if(!user || !pass) return alert("Isi data!");
+
+            const userRef = ref(db, 'users/' + user);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if(type === 'login') {
+                    if(data && data.password === pass) {
+                        sessionStorage.setItem('activeUser', user);
+                        location.reload();
+                    } else { alert("User tidak ditemukan/salah pass"); }
+                } else {
+                    if(data) { alert("Username sudah ada!"); }
+                    else {
+                        set(userRef, { password: pass, balance: 0, status: 'user' });
+                        alert("Berhasil Daftar! Silahkan Login.");
+                    }
+                }
+            }, { onlyOnce: true });
+        };
+
+        // CEK LOGIN STATUS
+        const activeUser = sessionStorage.getItem('activeUser');
+        if(activeUser) {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('gameSection').style.display = 'block';
+            document.getElementById('userDisplay').innerText = activeUser;
+            
+            // Sync Saldo Realtime
+            onValue(ref(db, 'users/' + activeUser), (snapshot) => {
+                const data = snapshot.val();
+                if(data) {
+                    document.getElementById('balanceTxt').innerText = `Rp ${data.balance.toLocaleString()}`;
+                }
+            });
+        }
+        
+        window.logout = () => { sessionStorage.clear(); location.reload(); };
+    </script>
 </body>
 </html>
