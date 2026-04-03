@@ -139,22 +139,6 @@ onValue(matchRef, (snap) => {
 });
 
 // Update fungsi placeBet kamu agar menyimpan data taruhan ke LocalStorage
-window.placeBet = (side) => {
-    const amtInput = document.getElementById('amt' + side);
-    const amt = parseInt(amtInput.value);
-    
-    if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
-    
-    // SIMPAN DATA TARUHAN KE STORAGE HP
-    localStorage.setItem('last_bet_side', side);
-    localStorage.setItem('last_bet_amount', amt);
-    
-    update(myRef, { balance: myBalance - amt });
-    amtInput.value = "";
-    Swal.fire('Berhasil', `Taruhan ${side} diterima!`, 'success');
-};
-
-
     window.placeBet = (side) => {
         const amtInput = document.getElementById('amt' + side);
         const amt = parseInt(amtInput.value);
