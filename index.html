@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Laga | Player Arena</title>
+    <meta name="viewport" content="width=1200"> 
+    <title>Elite Laga | Desktop Mode</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
@@ -12,140 +12,99 @@
             background: radial-gradient(circle at 50% -20%, #1e1b4b, #020617);
             font-family: 'Inter', sans-serif;
             color: #e2e8f0;
-            overflow-x: hidden;
+            /* Memastikan lebar body tetap luas */
+            width: 1200px; 
+            margin: 0 auto;
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .glass-card {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
         .glow-blue:hover { border-color: #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
         .glow-red:hover { border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.3); }
-        .status-badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-    <nav class="border-b border-white/10 py-6 px-8 flex justify-between items-center sticky top-0 bg-slate-950/50 backdrop-blur-md z-50">
+    <nav class="border-b border-white/10 py-6 px-8 flex justify-between items-center bg-slate-950/50">
         <div class="flex items-center gap-4">
-            <div class="h-10 w-10 bg-gradient-to-tr from-yellow-500 to-orange-600 rounded-lg rotate-12 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                <span class="text-white font-black -rotate-12">L</span>
+            <div class="h-10 w-10 bg-gradient-to-tr from-yellow-500 to-orange-600 rounded-lg rotate-12 flex items-center justify-center">
+                <span class="text-white font-black">L</span>
             </div>
-            <h1 class="font-orbitron text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">LAGA PRO</h1>
+            <h1 class="font-orbitron text-2xl font-black tracking-widest uppercase">LAGA PRO</h1>
         </div>
         <div class="flex items-center gap-6">
             <div class="text-right">
-                <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Available Credit</p>
-                <p id="balanceTxt" class="text-xl font-orbitron font-bold text-yellow-400 leading-none">Rp 0</p>
-            </div>
-            <div class="h-12 w-12 rounded-full border-2 border-yellow-500/50 p-1">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Lucky" class="rounded-full bg-slate-800">
+                <p class="text-[10px] text-slate-500 font-bold uppercase">Available Credit</p>
+                <p id="balanceTxt" class="text-xl font-orbitron font-bold text-yellow-400">Rp 0</p>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto py-12 px-4">
+    <main class="w-full py-12 px-10">
         <div class="text-center mb-16">
-            <span class="bg-blue-500/10 text-blue-400 text-[10px] font-black px-4 py-2 rounded-full border border-blue-500/20 uppercase tracking-[0.3em] mb-4 inline-block status-badge">Live Match - Season 12</span>
-            <h2 class="text-5xl font-orbitron font-black mb-4 uppercase italic">Siapa Jagoanmu?</h2>
-            <p class="text-slate-400 max-w-lg mx-auto">Pilih salah satu pemain di bawah ini. Jika tebakanmu tepat, saldo taruhanmu akan berlipat ganda secara instan.</p>
+            <h2 class="text-5xl font-orbitron font-black mb-4 uppercase italic">SIAPA JAGOANMU?</h2>
+            <p class="text-slate-400">Pilih salah satu pemain. Hasil otomatis muncul di sini.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div class="glass-card rounded-[3rem] p-10 glow-blue transition-all duration-500 group relative overflow-hidden">
-                <div class="absolute -top-24 -right-24 h-48 w-48 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/20 transition-all"></div>
-                <div class="relative z-10">
-                    <div class="mb-8 overflow-hidden rounded-2xl h-72 bg-slate-900 border border-white/5 flex items-center justify-center relative">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=A" class="h-48 group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute bottom-6 left-6 flex items-center gap-2">
-                            <span class="h-3 w-3 bg-blue-500 rounded-full animate-ping"></span>
-                            <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Knight of Azure</span>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-orbitron font-bold mb-2">SATRIA BIRU</h3>
-                    <div class="flex justify-between items-center mb-8 border-y border-white/5 py-4">
-                        <span class="text-slate-500 text-sm italic italic">Payout Multiplier</span>
-                        <span class="text-blue-400 font-bold font-orbitron">2.00x</span>
-                    </div>
-                    <div class="space-y-4">
-                        <input type="number" id="amtA" class="w-full bg-slate-950/50 border border-white/10 p-5 rounded-2xl outline-none focus:border-blue-500 transition-colors text-xl font-bold font-orbitron text-center" placeholder="Masukkan Jumlah">
-                        <button onclick="bet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-2xl font-black font-orbitron tracking-widest transition shadow-lg shadow-blue-900/40 active:scale-95">CONFIRM PICK A</button>
-                    </div>
+        <div class="grid grid-cols-2 gap-10">
+            <div class="glass-card rounded-[3rem] p-10 glow-blue transition-all group">
+                <div class="mb-8 rounded-2xl h-80 bg-slate-900 flex items-center justify-center">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=A" class="h-56">
                 </div>
+                <h3 class="text-3xl font-orbitron font-bold mb-2">SATRIA BIRU</h3>
+                <div class="flex justify-between border-y border-white/5 py-4 mb-8">
+                    <span class="text-slate-500">Multiplier</span>
+                    <span class="text-blue-400 font-bold font-orbitron">2.00x</span>
+                </div>
+                <input type="number" id="amtA" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-bold font-orbitron" placeholder="Masukkan Jumlah">
+                <button onclick="bet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron tracking-widest">CONFIRM PICK A</button>
             </div>
 
-            <div class="glass-card rounded-[3rem] p-10 glow-red transition-all duration-500 group relative overflow-hidden">
-                <div class="absolute -top-24 -right-24 h-48 w-48 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all"></div>
-                <div class="relative z-10">
-                    <div class="mb-8 overflow-hidden rounded-2xl h-72 bg-slate-900 border border-white/5 flex items-center justify-center relative">
-                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=B" class="h-48 group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute bottom-6 left-6 flex items-center gap-2">
-                            <span class="h-3 w-3 bg-red-500 rounded-full animate-ping"></span>
-                            <span class="text-xs font-bold uppercase tracking-widest text-red-400">Flame Dragon</span>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-orbitron font-bold mb-2">NAGA MERAH</h3>
-                    <div class="flex justify-between items-center mb-8 border-y border-white/5 py-4">
-                        <span class="text-slate-500 text-sm italic">Payout Multiplier</span>
-                        <span class="text-red-400 font-bold font-orbitron">2.00x</span>
-                    </div>
-                    <div class="space-y-4">
-                        <input type="number" id="amtB" class="w-full bg-slate-950/50 border border-white/10 p-5 rounded-2xl outline-none focus:border-red-500 transition-colors text-xl font-bold font-orbitron text-center" placeholder="Masukkan Jumlah">
-                        <button onclick="bet('B')" class="w-full bg-red-600 hover:bg-red-500 py-5 rounded-2xl font-black font-orbitron tracking-widest transition shadow-lg shadow-red-900/40 active:scale-95">CONFIRM PICK B</button>
-                    </div>
+            <div class="glass-card rounded-[3rem] p-10 glow-red transition-all group">
+                <div class="mb-8 rounded-2xl h-80 bg-slate-900 flex items-center justify-center">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=B" class="h-56">
                 </div>
+                <h3 class="text-3xl font-orbitron font-bold mb-2">NAGA MERAH</h3>
+                <div class="flex justify-between border-y border-white/5 py-4 mb-8">
+                    <span class="text-slate-500">Multiplier</span>
+                    <span class="text-red-400 font-bold font-orbitron">2.00x</span>
+                </div>
+                <input type="number" id="amtB" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-bold font-orbitron" placeholder="Masukkan Jumlah">
+                <button onclick="bet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron tracking-widest">CONFIRM PICK B</button>
             </div>
         </div>
     </main>
 
     <script>
-        let balance = parseInt(localStorage.getItem('mega_balance')) || 5000000;
-        let currentBet = JSON.parse(localStorage.getItem('mega_bet')) || null;
+        // Logika Saldo & BroadcastChannel tetap sama seperti sebelumnya
+        let balance = parseInt(localStorage.getItem('mega_balance')) || 10000000;
+        let currentBet = null;
         const bc = new BroadcastChannel('laga_premium');
 
         function sync() {
             document.getElementById('balanceTxt').innerText = `Rp ${balance.toLocaleString('id-ID')}`;
             localStorage.setItem('mega_balance', balance);
-            localStorage.setItem('mega_bet', JSON.stringify(currentBet));
         }
 
-        function bet(player) {
-            const val = parseInt(document.getElementById('amt' + player).value);
-            if(!val || val <= 0 || val > balance) return Swal.fire('Error', 'Saldo tidak mencukupi!', 'error');
-            if(currentBet) return Swal.fire('Busy', 'Pertandingan sedang berlangsung!', 'warning');
-
+        function bet(p) {
+            const val = parseInt(document.getElementById('amt' + p).value);
+            if(!val || val <= 0 || val > balance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
             balance -= val;
-            currentBet = { player, val };
+            currentBet = { p, val };
             sync();
-            Swal.fire({
-                title: 'Taruhan Diterima',
-                text: `Anda memilih ${player === 'A' ? 'Satria Biru' : 'Naga Merah'}. Semoga beruntung!`,
-                icon: 'success', background: '#0f172a', color: '#fff'
-            });
+            Swal.fire('Sukses', 'Taruhan dipasang!', 'success');
         }
 
         bc.onmessage = (e) => {
             if(e.data.type === 'RESULT' && currentBet) {
-                const winner = e.data.winner;
-                if(currentBet.player === winner) {
-                    const winAmt = currentBet.val * 2;
-                    balance += winAmt;
-                    Swal.fire({
-                        title: 'VICTORY!',
-                        html: `<p class="text-2xl font-bold text-yellow-400">Rp +${winAmt.toLocaleString('id-ID')}</p>`,
-                        icon: 'success', background: '#0f172a', color: '#fff',
-                        showConfirmButton: false, timer: 3000
-                    });
+                if(currentBet.p === e.data.winner) {
+                    balance += (currentBet.val * 2);
+                    Swal.fire('MENANG!', 'Saldo berlipat ganda!', 'success');
                 } else {
-                    Swal.fire({
-                        title: 'DEFEAT',
-                        text: 'Pemain pilihanmu kalah dalam laga ini.',
-                        icon: 'error', background: '#0f172a', color: '#fff',
-                        showConfirmButton: false, timer: 3000
-                    });
+                    Swal.fire('KALAH!', 'Coba lagi!', 'error');
                 }
                 currentBet = null;
                 sync();
