@@ -3,27 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>ELITE LAGA | ARENA LIVE</title>
+    <title>ELITE LAGA | ARENA LIVE HD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { background: #020617; color: white; width: 1200px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5); }
-        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 10px 30px -10px rgba(239, 68, 68, 0.5); }
+        
+        /* Neon Effects */
+        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.6); }
+        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 15px 40px -10px rgba(239, 68, 68, 0.6); }
+        .neon-gold { border-top: 4px solid #eab308; box-shadow: 0 15px 40px -10px rgba(234, 179, 8, 0.4); }
+        
+        /* Robot Avatar Placeholder */
+        .robot-av { background-size: cover; background-position: center; border: 2px solid #fff; }
+        
+        /* Bot Notification Animation */
         .bot-notif { animation: slideIn 0.5s ease-out; }
         @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        /* HD Video Text Effect */
+        .neon-text-gold { color: #eab308; text-shadow: 0 0 10px #eab308, 0 0 20px #ca8a04, 0 0 30px #ca8a04; }
     </style>
 </head>
 <body>
 
-    <nav class="flex justify-between items-center mb-6 glass p-6 rounded-[2.5rem] border-t-2 border-yellow-500/30">
+    <nav class="flex justify-between items-center mb-6 glass p-6 rounded-[2.5rem] neon-gold border-white/5">
         <div class="flex items-center gap-5">
             <div class="h-14 w-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center font-black text-black text-2xl font-orbitron shadow-lg">L</div>
             <div>
-                <h2 id="playerID" class="font-orbitron text-xl font-black text-white italic uppercase">MEMUAT ID...</h2>
+                <h2 id="playerID" class="font-orbitron text-xl font-black text-white italic uppercase tracking-wider">MEMUAT ID...</h2>
                 <p class="text-[10px] text-green-500 font-bold tracking-[0.4em] animate-pulse">STATUS: LIVE CONNECTED</p>
             </div>
         </div>
@@ -34,32 +45,51 @@
     </nav>
 
     <div class="grid grid-cols-3 gap-6">
-        <div class="col-span-1 glass rounded-[2.5rem] p-6 h-[550px] flex flex-col border-l-4 border-blue-500">
-            <h3 class="font-orbitron text-xs font-bold text-blue-400 mb-4 tracking-widest uppercase italic">Aktivitas Arena</h3>
+        <div class="col-span-1 glass rounded-[2.5rem] p-6 h-[550px] flex flex-col border-l-4 border-yellow-500/30 border-white/5">
+            <h3 class="font-orbitron text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase italic">Aktivitas Arena</h3>
             <div id="botLogs" class="space-y-3 overflow-hidden flex-1">
                 </div>
         </div>
 
         <div class="col-span-2 space-y-6">
             <div class="grid grid-cols-2 gap-6">
-                <div class="glass p-8 rounded-[3rem] text-center neon-blue">
-                    <h3 class="text-xl font-orbitron font-black mb-4 text-blue-400 tracking-widest">SATRIA BIRU</h3>
-                    <input type="number" id="amtA" class="w-full bg-slate-950 border border-slate-800 p-4 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
-                    <button onclick="placeBet('A')" class="w-full bg-blue-600 py-4 rounded-xl font-black font-orbitron hover:bg-blue-500 transition active:scale-95">PICK A</button>
+                <div class="glass p-8 rounded-[3rem] neon-blue relative">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="h-16 w-16 rounded-full robot-av shadow-xl border-blue-500" style="background-image: url('https://i.pravatar.cc/150?u=bot_blue')"></div>
+                        <div>
+                            <h3 class="text-2xl font-orbitron font-black text-blue-400 tracking-wider">SATRIA BIRU</h3>
+                            <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.3em]">ARENA PLAYER (A)</p>
+                        </div>
+                    </div>
+                    <input type="number" id="amtA" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
+                    <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-xl font-black font-orbitron hover:bg-blue-500 transition active:scale-95 text-lg">PICK A</button>
                 </div>
-                <div class="glass p-8 rounded-[3rem] text-center neon-red">
-                    <h3 class="text-xl font-orbitron font-black mb-4 text-red-400 tracking-widest">NAGA MERAH</h3>
-                    <input type="number" id="amtB" class="w-full bg-slate-950 border border-slate-800 p-4 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
-                    <button onclick="placeBet('B')" class="w-full bg-red-600 py-4 rounded-xl font-black font-orbitron hover:bg-red-500 transition active:scale-95">PICK B</button>
+
+                <div class="glass p-8 rounded-[3rem] neon-red relative">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="h-16 w-16 rounded-full robot-av shadow-xl border-red-500" style="background-image: url('https://i.pravatar.cc/150?u=bot_red')"></div>
+                        <div>
+                            <h3 class="text-2xl font-orbitron font-black text-red-400 tracking-wider">NAGA MERAH</h3>
+                            <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.3em]">ARENA PLAYER (B)</p>
+                        </div>
+                    </div>
+                    <input type="number" id="amtB" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
+                    <button onclick="placeBet('B')" class="w-full bg-red-600 py-5 rounded-xl font-black font-orbitron hover:bg-red-500 transition active:scale-95 text-lg">PICK B</button>
                 </div>
             </div>
 
-            <div class="rounded-[2.5rem] overflow-hidden border border-white/5 relative h-64 shadow-2xl">
-                <video autoplay muted loop class="w-full h-full object-cover opacity-40">
+            <div class="rounded-[2.5rem] overflow-hidden border border-white/5 relative h-64 shadow-2xl bg-black">
+                <video autoplay muted loop class="w-full h-full object-cover opacity-30">
                     <source src="36577.mp4" type="video/mp4">
                 </video>
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="bg-red-600 px-4 py-1 rounded font-bold text-xs animate-pulse">LIVE</div>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-6">
+                    <p class="text-[10px] text-yellow-500/50 uppercase font-bold tracking-[1.5em] mb-3">GRAND ARENA LAGA PRO</p>
+                    <h1 class="font-orbitron font-black text-5xl uppercase italic neon-text-gold tracking-tighter">THE FINAL SHOWDOWN</h1>
+                    <div class="flex items-center gap-3 mt-4">
+                        <span class="h-2 w-2 bg-red-600 rounded-full animate-pulse"></span>
+                        <p class="text-white font-bold text-sm uppercase tracking-widest">LIVE BROADCAST</p>
+                        <span class="h-2 w-2 bg-red-600 rounded-full animate-pulse"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,6 +99,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+    // KONFIGURASI FIREBASE ANDA
     const firebaseConfig = {
         apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
         databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
@@ -78,7 +109,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // ID Unik
+    // ID Unik Otomatis
     let myID = localStorage.getItem('laga_player_id') || 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
     localStorage.setItem('laga_player_id', myID);
     document.getElementById('playerID').innerText = myID;
@@ -116,17 +147,18 @@
 
     // Fungsi Pasang Taruhan
     window.placeBet = (side) => {
-        const amt = parseInt(document.getElementById('amt' + side).value);
+        const amtInput = document.getElementById('amt' + side);
+        const amt = parseInt(amtInput.value);
         if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
         
         localStorage.setItem('last_side', side);
         localStorage.setItem('last_amt', amt);
         update(myRef, { balance: myBalance - amt });
-        document.getElementById('amt' + side).value = "";
+        amtInput.value = "";
         Swal.fire('Sukses', `Bet ${side} Terpasang!`, 'success');
     };
 
-    // --- SISTEM ROBOT (Agar Ramai) ---
+    // --- SISTEM ROBOT GLOBAL (Notifikasi Sidebar) ---
     const botNames = ["DewaLaga", "Sultan_88", "KeraSakti", "Player_Pro", "HokiTerus", "Master_Bet"];
     setInterval(() => {
         const name = botNames[Math.floor(Math.random() * botNames.length)];
