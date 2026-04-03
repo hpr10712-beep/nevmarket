@@ -54,48 +54,58 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // GANTI INI DENGAN API FIREBASE KAMU
-        const firebaseConfig = {
-            apiKey: ""AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
-            projectId: "mybro-9ba5f"
-        };
+    // PERBAIKAN DI SINI (Tanda kutip sudah diperbaiki)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
+        projectId: "mybro-9ba5f"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        // LOGIKA ID UNIK OTOMATIS
-        let myID = localStorage.getItem('laga_player_id');
-        if (!myID) {
-            myID = 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
-            localStorage.setItem('laga_player_id', myID);
+    // LOGIKA ID UNIK OTOMATIS
+    let myID = localStorage.getItem('laga_player_id');
+    if (!myID) {
+        myID = 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('laga_player_id', myID);
+    }
+    
+    // Memastikan teks ID berubah dari "MEMUAT ID..." menjadi ID asli
+    document.getElementById('playerID').innerText = myID;
+
+    const myRef = ref(db, 'users/' + myID);
+    let myBalance = 0;
+
+    // Sinkronisasi Saldo Real-time
+    onValue(myRef, (snap) => {
+        if (!snap.exists()) {
+            set(myRef, { balance: 0 }); 
+        } else {
+            myBalance = snap.val().balance || 0;
+            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
         }
-        document.getElementById('playerID').innerText = myID;
+    }, (error) => {
+        console.error("Firebase Error:", error);
+        if(error.message.includes("permission_denied")) {
+            Swal.fire('Eror Rules', 'Database masih terkunci! Ubah Rules di Firebase jadi true.', 'error');
+        }
+    });
 
-        const myRef = ref(db, 'users/' + myID);
-        let myBalance = 0;
+    window.placeBet = (side) => {
+        const amtInput = document.getElementById('amt' + side);
+        const amt = parseInt(amtInput.value);
+        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
+        
+        update(myRef, { balance: myBalance - amt });
+        amtInput.value = ""; // Kosongkan input setelah bet
+        Swal.fire('Berhasil', `Taruhan ${side} sebesar Rp ${amt.toLocaleString()} diterima!`, 'success');
+    };
+</script>
 
-        // Sinkronisasi Saldo Real-time
-        onValue(myRef, (snap) => {
-            if (!snap.exists()) {
-                set(myRef, { balance: 0 }); // Buat data baru di DB jika belum ada
-            } else {
-                myBalance = snap.val().balance;
-                document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
-            }
-        });
-
-        window.placeBet = (side) => {
-            const amt = parseInt(document.getElementById('amt' + side).value);
-            if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
-            
-            update(myRef, { balance: myBalance - amt });
-            Swal.fire('Berhasil', `Taruhan ${side} sebesar Rp ${amt.toLocaleString()} diterima!`, 'success');
-        };
-    </script>
 </body>
 </html>
