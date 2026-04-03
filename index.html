@@ -3,129 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200"> 
-    <title>ELITE LAGA PRO | THE ARENA</title>
+    <title>ELITE LAGA PRO | ONLINE ARENA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+      // GANTI DENGAN CONFIG FIREBASE KAMU SENDIRI
+      const firebaseConfig = {
+        apiKey: "ISI_API_KEY_KAMU",
+        authDomain: "ISI_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://ISI_PROJECT_ID-default-rtdb.firebaseio.com",
+        projectId: "ISI_PROJECT_ID",
+        storageBucket: "ISI_PROJECT_ID.appspot.com",
+        messagingSenderId: "12345678",
+        appId: "1:12345678:web:abcdef"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // --- LOGIKA SALDO ONLINE ---
+      let userId = "user_123"; // ID unik untuk tes
+      let balance = 10000000;
+      let currentBet = null;
+
+      // Ambil Saldo dari Database Cloud
+      onValue(ref(db, 'users/' + userId), (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+              balance = data.balance;
+              document.getElementById('balanceTxt').innerText = `Rp ${balance.toLocaleString('id-ID')}`;
+          } else {
+              // Jika user baru, buat data di cloud
+              set(ref(db, 'users/' + userId), { balance: 10000000 });
+          }
+      });
+
+      // MENDENGARKAN SINYAL MENANG DARI ADMIN (REALTIME)
+      onValue(ref(db, 'match/result'), (snapshot) => {
+          const winner = snapshot.val();
+          if (winner && currentBet) {
+              if (currentBet.side === winner) {
+                  let winAmt = currentBet.amount * 2;
+                  balance += winAmt;
+                  update(ref(db, 'users/' + userId), { balance: balance });
+                  confetti({ particleCount: 200, spread: 70 });
+                  Swal.fire({ title: '🎉 MENANG!', text: `+ Rp ${winAmt.toLocaleString()}`, icon: 'success', background: '#020617', color: '#fff' });
+              } else {
+                  Swal.fire({ title: '💀 KALAH', text: 'Jagoanmu Tumbang!', icon: 'error', background: '#020617', color: '#fff' });
+              }
+              currentBet = null;
+          }
+      });
+
+      window.placeBet = (side) => {
+          const amt = parseInt(document.getElementById('amt' + side).value);
+          if (amt > balance || !amt) return alert("Saldo tidak cukup!");
+          balance -= amt;
+          currentBet = { side, amount: amt };
+          update(ref(db, 'users/' + userId), { balance: balance });
+          Swal.fire('Bet Placed!', 'Menunggu hasil admin...', 'info');
+      };
+    </script>
+
     <style>
-        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; width: 1200px; margin: 0 auto; overflow-x: hidden; }
+        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; width: 1200px; margin: 0 auto; overflow-x: hidden; padding: 40px; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass-premium { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .neon-blue-card { border-bottom: 5px solid #3b82f6; box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.4); }
-        .neon-red-card { border-bottom: 5px solid #ef4444; box-shadow: 0 10px 40px -10px rgba(239, 68, 68, 0.4); }
-        .video-box { width: 100%; height: 450px; position: relative; border-radius: 40px; overflow: hidden; margin-top: 40px; border: 1px solid rgba(255,255,255,0.1); }
-        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
-        .swal2-popup-custom { border-radius: 2rem !important; border: 1px solid rgba(255,255,255,0.1) !important; font-family: 'Orbitron', sans-serif !important; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .neon-blue { border-bottom: 5px solid #3b82f6; }
+        .neon-red { border-bottom: 5px solid #ef4444; }
+        .video-box { width: 100%; height: 400px; border-radius: 40px; overflow: hidden; margin: 40px 0; position: relative; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
     </style>
 </head>
-<body class="p-10">
-
-    <nav class="flex justify-between items-center mb-12 glass-premium p-8 rounded-[2.5rem]">
-        <div class="flex items-center gap-5">
-            <div class="h-14 w-14 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.3)]">
-                <span class="text-white font-black text-2xl font-orbitron">L</span>
-            </div>
-            <div>
-                <h1 class="font-orbitron text-3xl font-black tracking-[0.2em] italic">LAGA PRO</h1>
-                <div class="flex items-center gap-2 mt-1">
-                    <span class="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Global Arena Live</span>
-                </div>
-            </div>
-        </div>
-        <div class="glass-premium px-10 py-4 rounded-3xl border-l-4 border-yellow-500">
-            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.2em] mb-1">Vault Balance</p>
-            <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-yellow-400 italic">Rp 0</h2>
+<body>
+    <nav class="flex justify-between items-center mb-10 glass p-8 rounded-[2.5rem]">
+        <h1 class="font-orbitron text-3xl font-black italic tracking-widest text-yellow-500">LAGA PRO ONLINE</h1>
+        <div class="glass px-10 py-3 rounded-2xl border-l-4 border-yellow-500">
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Saldo Cloud</p>
+            <h2 id="balanceTxt" class="text-2xl font-orbitron font-black text-yellow-400 italic text-right">Rp 0</h2>
         </div>
     </nav>
 
-    <div class="grid grid-cols-2 gap-12 mb-10">
-        <div class="glass-premium p-12 rounded-[3.5rem] text-center neon-blue-card transition-all hover:scale-[1.03]">
-            <div class="mb-8 rounded-[2rem] h-80 bg-slate-900/50 flex items-center justify-center relative overflow-hidden">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=BlueHero" class="h-60 z-10 animate__animated animate__pulse animate__infinite">
-                <div class="absolute inset-0 opacity-5 font-black text-[150px] font-orbitron -bottom-16">A</div>
-            </div>
-            <h3 class="text-3xl font-orbitron font-black mb-6 tracking-wider">SATRIA BIRU</h3>
-            <div class="bg-black/50 p-5 rounded-2xl mb-8 border border-white/5 flex justify-between">
-                <span class="text-slate-400 font-bold italic uppercase text-xs">Payout Ratio</span>
-                <span class="text-blue-400 font-black font-orbitron text-xl">2.0x</span>
-            </div>
-            <input type="number" id="amtA" class="w-full bg-slate-950/80 border border-slate-800 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-blue-400 outline-none focus:border-blue-500 transition-all" placeholder="0.00">
-            <button onclick="bet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-black font-orbitron text-xl tracking-widest shadow-xl shadow-blue-900/30 active:scale-95 transition-all uppercase">Confirm Pick A</button>
+    <div class="grid grid-cols-2 gap-10">
+        <div class="glass p-10 rounded-[3.5rem] text-center neon-blue">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Blue" class="h-48 mx-auto mb-6">
+            <h3 class="text-2xl font-orbitron font-black mb-6">SATRIA BIRU</h3>
+            <input type="number" id="amtA" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold" placeholder="Rp 0">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron tracking-widest uppercase">Confirm Pick A</button>
         </div>
 
-        <div class="glass-premium p-12 rounded-[3.5rem] text-center neon-red-card transition-all hover:scale-[1.03]">
-            <div class="mb-8 rounded-[2rem] h-80 bg-slate-900/50 flex items-center justify-center relative overflow-hidden">
-                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=RedDragon" class="h-60 z-10 animate__animated animate__pulse animate__infinite">
-                <div class="absolute inset-0 opacity-5 font-black text-[150px] font-orbitron -bottom-16">B</div>
-            </div>
-            <h3 class="text-3xl font-orbitron font-black mb-6 tracking-wider">NAGA MERAH</h3>
-            <div class="bg-black/50 p-5 rounded-2xl mb-8 border border-white/5 flex justify-between">
-                <span class="text-slate-400 font-bold italic uppercase text-xs">Payout Ratio</span>
-                <span class="text-red-400 font-black font-orbitron text-xl">2.0x</span>
-            </div>
-            <input type="number" id="amtB" class="w-full bg-slate-950/80 border border-slate-800 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-red-400 outline-none focus:border-red-500 transition-all" placeholder="0.00">
-            <button onclick="bet('B')" class="w-full bg-red-600 hover:bg-red-500 py-6 rounded-2xl font-black font-orbitron text-xl tracking-widest shadow-xl shadow-red-900/30 active:scale-95 transition-all uppercase">Confirm Pick B</button>
+        <div class="glass p-10 rounded-[3.5rem] text-center neon-red">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Red" class="h-48 mx-auto mb-6">
+            <h3 class="text-2xl font-orbitron font-black mb-6">NAGA MERAH</h3>
+            <input type="number" id="amtB" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold" placeholder="Rp 0">
+            <button onclick="bet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron tracking-widest uppercase">Confirm Pick B</button>
         </div>
     </div>
 
     <div class="video-box">
-        <video autoplay muted loop playsinline>
-            <source src="36577.mp4" type="video/mp4">
-        </video>
-        <div class="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent flex flex-col justify-end p-12 items-center">
-            <h4 class="text-3xl font-orbitron font-black italic tracking-[0.5em] text-white/80 animate__animated animate__fadeInUp">LIVE STREAM ARENA</h4>
-            <p class="text-yellow-500 font-bold uppercase tracking-widest text-xs mt-3 animate__animated animate__fadeInUp animate__delay-1s">Waiting for admin to reveal the result...</p>
-        </div>
+        <video autoplay muted loop playsinline><source src="36577.mp4" type="video/mp4"></video>
     </div>
-
-    <script>
-        let balance = parseInt(localStorage.getItem('mega_balance')) || 10000000;
-        let currentBet = JSON.parse(localStorage.getItem('mega_bet')) || null;
-        const bc = new BroadcastChannel('laga_premium');
-
-        function sync() {
-            document.getElementById('balanceTxt').innerText = `Rp ${balance.toLocaleString('id-ID')}`;
-            localStorage.setItem('mega_balance', balance);
-            localStorage.setItem('mega_bet', JSON.stringify(currentBet));
-        }
-
-        function bet(p) {
-            const val = parseInt(document.getElementById('amt' + p).value);
-            if(!val || val <= 0 || val > balance) return Swal.fire({ title: 'ERROR', text: 'Saldo tidak cukup!', icon: 'error', background: '#0f172a', color: '#fff', customClass: { popup: 'swal2-popup-custom' } });
-            if(currentBet) return Swal.fire({ title: 'LIMIT', text: 'Selesaikan laga saat ini!', icon: 'warning', background: '#0f172a', color: '#fff', customClass: { popup: 'swal2-popup-custom' } });
-
-            balance -= val;
-            currentBet = { p, val };
-            sync();
-            Swal.fire({ title: 'BET PLACED', text: `Memilih ${p === 'A' ? 'Satria Biru' : 'Naga Merah'}`, icon: 'success', background: '#0f172a', color: '#fff', showConfirmButton: false, timer: 1500, customClass: { popup: 'swal2-popup-custom' } });
-        }
-
-        bc.onmessage = (e) => {
-            if(e.data.type === 'RESULT' && currentBet) {
-                if(currentBet.p === e.data.winner) {
-                    let win = currentBet.val * 2;
-                    balance += win;
-                    confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#fbbf24', '#3b82f6', '#ffffff'] });
-                    Swal.fire({
-                        title: '🎉 VICTORY!',
-                        html: `<p style="color: #60a5fa; margin-bottom: 10px;">Jagoanmu Berhasil Menang!</p><h2 style="font-size: 2.5em; color: #fbbf24; font-weight: 900;">+ Rp ${win.toLocaleString()}</h2>`,
-                        icon: 'success', background: '#020617', color: '#fff', customClass: { popup: 'swal2-popup-custom' }
-                    });
-                } else {
-                    Swal.fire({
-                        title: '💀 DEFEAT',
-                        html: `<p style="color: #ef4444;">Jagoanmu Tumbang di Arena!</p>`,
-                        icon: 'error', background: '#020617', color: '#fff', customClass: { popup: 'swal2-popup-custom' }
-                    });
-                }
-                currentBet = null;
-                sync();
-            }
-        };
-        sync();
-    </script>
 </body>
 </html>
