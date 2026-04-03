@@ -6,104 +6,93 @@
     <title>ELITE LAGA PRO | OFFICIAL ARENA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: #f8fafc; font-family: sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .main-container { width: 100%; max-width: 1100px; }
+        body { background: #020617; color: #f8fafc; font-family: sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Robot Styling & Glow */
-        .robot-box { position: relative; height: 250px; display: flex; align-items: center; justify-content: center; overflow: visible; }
-        .robot-img { 
-            height: 220px; object-fit: contain; 
-            animation: float 3s ease-in-out infinite; 
-            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5)); 
+        /* Background Efek Agar Tidak Polos */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+            z-index: -1;
         }
-        .robot-red { filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); }
+
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        
+        /* Robot Styling - Menggunakan filter cerah agar muncul */
+        .robot-img { 
+            height: 240px; width: auto; object-fit: contain; 
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.5));
+        }
+        .robot-red { filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.5)); }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
         }
 
-        /* Video Area & Intro */
-        .video-container { 
-            position: relative; width: 100%; height: 350px; 
-            border-radius: 30px; overflow: hidden; margin-top: 30px;
-            border: 2px solid rgba(255,255,255,0.05);
+        /* Video / TikTok Container */
+        .video-wrapper {
+            position: relative; width: 100%; border-radius: 30px; 
+            overflow: hidden; border: 2px solid rgba(255,255,255,0.1);
+            background: #000; height: 500px;
         }
-        .intro-overlay {
-            position: absolute; inset: 0; background: #000; z-index: 20;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: fadeOut 3s forwards 1s;
+
+        /* Scanning Animation */
+        .scan-overlay {
+            position: absolute; inset: 0; z-index: 10;
+            background: #020617; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            animation: fadeOut 2.5s forwards 1.5s;
         }
-        .scan-line {
-            width: 100%; height: 2px; background: #fbbf24;
-            position: absolute; top: 0; animation: scanning 2s linear infinite;
-        }
-        @keyframes scanning { from { top: 0; } to { top: 100%; } }
+        .line { width: 100%; height: 3px; background: #fbbf24; position: absolute; animation: scan 2s infinite; }
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
         @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
-
-        /* Utilities */
-        .btn-blue { background: linear-gradient(to bottom, #3b82f6, #1d4ed8); }
-        .btn-red { background: linear-gradient(to bottom, #ef4444, #b91c1c); }
     </style>
 </head>
-<body>
+<body class="flex justify-center">
 
-<div class="main-container">
-    <nav class="glass p-6 rounded-[2rem] flex justify-between items-center mb-8 border-t-2 border-yellow-500/50">
+<div class="w-full max-w-[1000px]">
+    <nav class="glass p-5 rounded-[2.5rem] flex justify-between items-center mb-6 border-t-2 border-yellow-500/50 shadow-yellow-500/10 shadow-2xl">
         <div class="flex items-center gap-4">
-            <div class="h-12 w-12 bg-yellow-500 rounded-xl flex items-center justify-center text-black font-black text-2xl font-orbitron">E</div>
+            <div class="h-12 w-12 bg-yellow-500 rounded-2xl flex items-center justify-center text-black font-black text-2xl font-orbitron shadow-lg">E</div>
             <div>
-                <h2 id="playerID" class="font-orbitron text-lg font-bold tracking-tighter">MEMUAT...</h2>
-                <p class="text-[9px] text-green-400 font-bold tracking-[0.3em] animate-pulse">ARENA LIVE</p>
+                <h2 id="playerID" class="font-orbitron text-base font-bold tracking-widest text-white uppercase">PLAYER-LOADING</h2>
+                <p class="text-[8px] text-green-400 font-bold tracking-[0.4em] animate-pulse uppercase">Arena Live Connection</p>
             </div>
         </div>
-        <div class="text-right">
-            <p class="text-[9px] text-slate-500 font-bold uppercase">CREDITS</p>
-            <h2 id="balanceTxt" class="text-2xl font-orbitron font-black text-yellow-400">Rp 0</h2>
+        <div class="text-right px-4 border-l border-white/10">
+            <p class="text-[8px] text-slate-500 font-bold uppercase mb-1">Total Credits</p>
+            <h2 id="balanceTxt" class="text-xl font-orbitron font-black text-yellow-400">Rp 0</h2>
         </div>
     </nav>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <div class="glass p-8 rounded-[3rem] text-center border-b-4 border-blue-500">
-            <div class="robot-box">
-                <img src="https://www.pngmart.com/files/11/Sci-Fi-Robot-PNG-Photos.png" class="robot-img" alt="Shotgun Bot">
-            </div>
-            <h3 class="text-xl font-orbitron font-black text-blue-400 mb-4 tracking-widest uppercase">STRIKER - SHOTGUN</h3>
-            <input type="number" id="amtA" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl mb-4 text-center text-xl font-bold outline-none focus:border-blue-500" placeholder="0">
-            <button onclick="placeBet('A')" class="btn-blue w-full py-4 rounded-xl font-orbitron font-bold text-lg active:scale-95 transition-all">PICK UNIT A</button>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="glass p-8 rounded-[3.5rem] text-center border-b-8 border-blue-600 relative overflow-hidden group">
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-blue-600/10 rounded-full blur-3xl"></div>
+            <img src="https://pngimg.com/d/robot_PNG93.png" class="robot-img mx-auto mb-4" alt="Shotgun Bot">
+            <h3 class="text-lg font-orbitron font-black text-blue-400 mb-4 tracking-tighter uppercase italic">Striker Shotgun</h3>
+            <input type="number" id="amtA" class="w-full bg-slate-900/80 border border-slate-700 p-4 rounded-2xl mb-4 text-center text-xl font-bold text-white focus:border-blue-500 transition-all outline-none" placeholder="0">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-orbitron font-black text-white shadow-lg active:scale-95 transition-all">PICK UNIT A</button>
         </div>
 
-        <div class="glass p-8 rounded-[3rem] text-center border-b-4 border-red-500">
-            <div class="robot-box">
-                <img src="https://www.pngmart.com/files/11/Sci-Fi-Robot-PNG-Free-Download.png" class="robot-img robot-red" alt="Sniper Bot">
-            </div>
-            <h3 class="text-xl font-orbitron font-black text-red-400 mb-4 tracking-widest uppercase">HUNTER - SNIPER</h3>
-            <input type="number" id="amtB" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl mb-4 text-center text-xl font-bold outline-none focus:border-red-500" placeholder="0">
-            <button onclick="placeBet('B')" class="btn-red w-full py-4 rounded-xl font-orbitron font-bold text-lg active:scale-95 transition-all">PICK UNIT B</button>
+        <div class="glass p-8 rounded-[3.5rem] text-center border-b-8 border-red-600 relative overflow-hidden group">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-red-600/10 rounded-full blur-3xl"></div>
+            <img src="https://pngimg.com/d/robot_PNG18.png" class="robot-img robot-red mx-auto mb-4" alt="Sniper Bot">
+            <h3 class="text-lg font-orbitron font-black text-red-400 mb-4 tracking-tighter uppercase italic">Hunter Sniper</h3>
+            <input type="number" id="amtB" class="w-full bg-slate-900/80 border border-slate-700 p-4 rounded-2xl mb-4 text-center text-xl font-bold text-white focus:border-red-500 transition-all outline-none" placeholder="0">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-orbitron font-black text-white shadow-lg active:scale-95 transition-all">PICK UNIT B</button>
         </div>
-
     </div>
 
-    <div class="video-container shadow-2xl">
-        <div class="intro-overlay">
-            <div class="scan-line"></div>
-            <h1 class="font-orbitron text-4xl font-black text-yellow-500 italic tracking-[0.5em] mb-2">SCANNING ARENA</h1>
-            <p class="text-[10px] tracking-[1em] text-white/50">INITIALIZING COMBAT STREAM...</p>
+    <div class="video-wrapper shadow-2xl mb-10">
+        <div class="scan-overlay">
+            <div class="line"></div>
+            <h1 class="font-orbitron text-2xl text-yellow-500 italic font-black animate-pulse uppercase tracking-[0.3em]">Link Arena Sedang Dimuat</h1>
         </div>
-
-        <video autoplay muted loop class="w-full h-full object-cover opacity-40">
-            <source src="36577.mp4" type="video/mp4">
-        </video>
-        <div class="absolute top-6 left-6 flex items-center gap-2">
-            <span class="h-2 w-2 bg-red-600 rounded-full animate-ping"></span>
-            <span class="text-xs font-bold tracking-widest text-white/80">LIVE FEED</span>
-        </div>
+        <iframe src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 </div>
 
@@ -138,14 +127,12 @@
     onValue(ref(db, 'match/result'), (snap) => {
         const winner = snap.val();
         if (!winner) return;
-
         const side = localStorage.getItem('last_side');
         const amt = parseInt(localStorage.getItem('last_amt') || 0);
 
         if (side === winner && amt > 0) {
             update(myRef, { balance: myBalance + (amt * 2) });
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            Swal.fire({ title: 'WINNER! 🏆', text: 'Kredit Berhasil Diambil!', icon: 'success', background: '#020617', color: '#fbbf24' });
+            Swal.fire({ title: 'WINNER! 🏆', text: 'Saldo Berhasil Update!', icon: 'success', background: '#020617', color: '#fbbf24' });
         } else if (side) {
             Swal.fire({ title: 'DEFEAT', text: 'Unit Hancur!', icon: 'error', background: '#020617', color: '#ef4444' });
         }
@@ -156,7 +143,6 @@
     window.placeBet = (side) => {
         const amt = parseInt(document.getElementById('amt' + side).value);
         if (!amt || amt > myBalance) return Swal.fire('Error', 'Kredit tidak cukup!', 'error');
-        
         localStorage.setItem('last_side', side);
         localStorage.setItem('last_amt', amt);
         update(myRef, { balance: myBalance - amt });
