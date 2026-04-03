@@ -3,94 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>ELITE LAGA | ARENA LIVE HD</title>
+    <title>WARZONE LAGA | CYBER ARENA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; width: 1200px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        body { background: #020617; color: white; width: 1200px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; overflow: hidden; }
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         
-        /* Neon Effects */
-        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.6); }
-        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 15px 40px -10px rgba(239, 68, 68, 0.6); }
-        .neon-gold { border-top: 4px solid #eab308; box-shadow: 0 15px 40px -10px rgba(234, 179, 8, 0.4); }
+        /* Neon Team Colors */
+        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 15px 50px -10px rgba(59, 130, 246, 0.5); }
+        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 15px 50px -10px rgba(239, 68, 68, 0.5); }
         
-        /* Robot Avatar Placeholder */
-        .robot-av { background-size: cover; background-position: center; border: 2px solid #fff; }
-        
-        /* Bot Notification Animation */
-        .bot-notif { animation: slideIn 0.5s ease-out; }
-        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        
-        /* HD Video Text Effect */
-        .neon-text-gold { color: #eab308; text-shadow: 0 0 10px #eab308, 0 0 20px #ca8a04, 0 0 30px #ca8a04; }
+        /* Robot Animation: Idle Breath */
+        .robot-img { 
+            width: 180px; height: 180px; object-fit: contain;
+            animation: breathe 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
+        }
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+
+        /* Intro Animation for Live Stream */
+        .intro-text {
+            animation: glitch 1s linear infinite, zoomIn 0.8s ease-out forwards;
+            text-shadow: 0 0 20px #eab308;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(3); opacity: 0; letter-spacing: 2em; }
+            to { transform: scale(1); opacity: 1; letter-spacing: 0.5em; }
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="flex justify-between items-center mb-6 glass p-6 rounded-[2.5rem] neon-gold border-white/5">
-        <div class="flex items-center gap-5">
-            <div class="h-14 w-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-2xl flex items-center justify-center font-black text-black text-2xl font-orbitron shadow-lg">L</div>
+    <nav class="flex justify-between items-center mb-8 glass p-6 rounded-[2.5rem] border-t-2 border-yellow-500/50 shadow-2xl">
+        <div class="flex items-center gap-4">
+            <div class="h-14 w-14 bg-yellow-500 rounded-2xl flex items-center justify-center font-black text-black text-2xl font-orbitron shadow-[0_0_20px_rgba(234,179,8,0.5)]">W</div>
             <div>
-                <h2 id="playerID" class="font-orbitron text-xl font-black text-white italic uppercase tracking-wider">MEMUAT ID...</h2>
-                <p class="text-[10px] text-green-500 font-bold tracking-[0.4em] animate-pulse">STATUS: LIVE CONNECTED</p>
+                <h2 id="playerID" class="font-orbitron text-xl font-black text-white tracking-widest uppercase">MEMUAT ID...</h2>
+                <div class="flex items-center gap-2">
+                    <span class="h-1.5 w-1.5 bg-green-500 rounded-full animate-ping"></span>
+                    <p class="text-[9px] text-green-500 font-bold tracking-[0.2em]">ENCRYPTED CONNECTION</p>
+                </div>
             </div>
         </div>
         <div class="glass px-10 py-3 rounded-3xl border-r-4 border-yellow-500 text-right">
-            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">SALDO ANDA</p>
+            <p class="text-[9px] text-slate-500 font-bold uppercase mb-1">CREDITS AVAILABLE</p>
             <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-yellow-400 italic">Rp 0</h2>
         </div>
     </nav>
 
-    <div class="grid grid-cols-3 gap-6">
-        <div class="col-span-1 glass rounded-[2.5rem] p-6 h-[550px] flex flex-col border-l-4 border-yellow-500/30 border-white/5">
-            <h3 class="font-orbitron text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase italic">Aktivitas Arena</h3>
-            <div id="botLogs" class="space-y-3 overflow-hidden flex-1">
-                </div>
+    <div class="grid grid-cols-2 gap-10 mb-10">
+        
+        <div class="glass p-10 rounded-[4rem] text-center neon-blue flex flex-col items-center group">
+            <img src="https://files.catbox.moe/k3i185.png" alt="Shotgun Bot" class="robot-img mb-4">
+            <h3 class="text-2xl font-orbitron font-black text-blue-400 tracking-widest mb-6">STRIKER A (SHOTGUN)</h3>
+            <input type="number" id="amtA" class="w-full bg-slate-950/50 border border-blue-900/50 p-5 rounded-2xl mb-6 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-blue-400 transition-all" placeholder="BET AMOUNT">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron text-xl shadow-lg shadow-blue-900/40 hover:bg-blue-500 active:scale-95 transition-all">PICK TEAM A</button>
         </div>
 
-        <div class="col-span-2 space-y-6">
-            <div class="grid grid-cols-2 gap-6">
-                <div class="glass p-8 rounded-[3rem] neon-blue relative">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="h-16 w-16 rounded-full robot-av shadow-xl border-blue-500" style="background-image: url('https://i.pravatar.cc/150?u=bot_blue')"></div>
-                        <div>
-                            <h3 class="text-2xl font-orbitron font-black text-blue-400 tracking-wider">SATRIA BIRU</h3>
-                            <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.3em]">ARENA PLAYER (A)</p>
-                        </div>
-                    </div>
-                    <input type="number" id="amtA" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
-                    <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-xl font-black font-orbitron hover:bg-blue-500 transition active:scale-95 text-lg">PICK A</button>
-                </div>
+        <div class="glass p-10 rounded-[4rem] text-center neon-red flex flex-col items-center group">
+            <img src="https://files.catbox.moe/67x0wz.png" alt="Sniper Bot" class="robot-img mb-4">
+            <h3 class="text-2xl font-orbitron font-black text-red-400 tracking-widest mb-6">HUNTER B (SNIPER)</h3>
+            <input type="number" id="amtB" class="w-full bg-slate-950/50 border border-red-900/50 p-5 rounded-2xl mb-6 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-red-400 transition-all" placeholder="BET AMOUNT">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron text-xl shadow-lg shadow-red-900/40 hover:bg-red-500 active:scale-95 transition-all">PICK TEAM B</button>
+        </div>
+    </div>
 
-                <div class="glass p-8 rounded-[3rem] neon-red relative">
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="h-16 w-16 rounded-full robot-av shadow-xl border-red-500" style="background-image: url('https://i.pravatar.cc/150?u=bot_red')"></div>
-                        <div>
-                            <h3 class="text-2xl font-orbitron font-black text-red-400 tracking-wider">NAGA MERAH</h3>
-                            <p class="text-[9px] text-slate-500 uppercase font-bold tracking-[0.3em]">ARENA PLAYER (B)</p>
-                        </div>
-                    </div>
-                    <input type="number" id="amtB" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-xl font-orbitron font-bold text-white outline-none" placeholder="0.00">
-                    <button onclick="placeBet('B')" class="w-full bg-red-600 py-5 rounded-xl font-black font-orbitron hover:bg-red-500 transition active:scale-95 text-lg">PICK B</button>
-                </div>
-            </div>
-
-            <div class="rounded-[2.5rem] overflow-hidden border border-white/5 relative h-64 shadow-2xl bg-black">
-                <video autoplay muted loop class="w-full h-full object-cover opacity-30">
-                    <source src="36577.mp4" type="video/mp4">
-                </video>
-                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none p-6">
-                    <p class="text-[10px] text-yellow-500/50 uppercase font-bold tracking-[1.5em] mb-3">GRAND ARENA LAGA PRO</p>
-                    <h1 class="font-orbitron font-black text-5xl uppercase italic neon-text-gold tracking-tighter">THE FINAL SHOWDOWN</h1>
-                    <div class="flex items-center gap-3 mt-4">
-                        <span class="h-2 w-2 bg-red-600 rounded-full animate-pulse"></span>
-                        <p class="text-white font-bold text-sm uppercase tracking-widest">LIVE BROADCAST</p>
-                        <span class="h-2 w-2 bg-red-600 rounded-full animate-pulse"></span>
-                    </div>
-                </div>
+    <div class="rounded-[3rem] overflow-hidden border border-white/5 relative h-72 shadow-2xl bg-black">
+        <video autoplay muted loop class="w-full h-full object-cover opacity-20">
+            <source src="36577.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <h1 class="intro-text font-orbitron font-black text-6xl text-yellow-500 uppercase tracking-[0.5em] italic">SHOWDOWN</h1>
+            <div class="mt-4 flex items-center gap-6">
+                <div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-white/50"></div>
+                <p class="text-sm font-bold tracking-[1em] text-white/70">LIVE TRANSMISSION</p>
+                <div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-white/50"></div>
             </div>
         </div>
     </div>
@@ -99,7 +100,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // KONFIGURASI FIREBASE ANDA
     const firebaseConfig = {
         apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
         databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
@@ -109,7 +109,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // ID Unik Otomatis
     let myID = localStorage.getItem('laga_player_id') || 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
     localStorage.setItem('laga_player_id', myID);
     document.getElementById('playerID').innerText = myID;
@@ -117,7 +116,6 @@
     const myRef = ref(db, 'users/' + myID);
     let myBalance = 0;
 
-    // Sinkronisasi Saldo
     onValue(myRef, (snap) => {
         if (!snap.exists()) { set(myRef, { balance: 0 }); }
         else {
@@ -126,7 +124,6 @@
         }
     });
 
-    // Logika Menang/Kalah
     onValue(ref(db, 'match/result'), (snap) => {
         const winner = snap.val();
         if (!winner) return;
@@ -135,45 +132,25 @@
         const lastAmt = parseInt(localStorage.getItem('last_amt') || 0);
 
         if (lastSide === winner && lastAmt > 0) {
-            const winAmt = lastAmt * 2;
-            update(myRef, { balance: myBalance + winAmt });
-            Swal.fire({ title: 'MENANG! 🏆', text: `+ Rp ${winAmt.toLocaleString()}`, icon: 'success', background: '#020617', color: '#fbbf24' });
-        } else if (lastSide && lastSide !== winner) {
-            Swal.fire({ title: 'KALAH 💀', text: 'Coba lagi ronde berikutnya!', icon: 'error', background: '#020617', color: '#ef4444' });
+            update(myRef, { balance: myBalance + (lastAmt * 2) });
+            Swal.fire({ title: 'MISSION ACCOMPLISHED', text: `Target Eliminasi! Hadiah dikirim.`, icon: 'success', background: '#020617', color: '#fbbf24' });
+        } else if (lastSide) {
+            Swal.fire({ title: 'MISSION FAILED', text: 'Unit Hancur. Kembali ke markas!', icon: 'error', background: '#020617', color: '#ef4444' });
         }
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
     });
 
-    // Fungsi Pasang Taruhan
     window.placeBet = (side) => {
-        const amtInput = document.getElementById('amt' + side);
-        const amt = parseInt(amtInput.value);
-        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
+        const amt = parseInt(document.getElementById('amt' + side).value);
+        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Kredit tidak cukup!', 'error');
         
         localStorage.setItem('last_side', side);
         localStorage.setItem('last_amt', amt);
         update(myRef, { balance: myBalance - amt });
-        amtInput.value = "";
-        Swal.fire('Sukses', `Bet ${side} Terpasang!`, 'success');
+        document.getElementById('amt' + side).value = "";
+        Swal.fire('DEPLOYED', `Unit ${side} telah dikirim ke medan tempur!`, 'success');
     };
-
-    // --- SISTEM ROBOT GLOBAL (Notifikasi Sidebar) ---
-    const botNames = ["DewaLaga", "Sultan_88", "KeraSakti", "Player_Pro", "HokiTerus", "Master_Bet"];
-    setInterval(() => {
-        const name = botNames[Math.floor(Math.random() * botNames.length)];
-        const side = Math.random() > 0.5 ? 'A' : 'B';
-        const color = side === 'A' ? 'text-blue-400' : 'text-red-400';
-        const nominal = (Math.floor(Math.random() * 10) + 1) * 50000;
-        
-        const log = document.getElementById('botLogs');
-        const entry = document.createElement('div');
-        entry.className = "glass p-3 rounded-xl text-[10px] bot-notif border-l-2 " + (side === 'A' ? 'border-blue-500' : 'border-red-500');
-        entry.innerHTML = `<span class="text-slate-400">ID: ${name}</span><br><span class="font-bold ${color}">BET ${side}</span> - Rp ${nominal.toLocaleString()}`;
-        
-        log.prepend(entry);
-        if(log.children.length > 7) log.lastChild.remove();
-    }, 4000); // Muncul setiap 4 detik
 </script>
 </body>
 </html>
