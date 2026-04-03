@@ -2,86 +2,95 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, initial-scale=1"> 
-    <title>FREE FIRE ARENA | DESKTOP MODE</title>
+    <meta name="viewport" content="width=1200, initial-value=1"> 
+    <title>FREE FIRE | BERMUDA WARZONE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
-        /* Desktop Mode Constraint */
+        /* MODE DESKTOP FIXED */
         body { 
-            background: #050505; color: #fff; font-family: 'Inter', sans-serif; 
-            margin: 0 auto; width: 1200px; padding: 40px 0;
-            background-image: radial-gradient(circle at top right, #1e1b4b, #050505 50%);
-            overflow-x: hidden;
+            background: #000; color: #fff; font-family: 'Inter', sans-serif; 
+            margin: 0 auto; width: 1200px; padding: 30px 0;
+            /* BACKGROUND BARU: MEDAN PERANG BERMUDA HD */
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.95)), url('https://wallpaperaccess.com/full/2043324.jpg');
+            background-size: cover; background-attachment: fixed; background-position: center;
+            overflow-x: hidden; position: relative;
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .font-bebas { font-family: 'Bebas Neue', cursive; }
 
-        /* Dashboard Saldo Keren */
+        /* Dashboard Saldo Diamond */
         .saldo-card {
             background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            box-shadow: 0 0 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(251, 191, 36, 0.1);
-            border-right: 5px solid #fbbf24;
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.2), inset 0 0 15px rgba(251, 191, 36, 0.1);
             position: relative; overflow: hidden;
         }
-        .diamond-icon {
-            position: absolute; right: -15px; top: -10px; font-size: 80px;
-            color: rgba(255,255,255,0.03); transform: rotate(15deg);
+        .ff-icon {
+            position: absolute; right: -10px; top: -10px; font-size: 80px;
+            color: rgba(255,255,255,0.02); transform: rotate(20deg);
         }
 
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         
-        /* Robot FF Style - Bergerak Halus */
-        .robot-frame { height: 320px; display: flex; align-items: center; justify-content: center; }
-        .robot-ff { 
-            height: 300px; filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.4));
-            animation: breathe 4s ease-in-out infinite;
+        /* KARAKTER FF STYLE - IDLE ANIMATION */
+        .char-frame { height: 380px; display: flex; align-items: flex-end; justify-content: center; position: relative; }
+        .ff-char { 
+            height: 360px; object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+            animation: idleBreath 4s ease-in-out infinite;
         }
-        .robot-red { filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.4)); }
+        .ff-char-red { filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); }
 
-        @keyframes breathe {
-            0%, 100% { transform: translateY(0) scale(1); filter: brightness(1); }
-            50% { transform: translateY(-20px) scale(1.05); filter: brightness(1.2); }
+        @keyframes idleBreath {
+            0%, 100% { transform: translateY(0) scale(1); filter: brightness(1) drop-shadow(0 0 20px currentColor); }
+            50% { transform: translateY(-10px) scale(1.02); filter: brightness(1.2) drop-shadow(0 0 35px currentColor); }
+        }
+
+        /* Smoke effect di bawah karakter agar tidak polos */
+        .smoke-efek {
+            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+            width: 100%; height: 50px; background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 100%);
+            filter: blur(10px); opacity: 0.5;
         }
 
         /* Frame Video RGB Desktop */
         .rgb-frame {
-            position: relative; border-radius: 40px; padding: 6px;
+            position: relative; border-radius: 40px; padding: 8px;
             background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24);
-            --angle: 0deg; animation: rotateBorder 4s linear infinite;
+            --angle: 0deg; animation: rotateBorder 3s linear infinite;
         }
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes rotateBorder { to { --angle: 360deg; } }
         
-        .video-box { background: #000; border-radius: 35px; overflow: hidden; height: 550px; width: 100%; }
+        .video-box { background: #000; border-radius: 32px; overflow: hidden; height: 550px; width: 100%; border: 4px solid #000; }
 
         .btn-action { 
             transition: all 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .btn-action:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="flex justify-between items-center px-10 mb-12">
+    <div class="flex justify-between items-center px-10 mb-10">
         <div class="flex items-center gap-6">
-            <div class="h-20 w-20 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)]">
-                <img src="https://www.freeiconspng.com/uploads/free-fire-logo-png-17.png" class="w-14" alt="Logo">
+            <div class="h-20 w-20 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)] border-2 border-white/20">
+                <img src="https://www.freeiconspng.com/uploads/free-fire-logo-png-17.png" class="w-14" alt="FF Logo">
             </div>
             <div>
                 <h1 id="playerID" class="font-bebas text-5xl tracking-[4px] text-white italic">PLAYER_LOADING</h1>
                 <div class="flex items-center gap-3">
                     <span class="h-2 w-2 bg-green-500 rounded-full animate-ping"></span>
-                    <p class="text-xs font-orbitron font-bold text-green-400 tracking-[3px]">STATUS: ONLINE ARENA</p>
+                    <p class="text-xs font-orbitron font-bold text-green-400 tracking-[3px]">STATUS: BATTLE READY</p>
                 </div>
             </div>
         </div>
 
-        <div class="saldo-card px-12 py-5 rounded-[2rem] min-w-[350px]">
-            <div class="diamond-icon font-bebas">VIP</div>
+        <div class="saldo-card px-12 py-5 rounded-3xl min-w-[380px]">
+            <div class="ff-icon font-bebas">FF</div>
             <p class="text-xs text-yellow-500 font-bold uppercase tracking-widest mb-1">Diamond Balance</p>
             <h2 id="balanceTxt" class="text-4xl font-orbitron font-black text-white italic tracking-tighter">Rp 0</h2>
         </div>
@@ -89,34 +98,34 @@
 
     <div class="px-10 grid grid-cols-12 gap-10">
         
-        <div class="col-span-12 grid grid-cols-2 gap-10">
-            <div class="glass p-10 rounded-[4rem] text-center border-b-[10px] border-blue-600 relative group overflow-hidden">
-                <div class="robot-frame">
-                    <img src="https://pngimg.com/d/robot_PNG93.png" class="robot-ff" alt="Bot A">
-                </div>
-                <h3 class="font-bebas text-4xl text-blue-400 mb-6 tracking-widest italic">STRIKER A (M1887)</h3>
-                <input type="number" id="amtA" class="w-full bg-black/60 border-2 border-blue-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-400" placeholder="0">
-                <button onclick="placeBet('A')" class="btn-action w-full bg-blue-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT A</button>
+        <div class="col-span-6 glass p-10 rounded-[3rem] text-center border-t-[10px] border-blue-600 shadow-blue-600/20 shadow-2xl relative overflow-hidden">
+            <div class="char-frame">
+                <img src="https://i.ibb.co/Xz95m7J/ff-char-a.png" class="ff-char" alt="Unit A">
+                <div class="smoke-efek"></div>
             </div>
-
-            <div class="glass p-10 rounded-[4rem] text-center border-b-[10px] border-red-600 relative group overflow-hidden">
-                <div class="robot-frame">
-                    <img src="https://pngimg.com/d/robot_PNG18.png" class="robot-ff robot-red" alt="Bot B">
-                </div>
-                <h3 class="font-bebas text-4xl text-red-400 mb-6 tracking-widest italic">HUNTER B (AWM)</h3>
-                <input type="number" id="amtB" class="w-full bg-black/60 border-2 border-red-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-400" placeholder="0">
-                <button onclick="placeBet('B')" class="btn-action w-full bg-red-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT B</button>
-            </div>
+            <h3 class="font-bebas text-4xl text-blue-400 mb-6 tracking-widest italic">STRIKER A (Cyborg)</h3>
+            <input type="number" id="amtA" class="w-full bg-black/70 border-2 border-blue-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-400" placeholder="0">
+            <button onclick="placeBet('A')" class="btn-action w-full bg-blue-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT A</button>
         </div>
 
-        <div class="col-span-12 mt-10">
-            <div class="rgb-frame shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+        <div class="col-span-6 glass p-10 rounded-[3rem] text-center border-t-[10px] border-red-600 shadow-red-600/20 shadow-2xl relative overflow-hidden">
+            <div class="char-frame">
+                <img src="https://i.ibb.co/xL1mS5W/ff-char-b.png" class="ff-char ff-char-red" alt="Unit B">
+                <div class="smoke-efek"></div>
+            </div>
+            <h3 class="font-bebas text-4xl text-red-400 mb-6 tracking-widest italic">HUNTER B (Sniper)</h3>
+            <input type="number" id="amtB" class="w-full bg-black/70 border-2 border-red-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-400" placeholder="0">
+            <button onclick="placeBet('B')" class="btn-action w-full bg-red-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT B</button>
+        </div>
+
+        <div class="col-span-12 mt-6 mb-10">
+            <div class="rgb-frame shadow-[0_0_60px_rgba(0,0,0,0.9)]">
                 <div class="video-box relative">
-                    <iframe src="https://youtu.be/FlTkL-L8OQQ?si=UeN5BrdPN8k76VJI?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <iframe src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     
-                    <div class="absolute bottom-10 left-10 flex items-center gap-4 bg-black/60 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
-                        <div class="h-3 w-3 bg-red-600 rounded-full animate-pulse"></div>
-                        <p class="font-bebas text-2xl tracking-widest uppercase">Live Battlefield Feed</p>
+                    <div class="absolute top-8 left-8 flex items-center gap-3 bg-red-700/80backdrop-blur-sm px-5 py-2 rounded-xl border-2 border-white/20 animate-pulse">
+                        <div class="h-3 w-3 bg-white rounded-full"></div>
+                        <p class="font-bebas text-xl tracking-widest uppercase text-white">LIVE BATTLEFIELD FEED</p>
                     </div>
                 </div>
             </div>
