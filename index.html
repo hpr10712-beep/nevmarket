@@ -89,6 +89,14 @@
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes rotateBorder { to { --angle: 360deg; } }
         .video-box { background: #000; border-radius: 35px; overflow: hidden; height: 550px; width: 100%; }
+
+.video-box {
+    background-color: #000; /* Agar tidak muncul putih saat loading */
+    aspect-ratio: 16 / 9;   /* Menjaga bentuk video tetap proporsional */
+    overflow: hidden;
+}
+
+        
     </style>
 </head>
 <body>
@@ -136,8 +144,15 @@
         <div class="col-span-12 mt-4 mb-10">
             <div class="rgb-frame shadow-2xl">
                 <div class="video-box">
-                    <iframe src="https://vt.tiktok.com/ZSHkS7BNL/?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
+    <iframe 
+        src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1&mute=1" 
+        class="w-full h-full" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+    </iframe>
+</div>
+
             </div>
         </div>
     </div>
