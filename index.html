@@ -388,78 +388,61 @@ if(userSession) {
     onValue(ref(db, 'users/' + userSession + '/balance'), (snap) => {
         currentBalance = snap.val() || 0;
         document.getElementById('balanceTxt').innerText = `Rp ${currentBalance.toLocaleString('id-ID')}`;
-    });
+    });<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    onValue(ref(db, 'users/' + userSession + '/logs'), (snap) => {
-        const logs = snap.val();
-        const body = document.getElementById('historyBody');
-        body.innerHTML = "";
-
-        if(logs) {
-            Object.values(logs).reverse().forEach(item => {
-                const colorClass = item.type === 'win' ? 'text-green-400' : item.type === 'lose' ? 'text-red-400' : 'text-blue-400';
-                const sign = item.type === 'win' ? '+' : item.type === 'lose' ? '-' : '';
-
-                body.innerHTML += `
-                <tr>
-                    <td class="p-5 text-slate-400">${item.time}</td>
-                    <td class="p-5 font-bold ${colorClass}">${item.desc}</td>
-                    <td class="p-5 font-bold text-white">${sign} Rp ${item.amount.toLocaleString('id-ID')}</td>
-                    <td class="p-5 text-yellow-500 font-bold">Rp ${item.bal.toLocaleString('id-ID')}</td>
-                </tr>`;
-            });
-        }
-    });
-
-    let lastResult = null;
-
-    onValue(ref(db, 'match/result'), async (snap) => {
-        const winSide = snap.val();
-
-        if(!winSide || !activeBet || winSide === lastResult) return;
-
-        lastResult = winSide;
-
-        if(activeBet.side === winSide) {
-            const winAmt = activeBet.amount * 2;
-            const newBal = currentBalance + winAmt;
-
-            await update(ref(db, 'users/' + userSession), { balance: newBal });
-            addLog(`MENANG: Player ${winSide}`, winAmt, 'win', newBal);
-        } else {
-            addLog(`KALAH: Player ${winSide}`, activeBet.amount, 'lose', currentBalance);
-        }
-
-        activeBet = null;
-        sessionStorage.removeItem('activeBet');
-    });
-}
-
-// BET
-window.placeBet = async (side) => {
-    const amt = parseInt(document.getElementById('amt' + side).value);
-
-    if(!amt || amt <= 0 || amt > currentBalance) {
-        return Swal.fire('Error', 'Nominal tidak valid atau saldo kurang!', 'error');
-    }
-
-    if(activeBet) {
-        return Swal.fire('Limit', 'Selesaikan laga saat ini!', 'warning');
-    }
-
-    const newBal = currentBalance - amt;
-
-    await update(ref(db, 'users/' + userSession), { balance: newBal });
-
-    activeBet = { side, amount: amt };
-    sessionStorage.setItem('activeBet', JSON.stringify(activeBet));
-
-    addLog(`Pasang Taruhan: Player ${side}`, amt, 'bet', newBal);
-
-    document.getElementById('amt' + side).value = '';
+const firebaseConfig = {
+  apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+  authDomain: "mybro-9ba5f.firebaseapp.com",
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+  projectId: "mybro-9ba5f",
 };
-                                                     
-            
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// FIX AUTH
+window.auth = async (mode) => {
+    const u = document.getElementById('logUser').value.toLowerCase().trim();
+    const p = document.getElementById('logPass').value;
+
+    if(!u || !p) {
+        Swal.fire('Error', 'Isi username & password!', 'error');
+        return;
+    }
+
+    try {
+        const snap = await get(ref(db, 'users/' + u));
+        const data = snap.val();
+
+        if(mode === 'reg') {
+            if(data) {
+                Swal.fire('Gagal', 'Username sudah ada!', 'warning');
+            } else {
+                await set(ref(db, 'users/' + u), {
+                    pass: p,
+                    balance: 0
+                });
+                Swal.fire('Berhasil', 'Akun berhasil dibuat!', 'success');
+            }
+        }
+
+        if(mode === 'login') {
+            if(data && data.pass === p) {
+                sessionStorage.setItem('laga_user', u);
+                location.reload();
+            } else {
+                Swal.fire('Error', 'Login gagal!', 'error');
+            }
+        }
+
+    } catch(err) {
+        console.error(err);
+        Swal.fire('Error', 'Database tidak bisa diakses!', 'error');
+    }
+};
+    
 </script>
 </body>
 </html>
