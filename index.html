@@ -3,723 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi Trading Pro</title>
+    <title>Premium Battle Arena</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
-    .header {
-    .header {
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px; /* kecilin jarak */
-    }
-.balance-box, .price-box {
-    flex: 1;
-}
-
-.divider {
-    width: 1px;
-    height: 30px;
-    background: #333;
-    flex-shrink: 0; /* 🔥 biar tidak melebar */
-}
-}
-
-.label {
-    font-size: 10px;
-    color: #777;
-    margin-bottom: 3px;
-    letter-spacing: 0.5px;
-}
-
-/* ANGKA */
-.value {
-    font-size: 15px;
-    font-weight: 600;
-}
-
-/* SALDO ABU */
-.balance {
-    color: #9e9e9e;
-}
-
-/* HARGA HIJAU TUA */
-.price-up {
-    color: #00a86b;
-}
-
-.price-down {
-    color: #ff4444;
-}
-        .balance-box div {
-    font-size: 0.5em; /* lebih kecil */
-    font-weight: 600;
-    color: #00ffcc;
-
-    background: linear-gradient(135deg, #00ffcc, #00c853);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    letter-spacing: 0.5px;
-        }
-        .balance-box span { font-size: 0.8em; color: #aaa; }
-        .balance-box div {
-    font-size: 1.05em;
-    font-weight: 600;
-
-    background: linear-gradient(135deg, #00ffcc, #00c853);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    letter-spacing: 0.5px;
-        }
-        #chart-container {
-    background-color: #1e1e1e;
-
-    /* 🔥 GRID KOTAK-KOTAK */
-    background-image:
-        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-
-    background-size: 25px 25px;
-
-    border-radius: 10px;
-    position: relative;
-    border: 1px solid #333;
-    margin-bottom: 15px;
-}
-        canvas { width: 100%; height: 100%; }
-
-        .trade-info { background: #1e1e1e; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #555; }
-        .profit { color: #00ff88; }
-        .loss { color: #ff4444; }
-
-        .actions { display: flex; gap: 10px; }
-        button { flex: 1; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
-        .btn-buy { background: #00c853; }
-        .btn-sell { background: #ff3d00; }
-        .btn-close { background: #555; margin-top: 10px; width: 100%; }
-
-        .history { margin-top: 20px; font-size: 0.9em; }
-        .history-item { border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
-
-.balance-box, .price-box {
-    flex: 1;
-    min-width: 0; /* 🔥 penting biar tidak overflow */
-}
-        .value {
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;      /* 🔥 tidak turun baris */
-    overflow: hidden;         
-    text-overflow: ellipsis;  /* kalau kepanjangan jadi ... */
-        }
-        
-.price-box {
-    text-align: right;
-}
-
-.balance-box {
-    position: relative;
-    padding: 10px 12px;
-    border-radius: 6px;
-
-    margin-top: 6px; /* 🔥 turun sedikit */
-
-    background-color: #262626;
-
-    background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-
-    background-size: 14px 14px;
-
-    border: 2px solid #555;
-}
-
-/* hapus efek sebelumnya */
-.balance-box::before {
-    display: none;
-            }
-.balance-box::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 8px;
-
-    background: linear-gradient(135deg, rgba(0,255,150,0.1), transparent);
-    opacity: 0.4;
-                       }
-
-.balance-box::before {
-    display: none; /* 🔥 hapus efek glow */
-        }
-        .balance-box::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 8px;
-
-    background: radial-gradient(circle at top left, rgba(0,255,150,0.15), transparent 70%);
-    opacity: 0.6;
-    pointer-events: none;
-        }
-        .balance-box:hover {
-    box-shadow: 0 0 12px rgba(0,255,150,0.2);
-    transition: 0.3s;
-        }
-/* LABEL "SALDO AKUN" */
-.label {
-    color: #ffffff; /* 🔥 jadi putih */
-}
-
-/* RP PUTIH */
-.currency {
-    color: #ffffff;
-    -webkit-text-fill-color: #ffffff; /* penting biar ga kena gradient */
-}
-
-/* ANGKA HIJAU */
-.amount {
-    font-weight: 600;
-
-    background: linear-gradient(135deg, #00ffcc, #00c853);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-        /* TOMBOL ☰ */
-.menu-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px; /* 🔥 pindah ke kanan */
-    left: auto;
-
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 1000;
-
-    background: #1e1e1e;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #333;
-}
-
-/* SIDEBAR */
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: -220px;
-    width: 200px;
-    height: 100%;
-    background: #1e1e1e;
-    border-right: 1px solid #333;
-
-    padding-top: 60px;
-
-    transition: 0.3s;
-    z-index: 999;
-}
-
-/* SAAT AKTIF */
-.side-menu.active {
-    left: 0;
-}
-
-/* ITEM MENU */
-.menu-item {
-    padding: 15px;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-    color: #ccc;
-}
-
-.menu-item:hover {
-    background: #2a2a2a;
-    color: #00ffcc;
-}
-
-        .chart-info {
-    background: #1e1e1e;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 8px;
-    margin-top: 5px;
-
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-
-    font-size: 12px;
-    color: #ccc;
-}
-
-.chart-info div {
-    text-align: center;
-    }
-    
+        body { background: radial-gradient(circle at top, #111827, #000000); color: white; min-h-screen; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5); }
+        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 10px 30px -10px rgba(239, 68, 68, 0.5); }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-10">
 
-    <!-- HAMBURGER -->
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-
-<!-- SIDEBAR MENU -->
-<div id="sideMenu" class="side-menu">
-    <div class="menu-item" onclick="resetData()">Reset Data</div>
-    <div class="menu-item">Profil</div>
-    <div class="menu-item">Seting</div>
-</div>
-    
-<div class="header">
-    <div class="balance-box">
-        <div class="label">SALDO ANDA</div>
-        <div id="balanceDisplay" class="value balance">
-    <span class="currency">Rp</span> 
-    <span class="amount">10.000.000</span>
+    <div class="max-w-5xl mx-auto flex justify-between items-center mb-16 animate__animated animate__fadeInDown">
+        <div>
+            <h1 class="text-4xl font-black italic tracking-tighter text-yellow-500">ELITE LAGA</h1>
+            <div class="flex items-center gap-2 text-xs text-green-500 font-bold uppercase tracking-widest">
+                <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span>
+                Server Live
+            </div>
+        </div>
+        <div class="glass p-4 rounded-2xl border-l-4 border-yellow-500">
+            <p class="text-[10px] text-gray-400 font-bold uppercase">Saldo Tersimpan</p>
+            <h2 id="displayBalance" class="text-2xl font-mono font-black text-white">Rp 0</h2>
         </div>
     </div>
 
-    <div class="divider"></div>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="glass p-8 rounded-[2.5rem] text-center transition hover:scale-[1.02] neon-blue">
+            <div class="h-48 rounded-3xl bg-gradient-to-br from-blue-600/20 to-transparent mb-6 flex items-center justify-center">
+                <span class="text-8xl font-black text-blue-500/30">A</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">SATRIA BIRU</h3>
+            <input type="number" id="inputA" class="w-full bg-black/40 border border-gray-700 p-4 rounded-2xl mb-4 focus:ring-2 focus:ring-blue-500 outline-none text-center font-bold" placeholder="Nominal Rp">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-2xl font-black shadow-lg transition">PICK BLUE (2.0x)</button>
+        </div>
 
-    <div class="price-box" style="text-align:right;">
-        <div class="label">Harga Elavyn Saat Ini                </div>
-        <div id="livePrice" class="value price-up">0</div>
-    </div>
-</div>
-
-    <div id="chart-container">
-        <canvas id="tradingChart"></canvas>
-    </div>
-
-    <div class="chart-info">
-    <div>Open: <span id="openPrice">0</span></div>
-    <div>High: <span id="highPrice">0</span></div>
-    <div>Low: <span id="lowPrice">0</span></div>
-    <div>Close: <span id="closePrice">0</span></div>
-    </div>
-
-    <div id="positionCard" class="trade-info" style="display: none;">
-        <strong>Posisi Terbuka: <span id="posType"></span></strong><br>
-        Harga Beli: <span id="entryPrice">0</span><br>
-        P/L: <span id="plDisplay" class="profit">Rp 0</span>
-        <button class="btn-close" onclick="closePosition()">TUTUP POSISI (TAKE PROFIT/CUT LOSS)</button>
+        <div class="glass p-8 rounded-[2.5rem] text-center transition hover:scale-[1.02] neon-red">
+            <div class="h-48 rounded-3xl bg-gradient-to-br from-red-600/20 to-transparent mb-6 flex items-center justify-center">
+                <span class="text-8xl font-black text-red-500/30">B</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">NAGA MERAH</h3>
+            <input type="number" id="inputB" class="w-full bg-black/40 border border-gray-700 p-4 rounded-2xl mb-4 focus:ring-2 focus:ring-red-500 outline-none text-center font-bold" placeholder="Nominal Rp">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-black shadow-lg transition">PICK RED (2.0x)</button>
+        </div>
     </div>
 
-    <div class="actions" id="mainActions">
-        <button class="btn-buy" onclick="openPosition('BUY')">BELI (LONG)</button>
-        <button class="btn-sell" onclick="openPosition('SELL')">JUAL (SHORT)</button>
-    </div>
-
-    <div class="history">
-        <strong>Riwayat Transaksi:</strong>
-        <div id="historyList"></div>
-    </div>
-
-<script>
-// === INISIALISASI WAJIB (INI YANG KAMU KURANG) ===
-let currentPrice = 50000000000000000000000000000000000000000000000000;
-const canvas = document.getElementById('tradingChart');
-const ctx = canvas.getContext('2d');
-
-// === DATA CANDLE ===
-let candles = [];
-let tick = 0;
-
-// === UPDATE MARKET ===
-function updateMarket() {
-    let velocity = 0;
-let marketState = "SIDEWAYS";
-let stateTime = 0;
-
-function updateMarket() {
-
-    // ================== GANTI MODE MARKET ==================
-    stateTime++;
-
-    if (stateTime > 100) {
-        stateTime = 0;
-
-        const rnd = Math.random();
-
-        if (rnd < 0.4) marketState = "SIDEWAYS";
-        else if (rnd < 0.7) marketState = "UP";
-        else marketState = "DOWN";
-    }
-
-    // ================== LOGIC PERGERAKAN ==================
-let trend = Math.sin(Date.now() / 5000) * 5000;
-const noise = (Math.random() - 0.5) * 5000;
-
-currentPrice += noise + trend;
-    
-if (candles.length === 0) {
-    candles.push({
-        open: currentPrice,
-        high: currentPrice,
-        low: currentPrice,
-        close: currentPrice
-    });
-}
-    
-    if(currentPrice < 1000) currentPrice = 1000;
-
-    document.getElementById('livePrice').innerText =
-        Math.round(currentPrice).toLocaleString('id-ID');
-
-    // buat candle pertama
-    if (candles.length === 0) {
-        candles.push({
-            open: currentPrice,
-            high: currentPrice,
-            low: currentPrice,
-            close: currentPrice
-        });
-    }
-
-    let last = candles[candles.length - 1];
-
-    // update candle terakhir (biar gerak)
-    last.close = currentPrice;
-    if (currentPrice > last.high) last.high = currentPrice;
-    if (currentPrice < last.low) last.low = currentPrice;
-
-    tick++;
-
-    // bikin candle baru tiap beberapa tick
-    if (tick > 10) {
-        candles.push({
-            open: currentPrice,
-            high: currentPrice,
-            low: currentPrice,
-            close: currentPrice
-        });
-        tick = 0;
-    }
-
-    if (candles.length > 40) candles.shift();
-
-    drawChart();
-    calculatePL();
-    saveData(); //
-    }
-// === DRAW CHART ===
-function drawChart() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // 🔥 PADDING AREA (BIAR GA NEMPEL TEPI)
-    const padding = {
-        top: 10,
-        bottom: 10,
-        left: 10,
-        right: 10
-    };
-
-    const chartWidth = canvas.width - padding.left - padding.right;
-    const chartHeight = canvas.height - padding.top - padding.bottom;
-
-    // GRID
-    ctx.strokeStyle = '#222';
-    ctx.lineWidth = 1;
-
-    for (let i = 0; i < chartHeight; i += 40) {
-        ctx.beginPath();
-        ctx.moveTo(padding.left, i + padding.top);
-        ctx.lineTo(canvas.width - padding.right, i + padding.top);
-        ctx.stroke();
-    }
-
-    const allPrices = candles.flatMap(c => [c.high, c.low]);
-    const min = Math.min(...allPrices);
-    const max = Math.max(...allPrices);
-    const range = max - min || 1;
-
-    const candleWidth = chartWidth / candles.length;
-
-    candles.forEach((c, i) => {
-        const x = padding.left + i * candleWidth + candleWidth * 0.2;
-
-        const openY = padding.top + (chartHeight - ((c.open - min) / range * chartHeight));
-        const closeY = padding.top + (chartHeight - ((c.close - min) / range * chartHeight));
-        const highY = padding.top + (chartHeight - ((c.high - min) / range * chartHeight));
-        const lowY = padding.top + (chartHeight - ((c.low - min) / range * chartHeight));
-
-        const isUp = c.close > c.open;
-
-        // WICK
-        ctx.strokeStyle = isUp ? '#00ff88' : '#ff4444';
-        ctx.beginPath();
-        ctx.moveTo(x + candleWidth * 0.3, highY);
-        ctx.lineTo(x + candleWidth * 0.3, lowY);
-        ctx.stroke();
-
-        // BODY
-        ctx.fillStyle = isUp ? '#00c853' : '#ff3d00';
-
-        const bodyHeight = Math.abs(openY - closeY);
-        ctx.fillRect(
-            x,
-            Math.min(openY, closeY),
-            candleWidth * 0.6,
-            bodyHeight < 2 ? 2 : bodyHeight
-        );
-    });
-    }
-
-    function loadData() {
-    const saved = localStorage.getItem('tradingData');
-
-    if (!saved) return;
-
-    const data = JSON.parse(saved);
-
-    balance = data.balance ?? 10000000;
-    position = data.position ?? null;
-    candles = data.candles ?? [];
-    currentPrice = data.currentPrice ?? 50000;
-
-historyData = data.historyData ?? [];
-renderHistory();
-
-    // update tampilan
-    document.getElementById('balanceDisplay').innerText =
-        document.querySelector('#balanceDisplay .amount').innerText =
-    balance.toLocaleString('id-ID');
-    document.getElementById('livePrice').innerText =
-        Math.round(currentPrice).toLocaleString('id-ID');
-
-    if (position) {
-        document.getElementById('positionCard').style.display = 'block';
-        document.getElementById('mainActions').style.display = 'none';
-
-        document.getElementById('posType').innerText = position.type;
-        document.getElementById('entryPrice').innerText =
-            Math.round(position.entry).toLocaleString('id-ID');
-    }
-
-    // 🔥 TAMBAHKAN DI SINI
-    if (candles.length > 0) {
-        drawChart();
-    }
-    }
-    
-
-// === START LOOP ===
-// === DATA TRADING (PINDAH KE ATAS) ===
-let balance = 10000000;
-let position = null;
-let historyData = []; // 🔥 taruh di sini
-
-// === LOAD DATA ===
-loadData();
-
-// === START LOOP ===
-setInterval(updateMarket, 200);
-
-// === BUKA POSISI ===
-function openPosition(type) {
-    if (position) {
-        alert("Selesaikan posisi dulu!");
-        return;
-    }
-
-    const tradeAmount = 1000000;
-
-    if (balance < tradeAmount) {
-        alert("Saldo tidak cukup!");
-        return;
-    }
-
-    balance -= tradeAmount;
-
-    position = {
-        type: type,
-        entry: currentPrice,
-        amount: tradeAmount
-    };
-
-    document.getElementById('balanceDisplay').innerText =
-        "Rp " + balance.toLocaleString('id-ID');
-
-    document.getElementById('positionCard').style.display = 'block';
-    document.getElementById('mainActions').style.display = 'none';
-
-    document.getElementById('posType').innerText = type;
-    document.getElementById('entryPrice').innerText =
-        Math.round(currentPrice).toLocaleString('id-ID');
-saveData(); //
-}
-
-// === HITUNG PROFIT LOSS ===
-function calculatePL() {
-    if (!position) return;
-
-    let diff = (currentPrice - position.entry) / position.entry;
-
-    if (position.type === 'SELL') diff = -diff;
-
-    const pl = position.amount * diff;
-
-    const el = document.getElementById('plDisplay');
-
-    el.innerText =
-        (pl >= 0 ? "+" : "") +
-        "Rp " + Math.round(pl).toLocaleString('id-ID');
-
-    el.className = pl >= 0 ? "profit" : "loss";
-}
-
-// === TUTUP POSISI ===
-function closePosition() {
-    if (!position) return;
-
-    let diff = (currentPrice - position.entry) / position.entry;
-
-    if (position.type === 'SELL') diff = -diff;
-
-    const pl = position.amount * diff;
-    const total = position.amount + pl;
-
-    balance += total;
-
-    // history
-    const historyItem = {
-    type: position.type,
-    pl: Math.round(pl)
-};
-
-historyData.unshift(historyItem);
-renderHistory();
-saveData();
-
-    // reset
-    position = null;
-
-    animateBalance(balance);
-
-    document.getElementById('positionCard').style.display = 'none';
-    document.getElementById('mainActions').style.display = 'flex';
-saveData(); //
-}
-
-    function saveData() {
-    const data = {
-        balance: balance,
-        position: position,
-        candles: candles,
-        currentPrice: currentPrice
-    };
-
-    localStorage.setItem('tradingData', JSON.stringify(data));
-}
-
-    function animateBalance(target) {
-    const el = document.getElementById('balanceDisplay');
-
-    let start = parseInt(el.innerText.replace(/\D/g, '')) || 0;
-    let duration = 500; // durasi animasi (ms)
-    let startTime = null;
-
-    function animate(time) {
-        if (!startTime) startTime = time;
-        let progress = time - startTime;
-
-        let value = Math.floor(start + (target - start) * (progress / duration));
-
-        el.innerText = "Rp " + value.toLocaleString('id-ID');
-
-        if (progress < duration) {
-            requestAnimationFrame(animate);
-        } else {
-            el.innerText = "Rp " + target.toLocaleString('id-ID');
+    <script>
+        // Inisialisasi Data & Saldo (Tersimpan di Browser)
+        let balance = parseInt(localStorage.getItem('laga_balance')) || 1000000;
+        let activeBet = JSON.parse(localStorage.getItem('active_bet')) || null;
+        
+        // Channel Real-time (Saling Bicara antar Tab)
+        const channel = new BroadcastChannel('laga_system');
+
+        function updateUI() {
+            document.getElementById('displayBalance').innerText = `Rp ${balance.toLocaleString()}`;
+            localStorage.setItem('laga_balance', balance);
+            localStorage.setItem('active_bet', JSON.stringify(activeBet));
         }
-    }
 
-    requestAnimationFrame(animate);
-    }
-function resetData() {
-    if (!confirm("Yakin mau reset semua data?")) return;
+        function placeBet(side) {
+            const amount = parseInt(document.getElementById('input' + side).value);
+            if (isNaN(amount) || amount <= 0 || amount > balance) {
+                return Swal.fire('Gagal', 'Saldo tidak cukup atau input salah!', 'error');
+            }
+            if (activeBet) return Swal.fire('Opps', 'Selesaikan laga sebelumnya!', 'warning');
 
-    // hapus localStorage
-    localStorage.removeItem('tradingData');
+            balance -= amount;
+            activeBet = { side, amount };
+            updateUI();
+            Swal.fire('Berhasil', `Taruhan Rp ${amount.toLocaleString()} dipasang!`, 'success');
+        }
 
-    // reset variabel
-    balance = 10000000;
-    position = null;
-    candles = [];
-    historyData = [];
-historyData = [];
-document.getElementById('historyList').innerHTML = "";
-    currentPrice = 50000;
+        // MENERIMA SINYAL OTOMATIS DARI ADMIN
+        channel.onmessage = (event) => {
+            if (event.data.type === 'RESULT' && activeBet) {
+                const winner = event.data.winner;
+                if (activeBet.side === winner) {
+                    const winMoney = activeBet.amount * 2;
+                    balance += winMoney;
+                    Swal.fire({
+                        title: '🎉 JACKPOT!',
+                        text: `Jagoanmu menang! Anda dapat Rp ${winMoney.toLocaleString()}`,
+                        icon: 'success',
+                        background: '#111', color: '#fff'
+                    });
+                } else {
+                    Swal.fire({
+                        title: '💀 KALAH!',
+                        text: `Jagoanmu tumbang. Saldo hangus!`,
+                        icon: 'error',
+                        background: '#111', color: '#fff'
+                    });
+                }
+                activeBet = null;
+                updateUI();
+            }
+        };
 
-    // update tampilan
-    document.getElementById('historyList').innerHTML = "";
-    document.getElementById('positionCard').style.display = 'none';
-    document.getElementById('mainActions').style.display = 'flex';
-
-    animateBalance(balance);
-
-    // kosongkan chart
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-function renderHistory() {
-    const list = document.getElementById('historyList');
-    list.innerHTML = "";
-
-    historyData.forEach(item => {
-        const div = document.createElement('div');
-        div.className = "history-item";
-
-        div.innerHTML = `
-            <span>${item.type}</span>
-            <span class="${item.pl >= 0 ? 'profit' : 'loss'}">
-                ${item.pl.toLocaleString('id-ID')}
-            </span>
-        `;
-
-        list.appendChild(div);
-    });
-}
-function saveData() {
-    const data = {
-        balance: balance,
-        position: position,
-        candles: candles,
-        currentPrice: currentPrice,
-        historyData: historyData // 🔥 tambahan
-    };
-
-    localStorage.setItem('tradingData', JSON.stringify(data));
-}
-    function toggleMenu() {
-    const menu = document.getElementById('sideMenu');
-    menu.classList.toggle('active');
-    }
-
-    function updateChartInfo(){
-    if(candles.length === 0) return;
-
-    let c = candles[candles.length - 1];
-
-    document.getElementById("openPrice").innerText =
-        Math.round(c.open).toLocaleString("id-ID");
-
-    document.getElementById("highPrice").innerText =
-        Math.round(c.high).toLocaleString("id-ID");
-
-    document.getElementById("lowPrice").innerText =
-        Math.round(c.low).toLocaleString("id-ID");
-
-    document.getElementById("closePrice").innerText =
-        Math.round(c.close).toLocaleString("id-ID");
-    }
-    
-</script>
-
+        updateUI();
+    </script>
 </body>
 </html>
