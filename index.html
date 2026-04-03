@@ -318,6 +318,105 @@ if(userSession) {
 
         if(!winSide || !activeBet) return;
         if(winSide === lastResult) return;
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, push, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+  authDomain: "mybro-9ba5f.firebaseapp.com",
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+  projectId: "mybro-9ba5f",
+  storageBucket: "mybro-9ba5f.appspot.com",
+  messagingSenderId: "820948893264",
+  appId: "1:820948893264:web:e58e1a175bc90053335b55"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let userSession = sessionStorage.getItem('laga_user');
+let currentBalance = 0;
+let activeBet = JSON.parse(sessionStorage.getItem('activeBet')) || null;
+
+// AUTH FIX
+window.auth = async (mode) => {
+    const u = document.getElementById('logUser').value.toLowerCase().trim();
+    const p = document.getElementById('logPass').value;
+
+    if(!u || !p) return Swal.fire('Error', 'Data harus diisi lengkap!', 'error');
+
+    const snap = await get(ref(db, 'users/' + u));
+    const data = snap.val();
+
+    if(mode === 'login') {
+        if(data && data.pass === p) {
+            sessionStorage.setItem('laga_user', u);
+            location.reload();
+        } else {
+            Swal.fire('Akses Ditolak', 'Username atau Password salah.', 'error');
+        }
+    } else {
+        if(data) {
+            Swal.fire('Gagal', 'Username sudah terdaftar!', 'warning');
+        } else {
+            await set(ref(db, 'users/' + u), { pass: p, balance: 0 });
+            Swal.fire('Berhasil', 'Akun terdaftar! Silakan Login.', 'success');
+        }
+    }
+};
+
+window.logout = () => {
+    sessionStorage.clear();
+    location.reload();
+};
+
+function addLog(desc, amount, type, bal) {
+    const timeStr = new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' });
+    const logData = { time: timeStr, desc, amount, type, bal };
+
+    push(ref(db, `users/${userSession}/logs`), logData);
+    push(ref(db, `globalLogs`), { ...logData, user: userSession });
+}
+
+// LOGIN STATE
+if(userSession) {
+    document.getElementById('authOverlay').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    document.getElementById('dispUser').innerText = "USER: " + userSession;
+
+    onValue(ref(db, 'users/' + userSession + '/balance'), (snap) => {
+        currentBalance = snap.val() || 0;
+        document.getElementById('balanceTxt').innerText = `Rp ${currentBalance.toLocaleString('id-ID')}`;
+    });
+
+    onValue(ref(db, 'users/' + userSession + '/logs'), (snap) => {
+        const logs = snap.val();
+        const body = document.getElementById('historyBody');
+        body.innerHTML = "";
+
+        if(logs) {
+            Object.values(logs).reverse().forEach(item => {
+                const colorClass = item.type === 'win' ? 'text-green-400' : item.type === 'lose' ? 'text-red-400' : 'text-blue-400';
+                const sign = item.type === 'win' ? '+' : item.type === 'lose' ? '-' : '';
+
+                body.innerHTML += `
+                <tr>
+                    <td class="p-5 text-slate-400">${item.time}</td>
+                    <td class="p-5 font-bold ${colorClass}">${item.desc}</td>
+                    <td class="p-5 font-bold text-white">${sign} Rp ${item.amount.toLocaleString('id-ID')}</td>
+                    <td class="p-5 text-yellow-500 font-bold">Rp ${item.bal.toLocaleString('id-ID')}</td>
+                </tr>`;
+            });
+        }
+    });
+
+    let lastResult = null;
+
+    onValue(ref(db, 'match/result'), async (snap) => {
+        const winSide = snap.val();
+
+        if(!winSide || !activeBet || winSide === lastResult) return;
 
         lastResult = winSide;
 
@@ -327,27 +426,8 @@ if(userSession) {
 
             await update(ref(db, 'users/' + userSession), { balance: newBal });
             addLog(`MENANG: Player ${winSide}`, winAmt, 'win', newBal);
-
-            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
-
-            Swal.fire({
-                title: '🎉 VICTORY!',
-                html: `<h2 style="color:#fbbf24; font-size:2.5em; font-weight:900;">+ Rp ${winAmt.toLocaleString('id-ID')}</h2>`,
-                icon: 'success',
-                background: '#020617',
-                color: '#fff'
-            });
-
         } else {
-            addLog(`KALAH: Player ${winSide} Menang`, activeBet.amount, 'lose', currentBalance);
-
-            Swal.fire({
-                title: '💀 DEFEAT',
-                text: 'Jagoanmu tumbang!',
-                icon: 'error',
-                background: '#020617',
-                color: '#fff'
-            });
+            addLog(`KALAH: Player ${winSide}`, activeBet.amount, 'lose', currentBalance);
         }
 
         activeBet = null;
@@ -355,7 +435,7 @@ if(userSession) {
     });
 }
 
-// PASANG BET (FIX SIMPAN)
+// BET
 window.placeBet = async (side) => {
     const amt = parseInt(document.getElementById('amt' + side).value);
 
@@ -377,17 +457,9 @@ window.placeBet = async (side) => {
     addLog(`Pasang Taruhan: Player ${side}`, amt, 'bet', newBal);
 
     document.getElementById('amt' + side).value = '';
-
-    Swal.fire({
-        title: 'BET PLACED',
-        text: 'Menunggu Admin...',
-        icon: 'success',
-        timer: 1500,
-        showConfirmButton: false,
-        background: '#020617',
-        color: '#fff'
-    });
 };
+                                                     
+            
 </script>
 </body>
 </html>
