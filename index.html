@@ -3,130 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200, initial-value=1"> 
-    <title>FREE FIRE | BERMUDA WARZONE</title>
+    <title>FREE FIRE | ELITE WARZONE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
-        /* MODE DESKTOP FIXED */
         body { 
             background: #000; color: #fff; font-family: 'Inter', sans-serif; 
             margin: 0 auto; width: 1200px; padding: 30px 0;
-            /* BACKGROUND BARU: MEDAN PERANG BERMUDA HD */
-            background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.95)), url('https://wallpaperaccess.com/full/2043324.jpg');
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.98)), url('https://wallpaperaccess.com/full/2043324.jpg');
             background-size: cover; background-attachment: fixed; background-position: center;
-            overflow-x: hidden; position: relative;
+            overflow-x: hidden;
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
         .font-bebas { font-family: 'Bebas Neue', cursive; }
 
-        /* Dashboard Saldo Diamond */
-        .saldo-card {
-            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-            border: 2px solid rgba(251, 191, 36, 0.4);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.2), inset 0 0 15px rgba(251, 191, 36, 0.1);
-            position: relative; overflow: hidden;
+        /* HEADER & PROFILE STYLING */
+        .profile-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 12px 24px 12px 12px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-        .ff-icon {
-            position: absolute; right: -10px; top: -10px; font-size: 80px;
-            color: rgba(255,255,255,0.02); transform: rotate(20deg);
+        .profile-circle {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 3px solid #fbbf24;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2); /* Glow dikurangi */
+        }
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .glass { background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        
-        /* KARAKTER FF STYLE - IDLE ANIMATION */
+        /* Saldo Diamond Styling */
+        .saldo-card {
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-right: 6px solid #fbbf24;
+        }
+
+        /* KARAKTER & ARENA */
+        .glass { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .char-frame { height: 380px; display: flex; align-items: flex-end; justify-content: center; position: relative; }
         .ff-char { 
             height: 360px; object-fit: contain;
-            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+            filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.3)); /* Glow dikurangi */
             animation: idleBreath 4s ease-in-out infinite;
         }
-        .ff-char-red { filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); }
+        .ff-char-red { filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.3)); }
 
         @keyframes idleBreath {
-            0%, 100% { transform: translateY(0) scale(1); filter: brightness(1) drop-shadow(0 0 20px currentColor); }
-            50% { transform: translateY(-10px) scale(1.02); filter: brightness(1.2) drop-shadow(0 0 35px currentColor); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        /* Smoke effect di bawah karakter agar tidak polos */
-        .smoke-efek {
-            position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
-            width: 100%; height: 50px; background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 100%);
-            filter: blur(10px); opacity: 0.5;
-        }
-
-        /* Frame Video RGB Desktop */
+        /* Video Frame */
         .rgb-frame {
-            position: relative; border-radius: 40px; padding: 8px;
+            position: relative; border-radius: 40px; padding: 6px;
             background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24);
-            --angle: 0deg; animation: rotateBorder 3s linear infinite;
+            --angle: 0deg; animation: rotateBorder 4s linear infinite;
         }
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes rotateBorder { to { --angle: 360deg; } }
-        
-        .video-box { background: #000; border-radius: 32px; overflow: hidden; height: 550px; width: 100%; border: 4px solid #000; }
-
-        .btn-action { 
-            transition: all 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-action:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .video-box { background: #000; border-radius: 35px; overflow: hidden; height: 550px; width: 100%; }
     </style>
 </head>
 <body>
 
-    <div class="flex justify-between items-center px-10 mb-10">
-        <div class="flex items-center gap-6">
-            <div class="h-20 w-20 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-3xl flex items-center justify-center shadow-[0_0_40px_rgba(234,179,8,0.3)] border-2 border-white/20">
-                <img src="https://i.ibb.co.com/pqyBmFQ/eedd9bb8-f4d4-488b-86a1-3ff00eb9c3c9.jpg" class="w-14" alt="FF Logo">
+    <div class="flex justify-between items-center px-10 mb-12">
+        <div class="profile-container shadow-2xl">
+            <div class="profile-circle">
+                <img src="https://i.ibb.co.com/pqyBmFQ/eedd9bb8-f4d4-488b-86a1-3ff00eb9c3c9.jpg" alt="FF Logo">
             </div>
             <div>
-                <h1 id="playerID" class="font-bebas text-5xl tracking-[4px] text-white italic">PLAYER_LOADING</h1>
-                <div class="flex items-center gap-3">
-                    <span class="h-2 w-2 bg-green-500 rounded-full animate-ping"></span>
-                    <p class="text-xs font-orbitron font-bold text-green-400 tracking-[3px]">STATUS: BATTLE READY</p>
+                <h1 id="playerID" class="font-bebas text-4xl tracking-widest text-white italic leading-none">PLAYER_LOADING</h1>
+                <div class="flex items-center gap-2 mt-1">
+                    <div class="bg-green-500/20 px-2 py-0.5 rounded border border-green-500/50 flex items-center gap-1.5">
+                        <span class="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                        <p class="text-[10px] font-orbitron font-bold text-green-400 uppercase tracking-widest">BATTLE ONLINE</p>
+                    </div>
                 </div>
+                <p class="text-[9px] text-white/40 font-bold mt-1 tracking-[0.2em] uppercase">UID: 982734102</p>
             </div>
         </div>
 
-        <div class="saldo-card px-12 py-5 rounded-3xl min-w-[380px]">
-            <div class="ff-icon font-bebas">FF</div>
-            <p class="text-xs text-yellow-500 font-bold uppercase tracking-widest mb-1">Diamond Balance</p>
-            <h2 id="balanceTxt" class="text-4xl font-orbitron font-black text-white italic tracking-tighter">Rp 0</h2>
+        <div class="saldo-card px-10 py-5 rounded-2xl min-w-[350px]">
+            <p class="text-xs text-yellow-500 font-bold uppercase tracking-widest mb-1">Diamond Account</p>
+            <h2 id="balanceTxt" class="text-4xl font-orbitron font-black text-white italic">Rp 0</h2>
         </div>
     </div>
 
     <div class="px-10 grid grid-cols-12 gap-10">
-        
-        <div class="col-span-6 glass p-10 rounded-[3rem] text-center border-t-[10px] border-blue-600 shadow-blue-600/20 shadow-2xl relative overflow-hidden">
+        <div class="col-span-6 glass p-10 rounded-[3.5rem] text-center border-t-[8px] border-blue-600 relative overflow-hidden">
             <div class="char-frame">
                 <img src="https://i.ibb.co.com/5hx6y4fN/a3b9d2cd-6c9b-4690-8598-35679ae9cb10.jpg" class="ff-char" alt="Unit A">
-                <div class="smoke-efek"></div>
             </div>
-            <h3 class="font-bebas text-4xl text-blue-400 mb-6 tracking-widest italic">RADZ GT (Cyborg)</h3>
-            <input type="number" id="amtA" class="w-full bg-black/70 border-2 border-blue-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-400" placeholder="0">
-            <button onclick="placeBet('A')" class="btn-action w-full bg-blue-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT A</button>
+            <h3 class="font-bebas text-4xl text-blue-400 mb-6 tracking-widest">RADZ GT (Striker)</h3>
+            <input type="number" id="amtA" class="w-full bg-black/60 border border-white/10 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-500" placeholder="0">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest transition-all">DEPLOY UNIT A</button>
         </div>
 
-        <div class="col-span-6 glass p-10 rounded-[3rem] text-center border-t-[10px] border-red-600 shadow-red-600/20 shadow-2xl relative overflow-hidden">
+        <div class="col-span-6 glass p-10 rounded-[3.5rem] text-center border-t-[8px] border-red-600 relative overflow-hidden">
             <div class="char-frame">
                 <img src="https://i.ibb.co.com/PJRGbMp/771bd209-5182-45b9-8d06-db7a4698d2ba.jpg" class="ff-char ff-char-red" alt="Unit B">
-                <div class="smoke-efek"></div>
             </div>
-            <h3 class="font-bebas text-4xl text-red-400 mb-6 tracking-widest italic">ALYA VM (Sniper)</h3>
-            <input type="number" id="amtB" class="w-full bg-black/70 border-2 border-red-900/50 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-400" placeholder="0">
-            <button onclick="placeBet('B')" class="btn-action w-full bg-red-600 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest">DEPLOY UNIT B</button>
+            <h3 class="font-bebas text-4xl text-red-400 mb-6 tracking-widest">ALYA VM (Hunter)</h3>
+            <input type="number" id="amtB" class="w-full bg-black/60 border border-white/10 p-6 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-500" placeholder="0">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-6 rounded-2xl font-bebas text-3xl text-white uppercase tracking-widest transition-all">DEPLOY UNIT B</button>
         </div>
 
-        <div class="col-span-12 mt-6 mb-10">
-            <div class="rgb-frame shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+        <div class="col-span-12 mt-4 mb-10">
+            <div class="rgb-frame shadow-2xl">
                 <div class="video-box relative">
                     <iframe src="https://www.tiktok.com/player/v1/7488059737937186064?autoplay=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    
-                    <div class="absolute top-8 left-8 flex items-center gap-3 bg-red-700/80backdrop-blur-sm px-5 py-2 rounded-xl border-2 border-white/20 animate-pulse">
-                        <div class="h-3 w-3 bg-white rounded-full"></div>
-                        <p class="font-bebas text-xl tracking-widest uppercase text-white">LIVE BATTLEFIELD FEED</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -145,7 +142,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    let myID = localStorage.getItem('laga_player_id') || 'FF-' + Math.floor(1000 + Math.random() * 9000);
+    let myID = localStorage.getItem('laga_player_id') || 'USER-' + Math.floor(1000 + Math.random() * 9000);
     localStorage.setItem('laga_player_id', myID);
     document.getElementById('playerID').innerText = myID;
 
@@ -168,9 +165,9 @@
 
         if (side === winner && amt > 0) {
             update(myRef, { balance: myBalance + (amt * 2) });
-            Swal.fire({ title: 'BOOYAH! 🏆', text: 'Target Tereliminasi!', icon: 'success', background: '#0f172a', color: '#fff' });
+            Swal.fire({ title: 'BOOYAH! 🏆', text: 'Kemenangan Mutlak!', icon: 'success', background: '#0f172a', color: '#fff' });
         } else if (side) {
-            Swal.fire({ title: 'ELIMINATED', text: 'Kembali Ke Lobby!', icon: 'error', background: '#1e1b4b', color: '#fff' });
+            Swal.fire({ title: 'ELIMINATED', text: 'Kembali ke Lobby!', icon: 'error', background: '#1e1b4b', color: '#fff' });
         }
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
@@ -178,12 +175,12 @@
 
     window.placeBet = (side) => {
         const amt = parseInt(document.getElementById('amt' + side).value);
-        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
+        if (!amt || amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
         localStorage.setItem('last_side', side);
         localStorage.setItem('last_amt', amt);
         update(myRef, { balance: myBalance - amt });
         document.getElementById('amt' + side).value = "";
-        Swal.fire('READY', `Unit ${side} Terjun Ke Map!`, 'success');
+        Swal.fire('BERHASIL', `Unit ${side} Terjun Ke Map!`, 'success');
     };
 </script>
 
