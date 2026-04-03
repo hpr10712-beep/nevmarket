@@ -3,83 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200"> 
-    <title>Elite Laga | Desktop Mode</title>
+    <title>Elite Laga | Ultimate Arena</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            background: radial-gradient(circle at 50% -20%, #1e1b4b, #020617);
+            background: #020617;
             font-family: 'Inter', sans-serif;
             color: #e2e8f0;
-            /* Memastikan lebar body tetap luas */
             width: 1200px; 
             margin: 0 auto;
+            overflow-x: hidden;
         }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass-card {
-            background: rgba(15, 23, 42, 0.6);
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .glow-blue:hover { border-color: #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
-        .glow-red:hover { border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.3); }
+        /* Efek Glow Animasi */
+        .glow-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.3); }
+        .glow-red { border-bottom: 4px solid #ef4444; box-shadow: 0 10px 40px -10px rgba(239, 68, 68, 0.3); }
+        
+        /* Styling Video Background di Bawah */
+        .video-container {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 40px;
+            margin-top: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
     </style>
 </head>
-<body>
+<body class="p-8">
 
-    <nav class="border-b border-white/10 py-6 px-8 flex justify-between items-center bg-slate-950/50">
+    <nav class="flex justify-between items-center mb-10 glass p-6 rounded-3xl">
         <div class="flex items-center gap-4">
-            <div class="h-10 w-10 bg-gradient-to-tr from-yellow-500 to-orange-600 rounded-lg rotate-12 flex items-center justify-center">
-                <span class="text-white font-black">L</span>
+            <div class="h-12 w-12 bg-gradient-to-tr from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span class="text-white font-black text-xl font-orbitron">L</span>
             </div>
-            <h1 class="font-orbitron text-2xl font-black tracking-widest uppercase">LAGA PRO</h1>
+            <div>
+                <h1 class="font-orbitron text-2xl font-black tracking-widest leading-none">LAGA PRO</h1>
+                <span class="text-[10px] text-green-500 font-bold uppercase tracking-[0.3em]">Live Server Active</span>
+            </div>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="text-right">
-                <p class="text-[10px] text-slate-500 font-bold uppercase">Available Credit</p>
-                <p id="balanceTxt" class="text-xl font-orbitron font-bold text-yellow-400">Rp 0</p>
-            </div>
+        <div class="text-right glass px-8 py-3 rounded-2xl border-l-4 border-yellow-500">
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Total Saldo</p>
+            <p id="balanceTxt" class="text-2xl font-orbitron font-bold text-yellow-400 leading-none italic">Rp 0</p>
         </div>
     </nav>
 
-    <main class="w-full py-12 px-10">
-        <div class="text-center mb-16">
-            <h2 class="text-5xl font-orbitron font-black mb-4 uppercase italic">SIAPA JAGOANMU?</h2>
-            <p class="text-slate-400">Pilih salah satu pemain. Hasil otomatis muncul di sini.</p>
+    <div class="text-center mb-10">
+        <h2 class="text-6xl font-orbitron font-black mb-4 italic tracking-tighter uppercase">Siapa Jagoanmu?</h2>
+        <p class="text-slate-400 text-lg">Pilih pemain andalanmu dan lipatgandakan kemenangan secara instan.</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-10">
+        <div class="glass p-10 rounded-[3rem] text-center glow-blue transition-transform hover:scale-[1.02]">
+            <div class="mb-6 rounded-3xl h-72 bg-gradient-to-b from-blue-900/20 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Blue" class="h-56 z-10">
+                <div class="absolute inset-0 opacity-10 font-black text-[120px] font-orbitron -bottom-10">A</div>
+            </div>
+            <h3 class="text-3xl font-orbitron font-black mb-4">SATRIA BIRU</h3>
+            <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl mb-6">
+                <span class="text-slate-400 font-bold">Multiplier</span>
+                <span class="text-blue-400 font-black font-orbitron text-xl">2.00x</span>
+            </div>
+            <input type="number" id="amtA" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-2xl font-orbitron font-bold outline-none focus:border-blue-500" placeholder="Rp 0">
+            <button onclick="bet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-2xl font-black font-orbitron text-xl tracking-wider shadow-lg shadow-blue-900/40 transition-all active:scale-95">CONFIRM PICK A</button>
         </div>
 
-        <div class="grid grid-cols-2 gap-10">
-            <div class="glass-card rounded-[3rem] p-10 glow-blue transition-all group">
-                <div class="mb-8 rounded-2xl h-80 bg-slate-900 flex items-center justify-center">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=A" class="h-56">
-                </div>
-                <h3 class="text-3xl font-orbitron font-bold mb-2">SATRIA BIRU</h3>
-                <div class="flex justify-between border-y border-white/5 py-4 mb-8">
-                    <span class="text-slate-500">Multiplier</span>
-                    <span class="text-blue-400 font-bold font-orbitron">2.00x</span>
-                </div>
-                <input type="number" id="amtA" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-bold font-orbitron" placeholder="Masukkan Jumlah">
-                <button onclick="bet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron tracking-widest">CONFIRM PICK A</button>
+        <div class="glass p-10 rounded-[3rem] text-center glow-red transition-transform hover:scale-[1.02]">
+            <div class="mb-6 rounded-3xl h-72 bg-gradient-to-b from-red-900/20 to-slate-900 flex items-center justify-center relative overflow-hidden">
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Red" class="h-56 z-10">
+                <div class="absolute inset-0 opacity-10 font-black text-[120px] font-orbitron -bottom-10">B</div>
             </div>
-
-            <div class="glass-card rounded-[3rem] p-10 glow-red transition-all group">
-                <div class="mb-8 rounded-2xl h-80 bg-slate-900 flex items-center justify-center">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=B" class="h-56">
-                </div>
-                <h3 class="text-3xl font-orbitron font-bold mb-2">NAGA MERAH</h3>
-                <div class="flex justify-between border-y border-white/5 py-4 mb-8">
-                    <span class="text-slate-500">Multiplier</span>
-                    <span class="text-red-400 font-bold font-orbitron">2.00x</span>
-                </div>
-                <input type="number" id="amtB" class="w-full bg-slate-950 p-5 rounded-2xl mb-4 text-center text-xl font-bold font-orbitron" placeholder="Masukkan Jumlah">
-                <button onclick="bet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron tracking-widest">CONFIRM PICK B</button>
+            <h3 class="text-3xl font-orbitron font-black mb-4">NAGA MERAH</h3>
+            <div class="flex justify-between items-center bg-black/40 p-4 rounded-xl mb-6">
+                <span class="text-slate-400 font-bold">Multiplier</span>
+                <span class="text-red-400 font-black font-orbitron text-xl">2.00x</span>
             </div>
+            <input type="number" id="amtB" class="w-full bg-slate-950 border border-slate-800 p-5 rounded-2xl mb-4 text-center text-2xl font-orbitron font-bold outline-none focus:border-red-500" placeholder="Rp 0">
+            <button onclick="bet('B')" class="w-full bg-red-600 hover:bg-red-500 py-5 rounded-2xl font-black font-orbitron text-xl tracking-wider shadow-lg shadow-red-900/40 transition-all active:scale-95">CONFIRM PICK B</button>
         </div>
-    </main>
+    </div>
+
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="36577.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-[#020617] to-transparent">
+            <h4 class="text-2xl font-orbitron font-black italic tracking-widest">LIVE ARENA FOOTAGE</h4>
+            <p class="text-slate-400 uppercase text-xs tracking-[0.5em] mt-2">Experimental High-Stakes Environment</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6 mt-10">
+        <div class="glass p-6 rounded-3xl text-center">
+            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-widest">Total Match</p>
+            <p class="text-2xl font-orbitron font-bold">1,248</p>
+        </div>
+        <div class="glass p-6 rounded-3xl text-center border-b-2 border-yellow-500">
+            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-widest">Global Pool</p>
+            <p class="text-2xl font-orbitron font-bold text-yellow-500">Rp 580M+</p>
+        </div>
+        <div class="glass p-6 rounded-3xl text-center">
+            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-widest">Active Users</p>
+            <p class="text-2xl font-orbitron font-bold">14,203</p>
+        </div>
+    </div>
 
     <script>
-        // Logika Saldo & BroadcastChannel tetap sama seperti sebelumnya
         let balance = parseInt(localStorage.getItem('mega_balance')) || 10000000;
         let currentBet = null;
         const bc = new BroadcastChannel('laga_premium');
@@ -91,20 +134,35 @@
 
         function bet(p) {
             const val = parseInt(document.getElementById('amt' + p).value);
-            if(!val || val <= 0 || val > balance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
+            if(!val || val <= 0 || val > balance) return Swal.fire('Error', 'Saldo tidak valid!', 'error');
+            if(currentBet) return Swal.fire('Maaf', 'Laga masih berlangsung!', 'warning');
+
             balance -= val;
             currentBet = { p, val };
             sync();
-            Swal.fire('Sukses', 'Taruhan dipasang!', 'success');
+            Swal.fire({
+                title: 'Bet Confirmed!',
+                text: `Anda memilih ${p === 'A' ? 'Satria Biru' : 'Naga Merah'}`,
+                icon: 'success', background: '#020617', color: '#fff'
+            });
         }
 
         bc.onmessage = (e) => {
             if(e.data.type === 'RESULT' && currentBet) {
                 if(currentBet.p === e.data.winner) {
-                    balance += (currentBet.val * 2);
-                    Swal.fire('MENANG!', 'Saldo berlipat ganda!', 'success');
+                    let win = currentBet.val * 2;
+                    balance += win;
+                    Swal.fire({
+                        title: 'WINNER!',
+                        html: `<span class="text-yellow-400 font-bold">Rp +${win.toLocaleString()}</span>`,
+                        icon: 'success', background: '#020617', color: '#fff'
+                    });
                 } else {
-                    Swal.fire('KALAH!', 'Coba lagi!', 'error');
+                    Swal.fire({
+                        title: 'LOSE!',
+                        text: 'Jagoanmu tumbang.',
+                        icon: 'error', background: '#020617', color: '#fff'
+                    });
                 }
                 currentBet = null;
                 sync();
