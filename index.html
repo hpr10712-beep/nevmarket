@@ -96,6 +96,65 @@
         }
     });
 
+    // --- LOGIKA MENERIMA HASIL PERTANDINGAN ---
+const matchRef = ref(db, 'match/result');
+
+onValue(matchRef, (snap) => {
+    const winner = snap.val();
+    if (!winner) return; // Jika belum ada pemenang, diam saja
+
+    // Cek apakah user ini pasang taruhan di sisi yang menang
+    // Kita perlu simpan data taruhan terakhir user
+    const lastBetSide = localStorage.getItem('last_bet_side');
+    const lastBetAmount = parseInt(localStorage.getItem('last_bet_amount') || 0);
+
+    if (lastBetSide === winner && lastBetAmount > 0) {
+        // JIKA MENANG: Berikan hadiah 2x lipat
+        const hadiah = lastBetAmount * 2;
+        const newBalance = myBalance + hadiah;
+        
+        update(myRef, { balance: newBalance });
+        
+        Swal.fire({
+            title: 'YOU WIN! 🏆',
+            text: `Selamat! Taruhan di ${winner} menang. Hadiah Rp ${hadiah.toLocaleString()} masuk ke saldo!`,
+            icon: 'success',
+            background: '#020617',
+            color: '#fbbf24'
+        });
+    } else if (lastBetSide && lastBetSide !== winner) {
+        // JIKA KALAH
+        Swal.fire({
+            title: 'YOU LOSE',
+            text: `Yah, jagoanmu ${lastBetSide} kalah. Coba lagi!`,
+            icon: 'error',
+            background: '#020617',
+            color: '#ef4444'
+        });
+    }
+
+    // Reset data taruhan setelah pengumuman agar tidak menang berkali-kali
+    localStorage.removeItem('last_bet_side');
+    localStorage.removeItem('last_bet_amount');
+});
+
+// Update fungsi placeBet kamu agar menyimpan data taruhan ke LocalStorage
+window.placeBet = (side) => {
+    const amtInput = document.getElementById('amt' + side);
+    const amt = parseInt(amtInput.value);
+    
+    if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Saldo tidak cukup!', 'error');
+    
+    // SIMPAN DATA TARUHAN KE STORAGE HP
+    localStorage.setItem('last_bet_side', side);
+    localStorage.setItem('last_bet_amount', amt);
+    
+    update(myRef, { balance: myBalance - amt });
+    amtInput.value = "";
+    Swal.fire('Berhasil', `Taruhan ${side} diterima!`, 'success');
+};
+
+
     window.placeBet = (side) => {
         const amtInput = document.getElementById('amt' + side);
         const amt = parseInt(amtInput.value);
