@@ -2,165 +2,155 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200"> 
-    <title>ELITE LAGA PRO | OFFICIAL ARENA</title>
+    <meta name="viewport" content="width=1200">
+    <title>WARZONE LAGA | CYBER ARENA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; width: 1200px; margin: 0 auto; overflow-x: hidden; padding: 40px; }
+        body { background: #020617; color: white; width: 1200px; margin: 0 auto; padding: 20px; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); }
         
-        /* Combat Robots Styling */
-        .robot-container { position: relative; width: 220px; height: 220px; margin: 0 auto 20px; }
+        /* Neon Team Colors */
+        .neon-blue { border-bottom: 4px solid #3b82f6; box-shadow: 0 15px 50px -10px rgba(59, 130, 246, 0.5); }
+        .neon-red { border-bottom: 4px solid #ef4444; box-shadow: 0 15px 50px -10px rgba(239, 68, 68, 0.5); }
+        
+        /* Robot Animation: Idle Breath */
         .robot-img { 
-            width: 100%; height: 100%; object-fit: contain; 
-            animation: floating 3.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+            width: 180px; height: 180px; object-fit: contain;
+            animation: breathe 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
         }
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(1deg); }
-        }
-
-        /* Neon & Box Styling */
-        .neon-blue { border-bottom: 5px solid #3b82f6; box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.4); }
-        .neon-red { border-bottom: 5px solid #ef4444; box-shadow: 0 10px 40px -10px rgba(239, 68, 68, 0.4); }
-        
-        /* Intro Animation Video Box */
-        .video-box { width: 100%; height: 400px; position: relative; border-radius: 50px; overflow: hidden; margin: 40px 0; border: 1px solid rgba(255,255,255,0.1); background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
-
-        .intro-overlay {
-            position: absolute; inset: 0; display: flex; flex-col; items-center; justify-center;
-            background: radial-gradient(circle, transparent 20%, #020617 100%);
-            animation: fadeOutIntro 4s forwards; pointer-events: none;
-        }
-        .glitch-text {
-            font-size: 80px; font-weight: 900; color: #fbbf24; letter-spacing: 15px;
-            text-shadow: 2px 2px #ef4444, -2px -2px #3b82f6;
-            animation: glitch 0.3s infinite, zoomOut 2s ease-out forwards;
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
         }
 
+        /* Intro Animation for Live Stream */
+        .intro-text {
+            animation: glitch 1s linear infinite, zoomIn 0.8s ease-out forwards;
+            text-shadow: 0 0 20px #eab308;
+        }
+        @keyframes zoomIn {
+            from { transform: scale(3); opacity: 0; letter-spacing: 2em; }
+            to { transform: scale(1); opacity: 1; letter-spacing: 0.5em; }
+        }
         @keyframes glitch {
             0% { transform: translate(0); }
-            20% { transform: translate(-3px, 2px); }
-            40% { transform: translate(-3px, -2px); }
-            60% { transform: translate(3px, 2px); }
-            80% { transform: translate(3px, -2px); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
         }
-        @keyframes zoomOut { from { transform: scale(2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes fadeOutIntro { 0%, 70% { opacity: 1; } 100% { opacity: 0.2; } }
-
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav class="flex justify-between items-center mb-10 glass p-8 rounded-[3rem] border-t-2 border-yellow-500/30 shadow-2xl">
-        <div class="flex items-center gap-6">
-            <div class="h-16 w-16 bg-yellow-500 rounded-2xl flex items-center justify-center font-black text-black text-3xl font-orbitron shadow-[0_0_30px_rgba(234,179,8,0.4)]">E</div>
+    <nav class="flex justify-between items-center mb-8 glass p-6 rounded-[2.5rem] border-t-2 border-yellow-500/50 shadow-2xl">
+        <div class="flex items-center gap-4">
+            <div class="h-14 w-14 bg-yellow-500 rounded-2xl flex items-center justify-center font-black text-black text-2xl font-orbitron shadow-[0_0_20px_rgba(234,179,8,0.5)]">W</div>
             <div>
-                <h2 id="playerID" class="font-orbitron text-2xl font-black text-white italic tracking-widest uppercase">MEMUAT ID...</h2>
-                <p class="text-[10px] text-green-500 font-bold tracking-[0.5em] animate-pulse">SYSTEM ONLINE</p>
+                <h2 id="playerID" class="font-orbitron text-xl font-black text-white tracking-widest uppercase">MEMUAT ID...</h2>
+                <div class="flex items-center gap-2">
+                    <span class="h-1.5 w-1.5 bg-green-500 rounded-full animate-ping"></span>
+                    <p class="text-[9px] text-green-500 font-bold tracking-[0.2em]">ENCRYPTED CONNECTION</p>
+                </div>
             </div>
         </div>
-        <div class="glass px-12 py-4 rounded-[2rem] border-r-4 border-yellow-500 text-right">
-            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1">TOTAL BALANCE</p>
-            <h2 id="balanceTxt" class="text-4xl font-orbitron font-black text-yellow-400">Rp 0</h2>
+        <div class="glass px-10 py-3 rounded-3xl border-r-4 border-yellow-500 text-right">
+            <p class="text-[9px] text-slate-500 font-bold uppercase mb-1">CREDITS AVAILABLE</p>
+            <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-yellow-400 italic">Rp 0</h2>
         </div>
     </nav>
 
-    <div class="grid grid-cols-2 gap-12">
-        <div class="glass p-12 rounded-[4rem] text-center neon-blue relative group">
-            <div class="robot-container">
-                <img src="https://files.catbox.moe/k3i185.png" class="robot-img" alt="Shotgun Robot">
-            </div>
-            <h3 class="text-3xl font-orbitron font-black mb-8 text-blue-400 tracking-widest uppercase">STRIKER A<br><span class="text-sm font-bold text-white/50">(SHOTGUN UNIT)</span></h3>
-            <input type="number" id="amtA" class="w-full bg-slate-950 border border-slate-800 p-6 rounded-2xl mb-8 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-500 transition-all" placeholder="0">
-            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-black font-orbitron text-2xl shadow-xl active:scale-95 transition-all">DEPLOΥ UNIT A</button>
+    <div class="grid grid-cols-2 gap-10 mb-10">
+        
+        <div class="glass p-10 rounded-[4rem] text-center neon-blue flex flex-col items-center group">
+            <img src="https://files.catbox.moe/k3i185.png" alt="Shotgun Bot" class="robot-img mb-4">
+            <h3 class="text-2xl font-orbitron font-black text-blue-400 tracking-widest mb-6">STRIKER A (SHOTGUN)</h3>
+            <input type="number" id="amtA" class="w-full bg-slate-950/50 border border-blue-900/50 p-5 rounded-2xl mb-6 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-blue-400 transition-all" placeholder="BET AMOUNT">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 py-5 rounded-2xl font-black font-orbitron text-xl shadow-lg shadow-blue-900/40 hover:bg-blue-500 active:scale-95 transition-all">PICK TEAM A</button>
         </div>
 
-        <div class="glass p-12 rounded-[4rem] text-center neon-red relative group">
-            <div class="robot-container">
-                <img src="https://files.catbox.moe/67x0wz.png" class="robot-img" alt="Sniper Robot">
-            </div>
-            <h3 class="text-3xl font-orbitron font-black mb-8 text-red-400 tracking-widest uppercase">HUNTER B<br><span class="text-sm font-bold text-white/50">(SNIPER UNIT)</span></h3>
-            <input type="number" id="amtB" class="w-full bg-slate-950 border border-slate-800 p-6 rounded-2xl mb-8 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-500 transition-all" placeholder="0">
-            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-6 rounded-2xl font-black font-orbitron text-2xl shadow-xl active:scale-95 transition-all">DEPLOΥ UNIT B</button>
+        <div class="glass p-10 rounded-[4rem] text-center neon-red flex flex-col items-center group">
+            <img src="https://files.catbox.moe/67x0wz.png" alt="Sniper Bot" class="robot-img mb-4">
+            <h3 class="text-2xl font-orbitron font-black text-red-400 tracking-widest mb-6">HUNTER B (SNIPER)</h3>
+            <input type="number" id="amtB" class="w-full bg-slate-950/50 border border-red-900/50 p-5 rounded-2xl mb-6 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-red-400 transition-all" placeholder="BET AMOUNT">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 py-5 rounded-2xl font-black font-orbitron text-xl shadow-lg shadow-red-900/40 hover:bg-red-500 active:scale-95 transition-all">PICK TEAM B</button>
         </div>
     </div>
 
-    <div class="video-box shadow-2xl">
-        <video autoplay muted loop>
+    <div class="rounded-[3rem] overflow-hidden border border-white/5 relative h-72 shadow-2xl bg-black">
+        <video autoplay muted loop class="w-full h-full object-cover opacity-20">
             <source src="36577.mp4" type="video/mp4">
         </video>
-        <div class="intro-overlay">
-            <h1 class="glitch-text font-orbitron italic">SHOWDOWN</h1>
-            <p class="text-white font-bold tracking-[1.5em] text-xs mt-4 opacity-70">LIVE FROM THE WARZONE</p>
+        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+            <h1 class="intro-text font-orbitron font-black text-6xl text-yellow-500 uppercase tracking-[0.5em] italic">SHOWDOWN</h1>
+            <div class="mt-4 flex items-center gap-6">
+                <div class="h-[1px] w-32 bg-gradient-to-r from-transparent to-white/50"></div>
+                <p class="text-sm font-bold tracking-[1em] text-white/70">LIVE TRANSMISSION</p>
+                <div class="h-[1px] w-32 bg-gradient-to-l from-transparent to-white/50"></div>
+            </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
-            projectId: "mybro-9ba5f"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
+        projectId: "mybro-9ba5f"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        let myID = localStorage.getItem('laga_player_id') || 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
-        localStorage.setItem('laga_player_id', myID);
-        document.getElementById('playerID').innerText = myID;
+    let myID = localStorage.getItem('laga_player_id') || 'PLAYER-' + Math.floor(1000 + Math.random() * 9000);
+    localStorage.setItem('laga_player_id', myID);
+    document.getElementById('playerID').innerText = myID;
 
-        const myRef = ref(db, 'users/' + myID);
-        let myBalance = 0;
+    const myRef = ref(db, 'users/' + myID);
+    let myBalance = 0;
 
-        onValue(myRef, (snap) => {
-            if (!snap.exists()) { set(myRef, { balance: 0 }); }
-            else {
-                myBalance = snap.val().balance || 0;
-                document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
-            }
-        });
+    onValue(myRef, (snap) => {
+        if (!snap.exists()) { set(myRef, { balance: 0 }); }
+        else {
+            myBalance = snap.val().balance || 0;
+            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
+        }
+    });
 
-        onValue(ref(db, 'match/result'), (snap) => {
-            const winner = snap.val();
-            if (!winner) return;
+    onValue(ref(db, 'match/result'), (snap) => {
+        const winner = snap.val();
+        if (!winner) return;
 
-            const side = localStorage.getItem('last_side');
-            const amt = parseInt(localStorage.getItem('last_amt') || 0);
+        const lastSide = localStorage.getItem('last_side');
+        const lastAmt = parseInt(localStorage.getItem('last_amt') || 0);
 
-            if (side === winner && amt > 0) {
-                update(myRef, { balance: myBalance + (amt * 2) });
-                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                Swal.fire({ title: 'VICTORY! 🏆', text: `Target Eliminasi! Hadiah masuk.`, icon: 'success', background: '#020617', color: '#fbbf24' });
-            } else if (side) {
-                Swal.fire({ title: 'DEFEAT 💀', text: 'Unit Hancur. Coba lagi!', icon: 'error', background: '#020617', color: '#ef4444' });
-            }
-            localStorage.removeItem('last_side');
-            localStorage.removeItem('last_amt');
-        });
+        if (lastSide === winner && lastAmt > 0) {
+            update(myRef, { balance: myBalance + (lastAmt * 2) });
+            Swal.fire({ title: 'MISSION ACCOMPLISHED', text: `Target Eliminasi! Hadiah dikirim.`, icon: 'success', background: '#020617', color: '#fbbf24' });
+        } else if (lastSide) {
+            Swal.fire({ title: 'MISSION FAILED', text: 'Unit Hancur. Kembali ke markas!', icon: 'error', background: '#020617', color: '#ef4444' });
+        }
+        localStorage.removeItem('last_side');
+        localStorage.removeItem('last_amt');
+    });
 
-        window.placeBet = (side) => {
-            const amt = parseInt(document.getElementById('amt' + side).value);
-            if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Kredit tidak cukup!', 'error');
-            
-            localStorage.setItem('last_side', side);
-            localStorage.setItem('last_amt', amt);
-            update(myRef, { balance: myBalance - amt });
-            document.getElementById('amt' + side).value = "";
-            Swal.fire('DEPLOYED', `Unit ${side} Menuju Target!`, 'success');
-        };
-    </script>
+    window.placeBet = (side) => {
+        const amt = parseInt(document.getElementById('amt' + side).value);
+        if (!amt || amt > myBalance) return Swal.fire('Gagal', 'Kredit tidak cukup!', 'error');
+        
+        localStorage.setItem('last_side', side);
+        localStorage.setItem('last_amt', amt);
+        update(myRef, { balance: myBalance - amt });
+        document.getElementById('amt' + side).value = "";
+        Swal.fire('DEPLOYED', `Unit ${side} telah dikirim ke medan tempur!`, 'success');
+    };
+</script>
 </body>
 </html>
