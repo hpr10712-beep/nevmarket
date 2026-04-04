@@ -174,32 +174,40 @@
     });
 
     // --- ACTION: PLACE BET ---
-    window.placeBet = async (side) => {
-        if (!isPickOpen) return Swal.fire('Locked', 'Bursa sudah ditutup!', 'warning');
-        
-        const amtInput = document.getElementById('amt' + side);
-        const amt = parseInt(amtInput.value);
+// --- ACTION: PLACE BET ---
+window.placeBet = async (side) => {
+    if (!isPickOpen) return Swal.fire('Locked', 'Bursa sudah ditutup!', 'warning');
+    
+    const amtInput = document.getElementById('amt' + side);
+    const amt = parseInt(amtInput.value);
 
-        if (!amt || amt <= 0) return Swal.fire('Info', 'Masukkan nominal!', 'info');
-        if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
+    if (!amt || amt <= 0) return Swal.fire('Info', 'Masukkan nominal!', 'info');
+    if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
 
-        // Kurangi Saldo & Simpan History
-        await update(myRef, { balance: myBalance - amt });
-        localStorage.setItem('last_side', side);
-        localStorage.setItem('last_amt', amt);
+    // --- BAGIAN YANG DIUPDATE ---
+    await update(myRef, { 
+        balance: myBalance - amt,
+        side: side,          // <--- TAMBAHKAN INI (Agar Admin bisa baca Unit mana)
+        betAmount: amt       // <--- TAMBAHKAN INI (Agar Admin bisa hitung Market Volume)
+    });
+    // ----------------------------
 
-        // Kirim Log ke Admin
-        push(ref(db, 'globalLogs'), {
-            time: getFullTime(),
-            user: myID,
-            desc: `PICK UNIT ${side}`,
-            amount: amt,
-            type: 'process'
-        });
+    localStorage.setItem('last_side', side);
+    localStorage.setItem('last_amt', amt);
 
-        amtInput.value = "";
-        Swal.fire({ icon: 'success', title: 'DEPLOYED', text: `Unit ${side} telah dikirim ke arena!`, background: '#020617', color: '#fff' });
-    };
+    // Kirim Log ke Admin
+    push(ref(db, 'globalLogs'), {
+        time: getFullTime(),
+        user: myID,
+        desc: `PICK UNIT ${side}`,
+        amount: amt,
+        type: 'process'
+    });
+
+    amtInput.value = "";
+    Swal.fire({ icon: 'success', title: 'DEPLOYED', text: `Unit ${side} telah dikirim ke arena!`, background: '#020617', color: '#fff' });
+};
+
 
     // --- ACTION: RESULT LISTENER ---
     onValue(ref(db, 'match/result'), (snap) => {
