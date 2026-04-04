@@ -403,16 +403,130 @@ const logRef = ref(db, 'globalLogs');
                 type: 'process'
             });
 
+<script type="module">
+    // 1. PASTIKAN 'push' SUDAH DI-IMPORT DI SINI
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
+        projectId: "mybro-9ba5f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // --- INISIALISASI ID PLAYER ---
+    let myID = localStorage.getItem('laga_player_id');
+    if (!myID) {
+        myID = 'USER-' + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem('laga_player_id', myID);
+    }
+    
+    // Langsung ganti teks PLAYER_LOADING agar tidak nyangkut
+    const playerDisplay = document.getElementById('playerID');
+    if(playerDisplay) playerDisplay.innerText = myID;
+
+    const myRef = ref(db, 'users/' + myID);
+    let myBalance = 0;
+    let isPickOpen = true;
+
+    // --- AMBIL SALDO ---
+    onValue(myRef, (snap) => {
+        if (!snap.exists()) { 
+            set(myRef, { balance: 0 }); 
+        } else {
+            myBalance = snap.val().balance || 0;
+            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
+        }
+    });
+
+    // --- CEK STATUS BURSA (OPEN/CLOSED) ---
+    const statusRef = ref(db, 'match/status'); 
+    onValue(statusRef, (snap) => {
+        const status = snap.val(); 
+        const banner = document.getElementById('pickBanner');
+        const dot = document.getElementById('pickDot');
+        const text = document.getElementById('pickText');
+        const cardA = document.getElementById('cardA');
+        const cardB = document.getElementById('cardB');
+        
+        if (status === 'open' || status === null) {
+            isPickOpen = true;
+            if(banner) banner.className = "status-banner status-open";
+            if(dot) dot.className = "indicator-dot dot-open";
+            if(text) text.innerText = "PICK TELAH DIBUKA";
+            if(cardA) cardA.classList.remove('locked');
+            if(cardB) cardB.classList.remove('locked');
+        } else {
+            isPickOpen = false;
+            if(banner) banner.className = "status-banner status-closed";
+            if(dot) dot.className = "indicator-dot dot-closed";
+            if(text) text.innerText = "PICK TELAH DITUTUP";
+            if(cardA) cardA.classList.add('locked');
+            if(cardB) cardB.classList.add('locked');
+        }
+    });
+
+    // --- FUNGSI PASANG TARUHAN ---
+    window.placeBet = (side) => {
+        if (!isPickOpen) {
+            Swal.fire({
+                title: 'PICK DITUTUP!',
+                text: 'Bursa taruhan sedang dikunci oleh Admin.',
+                icon: 'warning',
+                background: '#0f172a',
+                color: '#f87171'
+            });
+            return;
+        }
+
+        const amtInput = document.getElementById('amt' + side);
+        const amt = parseInt(amtInput.value);
+
+        if (!amt || amt <= 0) return Swal.fire('Error', 'Nominal tidak valid!', 'error');
+        if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
+
+        // Kurangi saldo & simpan riwayat
+        update(myRef, { balance: myBalance - amt }).then(() => {
+            localStorage.setItem('last_side', side);
+            localStorage.setItem('last_amt', amt);
+            
+            // Catat ke Global Logs agar muncul di Admin
+            const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            push(ref(db, 'globalLogs'), {
+                time: timeNow,
+                user: myID,
+                desc: 'PICK UNIT ' + side,
+                amount: amt,
+                type: 'process'
+            });
+
             amtInput.value = "";
             Swal.fire('BERHASIL', `Unit ${side} Terpasang!`, 'success');
-        }).catch((error) => {
-            Swal.fire('Error', 'Gagal mengirim taruhan!', 'error');
         });
     };
+
+    // --- CEK HASIL MENANG/KALAH ---
+    onValue(ref(db, 'match/result'), (snap) => {
+        const winner = snap.val();
+        if (!winner) return;
+        const side = localStorage.getItem('last_side');
+        const amt = parseInt(localStorage.getItem('last_amt') || 0);
+
+        if (side === winner && amt > 0) {
+            update(myRef, { balance: myBalance + (amt * 2) });
+            Swal.fire({ title: 'WIN! 🏆', text: 'Kemenangan Mutlak!', icon: 'success', background: '#0f172a', color: '#fff' });
+        } else if (side && side !== winner) {
+            Swal.fire({ title: 'LOST', text: 'Unit Hancur!', icon: 'error', background: '#1e1b4b', color: '#fff' });
+        }
+        localStorage.removeItem('last_side');
+        localStorage.removeItem('last_amt');
+        // Reset result di DB agar tidak muncul terus (opsional, tergantung logika admin kamu)
+    });
 </script>
 
-    
-</script>
 
 </body>
 </html>
