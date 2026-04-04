@@ -141,6 +141,19 @@
     </div>
 
 <script type="module">
+
+const getFullTime = () => {
+    const d = new Date();
+    const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+    const tgl = d.getDate().toString().padStart(2, '0');
+    const bln = (d.getMonth() + 1).toString().padStart(2, '0');
+    const jam = d.getHours().toString().padStart(2, '0');
+    const min = d.getMinutes().toString().padStart(2, '0');
+    const sec = d.getSeconds().toString().padStart(2, '0');
+    return `${days[d.getDay()]}, ${tgl}/${bln}/${d.getFullYear()} - ${jam}:${min}:${sec}`;
+};
+
+    
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -268,21 +281,90 @@
             Swal.fire({ title: 'WIN! 🏆', text: 'Unit Anda Menang!', icon: 'success', background: '#0f172a', color: '#fff' });
         } else if (side && side !== winner) {
             // JIKA KALAH
+    // --- 1. FUNGSI WAKTU LENGKAP (TAMBAHKAN INI) ---
+    const getFullTime = () => {
+        const d = new Date();
+        const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        const tgl = d.getDate().toString().padStart(2, '0');
+        const bln = (d.getMonth() + 1).toString().padStart(2, '0');
+        const jam = d.getHours().toString().padStart(2, '0');
+        const min = d.getMinutes().toString().padStart(2, '0');
+        const sec = d.getSeconds().toString().padStart(2, '0');
+        return `${days[d.getDay()]}, ${tgl}/${bln}/${d.getFullYear()} - ${jam}:${min}:${sec}`;
+    };
+
+    // --- 2. FUNGSI PLACE BET / PICK (GANTI BAGIAN INI) ---
+    window.placeBet = (side) => {
+        if (!isPickOpen) {
+            Swal.fire({ icon: 'warning', title: 'CLOSED', text: 'Bursa sudah dikunci admin!', background: '#0f172a', color: '#fff' });
+            return;
+        }
+
+        const amt = parseInt(document.getElementById('amt' + side).value);
+        if (!amt || amt <= 0) return Swal.fire('Info', 'Masukkan nominal!', 'info');
+        if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
+
+        // Simpan data ke localStorage untuk dicek saat hasil keluar
+        localStorage.setItem('last_side', side);
+        localStorage.setItem('last_amt', amt);
+
+        update(myRef, { balance: myBalance - amt }).then(() => {
+            // KIRIM LOG KE ADMIN DENGAN STATUS "PROCESS" (Kuning)
             push(ref(db, 'globalLogs'), {
-                time: timeNow,
+                time: getFullTime(),
+                user: myID,
+                desc: 'PICK UNIT ' + side,
+                amount: amt,
+                type: 'process' 
+            });
+
+            document.getElementById('amt' + side).value = "";
+            Swal.fire({ icon: 'success', title: 'DEPLOYED', text: `Unit ${side} siap tempur!`, background: '#0f172a', color: '#fff' });
+        });
+    };
+
+    // --- 3. MATCH RESULT / CEK PEMENANG (GANTI BAGIAN INI) ---
+    onValue(ref(db, 'match/result'), (snap) => {
+        const winner = snap.val();
+        if (!winner) return;
+        
+        const side = localStorage.getItem('last_side');
+        const amt = parseInt(localStorage.getItem('last_amt') || 0);
+
+        if (side === winner && amt > 0) {
+            // JIKA USER MENANG
+            const totalWin = amt * 2;
+            update(myRef, { balance: myBalance + totalWin });
+            
+            // KIRIM LOG UPDATE KE ADMIN (Status WIN/Hijau)
+            push(ref(db, 'globalLogs'), {
+                time: getFullTime(),
+                user: myID,
+                desc: 'WINNER UNIT ' + side,
+                amount: totalWin,
+                type: 'win' 
+            });
+
+            Swal.fire({ title: 'WIN! 🏆', text: 'Unit Anda Menang!', icon: 'success', background: '#0f172a', color: '#fff' });
+        } else if (side && side !== winner) {
+            // JIKA USER KALAH
+            // KIRIM LOG UPDATE KE ADMIN (Status LOSE/Merah)
+            push(ref(db, 'globalLogs'), {
+                time: getFullTime(),
                 user: myID,
                 desc: 'LOSE UNIT ' + side,
                 amount: amt,
-                type: 'lose' // Ini yang bikin warna MERAH di admin
+                type: 'lose' 
             });
 
             Swal.fire({ title: 'LOST', text: 'Unit Anda Hancur!', icon: 'error', background: '#020617', color: '#fff' });
         }
 
-        // Penting: Hapus jejak agar tidak spam log saat refresh
+        // Hapus jejak agar tidak duplikat log saat halaman di-refresh
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
     });
+
 
 </script>
 </body>
