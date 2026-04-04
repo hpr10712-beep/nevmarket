@@ -243,6 +243,47 @@
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
     });
+        // --- MATCH RESULT (DIPERBARUI) ---
+    onValue(ref(db, 'match/result'), (snap) => {
+        const winner = snap.val();
+        if (!winner) return;
+        
+        const side = localStorage.getItem('last_side');
+        const amt = parseInt(localStorage.getItem('last_amt') || 0);
+        const timeNow = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+
+        if (side === winner && amt > 0) {
+            // JIKA MENANG
+            update(myRef, { balance: myBalance + (amt * 2) });
+            
+            // KIRIM LOG UPDATE KE ADMIN (STATUS WIN)
+            push(ref(db, 'globalLogs'), {
+                time: timeNow,
+                user: myID,
+                desc: 'WINNER UNIT ' + side,
+                amount: amt * 2,
+                type: 'win' // Ini yang bikin warna HIJAU di admin
+            });
+
+            Swal.fire({ title: 'WIN! 🏆', text: 'Unit Anda Menang!', icon: 'success', background: '#0f172a', color: '#fff' });
+        } else if (side && side !== winner) {
+            // JIKA KALAH
+            push(ref(db, 'globalLogs'), {
+                time: timeNow,
+                user: myID,
+                desc: 'LOSE UNIT ' + side,
+                amount: amt,
+                type: 'lose' // Ini yang bikin warna MERAH di admin
+            });
+
+            Swal.fire({ title: 'LOST', text: 'Unit Anda Hancur!', icon: 'error', background: '#020617', color: '#fff' });
+        }
+
+        // Penting: Hapus jejak agar tidak spam log saat refresh
+        localStorage.removeItem('last_side');
+        localStorage.removeItem('last_amt');
+    });
+
 </script>
 </body>
 </html>
