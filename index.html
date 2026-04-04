@@ -50,6 +50,20 @@
         .rgb-frame { border-radius: 40px; padding: 4px; background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24); --angle: 0deg; animation: rotateBorder 4s linear infinite; }
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes rotateBorder { to { --angle: 360deg; } }
+ 
+    /* Animasi Iklan Teks */
+@keyframes fadeSlide {
+    0% { opacity: 0; transform: translateY(20px) scale(0.9); filter: blur(10px); }
+    15% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    85% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: translateY(-20px) scale(1.1); filter: blur(10px); }
+}
+
+.animate-fade-slide {
+    animation: fadeSlide 1.5s infinite ease-in-out;
+}
+
+    
     </style>
 </head>
 <body>
@@ -94,13 +108,18 @@
         </div>
 
         <div class="col-span-12 mt-5 mb-20">
-            <div class="rgb-frame shadow-2xl">
-                <div class="bg-black rounded-[36px] overflow-hidden aspect-video">
-                    <iframe src="https://i.ibb.co.com/PvPx5vFj/file-000000009e6071fabcaae3ee9f3fec7c.png" class="w-full h-full border-0"></iframe>
+    <div class="rgb-frame shadow-2xl">
+        <div class="bg-slate-950 rounded-[36px] overflow-hidden aspect-[21/6] flex items-center justify-center relative border-4 border-slate-900">
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 20px 20px;"></div>
+            
+            <div class="text-center z-10 px-10">
+                <div id="ad-text" class="font-orbitron text-3xl font-black italic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-white to-blue-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-fade-slide">
+                    CARA PICK?
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -221,6 +240,25 @@
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
     });
+
+        // --- LOGIKA IKLAN TEXT CHANGER ---
+    const adTexts = [
+        "CARA PICK?",
+        "PILIH SALAH SATU PEMAIN ANDALAN ANDA",
+        "MASUKAN JUMLAH YANG AKAN DIPASANG",
+        "TUNGGU GAME SELESAI!",
+        "JANGAN SPAM PASANG!"
+    ];
+    
+    let adIndex = 0;
+    const adElement = document.getElementById('ad-text');
+
+    // Berjalan setiap 1.5 detik sinkron dengan animasi CSS
+    setInterval(() => {
+        adIndex = (adIndex + 1) % adTexts.length;
+        adElement.innerText = adTexts[adIndex];
+    }, 1500);
+
 
 </script>
 </body>
