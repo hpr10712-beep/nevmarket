@@ -290,9 +290,17 @@ window.placeBet = (side) => {
         });
         return;
     }
-    // ... sisa kode placeBet kamu ...
-}
-
+    // Di dalam file user, setelah update balance berhasil:
+const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+const logRef = ref(db, 'globalLogs');
+push(logRef, {
+    time: timeNow,
+    user: myID,
+    desc: 'PICK UNIT ' + side, // Info: User milih A atau B
+    amount: amt,
+    type: 'process' // Status awal adalah proses
+});
+            }
     
 </script>
 
