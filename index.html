@@ -104,6 +104,30 @@
     box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(251, 191, 36, 0.05);
 }
 
+        /* Banner Informasi di Tengah */
+.status-banner {
+    display: flex; align-items: center; justify-content: center; gap: 15px;
+    padding: 15px 50px; border-radius: 50px; font-family: 'Orbitron', sans-serif;
+    font-weight: 900; font-size: 22px; letter-spacing: 4px; text-transform: uppercase;
+    transition: all 0.4s ease; width: max-content; margin: 0 auto;
+}
+.status-open {
+    background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; color: #34d399;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+.status-closed {
+    background: rgba(239, 68, 68, 0.1); border: 2px solid #ef4444; color: #f87171;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+.indicator-dot { width: 14px; height: 14px; border-radius: 50%; }
+.dot-open { background: #34d399; box-shadow: 0 0 15px #34d399; animation: blink 1s infinite alternate; }
+.dot-closed { background: #f87171; box-shadow: 0 0 15px #f87171; }
+@keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
+
+/* Efek saat Pick Ditutup */
+.locked { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+
+
         
     </style>
 </head>
@@ -129,6 +153,14 @@
             <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-white italic">Rp 0</h2>
         </div>
     </div>
+
+    <div class="col-span-12 mb-2">
+    <div id="pickBanner" class="status-banner status-open">
+        <div id="pickDot" class="indicator-dot dot-open"></div>
+        <span id="pickText">PICK TELAH DIBUKA</span>
+    </div>
+</div>
+
 
     <div class="px-10 grid grid-cols-12 gap-10">
         <div class="col-span-6 glass p-10 rounded-[3.5rem] text-center border-t-[8px] border-blue-600 relative overflow-hidden">
@@ -218,6 +250,50 @@
         document.getElementById('amt' + side).value = "";
         Swal.fire('BERHASIL', `Unit ${side} Terpasang!`, 'success');
     };
+
+    let isPickOpen = true; // Status awal
+
+// Ambil Status dari Firebase (Path: match/status)
+const statusRef = ref(db, 'match/status'); 
+onValue(statusRef, (snap) => {
+    const status = snap.val(); 
+    const banner = document.getElementById('pickBanner');
+    const dot = document.getElementById('pickDot');
+    const text = document.getElementById('pickText');
+    
+    if (status === 'open' || status === null) {
+        isPickOpen = true;
+        banner.className = "status-banner status-open";
+        dot.className = "indicator-dot dot-open";
+        text.innerText = "PICK TELAH DIBUKA";
+        document.getElementById('cardA').classList.remove('locked');
+        document.getElementById('cardB').classList.remove('locked');
+    } else {
+        isPickOpen = false;
+        banner.className = "status-banner status-closed";
+        dot.className = "indicator-dot dot-closed";
+        text.innerText = "PICK TELAH DITUTUP";
+        document.getElementById('cardA').classList.add('locked');
+        document.getElementById('cardB').classList.add('locked');
+    }
+});
+
+// Tambahkan proteksi ini di dalam fungsi placeBet kamu:
+window.placeBet = (side) => {
+    if (!isPickOpen) {
+        Swal.fire({
+            title: 'PICK DITUTUP!',
+            text: 'Bursa taruhan sedang ditutup sementara.',
+            icon: 'warning',
+            background: '#0f172a',
+            color: '#f87171'
+        });
+        return;
+    }
+    // ... sisa kode placeBet kamu ...
+}
+
+    
 </script>
 
 </body>
