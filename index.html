@@ -8,293 +8,140 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- BACKGROUND KEREN --- */
         body { 
             background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; 
-            margin: 0 auto; width: 1200px; padding: 40px 0;
-            background-image: radial-gradient(circle at top right, #1e293b, #020617 60%);
+            margin: 0 auto; width: 1200px; padding: 20px 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.1) 0%, transparent 40%),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-attachment: fixed;
         }
+
         .font-orbitron { font-family: 'Orbitron', sans-serif; }
 
-        /* --- STYLING PROFIL BARU --- */
+        /* --- STYLING PROFIL --- */
         .profile-box {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 1) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
             border-radius: 30px;
             padding: 15px 30px 15px 15px;
             display: flex;
             align-items: center;
             gap: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(251, 191, 36, 0.05);
         }
 
         .avatar-circle {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid #fbbf24; /* Border Emas */
-            overflow: hidden;
-            background: #000;
-            flex-shrink: 0;
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid #fbbf24; overflow: hidden; background: #000; flex-shrink: 0;
         }
-
-        .avatar-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
 
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(34, 197, 94, 0.1);
-            color: #4ade80;
-            padding: 4px 12px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            border: 1px solid rgba(74, 222, 128, 0.2);
-            margin-top: 6px;
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(34, 197, 94, 0.1); color: #4ade80;
+            padding: 4px 12px; border-radius: 10px; font-size: 10px; font-weight: 800;
         }
 
-        /* --- SALDO DIAMOND --- */
         .saldo-card {
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.9);
             border: 1px solid rgba(251, 191, 36, 0.4);
-            border-right: 6px solid #fbbf24;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-right: 8px solid #fbbf24;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
-        /* --- ARENA & VIDEO --- */
-        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        /* --- BANNER STATUS (POSISI KE ATAS) --- */
+        .status-banner {
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            padding: 12px 40px; border-radius: 50px; font-family: 'Orbitron', sans-serif;
+            font-weight: 900; font-size: 18px; letter-spacing: 3px; text-transform: uppercase;
+            transition: all 0.4s ease; width: max-content; margin: 0 auto 25px;
+        }
+        .status-open { background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; color: #34d399; box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        .status-closed { background: rgba(239, 68, 68, 0.1); border: 2px solid #ef4444; color: #f87171; box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
         
-        /* Gambar Karakter Lingkaran */
+        .indicator-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-open { background: #34d399; box-shadow: 0 0 15px #34d399; animation: blink 1s infinite alternate; }
+        .dot-closed { background: #f87171; }
+        @keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
+
+        /* --- ARENA CARDS --- */
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
         .char-circle {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 4px solid rgba(255,255,255,0.1);
-            overflow: hidden;
-            background: #000;
+            width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px;
+            border: 4px solid rgba(255,255,255,0.1); overflow: hidden; background: #000;
         }
         .char-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; transform: scale(0.95); }
 
         .rgb-frame {
-            position: relative; border-radius: 40px; padding: 6px;
+            position: relative; border-radius: 40px; padding: 4px;
             background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24);
             --angle: 0deg; animation: rotateBorder 4s linear infinite;
         }
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         @keyframes rotateBorder { to { --angle: 360deg; } }
-        .video-box { background: #000; border-radius: 35px; overflow: hidden; height: 550px; width: 100%; }
-
-.video-box {
-    background-color: #000; /* Agar tidak muncul putih saat loading */
-    aspect-ratio: 16 / 9;   /* Menjaga bentuk video tetap proporsional */
-    overflow: hidden;
-}
-
-.profile-box {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 1) 100%);
-    /* Tambahan tekstur halus */
-    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); 
-    border: 1px solid rgba(251, 191, 36, 0.3);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(251, 191, 36, 0.05);
-}
-
-        /* Banner Informasi di Tengah */
-.status-banner {
-    display: flex; align-items: center; justify-content: center; gap: 15px;
-    padding: 15px 50px; border-radius: 50px; font-family: 'Orbitron', sans-serif;
-    font-weight: 900; font-size: 22px; letter-spacing: 4px; text-transform: uppercase;
-    transition: all 0.4s ease; width: max-content; margin: 0 auto;
-}
-.status-open {
-    background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; color: #34d399;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-}
-.status-closed {
-    background: rgba(239, 68, 68, 0.1); border: 2px solid #ef4444; color: #f87171;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-}
-.indicator-dot { width: 14px; height: 14px; border-radius: 50%; }
-.dot-open { background: #34d399; box-shadow: 0 0 15px #34d399; animation: blink 1s infinite alternate; }
-.dot-closed { background: #f87171; box-shadow: 0 0 15px #f87171; }
-@keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
-
-/* Efek saat Pick Ditutup */
-.locked { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
-
-
-        
+        .video-box { background: #000; border-radius: 36px; overflow: hidden; aspect-ratio: 16/9; }
     </style>
 </head>
 <body>
 
-    <div class="flex justify-between items-center px-10 mb-12">
-        
+    <div class="flex justify-between items-center px-10 mb-8">
         <div class="profile-box">
             <div class="avatar-circle">
                 <img src="https://i.ibb.co.com/pqyBmFQ/eedd9bb8-f4d4-488b-86a1-3ff00eb9c3c9.jpg" alt="Profile">
             </div>
             <div>
-                <h1 id="playerID" class="font-orbitron text-2xl font-black text-white tracking-tighter uppercase leading-none">PLAYER_LOADING</h1>
+                <h1 id="playerID" class="font-orbitron text-2xl font-black text-white tracking-tighter uppercase leading-none">...</h1>
                 <div class="status-badge">
-                    <span class="h-1.5 w-1.5 bg-green-500 rounded-full animate-pulse"></span>
-                    ONLINE
+                    <span class="h-2 w-2 bg-green-500 rounded-full animate-pulse"></span> ONLINE
                 </div>
             </div>
         </div>
 
-        <div class="saldo-card px-10 py-5 rounded-2xl min-w-[320px]">
-            <p class="text-[10px] text-yellow-500 font-bold uppercase tracking-widest mb-1">Total Saldo</p>
-            <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-white italic">Rp 0</h2>
+        <div id="pickBanner" class="status-banner status-open">
+            <div id="pickDot" class="indicator-dot dot-open"></div>
+            <span id="pickText">PICK TELAH DIBUKA</span>
+        </div>
+
+        <div class="saldo-card px-8 py-4 rounded-2xl min-w-[280px]">
+            <p class="text-[9px] text-yellow-500 font-bold uppercase tracking-widest mb-1 text-center">Your Balance</p>
+            <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-white italic text-center">Rp 0</h2>
         </div>
     </div>
 
-    <div class="col-span-12 mb-2">
-    <div id="pickBanner" class="status-banner status-open">
-        <div id="pickDot" class="indicator-dot dot-open"></div>
-        <span id="pickText">PICK TELAH DIBUKA</span>
-    </div>
-</div>
-
-
-    <div class="px-10 grid grid-cols-12 gap-10">
-        <div class="col-span-6 glass p-10 rounded-[3.5rem] text-center border-t-[8px] border-blue-600 relative overflow-hidden">
-            <div class="char-circle shadow-lg">
+    <div class="px-10 grid grid-cols-12 gap-8">
+        <div id="cardA" class="col-span-6 glass p-8 rounded-[3rem] text-center border-t-[6px] border-blue-600 relative">
+            <div class="char-circle shadow-2xl">
                 <img src="https://i.ibb.co.com/5hx6y4fN/a3b9d2cd-6c9b-4690-8598-35679ae9cb10.jpg" alt="Unit A">
             </div>
-            <h3 class="font-orbitron text-2xl font-bold text-blue-400 mb-6 tracking-widest uppercase">RADZ GT (Striker)</h3>
-            <input type="number" id="amtA" class="w-full bg-slate-900 border border-slate-700 p-5 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-blue-500" placeholder="0">
-            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-2xl font-orbitron font-black text-xl text-white uppercase transition-all shadow-xl">DEPLOY UNIT A</button>
+            <h3 class="font-orbitron text-xl font-bold text-blue-400 mb-4 tracking-widest uppercase">RADZ GT (Striker)</h3>
+            <input type="number" id="amtA" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl mb-4 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-blue-500" placeholder="0">
+            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-xl font-orbitron font-black text-lg text-white uppercase transition-all shadow-lg active:scale-95">DEPLOY UNIT A</button>
         </div>
 
-        <div class="col-span-6 glass p-10 rounded-[3.5rem] text-center border-t-[8px] border-red-600 relative overflow-hidden">
-            <div class="char-circle shadow-lg">
+        <div id="cardB" class="col-span-6 glass p-8 rounded-[3rem] text-center border-t-[6px] border-red-600 relative">
+            <div class="char-circle shadow-2xl">
                 <img src="https://i.ibb.co.com/PJRGbMp/771bd209-5182-45b9-8d06-db7a4698d2ba.jpg" alt="Unit B">
             </div>
-            <h3 class="font-orbitron text-2xl font-bold text-red-400 mb-6 tracking-widest uppercase">ALYA VM (Hunter)</h3>
-            <input type="number" id="amtB" class="w-full bg-slate-900 border border-slate-700 p-5 rounded-2xl mb-6 text-center text-3xl font-orbitron font-bold text-white outline-none focus:border-red-500" placeholder="0">
-            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-6 rounded-2xl font-orbitron font-black text-xl text-white uppercase transition-all shadow-xl">DEPLOY UNIT B</button>
+            <h3 class="font-orbitron text-xl font-bold text-red-400 mb-4 tracking-widest uppercase">ALYA VM (Hunter)</h3>
+            <input type="number" id="amtB" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl mb-4 text-center text-2xl font-orbitron font-bold text-white outline-none focus:border-red-500" placeholder="0">
+            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-5 rounded-xl font-orbitron font-black text-lg text-white uppercase transition-all shadow-lg active:scale-95">DEPLOY UNIT B</button>
         </div>
 
         <div class="col-span-12 mt-4 mb-10">
             <div class="rgb-frame shadow-2xl">
                 <div class="video-box">
-    <iframe 
-        src="https://youtu.be/FDO6nDK0aBw?si=5AEvOmfrT8Kt2c21?autoplay=1&mute=1" 
-        class="w-full h-full" 
-        frameborder="0" 
-        allow="autoplay; encrypted-media" 
-        allowfullscreen>
-    </iframe>
-</div>
-
+                    <iframe src="https://youtu.be/FDO6nDK0aBw?si=5AEvOmfrT8Kt2c21?autoplay=1&mute=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
-        projectId: "mybro-9ba5f"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    let myID = localStorage.getItem('laga_player_id') || 'USER-' + Math.floor(1000 + Math.random() * 9000);
-    localStorage.setItem('laga_player_id', myID);
-    document.getElementById('playerID').innerText = myID;
-
-    const myRef = ref(db, 'users/' + myID);
-    let myBalance = 0;
-
-    onValue(myRef, (snap) => {
-        if (!snap.exists()) { set(myRef, { balance: 0 }); }
-        else {
-            myBalance = snap.val().balance || 0;
-            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
-        }
-    });
-
-    onValue(ref(db, 'match/result'), (snap) => {
-        const winner = snap.val();
-        if (!winner) return;
-        const side = localStorage.getItem('last_side');
-        const amt = parseInt(localStorage.getItem('last_amt') || 0);
-
-        if (side === winner && amt > 0) {
-            update(myRef, { balance: myBalance + (amt * 2) });
-            Swal.fire({ title: 'WIN! 🏆', text: 'Kemenangan Mutlak!', icon: 'success', background: '#0f172a', color: '#fff' });
-        } else if (side) {
-            Swal.fire({ title: 'LOST', text: 'Unit Hancur!', icon: 'error', background: '#1e1b4b', color: '#fff' });
-        }
-        localStorage.removeItem('last_side');
-        localStorage.removeItem('last_amt');
-    });
-
-    window.placeBet = (side) => {
-        const amt = parseInt(document.getElementById('amt' + side).value);
-        if (!amt || amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
-        localStorage.setItem('last_side', side);
-        localStorage.setItem('last_amt', amt);
-        update(myRef, { balance: myBalance - amt });
-        document.getElementById('amt' + side).value = "";
-        Swal.fire('BERHASIL', `Unit ${side} Terpasang!`, 'success');
-    };
-
-    let isPickOpen = true; // Status awal
-
-// Ambil Status dari Firebase (Path: match/status)
-const statusRef = ref(db, 'match/status'); 
-onValue(statusRef, (snap) => {
-    const status = snap.val(); 
-    const banner = document.getElementById('pickBanner');
-    const dot = document.getElementById('pickDot');
-    const text = document.getElementById('pickText');
-    
-    if (status === 'open' || status === null) {
-        isPickOpen = true;
-        banner.className = "status-banner status-open";
-        dot.className = "indicator-dot dot-open";
-        text.innerText = "PICK TELAH DIBUKA";
-        document.getElementById('cardA').classList.remove('locked');
-        document.getElementById('cardB').classList.remove('locked');
-    } else {
-        isPickOpen = false;
-        banner.className = "status-banner status-closed";
-        dot.className = "indicator-dot dot-closed";
-        text.innerText = "PICK TELAH DITUTUP";
-        document.getElementById('cardA').classList.add('locked');
-        document.getElementById('cardB').classList.add('locked');
-    }
-});
-
-// Tambahkan proteksi ini di dalam fungsi placeBet kamu:
-window.placeBet = (side) => {
-    if (!isPickOpen) {
-        Swal.fire({
-            title: 'PICK DITUTUP!',
-            text: 'Bursa taruhan sedang ditutup sementara.',
-            icon: 'warning',
-            background: '#0f172a',
-            color: '#f87171'
-        });
-        return;
-    }
-    // Di dalam file user, setelah update balance berhasil:
-const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-const logRef = ref(db, 'globalLogs');
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
@@ -306,209 +153,81 @@ const logRef = ref(db, 'globalLogs');
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    let myID = localStorage.getItem('laga_player_id') || 'USER-' + Math.floor(1000 + Math.random() * 9000);
-    localStorage.setItem('laga_player_id', myID);
-    document.getElementById('playerID').innerText = myID;
-
-    const myRef = ref(db, 'users/' + myID);
-    let myBalance = 0;
-    let isPickOpen = true; // Definisi status awal
-
-    // 1. Ambil Data Saldo User
-    onValue(myRef, (snap) => {
-        if (!snap.exists()) { set(myRef, { balance: 0 }); }
-        else {
-            myBalance = snap.val().balance || 0;
-            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
-        }
-    });
-
-    // 2. Pantau Status Buka/Tutup dari Admin
-    const statusRef = ref(db, 'match/status'); 
-    onValue(statusRef, (snap) => {
-        const status = snap.val(); 
-        const banner = document.getElementById('pickBanner');
-        const dot = document.getElementById('pickDot');
-        const text = document.getElementById('pickText');
-        
-        if (status === 'open' || status === null) {
-            isPickOpen = true;
-            banner.className = "status-banner status-open";
-            dot.className = "indicator-dot dot-open";
-            text.innerText = "PICK TELAH DIBUKA";
-            // Pastikan kamu punya id="cardA" dan id="cardB" di HTML
-            if(document.getElementById('cardA')) document.getElementById('cardA').classList.remove('locked');
-            if(document.getElementById('cardB')) document.getElementById('cardB').classList.remove('locked');
-        } else {
-            isPickOpen = false;
-            banner.className = "status-banner status-closed";
-            dot.className = "indicator-dot dot-closed";
-            text.innerText = "PICK TELAH DITUTUP";
-            if(document.getElementById('cardA')) document.getElementById('cardA').classList.add('locked');
-            if(document.getElementById('cardB')) document.getElementById('cardB').classList.add('locked');
-        }
-    });
-
-    // 3. Pantau Hasil Pertandingan (Win/Lose)
-    onValue(ref(db, 'match/result'), (snap) => {
-        const winner = snap.val();
-        if (!winner) return;
-        const side = localStorage.getItem('last_side');
-        const amt = parseInt(localStorage.getItem('last_amt') || 0);
-
-        if (side === winner && amt > 0) {
-            update(myRef, { balance: myBalance + (amt * 2) });
-            Swal.fire({ title: 'WIN! 🏆', text: 'Kemenangan Mutlak!', icon: 'success', background: '#0f172a', color: '#fff' });
-        } else if (side) {
-            Swal.fire({ title: 'LOST', text: 'Unit Hancur!', icon: 'error', background: '#1e1b4b', color: '#fff' });
-        }
-        localStorage.removeItem('last_side');
-        localStorage.removeItem('last_amt');
-    });
-
-    // 4. FUNGSI UTAMA: Kirim Taruhan (Place Bet)
-    window.placeBet = (side) => {
-        // Cek status bursa
-        if (!isPickOpen) {
-            Swal.fire({
-                title: 'PICK DITUTUP!',
-                text: 'Bursa taruhan sedang ditutup sementara.',
-                icon: 'warning',
-                background: '#0f172a',
-                color: '#f87171'
-            });
-            return;
-        }
-
-        const amtInput = document.getElementById('amt' + side);
-        const amt = parseInt(amtInput.value);
-
-        if (!amt || amt <= 0) return Swal.fire('Error', 'Masukkan nominal yang valid!', 'error');
-        if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
-
-        // Simpan data lokal untuk cek win/lose nanti
-        localStorage.setItem('last_side', side);
-        localStorage.setItem('last_amt', amt);
-
-        // Update Saldo di Firebase
-        update(myRef, { balance: myBalance - amt }).then(() => {
-            // KIRIM LOG KE ADMIN (PENTING)
-            const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-            const logRef = ref(db, 'globalLogs');
-            push(logRef, {
-                time: timeNow,
-                user: myID,
-                desc: 'PICK UNIT ' + side,
-                amount: amt,
-                type: 'process'
-            });
-
-<script type="module">
-    // 1. PASTIKAN 'push' SUDAH DI-IMPORT DI SINI
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue, update, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
-        projectId: "mybro-9ba5f"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // --- INISIALISASI ID PLAYER ---
+    // --- INISIALISASI PLAYER ---
     let myID = localStorage.getItem('laga_player_id');
     if (!myID) {
-        myID = 'USER-' + Math.floor(1000 + Math.random() * 9000);
+        myID = 'ELITE-' + Math.floor(1000 + Math.random() * 8999);
         localStorage.setItem('laga_player_id', myID);
     }
-    
-    // Langsung ganti teks PLAYER_LOADING agar tidak nyangkut
-    const playerDisplay = document.getElementById('playerID');
-    if(playerDisplay) playerDisplay.innerText = myID;
+    document.getElementById('playerID').innerText = myID;
 
     const myRef = ref(db, 'users/' + myID);
     let myBalance = 0;
     let isPickOpen = true;
 
-    // --- AMBIL SALDO ---
+    // --- DATA SALDO ---
     onValue(myRef, (snap) => {
-        if (!snap.exists()) { 
-            set(myRef, { balance: 0 }); 
-        } else {
+        if (!snap.exists()) { set(myRef, { balance: 0 }); }
+        else {
             myBalance = snap.val().balance || 0;
             document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
         }
     });
 
-    // --- CEK STATUS BURSA (OPEN/CLOSED) ---
-    const statusRef = ref(db, 'match/status'); 
-    onValue(statusRef, (snap) => {
-        const status = snap.val(); 
+    // --- BURSA STATUS ---
+    onValue(ref(db, 'match/status'), (snap) => {
+        const status = snap.val() || 'open';
         const banner = document.getElementById('pickBanner');
         const dot = document.getElementById('pickDot');
         const text = document.getElementById('pickText');
-        const cardA = document.getElementById('cardA');
-        const cardB = document.getElementById('cardB');
         
-        if (status === 'open' || status === null) {
+        if (status === 'open') {
             isPickOpen = true;
-            if(banner) banner.className = "status-banner status-open";
-            if(dot) dot.className = "indicator-dot dot-open";
-            if(text) text.innerText = "PICK TELAH DIBUKA";
-            if(cardA) cardA.classList.remove('locked');
-            if(cardB) cardB.classList.remove('locked');
+            banner.className = "status-banner status-open";
+            dot.className = "indicator-dot dot-open";
+            text.innerText = "PICK TELAH DIBUKA";
+            document.getElementById('cardA').classList.remove('locked');
+            document.getElementById('cardB').classList.remove('locked');
         } else {
             isPickOpen = false;
-            if(banner) banner.className = "status-banner status-closed";
-            if(dot) dot.className = "indicator-dot dot-closed";
-            if(text) text.innerText = "PICK TELAH DITUTUP";
-            if(cardA) cardA.classList.add('locked');
-            if(cardB) cardB.classList.add('locked');
+            banner.className = "status-banner status-closed";
+            dot.className = "indicator-dot dot-closed";
+            text.innerText = "PICK TELAH DITUTUP";
+            document.getElementById('cardA').classList.add('locked');
+            document.getElementById('cardB').classList.add('locked');
         }
     });
 
-    // --- FUNGSI PASANG TARUHAN ---
+    // --- PLACE BET ---
     window.placeBet = (side) => {
         if (!isPickOpen) {
-            Swal.fire({
-                title: 'PICK DITUTUP!',
-                text: 'Bursa taruhan sedang dikunci oleh Admin.',
-                icon: 'warning',
-                background: '#0f172a',
-                color: '#f87171'
-            });
+            Swal.fire({ icon: 'warning', title: 'CLOSED', text: 'Bursa sudah dikunci admin!', background: '#0f172a', color: '#fff' });
             return;
         }
 
-        const amtInput = document.getElementById('amt' + side);
-        const amt = parseInt(amtInput.value);
-
-        if (!amt || amt <= 0) return Swal.fire('Error', 'Nominal tidak valid!', 'error');
+        const amt = parseInt(document.getElementById('amt' + side).value);
+        if (!amt || amt <= 0) return Swal.fire('Info', 'Masukkan nominal!', 'info');
         if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
 
-        // Kurangi saldo & simpan riwayat
         update(myRef, { balance: myBalance - amt }).then(() => {
             localStorage.setItem('last_side', side);
             localStorage.setItem('last_amt', amt);
             
-            // Catat ke Global Logs agar muncul di Admin
-            const timeNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            // Kirim ke Log Admin
             push(ref(db, 'globalLogs'), {
-                time: timeNow,
+                time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}),
                 user: myID,
                 desc: 'PICK UNIT ' + side,
                 amount: amt,
                 type: 'process'
             });
 
-            amtInput.value = "";
-            Swal.fire('BERHASIL', `Unit ${side} Terpasang!`, 'success');
+            document.getElementById('amt' + side).value = "";
+            Swal.fire({ icon: 'success', title: 'DEPLOYED', text: `Unit ${side} siap tempur!`, background: '#0f172a', color: '#fff' });
         });
     };
 
-    // --- CEK HASIL MENANG/KALAH ---
+    // --- MATCH RESULT ---
     onValue(ref(db, 'match/result'), (snap) => {
         const winner = snap.val();
         if (!winner) return;
@@ -517,16 +236,13 @@ const logRef = ref(db, 'globalLogs');
 
         if (side === winner && amt > 0) {
             update(myRef, { balance: myBalance + (amt * 2) });
-            Swal.fire({ title: 'WIN! 🏆', text: 'Kemenangan Mutlak!', icon: 'success', background: '#0f172a', color: '#fff' });
-        } else if (side && side !== winner) {
-            Swal.fire({ title: 'LOST', text: 'Unit Hancur!', icon: 'error', background: '#1e1b4b', color: '#fff' });
+            Swal.fire({ title: 'WIN! 🏆', text: 'Unit Anda Menang!', icon: 'success', background: '#0f172a', color: '#fff' });
+        } else if (side) {
+            Swal.fire({ title: 'LOST', text: 'Unit Anda Hancur!', icon: 'error', background: '#020617', color: '#fff' });
         }
         localStorage.removeItem('last_side');
         localStorage.removeItem('last_amt');
-        // Reset result di DB agar tidak muncul terus (opsional, tergantung logika admin kamu)
     });
 </script>
-
-
 </body>
 </html>
