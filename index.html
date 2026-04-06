@@ -3,424 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkSky - Connect the World</title>
+    <title>MyBro Chat App</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0b0e11;
-            --surface-color: #15191c;
-            --accent-color: #00a8ff;
-            --accent-gradient: linear-gradient(135deg, #00a8ff, #0066ff);
-            --text-main: #e9edef;
-            --text-muted: #8696a0;
-            --chat-me: #005c4b;
-            --chat-other: #202c33;
-            --overlay-bg: rgba(0, 0, 0, 0.75);
-            --modal-bg: rgba(30, 36, 40, 0.9);
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #3b82f6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --chat-bubble: #3b82f6;
+            --chat-bubble-friend: #334155;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
-        body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        
+        .app-container { width: 100%; max-width: 480px; background-color: var(--bg-color); display: flex; flex-direction: column; height: 100%; border-left: 1px solid var(--card-bg); border-right: 1px solid var(--card-bg); position: relative; }
+        
         /* Header */
-        header { 
-            background-color: var(--surface-color); 
-            padding: 18px 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #2a2f32;
-        }
-        header h1 { font-size: 1.4rem; color: var(--accent-color); letter-spacing: 1px; }
+        .header { padding: 15px 20px; background-color: var(--card-bg); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .header h2 { font-size: 1.2rem; }
+        .my-id-badge { background: var(--primary); padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;}
 
-        /* Main Container */
-        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; }
-        .tab-content { display: none; padding: 15px; animation: slideUp 0.3s ease; }
-        .tab-content.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Content Area */
+        .content { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 70px; }
+        .section { display: none; }
+        .section.active { display: block; }
 
-        /* Navigation */
-        nav { 
-            background-color: var(--surface-color); 
-            display: flex; 
-            padding: 8px 0; 
-            border-top: 1px solid #2a2f32;
-        }
-        .nav-item { 
-            background: none; border: none; color: var(--text-muted); 
-            flex: 1; display: flex; flex-direction: column; align-items: center; 
-            gap: 4px; cursor: pointer; transition: 0.3s; font-size: 0.75rem;
-        }
-        .nav-item i { font-size: 1.2rem; }
-        .nav-item.active { color: var(--accent-color); }
+        /* Chat List */
+        .chat-item { display: flex; align-items: center; padding: 12px; background: var(--card-bg); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .chat-item:hover { background: #2c3e50; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary); display: flex; justify-content: center; align-items: center; margin-right: 15px; font-weight: bold; }
+        .chat-info h4 { margin-bottom: 3px; }
+        .chat-info p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* Card & List Styling */
-        .btn-group {
-            background: var(--accent-gradient);
-            color: white; border: none; padding: 15px; width: 100%;
-            border-radius: 12px; font-weight: bold; margin-bottom: 20px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.3);
-        }
-        .btn-group:active { transform: scale(0.98); }
-
-        .list-item { 
-            display: flex; align-items: center; padding: 12px; 
-            background-color: rgba(255,255,255,0.03); border-radius: 15px; 
-            margin-bottom: 10px; cursor: pointer; transition: 0.2s;
-        }
-        .list-item:hover { background-color: rgba(255,255,255,0.08); }
-        
-        .avatar { 
-            width: 50px; height: 50px; border-radius: 50%; 
-            background: #313d45; display: flex; justify-content: center; 
-            align-items: center; margin-right: 15px; position: relative;
-            object-fit: cover;
-        }
-        .avatar i { font-size: 1.5rem; color: #919191; }
-
-        .info { flex: 1; }
-        .info h4 { font-size: 1rem; margin-bottom: 4px; }
-        .info p { color: var(--text-muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* Chat Room (Inside Obrolan) */
+        #chat-room { display: none; flex-direction: column; height: 100%; position: absolute; top: 0; left: 0; width: 100%; background: var(--bg-color); z-index: 10; }
+        .chat-header { background: var(--card-bg); padding: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .chat-header-actions i { margin-left: 15px; cursor: pointer; color: var(--primary); font-size: 1.2rem; }
+        .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 75%; word-wrap: break-word; }
+        .msg.sent { align-self: flex-end; background: var(--chat-bubble); border-bottom-right-radius: 2px; }
+        .msg.received { align-self: flex-start; background: var(--chat-bubble-friend); border-bottom-left-radius: 2px; }
+        .input-area { padding: 10px; background: var(--card-bg); display: flex; align-items: center; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px; border-radius: 20px; border: none; background: #0f172a; color: white; outline: none; }
+        .action-btn { background: var(--primary); width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; border: none; color: white; cursor: pointer; }
+        .attach-btn { background: transparent; color: var(--text-muted); border: none; font-size: 1.2rem; cursor: pointer;}
 
         /* Settings Form */
-        .section-title { color: var(--accent-color); font-size: 0.9rem; margin: 15px 0 10px 5px; text-transform: uppercase; }
-        .form-card { background: var(--surface-color); padding: 15px; border-radius: 15px; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
-        .form-group input, .form-group textarea { 
-            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2a2f32;
-            background: #1e2428; color: white; outline: none; transition: 0.3s;
-        }
-        .form-group input:focus { border-color: var(--accent-color); }
-        .form-group input[readonly] { color: #555; background: #111; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-muted); }
+        .form-group input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: var(--bg-color); color: white; outline: none; }
+        .form-group input[readonly] { background: #1e293b; color: #94a3b8; cursor: not-allowed; }
+        .btn-save { width: 100%; padding: 12px; border-radius: 8px; border: none; background: var(--primary); color: white; font-weight: bold; cursor: pointer; }
 
-        .btn-save { 
-            background: var(--accent-gradient); color: white; border: none; 
-            padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer;
-        }
-
-        /* Chat Overlay */
-        #chat-window { 
-            position: fixed; top: 0; left: 100%; width: 100%; height: 100%; 
-            background: var(--bg-color); z-index: 100; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column;
-        }
-        #chat-window.open { left: 0; }
-        .chat-header { 
-            background: var(--surface-color); padding: 12px 15px; display: flex; 
-            align-items: center; border-bottom: 1px solid #2a2f32; gap: 10px;
-        }
-        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .bubble { padding: 10px 14px; border-radius: 15px; max-width: 80%; font-size: 0.95rem; line-height: 1.4; position: relative; }
-        .bubble.me { background: var(--chat-me); align-self: flex-end; border-bottom-right-radius: 2px; }
-        .bubble.other { background: var(--chat-other); align-self: flex-start; border-bottom-left-radius: 2px; }
-        
-        .chat-footer { background: var(--surface-color); padding: 10px; display: flex; align-items: center; gap: 10px; }
-        .chat-footer input { 
-            flex: 1; background: #2a2f32; border: none; padding: 12px 18px; 
-            border-radius: 25px; color: white; outline: none;
-        }
-        .btn-round { 
-            width: 45px; height: 45px; border-radius: 50%; border: none; 
-            background: var(--accent-color); color: white; display: flex; 
-            justify-content: center; align-items: center; cursor: pointer;
-        }
-
-        /* Modern Popup Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay-bg); display: none; justify-content: center;
-            align-items: center; z-index: 200; opacity: 0; transition: opacity 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        .modal-overlay.open { display: flex; opacity: 1; }
-        .modal-content {
-            background: var(--modal-bg); padding: 25px; border-radius: 20px;
-            width: 85%; max-width: 350px; text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            transform: scale(0.8); transition: transform 0.3s;
-        }
-        .modal-overlay.open .modal-content { transform: scale(1); }
-        .modal-icon { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; }
-        .modal-text { font-size: 1rem; color: var(--text-main); margin-bottom: 20px; line-height: 1.4; }
-        .modal-btn {
-            background: var(--accent-gradient); color: white; border: none;
-            padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer;
-        }
-
+        /* Bottom Nav */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; background: var(--card-bg); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 5; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; gap: 5px; transition: 0.3s; }
+        .nav-item i { font-size: 1.2rem; }
+        .nav-item.active { color: var(--primary); }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>TalkSky</h1>
-        <div style="display: flex; gap: 20px;">
-            <i class="fa-solid fa-camera"></i>
-            <i class="fa-solid fa-search"></i>
-        </div>
-    </header>
+<div class="app-container">
+    <div class="header">
+        <h2 id="header-title">Obrolan</h2>
+        <div class="my-id-badge" id="my-id-display">ID: ---</div>
+    </div>
 
-    <main>
-        <div id="tab-obrolan" class="tab-content active">
-            <div id="chat-list-container">
-                <div class="list-item" onclick="openChat('999', 'TalkSky Developer')">
-                    <div class="avatar"><i class="fa-solid fa-users"></i></div>
-                    <div class="info">
-                        <h4>TalkSky Developer</h4>
-                        <p>Admin: Selamat datang di TalkSky!</p>
-                    </div>
+    <div class="content">
+        <div id="obrolan" class="section active">
+            <div class="chat-item" onclick="openGlobalChat()">
+                <div class="avatar"><i class="fas fa-globe"></i></div>
+                <div class="chat-info">
+                    <h4>Grup Global (Testing)</h4>
+                    <p>Klik untuk masuk ke chat room</p>
                 </div>
             </div>
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-top:20px; text-align:center;">Chat privat dan Grup (Maks 24) akan muncul di sini.</p>
         </div>
 
-        <div id="tab-teman" class="tab-content">
-            <button class="btn-group" onclick="showPopup('fa-users-plus', 'Fitur Grup Baru segera hadir! Anda akan bisa mengundang hingga 24 anggota.')">
-                <i class="fa-solid fa-users-plus"></i> Buat Grup Baru (Maks 24)
-            </button>
-
-            <div class="section-title">Tambah Teman</div>
-            <div class="form-group" style="display: flex; gap: 8px;">
-                <input type="number" id="input-friend-id" placeholder="Masukkan ID Teman...">
-                <button class="btn-round" onclick="addFriend()"><i class="fa-solid fa-plus"></i></button>
-            </div>
-
-            <div id="friend-list" style="margin-top: 20px;">
-                <div class="list-item">
-                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
-                    <div class="info">
-                        <h4>Budi <span style="color:var(--text-muted); font-weight:normal;">(Alias)</span></h4>
-                        <p>ID: 12345</p>
-                    </div>
-                    <i class="fa-solid fa-pen" onclick="showPopup('fa-pen', 'Fitur untuk mengubah nama alias teman sedang dikembangkan.')" style="color:var(--accent-color); padding: 10px;"></i>
-                </div>
-            </div>
-        </div>
-
-        <div id="tab-status" class="tab-content">
-            <div class="list-item">
-                <div class="avatar" style="border: 2px solid var(--accent-color);"><i class="fa-solid fa-plus"></i></div>
-                <div class="info">
+        <div id="status" class="section">
+            <div class="chat-item">
+                <div class="avatar" style="background: #10b981;"><i class="fas fa-plus"></i></div>
+                <div class="chat-info">
                     <h4>Status Saya</h4>
-                    <p>Bagikan momen Anda hari ini</p>
+                    <p>Ketuk untuk menambahkan pembaruan status</p>
                 </div>
             </div>
         </div>
 
-        <div id="tab-pengaturan" class="tab-content">
+        <div id="teman" class="section">
+            <div class="form-group" style="display:flex; gap:10px;">
+                <input type="text" id="add-friend-id" placeholder="Masukkan ID Teman (Contoh: 12345)">
+                <button class="action-btn" onclick="addFriend()"><i class="fas fa-user-plus"></i></button>
+            </div>
+            <hr style="border-color:#334155; margin: 15px 0;">
+            <p style="color:var(--text-muted); font-size:0.8rem; margin-bottom: 10px;">Daftar Teman (Bisa di-Alias)</p>
+            <div id="friend-list"></div>
+        </div>
+
+        <div id="pengaturan" class="section">
             <div style="text-align: center; margin-bottom: 20px;">
-                <div id="profile-pic-container" style="position: relative; display: inline-block;">
-                    <div class="avatar" style="width: 100px; height: 100px; margin: 0; font-size: 3rem;">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <button onclick="showPopup('fa-camera', 'Modul pengunggahan foto profil akan segera terintegrasi dengan Firebase Storage.')" style="position: absolute; bottom: 0; right: 0; background: var(--accent-color); border: none; width: 35px; height: 35px; border-radius: 50%; color: white; cursor: pointer;">
-                        <i class="fa-solid fa-camera" style="font-size: 1rem;"></i>
-                    </button>
-                </div>
+                <div class="avatar" style="width:80px; height:80px; margin: 0 auto 10px auto; font-size: 2rem;" id="profile-avatar"><i class="fas fa-camera"></i></div>
+                <p style="font-size: 0.8rem; color: var(--primary); cursor:pointer;">Ubah Foto Profil</p>
             </div>
-
-            <div class="section-title">Profil Anda</div>
-            <div class="form-card">
-                <div class="form-group">
-                    <label>ID TalkSky (Permanen)</label>
-                    <input type="text" id="my-id" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Nama Tampilan</label>
-                    <input type="text" id="my-name" placeholder="Nama Anda">
-                </div>
-                <div class="form-group">
-                    <label>Bio</label>
-                    <textarea id="my-bio" rows="2" placeholder="Status bio..."></textarea>
-                </div>
+            <div class="form-group">
+                <label>ID Pengguna (Tidak Bisa Diganti)</label>
+                <input type="text" id="set-id" readonly value="12345">
             </div>
-
-            <div class="section-title">Personalisasi</div>
-            <div class="form-card">
-                <div class="form-group">
-                    <label>Warna Gelembung Chat</label>
-                    <div style="display:flex; gap: 10px; align-items:center;">
-                        <input type="color" id="chat-color" value="#005c4b" style="width:50px; height:40px; padding:0; border:none; cursor: pointer; background:none;">
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>Nama Anda</label>
+                <input type="text" id="set-name" placeholder="Nama Tampilan">
             </div>
-            
-            <button class="btn-save" onclick="saveProfile()">Simpan Perubahan</button>
+            <div class="form-group">
+                <label>Bio</label>
+                <input type="text" id="set-bio" placeholder="Sedang sibuk...">
+            </div>
+            <div class="form-group">
+                <label>Warna Bubble Chat</label>
+                <input type="color" id="set-color" value="#3b82f6" style="height: 40px; padding: 2px;">
+            </div>
+            <button class="btn-save" onclick="saveProfile()">Simpan Pengaturan</button>
         </div>
-    </main>
+    </div>
 
-    <div id="chat-window">
+    <div id="chat-room">
         <div class="chat-header">
-            <i class="fa-solid fa-arrow-left" onclick="closeChat()" style="padding: 10px; cursor: pointer;"></i>
-            <div class="avatar" style="width: 35px; height: 35px;"><i class="fa-solid fa-user" style="font-size: 1rem;"></i></div>
-            <div style="flex: 1;">
-                <h4 id="chat-target-name">Nama</h4>
-                <p style="font-size: 0.7rem; color: var(--accent-color);">Online</p>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-arrow-left" onclick="closeChat()" style="cursor: pointer; color: white;"></i>
+                <div class="avatar" style="width:35px; height:35px; margin:0;" id="room-avatar">G</div>
+                <h3 id="room-name" style="font-size:1.1rem;">Grup Global</h3>
             </div>
-            <div style="display:flex; gap: 15px; color: var(--accent-color);">
-                <i class="fa-solid fa-video" onclick="showPopup('fa-video', 'Fitur panggilan video terenkripsi sedang dalam tahap uji coba internal.')"></i>
-                <i class="fa-solid fa-phone" onclick="showPopup('fa-phone', 'Fitur panggilan suara berkualitas HD segera hadir di TalkSky.')"></i>
+            <div class="chat-header-actions">
+                <i class="fas fa-phone" onclick="alertFeature('Telepon Suara (WebRTC)')"></i>
+                <i class="fas fa-video" onclick="alertFeature('Video Call (WebRTC)')"></i>
             </div>
         </div>
-        <div class="chat-messages" id="chat-box"></div>
-        <div class="chat-footer">
-            <i class="fa-solid fa-plus" style="color: var(--text-muted); padding: 10px; cursor: pointer;"></i>
-            <input type="text" id="msg-input" placeholder="Ketik pesan...">
-            <button class="btn-round" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        <div class="messages" id="messages-container"></div>
+        <div class="input-area">
+            <button class="attach-btn" onclick="alertFeature('Kirim File/Gambar/Sherlok')"><i class="fas fa-paperclip"></i></button>
+            <input type="text" id="message-input" placeholder="Ketik pesan..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button class="attach-btn" onclick="alertFeature('Pesan Suara')"><i class="fas fa-microphone"></i></button>
+            <button class="action-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
-    <nav>
-        <button class="nav-item active" onclick="switchTab('obrolan')"><i class="fa-solid fa-message"></i>Obrolan</button>
-        <button class="nav-item" onclick="switchTab('status')"><i class="fa-solid fa-circle-notch"></i>Status</button>
-        <button class="nav-item" onclick="switchTab('teman')"><i class="fa-solid fa-user-group"></i>Kontak</button>
-        <button class="nav-item" onclick="switchTab('pengaturan')"><i class="fa-solid fa-gear"></i>Pengaturan</button>
-    </nav>
-
-    <div id="modal-overlay" class="modal-overlay" onclick="closePopup()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <i id="modal-icon" class="fa-solid modal-icon"></i>
-            <p id="modal-text" class="modal-text">Pesan default.</p>
-            <button class="modal-btn" onclick="closePopup()">Oke</button>
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('obrolan', this)">
+            <i class="fas fa-comment-dots"></i><span>Obrolan</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('status', this)">
+            <i class="fas fa-circle-notch"></i><span>Status</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('teman', this)">
+            <i class="fas fa-users"></i><span>Teman</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('pengaturan', this)">
+            <i class="fas fa-cog"></i><span>Pengaturan</span>
         </div>
     </div>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script type="module">
+    // Menggunakan konfigurasi Firebase Anda
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, set, get, child } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // Firebase Config (Tetap Menggunakan Milik Anda)
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-            authDomain: "mybro-9ba5f.firebaseapp.com",
-            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
-            projectId: "mybro-9ba5f",
-            storageBucket: "mybro-9ba5f.appspot.com",
-            messagingSenderId: "820948893264",
-            appId: "1:820948893264:web:e58e1a175bc90053335b55"
-        };
+    const firebaseConfig = {
+      apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+      authDomain: "mybro-9ba5f.firebaseapp.com",
+      databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+      projectId: "mybro-9ba5f",
+      storageBucket: "mybro-9ba5f.appspot.com",
+      messagingSenderId: "820948893264",
+      appId: "1:820948893264:web:e58e1a175bc90053335b55"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        // --- STATE & PROFIL ---
-        let myProfile = JSON.parse(localStorage.getItem('talksky_profile')) || {
-            id: Math.floor(10000 + Math.random() * 89999),
-            name: "Sky User",
-            bio: "Available on TalkSky",
-            chatColor: "#005c4b"
-        };
+    // Identitas Pengguna Lokal (Simulasi)
+    let myId = localStorage.getItem('mybro_id');
+    if (!myId) {
+        myId = Math.floor(10000 + Math.random() * 90000).toString(); // Generate 5 digit ID
+        localStorage.setItem('mybro_id', myId);
+        localStorage.setItem('mybro_name', 'User ' + myId);
+        localStorage.setItem('mybro_color', '#3b82f6');
+    }
+    
+    // Set UI Variables
+    document.getElementById('my-id-display').innerText = 'ID: ' + myId;
+    document.getElementById('set-id').value = myId;
+    document.getElementById('set-name').value = localStorage.getItem('mybro_name');
+    document.getElementById('set-color').value = localStorage.getItem('mybro_color');
+    document.documentElement.style.setProperty('--chat-bubble', localStorage.getItem('mybro_color'));
 
-        // Render Initial Profile
-        const initProfile = () => {
-            document.getElementById('my-id').value = myProfile.id;
-            document.getElementById('my-name').value = myProfile.name;
-            document.getElementById('my-bio').value = myProfile.bio;
-            document.getElementById('chat-color').value = myProfile.chatColor;
-            document.documentElement.style.setProperty('--chat-me', myProfile.chatColor);
-            localStorage.setItem('talksky_profile', JSON.stringify(myProfile));
-        };
-        initProfile();
+    // --- UI Navigation Logic ---
+    window.switchTab = function(tabId, el) {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        el.classList.add('active');
 
-        // --- MODERN POPUP LOGIC ---
-        window.showPopup = (iconClass, message) => {
-            const overlay = document.getElementById('modal-overlay');
-            const iconEl = document.getElementById('modal-icon');
-            const textEl = document.getElementById('modal-text');
+        document.getElementById('header-title').innerText = tabId.charAt(0).toUpperCase() + tabId.slice(1);
+    }
 
-            iconEl.className = `fa-solid ${iconClass} modal-icon`;
-            textEl.innerText = message;
-            overlay.classList.add('open');
-        };
+    // --- Chat Logic ---
+    window.openGlobalChat = function() {
+        document.getElementById('chat-room').style.display = 'flex';
+    }
 
-        window.closePopup = () => {
-            document.getElementById('modal-overlay').classList.remove('open');
-        };
+    window.closeChat = function() {
+        document.getElementById('chat-room').style.display = 'none';
+    }
 
-        // Tutup modal dengan tombol Back (Android)
-        window.addEventListener('popstate', function(event) {
-            const overlay = document.getElementById('modal-overlay');
-            if (overlay.classList.contains('open')) {
-                overlay.classList.remove('open');
-                history.pushState(null, null, window.location.pathname); // Mencegah navigasi back sungguhan
-            }
+    window.sendMessage = function() {
+        const input = document.getElementById('message-input');
+        const text = input.value.trim();
+        if(text === "") return;
+
+        const chatRef = ref(db, 'chats/global');
+        push(chatRef, {
+            senderId: myId,
+            senderName: localStorage.getItem('mybro_name'),
+            message: text,
+            timestamp: Date.now()
         });
-        // Siapkan state historis untuk menangani tombol back
-        history.pushState(null, null, window.location.pathname);
 
+        input.value = '';
+    }
 
-        // --- GLOBAL FUNCTIONS ---
-        window.switchTab = (tab) => {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            event.currentTarget.classList.add('active');
-        };
-
-        window.saveProfile = () => {
-            myProfile.name = document.getElementById('my-name').value;
-            myProfile.bio = document.getElementById('my-bio').value;
-            myProfile.chatColor = document.getElementById('chat-color').value;
-            localStorage.setItem('talksky_profile', JSON.stringify(myProfile));
-            document.documentElement.style.setProperty('--chat-me', myProfile.chatColor);
-            
-            showPopup('fa-floppy-disk', 'Profil TalkSky Anda telah berhasil diperbarui dan disimpan secara lokal.');
-        };
-
-        window.openChat = (id, name) => {
-            document.getElementById('chat-target-name').innerText = name;
-            document.getElementById('chat-window').classList.add('open');
-            loadMessages();
-        };
-
-        window.closeChat = () => {
-            document.getElementById('chat-window').classList.remove('open');
-        };
-
-        // --- CHAT LOGIC ---
-        const messagesRef = ref(db, 'chats/global');
-
-        window.sendMessage = () => {
-            const inp = document.getElementById('msg-input');
-            if(!inp.value.trim()) return;
-
-            push(messagesRef, {
-                senderId: myProfile.id,
-                name: myProfile.name,
-                text: inp.value,
-                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-            });
-            inp.value = '';
-        };
-
-        function loadMessages() {
-            const box = document.getElementById('chat-box');
-            box.innerHTML = '';
-            onChildAdded(messagesRef, (snap) => {
-                const data = snap.val();
-                const isMe = data.senderId === myProfile.id;
-                const div = document.createElement('div');
-                div.className = `bubble ${isMe ? 'me' : 'other'}`;
-                div.innerHTML = `
-                    ${!isMe ? `<div style="font-size:0.7rem; font-weight:bold; color:var(--accent-color)">${data.name}</div>` : ''}
-                    ${data.text}
-                    <div style="font-size:0.6rem; text-align:right; margin-top:4px; opacity:0.6;">${data.time}</div>
-                `;
-                box.appendChild(div);
-                box.scrollTop = box.scrollHeight;
-            });
+    // Listen for incoming messages
+    const chatRef = ref(db, 'chats/global');
+    onChildAdded(chatRef, (snapshot) => {
+        const data = snapshot.val();
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('msg');
+        
+        // Cek apakah pesan dari kita atau orang lain
+        if(data.senderId === myId) {
+            msgDiv.classList.add('sent');
+            msgDiv.innerHTML = `<span>${data.message}</span>`;
+        } else {
+            msgDiv.classList.add('received');
+            msgDiv.innerHTML = `<span style="font-size:0.7rem; color:#94a3b8; display:block; margin-bottom:3px;">${data.senderName} (ID: ${data.senderId})</span><span>${data.message}</span>`;
         }
 
-        window.addFriend = () => {
-            const idInput = document.getElementById('input-friend-id');
-            const id = idInput.value;
-            if(!id) return showPopup('fa-circle-xmark', 'Silakan masukkan ID TalkSky teman yang valid terlebih dahulu.');
-            
-            showPopup('fa-user-plus', `Permintaan pertemanan sedang diproses untuk TalkSky ID: ${id}. Harap tunggu konfirmasi dari pihak bersangkutan.`);
-            idInput.value = '';
+        const container = document.getElementById('messages-container');
+        container.appendChild(msgDiv);
+        container.scrollTop = container.scrollHeight;
+    });
+
+    // --- Profile & Friends Logic ---
+    window.saveProfile = function() {
+        const newName = document.getElementById('set-name').value;
+        const newColor = document.getElementById('set-color').value;
+        localStorage.setItem('mybro_name', newName);
+        localStorage.setItem('mybro_color', newColor);
+        document.documentElement.style.setProperty('--chat-bubble', newColor);
+        
+        // Save to Firebase (Opsional, untuk dibaca teman)
+        set(ref(db, 'users/' + myId), {
+            name: newName,
+            bio: document.getElementById('set-bio').value
+        });
+
+        alert("Profil berhasil disimpan!");
+    }
+
+    window.addFriend = function() {
+        const friendId = document.getElementById('add-friend-id').value;
+        if(friendId === myId) return alert("Tidak bisa menambahkan ID sendiri.");
+        if(friendId.length < 4) return alert("ID tidak valid.");
+        
+        const alias = prompt("Masukkan Alias / Nama Panggilan untuk ID " + friendId + ":");
+        if(alias) {
+            // Simulasi simpan teman di Local UI (Biasanya disimpan di Firebase ref('friends/'+myId))
+            const friendList = document.getElementById('friend-list');
+            const fDiv = document.createElement('div');
+            fDiv.classList.add('chat-item');
+            fDiv.innerHTML = `
+                <div class="avatar" style="background:#8b5cf6"><i class="fas fa-user"></i></div>
+                <div class="chat-info">
+                    <h4>${alias} <span style="font-size:0.7rem; color:var(--text-muted)">(ID: ${friendId})</span></h4>
+                    <p>Klik untuk Chat Pribadi</p>
+                </div>
+            `;
+            friendList.appendChild(fDiv);
+            document.getElementById('add-friend-id').value = '';
+            alert("Teman berhasil ditambahkan!");
         }
-    </script>
+    }
+
+    window.alertFeature = function(featureName) {
+        alert("Fitur " + featureName + " memerlukan integrasi Firebase Storage (untuk file) atau Server WebRTC (untuk panggilan audio/video). Ini adalah area di mana logika lanjutan akan dibangun.");
+    }
+</script>
+
 </body>
 </html>
