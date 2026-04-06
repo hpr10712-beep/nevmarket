@@ -2,272 +2,425 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, initial-value=1"> 
-    <title>ELITE ARENA | OFFICIAL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkSky - Connect the World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { 
-            background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; 
-            margin: 0 auto; width: 1200px; padding: 20px 0;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(239, 68, 68, 0.1) 0%, transparent 40%),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            background-attachment: fixed;
+        :root {
+            --bg-color: #0b0e11;
+            --surface-color: #15191c;
+            --accent-color: #00a8ff;
+            --accent-gradient: linear-gradient(135deg, #00a8ff, #0066ff);
+            --text-main: #e9edef;
+            --text-muted: #8696a0;
+            --chat-me: #005c4b;
+            --chat-other: #202c33;
+            --overlay-bg: rgba(0, 0, 0, 0.75);
+            --modal-bg: rgba(30, 36, 40, 0.9);
         }
 
-        .font-orbitron { font-family: 'Orbitron', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); transition: 0.3s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
         
-        /* Profile & Status */
-        .profile-box {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 1) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 30px; padding: 15px 30px; display: flex; align-items: center; gap: 20px;
+        body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Header */
+        header { 
+            background-color: var(--surface-color); 
+            padding: 18px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #2a2f32;
         }
-        .avatar-circle { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #fbbf24; overflow: hidden; background: #000; }
-        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+        header h1 { font-size: 1.4rem; color: var(--accent-color); letter-spacing: 1px; }
 
-        .status-banner {
-            display: flex; align-items: center; justify-content: center; gap: 15px;
-            padding: 12px 40px; border-radius: 50px; font-family: 'Orbitron', sans-serif;
-            font-weight: 900; font-size: 16px; letter-spacing: 2px; text-transform: uppercase;
+        /* Main Container */
+        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; }
+        .tab-content { display: none; padding: 15px; animation: slideUp 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Navigation */
+        nav { 
+            background-color: var(--surface-color); 
+            display: flex; 
+            padding: 8px 0; 
+            border-top: 1px solid #2a2f32;
         }
-        .status-open { background: rgba(16, 185, 129, 0.1); border: 2px solid #10b981; color: #34d399; box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-        .status-closed { background: rgba(239, 68, 68, 0.1); border: 2px solid #ef4444; color: #f87171; }
+        .nav-item { 
+            background: none; border: none; color: var(--text-muted); 
+            flex: 1; display: flex; flex-direction: column; align-items: center; 
+            gap: 4px; cursor: pointer; transition: 0.3s; font-size: 0.75rem;
+        }
+        .nav-item i { font-size: 1.2rem; }
+        .nav-item.active { color: var(--accent-color); }
 
-        /* Unit Cards */
-        .unit-card { position: relative; overflow: hidden; border-radius: 3rem; padding: 40px; text-align: center; border-top: 6px solid transparent; }
-        .card-a { border-color: #2563eb; box-shadow: 0 10px 40px -10px rgba(37, 99, 235, 0.3); }
-        .card-b { border-color: #dc2626; box-shadow: 0 10px 40px -10px rgba(220, 38, 38, 0.3); }
+        /* Card & List Styling */
+        .btn-group {
+            background: var(--accent-gradient);
+            color: white; border: none; padding: 15px; width: 100%;
+            border-radius: 12px; font-weight: bold; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(0, 168, 255, 0.3);
+        }
+        .btn-group:active { transform: scale(0.98); }
+
+        .list-item { 
+            display: flex; align-items: center; padding: 12px; 
+            background-color: rgba(255,255,255,0.03); border-radius: 15px; 
+            margin-bottom: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .list-item:hover { background-color: rgba(255,255,255,0.08); }
         
-        .char-circle { width: 180px; height: 180px; border-radius: 50%; margin: 0 auto 20px; border: 4px solid rgba(255,255,255,0.1); overflow: hidden; }
-        .char-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar { 
+            width: 50px; height: 50px; border-radius: 50%; 
+            background: #313d45; display: flex; justify-content: center; 
+            align-items: center; margin-right: 15px; position: relative;
+            object-fit: cover;
+        }
+        .avatar i { font-size: 1.5rem; color: #919191; }
+
+        .info { flex: 1; }
+        .info h4 { font-size: 1rem; margin-bottom: 4px; }
+        .info p { color: var(--text-muted); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Settings Form */
+        .section-title { color: var(--accent-color); font-size: 0.9rem; margin: 15px 0 10px 5px; text-transform: uppercase; }
+        .form-card { background: var(--surface-color); padding: 15px; border-radius: 15px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+        .form-group input, .form-group textarea { 
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2a2f32;
+            background: #1e2428; color: white; outline: none; transition: 0.3s;
+        }
+        .form-group input:focus { border-color: var(--accent-color); }
+        .form-group input[readonly] { color: #555; background: #111; }
+
+        .btn-save { 
+            background: var(--accent-gradient); color: white; border: none; 
+            padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer;
+        }
+
+        /* Chat Overlay */
+        #chat-window { 
+            position: fixed; top: 0; left: 100%; width: 100%; height: 100%; 
+            background: var(--bg-color); z-index: 100; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; flex-direction: column;
+        }
+        #chat-window.open { left: 0; }
+        .chat-header { 
+            background: var(--surface-color); padding: 12px 15px; display: flex; 
+            align-items: center; border-bottom: 1px solid #2a2f32; gap: 10px;
+        }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .bubble { padding: 10px 14px; border-radius: 15px; max-width: 80%; font-size: 0.95rem; line-height: 1.4; position: relative; }
+        .bubble.me { background: var(--chat-me); align-self: flex-end; border-bottom-right-radius: 2px; }
+        .bubble.other { background: var(--chat-other); align-self: flex-start; border-bottom-left-radius: 2px; }
         
-        .locked { opacity: 0.2; filter: grayscale(1); pointer-events: none; }
+        .chat-footer { background: var(--surface-color); padding: 10px; display: flex; align-items: center; gap: 10px; }
+        .chat-footer input { 
+            flex: 1; background: #2a2f32; border: none; padding: 12px 18px; 
+            border-radius: 25px; color: white; outline: none;
+        }
+        .btn-round { 
+            width: 45px; height: 45px; border-radius: 50%; border: none; 
+            background: var(--accent-color); color: white; display: flex; 
+            justify-content: center; align-items: center; cursor: pointer;
+        }
 
-        .rgb-frame { border-radius: 40px; padding: 4px; background: linear-gradient(var(--angle), #fbbf24, #ef4444, #3b82f6, #fbbf24); --angle: 0deg; animation: rotateBorder 4s linear infinite; }
-        @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
-        @keyframes rotateBorder { to { --angle: 360deg; } }
- 
-    /* Animasi Iklan Teks */
-@keyframes fadeSlide {
-    0% { opacity: 0; transform: translateY(20px) scale(0.9); filter: blur(10px); }
-    15% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    85% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-    100% { opacity: 0; transform: translateY(-20px) scale(1.1); filter: blur(10px); }
-}
+        /* Modern Popup Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-bg); display: none; justify-content: center;
+            align-items: center; z-index: 200; opacity: 0; transition: opacity 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.open { display: flex; opacity: 1; }
+        .modal-content {
+            background: var(--modal-bg); padding: 25px; border-radius: 20px;
+            width: 85%; max-width: 350px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: scale(0.8); transition: transform 0.3s;
+        }
+        .modal-overlay.open .modal-content { transform: scale(1); }
+        .modal-icon { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; }
+        .modal-text { font-size: 1rem; color: var(--text-main); margin-bottom: 20px; line-height: 1.4; }
+        .modal-btn {
+            background: var(--accent-gradient); color: white; border: none;
+            padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer;
+        }
 
-.animate-fade-slide {
-    animation: fadeSlide 1.5s infinite ease-in-out;
-}
-
-    
     </style>
 </head>
 <body>
 
-    <div class="flex justify-between items-center px-10 mb-10">
-        <div class="profile-box shadow-2xl">
-            <div class="avatar-circle">
-                <img src="https://i.ibb.co.com/pqyBmFQ/eedd9bb8-f4d4-488b-86a1-3ff00eb9c3c9.jpg" alt="Profile">
-            </div>
-            <div>
-                <h1 id="playerID" class="font-orbitron text-xl font-black text-white tracking-widest uppercase italic">...</h1>
-                <div class="flex items-center gap-2 mt-1">
-                    <span class="h-2 w-2 bg-green-500 rounded-full animate-ping"></span>
-                    <span class="text-[10px] font-bold text-green-400 uppercase tracking-widest">System Online</span>
+    <header>
+        <h1>TalkSky</h1>
+        <div style="display: flex; gap: 20px;">
+            <i class="fa-solid fa-camera"></i>
+            <i class="fa-solid fa-search"></i>
+        </div>
+    </header>
+
+    <main>
+        <div id="tab-obrolan" class="tab-content active">
+            <div id="chat-list-container">
+                <div class="list-item" onclick="openChat('999', 'TalkSky Developer')">
+                    <div class="avatar"><i class="fa-solid fa-users"></i></div>
+                    <div class="info">
+                        <h4>TalkSky Developer</h4>
+                        <p>Admin: Selamat datang di TalkSky!</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="pickBanner" class="status-banner status-open">
-            <span id="pickText">PICK TELAH DIBUKA</span>
-        </div>
+        <div id="tab-teman" class="tab-content">
+            <button class="btn-group" onclick="showPopup('fa-users-plus', 'Fitur Grup Baru segera hadir! Anda akan bisa mengundang hingga 24 anggota.')">
+                <i class="fa-solid fa-users-plus"></i> Buat Grup Baru (Maks 24)
+            </button>
 
-        <div class="glass px-10 py-5 rounded-3xl border-r-8 border-yellow-500 bg-slate-900/80 shadow-xl">
-            <p class="text-[9px] text-yellow-500 font-bold uppercase tracking-[0.3em] mb-1">Current Credits</p>
-            <h2 id="balanceTxt" class="text-3xl font-orbitron font-black text-white italic">Rp 0</h2>
-        </div>
-    </div>
+            <div class="section-title">Tambah Teman</div>
+            <div class="form-group" style="display: flex; gap: 8px;">
+                <input type="number" id="input-friend-id" placeholder="Masukkan ID Teman...">
+                <button class="btn-round" onclick="addFriend()"><i class="fa-solid fa-plus"></i></button>
+            </div>
 
-    <div class="px-10 grid grid-cols-12 gap-10">
-        <div id="cardA" class="col-span-6 glass unit-card card-a">
-            <div class="char-circle shadow-2xl"><img src="https://i.ibb.co.com/gFL17MRg/2f0745fb-c6db-4785-b34a-9d02256e9522.jpg" alt="Unit A"></div>
-            <h3 class="font-orbitron text-2xl font-black text-blue-400 mb-6 tracking-tighter uppercase italic">RADZ [GRANT 77]</h3>
-            <input type="number" id="amtA" class="w-full bg-slate-950/80 border border-slate-700 p-5 rounded-2xl mb-5 text-center text-2xl font-orbitron font-bold text-white focus:border-blue-500 outline-none transition-all" placeholder="0">
-            <button onclick="placeBet('A')" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-2xl font-orbitron font-black text-lg shadow-lg active:scale-95 transition-all">DEPLOY STRIKER</button>
-        </div>
-
-        <div id="cardB" class="col-span-6 glass unit-card card-b">
-            <div class="char-circle shadow-2xl"><img src="https://i.ibb.co.com/49Yp0kf/Elite-pass-Mordern-Ninjas-S20-1-3.jpg" alt="Unit B"></div>
-            <h3 class="font-orbitron text-2xl font-black text-red-400 mb-6 tracking-tighter uppercase italic">JILY [MARGA 55]</h3>
-            <input type="number" id="amtB" class="w-full bg-slate-950/80 border border-slate-700 p-5 rounded-2xl mb-5 text-center text-2xl font-orbitron font-bold text-white focus:border-red-500 outline-none transition-all" placeholder="0">
-            <button onclick="placeBet('B')" class="w-full bg-red-600 hover:bg-red-500 py-5 rounded-2xl font-orbitron font-black text-lg shadow-lg active:scale-95 transition-all">DEPLOY HUNTER</button>
-        </div>
-
-        <div class="col-span-12 mt-5 mb-20">
-    <div class="rgb-frame shadow-2xl">
-        <div class="bg-slate-950 rounded-[36px] overflow-hidden aspect-[21/6] flex items-center justify-center relative border-4 border-slate-900">
-            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 20px 20px;"></div>
-            
-            <div class="text-center z-10 px-10">
-                <div id="ad-text" class="font-orbitron text-3xl font-black italic tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-white to-blue-500 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)] animate-fade-slide">
-                    CARA PICK?
+            <div id="friend-list" style="margin-top: 20px;">
+                <div class="list-item">
+                    <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="info">
+                        <h4>Budi <span style="color:var(--text-muted); font-weight:normal;">(Alias)</span></h4>
+                        <p>ID: 12345</p>
+                    </div>
+                    <i class="fa-solid fa-pen" onclick="showPopup('fa-pen', 'Fitur untuk mengubah nama alias teman sedang dikembangkan.')" style="color:var(--accent-color); padding: 10px;"></i>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, set, onValue, update, push, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        <div id="tab-status" class="tab-content">
+            <div class="list-item">
+                <div class="avatar" style="border: 2px solid var(--accent-color);"><i class="fa-solid fa-plus"></i></div>
+                <div class="info">
+                    <h4>Status Saya</h4>
+                    <p>Bagikan momen Anda hari ini</p>
+                </div>
+            </div>
+        </div>
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
-        projectId: "mybro-9ba5f"
-    };
+        <div id="tab-pengaturan" class="tab-content">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div id="profile-pic-container" style="position: relative; display: inline-block;">
+                    <div class="avatar" style="width: 100px; height: 100px; margin: 0; font-size: 3rem;">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <button onclick="showPopup('fa-camera', 'Modul pengunggahan foto profil akan segera terintegrasi dengan Firebase Storage.')" style="position: absolute; bottom: 0; right: 0; background: var(--accent-color); border: none; width: 35px; height: 35px; border-radius: 50%; color: white; cursor: pointer;">
+                        <i class="fa-solid fa-camera" style="font-size: 1rem;"></i>
+                    </button>
+                </div>
+            </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+            <div class="section-title">Profil Anda</div>
+            <div class="form-card">
+                <div class="form-group">
+                    <label>ID TalkSky (Permanen)</label>
+                    <input type="text" id="my-id" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Nama Tampilan</label>
+                    <input type="text" id="my-name" placeholder="Nama Anda">
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="my-bio" rows="2" placeholder="Status bio..."></textarea>
+                </div>
+            </div>
 
-    // --- IDENTITY ---
-    let myID = localStorage.getItem('laga_player_id');
-    if (!myID) {
-        myID = 'ELITE-' + Math.floor(1000 + Math.random() * 8999);
-        localStorage.setItem('laga_player_id', myID);
-    }
-    document.getElementById('playerID').innerText = myID;
-
-    let myBalance = 0;
-    let isPickOpen = true;
-    const myRef = ref(db, 'users/' + myID);
-
-    // --- TIME UTILITY ---
-    const getFullTime = () => {
-        const d = new Date();
-        const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-        return `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} - ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')}`;
-    };
-
-    // --- SYNC SALDO ---
-    onValue(myRef, (snap) => {
-        if (!snap.exists()) { set(myRef, { balance: 100000 }); } // Saldo awal free
-        else {
-            myBalance = snap.val().balance || 0;
-            document.getElementById('balanceTxt').innerText = `Rp ${myBalance.toLocaleString('id-ID')}`;
-        }
-    });
-
-    // --- SYNC GATE STATUS ---
-    onValue(ref(db, 'match/status'), (snap) => {
-        const status = snap.val() || 'open';
-        isPickOpen = (status === 'open');
-        const banner = document.getElementById('pickBanner');
-        banner.className = isPickOpen ? "status-banner status-open" : "status-banner status-closed";
-        document.getElementById('pickText').innerText = isPickOpen ? "PICK TELAH DIBUKA" : "PICK TELAH DITUTUP";
-        document.getElementById('cardA').className = isPickOpen ? "col-span-6 glass unit-card card-a" : "col-span-6 glass unit-card card-a locked";
-        document.getElementById('cardB').className = isPickOpen ? "col-span-6 glass unit-card card-b" : "col-span-6 glass unit-card card-b locked";
-    });
-
-    // --- ACTION: PLACE BET ---
-// --- ACTION: PLACE BET ---
-window.placeBet = async (side) => {
-    if (!isPickOpen) return Swal.fire('Locked', 'Bursa sudah ditutup!', 'warning');
-    
-    const amtInput = document.getElementById('amt' + side);
-    const amt = parseInt(amtInput.value);
-
-    if (!amt || amt <= 0) return Swal.fire('Info', 'Masukkan nominal!', 'info');
-    if (amt > myBalance) return Swal.fire('Error', 'Saldo tidak cukup!', 'error');
-
-    // --- BAGIAN YANG DIUPDATE ---
-    await update(myRef, { 
-        balance: myBalance - amt,
-        side: side,          // <--- TAMBAHKAN INI (Agar Admin bisa baca Unit mana)
-        betAmount: amt       // <--- TAMBAHKAN INI (Agar Admin bisa hitung Market Volume)
-    });
-    // ----------------------------
-
-    localStorage.setItem('last_side', side);
-    localStorage.setItem('last_amt', amt);
-
-    // Kirim Log ke Admin
-    push(ref(db, 'globalLogs'), {
-        time: getFullTime(),
-        user: myID,
-        desc: `PICK UNIT ${side}`,
-        amount: amt,
-        type: 'process'
-    });
-
-    amtInput.value = "";
-    Swal.fire({ icon: 'success', title: 'DEPLOYED', text: `Unit ${side} telah dikirim ke arena!`, background: '#020617', color: '#fff' });
-};
-
-
-    // --- ACTION: RESULT LISTENER ---
-    onValue(ref(db, 'match/result'), (snap) => {
-        const winner = snap.val();
-        if (!winner) return;
-
-        const side = localStorage.getItem('last_side');
-        const amt = parseInt(localStorage.getItem('last_amt') || 0);
-
-        if (side === winner && amt > 0) {
-            const winPrize = amt * 2;
-            update(myRef, { balance: myBalance + winPrize });
+            <div class="section-title">Personalisasi</div>
+            <div class="form-card">
+                <div class="form-group">
+                    <label>Warna Gelembung Chat</label>
+                    <div style="display:flex; gap: 10px; align-items:center;">
+                        <input type="color" id="chat-color" value="#005c4b" style="width:50px; height:40px; padding:0; border:none; cursor: pointer; background:none;">
+                    </div>
+                </div>
+            </div>
             
-            // Log Menang ke Admin
-            push(ref(db, 'globalLogs'), {
-                time: getFullTime(),
-                user: myID,
-                desc: `WINNER UNIT ${side}`,
-                amount: winPrize,
-                type: 'win'
-            });
+            <button class="btn-save" onclick="saveProfile()">Simpan Perubahan</button>
+        </div>
+    </main>
 
-            Swal.fire({ title: 'VICTORY! 🏆', text: 'Unit Anda memenangkan pertempuran!', icon: 'success', background: '#020617', color: '#fff' });
-        } else if (side && side !== winner) {
-            // Log Kalah ke Admin
-            push(ref(db, 'globalLogs'), {
-                time: getFullTime(),
-                user: myID,
-                desc: `LOSE UNIT ${side}`,
-                amount: amt,
-                type: 'lose'
-            });
+    <div id="chat-window">
+        <div class="chat-header">
+            <i class="fa-solid fa-arrow-left" onclick="closeChat()" style="padding: 10px; cursor: pointer;"></i>
+            <div class="avatar" style="width: 35px; height: 35px;"><i class="fa-solid fa-user" style="font-size: 1rem;"></i></div>
+            <div style="flex: 1;">
+                <h4 id="chat-target-name">Nama</h4>
+                <p style="font-size: 0.7rem; color: var(--accent-color);">Online</p>
+            </div>
+            <div style="display:flex; gap: 15px; color: var(--accent-color);">
+                <i class="fa-solid fa-video" onclick="showPopup('fa-video', 'Fitur panggilan video terenkripsi sedang dalam tahap uji coba internal.')"></i>
+                <i class="fa-solid fa-phone" onclick="showPopup('fa-phone', 'Fitur panggilan suara berkualitas HD segera hadir di TalkSky.')"></i>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-box"></div>
+        <div class="chat-footer">
+            <i class="fa-solid fa-plus" style="color: var(--text-muted); padding: 10px; cursor: pointer;"></i>
+            <input type="text" id="msg-input" placeholder="Ketik pesan...">
+            <button class="btn-round" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
 
-            Swal.fire({ title: 'DEFEAT', text: 'Unit Anda hancur di medan perang!', icon: 'error', background: '#020617', color: '#fff' });
+    <nav>
+        <button class="nav-item active" onclick="switchTab('obrolan')"><i class="fa-solid fa-message"></i>Obrolan</button>
+        <button class="nav-item" onclick="switchTab('status')"><i class="fa-solid fa-circle-notch"></i>Status</button>
+        <button class="nav-item" onclick="switchTab('teman')"><i class="fa-solid fa-user-group"></i>Kontak</button>
+        <button class="nav-item" onclick="switchTab('pengaturan')"><i class="fa-solid fa-gear"></i>Pengaturan</button>
+    </nav>
+
+    <div id="modal-overlay" class="modal-overlay" onclick="closePopup()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <i id="modal-icon" class="fa-solid modal-icon"></i>
+            <p id="modal-text" class="modal-text">Pesan default.</p>
+            <button class="modal-btn" onclick="closePopup()">Oke</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Firebase Config (Tetap Menggunakan Milik Anda)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f",
+            storageBucket: "mybro-9ba5f.appspot.com",
+            messagingSenderId: "820948893264",
+            appId: "1:820948893264:web:e58e1a175bc90053335b55"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // --- STATE & PROFIL ---
+        let myProfile = JSON.parse(localStorage.getItem('talksky_profile')) || {
+            id: Math.floor(10000 + Math.random() * 89999),
+            name: "Sky User",
+            bio: "Available on TalkSky",
+            chatColor: "#005c4b"
+        };
+
+        // Render Initial Profile
+        const initProfile = () => {
+            document.getElementById('my-id').value = myProfile.id;
+            document.getElementById('my-name').value = myProfile.name;
+            document.getElementById('my-bio').value = myProfile.bio;
+            document.getElementById('chat-color').value = myProfile.chatColor;
+            document.documentElement.style.setProperty('--chat-me', myProfile.chatColor);
+            localStorage.setItem('talksky_profile', JSON.stringify(myProfile));
+        };
+        initProfile();
+
+        // --- MODERN POPUP LOGIC ---
+        window.showPopup = (iconClass, message) => {
+            const overlay = document.getElementById('modal-overlay');
+            const iconEl = document.getElementById('modal-icon');
+            const textEl = document.getElementById('modal-text');
+
+            iconEl.className = `fa-solid ${iconClass} modal-icon`;
+            textEl.innerText = message;
+            overlay.classList.add('open');
+        };
+
+        window.closePopup = () => {
+            document.getElementById('modal-overlay').classList.remove('open');
+        };
+
+        // Tutup modal dengan tombol Back (Android)
+        window.addEventListener('popstate', function(event) {
+            const overlay = document.getElementById('modal-overlay');
+            if (overlay.classList.contains('open')) {
+                overlay.classList.remove('open');
+                history.pushState(null, null, window.location.pathname); // Mencegah navigasi back sungguhan
+            }
+        });
+        // Siapkan state historis untuk menangani tombol back
+        history.pushState(null, null, window.location.pathname);
+
+
+        // --- GLOBAL FUNCTIONS ---
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        };
+
+        window.saveProfile = () => {
+            myProfile.name = document.getElementById('my-name').value;
+            myProfile.bio = document.getElementById('my-bio').value;
+            myProfile.chatColor = document.getElementById('chat-color').value;
+            localStorage.setItem('talksky_profile', JSON.stringify(myProfile));
+            document.documentElement.style.setProperty('--chat-me', myProfile.chatColor);
+            
+            showPopup('fa-floppy-disk', 'Profil TalkSky Anda telah berhasil diperbarui dan disimpan secara lokal.');
+        };
+
+        window.openChat = (id, name) => {
+            document.getElementById('chat-target-name').innerText = name;
+            document.getElementById('chat-window').classList.add('open');
+            loadMessages();
+        };
+
+        window.closeChat = () => {
+            document.getElementById('chat-window').classList.remove('open');
+        };
+
+        // --- CHAT LOGIC ---
+        const messagesRef = ref(db, 'chats/global');
+
+        window.sendMessage = () => {
+            const inp = document.getElementById('msg-input');
+            if(!inp.value.trim()) return;
+
+            push(messagesRef, {
+                senderId: myProfile.id,
+                name: myProfile.name,
+                text: inp.value,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+            });
+            inp.value = '';
+        };
+
+        function loadMessages() {
+            const box = document.getElementById('chat-box');
+            box.innerHTML = '';
+            onChildAdded(messagesRef, (snap) => {
+                const data = snap.val();
+                const isMe = data.senderId === myProfile.id;
+                const div = document.createElement('div');
+                div.className = `bubble ${isMe ? 'me' : 'other'}`;
+                div.innerHTML = `
+                    ${!isMe ? `<div style="font-size:0.7rem; font-weight:bold; color:var(--accent-color)">${data.name}</div>` : ''}
+                    ${data.text}
+                    <div style="font-size:0.6rem; text-align:right; margin-top:4px; opacity:0.6;">${data.time}</div>
+                `;
+                box.appendChild(div);
+                box.scrollTop = box.scrollHeight;
+            });
         }
 
-        // Reset Data
-        localStorage.removeItem('last_side');
-        localStorage.removeItem('last_amt');
-    });
-
-        // --- LOGIKA IKLAN TEXT CHANGER ---
-    const adTexts = [
-        "CARA PICK?",
-        "PILIH SALAH SATU PEMAIN ANDALAN ANDA",
-        "MASUKAN JUMLAH YANG AKAN DIPASANG",
-        "TUNGGU GAME SELESAI!",
-        "JANGAN SPAM PASANG!"
-    ];
-    
-    let adIndex = 0;
-    const adElement = document.getElementById('ad-text');
-
-    // Berjalan setiap 1.5 detik sinkron dengan animasi CSS
-    setInterval(() => {
-        adIndex = (adIndex + 1) % adTexts.length;
-        adElement.innerText = adTexts[adIndex];
-    }, 1500);
-
-
-</script>
+        window.addFriend = () => {
+            const idInput = document.getElementById('input-friend-id');
+            const id = idInput.value;
+            if(!id) return showPopup('fa-circle-xmark', 'Silakan masukkan ID TalkSky teman yang valid terlebih dahulu.');
+            
+            showPopup('fa-user-plus', `Permintaan pertemanan sedang diproses untuk TalkSky ID: ${id}. Harap tunggu konfirmasi dari pihak bersangkutan.`);
+            idInput.value = '';
+        }
+    </script>
 </body>
 </html>
