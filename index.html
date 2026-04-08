@@ -78,6 +78,59 @@
             from { transform: translate(-50%, 0); opacity: 1; }
             to { transform: translate(-50%, 120%); opacity: 0; }
         }
+        /* Animasi Teks Iklan Super Keren */
+.ad-scroll-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.ad-text-animate {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 15s linear infinite;
+    background: linear-gradient(90deg, #818cf8, #c084fc, #fb7185, #818cf8);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@keyframes scrollText {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Efek Glow pada Box Iklan */
+.ad-glow-box {
+    position: relative;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    transition: all 0.5s ease;
+}
+
+.ad-glow-box:hover {
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.15);
+}
+
+.ad-glow-box::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, #4f46e5, transparent, #ec4899, transparent);
+    z-index: -1;
+    border-radius: 1rem;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.ad-glow-box:hover::before {
+    opacity: 0.3;
+}
+
     </style>
 </head>
 <body class="antialiased min-h-screen pb-20 selection:bg-indigo-500/30">
@@ -119,16 +172,35 @@
         </div>
 
         <div class="max-w-4xl mx-auto mb-10">
-            <div class="w-full bg-slate-900/60 border border-dashed border-slate-700/60 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[120px] relative overflow-hidden group cursor-pointer hover:bg-slate-800/60 transition-all">
-                <div class="absolute inset-0 ad-pattern opacity-50"></div>
-                <span class="absolute top-2 left-3 text-[10px] uppercase tracking-widest text-slate-500 font-bold">Advertisement</span>
-                <div class="z-10 text-center flex flex-col items-center gap-2">
-                    <div class="bg-slate-800 p-2 rounded-full"><i data-lucide="megaphone" class="w-5 h-5 text-indigo-400"></i></div>
-                    <h4 class="font-bold text-slate-300">Space Iklan Premium 728x90</h4>
-                    <p class="text-xs text-slate-500">Pasang banner iklan bisnis Anda di area strategis ini.</p>
-                </div>
+        <div class="max-w-4xl mx-auto mb-10">
+    <div class="w-full bg-slate-900/60 ad-glow-box rounded-2xl p-6 flex flex-col items-center justify-center min-h-[130px] relative overflow-hidden group cursor-pointer">
+        <div class="absolute inset-0 ad-pattern opacity-30"></div>
+        
+        <span class="absolute top-3 left-4 flex items-center gap-2">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.2em] text-indigo-400 font-black">Sponsored</span>
+        </span>
+
+        <div class="z-10 w-full text-center">
+            <div class="ad-scroll-container mb-2">
+                <h4 class="ad-text-animate text-xl md:text-2xl">
+                    🚀 Pasang Iklan Anda Di Sini • Jangkau Jutaan User • Promo Terbatas Diskon 50% • Hubungi Kami Sekarang! • 🚀
+                </h4>
             </div>
+            
+            <p class="text-xs text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
+                Klik untuk detail pemasangan iklan premium
+            </p>
         </div>
+
+        <div class="absolute bottom-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
+            <i data-lucide="external-link" class="w-4 h-4 text-indigo-400"></i>
+        </div>
+    </div>
+</div>
 
         <div id="result-container" class="hidden animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
