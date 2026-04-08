@@ -149,12 +149,7 @@
                 <h1 class="text-lg font-extrabold tracking-widest">GRAB<span class="text-indigo-400">MEDIA</span></h1>
             </div>
         </header>
-
-        <div class="max-w-2xl mx-auto text-center mb-10">
-            <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-[1.1]">
-                Satu Link, <br class="md:hidden" />
-                <span class="text-gradient-animate bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400">Banyak Pilihan.</span>
-            </h2>
+        
             <p class="text-slate-400 mb-8 font-medium">Download video HD, audio MP3, dan cover tanpa batas.</p>
             
             <div class="glass-panel p-2 flex flex-col md:flex-row gap-2 mt-4 relative z-10 focus-within:ring-2 ring-indigo-500/50 transition-all rounded-[2rem] bg-black/30">
@@ -183,17 +178,14 @@
             </span>
             <span class="text-[10px] uppercase tracking-[0.2em] text-indigo-400 font-black">Sponsored</span>
         </span>
-
-        <div class="z-10 w-full text-center">
-            <div class="ad-scroll-container mb-2">
-                <h4 class="ad-text-animate text-xl md:text-2xl">
-                    🚀 Pasang Iklan Anda Di Sini • Jangkau Jutaan User • Promo Terbatas Diskon 50% • Hubungi Kami Sekarang! • 🚀
-                </h4>
-            </div>
             
-            <p class="text-xs text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
-                Klik untuk detail pemasangan iklan premium
-            </p>
+            <div onclick="contactAds()" class="cursor-pointer">
+    <div class="ad-glow-box p-6 bg-slate-900/60 rounded-2xl border border-indigo-500/20 text-center">
+        <h3 class="text-white font-black">PASANG IKLAN DI SINI</h3>
+        <p class="text-slate-400 text-sm">Klik untuk chat Admin via WhatsApp</p>
+    </div>
+</div>
+
         </div>
 
         <div class="absolute bottom-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
@@ -211,7 +203,7 @@
                         <div class="w-full aspect-[9/16] bg-black/80 rounded-2xl overflow-hidden relative shadow-2xl mb-5 border border-white/10">
                             <video id="res-video" controls class="w-full h-full object-contain"></video>
                             <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div> HD Ready
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div> FULL HD
                             </div>
                         </div>
                         
@@ -310,7 +302,7 @@
             
             <div class="mt-12 w-full bg-slate-900/60 border border-dashed border-slate-700/60 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[100px] relative overflow-hidden group cursor-pointer hover:bg-slate-800/60 transition-all">
                 <span class="absolute top-2 left-3 text-[10px] uppercase tracking-widest text-slate-500 font-bold z-10">Advertisement</span>
-                <p class="font-bold text-slate-400 z-10">Space Iklan Kotak / Banner Bawah</p>
+                <p class="font-bold text-slate-400 z-10">⬆️ Kontak Admin ⬆️</p>
                 <div class="absolute inset-0 ad-pattern opacity-30"></div>
             </div>
 
@@ -421,6 +413,19 @@
                 }, 2500);
             });
         }
+
+        function contactAds() {
+    // Teks pesan yang ingin dikirim
+    const message = "Hai saya ingin memasang iklan di website Talksky. Bisa minta info detailnya?";
+    
+    // Format link yang kamu minta dengan penggabungan variabel message
+    // encodeURIComponent memastikan spasi dan karakter khusus terbaca dengan benar oleh browser
+    const urlWA = `https://wa.me/6289603266259?text=${encodeURIComponent(message)}`;
+    
+    // Perintah untuk membuka WhatsApp di tab baru
+    window.open(urlWA, '_blank');
+}
+
     </script>
 </body>
 </html>
