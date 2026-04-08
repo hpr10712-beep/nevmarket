@@ -171,6 +171,11 @@
     <div class="w-full bg-slate-900/60 ad-glow-box rounded-2xl p-6 flex flex-col items-center justify-center min-h-[130px] relative overflow-hidden group cursor-pointer">
         <div class="absolute inset-0 ad-pattern opacity-30"></div>
         
+        
+            <div class="max-w-4xl mx-auto mb-10">
+    <div class="w-full bg-slate-900/60 ad-glow-box rounded-2xl p-6 flex flex-col items-center justify-center min-h-[130px] relative overflow-hidden group cursor-pointer">
+        <div class="absolute inset-0 ad-pattern opacity-30"></div>
+        
         <span class="absolute top-3 left-4 flex items-center gap-2">
             <span class="relative flex h-2 w-2">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
@@ -178,14 +183,17 @@
             </span>
             <span class="text-[10px] uppercase tracking-[0.2em] text-indigo-400 font-black">Sponsored</span>
         </span>
-            
-            <div onclick="contactAds()" class="cursor-pointer">
-    <div class="ad-glow-box p-6 bg-slate-900/60 rounded-2xl border border-indigo-500/20 text-center">
-        <h3 class="text-white font-black">PASANG IKLAN DI SINI</h3>
-        <p class="text-slate-400 text-sm">Klik untuk chat Admin via WhatsApp</p>
-    </div>
-</div>
 
+        <div class="z-10 w-full text-center">
+            <div class="ad-scroll-container mb-2">
+                <h4 class="ad-text-animate text-xl md:text-2xl">
+                    🚀 Pasang Iklan Anda Di Sini • Jangkau Jutaan User • Promo Terbatas Diskon 50% • Hubungi Kami Sekarang! • 🚀
+                </h4>
+            </div>
+            
+            <p class="text-xs text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
+                Klik untuk detail pemasangan iklan premium
+            </p>
         </div>
 
         <div class="absolute bottom-0 right-0 p-2 opacity-20 group-hover:opacity-100 transition-opacity">
@@ -194,6 +202,7 @@
     </div>
 </div>
 
+        
         <div id="result-container" class="hidden animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                 
@@ -395,7 +404,7 @@
             const text = encodeURIComponent("Cek video keren ini dari TikTok! \n");
             
             if (platform === 'whatsapp') {
-                window.open(`https://api.whatsapp.com/send?text=${text}${url}`, '_blank');
+                window.open(`https.wa.me/+6289603266259=${text}${url}`, '_blank');
             } else if (platform === 'twitter') {
                 window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
             }
@@ -414,18 +423,7 @@
             });
         }
 
-        function contactAds() {
-    // Teks pesan yang ingin dikirim
-    const message = "Hai saya ingin memasang iklan di website Talksky. Bisa minta info detailnya?";
-    
-    // Format link yang kamu minta dengan penggabungan variabel message
-    // encodeURIComponent memastikan spasi dan karakter khusus terbaca dengan benar oleh browser
-    const urlWA = `https://wa.me/6289603266259?text=${encodeURIComponent(message)}`;
-    
-    // Perintah untuk membuka WhatsApp di tab baru
-    window.open(urlWA, '_blank');
-}
-
+        
     </script>
 </body>
 </html>
