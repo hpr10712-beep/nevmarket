@@ -146,10 +146,11 @@
         <header class="flex justify-center mb-10 md:mb-14">
             <div class="glass-panel px-6 py-3 flex items-center gap-3 rounded-full bg-white/5 border-white/10 hover:border-indigo-500/50 transition-colors duration-500 cursor-default">
                 <i data-lucide="sparkles" class="text-indigo-400 w-5 h-5"></i>
-                <h1 class="text-lg font-extrabold tracking-widest">GRAB<span class="text-indigo-400">MEDIA</span></h1>
+                <h1 class="text-lg font-extrabold tracking-widest">Talk<span class="text-indigo-400">Sky</span></h1>
             </div>
         </header>
-        
+
+    
             <p class="text-slate-400 mb-8 font-medium">Download video HD, audio MP3, dan cover tanpa batas.</p>
             
             <div class="glass-panel p-2 flex flex-col md:flex-row gap-2 mt-4 relative z-10 focus-within:ring-2 ring-indigo-500/50 transition-all rounded-[2rem] bg-black/30">
@@ -167,12 +168,6 @@
         </div>
 
         <div class="max-w-4xl mx-auto mb-10">
-        <div class="max-w-4xl mx-auto mb-10">
-    <div class="w-full bg-slate-900/60 ad-glow-box rounded-2xl p-6 flex flex-col items-center justify-center min-h-[130px] relative overflow-hidden group cursor-pointer">
-        <div class="absolute inset-0 ad-pattern opacity-30"></div>
-        
-        
-            <div class="max-w-4xl mx-auto mb-10">
     <div class="w-full bg-slate-900/60 ad-glow-box rounded-2xl p-6 flex flex-col items-center justify-center min-h-[130px] relative overflow-hidden group cursor-pointer">
         <div class="absolute inset-0 ad-pattern opacity-30"></div>
         
@@ -187,12 +182,12 @@
         <div class="z-10 w-full text-center">
             <div class="ad-scroll-container mb-2">
                 <h4 class="ad-text-animate text-xl md:text-2xl">
-                    🚀 Pasang Iklan Anda Di Sini • Jangkau Jutaan User • Promo Terbatas Diskon 50% • Hubungi Kami Sekarang! • 🚀
+                    🚀 Pasang Iklan Anda Di Sini • Jangkau Ribuan User • Hubungi Kami Sekarang! • 🚀
                 </h4>
             </div>
             
             <p class="text-xs text-slate-500 font-medium group-hover:text-slate-300 transition-colors">
-                Klik untuk detail pemasangan iklan premium
+                Klik Tombol Whatsapp Di Bawah
             </p>
         </div>
 
@@ -202,7 +197,7 @@
     </div>
 </div>
 
-        
+
         <div id="result-container" class="hidden animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                 
@@ -212,7 +207,7 @@
                         <div class="w-full aspect-[9/16] bg-black/80 rounded-2xl overflow-hidden relative shadow-2xl mb-5 border border-white/10">
                             <video id="res-video" controls class="w-full h-full object-contain"></video>
                             <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div> FULL HD
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div> HD Ready
                             </div>
                         </div>
                         
@@ -311,7 +306,7 @@
             
             <div class="mt-12 w-full bg-slate-900/60 border border-dashed border-slate-700/60 rounded-2xl p-6 flex flex-col items-center justify-center min-h-[100px] relative overflow-hidden group cursor-pointer hover:bg-slate-800/60 transition-all">
                 <span class="absolute top-2 left-3 text-[10px] uppercase tracking-widest text-slate-500 font-bold z-10">Advertisement</span>
-                <p class="font-bold text-slate-400 z-10">⬆️ Kontak Admin ⬆️</p>
+                <p class="font-bold text-slate-400 z-10">Space Iklan Kotak / Banner Bawah</p>
                 <div class="absolute inset-0 ad-pattern opacity-30"></div>
             </div>
 
@@ -404,7 +399,7 @@
             const text = encodeURIComponent("Cek video keren ini dari TikTok! \n");
             
             if (platform === 'whatsapp') {
-                window.open(`https.wa.me/+6289603266259=${text}${url}`, '_blank');
+                window.open(`https://api.whatsapp.com/send?text=${text}${url}`, '_blank');
             } else if (platform === 'twitter') {
                 window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
             }
@@ -422,8 +417,6 @@
                 }, 2500);
             });
         }
-
-        
     </script>
 </body>
-</html>
+</html> 
