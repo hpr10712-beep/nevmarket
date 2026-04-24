@@ -209,7 +209,7 @@
     </div>
 
     <header>
-        <div class="logo">My<span>Bro</span></div>
+        <div class="logo">Talk<span>Sky</span></div>
         <div class="my-id-tag" id="displayID" onclick="copyID()">ID: ...</div>
     </header>
 
@@ -430,7 +430,7 @@
 
         let myID = localStorage.getItem('mybro_id');
         if(!myID) {
-            myID = "BRO-" + Math.floor(1000 + Math.random() * 9000);
+            myID = "ID-" + Math.floor(1000 + Math.random() * 9000);
             localStorage.setItem('mybro_id', myID);
             set(ref(db, `users/${myID}/profile`), { id: myID, name: "User " + myID.split('-')[1], pfp: "", bio: "Hey ada di MyBro!" });
         }
