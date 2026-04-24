@@ -102,10 +102,10 @@
         .story-progress-fill { height: 100%; background: white; width: 0%; transition: width 0.1s linear; }
         .story-header { position: absolute; top: 0; left: 0; right: 0; padding: calc(30px + var(--safe-top)) 15px 20px; display: flex; align-items: center; gap: 10px; z-index: 10; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
         .story-media { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
-        .story-media img, .story-media video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .story-media img, .story-media video { max-width: 90%; max-height: 85%; object-fit: contain; border-radius: 12px; margin: auto; }
         
         .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; }
-        .story-views { font-size: 0.85rem; font-weight:600; color: white; display: flex; align-items: center; flex-direction: column; gap: 5px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-shadow: 0 1px 3px rgba(0,0,0,0.8); z-index: 100; }
+        .story-views { font-size: 0.85rem; font-weight:600; color: white; display: flex; align-items: center; flex-direction: column; gap: 5px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-shadow: 0 1px 3px rgba(0,0,0,0.8); z-index: 100; cursor: pointer; }
 
         /* CHAT PANEL */
         #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s ease; }
@@ -306,13 +306,20 @@
             </div>
         </div>
         <div class="story-media" id="svMediaContainer" onclick="window.app.nextStory()"></div>
-        <div class="story-views" id="svViews" style="display:none;" onclick="alert('Fitur List Penonton belum tersedia')">
+        <div class="story-views" id="svViews" style="display:none;" onclick="window.app.showStoryViewers()">
             <i class="fas fa-chevron-up" style="font-size:0.8rem; opacity:0.8;"></i>
             <div><i class="fas fa-eye"></i> <span id="svViewCount">0</span></div>
         </div>
         <div class="story-footer" id="svFooter">
             <input type="text" id="storyReplyInp" placeholder="Balas status..." style="margin:0; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); color:white; border-radius:20px; padding:12px 20px;">
             <button onclick="window.app.replyStory()" class="send-btn" style="border-radius:50%; width:45px; height:45px;"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="overlay" id="storyViewersMenu" onclick="closeOverlay(event)" style="z-index: 4500;">
+        <div class="sheet">
+            <h3 style="margin-bottom: 15px; font-size:1.1rem; color:var(--text);">Dilihat Oleh</h3>
+            <div id="storyViewersList" style="max-height: 50vh; overflow-y: auto; display:flex; flex-direction:column; gap:10px;"></div>
         </div>
     </div>
 
@@ -346,7 +353,9 @@
     <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)">
         <div class="sheet sheet-menu">
             <div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div>
+            <div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div>
             <div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div>
+            <div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div>
         </div>
     </div>
 
@@ -458,7 +467,15 @@
             if(show) { el.classList.add('active'); el.style.display = 'flex'; } 
             else { el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 300); } 
         }
-        window.closeOverlay = (e) => { if(e.target.classList.contains('overlay')) toggleOverlay(e.target.id, false); }
+        window.closeOverlay = (e) => { 
+            if(e.target.classList.contains('overlay')) {
+                toggleOverlay(e.target.id, false); 
+                if(e.target.id === 'storyViewersMenu') {
+                    clearTimeout(storyTimer);
+                    storyTimer = setTimeout(() => window.app.nextStory(), 5000);
+                }
+            } 
+        }
         window.copyID = () => { navigator.clipboard.writeText(myID); window.showToast("ID Berhasil Disalin!", "copy"); }
 
         window.toggleArchived = () => {
@@ -618,6 +635,25 @@
                     window.app.closeChat();
                 }
             },
+            changeAlias: () => {
+                if(!activeTarget) return;
+                const newAlias = prompt("Masukkan nama alias baru (kosongkan untuk mengembalikan ke nama asli):");
+                if(newAlias !== null) {
+                    update(ref(db, `users/${myID}/contacts/${activeTarget}`), { alias: newAlias.trim() });
+                    toggleOverlay('chatOptionsMenu', false);
+                    window.app.closeChat();
+                    window.showToast("Nama alias berhasil diubah!", "user-edit");
+                }
+            },
+            deleteContact: () => {
+                if(!activeTarget) return;
+                if(confirm("Apakah Anda yakin ingin menghapus kontak ini? Obrolan tidak akan terhapus.")) {
+                    set(ref(db, `users/${myID}/contacts/${activeTarget}`), null);
+                    toggleOverlay('chatOptionsMenu', false);
+                    window.app.closeChat();
+                    window.showToast("Kontak berhasil dihapus", "user-times");
+                }
+            },
 
             uploadStory: (input) => {
                 const file = input.files[0]; if(!file) return;
@@ -667,8 +703,15 @@
                 const viewEl = document.getElementById('svViews');
                 if(isMine) {
                     viewEl.style.display = 'flex';
-                    viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> ${s.views || 0}</div>`;
-                } else { update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 }); }
+                    let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
+                    viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
+                } else { 
+                    get(ref(db, `users/${myID}/profile`)).then(mP => {
+                        const myName = mP.exists() ? mP.val().name : myID;
+                        update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
+                        update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
+                    });
+                }
 
                 const bar = document.getElementById('storyProgress');
                 bar.style.transition = 'none'; bar.style.width = '0%';
@@ -685,7 +728,30 @@
                 inp.value = ""; window.app.closeStory(); window.showToast("Balasan dikirim!", "check");
             },
             deleteStory: (storyId) => { set(ref(db, `stories/${myID}/${storyId}`), null); window.app.closeStory(); window.showToast("Status berhasil dihapus", "trash"); },
-            scrollToPinned: () => { const pinned = document.querySelector('.bubble[style*="border"]'); if(pinned) pinned.scrollIntoView({ behavior: 'smooth' }); }
+            scrollToPinned: () => { const pinned = document.querySelector('.bubble[style*="border"]'); if(pinned) pinned.scrollIntoView({ behavior: 'smooth' }); },
+            showStoryViewers: () => {
+                if(!currentStoryQueue[currentStoryIndex] || viewingStoryOf !== myID) return;
+                const s = currentStoryQueue[currentStoryIndex];
+                const listEl = document.getElementById('storyViewersList');
+                listEl.innerHTML = "";
+                if(!s.viewers || Object.keys(s.viewers).length === 0) {
+                    listEl.innerHTML = "<div style='color:var(--text-dim); text-align:center; font-size:0.9rem;'>Belum ada yang melihat</div>";
+                } else {
+                    Object.keys(s.viewers).forEach(vid => {
+                        const v = s.viewers[vid];
+                        const d = new Date(v.time);
+                        const timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+                        listEl.innerHTML += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--panel); border-radius:10px; margin-bottom:5px;">
+                                <div style="font-weight:600; color:var(--text);">${v.name} ${window.getVerifiedBadge(vid)}</div>
+                                <div style="font-size:0.75rem; color:var(--text-dim);">${timeStr}</div>
+                            </div>
+                        `;
+                    });
+                }
+                clearTimeout(storyTimer);
+                toggleOverlay('storyViewersMenu', true);
+            }
         };
 
         onValue(ref(db, `chats`), (snapshot) => {
@@ -730,15 +796,17 @@
 
             snap.forEach(child => {
                 const cid = child.key; const isArchived = child.val().archived;
+                const aliasName = child.val().alias;
                 const room = [myID, cid].sort().join("_");
                 
                 onValue(ref(db, `users/${cid}/profile`), (pSnap) => {
                     const p = pSnap.val() || { name: cid, pfp: "" };
-                    const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name}&background=1e293b&color=fff`;
+                    const displayName = aliasName ? aliasName : p.name;
+                    const pfp = p.pfp || `https://ui-avatars.com/api/?name=${displayName}&background=1e293b&color=fff`;
 
                     const cCard = document.createElement('div'); cCard.className = 'card';
-                    cCard.innerHTML = `<img src="${pfp}" class="pfp" style="width:45px;height:45px"><div class="card-info"><div class="card-name">${p.name} ${window.getVerifiedBadge(cid)}</div><div class="card-msg">${p.bio}</div></div>`;
-                    cCard.onclick = () => window.app.openChat(cid, p.name, pfp); cList.appendChild(cCard);
+                    cCard.innerHTML = `<img src="${pfp}" class="pfp" style="width:45px;height:45px"><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg">${p.bio}</div></div>`;
+                    cCard.onclick = () => window.app.openChat(cid, displayName, pfp); cList.appendChild(cCard);
 
                     onValue(ref(db, `chats/${room}`), (msgSnap) => {
                         let lastMsgObj = null, unreadCount = 0;
@@ -752,7 +820,7 @@
 
                             if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read' && activeTarget !== cid) {
                                 if(!lastNotifTracker[cid] || lastMsgObj.time > lastNotifTracker[cid]) {
-                                    if(lastNotifTracker[cid]) window.showFloatingNotif(p.name, lastMsgText, pfp, cid);
+                                    if(lastNotifTracker[cid]) window.showFloatingNotif(displayName, lastMsgText, pfp, cid);
                                     lastNotifTracker[cid] = lastMsgObj.time;
                                 }
                             }
@@ -767,7 +835,7 @@
                             const htmlChat = `
                                 <div class="pfp-wrap ${hasStory ? 'has-story' : ''}"><img src="${pfp}" class="pfp"></div>
                                 <div class="card-info">
-                                    <div class="card-header-flex"><div class="card-name">${p.name} ${window.getVerifiedBadge(cid)}</div><div class="card-time">${lastTime}</div></div>
+                                    <div class="card-header-flex"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-time">${lastTime}</div></div>
                                     <div class="card-msg">${tickHTML} ${lastMsgText}</div>
                                 </div>
                                 ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
@@ -775,7 +843,7 @@
                             
                             let existingCard = document.getElementById(`chat-${cid}`);
                             if(existingCard) { existingCard.innerHTML = htmlChat; if(isArchived) aList.appendChild(existingCard); else rList.appendChild(existingCard); } 
-                            else { const rCard = document.createElement('div'); rCard.className = 'card'; rCard.id = `chat-${cid}`; rCard.innerHTML = htmlChat; rCard.onclick = () => window.app.openChat(cid, p.name, pfp); if(isArchived) aList.appendChild(rCard); else rList.appendChild(rCard); }
+                            else { const rCard = document.createElement('div'); rCard.className = 'card'; rCard.id = `chat-${cid}`; rCard.innerHTML = htmlChat; rCard.onclick = () => window.app.openChat(cid, displayName, pfp); if(isArchived) aList.appendChild(rCard); else rList.appendChild(rCard); }
 
                             const archBtn = document.getElementById('archivedBtn');
                             if(aList.children.length > 0) { archBtn.style.display = 'flex'; document.getElementById('archivedCount').innerText = aList.children.length; } else { archBtn.style.display = 'none'; aList.style.display = 'none'; }
@@ -784,8 +852,8 @@
                                 let sCard = document.getElementById(`story-${cid}`);
                                 if(!sCard) {
                                     sCard = document.createElement('div'); sCard.className = 'card'; sCard.id = `story-${cid}`;
-                                    sCard.innerHTML = `<div class="pfp-wrap has-story"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-name">${p.name} ${window.getVerifiedBadge(cid)}</div><div class="card-msg" style="color:var(--accent);">Pembaruan baru</div></div>`;
-                                    sCard.onclick = () => window.app.openStory(cid, p.name, pfp, false); sList.appendChild(sCard);
+                                    sCard.innerHTML = `<div class="pfp-wrap has-story"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg" style="color:var(--accent);">Pembaruan baru</div></div>`;
+                                    sCard.onclick = () => window.app.openStory(cid, displayName, pfp, false); sList.appendChild(sCard);
                                 }
                             }
                         });
