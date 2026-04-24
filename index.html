@@ -384,13 +384,12 @@
         import { getDatabase, ref, set, push, onValue, get, update, onDisconnect, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         // ==========================================
-        // DAFTAR ID YANG MENDAPATKAN CENTANG BIRU
-        // Tambahkan ID pengguna yang kamu inginkan di sini
+        // DAFTAR ID YANG MENDAPATKAN CENTANG BIRU (FIREBASE SYNC)
         // ==========================================
-        const VERIFIED_USERS = ["BRO-1234", "BRO-9999", "BRO-8888"]; 
+        window.verifiedUsersMap = {};
         
         window.getVerifiedBadge = (id) => {
-            return VERIFIED_USERS.includes(id) ? '<i class="fas fa-check-circle verified-icon"></i>' : '';
+            return window.verifiedUsersMap[id] ? '<i class="fas fa-check-circle verified-icon"></i>' : '';
         };
 
         const firebaseConfig = {
@@ -401,6 +400,22 @@
         };
         const app_fire = initializeApp(firebaseConfig);
         const db = getDatabase(app_fire);
+
+        // MENGAMBIL STATUS VERIFIED DARI DATABASE PANEL ADMIN
+        onValue(ref(db, 'users'), (snap) => {
+            if(snap.exists()){
+                snap.forEach(child => {
+                    window.verifiedUsersMap[child.key] = child.val().isVerified === true;
+                });
+                
+                // Update otomatis UI bagian profil saya jika sudah ter-load
+                if(document.getElementById('editName') && document.getElementById('editName').value) {
+                    const myName = document.getElementById('editName').value;
+                    document.getElementById('vProfileName').innerHTML = `${myName} ${window.getVerifiedBadge(myID)}`;
+                    document.getElementById('myStatusNameTag').innerHTML = `Status Saya ${window.getVerifiedBadge(myID)}`;
+                }
+            }
+        });
 
         if ("Notification" in window) { Notification.requestPermission(); }
 
