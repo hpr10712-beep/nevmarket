@@ -129,14 +129,17 @@ header {
         #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s ease; }
         #chatPanel.active { transform: translateX(0); }
         .chat-header { 
-    /* Kurangi padding top agar profil Radit lebih naik */
-    padding: calc(5px + var(--safe-top)) 15px 15px; 
+    /* Ganti baris padding menjadi angka kecil saja tanpa safe-top */
+    padding: 5px 15px 15px; 
+    
     border-bottom: 1px solid var(--border); 
     display: flex; 
     align-items: center; 
     gap: 15px; 
     background: rgba(11, 17, 32, 0.95); 
     backdrop-filter: blur(10px); 
+    /* Tambahkan ini untuk memastikan posisi benar-benar di ujung */
+    margin-top: 0;
 }
 
         /* PINNED MESSAGE BAR */
