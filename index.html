@@ -687,7 +687,7 @@ header {
 
             uploadStory: (input) => {
                 const file = input.files[0]; if(!file) return;
-                if(file.size > 3 * 1024 * 1024) return alert("Maksimal 3MB.");
+                if(file.size > 15 * 1024 * 1024) return alert("Maksimal 3MB.");
                 const type = file.type.startsWith('video') ? 'video' : 'image';
                 const reader = new FileReader(); reader.readAsDataURL(file);
                 reader.onload = () => { push(ref(db, `stories/${myID}`), { media: reader.result, type: type, time: Date.now(), views: 0 }); window.showToast("Status Berhasil Diunggah!", "cloud-upload-alt"); }
@@ -721,44 +721,67 @@ header {
                 });
             },
             renderCurrentStory: () => {
-                if(currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
-                const s = currentStoryQueue[currentStoryIndex];
-                const isMine = viewingStoryOf === myID;
-                document.getElementById('svTime').innerText = formatTime(s.time);
-                
-                const container = document.getElementById('svMediaContainer');
-                if(s.type === 'video') container.innerHTML = `<video src="${s.media}" autoplay playsinline loop></video>`;
-                else container.innerHTML = `<img src="${s.media}">`;
-
-                const viewEl = document.getElementById('svViews');
-                if(isMine) {
-                    viewEl.style.display = 'flex';
-                    let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
-                    viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
-                } else { 
-                    get(ref(db, `users/${myID}/profile`)).then(mP => {
-                        const myName = mP.exists() ? mP.val().name : myID;
-                        update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
-                        update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
-                    });
-                }
-
-                const bar = document.getElementById('storyProgress');
-                bar.style.transition = 'none'; bar.style.width = '0%';
-                setTimeout(() => { bar.style.transition = 'width 5s linear'; bar.style.width = '100%'; }, 50);
-
-                clearTimeout(storyTimer); 
-                storyTimer = setTimeout(() => window.app.nextStory(), 5000);
-            },
-            nextStory: () => { currentStoryIndex++; window.app.renderCurrentStory(); },
-            closeStory: () => { 
-    clearTimeout(storyTimer); 
-    document.getElementById('storyViewer').style.display = 'none'; 
-    viewingStoryOf = null; 
+    if(currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
+    const s = currentStoryQueue[currentStoryIndex];
+    const isMine = viewingStoryOf === myID;
+    document.getElementById('svTime').innerText = formatTime(s.time);
     
-    // BARIS INI YANG MENGHENTIKAN AUDIO/VIDEO
-    document.getElementById('svMediaContainer').innerHTML = ""; 
+    const container = document.getElementById('svMediaContainer');
+    const bar = document.getElementById('storyProgress');
+    
+    // Reset timer dan progress bar
+    clearTimeout(storyTimer);
+    bar.style.transition = 'none'; 
+    bar.style.width = '0%';
+
+    if (s.type === 'video') {
+        // JIKA VIDEO: Putar video dan deteksi durasinya
+        container.innerHTML = `<video id="storyVideoEl" src="${s.media}" autoplay playsinline></video>`;
+        const vidEl = document.getElementById('storyVideoEl');
+        
+        vidEl.onloadedmetadata = () => {
+            // Ambil durasi video, batasi maksimal 60 detik
+            let duration = vidEl.duration;
+            if (duration > 60) duration = 60; 
+            
+            // Jalankan progress bar sesuai durasi video
+            setTimeout(() => { 
+                bar.style.transition = `width ${duration}s linear`; 
+                bar.style.width = '100%'; 
+            }, 50);
+            
+            // Ganti story setelah video selesai
+            storyTimer = setTimeout(() => window.app.nextStory(), duration * 1000);
+        };
+
+        // Jika video ngadat/selesai duluan, langsung ganti
+        vidEl.onended = () => { window.app.nextStory(); };
+
+    } else {
+        // JIKA GAMBAR: Tetap 5 detik
+        container.innerHTML = `<img src="${s.media}">`;
+        setTimeout(() => { 
+            bar.style.transition = 'width 5s linear'; 
+            bar.style.width = '100%'; 
+        }, 50);
+        storyTimer = setTimeout(() => window.app.nextStory(), 5000);
+    }
+
+    // Tampilkan Viewers jika ini story saya
+    const viewEl = document.getElementById('svViews');
+    if(isMine) {
+        viewEl.style.display = 'flex';
+        let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
+        viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
+    } else { 
+        get(ref(db, `users/${myID}/profile`)).then(mP => {
+            const myName = mP.exists() ? mP.val().name : myID;
+            update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
+            update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
+        });
+    }
 },
+
  replyStory: () => {
                 const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return;
                 activeTarget = viewingStoryOf; window.app.send(`Membahas status: "${inp.value}"`);
