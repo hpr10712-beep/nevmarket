@@ -773,6 +773,9 @@ header {
     const container = document.getElementById('svMediaContainer');
     const progressContainer = document.getElementById('storyProgressContainer');
     
+    // Cek apakah ini story milik saya sendiri
+    const isMine = viewingStoryOf === myID;
+
     // 1. Buat ulang indikator garis (terbelah sesuai jumlah status)
     progressContainer.innerHTML = "";
     currentStoryQueue.forEach((story, index) => {
@@ -783,7 +786,6 @@ header {
         fill.className = 'story-progress-fill';
         fill.id = `fill-${index}`;
         
-        // Atur posisi progress: jika sudah lewat jadi 100%, jika belum jadi 0%
         if (index < currentStoryIndex) {
             fill.style.width = '100%';
         } else {
@@ -798,6 +800,8 @@ header {
     
     // 2. Logika Media (Gambar/Video)
     clearTimeout(storyTimer);
+    
+    // Reset transisi agar tidak melompat
     activeFill.style.transition = 'none';
     activeFill.style.width = '0%';
 
@@ -822,20 +826,21 @@ header {
         }, 50);
         storyTimer = setTimeout(() => window.app.nextStory(), 5000);
     }
-    // Tampilkan Viewers jika ini story saya
-    const viewEl = document.getElementById('svViews');
-    if(isMine) {
-        viewEl.style.display = 'flex';
-        let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
-        viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
-    } else { 
+
+    // 3. Update waktu status
+    document.getElementById('svTime').innerText = formatTime(s.time);
+
+    // 4. Logika Viewers (Hanya jika bukan milik sendiri)
+    if(!isMine) {
         get(ref(db, `users/${myID}/profile`)).then(mP => {
             const myName = mP.exists() ? mP.val().name : myID;
-            update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
-            update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
+            update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { 
+                name: myName, 
+                time: Date.now() 
+            });
         });
     }
-},
+}
 
  replyStory: () => {
                 const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return;
