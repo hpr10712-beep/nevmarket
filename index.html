@@ -720,6 +720,29 @@ header {
                     });
                 });
             },
+            nextStory: () => {
+        currentStoryIndex++;
+        if (currentStoryIndex < currentStoryQueue.length) {
+            window.app.renderCurrentStory();
+        } else {
+            window.app.closeStory();
+        }
+    },
+
+    prevStory: () => {
+        if (currentStoryIndex > 0) {
+            currentStoryIndex--;
+            window.app.renderCurrentStory();
+        }
+    },
+
+    closeStory: () => {
+        clearTimeout(storyTimer);
+        const vidEl = document.getElementById('storyVideoEl');
+        if(vidEl) { vidEl.pause(); vidEl.src = ""; } // Stop video agar tidak bunyi di background
+        document.getElementById('storyViewer').style.display = 'none';
+        viewingStoryOf = null;
+    },
             renderCurrentStory: () => {
     if(currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
     const s = currentStoryQueue[currentStoryIndex];
