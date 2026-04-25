@@ -115,29 +115,9 @@ header {
 
         /* STORY VIEWER (Improved) */
         #storyViewer { position: fixed; inset: 0; background: #000; z-index: 3000; display: none; flex-direction: column; }
-        .story-progress-container { 
-    display: flex; 
-    gap: 6px; /* Jarak antar garis status */
-    padding: calc(10px + var(--safe-top)) 10px 10px; 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    z-index: 10; 
-}
-.story-progress-bar { 
-    flex: 1; 
-    height: 3px; 
-    background: rgba(255,255,255,0.3); 
-    border-radius: 2px; 
-    overflow: hidden; 
-}
-.story-progress-fill { 
-    height: 100%; 
-    background: white; 
-    width: 0%; 
-}
-
+        .story-progress-container { display: flex; gap: 4px; padding: calc(10px + var(--safe-top)) 10px 10px; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
+        .story-progress-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
+        .story-progress-fill { height: 100%; background: white; width: 0%; transition: width 0.1s linear; }
         .story-header { position: absolute; top: 0; left: 0; right: 0; padding: calc(30px + var(--safe-top)) 15px 20px; display: flex; align-items: center; gap: 10px; z-index: 10; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); }
         .story-media { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
         .story-media img, .story-media video { max-width: 90%; max-height: 85%; object-fit: contain; border-radius: 12px; margin: auto; }
@@ -346,9 +326,8 @@ header {
     </nav>
 
     <div id="storyViewer">
-        <div class="story-progress-container" id="storyProgressContainer">
-    </div>
-    <div class="story-header">
+        <div class="story-progress-container"><div class="story-progress-bar"><div class="story-progress-fill" id="storyProgress"></div></div></div>
+        <div class="story-header">
             <i class="fas fa-arrow-left" onclick="window.app.closeStory()" style="color:white; font-size:1.2rem; cursor:pointer; text-shadow:0 1px 3px rgba(0,0,0,0.8); z-index:20;"></i>
             <img id="svPfp" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover; z-index:20; border:1px solid rgba(255,255,255,0.5);">
             <div style="flex:1; z-index:20;">
@@ -363,6 +342,10 @@ header {
     <div style="flex: 2;" onclick="window.app.nextStory()"></div>
 </div>
 
+        <div class="story-views" id="svViews" style="display:none;" onclick="window.app.showStoryViewers()">
+            <i class="fas fa-chevron-up" style="font-size:0.8rem; opacity:0.8;"></i>
+            <div><i class="fas fa-eye"></i> <span id="svViewCount">0</span></div>
+        </div>
         <div class="story-footer" id="svFooter">
             <input type="text" id="storyReplyInp" placeholder="Balas status..." style="margin:0; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); color:white; border-radius:20px; padding:12px 20px;">
             <button onclick="window.app.replyStory()" class="send-btn" style="border-radius:50%; width:45px; height:45px;"><i class="fas fa-paper-plane"></i></button>
@@ -742,7 +725,7 @@ header {
                         else document.getElementById('storyUpload').click();
                     });
                 });
-            },
+            }, 
             nextStory: () => {
         currentStoryIndex++;
         if (currentStoryIndex < currentStoryQueue.length) {
@@ -767,80 +750,66 @@ header {
         viewingStoryOf = null;
     },
             renderCurrentStory: () => {
-    if (currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
-    
+    if(currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
     const s = currentStoryQueue[currentStoryIndex];
-    const container = document.getElementById('svMediaContainer');
-    const progressContainer = document.getElementById('storyProgressContainer');
-    
-    // Cek apakah ini story milik saya sendiri
     const isMine = viewingStoryOf === myID;
-
-    // 1. Buat ulang indikator garis (terbelah sesuai jumlah status)
-    progressContainer.innerHTML = "";
-    currentStoryQueue.forEach((story, index) => {
-        const bar = document.createElement('div');
-        bar.className = 'story-progress-bar';
-        
-        const fill = document.createElement('div');
-        fill.className = 'story-progress-fill';
-        fill.id = `fill-${index}`;
-        
-        if (index < currentStoryIndex) {
-            fill.style.width = '100%';
-        } else {
-            fill.style.width = '0%';
-        }
-        
-        bar.appendChild(fill);
-        progressContainer.appendChild(bar);
-    });
-
-    const activeFill = document.getElementById(`fill-${currentStoryIndex}`);
+    document.getElementById('svTime').innerText = formatTime(s.time);
     
-    // 2. Logika Media (Gambar/Video)
+    const container = document.getElementById('svMediaContainer');
+    const bar = document.getElementById('storyProgress');
+    
+    // Reset timer dan progress bar
     clearTimeout(storyTimer);
-    
-    // Reset transisi agar tidak melompat
-    activeFill.style.transition = 'none';
-    activeFill.style.width = '0%';
+    bar.style.transition = 'none'; 
+    bar.style.width = '0%';
 
     if (s.type === 'video') {
+        // JIKA VIDEO: Putar video dan deteksi durasinya
         container.innerHTML = `<video id="storyVideoEl" src="${s.media}" autoplay playsinline></video>`;
         const vidEl = document.getElementById('storyVideoEl');
         
         vidEl.onloadedmetadata = () => {
-            let duration = vidEl.duration > 60 ? 60 : vidEl.duration;
+            // Ambil durasi video, batasi maksimal 60 detik
+            let duration = vidEl.duration;
+            if (duration > 60) duration = 60; 
+            
+            // Jalankan progress bar sesuai durasi video
             setTimeout(() => { 
-                activeFill.style.transition = `width ${duration}s linear`; 
-                activeFill.style.width = '100%'; 
+                bar.style.transition = `width ${duration}s linear`; 
+                bar.style.width = '100%'; 
             }, 50);
+            
+            // Ganti story setelah video selesai
             storyTimer = setTimeout(() => window.app.nextStory(), duration * 1000);
         };
-        vidEl.onended = () => window.app.nextStory();
+
+        // Jika video ngadat/selesai duluan, langsung ganti
+        vidEl.onended = () => { window.app.nextStory(); };
+
     } else {
+        // JIKA GAMBAR: Tetap 5 detik
         container.innerHTML = `<img src="${s.media}">`;
         setTimeout(() => { 
-            activeFill.style.transition = 'width 5s linear'; 
-            activeFill.style.width = '100%'; 
+            bar.style.transition = 'width 5s linear'; 
+            bar.style.width = '100%'; 
         }, 50);
         storyTimer = setTimeout(() => window.app.nextStory(), 5000);
     }
 
-    // 3. Update waktu status
-    document.getElementById('svTime').innerText = formatTime(s.time);
-
-    // 4. Logika Viewers (Hanya jika bukan milik sendiri)
-    if(!isMine) {
+    // Tampilkan Viewers jika ini story saya
+    const viewEl = document.getElementById('svViews');
+    if(isMine) {
+        viewEl.style.display = 'flex';
+        let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
+        viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
+    } else { 
         get(ref(db, `users/${myID}/profile`)).then(mP => {
             const myName = mP.exists() ? mP.val().name : myID;
-            update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { 
-                name: myName, 
-                time: Date.now() 
-            });
+            update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
+            update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
         });
     }
-}
+},
 
  replyStory: () => {
                 const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return;
