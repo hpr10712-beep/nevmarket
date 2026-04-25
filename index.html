@@ -751,8 +751,15 @@ header {
                 storyTimer = setTimeout(() => window.app.nextStory(), 5000);
             },
             nextStory: () => { currentStoryIndex++; window.app.renderCurrentStory(); },
-            closeStory: () => { clearTimeout(storyTimer); document.getElementById('storyViewer').style.display = 'none'; viewingStoryOf = null; },
-            replyStory: () => {
+            closeStory: () => { 
+    clearTimeout(storyTimer); 
+    document.getElementById('storyViewer').style.display = 'none'; 
+    viewingStoryOf = null; 
+    
+    // BARIS INI YANG MENGHENTIKAN AUDIO/VIDEO
+    document.getElementById('svMediaContainer').innerHTML = ""; 
+},
+ replyStory: () => {
                 const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return;
                 activeTarget = viewingStoryOf; window.app.send(`Membahas status: "${inp.value}"`);
                 inp.value = ""; window.app.closeStory(); window.showToast("Balasan dikirim!", "check");
