@@ -693,7 +693,7 @@ header {
 
             uploadStory: (input) => {
                 const file = input.files[0]; if(!file) return;
-                if(file.size > 15 * 1024 * 1024) return alert("Maksimal 3MB.");
+                if(file.size > 15 * 1024 * 1024) return alert("Maksimal 15MB.");
                 const type = file.type.startsWith('video') ? 'video' : 'image';
                 const reader = new FileReader(); reader.readAsDataURL(file);
                 reader.onload = () => { push(ref(db, `stories/${myID}`), { media: reader.result, type: type, time: Date.now(), views: 0 }); window.showToast("Status Berhasil Diunggah!", "cloud-upload-alt"); }
