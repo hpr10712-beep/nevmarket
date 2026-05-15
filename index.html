@@ -111,11 +111,11 @@
         .story-media { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
         .story-media img, .story-media video { max-width: 90%; max-height: 85%; object-fit: contain; border-radius: 12px; margin: auto; }
         
-        .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; z-index: 20; }
+        .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; }
         .story-views { font-size: 0.85rem; font-weight:600; color: white; display: flex; align-items: center; flex-direction: column; gap: 5px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-shadow: 0 1px 3px rgba(0,0,0,0.8); z-index: 100; cursor: pointer; }
 
-        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: none; flex-direction: column; transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        #chatPanel.active { display: flex; transform: translateX(0); }
+        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        #chatPanel.active { transform: translateX(0); }
         .chat-header { padding: 10px 20px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); margin-top: 0; }
         #pinnedMsgContainer { display: none; padding: 10px 15px; background: rgba(30, 41, 59, 0.8); border-bottom: 1px solid var(--border); font-size: 0.85rem; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px); }
         body.light-theme #pinnedMsgContainer { background: #f8fafc; color: #0f172a; }
@@ -208,7 +208,7 @@
     <div id="toastMsg" class="toast-msg"></div>
 
     <div id="loginOverlay" class="login-bg-hd" style="position:fixed; inset:0; z-index:10000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-        <div class="logo" style="font-size:3.5rem; font-weight:800; letter-spacing:-1.5px; color:#ffffff; margin-bottom:10px; text-shadow: 0 0 20px rgba(16, 185, 129, 0.5), 0 4px 12px rgba(0,0,0,0.7);">Talk<span style="color:var(--accent); text-shadow: 0 0 25px rgba(16, 185, 129, 0.8);">Sky</span></div>
+        <div class="logo" style="font-size:2.8rem; margin-bottom:10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">Talk<span>Sky</span></div>
         <p style="color:rgba(255,255,255,0.8); margin-bottom:35px; font-weight: 500;">Masuk atau Buat Akun Baru</p>
         <div style="background:rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding:30px 25px; border-radius:20px; width:100%; max-width:400px; box-shadow:0 15px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
             <input type="text" id="loginId" placeholder="ID Akun (Contoh: ID-1234)" style="margin-bottom:15px; width:100%; padding:15px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); color:white; outline:none; font-size: 1rem;">
@@ -437,7 +437,7 @@
         </div>
     </div>
 
-    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu"><div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div><div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div><div class="menu-item text-danger" id="blockMenuBtn"><i class="fas fa-ban"></i> Blokir Kontak</div><div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div><div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div></div></div>
+    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu"><div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div><div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div><div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div><div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div></div></div>
     
     <div class="overlay" id="msgOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu">
         <div class="menu-item" onclick="window.app.replyMessage()"><i class="fas fa-reply"></i> Balas Pesan</div>
@@ -461,26 +461,6 @@
     </div>
 
     <div class="overlay" id="popPassword" onclick="closeOverlay(event)"><div class="sheet"><h3 style="margin-bottom: 20px; text-align:center;">Ubah Password Akun</h3><input type="password" id="oldPass" placeholder="Password Lama" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><input type="password" id="newPass" placeholder="Password Baru" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><button class="btn-fill" onclick="window.app.changePassword()">Simpan Password</button></div></div>
-
-    <!-- POP UP KUSTOM PROTEKSI 2FA -->
-    <div class="overlay" id="pop2FA" onclick="closeOverlay(event)" style="z-index: 11000;">
-        <div class="sheet">
-            <h3 style="margin-bottom: 10px; text-align:center;"><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Verifikasi 2FA</h3>
-            <p style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:20px;">Akun Anda dilindungi oleh Autentikasi 2 Langkah. Silakan masukkan PIN keamanan Anda.</p>
-            <input type="password" id="input2FAPin" placeholder="Masukkan PIN" style="text-align:center; font-size:1.3rem; letter-spacing:6px; padding:14px 16px;">
-            <button class="btn-fill" id="btnConfirm2FA">Verifikasi PIN</button>
-        </div>
-    </div>
-
-    <!-- POP UP KUSTOM PIN SALAH -->
-    <div class="overlay" id="popPinSalah" onclick="closeOverlay(event)" style="z-index: 12000;">
-        <div class="sheet" style="text-align:center; padding:30px 20px;">
-            <i class="fas fa-times-circle fa-3x" style="color:#ef4444; margin-bottom:15px;"></i>
-            <h3 style="color:#ef4444; margin-bottom:10px;">PIN 2FA Salah!</h3>
-            <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:20px;">PIN yang Anda masukkan salah atau tidak cocok. Silakan coba kembali.</p>
-            <button class="btn-fill" onclick="toggleOverlay('popPinSalah', false)" style="background:#ef4444;">Tutup</button>
-        </div>
-    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -564,19 +544,8 @@
                         const currentP = snap.val().password;
                         if (!currentP || currentP === pass) {
                             if(snap.val().is2FA) {
-                                toggleOverlay('pop2FA', true);
-                                document.getElementById('btnConfirm2FA').onclick = () => {
-                                    const pinVal = document.getElementById('input2FAPin').value;
-                                    if(pinVal === snap.val().pin) {
-                                        toggleOverlay('pop2FA', false);
-                                        if (!currentP) update(ref(db, `users/${id}/profile`), { password: pass });
-                                        localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
-                                    } else {
-                                        toggleOverlay('pop2FA', false);
-                                        toggleOverlay('popPinSalah', true);
-                                    }
-                                };
-                                return;
+                                const pin = prompt("Akun dilindungi 2FA. Masukkan PIN Anda:");
+                                if(pin !== snap.val().pin) return window.showToast("PIN 2FA Salah!", "times-circle");
                             }
                             if (!currentP) update(ref(db, `users/${id}/profile`), { password: pass });
                             localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
@@ -609,23 +578,14 @@
                         title = "Privasi Akun";
                         const isReadChecked = localStorage.getItem('set_read') !== 'false';
                         const isOnlineChecked = localStorage.getItem('set_online') !== 'false';
-                        const statusPrivacy = localStorage.getItem('set_status_privacy') || 'all';
                         content = `
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                                 <div><div style="font-weight:600; font-size:1rem;">Laporan Dibaca</div><div style="font-size:0.75rem; color:var(--text-dim);">Tampilkan centang biru ke pengirim</div></div>
                                 <input type="checkbox" class="toggle-switch" ${isReadChecked ? 'checked' : ''} onchange="localStorage.setItem('set_read', this.checked); window.showToast('Privasi diperbarui')">
                             </div>
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
                                 <div><div style="font-weight:600; font-size:1rem;">Terakhir Dilihat</div><div style="font-size:0.75rem; color:var(--text-dim);">Izinkan orang melihat kapan Anda online</div></div>
                                 <input type="checkbox" class="toggle-switch" ${isOnlineChecked ? 'checked' : ''} onchange="localStorage.setItem('set_online', this.checked); window.showToast('Privasi diperbarui')">
-                            </div>
-                            <div style="display:flex; flex-direction:column; gap:6px;">
-                                <div><div style="font-weight:600; font-size:1rem;">Privasi Status</div><div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:5px;">Siapa yang dapat melihat status Anda</div></div>
-                                <select onchange="localStorage.setItem('set_status_privacy', this.value); window.showToast('Privasi status diperbarui')" style="width:100%; padding:12px; border-radius:8px; background:var(--panel); border:1px solid var(--border); color:var(--text); outline:none;">
-                                    <option value="all" ${statusPrivacy==='all'?'selected':''}>Semua Orang</option>
-                                    <option value="contacts" ${statusPrivacy==='contacts'?'selected':''}>Kontak Saya</option>
-                                    <option value="none" ${statusPrivacy==='none'?'selected':''}>Tidak Ada</option>
-                                </select>
                             </div>`;
                         break;
                     case 'chat':
@@ -839,18 +799,9 @@
                 });
 
                 get(ref(db, `users/${myID}/contacts/${id}`)).then(snap => {
-                    const cData = snap.val() || {};
-                    const isArchived = cData.archived || false; const archBtn = document.getElementById('archiveMenuBtn');
+                    const isArchived = snap.val()?.archived || false; const archBtn = document.getElementById('archiveMenuBtn');
                     archBtn.innerHTML = isArchived ? `<i class="fas fa-box-open"></i> Buka Arsip` : `<i class="fas fa-archive"></i> Arsipkan Obrolan`;
                     archBtn.onclick = () => { update(ref(db, `users/${myID}/contacts/${id}`), { archived: !isArchived }); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); };
-                    
-                    const isBlocked = cData.blocked || false;
-                    const blockBtn = document.getElementById('blockMenuBtn');
-                    if(blockBtn) {
-                        blockBtn.innerHTML = isBlocked ? `<i class="fas fa-user-check"></i> Buka Blokir` : `<i class="fas fa-ban"></i> Blokir Kontak`;
-                        blockBtn.className = isBlocked ? "menu-item" : "menu-item text-danger";
-                        blockBtn.onclick = () => { window.app.toggleBlockContact(id, isBlocked); };
-                    }
                 });
 
                 const room = [myID, id].sort().join("_");
@@ -903,30 +854,17 @@
             },
             closeChat: () => { document.getElementById('chatPanel').classList.remove('active'); activeTarget = null; window.app.cancelReply(); },
             
-            // FITUR BLOKIR KONTAK
-            toggleBlockContact: (id, isBlocked) => {
-                const targetId = id || activeTarget;
-                if(!targetId) return;
-                update(ref(db, `users/${myID}/contacts/${targetId}`), { blocked: !isBlocked }).then(() => {
-                    toggleOverlay('chatOptionsMenu', false);
-                    window.showToast(!isBlocked ? "Kontak berhasil diblokir" : "Blokir kontak dibuka", !isBlocked ? "ban" : "user-check");
-                    window.app.closeChat();
-                });
-            },
-
             // FUNGSI SEND DENGAN REPLY
             send: (customText = null, mediaData = null, type = 'text', fileName = '') => {
                 const inp = document.getElementById('msgIn'); const text = customText !== null ? customText : inp.value;
                 if((!text && !mediaData) || !activeTarget) return;
+                const room = [myID, activeTarget].sort().join("_");
                 
-                get(ref(db, `users/${myID}/contacts/${activeTarget}`)).then(snap => {
-                    if(snap.val()?.blocked) { return window.showToast("Buka blokir untuk mengirim pesan", "exclamation-circle"); }
-                    const room = [myID, activeTarget].sort().join("_");
-                    const msgObj = { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false };
-                    if (window.replyingToMsg) { msgObj.replyTo = window.replyingToMsg; window.app.cancelReply(); }
-                    push(ref(db, `chats/${room}`), msgObj);
-                    inp.value = ""; if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate(50);
-                });
+                const msgObj = { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false };
+                if (window.replyingToMsg) { msgObj.replyTo = window.replyingToMsg; window.app.cancelReply(); }
+                
+                push(ref(db, `chats/${room}`), msgObj);
+                inp.value = ""; if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate(50);
             },
             sendMedia: (input) => {
                 const file = input.files[0]; if(!file) return;
@@ -972,7 +910,7 @@
                     vidEl.onloadedmetadata = () => { let dur = vidEl.duration > 60 ? 60 : vidEl.duration; setTimeout(() => { bar.style.transition = `width ${dur}s linear`; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), dur * 1000); };
                     vidEl.onended = () => { window.app.nextStory(); };
                 } else {
-                    container.innerHTML = `<img src="${s.media}">`; setTimeout(() => { bar.style.transition = `width 5s linear'; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), 5000);
+                    container.innerHTML = `<img src="${s.media}">`; setTimeout(() => { bar.style.transition = 'width 5s linear'; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), 5000);
                 }
                 const viewEl = document.getElementById('svViews');
                 if(isMine) { 
@@ -1012,33 +950,6 @@
             }
             swipingBubble = null;
         });
-
-        // INTEGRASI FITUR GESER KANAN/KIRI UNTUK PINDAH MENU TAB UTAMA
-        let contentStartX = 0, contentStartY = 0;
-        const contentArea = document.querySelector('.content');
-        const tabsOrder = ['v-chats', 'v-status', 'v-contacts', 'v-profile'];
-        const navLinks = document.querySelectorAll('nav .nav-link');
-
-        contentArea.addEventListener('touchstart', e => {
-            contentStartX = e.touches[0].clientX;
-            contentStartY = e.touches[0].clientY;
-        }, {passive: true});
-
-        contentArea.addEventListener('touchend', e => {
-            let diffX = e.changedTouches[0].clientX - contentStartX;
-            let diffY = e.changedTouches[0].clientY - contentStartY;
-            if (Math.abs(diffX) > 80 && Math.abs(diffY) < 40) {
-                let activeView = document.querySelector('.view.active');
-                if (activeView) {
-                    let currentIndex = tabsOrder.indexOf(activeView.id);
-                    if (diffX < 0 && currentIndex < tabsOrder.length - 1) {
-                        window.showTab(tabsOrder[currentIndex + 1], navLinks[currentIndex + 1]);
-                    } else if (diffX > 0 && currentIndex > 0) {
-                        window.showTab(tabsOrder[currentIndex - 1], navLinks[currentIndex - 1]);
-                    }
-                }
-            }
-        }, {passive: true});
 
         window.applyLanguage = () => {
             const lang = localStorage.getItem('set_lang') || 'id';
