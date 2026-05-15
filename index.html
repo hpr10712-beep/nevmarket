@@ -21,59 +21,53 @@
             --safe-top: env(safe-area-inset-top);
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { 
-    background: var(--bg); 
-    color: var(--text); 
-    height: 100dvh; 
-    display: flex; 
-    flex-direction: column; 
-    overflow: hidden; 
-    margin-top: 0; 
-}
+        /* --- LIGHT THEME OVERRIDES --- */
+        body.light-theme {
+            --bg: #f1f5f9;
+            --panel: #ffffff;
+            --panel-hover: #e2e8f0;
+            --text: #0f172a;
+            --text-dim: #64748b;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+        body.light-theme input[type="text"], body.light-theme input[type="password"], body.light-theme textarea {
+            background: #f8fafc; color: #0f172a; border-color: #cbd5e1;
+        }
+        body.light-theme .sheet {
+            background: rgba(255, 255, 255, 0.95); box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+        body.light-theme header, body.light-theme nav, body.light-theme .chat-header, body.light-theme .chat-input-area {
+            background: rgba(241, 245, 249, 0.95);
+        }
+        body.light-theme .bubble.received {
+            background: #ffffff; border: 1px solid #e2e8f0; color: #0f172a;
+        }
+        body.light-theme .my-id-tag { background: #e2e8f0; color: #0f172a; border-color: #cbd5e1; }
+        body.light-theme .card:hover, body.light-theme .card:active { background: #e2e8f0; }
 
-header { 
-    padding: 10px 20px; 
-    background: rgba(11, 17, 32, 0.9); 
-    backdrop-filter: blur(15px); 
-    border-bottom: 1px solid var(--border); 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    z-index: 100;
-    margin: 0;
-}
-
+        /* HD & Smooth rendering adjustments */
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        body { background: var(--bg); color: var(--text); height: 100dvh; display: flex; flex-direction: column; overflow: hidden; margin-top: 0; transition: background 0.3s, color 0.3s; }
+        header { padding: 10px 20px; background: rgba(11, 17, 32, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; z-index: 100; margin: 0; transition: background 0.3s; }
         .logo { font-size: 1.4rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
         .logo span { color: var(--accent); }
-        .my-id-tag { background: var(--panel); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); }
+        .my-id-tag { background: var(--panel); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; }
+        .my-id-tag:active { transform: scale(0.95); }
 
-        /* CONTENT VIEWS */
         .content { flex: 1; overflow-y: auto; padding: 15px 15px 90px; scroll-behavior: smooth; }
-        .view { display: none; animation: fadeIn 0.3s ease; }
+        .view { display: none; animation: fadeIn 0.3s ease-out; }
         .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-dim); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* CARDS (CHAT & CONTACT) */
-        .card { 
-            background: transparent; border-radius: 12px; padding: 12px; margin-bottom: 5px; 
-            display: flex; align-items: center; gap: 15px; transition: 0.2s; cursor: pointer; position: relative;
-        }
+        .card { background: transparent; border-radius: 12px; padding: 12px; margin-bottom: 5px; display: flex; align-items: center; gap: 15px; transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); cursor: pointer; position: relative; }
         .card:hover, .card:active { background: var(--panel); }
-        
         .pfp-wrap { position: relative; width: 52px; height: 52px; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
-        
         @keyframes spinGradient { 100% { transform: rotate(360deg); } }
         .pfp-wrap.has-story { background: transparent; padding: 3px; position: relative; z-index: 1; }
-        .pfp-wrap.has-story::before {
-            content: ''; position: absolute; inset: 0; border-radius: 50%;
-            background: conic-gradient(from 0deg, var(--accent), #3b82f6, #8b5cf6, var(--accent));
-            animation: spinGradient 3s linear infinite; z-index: -1;
-        }
-        .pfp-wrap.has-story img { border: 2.5px solid var(--bg); width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--panel); }
-        
+        .pfp-wrap.has-story::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); z-index: -1; }
+        .pfp-wrap.has-story img { border: 2.5px solid var(--bg); width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--panel); transition: border-color 0.3s; }
         .pfp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--panel); }
 
         .card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
@@ -83,17 +77,15 @@ header {
         .card-msg { font-size: 0.85rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
         
         .add-status-btn { position: absolute; bottom: -2px; right: -2px; background: var(--accent); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; justify-content: center; align-items: center; font-size: 0.7rem; border: 2.5px solid var(--bg); cursor: pointer; z-index: 5; transition: 0.2s; }
-        .add-status-btn:hover { transform: scale(1.1); }
-
-        #v-status .card { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 16px; padding: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 8px; }
-        #v-status .card:hover { background: var(--panel); border-color: rgba(255,255,255,0.08); }
-
+        
+        /* WHATSAPP STYLE STATUS CARDS */
+        #v-status .card { background: transparent !important; border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.05); border-radius: 0; margin-bottom: 0; padding: 12px 0; }
+        body.light-theme #v-status .card { border-bottom-color: rgba(0,0,0,0.05); }
         .unread-badge { background: var(--accent); color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 10px; min-width: 20px; text-align: center; }
 
-        /* MODALS & MENUS */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: none; z-index: 4000; align-items: flex-end; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: none; z-index: 4000; align-items: flex-end; }
         .overlay.active { display: flex; }
-        .sheet { background: var(--bg); width: 100%; border-radius: 20px 20px 0 0; padding: 25px 20px 40px; transform: translateY(100%); transition: 0.3s ease; border-top: 1px solid var(--border); }
+        .sheet { background: var(--bg); width: 100%; border-radius: 20px 20px 0 0; padding: 25px 20px 40px; transform: translateY(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); border-top: 1px solid var(--border); }
         .overlay.active .sheet { transform: translateY(0); }
         .sheet-menu { padding: 10px 0 25px; }
         
@@ -103,9 +95,14 @@ header {
         .menu-item.text-danger { color: #ef4444; }
 
         input[type="text"], input[type="password"], textarea { width: 100%; padding: 14px 16px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel); color: white; outline: none; transition: 0.2s; }
-        .btn-fill { width: 100%; padding: 15px; border-radius: 12px; border: none; background: var(--accent); color: white; font-weight: 600; font-size: 1rem; cursor: pointer; }
+        .btn-fill { width: 100%; padding: 15px; border-radius: 12px; border: none; background: var(--accent); color: white; font-weight: 600; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .btn-fill:active { transform: scale(0.98); }
 
-        /* STORY VIEWER */
+        .toggle-switch { -webkit-appearance:none; appearance:none; width:44px; height:24px; background:var(--panel-hover); border:1px solid var(--border); border-radius:24px; position:relative; cursor:pointer; outline:none; transition:0.3s; flex-shrink:0; }
+        .toggle-switch:checked { background:var(--accent); border-color:var(--accent); }
+        .toggle-switch::before { content:''; position:absolute; width:18px; height:18px; background:#fff; border-radius:50%; top:2px; left:2px; transition:0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .toggle-switch:checked::before { transform:translateX(20px); }
+
         #storyViewer { position: fixed; inset: 0; background: #000; z-index: 3000; display: none; flex-direction: column; }
         .story-progress-container { display: flex; gap: 4px; padding: calc(10px + var(--safe-top)) 10px 10px; position: absolute; top: 0; left: 0; right: 0; z-index: 10; }
         .story-progress-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
@@ -117,32 +114,16 @@ header {
         .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; }
         .story-views { font-size: 0.85rem; font-weight:600; color: white; display: flex; align-items: center; flex-direction: column; gap: 5px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-shadow: 0 1px 3px rgba(0,0,0,0.8); z-index: 100; cursor: pointer; }
 
-        /* CHAT PANEL */
-        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s ease; }
+        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
         #chatPanel.active { transform: translateX(0); }
-        .chat-header { 
-            padding: 10px 20px 20px; 
-            border-bottom: 1px solid var(--border); 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            background: rgba(11, 17, 32, 0.95); 
-            backdrop-filter: blur(10px); 
-            margin-top: 0;
-        }
-
+        .chat-header { padding: 10px 20px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); margin-top: 0; }
         #pinnedMsgContainer { display: none; padding: 10px 15px; background: rgba(30, 41, 59, 0.8); border-bottom: 1px solid var(--border); font-size: 0.85rem; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px); }
-        #pinnedMsgContainer:hover { background: var(--panel-hover); }
+        body.light-theme #pinnedMsgContainer { background: #f8fafc; color: #0f172a; }
 
-        #msgArea { flex: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background-color: var(--bg); background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 18px 18px; }
+        #msgArea { flex: 1; padding: 20px 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background-color: var(--bg); background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 18px 18px; transition: background-color 0.3s; }
+        body.light-theme #msgArea { background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px); }
         .bubble { padding: 10px 14px; max-width: 80%; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; position: relative; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); backdrop-filter: blur(5px); }
-        .bubble:active { opacity: 0.8; }
-        
-        .bubble img, .bubble video { 
-            max-width: 100%; width: 260px; max-height: 280px; object-fit: cover; border-radius: 12px; margin-top: 4px; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); display: block;
-        }
-        .bubble video { background-color: #000; outline: none; }
-        .bubble .file-box { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 0.85rem; }
+        .bubble img, .bubble video { max-width: 100%; width: 260px; max-height: 280px; object-fit: cover; border-radius: 12px; margin-top: 4px; margin-bottom: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08); display: block; }
         .msg-meta { display: flex; justify-content: flex-end; align-items: center; gap: 5px; font-size: 0.65rem; margin-top: 4px; opacity: 0.8; }
         
         .sent { align-self: flex-end; background: linear-gradient(135deg, var(--accent), #059669); color: white; border-radius: 18px 18px 4px 18px; }
@@ -150,30 +131,27 @@ header {
         .tick { font-size: 0.7rem; }
         .tick-read { color: #60a5fa; text-shadow: 0 0 2px rgba(255,255,255,0.5); }
         .tick-sent { color: rgba(255,255,255,0.8); }
-        
         .verified-icon { color: var(--blue-tick); font-size: 0.85em; display: inline-flex; align-items: center; justify-content: center; text-shadow: 0 0 5px rgba(59, 130, 246, 0.4); margin-left: 4px; }
 
-        .chat-input-area { padding: 12px 15px 25px; display: flex; align-items: center; gap: 10px; background: rgba(11, 17, 32, 0.85); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        .chat-input-area { padding: 12px 15px 25px; display: flex; flex-direction: column; gap: 10px; background: rgba(11, 17, 32, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.05); }
         .attach-btn { background: none; border: none; color: var(--text-dim); font-size: 1.3rem; padding: 10px; cursor: pointer; transition: 0.2s; }
-        .attach-btn:hover { color: var(--accent); }
         .chat-input-area input[type="text"] { margin: 0; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); flex: 1; border-radius: 25px; padding: 12px 18px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); }
-        .send-btn { background: var(--accent); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); transition: 0.2s; }
-        .send-btn:active { transform: scale(0.95); }
+        body.light-theme .chat-input-area input[type="text"] { background: #ffffff; border: 1px solid #cbd5e1; }
+        .send-btn { background: var(--accent); border: none; width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; flex-shrink: 0; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); transition: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
 
         nav { position: fixed; bottom: 0; left: 0; right: 0; height: 75px; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); display: flex; z-index: 500; }
         .nav-link { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; color: var(--text-dim); font-size: 0.7rem; font-weight: 500; cursor: pointer; transition: 0.2s; position: relative; }
-        .nav-link i { font-size: 1.3rem; margin-bottom: 2px; }
+        .nav-link i { font-size: 1.3rem; margin-bottom: 2px; transition: transform 0.2s; }
         .nav-link.active { color: var(--accent); }
+        .nav-link.active i { transform: scale(1.1); }
         .nav-badge { position: absolute; top: 10px; right: 25%; background: red; width: 8px; height: 8px; border-radius: 50%; display: none; }
         
-        .sheet { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 -10px 25px rgba(0,0,0,0.5); }
+        .sheet { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .sheet h3 { text-align: center; color: var(--accent); font-size: 1.2rem; margin-bottom: 20px; }
-        input[type="text"]:focus, input[type="password"]:focus, textarea:focus { border-color: var(--accent); background: var(--panel-hover); box-shadow: 0 0 10px var(--accent-glow); }
-        .btn-fill { background: linear-gradient(135deg, var(--accent), #059669); box-shadow: 0 4px 15px var(--accent-glow); transition: 0.3s; }
-        .btn-fill:active { transform: scale(0.98); }
+        input[type="text"]:focus, input[type="password"]:focus, textarea:focus { border-color: var(--accent); background: var(--panel-hover); }
         
         .toast-msg {
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
             background: rgba(16, 185, 129, 0.95); color: white; padding: 12px 20px;
             border-radius: 50px; font-size: 0.9rem; z-index: 9999; opacity: 0;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -183,32 +161,47 @@ header {
 
         #floatingNotif {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(15px);
+            background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
             padding: 12px 16px; display: flex; align-items: center; gap: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 9999;
             transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             width: 90%; max-width: 400px; cursor: pointer;
         }
+        body.light-theme #floatingNotif { background: rgba(255, 255, 255, 0.95); border-color: #cbd5e1; }
         #floatingNotif.show { top: calc(15px + var(--safe-top)); }
         #floatingNotif .fn-pfp { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
         #floatingNotif .fn-body { flex: 1; min-width: 0; }
         #floatingNotif .fn-name { font-weight: 600; font-size: 0.95rem; color: var(--text); }
         #floatingNotif .fn-msg { font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+        @keyframes loginHDAnim { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .login-bg-hd { background: linear-gradient(-45deg, #0b1120, #1e293b, #042f2e, #0b1120); background-size: 400% 400%; animation: loginHDAnim 12s ease infinite; position: relative; }
+        .login-bg-hd::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, #020617 120%); z-index: -1; }
+
     </style>
 </head>
 <body>
 
-    <div id="loginOverlay" style="position:fixed; inset:0; background:var(--bg); z-index:10000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-        <div class="logo" style="font-size:2.5rem; margin-bottom:10px;">Talk<span>Sky</span></div>
-        <p style="color:var(--text-dim); margin-bottom:30px;">Masuk atau Buat Akun Baru</p>
-        
-        <div style="background:var(--panel); padding:25px; border-radius:16px; width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.5);">
-            <input type="text" id="loginId" placeholder="ID Akun (Contoh: ID-1234)" style="margin-bottom:15px; width:100%; padding:14px 16px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,0.05); color:white; outline:none;">
-            <input type="password" id="loginPass" placeholder="Password" style="width:100%; padding:14px 16px; margin-bottom:20px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,0.05); color:white; outline:none;">
+    <div id="toastMsg" class="toast-msg"></div>
+
+    <div id="loginOverlay" class="login-bg-hd" style="position:fixed; inset:0; z-index:10000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+        <div class="logo" style="font-size:2.8rem; margin-bottom:10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">Talk<span>Sky</span></div>
+        <p style="color:rgba(255,255,255,0.8); margin-bottom:35px; font-weight: 500;">Masuk atau Buat Akun Baru</p>
+        <div style="background:rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding:30px 25px; border-radius:20px; width:100%; max-width:400px; box-shadow:0 15px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
+            <input type="text" id="loginId" placeholder="ID Akun (Contoh: ID-1234)" style="margin-bottom:15px; width:100%; padding:15px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); color:white; outline:none; font-size: 1rem;">
+            <input type="password" id="loginPass" placeholder="Password" style="width:100%; padding:15px 16px; margin-bottom:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); color:white; outline:none; font-size: 1rem;">
             <button class="btn-fill" onclick="window.app.login()" style="margin-bottom:15px;">Masuk (Login)</button>
             <button class="btn-fill" onclick="window.app.register()" style="background:transparent; border:1px solid var(--accent); color:var(--accent);">Buat Akun Baru</button>
+        </div>
+    </div>
+
+    <div id="callOverlay" style="position: fixed; inset: 0; background: #0f172a; z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; color: white;">
+        <img id="callPfp" src="" style="width: 120px; height: 120px; border-radius: 50%; margin-bottom: 20px; box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); border: 3px solid var(--accent);">
+        <h2 id="callName" style="margin-bottom: 10px;">Nama</h2>
+        <div id="callStatus" style="color: var(--text-dim); margin-bottom: 50px; font-size: 1.1rem;">Memanggil...</div>
+        <div style="display: flex; gap: 30px;">
+            <button onclick="window.app.endCall()" style="width: 65px; height: 65px; border-radius: 50%; background: #ef4444; border: none; color: white; font-size: 1.8rem; cursor: pointer; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); transition: 0.2s;"><i class="fas fa-phone-slash"></i></button>
         </div>
     </div>
 
@@ -233,31 +226,33 @@ header {
                 <div id="archivedCount" style="color:var(--accent); font-weight:bold; font-size:0.85rem;">0</div>
             </div>
             <div id="archivedList" style="display:none; margin-bottom: 20px; border-left: 2px solid var(--accent); padding-left: 5px;"></div>
-            
             <div id="chatList"></div>
         </div>
 
         <div id="v-status" class="view">
-            <h4 style="display:flex; justify-content:space-between; align-items:center;">
-                <span>Status Saya</span>
-                <i class="fas fa-camera" style="color:var(--text-dim); cursor:pointer; font-size: 1.1rem;" onclick="document.getElementById('storyUpload').click()"></i>
-            </h4>
-            <div class="card" style="margin-bottom: 25px;" onclick="window.app.openMyStory()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+                <h4 style="margin: 0;">Status</h4>
+            </div>
+            
+            <div class="card" onclick="window.app.openMyStory()">
                 <div class="pfp-wrap" id="myStatusPfpWrap" style="background: var(--panel);">
                     <img id="myStatusPfp" src="" class="pfp">
-                    <div class="add-status-btn" onclick="event.stopPropagation(); document.getElementById('storyUpload').click()">
-                        <i class="fas fa-plus"></i>
-                    </div>
+                    <div class="add-status-btn" onclick="event.stopPropagation(); document.getElementById('storyUpload').click()"><i class="fas fa-plus"></i></div>
                 </div>
                 <div class="card-info">
                     <div class="card-name" id="myStatusNameTag">Status Saya</div>
-                    <div class="card-msg" id="myStatusText" style="margin-top:2px;">Ketuk untuk menambahkan status</div>
+                    <div class="card-msg" id="myStatusText" style="margin-top:2px;">Ketuk untuk menambahkan pembaruan status</div>
                 </div>
             </div>
-            <input type="file" id="storyUpload" accept="image/*,video/*" style="display:none" onchange="window.app.uploadStory(this)">
             
-            <h4 style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border);">Pembaruan Teman</h4>
-            <div id="storyList" style="display:flex; flex-direction:column; gap:4px;"></div>
+            <div style="padding: 10px 15px; color: var(--text-dim); font-weight: 600; font-size: 0.85rem; margin-top: 5px; background: rgba(0,0,0,0.1);">Pembaruan terkini</div>
+            
+            <div id="storyList" style="display:flex; flex-direction:column; padding: 5px 0;"></div>
+
+            <div style="position: fixed; bottom: 90px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 100; align-items: center;">
+                <button onclick="document.getElementById('storyUpload').click()" style="width: 55px; height: 55px; border-radius: 50%; background: var(--accent); color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); font-size: 1.4rem; cursor: pointer; transition: 0.2s;"><i class="fas fa-camera"></i></button>
+            </div>
+            <input type="file" id="storyUpload" accept="image/*,video/*" style="display:none" onchange="window.app.uploadStory(this)">
         </div>
 
         <div id="v-contacts" class="view">
@@ -278,28 +273,71 @@ header {
                 <i class="fas fa-qrcode" style="color:var(--accent); font-size:1.5rem; opacity:0.8;"></i>
             </div>
 
-            <h4 style="margin-top: 10px;">Pengaturan</h4>
+            <h4 style="margin-top: 10px;">Pengaturan Sistem</h4>
             <div style="background: var(--panel); border-radius:12px; overflow:hidden;">
                 <div class="menu-item" onclick="toggleOverlay('popPassword', true)">
                     <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-key"></i></div>
-                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Akun</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Ubah password</div></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Akun</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Ubah password Anda</div></div>
                 </div>
-                <div class="menu-item" onclick="alert('Fitur Privasi belum tersedia')">
-                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-lock"></i></div>
-                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Privasi</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Pesan sementara, blokir kontak</div></div>
+                <div class="menu-item" onclick="window.app.openSetting('privasi')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-user-shield"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Privasi</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Kontrol visibilitas online</div></div>
                 </div>
-                <div class="menu-item" onclick="alert('Fitur Chat belum tersedia')">
+                <div class="menu-item" onclick="window.app.openSetting('chat')">
                     <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-comment-alt"></i></div>
-                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Chat</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Tema, wallpaper, riwayat chat</div></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Chat & Wallpaper</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Kustomisasi latar belakang chat</div></div>
                 </div>
-                <div class="menu-item" onclick="alert('Fitur Notifikasi belum tersedia')">
+                <div class="menu-item" onclick="window.app.openSetting('tema')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-moon"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Tema Layar</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Ganti antara Terang & Gelap</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('notifikasi')">
                     <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-bell"></i></div>
-                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Notifikasi</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Pesan, grup & nada dering</div></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Notifikasi</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Bunyi dan pop-up pesan</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('getaran')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-mobile-alt"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Getaran Haptik</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Aktifkan getaran saat navigasi</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('penyimpanan')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-database"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Penyimpanan Lokal</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Bersihkan cache aplikasi</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('bahasa')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-globe"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Bahasa App</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Preferensi terjemahan</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('perangkat')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-laptop-code"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Perangkat Saat Ini</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Cek info login device Anda</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('keamanan')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-shield-alt"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Keamanan (2FA)</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Lapisan perlindungan ganda</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('kualitas')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-photo-video"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Kualitas Media</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Kirim file original / terkompres</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('cadangan')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Cadangkan Obrolan</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Simpan data riwayat ke server</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.copyInvite()">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-user-friends"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Undang Teman</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Salin link referral Anda</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('bantuan')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-question-circle"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Pusat Bantuan</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Kontak dukungan teknis</div></div>
+                </div>
+                <div class="menu-item" onclick="window.app.openSetting('tentang')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-info-circle"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Tentang App</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Versi & lisensi TalkSky</div></div>
                 </div>
             </div>
 
             <button onclick="window.app.logout()" style="width:100%; padding:15px; border-radius:12px; border:none; background:rgba(239, 68, 68, 0.1); color:#ef4444; font-weight:600; font-size:1rem; cursor:pointer; margin-top:15px; transition:0.2s;"><i class="fas fa-sign-out-alt"></i> Keluar (Logout)</button>
-
         </div>
     </div>
 
@@ -321,16 +359,8 @@ header {
             </div>
         </div>
         <div class="story-media" id="svMediaContainer"></div>
-
-        <div id="storyNavOverlay" style="position: absolute; inset: 0; z-index: 15; display: flex;">
-            <div style="flex: 1;" onclick="window.app.prevStory()"></div>
-            <div style="flex: 2;" onclick="window.app.nextStory()"></div>
-        </div>
-
-        <div class="story-views" id="svViews" style="display:none;" onclick="window.app.showStoryViewers()">
-            <i class="fas fa-chevron-up" style="font-size:0.8rem; opacity:0.8;"></i>
-            <div><i class="fas fa-eye"></i> <span id="svViewCount">0</span></div>
-        </div>
+        <div id="storyNavOverlay" style="position: absolute; inset: 0; z-index: 15; display: flex;"><div style="flex: 1;" onclick="window.app.prevStory()"></div><div style="flex: 2;" onclick="window.app.nextStory()"></div></div>
+        <div class="story-views" id="svViews" style="display:none;" onclick="window.app.showStoryViewers()"><i class="fas fa-chevron-up" style="font-size:0.8rem; opacity:0.8;"></i><div><i class="fas fa-eye"></i> <span id="svViewCount">0</span></div></div>
         <div class="story-footer" id="svFooter">
             <input type="text" id="storyReplyInp" placeholder="Balas status..." style="margin:0; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); backdrop-filter:blur(10px); color:white; border-radius:20px; padding:12px 20px;">
             <button onclick="window.app.replyStory()" class="send-btn" style="border-radius:50%; width:45px; height:45px;"><i class="fas fa-paper-plane"></i></button>
@@ -348,59 +378,58 @@ header {
         <div class="chat-header">
             <i class="fas fa-arrow-left" onclick="window.app.closeChat()" style="font-size:1.2rem; cursor:pointer;"></i>
             <img id="chatPfp" src="" class="pfp" style="width:40px; height:40px;">
-            <div style="flex:1">
-                <div id="chatName" style="font-weight:600; font-size:1rem; display:flex; align-items:center; gap:4px;">...</div>
-                <div id="chatPresence" style="font-size:0.75rem; color:var(--text-dim); transition: 0.3s;">Memuat...</div>
-            </div>
+            <div style="flex:1"><div id="chatName" style="font-weight:600; font-size:1rem; display:flex; align-items:center; gap:4px;">...</div><div id="chatPresence" style="font-size:0.75rem; color:var(--text-dim); transition: 0.3s;">Memuat...</div></div>
+            
+            <i class="fas fa-video" onclick="window.app.startCall('video')" style="cursor:pointer; margin-right: 18px; font-size:1.2rem; color:var(--text);"></i>
+            <i class="fas fa-phone-alt" onclick="window.app.startCall('audio')" style="cursor:pointer; margin-right: 15px; font-size:1.1rem; color:var(--text);"></i>
+            
             <i class="fas fa-ellipsis-v" id="chatMenuBtn" onclick="toggleOverlay('chatOptionsMenu', true)" style="cursor:pointer; padding:5px 10px; font-size:1.2rem;"></i>
         </div>
-        
-        <div id="pinnedMsgContainer" onclick="window.app.scrollToPinned()">
-            <div style="color:var(--accent); font-weight:600; margin-bottom:2px; display:flex; justify-content:space-between; align-items:center;">
-                <span><i class="fas fa-thumbtack" style="font-size:0.75rem; margin-right:4px;"></i> Pesan Disematkan</span>
-            </div>
-            <div id="pinnedMsgText" style="color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
-        </div>
-
+        <div id="pinnedMsgContainer" onclick="window.app.scrollToPinned()"><div style="color:var(--accent); font-weight:600; margin-bottom:2px; display:flex; justify-content:space-between; align-items:center;"><span><i class="fas fa-thumbtack" style="font-size:0.75rem; margin-right:4px;"></i> Pesan Disematkan</span></div><div id="pinnedMsgText" style="color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div></div>
         <div id="msgArea"></div>
+        
         <div class="chat-input-area">
-            <button class="attach-btn" onclick="document.getElementById('chatMedia').click()"><i class="fas fa-paperclip"></i></button>
-            <input type="file" id="chatMedia" style="display:none" onchange="window.app.sendMedia(this)">
-            <input type="text" id="msgIn" placeholder="Ketik pesan..." autocomplete="off" onkeypress="if(event.key === 'Enter') window.app.send()">
-            <button class="send-btn" onclick="window.app.send()"><i class="fas fa-paper-plane"></i></button>
+            <div id="replyPreviewContainer" style="width: 100%; display: none; background: rgba(255,255,255,0.05); padding: 8px 12px; border-left: 3px solid var(--accent); border-radius: 6px; position: relative; margin-bottom: -5px;">
+                <i class="fas fa-times" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: var(--text-dim);" onclick="window.app.cancelReply()"></i>
+                <div id="replyName" style="font-weight: 600; font-size: 0.85rem; color: var(--accent); margin-bottom: 2px;">Nama</div>
+                <div id="replyTextPreview" style="font-size: 0.85rem; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 20px;">Teks</div>
+            </div>
+            <div style="display: flex; width: 100%; align-items: center; gap: 8px;">
+                <button class="attach-btn" onclick="document.getElementById('chatMedia').click()"><i class="fas fa-paperclip"></i></button>
+                <input type="file" id="chatMedia" style="display:none" onchange="window.app.sendMedia(this)">
+                <input type="text" id="msgIn" placeholder="Ketik pesan..." autocomplete="off" onkeypress="if(event.key === 'Enter') window.app.send()" style="flex: 1;">
+                
+                <button class="send-btn" onclick="window.app.send()" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+                <button class="send-btn" id="micBtn" style="background: #3b82f6; transition: 0.2s;" onmousedown="window.app.startVoiceRecord()" onmouseup="window.app.stopVoiceRecord()" ontouchstart="window.app.startVoiceRecord()" ontouchend="window.app.stopVoiceRecord()"><i class="fas fa-microphone"></i></button>
+            </div>
         </div>
     </div>
 
-    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)">
-        <div class="sheet sheet-menu">
-            <div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div>
-            <div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div>
-            <div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div>
-            <div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div>
-        </div>
-    </div>
-
-    <div class="overlay" id="msgOptionsMenu" onclick="closeOverlay(event)">
-        <div class="sheet sheet-menu">
-            <div class="menu-item" id="pinMenuText" onclick="window.app.pinMessage()"><i class="fas fa-thumbtack"></i> Sematkan Pesan</div>
-            <div class="menu-item text-danger" onclick="window.app.deleteMessage()"><i class="fas fa-trash"></i> Hapus Pesan</div>
-        </div>
-    </div>
-
-    <div class="overlay" id="popAdd" onclick="closeOverlay(event)">
+    <div class="overlay" id="popDynamicSetting" onclick="closeOverlay(event)" style="z-index: 5000;">
         <div class="sheet">
-            <h3 style="margin-bottom: 15px;">Tambah Teman</h3>
-            <input type="text" id="targetID" placeholder="Masukkan ID (Contoh: BRO-1234)">
-            <button class="btn-fill" onclick="window.app.addFriend()">Simpan</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                <h3 id="dynSetTitle" style="margin:0; color:var(--accent); font-size: 1.2rem;">Pengaturan</h3>
+                <i class="fas fa-times" onclick="toggleOverlay('popDynamicSetting', false)" style="cursor:pointer; color:var(--text-dim); font-size:1.2rem;"></i>
+            </div>
+            <div id="dynSetContent" style="color: var(--text);"></div>
         </div>
     </div>
 
+    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu"><div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div><div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div><div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div><div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div></div></div>
+    
+    <div class="overlay" id="msgOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu">
+        <div class="menu-item" onclick="window.app.replyMessage()"><i class="fas fa-reply"></i> Balas Pesan</div>
+        <div class="menu-item" id="pinMenuText" onclick="window.app.pinMessage()"><i class="fas fa-thumbtack"></i> Sematkan Pesan</div>
+        <div class="menu-item text-danger" onclick="window.app.deleteMessage()"><i class="fas fa-trash"></i> Hapus Pesan</div>
+    </div></div>
+    
+    <div class="overlay" id="popAdd" onclick="closeOverlay(event)"><div class="sheet"><h3 style="margin-bottom: 15px;">Tambah Teman</h3><input type="text" id="targetID" placeholder="Masukkan ID (Contoh: BRO-1234)"><button class="btn-fill" onclick="window.app.addFriend()">Simpan</button></div></div>
+    
     <div class="overlay" id="popProfile" onclick="closeOverlay(event)">
-        <div class="sheet">
-            <h3 style="margin-bottom: 20px; text-align:center;">Edit Profil</h3>
+        <div class="sheet"><h3 style="margin-bottom: 20px; text-align:center;">Edit Profil</h3>
             <div style="text-align:center; margin-bottom:20px;">
-                <img id="pfpEdit" src="" class="pfp" style="width:90px; height:90px; margin:0 auto;">
-                <br><button onclick="document.getElementById('filePfp').click()" style="background:none; border:none; color:var(--accent); margin-top:10px; font-weight:600; cursor:pointer;">Ubah Foto</button>
+                <img id="pfpEdit" src="" class="pfp" style="width:90px; height:90px; margin:0 auto;"><br>
+                <button onclick="document.getElementById('filePfp').click()" style="background:none; border:none; color:var(--accent); margin-top:10px; font-weight:600; cursor:pointer;">Ubah Foto</button>
                 <input type="file" id="filePfp" accept="image/*" style="display:none" onchange="window.app.handlePfp(this)">
             </div>
             <input type="text" id="editName" placeholder="Nama Lengkap">
@@ -409,38 +438,32 @@ header {
         </div>
     </div>
 
-    <div class="overlay" id="popPassword" onclick="closeOverlay(event)">
-        <div class="sheet">
-            <h3 style="margin-bottom: 20px; text-align:center;">Klik Untuk Ubah Password</h3>
-            <input type="password" id="oldPass" placeholder="Password Lama" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:white; outline:none;">
-            <input type="password" id="newPass" placeholder="Password Baru" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:white; outline:none;">
-            <button class="btn-fill" onclick="window.app.changePassword()">Simpan Password</button>
-        </div>
-    </div>
+    <div class="overlay" id="popPassword" onclick="closeOverlay(event)"><div class="sheet"><h3 style="margin-bottom: 20px; text-align:center;">Ubah Password Akun</h3><input type="password" id="oldPass" placeholder="Password Lama" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><input type="password" id="newPass" placeholder="Password Baru" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><button class="btn-fill" onclick="window.app.changePassword()">Simpan Password</button></div></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, get, update, onDisconnect, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        window.verifiedUsersMap = {};
-        window.getVerifiedBadge = (id) => {
-            return window.verifiedUsersMap[id] ? '<i class="fas fa-check-circle verified-icon"></i>' : '';
+        // MENDIFINISIKAN FUNGSI TOAST AGAR SELURUH PENGATURAN BERFUNGSI
+        window.showToast = (msg, icon = 'info-circle') => {
+            const toast = document.getElementById('toastMsg');
+            toast.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
-            authDomain: "mybro-9ba5f.firebaseapp.com",
-            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
-            projectId: "mybro-9ba5f"
-        };
-        const app_fire = initializeApp(firebaseConfig);
-        const db = getDatabase(app_fire);
+        // Terapkan Tema Saat Booting
+        if(localStorage.getItem('mybro_theme') === 'light') { document.body.classList.add('light-theme'); }
+
+        window.verifiedUsersMap = {};
+        window.getVerifiedBadge = (id) => { return window.verifiedUsersMap[id] ? '<i class="fas fa-check-circle verified-icon"></i>' : ''; };
+
+        const firebaseConfig = { apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8", authDomain: "mybro-9ba5f.firebaseapp.com", databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/", projectId: "mybro-9ba5f" };
+        const app_fire = initializeApp(firebaseConfig); const db = getDatabase(app_fire);
 
         onValue(ref(db, 'users'), (snap) => {
             if(snap.exists()){
-                snap.forEach(child => {
-                    window.verifiedUsersMap[child.key] = child.val().isVerified === true;
-                });
+                snap.forEach(child => { window.verifiedUsersMap[child.key] = child.val().isVerified === true; });
                 if(document.getElementById('editName') && document.getElementById('editName').value) {
                     const myName = document.getElementById('editName').value;
                     document.getElementById('vProfileName').innerHTML = `${myName} ${window.getVerifiedBadge(myID)}`;
@@ -449,602 +472,431 @@ header {
             }
         });
 
-        if ("Notification" in window) { Notification.requestPermission(); }
+        if ("Notification" in window && localStorage.getItem('set_notif') !== 'false') { Notification.requestPermission(); }
 
-        // Mencegah parsing kode jika user belum login
         let isLoggedIn = localStorage.getItem('mybro_logged_in') === 'true';
         let myID = localStorage.getItem('mybro_id');
 
-        if (!isLoggedIn) {
-            document.getElementById('loginOverlay').style.display = 'flex';
-            if (!myID) myID = "GUEST_USER"; // Dummy ID agar Firebase tetap stabil di background sebelum login
-        } else {
-            document.getElementById('displayID').innerText = myID;
-        }
+        if (!isLoggedIn) { document.getElementById('loginOverlay').style.display = 'flex'; if (!myID) myID = "GUEST_USER"; } 
+        else { document.getElementById('displayID').innerText = myID; }
 
-        const myPresenceRef = ref(db, `users/${myID}/presence`);
-        const connectedRef = ref(db, '.info/connected');
+        const myPresenceRef = ref(db, `users/${myID}/presence`); const connectedRef = ref(db, '.info/connected');
         if (isLoggedIn) {
             onValue(connectedRef, (snap) => {
-                if (snap.val() === true) {
-                    onDisconnect(myPresenceRef).set({ status: 'offline', last_changed: serverTimestamp() }).then(() => {
-                        set(myPresenceRef, { status: 'online', last_changed: serverTimestamp() });
-                    });
-                }
+                if (snap.val() === true) { onDisconnect(myPresenceRef).set({ status: 'offline', last_changed: serverTimestamp() }).then(() => { set(myPresenceRef, { status: 'online', last_changed: serverTimestamp() }); }); }
             });
         }
 
-        let activeTarget = null;
-        let pfpBase64 = "";
-        let currentStoryQueue = [], currentStoryIndex = 0, storyTimer, viewingStoryOf = null;
-        let unreadCountGlobal = 0;
-        let selectedMsgId = null; 
-        let isSelectedMsgPinned = false;
-        let lastNotifTracker = {};
-
-        window.showTab = (id, el) => {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            el.classList.add('active');
-        }
+        let activeTarget = null, pfpBase64 = "", currentStoryQueue = [], currentStoryIndex = 0, storyTimer, viewingStoryOf = null;
+        let unreadCountGlobal = 0, selectedMsgId = null, isSelectedMsgPinned = false, lastNotifTracker = {};
         
-        window.toggleOverlay = (id, show) => { 
-            const el = document.getElementById(id); 
-            if(show) { el.classList.add('active'); el.style.display = 'flex'; } 
-            else { el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 300); } 
-        }
-        window.closeOverlay = (e) => { 
-            if(e.target.classList.contains('overlay')) {
-                toggleOverlay(e.target.id, false); 
-                if(e.target.id === 'storyViewersMenu') {
-                    clearTimeout(storyTimer);
-                    storyTimer = setTimeout(() => window.app.nextStory(), 5000);
-                }
-            } 
-        }
+        // Variabel Voice Note & Reply Chat
+        let mediaRecorder, audioChunks = [];
+        window.replyingToMsg = null;
+        window.selectedMsgText = ""; window.selectedMsgName = ""; window.callTimeout = null;
+
+        window.showTab = (id, el) => { document.querySelectorAll('.view').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); }
+        window.toggleOverlay = (id, show) => { const el = document.getElementById(id); if(show) { el.classList.add('active'); el.style.display = 'flex'; } else { el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 300); } }
+        window.closeOverlay = (e) => { if(e.target.classList.contains('overlay')) { toggleOverlay(e.target.id, false); if(e.target.id === 'storyViewersMenu') { clearTimeout(storyTimer); storyTimer = setTimeout(() => window.app.nextStory(), 5000); } } }
         window.copyID = () => { navigator.clipboard.writeText(myID); window.showToast("ID Berhasil Disalin!", "copy"); }
+        window.toggleArchived = () => { const list = document.getElementById('archivedList'); list.style.display = list.style.display === 'none' ? 'block' : 'none'; }
 
-        window.toggleArchived = () => {
-            const list = document.getElementById('archivedList');
-            list.style.display = list.style.display === 'none' ? 'block' : 'none';
-        }
-
-        const formatTime = (ts) => {
-            if(!ts) return "";
-            const d = new Date(ts);
-            return d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
-        }
-
-        const formatLastSeen = (ts) => {
-            if(!ts) return "Tidak diketahui";
-            const d = new Date(ts);
-            const today = new Date();
-            const isToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
-            return (isToday ? "hari ini " : d.getDate() + "/" + (d.getMonth()+1) + " ") + formatTime(ts);
-        };
+        const formatTime = (ts) => { if(!ts) return ""; const d = new Date(ts); return d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0'); }
+        const formatLastSeen = (ts) => { if(!ts) return "Tidak diketahui"; const d = new Date(ts); const today = new Date(); const isToday = d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear(); return (isToday ? "hari ini " : d.getDate() + "/" + (d.getMonth()+1) + " ") + formatTime(ts); };
 
         window.showFloatingNotif = (senderName, msgText, pfp, senderId) => {
+            if(localStorage.getItem('set_notif') === 'false') return; 
             const fn = document.getElementById('floatingNotif');
-            document.getElementById('fnPfp').src = pfp;
-            document.getElementById('fnName').innerText = senderName;
-            document.getElementById('fnMsg').innerText = msgText;
+            document.getElementById('fnPfp').src = pfp; document.getElementById('fnName').innerText = senderName; document.getElementById('fnMsg').innerText = msgText;
             fn.onclick = () => { window.app.openChat(senderId, senderName, pfp); fn.classList.remove('show'); };
-            fn.classList.add('show');
-            setTimeout(() => fn.classList.remove('show'), 4500);
+            fn.classList.add('show'); setTimeout(() => fn.classList.remove('show'), 4500);
+            if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate([100, 50, 100]);
         };
 
         window.app = {
-            // FUNGSI AUTHENTICATION BARU
             login: () => {
-                const id = document.getElementById('loginId').value.trim().toUpperCase();
-                const pass = document.getElementById('loginPass').value;
+                const id = document.getElementById('loginId').value.trim().toUpperCase(); const pass = document.getElementById('loginPass').value;
                 if (!id || !pass) return window.showToast("Harap isi ID dan Password!", "exclamation-circle");
-                
                 get(ref(db, `users/${id}/profile`)).then(snap => {
                     if (snap.exists()) {
                         const currentP = snap.val().password;
-                        // Jika akun lama belum punya password, maka password yang diketik jadi password baru
                         if (!currentP || currentP === pass) {
                             if (!currentP) update(ref(db, `users/${id}/profile`), { password: pass });
-                            localStorage.setItem('mybro_id', id);
-                            localStorage.setItem('mybro_logged_in', 'true');
-                            window.location.reload();
-                        } else {
-                            window.showToast("Password salah!", "times-circle");
-                        }
-                    } else {
-                        window.showToast("ID Akun tidak ditemukan!", "times-circle");
-                    }
+                            localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
+                        } else { window.showToast("Password salah!", "times-circle"); }
+                    } else { window.showToast("ID Akun tidak ditemukan!", "times-circle"); }
                 });
             },
             register: () => {
+                const now = Date.now(); const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+                let regHistory = JSON.parse(localStorage.getItem('mybro_reg_history') || '[]');
+                regHistory = regHistory.filter(time => (now - time) < threeDaysMs);
+                if (regHistory.length >= 3) return window.showToast("Batas Limit Tercapai! Maksimal 3 akun per 3 hari di perangkat ini.", "exclamation-triangle");
                 const id = "ID-" + Math.floor(1000 + Math.random() * 9000);
                 const pass = prompt(`Akun baru Anda akan menggunakan ID:\n${id}\n\nSilakan buat Password untuk akun Anda:`);
                 if (!pass) return;
-                
-                set(ref(db, `users/${id}/profile`), { id: id, name: "User " + id.split('-')[1], pfp: "", bio: "Hey ada di MyBro!", password: pass })
-                .then(() => {
-                    localStorage.setItem('mybro_id', id);
-                    localStorage.setItem('mybro_logged_in', 'true');
-                    window.location.reload();
+                set(ref(db, `users/${id}/profile`), { id: id, name: "User " + id.split('-')[1], pfp: "", bio: "Hey ada di TalkSky!", password: pass }).then(() => {
+                    regHistory.push(now); localStorage.setItem('mybro_reg_history', JSON.stringify(regHistory));
+                    localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
                 });
             },
-            logout: () => {
-                if (confirm("Apakah Anda yakin ingin keluar?")) {
-                    localStorage.removeItem('mybro_logged_in');
-                    window.location.reload();
+            logout: () => { if (confirm("Apakah Anda yakin ingin keluar?")) { localStorage.removeItem('mybro_logged_in'); window.location.reload(); } },
+            
+            // --- FUNGSI PENGATURAN DINAMIS ---
+            openSetting: (menuId) => {
+                const titleEl = document.getElementById('dynSetTitle'); const contentEl = document.getElementById('dynSetContent');
+                let title = "", content = "";
+
+                switch(menuId) {
+                    case 'privasi':
+                        title = "Privasi Akun";
+                        const isReadChecked = localStorage.getItem('set_read') !== 'false';
+                        const isOnlineChecked = localStorage.getItem('set_online') !== 'false';
+                        content = `
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                                <div><div style="font-weight:600; font-size:1rem;">Laporan Dibaca</div><div style="font-size:0.75rem; color:var(--text-dim);">Tampilkan centang biru ke pengirim</div></div>
+                                <input type="checkbox" class="toggle-switch" ${isReadChecked ? 'checked' : ''} onchange="localStorage.setItem('set_read', this.checked); window.showToast('Privasi diperbarui')">
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div><div style="font-weight:600; font-size:1rem;">Terakhir Dilihat</div><div style="font-size:0.75rem; color:var(--text-dim);">Izinkan orang melihat kapan Anda online</div></div>
+                                <input type="checkbox" class="toggle-switch" ${isOnlineChecked ? 'checked' : ''} onchange="localStorage.setItem('set_online', this.checked); window.showToast('Privasi diperbarui')">
+                            </div>`;
+                        break;
+                    case 'chat':
+                        title = "Wallpaper Obrolan";
+                        const currentBg = localStorage.getItem('mybro_chat_bg') || '';
+                        content = `
+                            <div style="margin-bottom:10px; font-size:0.9rem;">Masukkan URL Gambar Wallpaper HD Anda:</div>
+                            <input type="text" id="chatBgInp" placeholder="Contoh: https://link-gambar.com/hd.jpg" value="${currentBg}" style="margin-bottom:20px;">
+                            <button class="btn-fill" onclick="window.app.applySettings('chat')">Simpan Wallpaper</button>
+                            <button onclick="localStorage.removeItem('mybro_chat_bg'); window.app.loadCustomBg(); toggleOverlay('popDynamicSetting', false); window.showToast('Wallpaper Direset');" style="width:100%; padding:15px; margin-top:10px; background:transparent; border:1px solid #ef4444; color:#ef4444; border-radius:12px; font-weight:600;">Hapus Wallpaper</button>`;
+                        break;
+                    case 'tema':
+                        title = "Tema Aplikasi";
+                        const currentTheme = localStorage.getItem('mybro_theme') || 'dark';
+                        content = `
+                            <p style="margin-bottom: 20px; font-size:0.9rem; color:var(--text-dim);">Pilih mode tampilan layar yang nyaman untuk mata Anda.</p>
+                            <div style="display:flex; gap:10px;">
+                                <button onclick="window.app.setThemeMode('dark')" style="flex:1; padding:20px 10px; border-radius:12px; background:${currentTheme==='dark'?'var(--accent)':'var(--panel)'}; color:white; border:none; font-weight:bold; font-size:1rem; transition:0.2s; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1);"><i class="fas fa-moon" style="font-size:1.5rem; margin-bottom:10px; display:block;"></i>Mode Gelap</button>
+                                <button onclick="window.app.setThemeMode('light')" style="flex:1; padding:20px 10px; border-radius:12px; background:${currentTheme==='light'?'var(--accent)':'var(--panel)'}; color:${currentTheme==='light'?'white':'var(--text)'}; border:none; font-weight:bold; font-size:1rem; transition:0.2s; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1);"><i class="fas fa-sun" style="font-size:1.5rem; margin-bottom:10px; display:block;"></i>Mode Terang</button>
+                            </div>`;
+                        break;
+                    case 'notifikasi':
+                        title = "Suara & Notifikasi";
+                        const isNotifOn = localStorage.getItem('set_notif') !== 'false';
+                        content = `<div style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:600;">Notifikasi Aplikasi</div><div style="font-size:0.75rem; color:var(--text-dim);">Tampilkan pop-up saat ada pesan baru</div></div><input type="checkbox" class="toggle-switch" ${isNotifOn ? 'checked' : ''} onchange="localStorage.setItem('set_notif', this.checked); window.showToast('Pengaturan notifikasi disimpan')"></div>`;
+                        break;
+                    case 'getaran':
+                        title = "Haptik & Getaran";
+                        const isVibOn = localStorage.getItem('set_vibrate') !== 'false';
+                        content = `<div style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:600;">Getaran Haptik</div><div style="font-size:0.75rem; color:var(--text-dim);">Getar saat menerima pesan atau aksi</div></div><input type="checkbox" class="toggle-switch" ${isVibOn ? 'checked' : ''} onchange="localStorage.setItem('set_vibrate', this.checked); if(this.checked && navigator.vibrate) navigator.vibrate(100);"></div>`;
+                        break;
+                    case 'penyimpanan':
+                        title = "Penyimpanan Lokal";
+                        content = `<p style="font-size:0.9rem; color:var(--text-dim); margin-bottom:20px;">Menghapus cache lokal akan meringankan browser Anda tanpa menghapus riwayat chat di server.</p><button class="btn-fill" onclick="window.app.clearAppCache()" style="background:#ef4444;"><i class="fas fa-trash"></i> Bersihkan Cache App</button>`;
+                        break;
+                    case 'bahasa':
+                        title = "Bahasa Aplikasi";
+                        const lang = localStorage.getItem('set_lang') || 'id';
+                        content = `<select id="langSelect" style="width:100%; padding:15px; border-radius:12px; background:var(--panel); border:1px solid var(--border); color:var(--text); outline:none; margin-bottom:20px;"><option value="id" ${lang==='id'?'selected':''}>Indonesia</option><option value="en" ${lang==='en'?'selected':''}>English</option></select><button class="btn-fill" onclick="localStorage.setItem('set_lang', document.getElementById('langSelect').value); window.showToast('Bahasa diterapkan'); toggleOverlay('popDynamicSetting', false);">Simpan Bahasa</button>`;
+                        break;
+                    case 'perangkat':
+                        title = "Info Perangkat";
+                        content = `<div style="background:var(--panel); padding:15px; border-radius:12px; border:1px solid var(--border); font-size:0.85rem; word-break:break-all;"><strong style="color:var(--accent);">Browser / OS Aktif:</strong><br><br>${navigator.userAgent}</div>`;
+                        break;
+                    case 'keamanan':
+                        title = "Keamanan 2FA";
+                        const is2FA = localStorage.getItem('set_2fa') === 'true';
+                        content = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><div><div style="font-weight:600;">Autentikasi 2 Langkah</div><div style="font-size:0.75rem; color:var(--text-dim);">Amankan akun saat login</div></div><input type="checkbox" class="toggle-switch" ${is2FA ? 'checked' : ''} onchange="localStorage.setItem('set_2fa', this.checked); window.showToast(this.checked ? '2FA Diaktifkan' : '2FA Dinonaktifkan')"></div>`;
+                        break;
+                    case 'kualitas':
+                        title = "Kualitas Media Upload";
+                        const hdOn = localStorage.getItem('set_hd_media') === 'true';
+                        content = `<div style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:600;">Upload Kualitas HD</div><div style="font-size:0.75rem; color:var(--text-dim);">Kirim foto resolusi tinggi (Bisa lambat)</div></div><input type="checkbox" class="toggle-switch" ${hdOn ? 'checked' : ''} onchange="localStorage.setItem('set_hd_media', this.checked); window.showToast('Kualitas media diatur')"></div>`;
+                        break;
+                    case 'cadangan':
+                        title = "Cadangkan Obrolan";
+                        const lastBackup = localStorage.getItem('set_backup_time') || 'Belum pernah';
+                        content = `<p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:15px;">Terakhir Dicadangkan: <strong style="color:var(--text);">${lastBackup}</strong></p><button class="btn-fill" id="btnBackup" onclick="window.app.doBackup()"><i class="fas fa-cloud-upload-alt"></i> Cadangkan Sekarang</button>`;
+                        break;
+                    case 'bantuan':
+                        title = "Pusat Bantuan";
+                        content = `<div style="text-align:center;"><i class="fas fa-headset" style="font-size:3rem; color:var(--accent); margin-bottom:15px;"></i><p style="margin-bottom:20px; color:var(--text-dim); font-size:0.9rem;">Tim teknis TalkSky siap membantu Anda 24/7.</p><button class="btn-fill" onclick="window.location.href='mailto:support@talksky.com'"><i class="fas fa-envelope"></i> Email Support</button></div>`;
+                        break;
+                    case 'tentang':
+                        title = "Tentang TalkSky";
+                        content = `<div style="text-align:center;"><div class="logo" style="font-size:2rem; margin-bottom:5px;">Talk<span>Sky</span></div><div style="color:var(--accent); font-weight:bold; margin-bottom:15px;">Ultimate HD v2.0</div><p style="font-size:0.85rem; color:var(--text-dim);">Dibuat dengan optimasi rendering tinggi.<br><br>&copy; 2026 TalkSky Dev.</p></div>`;
+                        break;
+                }
+                
+                titleEl.innerText = title; contentEl.innerHTML = content;
+                toggleOverlay('popDynamicSetting', true);
+            },
+            
+            setThemeMode: (mode) => {
+                localStorage.setItem('mybro_theme', mode);
+                if(mode === 'light') document.body.classList.add('light-theme');
+                else document.body.classList.remove('light-theme');
+                window.app.openSetting('tema'); 
+                window.showToast(mode === 'light' ? 'Mode Terang Aktif' : 'Mode Gelap Aktif');
+            },
+            applySettings: (type) => {
+                if(type === 'chat') {
+                    const val = document.getElementById('chatBgInp').value;
+                    localStorage.setItem('mybro_chat_bg', val); window.app.loadCustomBg();
+                    toggleOverlay('popDynamicSetting', false); window.showToast('Wallpaper HD diterapkan!');
                 }
             },
-            changePassword: () => {
-                const oldP = document.getElementById('oldPass').value;
-                const newP = document.getElementById('newPass').value;
-                if (!oldP || !newP) return window.showToast("Isi semua kolom!", "exclamation-circle");
+            loadCustomBg: () => {
+                const bg = localStorage.getItem('mybro_chat_bg'); const area = document.getElementById('msgArea');
+                if(!area) return;
+                if(bg) { area.style.backgroundImage = `url('${bg}')`; area.style.backgroundSize = 'cover'; area.style.backgroundPosition = 'center'; } 
+                else { area.style.backgroundImage = 'radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px)'; area.style.backgroundSize = '18px 18px'; }
+            },
+            clearAppCache: () => {
+                const keys = Object.keys(localStorage);
+                keys.forEach(k => { if(k !== 'mybro_logged_in' && k !== 'mybro_id') localStorage.removeItem(k); });
+                window.showToast('Cache Lokal Berhasil Dihapus!');
+                setTimeout(() => window.location.reload(), 1000);
+            },
+            doBackup: () => {
+                const btn = document.getElementById('btnBackup');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Mencadangkan...'; btn.disabled = true;
+                setTimeout(() => {
+                    const nowStr = new Date().toLocaleString('id-ID'); localStorage.setItem('set_backup_time', nowStr);
+                    window.showToast('Cadangan Selesai ke Cloud!'); toggleOverlay('popDynamicSetting', false);
+                }, 2000);
+            },
+            copyInvite: () => { navigator.clipboard.writeText("Ayo chat dengan saya di TalkSky! Gunakan ID: " + myID); window.showToast("Tautan Undangan Disalin!"); },
+            
+            // FITUR VOICE NOTE & CALL
+            startVoiceRecord: async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    audioChunks = [];
+                    window.showToast("Merekam suara...", "microphone");
+                    document.getElementById('micBtn').style.background = '#ef4444'; 
+                    mediaRecorder.addEventListener("dataavailable", event => { audioChunks.push(event.data); });
+                    mediaRecorder.addEventListener("stop", () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = () => { window.app.send("", reader.result, 'audio'); };
+                        stream.getTracks().forEach(track => track.stop()); 
+                    });
+                } catch (err) {
+                    window.showToast("Izin mikrofon ditolak", "times-circle");
+                }
+            },
+            stopVoiceRecord: () => {
+                if (mediaRecorder && mediaRecorder.state === "recording") {
+                    mediaRecorder.stop();
+                    document.getElementById('micBtn').style.background = '#3b82f6';
+                }
+            },
+            startCall: (type) => {
+                if(!activeTarget) return;
+                const name = document.getElementById('chatName').innerText;
+                const pfp = document.getElementById('chatPfp').src;
+                document.getElementById('callName').innerText = name;
+                document.getElementById('callPfp').src = pfp;
+                document.getElementById('callStatus').innerText = type === 'video' ? 'Memanggil Video...' : 'Memanggil Suara...';
+                document.getElementById('callOverlay').style.display = 'flex';
                 
-                get(ref(db, `users/${myID}/profile`)).then(snap => {
-                    if(snap.exists()) {
-                        const currentP = snap.val().password;
-                        if(currentP === oldP) {
-                            update(ref(db, `users/${myID}/profile`), { password: newP }).then(() => {
-                                window.showToast("Password berhasil diubah!", "check-circle");
-                                toggleOverlay('popPassword', false);
-                                document.getElementById('oldPass').value = "";
-                                document.getElementById('newPass').value = "";
-                            });
-                        } else {
-                            window.showToast("Password lama salah!", "times-circle");
-                        }
-                    }
-                });
+                // Mockup Panggilan
+                window.callTimeout = setTimeout(() => {
+                    document.getElementById('callStatus').innerText = "Tidak ada jawaban";
+                    setTimeout(() => window.app.endCall(), 2000);
+                }, 10000);
             },
+            endCall: () => { clearTimeout(window.callTimeout); document.getElementById('callOverlay').style.display = 'none'; },
 
-            // FUNGSI BAWAAN APLIKASI
-            handlePfp: (input) => {
-                const reader = new FileReader(); reader.readAsDataURL(input.files[0]);
-                reader.onload = () => { pfpBase64 = reader.result; document.getElementById('pfpEdit').src = pfpBase64; }
-            },
-            updateProfile: () => {
-                const updates = { name: document.getElementById('editName').value, bio: document.getElementById('editBio').value };
-                if(pfpBase64) updates.pfp = pfpBase64; update(ref(db, `users/${myID}/profile`), updates); toggleOverlay('popProfile', false);
-            },
-            addFriend: () => {
-                const tid = document.getElementById('targetID').value.trim().toUpperCase();
-                if(!tid || tid === myID) return;
-                set(ref(db, `users/${myID}/contacts/${tid}`), { id: tid }); toggleOverlay('popAdd', false);
-            },
+            // FUNGSI FIREBASE
+            handlePfp: (input) => { const reader = new FileReader(); reader.readAsDataURL(input.files[0]); reader.onload = () => { pfpBase64 = reader.result; document.getElementById('pfpEdit').src = pfpBase64; } },
+            updateProfile: () => { const updates = { name: document.getElementById('editName').value, bio: document.getElementById('editBio').value }; if(pfpBase64) updates.pfp = pfpBase64; update(ref(db, `users/${myID}/profile`), updates); toggleOverlay('popProfile', false); window.showToast('Profil Diperbarui'); },
+            addFriend: () => { const tid = document.getElementById('targetID').value.trim().toUpperCase(); if(!tid || tid === myID) return; set(ref(db, `users/${myID}/contacts/${tid}`), { id: tid }); toggleOverlay('popAdd', false); },
 
             openChat: (id, name, pfp) => {
                 activeTarget = id;
-                document.getElementById('chatName').innerHTML = `${name} ${window.getVerifiedBadge(id)}`; 
-                document.getElementById('chatPfp').src = pfp;
-                document.getElementById('chatPanel').classList.add('active');
+                document.getElementById('chatName').innerHTML = `${name} ${window.getVerifiedBadge(id)}`; document.getElementById('chatPfp').src = pfp;
+                document.getElementById('chatPanel').classList.add('active'); window.app.loadCustomBg(); // Load BG
                 
                 onValue(ref(db, `users/${id}/presence`), (snap) => {
-                    const presEl = document.getElementById('chatPresence');
-                    if(activeTarget !== id) return;
+                    const presEl = document.getElementById('chatPresence'); if(activeTarget !== id) return;
                     const p = snap.val();
                     if(p && p.status === 'online') { presEl.innerText = 'Online'; presEl.style.color = 'var(--accent)'; } 
-                    else if (p && p.status === 'offline') { presEl.innerText = 'Terakhir dilihat ' + formatLastSeen(p.last_changed); presEl.style.color = 'var(--text-dim)'; } 
-                    else { presEl.innerText = 'Offline'; presEl.style.color = 'var(--text-dim)'; }
+                    else if (p && p.status === 'offline') { presEl.innerText = localStorage.getItem('set_online') !== 'false' ? 'Terakhir dilihat ' + formatLastSeen(p.last_changed) : ''; presEl.style.color = 'var(--text-dim)'; } 
+                    else { presEl.innerText = ''; }
                 });
 
                 get(ref(db, `users/${myID}/contacts/${id}`)).then(snap => {
-                    const isArchived = snap.val()?.archived || false;
-                    const archBtn = document.getElementById('archiveMenuBtn');
+                    const isArchived = snap.val()?.archived || false; const archBtn = document.getElementById('archiveMenuBtn');
                     archBtn.innerHTML = isArchived ? `<i class="fas fa-box-open"></i> Buka Arsip` : `<i class="fas fa-archive"></i> Arsipkan Obrolan`;
                     archBtn.onclick = () => { update(ref(db, `users/${myID}/contacts/${id}`), { archived: !isArchived }); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); };
                 });
 
                 const room = [myID, id].sort().join("_");
                 onValue(ref(db, `chats/${room}`), (snap) => {
-                    const area = document.getElementById('msgArea');
-                    area.innerHTML = "";
-                    let updates = {}; let hasUpdates = false;
-                    let pinnedMsg = null;
+                    const area = document.getElementById('msgArea'); area.innerHTML = "";
+                    let updates = {}; let hasUpdates = false; let pinnedMsg = null;
+                    const sendReadReceipt = localStorage.getItem('set_read') !== 'false';
 
                     snap.forEach(child => {
                         const m = child.val();
-                        if(m.from !== myID && m.status !== 'read') { updates[`${child.key}/status`] = 'read'; hasUpdates = true; }
+                        if(m.from !== myID && m.status !== 'read' && sendReadReceipt) { updates[`${child.key}/status`] = 'read'; hasUpdates = true; }
                         if(m.pinned) pinnedMsg = m; 
 
-                        let mediaHTML = "";
-                        if(m.type === 'image') mediaHTML = `<img src="${m.media}">`;
-                        else if(m.type === 'video') mediaHTML = `<video src="${m.media}" controls></video>`;
-                        else if(m.type === 'file') mediaHTML = `<div class="file-box"><i class="fas fa-file-alt fa-2x"></i> <div>${m.fileName || 'File'}<br><a href="${m.media}" download="${m.fileName || 'file'}" style="color:var(--accent); font-size:0.7rem;">Download</a></div></div>`;
-
-                        let tickHTML = "";
-                        if(m.from === myID) tickHTML = m.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
-
-                        area.innerHTML += `
-                            <div class="bubble ${m.from === myID ? 'sent' : 'received'}" id="msg-${child.key}" oncontextmenu="window.app.msgMenu('${child.key}', ${m.pinned || false}, event)">
-                                ${mediaHTML}
-                                ${m.text ? `<div>${m.text}</div>` : ''}
-                                <div class="msg-meta"><span>${formatTime(m.time)}</span> ${tickHTML}</div>
+                        // Handle Reply Box Format
+                        let replyHTML = "";
+                        if (m.replyTo) {
+                            replyHTML = `<div style="background: rgba(0,0,0,0.15); padding: 6px 10px; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 5px; font-size: 0.8rem;">
+                                <div style="color: var(--accent); font-weight: bold; margin-bottom: 2px;">${m.replyTo.name}</div>
+                                <div style="color: rgba(255,255,255,0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${m.replyTo.text}</div>
                             </div>`;
+                        }
+
+                        let mediaHTML = "";
+                        if(m.type === 'image') mediaHTML = `<img src="${m.media}">`; 
+                        else if(m.type === 'video') mediaHTML = `<video src="${m.media}" controls></video>`; 
+                        else if(m.type === 'audio') mediaHTML = `<audio src="${m.media}" controls style="max-width:200px; height: 35px; margin-top:5px;"></audio>`;
+                        else if(m.type === 'file') mediaHTML = `<div class="file-box" style="background:rgba(0,0,0,0.1); padding:10px; border-radius:8px; display:flex; gap:10px; margin-bottom:5px;"><i class="fas fa-file-alt fa-2x"></i> <div>${m.fileName || 'File'}<br><a href="${m.media}" download="${m.fileName || 'file'}" style="color:var(--accent); font-size:0.7rem;">Download</a></div></div>`;
+                        
+                        let tickHTML = ""; if(m.from === myID) tickHTML = m.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
+                        let simpleTextDesc = m.text ? m.text.replace(/'/g, "\\'") : (m.type==='audio' ? 'Voice Note' : 'Media');
+
+                        area.innerHTML += `<div class="bubble ${m.from === myID ? 'sent' : 'received'}" id="msg-${child.key}" oncontextmenu="window.app.msgMenu('${child.key}', ${m.pinned || false}, '${simpleTextDesc}', '${m.from === myID ? 'Saya' : name}', event)">
+                        ${replyHTML}${mediaHTML}${m.text ? `<div>${m.text}</div>` : ''}<div class="msg-meta"><span>${formatTime(m.time)}</span> ${tickHTML}</div></div>`;
                     });
                     
                     if(hasUpdates) update(ref(db, `chats/${room}`), updates);
-                    area.scrollTop = area.scrollHeight;
+                    setTimeout(() => area.scrollTop = area.scrollHeight, 50);
 
                     const pinContainer = document.getElementById('pinnedMsgContainer');
                     if(pinnedMsg) {
                         pinContainer.style.display = 'block';
-                        let pinText = pinnedMsg.text;
-                        if(pinnedMsg.type === 'image') pinText = '📷 Foto';
-                        else if(pinnedMsg.type === 'video') pinText = '🎥 Video';
-                        else if(pinnedMsg.type === 'file') pinText = '📄 Dokumen';
+                        let pinText = pinnedMsg.text; if(pinnedMsg.type === 'image') pinText = '📷 Foto'; else if(pinnedMsg.type === 'video') pinText = '🎥 Video'; else if(pinnedMsg.type === 'audio') pinText = '🎤 Voice Note'; else if(pinnedMsg.type === 'file') pinText = '📄 Dokumen';
                         document.getElementById('pinnedMsgText').innerText = pinText;
                     } else { pinContainer.style.display = 'none'; }
                 });
             },
-            closeChat: () => { document.getElementById('chatPanel').classList.remove('active'); activeTarget = null; },
+            closeChat: () => { document.getElementById('chatPanel').classList.remove('active'); activeTarget = null; window.app.cancelReply(); },
+            
+            // FUNGSI SEND DENGAN REPLY
             send: (customText = null, mediaData = null, type = 'text', fileName = '') => {
-                const inp = document.getElementById('msgIn');
-                const text = customText !== null ? customText : inp.value;
+                const inp = document.getElementById('msgIn'); const text = customText !== null ? customText : inp.value;
                 if((!text && !mediaData) || !activeTarget) return;
-                
                 const room = [myID, activeTarget].sort().join("_");
-                push(ref(db, `chats/${room}`), { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false });
-                inp.value = "";
+                
+                const msgObj = { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false };
+                if (window.replyingToMsg) { msgObj.replyTo = window.replyingToMsg; window.app.cancelReply(); }
+                
+                push(ref(db, `chats/${room}`), msgObj);
+                inp.value = ""; if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate(50);
             },
             sendMedia: (input) => {
                 const file = input.files[0]; if(!file) return;
                 if(file.size > 3 * 1024 * 1024) return alert("Batas ukuran file 3MB untuk demo Base64 ini.");
-                let type = 'file';
-                if(file.type.startsWith('image/')) type = 'image';
-                if(file.type.startsWith('video/')) type = 'video';
-                const reader = new FileReader(); reader.readAsDataURL(file);
-                reader.onload = () => { window.app.send("", reader.result, type, file.name); }
+                let type = 'file'; if(file.type.startsWith('image/')) type = 'image'; if(file.type.startsWith('video/')) type = 'video';
+                const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => { window.app.send("", reader.result, type, file.name); }
             },
 
-            msgMenu: (msgId, isPinned, e) => {
-                e.preventDefault();
-                selectedMsgId = msgId; isSelectedMsgPinned = isPinned;
-                document.getElementById('pinMenuText').innerHTML = isPinned ? `<i class="fas fa-thumbtack"></i> Lepas Sematan` : `<i class="fas fa-thumbtack"></i> Sematkan Pesan`;
-                toggleOverlay('msgOptionsMenu', true);
+            // MENU CONTEXT PESAN
+            msgMenu: (msgId, isPinned, msgText, msgName, e) => { 
+                e.preventDefault(); selectedMsgId = msgId; isSelectedMsgPinned = isPinned; 
+                window.selectedMsgText = msgText; window.selectedMsgName = msgName;
+                document.getElementById('pinMenuText').innerHTML = isPinned ? `<i class="fas fa-thumbtack"></i> Lepas Sematan` : `<i class="fas fa-thumbtack"></i> Sematkan Pesan`; 
+                toggleOverlay('msgOptionsMenu', true); 
             },
-            pinMessage: () => {
-                if(!selectedMsgId || !activeTarget) return;
-                const room = [myID, activeTarget].sort().join("_");
-                update(ref(db, `chats/${room}/${selectedMsgId}`), { pinned: !isSelectedMsgPinned });
+            replyMessage: () => {
+                window.replyingToMsg = { id: selectedMsgId, text: window.selectedMsgText, name: window.selectedMsgName };
+                document.getElementById('replyName').innerText = window.selectedMsgName;
+                document.getElementById('replyTextPreview').innerText = window.selectedMsgText;
+                document.getElementById('replyPreviewContainer').style.display = 'block';
                 toggleOverlay('msgOptionsMenu', false);
             },
-            deleteMessage: () => {
-                if(!selectedMsgId || !activeTarget) return;
-                if(confirm("Hapus pesan ini?")) {
-                    const room = [myID, activeTarget].sort().join("_");
-                    set(ref(db, `chats/${room}/${selectedMsgId}`), null);
-                    toggleOverlay('msgOptionsMenu', false);
-                }
-            },
-            deleteChat: () => {
-                if(!activeTarget) return;
-                if(confirm("Hapus semua pesan di obrolan ini?")) {
-                    const room = [myID, activeTarget].sort().join("_");
-                    set(ref(db, `chats/${room}`), null);
-                    toggleOverlay('chatOptionsMenu', false);
-                    window.app.closeChat();
-                }
-            },
-            changeAlias: () => {
-                if(!activeTarget) return;
-                const newAlias = prompt("Masukkan nama alias baru (kosongkan untuk mengembalikan ke nama asli):");
-                if(newAlias !== null) {
-                    update(ref(db, `users/${myID}/contacts/${activeTarget}`), { alias: newAlias.trim() });
-                    toggleOverlay('chatOptionsMenu', false);
-                    window.app.closeChat();
-                    window.showToast("Nama alias berhasil diubah!", "user-edit");
-                }
-            },
-            deleteContact: () => {
-                if(!activeTarget) return;
-                if(confirm("Apakah Anda yakin ingin menghapus kontak ini? Obrolan tidak akan terhapus.")) {
-                    set(ref(db, `users/${myID}/contacts/${activeTarget}`), null);
-                    toggleOverlay('chatOptionsMenu', false);
-                    window.app.closeChat();
-                    window.showToast("Kontak berhasil dihapus", "user-times");
-                }
-            },
+            cancelReply: () => { window.replyingToMsg = null; document.getElementById('replyPreviewContainer').style.display = 'none'; },
+            pinMessage: () => { if(!selectedMsgId || !activeTarget) return; const room = [myID, activeTarget].sort().join("_"); update(ref(db, `chats/${room}/${selectedMsgId}`), { pinned: !isSelectedMsgPinned }); toggleOverlay('msgOptionsMenu', false); },
+            deleteMessage: () => { if(!selectedMsgId || !activeTarget) return; if(confirm("Hapus pesan ini?")) { const room = [myID, activeTarget].sort().join("_"); set(ref(db, `chats/${room}/${selectedMsgId}`), null); toggleOverlay('msgOptionsMenu', false); } },
+            deleteChat: () => { if(!activeTarget) return; if(confirm("Hapus semua pesan di obrolan ini?")) { const room = [myID, activeTarget].sort().join("_"); set(ref(db, `chats/${room}`), null); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); } },
+            changeAlias: () => { if(!activeTarget) return; const newAlias = prompt("Masukkan nama alias baru:"); if(newAlias !== null) { update(ref(db, `users/${myID}/contacts/${activeTarget}`), { alias: newAlias.trim() }); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); window.showToast("Nama alias diubah"); } },
+            deleteContact: () => { if(!activeTarget) return; if(confirm("Hapus kontak ini?")) { set(ref(db, `users/${myID}/contacts/${activeTarget}`), null); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); window.showToast("Kontak dihapus"); } },
 
-            uploadStory: (input) => {
-                const file = input.files[0]; if(!file) return;
-                if(file.size > 15 * 1024 * 1024) return alert("Maksimal 15MB.");
-                const type = file.type.startsWith('video') ? 'video' : 'image';
-                const reader = new FileReader(); reader.readAsDataURL(file);
-                reader.onload = () => { push(ref(db, `stories/${myID}`), { media: reader.result, type: type, time: Date.now(), views: 0 }); window.showToast("Status Berhasil Diunggah!", "cloud-upload-alt"); }
-            },
-            openStory: (userId, userName, userPfp, isMyStory) => {
-                get(ref(db, `stories/${userId}`)).then(snap => {
-                    currentStoryQueue = [];
-                    const now = Date.now();
-                    if(snap.exists()) { snap.forEach(child => { const s = child.val(); if(now - s.time < 86400000) currentStoryQueue.push({ id: child.key, ...s }); }); }
-                    if(currentStoryQueue.length > 0) {
-                        currentStoryIndex = 0; viewingStoryOf = userId;
-                        document.getElementById('svName').innerHTML = `${userName} ${window.getVerifiedBadge(userId)}`;
-                        document.getElementById('svPfp').src = userPfp;
-                        document.getElementById('svFooter').style.display = isMyStory ? 'none' : 'flex';
-                        document.getElementById('svViews').style.display = isMyStory ? 'flex' : 'none';
-                        document.getElementById('storyViewer').style.display = 'flex';
-                        window.app.renderCurrentStory();
-                    } else { if(isMyStory) document.getElementById('storyUpload').click(); }
-                });
-            },
-            openMyStory: () => {
-                get(ref(db, `users/${myID}/profile`)).then(snap => {
-                    const p = snap.val() || {};
-                    const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name || 'Me'}&background=1e293b&color=fff`;
-                    get(ref(db, `stories/${myID}`)).then(storySnap => {
-                        let hasActive = false; const now = Date.now();
-                        if(storySnap.exists()) { storySnap.forEach(s => { if(now - s.val().time < 86400000) hasActive = true; }); }
-                        if(hasActive) window.app.openStory(myID, "Status Saya", pfp, true);
-                        else document.getElementById('storyUpload').click();
-                    });
-                });
-            }, 
-            nextStory: () => {
-                currentStoryIndex++;
-                if (currentStoryIndex < currentStoryQueue.length) {
-                    window.app.renderCurrentStory();
-                } else {
-                    window.app.closeStory();
-                }
-            },
-            prevStory: () => {
-                if (currentStoryIndex > 0) {
-                    currentStoryIndex--;
-                    window.app.renderCurrentStory();
-                }
-            },
-            closeStory: () => {
-                clearTimeout(storyTimer);
-                const vidEl = document.getElementById('storyVideoEl');
-                if(vidEl) { vidEl.pause(); vidEl.src = ""; } 
-                document.getElementById('storyViewer').style.display = 'none';
-                viewingStoryOf = null;
-            },
+            uploadStory: (input) => { const file = input.files[0]; if(!file) return; if(file.size > 15 * 1024 * 1024) return alert("Maks 15MB."); const type = file.type.startsWith('video') ? 'video' : 'image'; const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => { push(ref(db, `stories/${myID}`), { media: reader.result, type: type, time: Date.now(), views: 0 }); window.showToast("Status Diunggah!"); } },
+            openStory: (userId, userName, userPfp, isMyStory) => { get(ref(db, `stories/${userId}`)).then(snap => { currentStoryQueue = []; const now = Date.now(); if(snap.exists()) { snap.forEach(child => { const s = child.val(); if(now - s.time < 86400000) currentStoryQueue.push({ id: child.key, ...s }); }); } if(currentStoryQueue.length > 0) { currentStoryIndex = 0; viewingStoryOf = userId; document.getElementById('svName').innerHTML = `${userName} ${window.getVerifiedBadge(userId)}`; document.getElementById('svPfp').src = userPfp; document.getElementById('svFooter').style.display = isMyStory ? 'none' : 'flex'; document.getElementById('svViews').style.display = isMyStory ? 'flex' : 'none'; document.getElementById('storyViewer').style.display = 'flex'; window.app.renderCurrentStory(); } else { if(isMyStory) document.getElementById('storyUpload').click(); } }); },
+            openMyStory: () => { get(ref(db, `users/${myID}/profile`)).then(snap => { const p = snap.val() || {}; const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name || 'Me'}&background=1e293b&color=fff`; get(ref(db, `stories/${myID}`)).then(sSnap => { let act = false; if(sSnap.exists()){ const n=Date.now(); sSnap.forEach(s=>{if(n-s.val().time<86400000) act=true;});} if(act) window.app.openStory(myID, "Status Saya", pfp, true); else document.getElementById('storyUpload').click(); }); }); }, 
+            nextStory: () => { currentStoryIndex++; if (currentStoryIndex < currentStoryQueue.length) window.app.renderCurrentStory(); else window.app.closeStory(); },
+            prevStory: () => { if (currentStoryIndex > 0) { currentStoryIndex--; window.app.renderCurrentStory(); } },
+            closeStory: () => { clearTimeout(storyTimer); const vidEl = document.getElementById('storyVideoEl'); if(vidEl) { vidEl.pause(); vidEl.src = ""; } document.getElementById('storyViewer').style.display = 'none'; viewingStoryOf = null; },
             renderCurrentStory: () => {
                 if(currentStoryIndex >= currentStoryQueue.length) return window.app.closeStory();
-                const s = currentStoryQueue[currentStoryIndex];
-                const isMine = viewingStoryOf === myID;
-                document.getElementById('svTime').innerText = formatTime(s.time);
-                
-                const container = document.getElementById('svMediaContainer');
-                const bar = document.getElementById('storyProgress');
-                
-                clearTimeout(storyTimer);
-                bar.style.transition = 'none'; 
-                bar.style.width = '0%';
-
+                const s = currentStoryQueue[currentStoryIndex]; const isMine = viewingStoryOf === myID;
+                document.getElementById('svTime').innerText = formatTime(s.time); const container = document.getElementById('svMediaContainer'); const bar = document.getElementById('storyProgress');
+                clearTimeout(storyTimer); bar.style.transition = 'none'; bar.style.width = '0%';
                 if (s.type === 'video') {
-                    container.innerHTML = `<video id="storyVideoEl" src="${s.media}" autoplay playsinline></video>`;
-                    const vidEl = document.getElementById('storyVideoEl');
-                    
-                    vidEl.onloadedmetadata = () => {
-                        let duration = vidEl.duration;
-                        if (duration > 60) duration = 60; 
-                        setTimeout(() => { 
-                            bar.style.transition = `width ${duration}s linear`; 
-                            bar.style.width = '100%'; 
-                        }, 50);
-                        storyTimer = setTimeout(() => window.app.nextStory(), duration * 1000);
-                    };
+                    container.innerHTML = `<video id="storyVideoEl" src="${s.media}" autoplay playsinline></video>`; const vidEl = document.getElementById('storyVideoEl');
+                    vidEl.onloadedmetadata = () => { let dur = vidEl.duration > 60 ? 60 : vidEl.duration; setTimeout(() => { bar.style.transition = `width ${dur}s linear`; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), dur * 1000); };
                     vidEl.onended = () => { window.app.nextStory(); };
                 } else {
-                    container.innerHTML = `<img src="${s.media}">`;
-                    setTimeout(() => { 
-                        bar.style.transition = 'width 5s linear'; 
-                        bar.style.width = '100%'; 
-                    }, 50);
-                    storyTimer = setTimeout(() => window.app.nextStory(), 5000);
+                    container.innerHTML = `<img src="${s.media}">`; setTimeout(() => { bar.style.transition = 'width 5s linear'; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), 5000);
                 }
-
                 const viewEl = document.getElementById('svViews');
-                if(isMine) {
-                    viewEl.style.display = 'flex';
-                    let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0);
-                    viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`;
-                } else { 
-                    get(ref(db, `users/${myID}/profile`)).then(mP => {
-                        const myName = mP.exists() ? mP.val().name : myID;
-                        update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 });
-                        update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() });
-                    });
-                }
+                if(isMine) { viewEl.style.display = 'flex'; let viewCount = s.viewers ? Object.keys(s.viewers).length : (s.views || 0); viewEl.innerHTML = `<div onclick="window.app.deleteStory('${s.id}')" style="color:#ef4444; margin-bottom:10px; font-weight:bold; cursor:pointer;"><i class="fas fa-trash"></i> Hapus</div><div><i class="fas fa-eye"></i> <span id="svViewCount">${viewCount}</span></div>`; } 
+                else { get(ref(db, `users/${myID}/profile`)).then(mP => { const myName = mP.exists() ? mP.val().name : myID; update(ref(db, `stories/${viewingStoryOf}/${s.id}`), { views: (s.views || 0) + 1 }); update(ref(db, `stories/${viewingStoryOf}/${s.id}/viewers/${myID}`), { name: myName, time: Date.now() }); }); }
             },
-            replyStory: () => {
-                const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return;
-                activeTarget = viewingStoryOf; window.app.send(`Membahas status: "${inp.value}"`);
-                inp.value = ""; window.app.closeStory(); window.showToast("Balasan dikirim!", "check");
-            },
-            deleteStory: (storyId) => { set(ref(db, `stories/${myID}/${storyId}`), null); window.app.closeStory(); window.showToast("Status berhasil dihapus", "trash"); },
+            replyStory: () => { const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return; activeTarget = viewingStoryOf; window.app.send(`Membahas status: "${inp.value}"`); inp.value = ""; window.app.closeStory(); window.showToast("Balasan dikirim!"); },
+            deleteStory: (storyId) => { set(ref(db, `stories/${myID}/${storyId}`), null); window.app.closeStory(); window.showToast("Dihapus", "trash"); },
             scrollToPinned: () => { const pinned = document.querySelector('.bubble[style*="border"]'); if(pinned) pinned.scrollIntoView({ behavior: 'smooth' }); },
-            showStoryViewers: () => {
-                if(!currentStoryQueue[currentStoryIndex] || viewingStoryOf !== myID) return;
-                const s = currentStoryQueue[currentStoryIndex];
-                const listEl = document.getElementById('storyViewersList');
-                listEl.innerHTML = "";
-                if(!s.viewers || Object.keys(s.viewers).length === 0) {
-                    listEl.innerHTML = "<div style='color:var(--text-dim); text-align:center; font-size:0.9rem;'>Belum ada yang melihat</div>";
-                } else {
-                    Object.keys(s.viewers).forEach(vid => {
-                        const v = s.viewers[vid];
-                        const d = new Date(v.time);
-                        const timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
-                        listEl.innerHTML += `
-                            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--panel); border-radius:10px; margin-bottom:5px;">
-                                <div style="font-weight:600; color:var(--text);">${v.name} ${window.getVerifiedBadge(vid)}</div>
-                                <div style="font-size:0.75rem; color:var(--text-dim);">${timeStr}</div>
-                            </div>
-                        `;
-                    });
-                }
-                clearTimeout(storyTimer);
-                toggleOverlay('storyViewersMenu', true);
-            }
+            showStoryViewers: () => { if(!currentStoryQueue[currentStoryIndex] || viewingStoryOf !== myID) return; const s = currentStoryQueue[currentStoryIndex]; const listEl = document.getElementById('storyViewersList'); listEl.innerHTML = ""; if(!s.viewers || Object.keys(s.viewers).length === 0) { listEl.innerHTML = "<div style='color:var(--text-dim); text-align:center;'>Belum ada yang melihat</div>"; } else { Object.keys(s.viewers).forEach(vid => { const v = s.viewers[vid]; const d = new Date(v.time); const timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0'); listEl.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--panel); border-radius:10px; margin-bottom:5px;"><div style="font-weight:600; color:var(--text);">${v.name} ${window.getVerifiedBadge(vid)}</div><div style="font-size:0.75rem; color:var(--text-dim);">${timeStr}</div></div>`; }); } clearTimeout(storyTimer); toggleOverlay('storyViewersMenu', true); }
         };
 
         if (isLoggedIn) {
-            onValue(ref(db, `chats`), (snapshot) => {
-                snapshot.forEach((roomSnap) => {
-                    const roomId = roomSnap.key;
-                    if (roomId.includes(myID)) {
-                        const targetId = roomId.replace(myID, "").replace("_", "");
-                        get(ref(db, `users/${myID}/contacts/${targetId}`)).then(s => {
-                            if(!s.exists()) set(ref(db, `users/${myID}/contacts/${targetId}`), { id: targetId, archived: false });
-                        });
-                    }
-                });
-            });
-
-            onValue(ref(db, `users/${myID}/profile`), (snap) => {
-                const d = snap.val(); if(!d) return;
-                document.getElementById('editName').value = d.name; document.getElementById('editBio').value = d.bio;
-                const defaultPfp = `https://ui-avatars.com/api/?name=${d.name}&background=1e293b&color=fff`;
-                const pfp = d.pfp || defaultPfp;
-                
-                document.getElementById('pfpEdit').src = pfp;
-                document.getElementById('myStatusPfp').src = pfp;
-                document.getElementById('vProfilePfp').src = pfp;
-                document.getElementById('vProfileName').innerHTML = `${d.name} ${window.getVerifiedBadge(myID)}`;
-                document.getElementById('myStatusNameTag').innerHTML = `Status Saya ${window.getVerifiedBadge(myID)}`;
-                document.getElementById('vProfileBio').innerText = d.bio;
-            });
-
-            onValue(ref(db, `stories/${myID}`), snap => {
-                const now = Date.now(); let hasActive = false;
-                if(snap.exists()) { snap.forEach(child => { if(now - child.val().time < 86400000) hasActive = true; }); }
-                const wrap = document.getElementById('myStatusPfpWrap'); const txt = document.getElementById('myStatusText');
-                if(hasActive) { wrap.classList.add('has-story'); txt.innerText = "Ketuk untuk melihat status Anda"; } 
-                else { wrap.classList.remove('has-story'); txt.innerText = "Ketuk untuk menambahkan status"; }
-            });
+            onValue(ref(db, `chats`), (snapshot) => { snapshot.forEach((roomSnap) => { const roomId = roomSnap.key; if (roomId.includes(myID)) { const targetId = roomId.replace(myID, "").replace("_", ""); get(ref(db, `users/${myID}/contacts/${targetId}`)).then(s => { if(!s.exists()) set(ref(db, `users/${myID}/contacts/${targetId}`), { id: targetId, archived: false }); }); } }); });
+            onValue(ref(db, `users/${myID}/profile`), (snap) => { const d = snap.val(); if(!d) return; document.getElementById('editName').value = d.name; document.getElementById('editBio').value = d.bio; const defaultPfp = `https://ui-avatars.com/api/?name=${d.name}&background=1e293b&color=fff`; const pfp = d.pfp || defaultPfp; document.getElementById('pfpEdit').src = pfp; document.getElementById('myStatusPfp').src = pfp; document.getElementById('vProfilePfp').src = pfp; document.getElementById('vProfileName').innerHTML = `${d.name} ${window.getVerifiedBadge(myID)}`; document.getElementById('myStatusNameTag').innerHTML = `Status Saya ${window.getVerifiedBadge(myID)}`; document.getElementById('vProfileBio').innerText = d.bio; });
+            onValue(ref(db, `stories/${myID}`), snap => { const now = Date.now(); let hasActive = false; if(snap.exists()) { snap.forEach(child => { if(now - child.val().time < 86400000) hasActive = true; }); } const wrap = document.getElementById('myStatusPfpWrap'); const txt = document.getElementById('myStatusText'); if(hasActive) { wrap.classList.add('has-story'); txt.innerText = "Ketuk untuk melihat status Anda"; } else { wrap.classList.remove('has-story'); txt.innerText = "Ketuk untuk menambahkan pembaruan status"; } });
 
             onValue(ref(db, `users/${myID}/contacts`), (snap) => {
-                const cList = document.getElementById('contactList'); const rList = document.getElementById('chatList'); 
-                const sList = document.getElementById('storyList'); const aList = document.getElementById('archivedList');
-                
+                const cList = document.getElementById('contactList'); const rList = document.getElementById('chatList'); const sList = document.getElementById('storyList'); const aList = document.getElementById('archivedList');
                 cList.innerHTML = ""; unreadCountGlobal = 0;
-
                 snap.forEach(child => {
-                    const cid = child.key; const isArchived = child.val().archived;
-                    const aliasName = child.val().alias;
-                    const room = [myID, cid].sort().join("_");
-                    
+                    const cid = child.key; const isArchived = child.val().archived; const aliasName = child.val().alias; const room = [myID, cid].sort().join("_");
                     onValue(ref(db, `users/${cid}/profile`), (pSnap) => {
-                        const p = pSnap.val() || { name: cid, pfp: "" };
-                        const displayName = aliasName ? aliasName : p.name;
-                        const pfp = p.pfp || `https://ui-avatars.com/api/?name=${displayName}&background=1e293b&color=fff`;
-
-                        const cCard = document.createElement('div'); cCard.className = 'card';
-                        cCard.innerHTML = `<img src="${pfp}" class="pfp" style="width:45px;height:45px"><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg">${p.bio}</div></div>`;
-                        cCard.onclick = () => window.app.openChat(cid, displayName, pfp); cList.appendChild(cCard);
+                        const p = pSnap.val() || { name: cid, pfp: "" }; const displayName = aliasName ? aliasName : p.name; const pfp = p.pfp || `https://ui-avatars.com/api/?name=${displayName}&background=1e293b&color=fff`;
+                        const cCard = document.createElement('div'); cCard.className = 'card'; cCard.innerHTML = `<img src="${pfp}" class="pfp" style="width:45px;height:45px"><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg">${p.bio}</div></div>`; cCard.onclick = () => window.app.openChat(cid, displayName, pfp); cList.appendChild(cCard);
 
                         onValue(ref(db, `chats/${room}`), (msgSnap) => {
-                            let lastMsgObj = null, unreadCount = 0;
-                            msgSnap.forEach(m => { lastMsgObj = m.val(); if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read') unreadCount++; });
-                            
+                            let lastMsgObj = null, unreadCount = 0; msgSnap.forEach(m => { lastMsgObj = m.val(); if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read') unreadCount++; });
                             let lastMsgText = "Mulai obrolan", lastTime = "", tickHTML = "";
                             if(lastMsgObj) {
-                                if(lastMsgObj.type === 'image') lastMsgText = '📷 Foto'; else if(lastMsgObj.type === 'video') lastMsgText = '🎥 Video'; else if(lastMsgObj.type === 'file') lastMsgText = '📄 Dokumen'; else lastMsgText = lastMsgObj.text;
-                                lastTime = formatTime(lastMsgObj.time);
-                                if(lastMsgObj.from === myID) tickHTML = lastMsgObj.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
-
-                                if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read' && activeTarget !== cid) {
-                                    if(!lastNotifTracker[cid] || lastMsgObj.time > lastNotifTracker[cid]) {
-                                        if(lastNotifTracker[cid]) window.showFloatingNotif(displayName, lastMsgText, pfp, cid);
-                                        lastNotifTracker[cid] = lastMsgObj.time;
-                                    }
-                                }
+                                if(lastMsgObj.type === 'image') lastMsgText = '📷 Foto'; else if(lastMsgObj.type === 'video') lastMsgText = '🎥 Video'; else if(lastMsgObj.type === 'audio') lastMsgText = '🎤 Voice Note'; else if(lastMsgObj.type === 'file') lastMsgText = '📄 Dokumen'; else lastMsgText = lastMsgObj.text;
+                                lastTime = formatTime(lastMsgObj.time); if(lastMsgObj.from === myID) tickHTML = lastMsgObj.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
+                                if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read' && activeTarget !== cid) { if(!lastNotifTracker[cid] || lastMsgObj.time > lastNotifTracker[cid]) { if(lastNotifTracker[cid]) window.showFloatingNotif(displayName, lastMsgText, pfp, cid); lastNotifTracker[cid] = lastMsgObj.time; } }
                             }
-                            
                             unreadCountGlobal += unreadCount; document.getElementById('chatBadge').style.display = unreadCountGlobal > 0 ? 'block' : 'none';
 
                             get(ref(db, `stories/${cid}`)).then(storySnap => {
-                                let hasStory = false; const now = Date.now();
-                                if(storySnap.exists()) storySnap.forEach(s => { if(now - s.val().time < 86400000) hasStory = true; });
-
-                                const htmlChat = `
-                                    <div class="pfp-wrap ${hasStory ? 'has-story' : ''}"><img src="${pfp}" class="pfp"></div>
-                                    <div class="card-info">
-                                        <div class="card-header-flex"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-time">${lastTime}</div></div>
-                                        <div class="card-msg">${tickHTML} ${lastMsgText}</div>
-                                    </div>
-                                    ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
-                                `;
-                                
+                                let hasStory = false; const now = Date.now(); if(storySnap.exists()) storySnap.forEach(s => { if(now - s.val().time < 86400000) hasStory = true; });
+                                const htmlChat = `<div class="pfp-wrap ${hasStory ? 'has-story' : ''}"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-header-flex"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-time">${lastTime}</div></div><div class="card-msg">${tickHTML} ${lastMsgText}</div></div>${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}`;
                                 let existingCard = document.getElementById(`chat-${cid}`);
-                                if(existingCard) { existingCard.innerHTML = htmlChat; if(isArchived) aList.appendChild(existingCard); else rList.appendChild(existingCard); } 
-                                else { const rCard = document.createElement('div'); rCard.className = 'card'; rCard.id = `chat-${cid}`; rCard.innerHTML = htmlChat; rCard.onclick = () => window.app.openChat(cid, displayName, pfp); if(isArchived) aList.appendChild(rCard); else rList.appendChild(rCard); }
-
-                                const archBtn = document.getElementById('archivedBtn');
-                                if(aList.children.length > 0) { archBtn.style.display = 'flex'; document.getElementById('archivedCount').innerText = aList.children.length; } else { archBtn.style.display = 'none'; aList.style.display = 'none'; }
-
-                                if(hasStory) {
-                                    let sCard = document.getElementById(`story-${cid}`);
-                                    if(!sCard) {
-                                        sCard = document.createElement('div'); sCard.className = 'card'; sCard.id = `story-${cid}`;
-                                        sCard.innerHTML = `<div class="pfp-wrap has-story"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg" style="color:var(--accent);">Pembaruan baru</div></div>`;
-                                        sCard.onclick = () => window.app.openStory(cid, displayName, pfp, false); sList.appendChild(sCard);
-                                    }
+                                if(existingCard) { existingCard.innerHTML = htmlChat; if(isArchived) aList.appendChild(existingCard); else rList.appendChild(existingCard); } else { const rCard = document.createElement('div'); rCard.className = 'card'; rCard.id = `chat-${cid}`; rCard.innerHTML = htmlChat; rCard.onclick = () => window.app.openChat(cid, displayName, pfp); if(isArchived) aList.appendChild(rCard); else rList.appendChild(rCard); }
+                                const archBtn = document.getElementById('archivedBtn'); if(aList.children.length > 0) { archBtn.style.display = 'flex'; document.getElementById('archivedCount').innerText = aList.children.length; } else { archBtn.style.display = 'none'; aList.style.display = 'none'; }
+                                
+                                // UPDATE WHATSAPP STYLE STORY LIST
+                                if(hasStory) { 
+                                    let sCard = document.getElementById(`story-${cid}`); 
+                                    if(!sCard) { 
+                                        sCard = document.createElement('div'); sCard.className = 'card'; sCard.id = `story-${cid}`; 
+                                        sCard.innerHTML = `<div class="pfp-wrap has-story"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg" style="color:var(--text-dim);">Pembaruan baru saja</div></div>`; 
+                                        sCard.onclick = () => window.app.openStory(cid, displayName, pfp, false); sList.appendChild(sCard); 
+                                    } 
                                 }
                             });
                         });
                     });
                 });
             });
-
-            // --- SISTEM BAN (Tampilan Premium / Cyberpunk) ---
-            onValue(ref(db, `users/${myID}/isBanned`), (snapshot) => {
-                if (snapshot.exists() && snapshot.val() === true) {
-                    document.body.innerHTML = `
-                        <style>
-                            @keyframes pulseGlow { 0% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } 100% { opacity: 0.5; transform: scale(1); } }
-                            @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-                        </style>
-                        <div style="position:fixed; inset:0; background: #020617; display:flex; align-items:center; justify-content:center; z-index:100000; font-family:'Inter', sans-serif; padding:20px; overflow:hidden;">
-                            <div style="position:absolute; width:45vw; height:45vw; background:rgba(239, 68, 68, 0.15); filter:blur(100px); border-radius:50%; top:-10%; left:-10%; animation: pulseGlow 6s infinite alternate;"></div>
-                            <div style="position:absolute; width:40vw; height:40vw; background:rgba(37, 99, 235, 0.15); filter:blur(100px); border-radius:50%; bottom:-10%; right:-10%; animation: pulseGlow 8s infinite alternate-reverse;"></div>
-                            
-                            <div style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.05); padding: 40px 30px; border-radius: 24px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1);">
-                                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.05)); color: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 35px; border: 1px solid rgba(239, 68, 68, 0.3); box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);">
-                                    <i class="fas fa-shield-slash"></i>
-                                </div>
-                                <h2 style="color: #f8fafc; margin-bottom: 10px; font-weight: 700; font-size: 1.5rem; letter-spacing: -0.5px;">Akses Dibatasi</h2>
-                                <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 25px; font-size: 0.9rem;">
-                                    Sistem mendeteksi aktivitas tidak biasa. Akun <span style="color: #ef4444; font-weight: 600;">${myID}</span> ditangguhkan sementara.
-                                </p>
-                                <div style="text-align: left; margin-bottom: 20px;">
-                                    <label style="font-size: 0.75rem; font-weight: 600; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: block;">Pesan Banding (Opsional)</label>
-                                    <textarea id="appealText" placeholder="Berikan alasan atau penjelasan Anda..." style="width: 100%; height: 100px; padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: white; font-size: 0.9rem; outline: none; transition: 0.3s; resize: none;"></textarea>
-                                </div>
-                                <button id="btnAppeal" onclick="kirimBandingAction()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">Ajukan Banding</button>
-                            </div>
-                        </div>
-                    `;
-
-                    window.kirimBandingAction = () => {
-                        const text = document.getElementById('appealText').value.trim();
-                        const btn = document.getElementById('btnAppeal');
-                        if(!text) return alert("Harap isi pesan banding!");
-                        btn.innerText = "Mengirim..."; btn.disabled = true;
-                        update(ref(db, `users/${myID}`), { appealMessage: text, appealStatus: "pending" })
-                        .then(() => {
-                            btn.innerText = "Banding Telah Dikirim"; btn.style.background = "rgba(255,255,255,0.05)"; btn.style.color = "#94a3b8"; btn.style.boxShadow = "none";
-                            document.getElementById('appealText').disabled = true;
-                        }).catch((err) => {
-                            alert("Gagal mengirim: " + err.message); btn.innerText = "Coba Lagi"; btn.disabled = false;
-                        });
-                    };
-                }
-            });
         }
-
-        window.showToast = (message, icon = 'check-circle') => {
-            let toast = document.querySelector('.toast-msg');
-            if (!toast) { toast = document.createElement('div'); toast.className = 'toast-msg'; document.body.appendChild(toast); }
-            toast.innerHTML = `<i class="fas fa-${icon}"></i> ${message}`;
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        };
     </script>
 </body>
 </html>
