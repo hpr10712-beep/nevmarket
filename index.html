@@ -67,6 +67,7 @@
         @keyframes spinGradient { 100% { transform: rotate(360deg); } }
         .pfp-wrap.has-story { background: transparent; padding: 3px; position: relative; z-index: 1; }
         .pfp-wrap.has-story::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); z-index: -1; }
+        .pfp-wrap.has-story.viewed::before { background: var(--text-dim); } 
         .pfp-wrap.has-story img { border: 2.5px solid var(--bg); width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--panel); transition: border-color 0.3s; }
         .pfp { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--panel); }
 
@@ -111,11 +112,11 @@
         .story-media { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
         .story-media img, .story-media video { max-width: 90%; max-height: 85%; object-fit: contain; border-radius: 12px; margin: auto; }
         
-        .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; }
+        .story-footer { padding: 15px; display: flex; gap: 10px; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); align-items: center; position: absolute; bottom: 0; left: 0; right: 0; z-index: 20; }
         .story-views { font-size: 0.85rem; font-weight:600; color: white; display: flex; align-items: center; flex-direction: column; gap: 5px; position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-shadow: 0 1px 3px rgba(0,0,0,0.8); z-index: 100; cursor: pointer; }
 
-        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        #chatPanel.active { transform: translateX(0); }
+        #chatPanel { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: none; flex-direction: column; transform: translateX(100%); transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        #chatPanel.active { display: flex; transform: translateX(0); }
         .chat-header { padding: 10px 20px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 15px; background: rgba(11, 17, 32, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); margin-top: 0; }
         #pinnedMsgContainer { display: none; padding: 10px 15px; background: rgba(30, 41, 59, 0.8); border-bottom: 1px solid var(--border); font-size: 0.85rem; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; backdrop-filter: blur(5px); }
         body.light-theme #pinnedMsgContainer { background: #f8fafc; color: #0f172a; }
@@ -132,6 +133,8 @@
         .tick-read { color: #60a5fa; text-shadow: 0 0 2px rgba(255,255,255,0.5); }
         .tick-sent { color: rgba(255,255,255,0.8); }
         .verified-icon { color: var(--blue-tick); font-size: 0.85em; display: inline-flex; align-items: center; justify-content: center; text-shadow: 0 0 5px rgba(59, 130, 246, 0.4); margin-left: 4px; }
+
+        .owner-badge { background:#ef4444; color:white; font-size:0.6rem; padding:2px 4px; border-radius:4px; margin-left:4px; vertical-align:middle; font-weight:bold; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3); }
 
         .chat-input-area { padding: 12px 15px 25px; display: flex; flex-direction: column; gap: 10px; background: rgba(11, 17, 32, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.05); }
         .attach-btn { background: none; border: none; color: var(--text-dim); font-size: 1.3rem; padding: 10px; cursor: pointer; transition: 0.2s; }
@@ -179,14 +182,12 @@
         .login-bg-hd { background: linear-gradient(-45deg, #0b1120, #1e293b, #042f2e, #0b1120); background-size: 400% 400%; animation: loginHDAnim 12s ease infinite; position: relative; }
         .login-bg-hd::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, #020617 120%); z-index: -1; }
 
-        /* Kustomisasi Waveform Voice Note */
         .vn-player { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.15); padding: 8px 12px; border-radius: 20px; min-width: 160px; border: 1px solid rgba(255,255,255,0.05); margin-top: 5px;}
         body.light-theme .vn-player { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
         .vn-play-btn { font-size: 1.2rem; cursor: pointer; color: var(--accent); }
         .waveform-container { display: flex; align-items: center; gap: 3px; flex: 1; height: 24px; }
         .wave-bar { width: 3px; background: var(--text-dim); border-radius: 2px; transition: background 0.2s, height 0.2s; }
 
-        /* Kustomisasi UI Story Views Kiri-Kanan */
         .story-views {
             flex-direction: row !important;
             justify-content: space-between !important;
@@ -201,14 +202,52 @@
             border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
             box-shadow: 0 -10px 30px rgba(0,0,0,0.5) !important;
         }
+
+        /* --- TEMA KUSTOM CARD CHAT KEREN --- */
+        .bubble.style-neon { border-radius: 8px !important; }
+        .bubble.style-neon.sent { background: transparent !important; border: 1px solid #0ff !important; box-shadow: 0 0 8px rgba(0,255,255,0.5), inset 0 0 8px rgba(0,255,255,0.2) !important; color: #0ff !important; }
+        .bubble.style-neon.received { background: transparent !important; border: 1px solid #f0f !important; box-shadow: 0 0 8px rgba(255,0,255,0.5), inset 0 0 8px rgba(255,0,255,0.2) !important; color: #f0f !important; }
+
+        .bubble.style-cyberpunk { border-radius: 0 !important; font-family: monospace !important; font-weight: bold; }
+        .bubble.style-cyberpunk.sent { background: #fcee0a !important; color: #000 !important; border: 2px solid #000 !important; box-shadow: 4px 4px 0px #0ff !important; }
+        .bubble.style-cyberpunk.received { background: #0ff !important; color: #000 !important; border: 2px solid #000 !important; box-shadow: -4px 4px 0px #f0f !important; }
+
+        .bubble.style-gradient { border: none !important; color: white !important; }
+        .bubble.style-gradient.sent { background: linear-gradient(135deg, #ff6b6b, #feca57) !important; }
+        .bubble.style-gradient.received { background: linear-gradient(135deg, #48dbfb, #1dd1a1) !important; }
+
+        .bubble.style-glass { backdrop-filter: blur(15px) !important; -webkit-backdrop-filter: blur(15px) !important; }
+        .bubble.style-glass.sent { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; color: #fff !important; }
+        .bubble.style-glass.received { background: rgba(0, 0, 0, 0.3) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; color: #fff !important; }
     </style>
 </head>
 <body>
 
+    <div id="loadingDbOverlay" style="position:fixed; inset:0; background:var(--bg); z-index:99998; display:none; flex-direction:column; align-items:center; justify-content:center; color:white;">
+        <i class="fas fa-spinner fa-spin fa-3x" style="color:var(--accent); margin-bottom:15px;"></i>
+        <div style="font-weight:600; color:var(--text-dim); margin-top:10px;">Memuat...</div>
+    </div>
+
+    <div id="banOverlay" style="position:fixed; inset:0; background:rgba(15,23,42,0.95); z-index:99999; display:none; flex-direction:column; align-items:center; justify-content:center; color:white; text-align:center; padding:20px;">
+        <i class="fas fa-ban fa-4x" style="color:#ef4444; margin-bottom:20px;"></i>
+        <h2 style="color:#ef4444; margin-bottom:10px;">Akun Dibanned</h2>
+        <p style="color:var(--text-dim); margin-bottom:20px;">Akun Anda telah ditangguhkan karena melanggar ketentuan layanan kami.</p>
+        <button class="btn-fill" onclick="localStorage.removeItem('mybro_logged_in'); localStorage.removeItem('mybro_id'); window.location.reload();" style="max-width:200px;">Keluar</button>
+    </div>
+
+    <div class="overlay" id="popLimitAccount" onclick="closeOverlay(event)" style="z-index: 12000;">
+        <div class="sheet" style="text-align:center; padding:30px 20px;">
+            <i class="fas fa-exclamation-triangle fa-3x" style="color:#f59e0b; margin-bottom:15px;"></i>
+            <h3 style="color:#f59e0b; margin-bottom:10px;">Batas Maksimal Tercapai</h3>
+            <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:20px;">Anda telah mencapai batas maksimal pembuatan akun (3 akun per 3 hari di perangkat ini).</p>
+            <button class="btn-fill" onclick="toggleOverlay('popLimitAccount', false)" style="background:#f59e0b;">Tutup</button>
+        </div>
+    </div>
+
     <div id="toastMsg" class="toast-msg"></div>
 
     <div id="loginOverlay" class="login-bg-hd" style="position:fixed; inset:0; z-index:10000; display:none; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-        <div class="logo" style="font-size:2.8rem; margin-bottom:10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">Talk<span>Sky</span></div>
+        <div class="logo" style="font-size:3.5rem; font-weight:800; letter-spacing:-1.5px; color:#ffffff; margin-bottom:10px; text-shadow: 0 0 20px rgba(16, 185, 129, 0.5), 0 4px 12px rgba(0,0,0,0.7);">Talk<span style="color:var(--accent); text-shadow: 0 0 25px rgba(16, 185, 129, 0.8);">Sky</span></div>
         <p style="color:rgba(255,255,255,0.8); margin-bottom:35px; font-weight: 500;">Masuk atau Buat Akun Baru</p>
         <div style="background:rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding:30px 25px; border-radius:20px; width:100%; max-width:400px; box-shadow:0 15px 35px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
             <input type="text" id="loginId" placeholder="ID Akun (Contoh: ID-1234)" style="margin-bottom:15px; width:100%; padding:15px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2); color:white; outline:none; font-size: 1rem;">
@@ -308,6 +347,11 @@
                 <div class="menu-item" onclick="window.app.openSetting('chat')">
                     <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-comment-alt"></i></div>
                     <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Chat & Wallpaper</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Kustomisasi latar belakang chat</div></div>
+                </div>
+                <!-- TAMBAHAN: FITUR CARD CHAT KEREN -->
+                <div class="menu-item" onclick="window.app.openSetting('cardchat')">
+                    <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-paint-brush"></i></div>
+                    <div style="flex:1"><div style="font-weight:600; font-size:0.95rem;">Card Chat Keren</div><div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">Ubah gaya gelembung chat</div></div>
                 </div>
                 <div class="menu-item" onclick="window.app.openSetting('tema')">
                     <div style="width:30px; text-align:center; color:var(--text-dim);"><i class="fas fa-moon"></i></div>
@@ -437,7 +481,7 @@
         </div>
     </div>
 
-    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu"><div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div><div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div><div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div><div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div></div></div>
+    <div class="overlay" id="chatOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu"><div class="menu-item" id="archiveMenuBtn"><i class="fas fa-archive"></i> Arsipkan Obrolan</div><div class="menu-item" onclick="window.app.changeAlias()"><i class="fas fa-edit"></i> Ubah Nama (Alias)</div><div class="menu-item text-danger" id="blockMenuBtn"><i class="fas fa-ban"></i> Blokir Kontak</div><div class="menu-item text-danger" onclick="window.app.deleteChat()"><i class="fas fa-trash"></i> Hapus Obrolan</div><div class="menu-item text-danger" onclick="window.app.deleteContact()"><i class="fas fa-user-times"></i> Hapus Kontak</div></div></div>
     
     <div class="overlay" id="msgOptionsMenu" onclick="closeOverlay(event)"><div class="sheet sheet-menu">
         <div class="menu-item" onclick="window.app.replyMessage()"><i class="fas fa-reply"></i> Balas Pesan</div>
@@ -462,11 +506,28 @@
 
     <div class="overlay" id="popPassword" onclick="closeOverlay(event)"><div class="sheet"><h3 style="margin-bottom: 20px; text-align:center;">Ubah Password Akun</h3><input type="password" id="oldPass" placeholder="Password Lama" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><input type="password" id="newPass" placeholder="Password Baru" style="width:100%; padding:14px 16px; margin-bottom:15px; border-radius:12px; border:1px solid var(--border); background:var(--panel); color:var(--text); outline:none;"><button class="btn-fill" onclick="window.app.changePassword()">Simpan Password</button></div></div>
 
+    <div class="overlay" id="pop2FA" onclick="closeOverlay(event)" style="z-index: 11000;">
+        <div class="sheet">
+            <h3 style="margin-bottom: 10px; text-align:center;"><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Verifikasi 2FA</h3>
+            <p style="text-align:center; font-size:0.85rem; color:var(--text-dim); margin-bottom:20px;">Akun Anda dilindungi oleh Autentikasi 2 Langkah. Silakan masukkan PIN keamanan Anda.</p>
+            <input type="password" id="input2FAPin" placeholder="Masukkan PIN" style="text-align:center; font-size:1.3rem; letter-spacing:6px; padding:14px 16px;">
+            <button class="btn-fill" id="btnConfirm2FA">Verifikasi PIN</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="popPinSalah" onclick="closeOverlay(event)" style="z-index: 12000;">
+        <div class="sheet" style="text-align:center; padding:30px 20px;">
+            <i class="fas fa-times-circle fa-3x" style="color:#ef4444; margin-bottom:15px;"></i>
+            <h3 style="color:#ef4444; margin-bottom:10px;">PIN 2FA Salah!</h3>
+            <p style="color:var(--text-dim); font-size:0.9rem; margin-bottom:20px;">PIN yang Anda masukkan salah atau tidak cocok. Silakan coba kembali.</p>
+            <button class="btn-fill" onclick="toggleOverlay('popPinSalah', false)" style="background:#ef4444;">Tutup</button>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, get, update, onDisconnect, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // MENDIFINISIKAN FUNGSI TOAST AGAR SELURUH PENGATURAN BERFUNGSI
         window.showToast = (msg, icon = 'info-circle') => {
             const toast = document.getElementById('toastMsg');
             toast.innerHTML = `<i class="fas fa-${icon}"></i> ${msg}`;
@@ -474,18 +535,26 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // Terapkan Tema Saat Booting
         if(localStorage.getItem('mybro_theme') === 'light') { document.body.classList.add('light-theme'); }
 
         window.verifiedUsersMap = {};
-        window.getVerifiedBadge = (id) => { return window.verifiedUsersMap[id] ? '<i class="fas fa-check-circle verified-icon"></i>' : ''; };
+        window.ownerUsersMap = {}; 
+        
+        window.getVerifiedBadge = (id) => { 
+            let badge = window.verifiedUsersMap[id] ? '<i class="fas fa-check-circle verified-icon"></i>' : ''; 
+            if(window.ownerUsersMap[id]) badge += '<span class="owner-badge">OWNER</span>'; 
+            return badge;
+        };
 
         const firebaseConfig = { apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8", authDomain: "mybro-9ba5f.firebaseapp.com", databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/", projectId: "mybro-9ba5f" };
         const app_fire = initializeApp(firebaseConfig); const db = getDatabase(app_fire);
 
         onValue(ref(db, 'users'), (snap) => {
             if(snap.exists()){
-                snap.forEach(child => { window.verifiedUsersMap[child.key] = child.val().isVerified === true; });
+                snap.forEach(child => { 
+                    window.verifiedUsersMap[child.key] = child.val().profile?.isVerified === true; 
+                    window.ownerUsersMap[child.key] = child.val().profile?.isOwner === true; 
+                });
                 if(document.getElementById('editName') && document.getElementById('editName').value) {
                     const myName = document.getElementById('editName').value;
                     document.getElementById('vProfileName').innerHTML = `${myName} ${window.getVerifiedBadge(myID)}`;
@@ -500,19 +569,46 @@
         let myID = localStorage.getItem('mybro_id');
 
         if (!isLoggedIn) { document.getElementById('loginOverlay').style.display = 'flex'; if (!myID) myID = "GUEST_USER"; } 
-        else { document.getElementById('displayID').innerText = myID; }
+        else { 
+            document.getElementById('displayID').innerText = myID; 
+            document.getElementById('loadingDbOverlay').style.display = 'flex'; 
+        }
 
         const myPresenceRef = ref(db, `users/${myID}/presence`); const connectedRef = ref(db, '.info/connected');
         if (isLoggedIn) {
             onValue(connectedRef, (snap) => {
                 if (snap.val() === true) { onDisconnect(myPresenceRef).set({ status: 'offline', last_changed: serverTimestamp() }).then(() => { set(myPresenceRef, { status: 'online', last_changed: serverTimestamp() }); }); }
             });
+
+            onValue(ref(db, `users/${myID}/profile`), (snap) => {
+                if (snap.exists()) {
+                    const data = snap.val();
+                    
+                    if(data.isBanned) {
+                        document.getElementById('loadingDbOverlay').style.display = 'none';
+                        document.getElementById('banOverlay').style.display = 'flex';
+                        return;
+                    }
+                    document.getElementById('loadingDbOverlay').style.display = 'none';
+                    
+                    const currentPfp = data.pfp || `https://ui-avatars.com/api/?name=${data.name || 'User'}&background=1e293b&color=fff`;
+                    
+                    document.getElementById('displayID').innerText = myID;
+                    document.getElementById('vProfileName').innerHTML = `${data.name || 'User'} ${window.getVerifiedBadge(myID)}`;
+                    document.getElementById('vProfileBio').innerText = data.bio || 'Hey ada di TalkSky!';
+                    document.getElementById('vProfilePfp').src = currentPfp;
+                    document.getElementById('pfpEdit').src = currentPfp;
+                    document.getElementById('myStatusPfp').src = currentPfp;
+                    
+                    document.getElementById('editName').value = data.name || '';
+                    document.getElementById('editBio').value = data.bio || '';
+                }
+            });
         }
 
         let activeTarget = null, pfpBase64 = "", currentStoryQueue = [], currentStoryIndex = 0, storyTimer, viewingStoryOf = null;
         let unreadCountGlobal = 0, selectedMsgId = null, isSelectedMsgPinned = false, lastNotifTracker = {};
         
-        // Variabel Voice Note & Reply Chat
         let mediaRecorder, audioChunks = [];
         window.replyingToMsg = null;
         window.selectedMsgText = ""; window.selectedMsgName = ""; window.callTimeout = null;
@@ -541,13 +637,23 @@
                 if (!id || !pass) return window.showToast("Harap isi ID dan Password!", "exclamation-circle");
                 get(ref(db, `users/${id}/profile`)).then(snap => {
                     if (snap.exists()) {
-                        const currentP = snap.val().password;
-                        if (!currentP || currentP === pass) {
-                            if(snap.val().is2FA) {
-                                const pin = prompt("Akun dilindungi 2FA. Masukkan PIN Anda:");
-                                if(pin !== snap.val().pin) return window.showToast("PIN 2FA Salah!", "times-circle");
+                        const profileData = snap.val();
+                        if (profileData.isBanned) return window.showToast("Akun ini telah di-banned!", "ban"); 
+                        if (profileData.password === pass) {
+                            if(profileData.is2FA) {
+                                toggleOverlay('pop2FA', true);
+                                document.getElementById('btnConfirm2FA').onclick = () => {
+                                    const pinVal = document.getElementById('input2FAPin').value;
+                                    if(pinVal === profileData.pin) {
+                                        toggleOverlay('pop2FA', false);
+                                        localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
+                                    } else {
+                                        toggleOverlay('pop2FA', false);
+                                        toggleOverlay('popPinSalah', true);
+                                    }
+                                };
+                                return;
                             }
-                            if (!currentP) update(ref(db, `users/${id}/profile`), { password: pass });
                             localStorage.setItem('mybro_id', id); localStorage.setItem('mybro_logged_in', 'true'); window.location.reload();
                         } else { window.showToast("Password salah!", "times-circle"); }
                     } else { window.showToast("ID Akun tidak ditemukan!", "times-circle"); }
@@ -557,7 +663,8 @@
                 const now = Date.now(); const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
                 let regHistory = JSON.parse(localStorage.getItem('mybro_reg_history') || '[]');
                 regHistory = regHistory.filter(time => (now - time) < threeDaysMs);
-                if (regHistory.length >= 3) return window.showToast("Batas Limit Tercapai! Maksimal 3 akun per 3 hari di perangkat ini.", "exclamation-triangle");
+                if (regHistory.length >= 3) { toggleOverlay('popLimitAccount', true); return; } 
+                
                 const id = "ID-" + Math.floor(1000 + Math.random() * 9000);
                 const pass = prompt(`Akun baru Anda akan menggunakan ID:\n${id}\n\nSilakan buat Password untuk akun Anda:`);
                 if (!pass) return;
@@ -568,7 +675,6 @@
             },
             logout: () => { if (confirm("Apakah Anda yakin ingin keluar?")) { localStorage.removeItem('mybro_logged_in'); window.location.reload(); } },
             
-            // --- FUNGSI PENGATURAN DINAMIS ---
             openSetting: (menuId) => {
                 const titleEl = document.getElementById('dynSetTitle'); const contentEl = document.getElementById('dynSetContent');
                 let title = "", content = "";
@@ -578,14 +684,23 @@
                         title = "Privasi Akun";
                         const isReadChecked = localStorage.getItem('set_read') !== 'false';
                         const isOnlineChecked = localStorage.getItem('set_online') !== 'false';
+                        const statusPrivacy = localStorage.getItem('set_status_privacy') || 'all';
                         content = `
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                                 <div><div style="font-weight:600; font-size:1rem;">Laporan Dibaca</div><div style="font-size:0.75rem; color:var(--text-dim);">Tampilkan centang biru ke pengirim</div></div>
                                 <input type="checkbox" class="toggle-switch" ${isReadChecked ? 'checked' : ''} onchange="localStorage.setItem('set_read', this.checked); window.showToast('Privasi diperbarui')">
                             </div>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
                                 <div><div style="font-weight:600; font-size:1rem;">Terakhir Dilihat</div><div style="font-size:0.75rem; color:var(--text-dim);">Izinkan orang melihat kapan Anda online</div></div>
                                 <input type="checkbox" class="toggle-switch" ${isOnlineChecked ? 'checked' : ''} onchange="localStorage.setItem('set_online', this.checked); window.showToast('Privasi diperbarui')">
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                <div><div style="font-weight:600; font-size:1rem;">Privasi Status</div><div style="font-size:0.75rem; color:var(--text-dim); margin-bottom:5px;">Siapa yang dapat melihat status Anda</div></div>
+                                <select onchange="localStorage.setItem('set_status_privacy', this.value); window.showToast('Privasi status diperbarui')" style="width:100%; padding:12px; border-radius:8px; background:var(--panel); border:1px solid var(--border); color:var(--text); outline:none;">
+                                    <option value="all" ${statusPrivacy==='all'?'selected':''}>Semua Orang</option>
+                                    <option value="contacts" ${statusPrivacy==='contacts'?'selected':''}>Kontak Saya</option>
+                                    <option value="none" ${statusPrivacy==='none'?'selected':''}>Tidak Ada</option>
+                                </select>
                             </div>`;
                         break;
                     case 'chat':
@@ -596,6 +711,34 @@
                             <input type="text" id="chatBgInp" placeholder="Contoh: https://link-gambar.com/hd.jpg" value="${currentBg}" style="margin-bottom:20px;">
                             <button class="btn-fill" onclick="window.app.applySettings('chat')">Simpan Wallpaper</button>
                             <button onclick="localStorage.removeItem('mybro_chat_bg'); window.app.loadCustomBg(); toggleOverlay('popDynamicSetting', false); window.showToast('Wallpaper Direset');" style="width:100%; padding:15px; margin-top:10px; background:transparent; border:1px solid #ef4444; color:#ef4444; border-radius:12px; font-weight:600;">Hapus Wallpaper</button>`;
+                        break;
+                    case 'cardchat':
+                        title = "Pilih Card Chat Keren";
+                        const currentStyle = localStorage.getItem('mybro_chat_style') || 'default';
+                        content = `
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <div class="card" style="background:${currentStyle==='default'?'var(--panel-hover)':'var(--panel)'}" onclick="window.app.setChatStyle('default')">
+                                    <div style="flex:1"><strong>Default</strong></div>
+                                    <div class="bubble sent" style="padding:5px 10px; max-width:100px;">Contoh</div>
+                                </div>
+                                <div class="card" style="background:${currentStyle==='neon'?'var(--panel-hover)':'var(--panel)'}" onclick="window.app.setChatStyle('neon')">
+                                    <div style="flex:1"><strong>Neon Glow</strong></div>
+                                    <div class="bubble sent style-neon" style="padding:5px 10px; max-width:100px;">Contoh</div>
+                                </div>
+                                <div class="card" style="background:${currentStyle==='cyberpunk'?'var(--panel-hover)':'var(--panel)'}" onclick="window.app.setChatStyle('cyberpunk')">
+                                    <div style="flex:1"><strong>Cyberpunk</strong></div>
+                                    <div class="bubble sent style-cyberpunk" style="padding:5px 10px; max-width:100px;">Contoh</div>
+                                </div>
+                                <div class="card" style="background:${currentStyle==='gradient'?'var(--panel-hover)':'var(--panel)'}" onclick="window.app.setChatStyle('gradient')">
+                                    <div style="flex:1"><strong>Gradient</strong></div>
+                                    <div class="bubble sent style-gradient" style="padding:5px 10px; max-width:100px;">Contoh</div>
+                                </div>
+                                <div class="card" style="background:${currentStyle==='glass'?'var(--panel-hover)':'var(--panel)'}" onclick="window.app.setChatStyle('glass')">
+                                    <div style="flex:1"><strong>Glassmorphism</strong></div>
+                                    <div class="bubble sent style-glass" style="padding:5px 10px; max-width:100px;">Contoh</div>
+                                </div>
+                            </div>
+                        `;
                         break;
                     case 'tema':
                         title = "Tema Aplikasi";
@@ -674,6 +817,13 @@
                 toggleOverlay('popDynamicSetting', true);
             },
 
+            setChatStyle: (styleName) => {
+                localStorage.setItem('mybro_chat_style', styleName);
+                window.showToast("Gaya Card Chat diterapkan!");
+                toggleOverlay('popDynamicSetting', false);
+                if(activeTarget) { window.app.openChat(activeTarget, document.getElementById('chatName').innerText, document.getElementById('chatPfp').src); }
+            },
+
             toggle2FA: (checked) => {
                 update(ref(db, `users/${myID}/profile`), { is2FA: checked });
                 document.getElementById('pin2faBox').style.display = checked ? 'block' : 'none';
@@ -722,7 +872,6 @@
             },
             copyInvite: () => { navigator.clipboard.writeText("Ayo chat dengan saya di TalkSky! Gunakan ID: " + myID); window.showToast("Tautan Undangan Disalin!"); },
             
-            // FITUR VOICE NOTE & CALL
             startVoiceRecord: async () => {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -772,7 +921,6 @@
                 document.getElementById('callStatus').innerText = type === 'video' ? 'Memanggil Video...' : 'Memanggil Suara...';
                 document.getElementById('callOverlay').style.display = 'flex';
                 
-                // Mockup Panggilan
                 window.callTimeout = setTimeout(() => {
                     document.getElementById('callStatus').innerText = "Tidak ada jawaban";
                     setTimeout(() => window.app.endCall(), 2000);
@@ -780,15 +928,30 @@
             },
             endCall: () => { clearTimeout(window.callTimeout); document.getElementById('callOverlay').style.display = 'none'; },
 
-            // FUNGSI FIREBASE
             handlePfp: (input) => { const reader = new FileReader(); reader.readAsDataURL(input.files[0]); reader.onload = () => { pfpBase64 = reader.result; document.getElementById('pfpEdit').src = pfpBase64; } },
             updateProfile: () => { const updates = { name: document.getElementById('editName').value, bio: document.getElementById('editBio').value }; if(pfpBase64) updates.pfp = pfpBase64; update(ref(db, `users/${myID}/profile`), updates); toggleOverlay('popProfile', false); window.showToast('Profil Diperbarui'); },
             addFriend: () => { const tid = document.getElementById('targetID').value.trim().toUpperCase(); if(!tid || tid === myID) return; set(ref(db, `users/${myID}/contacts/${tid}`), { id: tid }); toggleOverlay('popAdd', false); },
 
+            changePassword: () => {
+                const oldPass = document.getElementById('oldPass').value;
+                const newPass = document.getElementById('newPass').value;
+                if (!oldPass || !newPass) return window.showToast("Isi kolom password!", "exclamation-circle");
+                get(ref(db, `users/${myID}/profile`)).then(snap => {
+                    if (snap.exists() && snap.val().password === oldPass) {
+                        update(ref(db, `users/${myID}/profile`), { password: newPass }).then(() => {
+                            window.showToast("Password Berhasil Diubah!", "check-circle");
+                            document.getElementById('oldPass').value = "";
+                            document.getElementById('newPass').value = "";
+                            toggleOverlay('popPassword', false);
+                        });
+                    } else { window.showToast("Password lama salah!", "times-circle"); }
+                });
+            },
+
             openChat: (id, name, pfp) => {
                 activeTarget = id;
                 document.getElementById('chatName').innerHTML = `${name} ${window.getVerifiedBadge(id)}`; document.getElementById('chatPfp').src = pfp;
-                document.getElementById('chatPanel').classList.add('active'); window.app.loadCustomBg(); // Load BG
+                document.getElementById('chatPanel').classList.add('active'); window.app.loadCustomBg();
                 
                 onValue(ref(db, `users/${id}/presence`), (snap) => {
                     const presEl = document.getElementById('chatPresence'); if(activeTarget !== id) return;
@@ -799,9 +962,18 @@
                 });
 
                 get(ref(db, `users/${myID}/contacts/${id}`)).then(snap => {
-                    const isArchived = snap.val()?.archived || false; const archBtn = document.getElementById('archiveMenuBtn');
+                    const cData = snap.val() || {};
+                    const isArchived = cData.archived || false; const archBtn = document.getElementById('archiveMenuBtn');
                     archBtn.innerHTML = isArchived ? `<i class="fas fa-box-open"></i> Buka Arsip` : `<i class="fas fa-archive"></i> Arsipkan Obrolan`;
                     archBtn.onclick = () => { update(ref(db, `users/${myID}/contacts/${id}`), { archived: !isArchived }); toggleOverlay('chatOptionsMenu', false); window.app.closeChat(); };
+                    
+                    const isBlocked = cData.blocked || false;
+                    const blockBtn = document.getElementById('blockMenuBtn');
+                    if(blockBtn) {
+                        blockBtn.innerHTML = isBlocked ? `<i class="fas fa-user-check"></i> Buka Blokir` : `<i class="fas fa-ban"></i> Blokir Kontak`;
+                        blockBtn.className = isBlocked ? "menu-item" : "menu-item text-danger";
+                        blockBtn.onclick = () => { window.app.toggleBlockContact(id, isBlocked); };
+                    }
                 });
 
                 const room = [myID, id].sort().join("_");
@@ -809,13 +981,14 @@
                     const area = document.getElementById('msgArea'); area.innerHTML = "";
                     let updates = {}; let hasUpdates = false; let pinnedMsg = null;
                     const sendReadReceipt = localStorage.getItem('set_read') !== 'false';
+                    const chatStyle = localStorage.getItem('mybro_chat_style') || 'default';
+                    const styleClass = chatStyle !== 'default' ? `style-${chatStyle}` : '';
 
                     snap.forEach(child => {
                         const m = child.val();
                         if(m.from !== myID && m.status !== 'read' && sendReadReceipt) { updates[`${child.key}/status`] = 'read'; hasUpdates = true; }
                         if(m.pinned) pinnedMsg = m; 
 
-                        // Handle Reply Box Format
                         let replyHTML = "";
                         if (m.replyTo) {
                             replyHTML = `<div style="background: rgba(0,0,0,0.15); padding: 6px 10px; border-left: 4px solid var(--accent); border-radius: 6px; margin-bottom: 5px; font-size: 0.8rem;">
@@ -828,7 +1001,7 @@
                         if(m.type === 'image') mediaHTML = `<img src="${m.media}">`; 
                         else if(m.type === 'video') mediaHTML = `<video src="${m.media}" controls></video>`; 
                         else if(m.type === 'audio') {
-                            const bars = [8,15,10,20,12,6,18,14,22,10,16,8,20,15,10]; // simulated waveform
+                            const bars = [8,15,10,20,12,6,18,14,22,10,16,8,20,15,10]; 
                             const waveHtml = bars.map(h => `<div class="wave-bar" style="height:${h}px"></div>`).join('');
                             mediaHTML = `<div class="vn-player" data-src="${m.media}"><i class="fas fa-play vn-play-btn" onclick="window.app.toggleVN(this)"></i><div class="waveform-container">${waveHtml}</div></div>`;
                         }
@@ -837,7 +1010,7 @@
                         let tickHTML = ""; if(m.from === myID) tickHTML = m.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
                         let simpleTextDesc = m.text ? m.text.replace(/'/g, "\\'") : (m.type==='audio' ? 'Voice Note' : 'Media');
 
-                        area.innerHTML += `<div class="bubble ${m.from === myID ? 'sent' : 'received'}" id="msg-${child.key}" data-desc="${simpleTextDesc}" data-name="${m.from === myID ? 'Saya' : name}" oncontextmenu="window.app.msgMenu('${child.key}', ${m.pinned || false}, '${simpleTextDesc}', '${m.from === myID ? 'Saya' : name}', event)">
+                        area.innerHTML += `<div class="bubble ${m.from === myID ? 'sent' : 'received'} ${styleClass}" id="msg-${child.key}" data-desc="${simpleTextDesc}" data-name="${m.from === myID ? 'Saya' : name}" oncontextmenu="window.app.msgMenu('${child.key}', ${m.pinned || false}, '${simpleTextDesc}', '${m.from === myID ? 'Saya' : name}', event)">
                         ${replyHTML}${mediaHTML}${m.text ? `<div>${m.text}</div>` : ''}<div class="msg-meta"><span>${formatTime(m.time)}</span> ${tickHTML}</div></div>`;
                     });
                     
@@ -854,17 +1027,28 @@
             },
             closeChat: () => { document.getElementById('chatPanel').classList.remove('active'); activeTarget = null; window.app.cancelReply(); },
             
-            // FUNGSI SEND DENGAN REPLY
+            toggleBlockContact: (id, isBlocked) => {
+                const targetId = id || activeTarget;
+                if(!targetId) return;
+                update(ref(db, `users/${myID}/contacts/${targetId}`), { blocked: !isBlocked }).then(() => {
+                    toggleOverlay('chatOptionsMenu', false);
+                    window.showToast(!isBlocked ? "Kontak berhasil diblokir" : "Blokir kontak dibuka", !isBlocked ? "ban" : "user-check");
+                    window.app.closeChat();
+                });
+            },
+
             send: (customText = null, mediaData = null, type = 'text', fileName = '') => {
                 const inp = document.getElementById('msgIn'); const text = customText !== null ? customText : inp.value;
                 if((!text && !mediaData) || !activeTarget) return;
-                const room = [myID, activeTarget].sort().join("_");
                 
-                const msgObj = { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false };
-                if (window.replyingToMsg) { msgObj.replyTo = window.replyingToMsg; window.app.cancelReply(); }
-                
-                push(ref(db, `chats/${room}`), msgObj);
-                inp.value = ""; if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate(50);
+                get(ref(db, `users/${myID}/contacts/${activeTarget}`)).then(snap => {
+                    if(snap.val()?.blocked) { return window.showToast("Buka blokir untuk mengirim pesan", "exclamation-circle"); }
+                    const room = [myID, activeTarget].sort().join("_");
+                    const msgObj = { from: myID, text: text, time: Date.now(), status: 'sent', type: type, media: mediaData || "", fileName: fileName, pinned: false };
+                    if (window.replyingToMsg) { msgObj.replyTo = window.replyingToMsg; window.app.cancelReply(); }
+                    push(ref(db, `chats/${room}`), msgObj);
+                    inp.value = ""; if(localStorage.getItem('set_vibrate') !== 'false' && navigator.vibrate) navigator.vibrate(50);
+                });
             },
             sendMedia: (input) => {
                 const file = input.files[0]; if(!file) return;
@@ -873,7 +1057,6 @@
                 const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => { window.app.send("", reader.result, type, file.name); }
             },
 
-            // MENU CONTEXT PESAN
             msgMenu: (msgId, isPinned, msgText, msgName, e) => { 
                 e.preventDefault(); selectedMsgId = msgId; isSelectedMsgPinned = isPinned; 
                 window.selectedMsgText = msgText; window.selectedMsgName = msgName;
@@ -910,7 +1093,7 @@
                     vidEl.onloadedmetadata = () => { let dur = vidEl.duration > 60 ? 60 : vidEl.duration; setTimeout(() => { bar.style.transition = `width ${dur}s linear`; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), dur * 1000); };
                     vidEl.onended = () => { window.app.nextStory(); };
                 } else {
-                    container.innerHTML = `<img src="${s.media}">`; setTimeout(() => { bar.style.transition = 'width 5s linear'; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), 5000);
+                    container.innerHTML = `<img src="${s.media}">`; setTimeout(() => { bar.style.transition = "width 5s linear"; bar.style.width = '100%'; }, 50); storyTimer = setTimeout(() => window.app.nextStory(), 5000);
                 }
                 const viewEl = document.getElementById('svViews');
                 if(isMine) { 
@@ -923,93 +1106,155 @@
             replyStory: () => { const inp = document.getElementById('storyReplyInp'); if(!inp.value || !viewingStoryOf) return; activeTarget = viewingStoryOf; window.app.send(`Membahas status: "${inp.value}"`); inp.value = ""; window.app.closeStory(); window.showToast("Balasan dikirim!"); },
             deleteStory: (storyId) => { set(ref(db, `stories/${myID}/${storyId}`), null); window.app.closeStory(); window.showToast("Dihapus", "trash"); },
             scrollToPinned: () => { const pinned = document.querySelector('.bubble[style*="border"]'); if(pinned) pinned.scrollIntoView({ behavior: 'smooth' }); },
-            showStoryViewers: () => { if(!currentStoryQueue[currentStoryIndex] || viewingStoryOf !== myID) return; const s = currentStoryQueue[currentStoryIndex]; const listEl = document.getElementById('storyViewersList'); listEl.innerHTML = ""; if(!s.viewers || Object.keys(s.viewers).length === 0) { listEl.innerHTML = "<div style='color:var(--text-dim); text-align:center;'>Belum ada yang melihat</div>"; } else { Object.keys(s.viewers).forEach(vid => { const v = s.viewers[vid]; const d = new Date(v.time); const timeStr = d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0'); listEl.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--panel); border-radius:10px; margin-bottom:5px;"><div style="font-weight:600; color:var(--text);">${v.name} ${window.getVerifiedBadge(vid)}</div><div style="font-size:0.75rem; color:var(--text-dim);">${timeStr}</div></div>`; }); } clearTimeout(storyTimer); toggleOverlay('storyViewersMenu', true); }
-        };
-
-        let swipeStartX = 0, swipeCurrentX = 0, swipingBubble = null;
-        const msgArea = document.getElementById('msgArea');
-        msgArea.addEventListener('touchstart', e => {
-            const bubble = e.target.closest('.bubble');
-            if(!bubble) return;
-            swipeStartX = e.touches[0].clientX; swipingBubble = bubble; swipingBubble.style.transition = 'none';
-        }, {passive: true});
-        msgArea.addEventListener('touchmove', e => {
-            if(!swipingBubble) return;
-            swipeCurrentX = e.touches[0].clientX; let diff = swipeCurrentX - swipeStartX;
-            const isSent = swipingBubble.classList.contains('sent');
-            if((isSent && diff < 0 && diff > -80) || (!isSent && diff > 0 && diff < 80)) { swipingBubble.style.transform = `translateX(${diff}px)`; }
-        }, {passive: true});
-        msgArea.addEventListener('touchend', e => {
-            if(!swipingBubble) return;
-            let diff = swipeCurrentX - swipeStartX; const isSent = swipingBubble.classList.contains('sent');
-            swipingBubble.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'; swipingBubble.style.transform = `translateX(0)`;
-            if((isSent && diff <= -50) || (!isSent && diff >= 50)) {
-                selectedMsgId = swipingBubble.id.replace('msg-', '');
-                window.selectedMsgText = swipingBubble.getAttribute('data-desc'); window.selectedMsgName = swipingBubble.getAttribute('data-name');
-                window.app.replyMessage(); if(navigator.vibrate) navigator.vibrate(50);
+            
+            showStoryViewers: () => { 
+                if(!currentStoryQueue[currentStoryIndex] || viewingStoryOf !== myID) return; 
+                const s = currentStoryQueue[currentStoryIndex];
+                const list = document.getElementById('storyViewersList');
+                list.innerHTML = "";
+                if(s.viewers) {
+                    Object.values(s.viewers).forEach(v => {
+                        list.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:5px;"><span>${v.name}</span><span style="font-size:0.75rem; color:var(--text-dim);">${formatTime(v.time)}</span></div>`;
+                    });
+                } else {
+                    list.innerHTML = `<div style="text-align:center; color:var(--text-dim); font-size:0.85rem;">Belum ada yang melihat</div>`;
+                }
+                toggleOverlay('storyViewersMenu', true);
             }
-            swipingBubble = null;
-        });
-
-        window.applyLanguage = () => {
-            const lang = localStorage.getItem('set_lang') || 'id';
-            const isEn = lang === 'en';
-            const navLinks = document.querySelectorAll('.nav-link span');
-            if(navLinks.length > 3) {
-                navLinks[0].innerText = isEn ? "Chats" : "Obrolan";
-                navLinks[1].innerText = isEn ? "Status" : "Status";
-                navLinks[2].innerText = isEn ? "Friends" : "Teman";
-                navLinks[3].innerText = isEn ? "Settings" : "Pengaturan";
-            }
-            const msgIn = document.getElementById('msgIn'); if(msgIn) msgIn.placeholder = isEn ? "Type a message..." : "Ketik pesan...";
-            const searchP = document.getElementById('targetID'); if(searchP) searchP.placeholder = isEn ? "Enter ID (Example: BRO-1234)" : "Masukkan ID (Contoh: BRO-1234)";
         };
-        window.applyLanguage();
 
         if (isLoggedIn) {
-            onValue(ref(db, `chats`), (snapshot) => { snapshot.forEach((roomSnap) => { const roomId = roomSnap.key; if (roomId.includes(myID)) { const targetId = roomId.replace(myID, "").replace("_", ""); get(ref(db, `users/${myID}/contacts/${targetId}`)).then(s => { if(!s.exists()) set(ref(db, `users/${myID}/contacts/${targetId}`), { id: targetId, archived: false }); }); } }); });
-            onValue(ref(db, `users/${myID}/profile`), (snap) => { const d = snap.val(); if(!d) return; document.getElementById('editName').value = d.name; document.getElementById('editBio').value = d.bio; const defaultPfp = `https://ui-avatars.com/api/?name=${d.name}&background=1e293b&color=fff`; const pfp = d.pfp || defaultPfp; document.getElementById('pfpEdit').src = pfp; document.getElementById('myStatusPfp').src = pfp; document.getElementById('vProfilePfp').src = pfp; document.getElementById('vProfileName').innerHTML = `${d.name} ${window.getVerifiedBadge(myID)}`; document.getElementById('myStatusNameTag').innerHTML = `Status Saya ${window.getVerifiedBadge(myID)}`; document.getElementById('vProfileBio').innerText = d.bio; });
-            onValue(ref(db, `stories/${myID}`), snap => { const now = Date.now(); let hasActive = false; if(snap.exists()) { snap.forEach(child => { if(now - child.val().time < 86400000) hasActive = true; }); } const wrap = document.getElementById('myStatusPfpWrap'); const txt = document.getElementById('myStatusText'); if(hasActive) { wrap.classList.add('has-story'); txt.innerText = "Ketuk untuk melihat status Anda"; } else { wrap.classList.remove('has-story'); txt.innerText = "Ketuk untuk menambahkan pembaruan status"; } });
-
-            onValue(ref(db, `users/${myID}/contacts`), (snap) => {
-                const cList = document.getElementById('contactList'); const rList = document.getElementById('chatList'); const sList = document.getElementById('storyList'); const aList = document.getElementById('archivedList');
-                cList.innerHTML = ""; unreadCountGlobal = 0;
+            
+            // FUNGSI PERBAIKAN: DAFTAR KONTAK TIDAK MUNCUL
+            onValue(ref(db, `users/${myID}/contacts`), async (snap) => {
+                const list = document.getElementById('contactList');
+                if(!snap.exists()) {
+                    list.innerHTML = "<div style='text-align:center; color:var(--text-dim); margin-top:20px;'>Belum ada kontak</div>";
+                    return;
+                }
+                let promises = [];
                 snap.forEach(child => {
-                    const cid = child.key; const isArchived = child.val().archived; const aliasName = child.val().alias; const room = [myID, cid].sort().join("_");
-                    onValue(ref(db, `users/${cid}/profile`), (pSnap) => {
-                        const p = pSnap.val() || { name: cid, pfp: "" }; const displayName = aliasName ? aliasName : p.name; const pfp = p.pfp || `https://ui-avatars.com/api/?name=${displayName}&background=1e293b&color=fff`;
-                        const cCard = document.createElement('div'); cCard.className = 'card'; cCard.innerHTML = `<img src="${pfp}" class="pfp" style="width:45px;height:45px"><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg">${p.bio}</div></div>`; cCard.onclick = () => window.app.openChat(cid, displayName, pfp); cList.appendChild(cCard);
-
-                        onValue(ref(db, `chats/${room}`), (msgSnap) => {
-                            let lastMsgObj = null, unreadCount = 0; msgSnap.forEach(m => { lastMsgObj = m.val(); if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read') unreadCount++; });
-                            let lastMsgText = "Mulai obrolan", lastTime = "", tickHTML = "";
-                            if(lastMsgObj) {
-                                if(lastMsgObj.type === 'image') lastMsgText = '📷 Foto'; else if(lastMsgObj.type === 'video') lastMsgText = '🎥 Video'; else if(lastMsgObj.type === 'audio') lastMsgText = '🎤 Voice Note'; else if(lastMsgObj.type === 'file') lastMsgText = '📄 Dokumen'; else lastMsgText = lastMsgObj.text;
-                                lastTime = formatTime(lastMsgObj.time); if(lastMsgObj.from === myID) tickHTML = lastMsgObj.status === 'read' ? `<i class="fas fa-check-double tick tick-read"></i>` : `<i class="fas fa-check tick tick-sent"></i>`;
-                                if(lastMsgObj.from !== myID && lastMsgObj.status !== 'read' && activeTarget !== cid) { if(!lastNotifTracker[cid] || lastMsgObj.time > lastNotifTracker[cid]) { if(lastNotifTracker[cid]) window.showFloatingNotif(displayName, lastMsgText, pfp, cid); lastNotifTracker[cid] = lastMsgObj.time; } }
-                            }
-                            unreadCountGlobal += unreadCount; document.getElementById('chatBadge').style.display = unreadCountGlobal > 0 ? 'block' : 'none';
-
-                            get(ref(db, `stories/${cid}`)).then(storySnap => {
-                                let hasStory = false; const now = Date.now(); if(storySnap.exists()) storySnap.forEach(s => { if(now - s.val().time < 86400000) hasStory = true; });
-                                const htmlChat = `<div class="pfp-wrap ${hasStory ? 'has-story' : ''}"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-header-flex"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-time">${lastTime}</div></div><div class="card-msg">${tickHTML} ${lastMsgText}</div></div>${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}`;
-                                let existingCard = document.getElementById(`chat-${cid}`);
-                                if(existingCard) { existingCard.innerHTML = htmlChat; if(isArchived) aList.appendChild(existingCard); else rList.appendChild(existingCard); } else { const rCard = document.createElement('div'); rCard.className = 'card'; rCard.id = `chat-${cid}`; rCard.innerHTML = htmlChat; rCard.onclick = () => window.app.openChat(cid, displayName, pfp); if(isArchived) aList.appendChild(rCard); else rList.appendChild(rCard); }
-                                const archBtn = document.getElementById('archivedBtn'); if(aList.children.length > 0) { archBtn.style.display = 'flex'; document.getElementById('archivedCount').innerText = aList.children.length; } else { archBtn.style.display = 'none'; aList.style.display = 'none'; }
-                                
-                                // UPDATE WHATSAPP STYLE STORY LIST
-                                if(hasStory) { 
-                                    let sCard = document.getElementById(`story-${cid}`); 
-                                    if(!sCard) { 
-                                        sCard = document.createElement('div'); sCard.className = 'card'; sCard.id = `story-${cid}`; 
-                                        sCard.innerHTML = `<div class="pfp-wrap has-story"><img src="${pfp}" class="pfp"></div><div class="card-info"><div class="card-name">${displayName} ${window.getVerifiedBadge(cid)}</div><div class="card-msg" style="color:var(--text-dim);">Pembaruan baru saja</div></div>`; 
-                                        sCard.onclick = () => window.app.openStory(cid, displayName, pfp, false); sList.appendChild(sCard); 
-                                    } 
-                                }
-                            });
-                        });
-                    });
+                    const cData = child.val();
+                    promises.push(get(ref(db, `users/${child.key}/profile`)).then(pSnap => {
+                        if(pSnap.exists()){
+                            const p = pSnap.val();
+                            const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name}&background=1e293b&color=fff`;
+                            const name = cData.alias || p.name;
+                            return `<div class="card" onclick="window.app.openChat('${child.key}', '${name}', '${pfp}')">
+                                <img src="${pfp}" class="pfp" style="width:52px;height:52px;">
+                                <div class="card-info">
+                                    <div class="card-name">${name} ${window.getVerifiedBadge(child.key)}</div>
+                                    <div class="card-msg">${p.bio || 'Hey ada di TalkSky!'}</div>
+                                </div>
+                            </div>`;
+                        }
+                        return "";
+                    }));
                 });
+                const results = await Promise.all(promises);
+                list.innerHTML = results.join('');
+            });
+
+            // FUNGSI PERBAIKAN: STATUS MUNCUL 2x
+            onValue(ref(db, 'stories'), async (snap) => {
+                let promises = [];
+                snap.forEach(userSnap => {
+                    const uid = userSnap.key;
+                    if(uid === myID) return;
+                    let hasActive = false;
+                    userSnap.forEach(storySnap => {
+                        if(Date.now() - storySnap.val().time < 86400000) hasActive = true;
+                    });
+                    if(hasActive) {
+                        promises.push(get(ref(db, `users/${uid}/profile`)).then(pSnap => {
+                            if(pSnap.exists()) {
+                                const p = pSnap.val();
+                                const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name}&background=1e293b&color=fff`;
+                                return `<div class="card" onclick="window.app.openStory('${uid}', '${p.name}', '${pfp}', false)">
+                                    <div class="pfp-wrap has-story"><img src="${pfp}"></div>
+                                    <div class="card-info">
+                                        <div class="card-name">${p.name} ${window.getVerifiedBadge(uid)}</div>
+                                        <div class="card-msg">Ketuk untuk melihat status</div>
+                                    </div>
+                                </div>`;
+                            }
+                            return "";
+                        }));
+                    }
+                });
+                const results = await Promise.all(promises);
+                document.getElementById('storyList').innerHTML = results.join('');
+            });
+
+            // FUNGSI DAFTAR OBROLAN
+            onValue(ref(db, 'chats'), async (snap) => {
+                const chatList = document.getElementById('chatList');
+                const archivedList = document.getElementById('archivedList');
+                let chatsHtml = [];
+                let archivedHtml = [];
+                let unreadTotal = 0;
+                let promises = [];
+
+                snap.forEach(roomSnap => {
+                    if(roomSnap.key.includes(myID)) {
+                        const targetId = roomSnap.key.replace(myID, "").replace("_", "");
+                        let lastMsg = null;
+                        let unread = 0;
+                        roomSnap.forEach(mSnap => {
+                            lastMsg = mSnap.val();
+                            if(lastMsg.from !== myID && lastMsg.status !== 'read') unread++;
+                        });
+                        
+                        if(lastMsg) {
+                            unreadTotal += unread;
+                            promises.push(
+                                Promise.all([
+                                    get(ref(db, `users/${targetId}/profile`)),
+                                    get(ref(db, `users/${myID}/contacts/${targetId}`))
+                                ]).then(([pSnap, cSnap]) => {
+                                    if(pSnap.exists()){
+                                        const p = pSnap.val();
+                                        const c = cSnap.exists() ? cSnap.val() : {};
+                                        const isArchived = c.archived || false;
+                                        const pfp = p.pfp || `https://ui-avatars.com/api/?name=${p.name}&background=1e293b&color=fff`;
+                                        const name = c.alias || p.name;
+                                        let msgText = lastMsg.text || (lastMsg.type === 'image' ? '📷 Foto' : lastMsg.type === 'video' ? '🎥 Video' : lastMsg.type === 'audio' ? '🎤 Voice Note' : '📄 File');
+                                        
+                                        const html = `<div class="card" onclick="window.app.openChat('${targetId}', '${name}', '${pfp}')">
+                                            <img src="${pfp}" class="pfp" style="width:52px;height:52px;">
+                                            <div class="card-info">
+                                                <div class="card-header-flex">
+                                                    <div class="card-name">${name} ${window.getVerifiedBadge(targetId)}</div>
+                                                    <div class="card-time">${formatTime(lastMsg.time)}</div>
+                                                </div>
+                                                <div class="card-header-flex">
+                                                    <div class="card-msg" style="max-width:180px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${lastMsg.from === myID ? (lastMsg.status==='read'?'<i class="fas fa-check-double tick-read" style="margin-right:4px;"></i>':'<i class="fas fa-check tick-sent" style="margin-right:4px;"></i>') : ''}${msgText}</div>
+                                                    ${unread > 0 ? `<div class="unread-badge">${unread}</div>` : ''}
+                                                </div>
+                                            </div>
+                                        </div>`;
+                                        if(isArchived) archivedHtml.push({time: lastMsg.time, html});
+                                        else chatsHtml.push({time: lastMsg.time, html});
+                                    }
+                                })
+                            );
+                        }
+                    }
+                });
+
+                await Promise.all(promises);
+                
+                chatsHtml.sort((a,b) => b.time - a.time);
+                archivedHtml.sort((a,b) => b.time - a.time);
+                
+                chatList.innerHTML = chatsHtml.map(x => x.html).join('');
+                archivedList.innerHTML = archivedHtml.map(x => x.html).join('');
+                
+                document.getElementById('archivedCount').innerText = archivedHtml.length;
+                document.getElementById('archivedBtn').style.display = archivedHtml.length > 0 ? 'flex' : 'none';
+                
+                const badge = document.getElementById('chatBadge');
+                if(unreadTotal > 0) { badge.style.display = 'block'; badge.innerText = unreadTotal; } else { badge.style.display = 'none'; }
             });
         }
     </script>
