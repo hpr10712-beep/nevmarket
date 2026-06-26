@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-    </script>
-
     <script type="importmap">
         {
             "imports": {
@@ -111,16 +108,6 @@
         .btn-outline:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
-        }
-        .btn-download {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-        .btn-download:hover {
-            background: var(--accent-blue);
-            color: #fff;
-            border-color: var(--accent-blue);
         }
 
         /* ============================================================
@@ -337,6 +324,18 @@
             display: flex;
             flex-direction: column;
         }
+        .product-info .badge-type {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 10px;
+            border-radius: 40px;
+            background: var(--accent-green);
+            color: #fff;
+            align-self: flex-start;
+            margin-bottom: 6px;
+        }
         .product-info h3 {
             font-size: 1rem;
             font-weight: 700;
@@ -377,7 +376,7 @@
         }
 
         /* ============================================================
-           MODAL — DIPERBAIKI RAPI
+           MODAL — hanya detail + tombol bayar (redirect ke payment_produk.html)
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -456,7 +455,6 @@
             margin-bottom: 16px;
         }
 
-        /* DETAIL ROWS — RAPI */
         .modal .detail-grid {
             display: flex;
             flex-direction: column;
@@ -502,182 +500,6 @@
             margin: 16px 0;
             border: none;
             border-top: 1px solid var(--border-color);
-        }
-
-        /* QR SECTION */
-        .qr-section {
-            text-align: center;
-            padding: 4px 0 8px;
-        }
-        .qr-section .qr-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .qr-section .qr-label i {
-            color: var(--accent-blue);
-            font-size: 1.1rem;
-        }
-        .qr-section .qr-image-wrapper {
-            display: inline-block;
-            background: #fff;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            max-width: 220px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .qr-section .qr-image-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 4px;
-        }
-        .qr-section .qr-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        .qr-section .qr-actions .btn {
-            padding: 8px 18px;
-            font-size: 0.8rem;
-        }
-        .qr-section .qr-note {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* KONFIRMASI */
-        .confirm-section {
-            text-align: center;
-        }
-        .confirm-section .icon-big {
-            font-size: 2.2rem;
-            color: var(--accent-blue);
-            margin-bottom: 6px;
-        }
-        .confirm-section h3 {
-            font-size: 1.15rem;
-            margin-bottom: 4px;
-        }
-        .confirm-section .sub-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin: 4px 0 12px;
-            line-height: 1.5;
-        }
-        .confirm-section .device-id-box {
-            background: var(--bg-primary);
-            padding: 10px 14px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            margin: 10px 0 14px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            word-break: break-all;
-        }
-        .confirm-section .device-id-box small {
-            font-family: 'Inter', sans-serif;
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-        }
-        .confirm-section .wa-btn {
-            width: 100%;
-            justify-content: center;
-            margin: 6px 0 10px;
-        }
-        .confirm-section .format-text {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin: 6px 0 14px;
-        }
-        .confirm-section .code-input-area {
-            margin-top: 14px;
-            background: var(--bg-primary);
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            text-align: left;
-        }
-        .confirm-section .code-input-area .label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .confirm-section .code-input-area .label i {
-            color: var(--accent-blue);
-        }
-        .confirm-section .code-input-area .input-group {
-            display: flex;
-            gap: 8px;
-            margin-top: 6px;
-        }
-        .confirm-section .code-input-area .input-group input {
-            flex: 1;
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            outline: none;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .confirm-section .code-input-area .input-group input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-        }
-        .confirm-section .code-input-area .input-group .btn {
-            padding: 8px 16px;
-        }
-        .confirm-section .download-box {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background: #ecfdf5;
-            border-radius: 8px;
-            border: 1px solid #10b981;
-        }
-        .confirm-section .download-box.active {
-            display: block;
-        }
-        .confirm-section .download-box p {
-            color: #10b981;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .confirm-section .download-box .btn {
-            width: 100%;
-            justify-content: center;
-            margin-top: 6px;
-        }
-
-        .modal .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-        .modal .btn-group .btn {
-            flex: 1;
-            min-width: 80px;
-            font-size: 0.85rem;
-            padding: 10px 16px;
         }
 
         /* ============================================================
@@ -780,9 +602,6 @@
             .products-toolbar .search-box {
                 max-width: 100%;
             }
-            .modal .btn-group .btn {
-                flex: 1 1 100%;
-            }
             .page-header h1 {
                 font-size: 1.5rem;
             }
@@ -798,10 +617,6 @@
             .modal .detail-value.desc-value {
                 max-width: 100%;
             }
-            .qr-section .qr-actions {
-                flex-direction: column;
-                align-items: center;
-            }
         }
     </style>
 </head>
@@ -810,12 +625,13 @@
     <!-- ============ NAVBAR ============ -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#berita">Home</a></li>
                 <li><a href="produk.html" style="color:var(--accent-blue);">Produk</a></li>
-                <li><a href="jasa.html" style="color:var(--accent-blue);">Jasa</a></li>
+                <li><a href="produk-jasa.html">Jasa</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
+                <li><a href="payment_produk.html">Payment</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -833,11 +649,11 @@
         <span id="deviceIdDisplay">ID: ...</span>
     </div>
 
-    <!-- ============ HEADER PRODUK ============ -->
+    <!-- ============ HEADER ============ -->
     <header class="page-header">
         <div class="container">
-            <h1><i class="fas fa-palette"></i> Koleksi Produk</h1>
-            <p class="sub">Temukan Berbagai Produk Yang Bisa Di Gunakan Anda Untuk Berbagai Keperluan Anda.</p>
+            <h1><i class="fas fa-palette"></i> Koleksi Logo</h1>
+            <p class="sub">Temukan desain logo premium untuk bisnis Anda.</p>
         </div>
     </header>
 
@@ -849,7 +665,7 @@
                     <input type="text" id="searchInput" placeholder="Cari produk..." />
                     <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
                 </div>
-                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali Ke Halaman Utama</a>
+                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
             </div>
 
             <div class="products-grid" id="productsGrid">
@@ -858,14 +674,13 @@
         </div>
     </section>
 
-    <!-- ============ MODAL ============ -->
+    <!-- ============ MODAL (hanya detail + tombol bayar redirect) ============ -->
     <div class="modal-overlay" id="modalProduct">
         <div class="modal">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
             <h2 id="modalTitle">Nama Produk</h2>
             <p class="modal-sub" id="modalSub">Detail produk</p>
 
-            <!-- Detail Grid - RAPI -->
             <div class="detail-grid">
                 <div class="detail-item">
                     <span class="detail-label">Harga</span>
@@ -883,61 +698,6 @@
                 <i class="fas fa-credit-card"></i> Bayar Sekarang
             </button>
 
-            <!-- QR SECTION -->
-            <div id="qrSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="qr-section">
-                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
-                    <div class="qr-image-wrapper" id="qrImageWrapper">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS Pembayaran" />
-                    </div>
-                    <div class="qr-actions">
-                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
-                    </div>
-                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
-                    <button class="btn btn-success" id="btnSudahBayar" style="width:100%;justify-content:center;margin-top:10px;">
-                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
-                    </button>
-                </div>
-            </div>
-
-            <!-- KONFIRMASI -->
-            <div id="confirmSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="confirm-section">
-                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Konfirmasi Pembayaran</h3>
-                    <p class="sub-text">
-                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
-                    </p>
-                    <div class="device-id-box">
-                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
-                        <span id="confirmDeviceId">-</span>
-                    </div>
-                    <a href="https://wa.me/6289603266259?text=Halo%20admin%2C%20saya%20sudah%20bayar%20dengan%20nominal%20Rp%20XXXX%20dan%20no%20produk%20XXXX.%20Saya%20ingin%20meminta%20kode%20konfirmasi."
-                    target="_blank"
-                    class="btn btn-primary wa-btn">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin
-                </a>
-                <p class="format-text">
-                    Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
-                </p>
-
-                <div class="code-input-area">
-                    <div class="label"><i class="fas fa-info-circle"></i> Masukkan kode yang diberikan admin:</div>
-                    <div class="input-group">
-                        <input type="text" id="accessCodeInput" placeholder="Kode akses" />
-                        <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
-                    </div>
-                    <div class="download-box" id="downloadSection">
-                        <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                        <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
-                            <i class="fas fa-download"></i> Unduh Logo
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:16px;">Tutup</button>
         </div>
     </div>
@@ -948,7 +708,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue, push, set, update, serverTimestamp } from "firebase-database";
+        import { getDatabase, ref, onValue } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -972,7 +732,6 @@
         }
         const DEVICE_ID = getDeviceId();
         document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
-        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
 
         // ============================================================
         // 3. TOAST
@@ -1031,6 +790,7 @@
                                 <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Produk'}" loading="lazy" />
                             </div>
                             <div class="product-info">
+                                <span class="badge-type">Digital</span>
                                 <h3>${item.name || 'Nama Produk'}</h3>
                                 <div class="price">Rp ${priceFormatted} <small>/ logo</small></div>
                                 <p class="desc">${item.description || 'Deskripsi produk.'}</p>
@@ -1065,7 +825,7 @@
             renderProducts(filteredProducts);
         }
 
-        // 🔥 AMBIL DATA & FILTER HANYA PRODUK DIGITAL
+        // AMBIL DATA & FILTER DIGITAL
         onValue(productsRef, (snap) => {
             const data = snap.val();
             if (!data) {
@@ -1075,7 +835,6 @@
                     `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk digital.</div>`;
                 return;
             }
-            // Filter: hanya produk yang memiliki downloadLink dan bukan jasa (isJasa !== true)
             allProducts = Object.entries(data)
                 .map(([key, value]) => ({ key, ...value }))
                 .filter(item => item.downloadLink && item.isJasa !== true);
@@ -1101,7 +860,7 @@
         });
 
         // ============================================================
-        // 7. MODAL
+        // 7. MODAL — hanya detail + tombol redirect ke payment_produk.html
         // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
@@ -1115,14 +874,6 @@
             document.getElementById('modalPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product
             .price || 0);
             document.getElementById('modalDesc').textContent = product.description || '—';
-
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').classList.remove('active');
-            document.getElementById('btnBayar').style.display = 'block';
-            document.getElementById('accessCodeInput').value = '';
-            document.getElementById('modalDownloadLink').href = '#';
-
             modal.classList.add('active');
         }
 
@@ -1138,110 +889,27 @@
         });
 
         // ============================================================
-        // 8. BAYAR → QR
+        // 8. TOMBOL BAYAR → SIMPAN KE localStorage & REDIRECT
         // ============================================================
         document.getElementById('btnBayar').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Data produk tidak tersedia.', 'error'); return; }
-            this.style.display = 'none';
-            document.getElementById('qrSection').style.display = 'block';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').classList.remove('active');
-            showToast('Scan QR Code untuk pembayaran.', 'info');
-        });
-
-        // ============================================================
-        // 9. UNDUH QR
-        // ============================================================
-        document.getElementById('downloadQrBtn').addEventListener('click', function() {
-            const img = document.getElementById('qrImage');
-            const link = document.createElement('a');
-            link.download = 'QRIS_LogoShop.png';
-            link.href = img.src;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('QR Code berhasil diunduh!', 'success');
-        });
-
-        // ============================================================
-        // 10. SUDAH BAYAR
-        // ============================================================
-        document.getElementById('btnSudahBayar').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Produk tidak valid.', 'error'); return; }
-
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let confirmCode = '';
-            for (let i = 0; i < 6; i++) {
-                confirmCode += chars[Math.floor(Math.random() * chars.length)];
+            if (!currentProduct) {
+                showToast('Data produk tidak tersedia.', 'error');
+                return;
             }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            const newOrderRef = push(ordersRef);
-            set(newOrderRef, {
-                productId: currentProduct.key,
-                productName: currentProduct.name || 'Logo',
-                price: currentProduct.price || 0,
-                deviceId: DEVICE_ID,
-                status: 'pending',
-                confirmationCode: confirmCode,
-                orderDate: serverTimestamp(),
-            }).then(() => {
-                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
-            }).catch(err => {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
-            });
-
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'block';
-            document.getElementById('downloadSection').classList.remove('active');
-            document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
-
-            const price = currentProduct.price || 0;
-            const name = currentProduct.name || 'Logo';
-            const msg =
-                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${currentProduct.key} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
-            const waLink = document.querySelector('#confirmSection .wa-btn');
-            waLink.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
+            // Simpan data produk ke localStorage
+            localStorage.setItem('payment_product', JSON.stringify(currentProduct));
+            // Redirect ke halaman pembayaran produk digital
+            window.location.href = 'payment_produk.html';
         });
 
         // ============================================================
-        // 11. VERIFIKASI KODE
-        // ============================================================
-        document.getElementById('btnVerifyCode').addEventListener('click', function() {
-            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
-            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            onValue(ordersRef, (snap) => {
-                const data = snap.val();
-                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
-                let found = false;
-                for (const [key, order] of Object.entries(data)) {
-                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
-                        found = true;
-                        update(ref(db, `logo-shop/orders/${key}`), { status: 'completed' });
-                        break;
-                    }
-                }
-                if (found) {
-                    document.getElementById('downloadSection').classList.add('active');
-                    document.getElementById('modalDownloadLink').href = currentProduct?.downloadLink || '#';
-                    showToast('Kode valid! Silakan unduh logo.', 'success');
-                } else {
-                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
-                }
-            }, { onlyOnce: true });
-        });
-
-        // ============================================================
-        // 12. ESC
+        // 9. ESC
         // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
 
-        showToast('Selamat datang di Halaman Produk!', 'info');
+        showToast('Selamat datang di Koleksi Logo!', 'info');
         console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
     </script>
 
