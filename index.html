@@ -961,12 +961,14 @@
 
         const heroImg = document.getElementById("heroImage");
 
-const img = new Image();
+const img = document.getElementById("heroImage");
+
 img.onload = () => {
-    heroImg.src = img.src;
+    document.getElementById("loading").style.display = "none";
+    img.style.display = "block";
 };
 
-img.src = data.heroImage || "https://images.unsplash.com/photo-1542744095-291d1f67b221?w=1200&q=80";
+img.src = data.heroImage;
     </script>
 
 </body>
