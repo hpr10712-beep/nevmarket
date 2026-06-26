@@ -41,6 +41,7 @@
             --accent-purple: #8b5cf6;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
+            --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.18);
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -89,6 +90,20 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.04);
+        }
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.8rem;
         }
 
         /* ============================================================
@@ -271,7 +286,7 @@
         }
 
         /* ============================================================
-           NEWS — SWIPE HORIZONTAL DI HP
+           NEWS — SWIPE HORIZONTAL + TOMBOL BACA
            ============================================================ */
         #berita {
             background: var(--bg-secondary);
@@ -328,7 +343,7 @@
         .news-card .img-wrap img {
             width: 100%;
             height: auto;
-            max-height: 200px;
+            max-height: 180px;
             object-fit: contain;
         }
         .news-body {
@@ -342,20 +357,169 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.4px;
+            margin-bottom: 4px;
         }
         .news-body h3 {
             font-size: 1.05rem;
-            margin: 6px 0 8px;
+            margin: 0 0 6px;
             line-height: 1.3;
         }
-        .news-body p {
+        .news-body .preview-text {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            display: block;
-            overflow: visible;
-            white-space: normal;
-            word-wrap: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             line-height: 1.5;
+            margin-bottom: 12px;
+            flex: 1;
+        }
+        .news-body .btn-read {
+            align-self: flex-start;
+            background: transparent;
+            border: none;
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0;
+        }
+        .news-body .btn-read:hover {
+            color: var(--accent-purple);
+            gap: 10px;
+        }
+        .news-body .btn-read i {
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+        .news-body .btn-read:hover i {
+            transform: translateX(4px);
+        }
+
+        /* ============================================================
+           MODAL BERITA — POPUP KEREN
+           ============================================================ */
+        .modal-news-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(14px);
+            padding: 20px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .modal-news-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeInOverlay {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-news {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 36px 32px 28px;
+            box-shadow: var(--shadow-xl);
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes slideUpModal {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-news-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px;
+            line-height: 1;
+        }
+        .modal-news-close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal-news .modal-img-wrap {
+            width: 100%;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 16px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+        .modal-news .modal-img-wrap img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+        }
+
+        .modal-news .modal-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+        .modal-news h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            padding-right: 30px;
+        }
+        .modal-news .modal-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .modal-news .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        .modal-news .btn-group .btn {
+            min-width: 100px;
         }
 
         /* ============================================================
@@ -431,10 +595,16 @@
                 flex: 0 0 260px;
                 max-width: 260px;
             }
+            .modal-news {
+                padding: 24px 20px 20px;
+            }
+            .modal-news h2 {
+                font-size: 1.3rem;
+            }
         }
 
         /* ============================================================
-           TOAST & DEVICE BADGE (tetap)
+           TOAST & DEVICE BADGE
            ============================================================ */
         .toast {
             position: fixed;
@@ -520,7 +690,6 @@
                 <li><a href="#berita">Berita</a></li>
                 <li><a href="produk.html">Produk</a></li>
                 <li><a href="#tentang">Tentang</a></li>
-                <!-- Link "Berita" di toggle, admin di footer -->
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -568,6 +737,22 @@
         </div>
     </section>
 
+    <!-- ============ MODAL BERITA ============ -->
+    <div class="modal-news-overlay" id="modalNews">
+        <div class="modal-news">
+            <button class="modal-news-close" id="modalNewsClose"><i class="fas fa-times"></i></button>
+            <div class="modal-img-wrap" id="modalNewsImageWrap">
+                <img id="modalNewsImage" src="" alt="Gambar berita" />
+            </div>
+            <div class="modal-meta" id="modalNewsMeta">—</div>
+            <h2 id="modalNewsTitle">Judul Berita</h2>
+            <div class="modal-content" id="modalNewsContent">Konten berita lengkap akan ditampilkan di sini.</div>
+            <div class="btn-group">
+                <button class="btn btn-outline" id="modalNewsCloseBtn">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ============ FOOTER ============ -->
     <footer class="footer">
         <div class="container">
@@ -575,14 +760,14 @@
                 <h4><i class="fas fa-crown" style="color:var(--accent-gold);"></i> LogoShop</h4>
                 <p>Platform jual beli logo premium berkualitas tinggi. Dapatkan identitas bisnis yang kuat dengan desain eksklusif dari para profesional.</p>
                 <div style="margin-top:8px;">
-                    <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy; 2026 LogoShop. All rights reserved.</span>
+                    <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy; 2026 26 Juni.Kami Merilis Website Untuk Penjualan File, Template, Document, Aplikasi</span>
                 </div>
             </div>
             <div class="col">
                 <h4>Kontak</h4>
                 <p><i class="fas fa-phone" style="width:20px;"></i> <a href="https://wa.me/6289603266259" target="_blank">0896-0326-6259</a></p>
-                <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:admin@logoshop.com">admin@logoshop.com</a></p>
-                <p><i class="fas fa-map-marker-alt" style="width:20px;"></i> Indonesia</p>
+                <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:admin@logoshop.com">hpr10712@gmail.com</a></p>
+                <p><i class="fas fa-map-marker-alt" style="width:20px;"></i> Indonesia, Jawa Tengah, Purworejo, Bayan</p>
             </div>
             <div class="col">
                 <h4>Ikuti Kami</h4>
@@ -597,7 +782,7 @@
                 </div>
             </div>
             <div class="bottom">
-                Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i> untuk para kreator. 
+                Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i> untuk para pengunjung.
                 <a href="#">Kebijakan Privasi</a> · <a href="#">Syarat & Ketentuan</a>
             </div>
         </div>
@@ -676,12 +861,47 @@
             if (data.heroImage) document.getElementById('heroImage').src = data.heroImage;
             if (data.shopName) {
                 document.querySelector('.nav-brand').innerHTML = `<i class="fas fa-crown"></i> ${data.shopName}`;
-                document.querySelector('.footer .col h4').innerHTML = `<i class="fas fa-crown" style="color:var(--accent-gold);"></i> ${data.shopName}`;
+                document.querySelector('.footer .col h4').innerHTML =
+                    `<i class="fas fa-crown" style="color:var(--accent-gold);"></i> ${data.shopName}`;
                 document.title = data.shopName + ' - Toko Logo';
             }
         });
 
-        // NEWS — swipe horizontal
+        // ============================================================
+        // 6. NEWS — dengan tombol "Baca Penjelasan"
+        // ============================================================
+        function openNewsModal(item) {
+            const modal = document.getElementById('modalNews');
+            document.getElementById('modalNewsImage').src = item.image ||
+                'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80';
+            document.getElementById('modalNewsImage').alt = item.title || 'Berita';
+            document.getElementById('modalNewsMeta').textContent = item.date || '—';
+            document.getElementById('modalNewsTitle').textContent = item.title || 'Tanpa Judul';
+            document.getElementById('modalNewsContent').textContent = item.content || 'Tidak ada konten.';
+            // Sembunyikan image wrap jika tidak ada gambar
+            const imgWrap = document.getElementById('modalNewsImageWrap');
+            if (!item.image) {
+                imgWrap.style.display = 'none';
+            } else {
+                imgWrap.style.display = 'flex';
+            }
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNewsModal() {
+            document.getElementById('modalNews').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event listener untuk modal berita
+        document.getElementById('modalNewsClose').addEventListener('click', closeNewsModal);
+        document.getElementById('modalNewsCloseBtn').addEventListener('click', closeNewsModal);
+        document.getElementById('modalNews').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeNewsModal();
+        });
+
+        // Ambil data berita
         onValue(newsRef, (snap) => {
             const data = snap.val();
             const grid = document.getElementById('newsGrid');
@@ -692,20 +912,45 @@
             const entries = Object.entries(data).reverse();
             let html = '';
             entries.forEach(([key, item]) => {
+                // Buat preview teks (ambil 100 karakter pertama)
+                const previewText = item.content ? item.content.slice(0, 120) + (item.content.length > 120 ? '...' :
+                    '') : 'Klik "Baca Penjelasan" untuk melihat detail.';
                 html += `
-                        <div class="news-card">
+                        <div class="news-card" data-key="${key}">
                             <div class="img-wrap">
                                 <img src="${item.image || 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80'}" alt="${item.title || 'Berita'}" loading="lazy" />
                             </div>
                             <div class="news-body">
                                 <div class="meta"><i class="far fa-calendar-alt"></i> ${item.date || '—'}</div>
                                 <h3>${item.title || 'Tanpa Judul'}</h3>
-                                <p>${item.content || ''}</p>
+                                <p class="preview-text">${previewText}</p>
+                                <button class="btn-read" data-key="${key}">
+                                    Baca Penjelasan <i class="fas fa-arrow-right"></i>
+                                </button>
                             </div>
                         </div>
                     `;
             });
             grid.innerHTML = html;
+
+            // Event listener untuk tombol "Baca Penjelasan"
+            grid.querySelectorAll('.btn-read').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const key = btn.dataset.key;
+                    const item = data[key];
+                    if (item) openNewsModal(item);
+                });
+            });
+        });
+
+        // ============================================================
+        // 7. ESC untuk modal berita
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeNewsModal();
+            }
         });
 
         showToast('Selamat datang di LogoShop!', 'info');
@@ -713,4 +958,4 @@
     </script>
 
 </body>
-</html>
+    </html>
