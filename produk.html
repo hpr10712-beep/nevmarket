@@ -1001,7 +1001,7 @@
         });
 
         // ============================================================
-        // 5. PRODUK
+        // 5. PRODUK — HANYA DIGITAL (ada downloadLink dan bukan jasa)
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
@@ -1018,7 +1018,7 @@
         function renderProducts(productsArray) {
             const grid = document.getElementById('productsGrid');
             if (!productsArray || productsArray.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk.</div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk digital.</div>`;
                 return;
             }
             let html = '';
@@ -1064,16 +1064,21 @@
             renderProducts(filteredProducts);
         }
 
+        // 🔥 AMBIL DATA & FILTER HANYA PRODUK DIGITAL
         onValue(productsRef, (snap) => {
             const data = snap.val();
             if (!data) {
                 allProducts = [];
                 filteredProducts = [];
                 document.getElementById('productsGrid').innerHTML =
-                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk.</div>`;
+                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk digital.</div>`;
                 return;
             }
-            allProducts = Object.entries(data).map(([key, value]) => ({ key, ...value }));
+            // Filter: hanya produk yang memiliki downloadLink dan bukan jasa (isJasa !== true)
+            allProducts = Object.entries(data)
+                .map(([key, value]) => ({ key, ...value }))
+                .filter(item => item.downloadLink && item.isJasa !== true);
+
             allProducts = shuffleArray([...allProducts]);
             filteredProducts = [...allProducts];
             renderProducts(filteredProducts);
@@ -1235,9 +1240,9 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        showToast('Selamat datang di Koleksi Logo!', 'info');
+        showToast('Selamat datang di Halaman Produk!', 'info');
         console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
     </script>
 
 </body>
-                            </html>
+</html>
