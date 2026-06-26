@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Koleksi Logo - LogoShop</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f0f4fe;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(0, 20, 60, 0.10);
+            --text-primary: #0a1a3a;
+            --text-secondary: #4a5a7a;
+            --accent-gold: #f5b342;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+        }
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.04);
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(20px) saturate(1.8);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links a.admin-link {
+            color: var(--accent-blue);
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                padding: 20px 24px;
+                gap: 14px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: block;
+            }
+        }
+
+        /* ============================================================
+           SECTION
+           ============================================================ */
+        section {
+            padding: 40px 0 56px;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .section-header h2 i {
+            color: var(--accent-blue);
+            margin-right: 10px;
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           PRODUCTS — 2 kolom HP, 3 kolom desktop
+           ============================================================ */
+        .products-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+        .products-toolbar .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-primary);
+            padding: 4px 4px 4px 16px;
+            border-radius: 60px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            flex: 1;
+            max-width: 400px;
+        }
+        .products-toolbar .search-box:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+        .products-toolbar .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            width: 100%;
+            outline: none;
+            font-family: inherit;
+        }
+        .products-toolbar .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+        .products-toolbar .search-box button {
+            background: var(--accent-blue);
+            border: none;
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .products-toolbar .search-box button:hover {
+            background: var(--accent-purple);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-lg);
+        }
+        .product-card .img-wrap {
+            width: 100%;
+            background: #f8fafc;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-card .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 14px 16px 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-info h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+        .product-info .price {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin: 2px 0 6px;
+        }
+        .product-info .price small {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .product-info .desc {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+        .product-info .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .product-info .actions .btn {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            border-radius: 40px;
+        }
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        @keyframes fadeInOverlay {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            max-width: 520px;
+            width: 100%;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 32px 28px 24px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+        @keyframes slideUpModal {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px;
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+            padding-right: 30px;
+        }
+        .modal .modal-sub {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+        }
+
+        .modal .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+        .modal .detail-row:last-of-type {
+            border-bottom: none;
+        }
+        .modal .detail-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .modal .detail-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .modal .divider {
+            margin: 16px 0;
+            border: none;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 4px 0 8px;
+        }
+        .qr-section .qr-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .qr-section .qr-label i {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+        .qr-section .qr-image-wrapper {
+            display: inline-block;
+            background: #fff;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            max-width: 220px;
+            margin: 0 auto;
+        }
+        .qr-section .qr-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+        .qr-section .qr-note {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .confirm-section {
+            text-align: center;
+        }
+        .confirm-section .icon-big {
+            font-size: 2.4rem;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .confirm-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .confirm-section .sub-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 4px 0 12px;
+        }
+        .confirm-section .device-id-box {
+            background: var(--bg-primary);
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin: 10px 0 14px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .confirm-section .device-id-box small {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .modal .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .modal .btn-group .btn {
+            flex: 1;
+            min-width: 80px;
+            font-size: 0.85rem;
+            padding: 10px 16px;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast i {
+            font-size: 1rem;
+        }
+        .toast.success i {
+            color: #10b981;
+        }
+        .toast.error i {
+            color: #ef4444;
+        }
+        .toast.info i {
+            color: var(--accent-blue);
+        }
+
+        /* ============================================================
+           DEVICE BADGE
+           ============================================================ */
+        .device-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: var(--shadow-sm);
+            font-family: monospace;
+        }
+        .device-badge i {
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            padding: 32px 0 24px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .footer a {
+            color: var(--accent-blue);
+        }
+        .footer .social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .footer .social a {
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+        .footer .social a:hover {
+            color: var(--accent-blue);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 32px 0;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        .empty-state i {
+            font-size: 1.8rem;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (min-width: 769px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .modal {
+                padding: 24px 18px 20px;
+            }
+            .products-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .products-toolbar .search-box {
+                max-width: 100%;
+            }
+            .modal .btn-group .btn {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="produk.html" style="color:var(--accent-blue);font-weight:700;">Produk</a></li>
+                <li><a href="index.html#tentang">Tentang</a></li>
+                <li><a href="#" class="admin-link" id="adminLink"><i class="fas fa-user-shield"></i> Admin</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============ PRODUK ============ -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-palette"></i> Koleksi Logo</h2>
+                <p>Cari dan temukan desain favorit Anda.</p>
+            </div>
+
+            <div class="products-toolbar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari produk..." />
+                    <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat produk...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 <strong>LogoShop</strong> — Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i></p>
+            <p style="margin-top:2px;font-size:0.75rem;">Hubungi admin: <a href="https://wa.me/6289603266259" target="_blank">089603266259</a></p>
+            <div class="social">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ DEVICE BADGE ============ -->
+    <div class="device-badge">
+        <i class="fas fa-mobile-alt"></i>
+        <span id="deviceIdDisplay">ID: ...</span>
+    </div>
+
+    <!-- ============ MODAL ============ -->
+    <div class="modal-overlay" id="modalProduct">
+        <div class="modal">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <h2 id="modalTitle">Nama Produk</h2>
+            <p class="modal-sub" id="modalSub">Detail produk</p>
+
+            <div class="detail-row">
+                <span class="detail-label">Harga</span>
+                <span class="detail-value" id="modalPrice">Rp 0</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Deskripsi</span>
+                <span class="detail-value" id="modalDesc" style="text-align:left;font-weight:400;color:var(--text-secondary);">-</span>
+            </div>
+
+            <hr class="divider" />
+
+            <button class="btn btn-primary" id="btnBayar" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
+                <i class="fas fa-credit-card"></i> Bayar Sekarang
+            </button>
+
+            <div id="qrSection" style="display:none;margin-top:16px;">
+                <hr class="divider" />
+                <div class="qr-section">
+                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
+                    <div class="qr-image-wrapper">
+                        <img src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS Pembayaran" />
+                    </div>
+                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
+                    <button class="btn btn-success" id="btnSudahBayar" style="width:100%;justify-content:center;margin-top:10px;">
+                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
+                    </button>
+                </div>
+            </div>
+
+            <div id="confirmSection" style="display:none;margin-top:16px;">
+                <hr class="divider" />
+                <div class="confirm-section">
+                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Konfirmasi Pembayaran</h3>
+                    <p class="sub-text">
+                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
+                    </p>
+                    <div class="device-id-box">
+                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
+                        <span id="confirmDeviceId">-</span>
+                    </div>
+                    <a href="https://wa.me/6289603266259?text=Halo%20admin%2C%20saya%20sudah%20bayar%20dengan%20nominal%20Rp%20XXXX%20dan%20no%20produk%20XXXX.%20Saya%20ingin%20meminta%20kode%20konfirmasi."
+                    target="_blank"
+                    class="btn btn-primary"
+                    style="width:100%;justify-content:center;margin:6px 0 10px;">
+                    <i class="fab fa-whatsapp"></i> Hubungi Admin
+                </a>
+                <p style="font-size:0.75rem;color:var(--text-secondary);">
+                    Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
+                </p>
+
+                <div style="margin-top:14px;background:var(--bg-primary);padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border-color);text-align:left;">
+                    <p style="font-size:0.8rem;color:var(--text-secondary);"><i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Masukkan kode yang diberikan admin:</p>
+                    <div style="display:flex;gap:8px;margin-top:6px;">
+                        <input type="text" id="accessCodeInput" placeholder="Kode akses" style="flex:1;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-size:0.9rem;" />
+                        <button class="btn btn-primary" id="btnVerifyCode" style="padding:8px 16px;"><i class="fas fa-unlock"></i> Buka</button>
+                    </div>
+                    <div id="downloadSection" style="display:none;margin-top:10px;padding:10px;background:#ecfdf5;border-radius:8px;border:1px solid #10b981;">
+                        <p style="color:#10b981;font-weight:600;"><i class="fas fa-check-circle"></i> Akses diberikan!</p>
+                        <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success" style="width:100%;justify-content:center;margin-top:6px;">
+                            <i class="fas fa-download"></i> Unduh Logo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:14px;">Tutup</button>
+        </div>
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script type="module">
+        // ============================================================
+        // FIREBASE
+        // ============================================================
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, onValue, push, set, update, serverTimestamp } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+        document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
+        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            const icon = t.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
+            t.className = 'toast show ' + type;
+            m.textContent = msg;
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+        }
+
+        // ============================================================
+        // NAVBAR
+        // ============================================================
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+        document.getElementById('adminLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'admin.html';
+        });
+
+        // ============================================================
+        // PRODUCTS
+        // ============================================================
+        const productsRef = ref(db, 'logo-shop/products');
+        let allProducts = [];
+        let filteredProducts = [];
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function renderProducts(productsArray) {
+            const grid = document.getElementById('productsGrid');
+            if (!productsArray || productsArray.length === 0) {
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk.</div>`;
+                return;
+            }
+            let html = '';
+            productsArray.forEach((item) => {
+                const priceFormatted = new Intl.NumberFormat('id-ID').format(item.price || 0);
+                html += `
+                        <div class="product-card" data-id="${item.key}">
+                            <div class="img-wrap">
+                                <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Produk'}" loading="lazy" />
+                            </div>
+                            <div class="product-info">
+                                <h3>${item.name || 'Nama Produk'}</h3>
+                                <div class="price">Rp ${priceFormatted} <small>/ logo</small></div>
+                                <p class="desc">${item.description || 'Deskripsi produk.'}</p>
+                                <div class="actions">
+                                    <button class="btn btn-primary btn-detail" data-id="${item.key}"><i class="fas fa-eye"></i> Detail</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+            });
+            grid.innerHTML = html;
+
+            document.querySelectorAll('.btn-detail').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const product = allProducts.find(p => p.key === id);
+                    if (product) openProductDetail(product);
+                });
+            });
+        }
+
+        function filterProducts(query) {
+            if (!query.trim()) {
+                filteredProducts = [...allProducts];
+            } else {
+                const q = query.trim().toLowerCase();
+                filteredProducts = allProducts.filter(p =>
+                    p.name?.toLowerCase().includes(q) ||
+                    p.description?.toLowerCase().includes(q)
+                );
+            }
+            renderProducts(filteredProducts);
+        }
+
+        onValue(productsRef, (snap) => {
+            const data = snap.val();
+            if (!data) {
+                allProducts = [];
+                filteredProducts = [];
+                document.getElementById('productsGrid').innerHTML =
+                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk.</div>`;
+                return;
+            }
+            allProducts = Object.entries(data).map(([key, value]) => ({ key, ...value }));
+            allProducts = shuffleArray([...allProducts]);
+            filteredProducts = [...allProducts];
+            renderProducts(filteredProducts);
+        });
+
+        // ============================================================
+        // SEARCH
+        // ============================================================
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        function doSearch() {
+            filterProducts(searchInput.value);
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') doSearch();
+        });
+
+        // ============================================================
+        // MODAL
+        // ============================================================
+        const modal = document.getElementById('modalProduct');
+        const modalClose = document.getElementById('modalClose');
+        const btnTutupModal = document.getElementById('btnTutupModal');
+        let currentProduct = null;
+
+        function openProductDetail(product) {
+            currentProduct = product;
+            document.getElementById('modalTitle').textContent = product.name || 'Produk';
+            document.getElementById('modalSub').textContent = 'Detail produk';
+            document.getElementById('modalPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product
+            .price || 0);
+            document.getElementById('modalDesc').textContent = product.description || '—';
+
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('confirmSection').style.display = 'none';
+            document.getElementById('downloadSection').style.display = 'none';
+            document.getElementById('btnBayar').style.display = 'block';
+            document.getElementById('accessCodeInput').value = '';
+            document.getElementById('modalDownloadLink').href = '#';
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            currentProduct = null;
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        btnTutupModal.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // ============================================================
+        // BAYAR
+        // ============================================================
+        document.getElementById('btnBayar').addEventListener('click', function() {
+            if (!currentProduct) { showToast('Data produk tidak tersedia.', 'error'); return; }
+            this.style.display = 'none';
+            document.getElementById('qrSection').style.display = 'block';
+            document.getElementById('confirmSection').style.display = 'none';
+            document.getElementById('downloadSection').style.display = 'none';
+            showToast('Scan QR Code untuk pembayaran.', 'info');
+        });
+
+        // ============================================================
+        // SUDAH BAYAR
+        // ============================================================
+        document.getElementById('btnSudahBayar').addEventListener('click', function() {
+            if (!currentProduct) { showToast('Produk tidak valid.', 'error'); return; }
+
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let confirmCode = '';
+            for (let i = 0; i < 6; i++) {
+                confirmCode += chars[Math.floor(Math.random() * chars.length)];
+            }
+
+            const ordersRef = ref(db, 'logo-shop/orders');
+            const newOrderRef = push(ordersRef);
+            set(newOrderRef, {
+                productId: currentProduct.key,
+                productName: currentProduct.name || 'Logo',
+                price: currentProduct.price || 0,
+                deviceId: DEVICE_ID,
+                status: 'pending',
+                confirmationCode: confirmCode,
+                orderDate: serverTimestamp(),
+            }).then(() => {
+                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
+            }).catch(err => {
+                showToast('Gagal menyimpan: ' + err.message, 'error');
+            });
+
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('confirmSection').style.display = 'block';
+            document.getElementById('downloadSection').style.display = 'none';
+            document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
+
+            const price = currentProduct.price || 0;
+            const name = currentProduct.name || 'Logo';
+            const msg =
+                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${currentProduct.key} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
+            const waLink = document.querySelector('#confirmSection a');
+            waLink.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
+        });
+
+        // ============================================================
+        // VERIFIKASI KODE
+        // ============================================================
+        document.getElementById('btnVerifyCode').addEventListener('click', function() {
+            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
+            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
+
+            const ordersRef = ref(db, 'logo-shop/orders');
+            onValue(ordersRef, (snap) => {
+                const data = snap.val();
+                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
+                let found = false;
+                for (const [key, order] of Object.entries(data)) {
+                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
+                        found = true;
+                        update(ref(db, `logo-shop/orders/${key}`), { status: 'completed' });
+                        break;
+                    }
+                }
+                if (found) {
+                    document.getElementById('downloadSection').style.display = 'block';
+                    document.getElementById('modalDownloadLink').href = currentProduct?.downloadLink || '#';
+                    showToast('Kode valid! Silakan unduh logo.', 'success');
+                } else {
+                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
+                }
+            }, { onlyOnce: true });
+        });
+
+        // ============================================================
+        // ESC
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        showToast('Selamat datang di Koleksi Logo!', 'info');
+        console.log('🚀 Halaman produk siap. Device ID:', DEVICE_ID);
+    </script>
+
+</body>
+</html>
