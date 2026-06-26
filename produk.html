@@ -24,7 +24,7 @@
 
     <style>
         /* ============================================================
-           RESET & GLOBAL
+           GLOBAL (sama seperti index)
            ============================================================ */
         * {
             margin: 0;
@@ -63,6 +63,9 @@
             padding: 0 20px;
         }
 
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -108,15 +111,16 @@
         .btn-outline:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.04);
         }
 
         /* ============================================================
-           NAVBAR
+           NAVBAR (sama)
            ============================================================ */
         .navbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             padding: 12px 0;
             background: rgba(255, 255, 255, 0.82);
@@ -168,9 +172,6 @@
         .nav-links a:hover::after {
             width: 100%;
         }
-        .nav-links a.admin-link {
-            color: var(--accent-blue);
-        }
         .nav-hamburger {
             display: none;
             font-size: 1.4rem;
@@ -201,39 +202,35 @@
         }
 
         /* ============================================================
-           SECTION
+           PRODUK PAGE
            ============================================================ */
-        section {
-            padding: 40px 0 56px;
+        .page-header {
+            padding: 100px 0 30px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
         }
-        .section-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .section-header h2 {
+        .page-header h1 {
             font-size: 2rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .section-header h2 i {
+        .page-header h1 i {
             color: var(--accent-blue);
-            margin-right: 10px;
         }
-        .section-header p {
+        .page-header .sub {
             color: var(--text-secondary);
-            font-size: 1rem;
+            margin-top: 4px;
         }
 
-        /* ============================================================
-           PRODUCTS — 2 kolom HP, 3 kolom desktop
-           ============================================================ */
         .products-toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 14px;
-            margin-bottom: 28px;
+            margin: 28px 0 24px;
         }
         .products-toolbar .search-box {
             display: flex;
@@ -284,8 +281,8 @@
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
         }
 
         .product-card {
@@ -364,7 +361,7 @@
         }
 
         /* ============================================================
-           MODAL
+           MODAL (sama seperti sebelumnya)
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -389,7 +386,6 @@
                 opacity: 1;
             }
         }
-
         .modal {
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
@@ -413,7 +409,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-
         .modal-close {
             position: absolute;
             top: 14px;
@@ -430,7 +425,6 @@
             color: var(--text-primary);
             transform: rotate(90deg);
         }
-
         .modal h2 {
             font-size: 1.5rem;
             font-weight: 800;
@@ -442,7 +436,6 @@
             font-size: 0.9rem;
             margin-bottom: 14px;
         }
-
         .modal .detail-row {
             display: flex;
             justify-content: space-between;
@@ -461,7 +454,6 @@
             font-weight: 600;
             text-align: right;
         }
-
         .modal .divider {
             margin: 16px 0;
             border: none;
@@ -555,7 +547,7 @@
         }
 
         /* ============================================================
-           TOAST
+           TOAST & DEVICE BADGE
            ============================================================ */
         .toast {
             position: fixed;
@@ -595,9 +587,6 @@
             color: var(--accent-blue);
         }
 
-        /* ============================================================
-           DEVICE BADGE
-           ============================================================ */
         .device-badge {
             position: fixed;
             bottom: 20px;
@@ -620,34 +609,6 @@
             font-size: 0.8rem;
         }
 
-        /* ============================================================
-           FOOTER
-           ============================================================ */
-        .footer {
-            padding: 32px 0 24px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        .footer a {
-            color: var(--accent-blue);
-        }
-        .footer .social {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 10px;
-        }
-        .footer .social a {
-            color: var(--text-secondary);
-            transition: var(--transition);
-            font-size: 1.1rem;
-        }
-        .footer .social a:hover {
-            color: var(--accent-blue);
-        }
-
         .empty-state {
             text-align: center;
             padding: 32px 0;
@@ -661,17 +622,17 @@
             margin-bottom: 8px;
         }
 
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
-        @media (min-width: 769px) {
+        @media (max-width: 900px) {
             .products-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 24px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
             }
         }
-
         @media (max-width: 640px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
             .modal {
                 padding: 24px 18px 20px;
             }
@@ -685,6 +646,9 @@
             .modal .btn-group .btn {
                 flex: 1 1 100%;
             }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -695,48 +659,13 @@
         <div class="container">
             <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Beranda</a></li>
-                <li><a href="produk.html" style="color:var(--accent-blue);font-weight:700;">Produk</a></li>
+                <li><a href="index.html#berita">Berita</a></li>
+                <li><a href="produk.html" style="color:var(--accent-blue);">Produk</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
-                <li><a href="#" class="admin-link" id="adminLink"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
-
-    <!-- ============ PRODUK ============ -->
-    <section>
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-palette"></i> Koleksi Logo</h2>
-                <p>Cari dan temukan desain favorit Anda.</p>
-            </div>
-
-            <div class="products-toolbar">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cari produk..." />
-                    <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
-                </div>
-            </div>
-
-            <div class="products-grid" id="productsGrid">
-                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat produk...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ FOOTER ============ -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 <strong>LogoShop</strong> — Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i></p>
-            <p style="margin-top:2px;font-size:0.75rem;">Hubungi admin: <a href="https://wa.me/6289603266259" target="_blank">089603266259</a></p>
-            <div class="social">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-        </div>
-    </footer>
 
     <!-- ============ TOAST ============ -->
     <div class="toast" id="toast">
@@ -750,13 +679,37 @@
         <span id="deviceIdDisplay">ID: ...</span>
     </div>
 
+    <!-- ============ HEADER PRODUK ============ -->
+    <header class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-palette"></i> Koleksi Logo</h1>
+            <p class="sub">Temukan desain logo premium untuk bisnis Anda.</p>
+        </div>
+    </header>
+
+    <!-- ============ PRODUK ============ -->
+    <section style="padding: 0 0 60px;">
+        <div class="container">
+            <div class="products-toolbar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cari produk..." />
+                    <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
+                </div>
+                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat produk...</div>
+            </div>
+        </div>
+    </section>
+
     <!-- ============ MODAL ============ -->
     <div class="modal-overlay" id="modalProduct">
         <div class="modal">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
             <h2 id="modalTitle">Nama Produk</h2>
             <p class="modal-sub" id="modalSub">Detail produk</p>
-
             <div class="detail-row">
                 <span class="detail-label">Harga</span>
                 <span class="detail-value" id="modalPrice">Rp 0</span>
@@ -765,7 +718,6 @@
                 <span class="detail-label">Deskripsi</span>
                 <span class="detail-value" id="modalDesc" style="text-align:left;font-weight:400;color:var(--text-secondary);">-</span>
             </div>
-
             <hr class="divider" />
 
             <button class="btn btn-primary" id="btnBayar" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
@@ -830,7 +782,7 @@
     <!-- ============ JAVASCRIPT ============ -->
     <script type="module">
         // ============================================================
-        // FIREBASE
+        // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
         import { getDatabase, ref, onValue, push, set, update, serverTimestamp } from "firebase-database";
@@ -845,7 +797,7 @@
         const db = getDatabase(app);
 
         // ============================================================
-        // DEVICE ID
+        // 2. DEVICE ID
         // ============================================================
         function getDeviceId() {
             let id = localStorage.getItem('logoShop_deviceId');
@@ -860,7 +812,7 @@
         document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
 
         // ============================================================
-        // TOAST
+        // 3. TOAST
         // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
@@ -875,7 +827,7 @@
         }
 
         // ============================================================
-        // NAVBAR
+        // 4. NAVBAR
         // ============================================================
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
@@ -885,13 +837,9 @@
                 document.getElementById('navLinks').classList.remove('open');
             });
         });
-        document.getElementById('adminLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'admin.html';
-        });
 
         // ============================================================
-        // PRODUCTS
+        // 5. PRODUK
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
@@ -970,7 +918,7 @@
         });
 
         // ============================================================
-        // SEARCH
+        // 6. SEARCH
         // ============================================================
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
@@ -985,7 +933,7 @@
         });
 
         // ============================================================
-        // MODAL
+        // 7. MODAL (sama seperti sebelumnya)
         // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
@@ -1022,7 +970,7 @@
         });
 
         // ============================================================
-        // BAYAR
+        // 8. BAYAR
         // ============================================================
         document.getElementById('btnBayar').addEventListener('click', function() {
             if (!currentProduct) { showToast('Data produk tidak tersedia.', 'error'); return; }
@@ -1034,7 +982,7 @@
         });
 
         // ============================================================
-        // SUDAH BAYAR
+        // 9. SUDAH BAYAR
         // ============================================================
         document.getElementById('btnSudahBayar').addEventListener('click', function() {
             if (!currentProduct) { showToast('Produk tidak valid.', 'error'); return; }
@@ -1075,7 +1023,7 @@
         });
 
         // ============================================================
-        // VERIFIKASI KODE
+        // 10. VERIFIKASI KODE
         // ============================================================
         document.getElementById('btnVerifyCode').addEventListener('click', function() {
             const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
@@ -1104,15 +1052,15 @@
         });
 
         // ============================================================
-        // ESC
+        // 11. ESC
         // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
 
         showToast('Selamat datang di Koleksi Logo!', 'info');
-        console.log('🚀 Halaman produk siap. Device ID:', DEVICE_ID);
+        console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
     </script>
 
 </body>
-</html>
+    </html>
