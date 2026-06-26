@@ -863,8 +863,6 @@
             const msg =
                 `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${product.key || '—'} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
             const waBtn = document.getElementById('waButton');
-            waBtn.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
-            // Karena <button> tidak punya href, kita buat aja onclick redirect
             waBtn.onclick = function(e) {
                 e.preventDefault();
                 window.open(`https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`, '_blank');
