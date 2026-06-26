@@ -110,16 +110,6 @@
             border-color: var(--accent-blue);
             color: var(--accent-blue);
         }
-        .btn-download {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-        .btn-download:hover {
-            background: var(--accent-blue);
-            color: #fff;
-            border-color: var(--accent-blue);
-        }
 
         /* ============================================================
            NAVBAR
@@ -411,7 +401,7 @@
         }
 
         /* ============================================================
-           MODAL — RAPI & SMOOTH
+           MODAL — hanya untuk detail, tanpa pembayaran
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -556,81 +546,6 @@
             margin: 16px 0;
             border: none;
             border-top: 1px solid var(--border-color);
-        }
-
-        /* ============================================================
-           FORM PENGIRIMAN (muncul setelah konfirmasi kode)
-           ============================================================ */
-        .form-delivery {
-            margin-top: 12px;
-        }
-        .form-delivery .form-group {
-            margin-bottom: 12px;
-        }
-        .form-delivery .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 3px;
-        }
-        .form-delivery .form-group label .required {
-            color: #ef4444;
-        }
-        .form-delivery .form-group input,
-        .form-delivery .form-group textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-family: inherit;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: var(--transition);
-            outline: none;
-        }
-        .form-delivery .form-group input:focus,
-        .form-delivery .form-group textarea:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-        }
-        .form-delivery .form-group textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        .form-delivery .form-group .hint {
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        /* ============================================================
-           ANTRIAN POPUP
-           ============================================================ */
-        .queue-popup {
-            text-align: center;
-            padding: 10px 0;
-        }
-        .queue-popup .queue-icon {
-            font-size: 3rem;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
-        }
-        .queue-popup .queue-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--accent-blue);
-            margin: 4px 0;
-        }
-        .queue-popup .queue-status {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-        .queue-popup .queue-note {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 8px;
         }
 
         /* ============================================================
@@ -810,7 +725,7 @@
         </div>
     </section>
 
-    <!-- ============ MODAL ============ -->
+    <!-- ============ MODAL DETAIL ============ -->
     <div class="modal-overlay" id="modalProduct">
         <div class="modal">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
@@ -836,101 +751,10 @@
 
             <hr class="divider" />
 
+            <!-- ====== TOMBOL PESAN → REDIRECT KE PAYMENT.HTML ====== -->
             <button class="btn btn-primary" id="btnPesan" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
                 <i class="fas fa-shopping-cart"></i> Pesan Sekarang
             </button>
-
-            <!-- QR SECTION -->
-            <div id="qrSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="qr-section" style="text-align:center;">
-                    <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:10px;">
-                        <i class="fas fa-qrcode" style="color:var(--accent-blue);"></i> Scan QR untuk Pembayaran
-                    </div>
-                    <div style="display:inline-block;background:#fff;padding:10px;border-radius:12px;border:1px solid var(--border-color);max-width:220px;margin:0 auto;">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" style="width:100%;height:auto;display:block;border-radius:4px;" />
-                    </div>
-                    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap;">
-                        <button class="btn btn-download" id="downloadQrBtn" style="padding:8px 18px;font-size:0.8rem;"><i class="fas fa-download"></i> Unduh QR</button>
-                    </div>
-                    <p style="margin-top:10px;font-size:0.8rem;color:var(--text-secondary);">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
-                    <button class="btn btn-success" id="btnSudahBayar" style="width:100%;justify-content:center;margin-top:10px;">
-                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
-                    </button>
-                </div>
-            </div>
-
-            <!-- KONFIRMASI + FORM PENGIRIMAN -->
-            <div id="confirmSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="confirm-section" style="text-align:center;">
-                    <div style="font-size:2.2rem;color:var(--accent-blue);margin-bottom:6px;"><i class="fas fa-shield-alt"></i></div>
-                    <h3 style="font-size:1.15rem;margin-bottom:4px;">Konfirmasi Pembayaran</h3>
-                    <p style="color:var(--text-secondary);font-size:0.9rem;margin:4px 0 12px;">
-                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
-                    </p>
-                    <div style="background:var(--bg-primary);padding:10px 14px;border-radius:var(--radius-md);border:1px solid var(--border-color);margin:10px 0 14px;font-family:monospace;font-size:0.85rem;word-break:break-all;">
-                        <small style="font-family:'Inter',sans-serif;display:block;font-size:0.65rem;color:var(--text-secondary);"><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
-                        <span id="confirmDeviceId">-</span>
-                    </div>
-                    <a href="https://wa.me/6289603266259?text=Halo%20admin%2C%20saya%20sudah%20bayar%20dengan%20nominal%20Rp%20XXXX%20dan%20no%20produk%20XXXX.%20Saya%20ingin%20meminta%20kode%20konfirmasi."
-                    target="_blank"
-                    class="btn btn-primary" style="width:100%;justify-content:center;margin:6px 0 10px;">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin
-                </a>
-                <p style="font-size:0.75rem;color:var(--text-secondary);margin:6px 0 14px;">
-                    Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
-                </p>
-
-                <!-- INPUT KODE -->
-                <div style="background:var(--bg-primary);padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border-color);text-align:left;">
-                    <div style="font-size:0.8rem;color:var(--text-secondary);display:flex;align-items:center;gap:6px;">
-                        <i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Masukkan kode yang diberikan admin:
-                    </div>
-                    <div style="display:flex;gap:8px;margin-top:6px;">
-                        <input type="text" id="accessCodeInput" placeholder="Kode akses" style="flex:1;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-size:0.9rem;outline:none;font-family:inherit;" />
-                        <button class="btn btn-primary" id="btnVerifyCode" style="padding:8px 16px;"><i class="fas fa-unlock"></i> Buka</button>
-                    </div>
-                </div>
-
-                <!-- FORM PENGIRIMAN -->
-                <div id="formDeliverySection" style="display:none;margin-top:16px;text-align:left;">
-                    <hr class="divider" />
-                    <h4 style="font-size:1rem;font-weight:700;margin-bottom:8px;"><i class="fas fa-paper-plane" style="color:var(--accent-blue);"></i> Data Pengiriman</h4>
-                    <div class="form-delivery">
-                        <div class="form-group">
-                            <label>Nama Logo / Proyek <span class="required">*</span></label>
-                            <input type="text" id="deliveryProjectName" placeholder="Contoh: Logo Brand A" />
-                        </div>
-                        <div class="form-group">
-                            <label>Nomor WhatsApp <span class="required">*</span></label>
-                            <input type="text" id="deliveryWa" placeholder="08xxxxxxxxxx" />
-                            <div class="hint">Untuk penerimaan hasil jadi</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Akun Sosial Media (opsional)</label>
-                            <input type="text" id="deliverySosmed" placeholder="@instagram atau link" />
-                            <div class="hint">Jika ada, untuk keperluan branding</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Nomer Penerima (untuk pengiriman) <span class="required">*</span></label>
-                            <input type="text" id="deliveryReceiver" placeholder="Nomor HP penerima" />
-                            <div class="hint">Nomor yang akan menerima file hasil</div>
-                        </div>
-                        <button class="btn btn-success" id="btnKirimData" style="width:100%;justify-content:center;margin-top:4px;">
-                            <i class="fas fa-paper-plane"></i> Kirim Data
-                        </button>
-                    </div>
-                </div>
-
-                <!-- DOWNLOAD SECTION (untuk produk digital) — tidak dipakai di jasa -->
-                <div id="downloadSection" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border-radius:8px;border:1px solid var(--accent-green);text-align:center;">
-                    <p style="color:var(--accent-green);font-weight:600;"><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                    <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success" style="width:100%;justify-content:center;margin-top:6px;">
-                        <i class="fas fa-download"></i> Unduh Logo
-                    </a>
-                </div>
-            </div>
 
             <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:16px;">Tutup</button>
         </div>
@@ -966,7 +790,6 @@
         }
         const DEVICE_ID = getDeviceId();
         document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
-        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
 
         // ============================================================
         // 3. TOAST
@@ -1111,13 +934,12 @@
         });
 
         // ============================================================
-        // 7. MODAL — dengan support list
+        // 7. MODAL — hanya detail, tombol "Pesan Sekarang" redirect ke payment.html
         // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
         const btnTutupModal = document.getElementById('btnTutupModal');
         let currentProduct = null;
-        let currentOrderKey = null;
 
         function renderSupportList(support) {
             if (!support) return '<span style="color:var(--text-secondary);font-size:0.85rem;">Tidak ada dukungan</span>';
@@ -1141,25 +963,12 @@
             document.getElementById('modalDesc').textContent = product.description || '—';
             document.getElementById('modalSupport').innerHTML = renderSupportList(product.support);
 
-            // Reset
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('formDeliverySection').style.display = 'none';
-            document.getElementById('downloadSection').style.display = 'none';
-            document.getElementById('btnPesan').style.display = 'block';
-            document.getElementById('accessCodeInput').value = '';
-            document.getElementById('deliveryProjectName').value = '';
-            document.getElementById('deliveryWa').value = '';
-            document.getElementById('deliverySosmed').value = '';
-            document.getElementById('deliveryReceiver').value = '';
-
             modal.classList.add('active');
         }
 
         function closeModal() {
             modal.classList.remove('active');
             currentProduct = null;
-            currentOrderKey = null;
         }
 
         modalClose.addEventListener('click', closeModal);
@@ -1169,225 +978,21 @@
         });
 
         // ============================================================
-        // 8. PESAN → QR
+        // 8. TOMBOL PESAN → REDIRECT KE PAYMENT.HTML
         // ============================================================
         document.getElementById('btnPesan').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Data layanan tidak tersedia.', 'error'); return; }
-            this.style.display = 'none';
-            document.getElementById('qrSection').style.display = 'block';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('formDeliverySection').style.display = 'none';
-            document.getElementById('downloadSection').style.display = 'none';
-            showToast('Scan QR Code untuk pembayaran.', 'info');
-        });
-
-        // ============================================================
-        // 9. UNDUH QR
-        // ============================================================
-        document.getElementById('downloadQrBtn').addEventListener('click', function() {
-            const img = document.getElementById('qrImage');
-            const link = document.createElement('a');
-            link.download = 'QRIS_LogoShop.png';
-            link.href = img.src;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('QR Code berhasil diunduh!', 'success');
-        });
-
-        // ============================================================
-        // 10. SUDAH BAYAR → GENERATE KODE & SIMPAN ORDER
-        // ============================================================
-        document.getElementById('btnSudahBayar').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Layanan tidak valid.', 'error'); return; }
-
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let confirmCode = '';
-            for (let i = 0; i < 6; i++) {
-                confirmCode += chars[Math.floor(Math.random() * chars.length)];
-            }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            const newOrderRef = push(ordersRef);
-            currentOrderKey = newOrderRef.key;
-
-            set(newOrderRef, {
-                productId: currentProduct.key,
-                productName: currentProduct.name || 'Layanan',
-                price: currentProduct.price || 0,
-                deviceId: DEVICE_ID,
-                status: 'pending',
-                confirmationCode: confirmCode,
-                isJasa: true,
-                support: currentProduct.support || {},
-                orderDate: serverTimestamp(),
-                projectName: '',
-                waNumber: '',
-                sosmed: '',
-                receiverNumber: '',
-                queueNumber: 0
-            }).then(() => {
-                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
-            }).catch(err => {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
-            });
-
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'block';
-            document.getElementById('formDeliverySection').style.display = 'none';
-            document.getElementById('downloadSection').style.display = 'none';
-            document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
-
-            const price = currentProduct.price || 0;
-            const name = currentProduct.name || 'Layanan';
-            const msg =
-                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${currentProduct.key} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
-            const waLink = document.querySelector('#confirmSection .btn-primary[href*="wa.me"]');
-            waLink.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
-        });
-
-        // ============================================================
-        // 11. VERIFIKASI KODE → TAMPILKAN FORM
-        // ============================================================
-        document.getElementById('btnVerifyCode').addEventListener('click', function() {
-            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
-            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            onValue(ordersRef, (snap) => {
-                const data = snap.val();
-                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
-                let found = false;
-                for (const [key, order] of Object.entries(data)) {
-                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
-                        found = true;
-                        currentOrderKey = key;
-                        update(ref(db, `logo-shop/orders/${key}`), { status: 'confirmed' });
-                        break;
-                    }
-                }
-                if (found) {
-                    document.getElementById('formDeliverySection').style.display = 'block';
-                    document.getElementById('downloadSection').style.display = 'none';
-                    const codeArea = document.querySelector('#confirmSection .code-input-area');
-                    if (codeArea) codeArea.style.display = 'none';
-                    showToast('Kode valid! Silakan isi data pengiriman.', 'success');
-                } else {
-                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
-                }
-            }, { onlyOnce: true });
-        });
-
-        // ============================================================
-        // 12. KIRIM DATA → SIMPAN KE ORDER + ANTRIAN
-        // ============================================================
-        document.getElementById('btnKirimData').addEventListener('click', async function() {
-            const projectName = document.getElementById('deliveryProjectName').value.trim();
-            const waNumber = document.getElementById('deliveryWa').value.trim();
-            const sosmed = document.getElementById('deliverySosmed').value.trim();
-            const receiverNumber = document.getElementById('deliveryReceiver').value.trim();
-
-            if (!projectName) { showToast('Nama proyek wajib diisi.', 'error'); return; }
-            if (!waNumber) { showToast('Nomor WhatsApp wajib diisi.', 'error'); return; }
-            if (!receiverNumber) { showToast('Nomer penerima wajib diisi.', 'error'); return; }
-
-            if (!currentOrderKey) {
-                showToast('Data order tidak ditemukan.', 'error');
+            if (!currentProduct) {
+                showToast('Data layanan tidak tersedia.', 'error');
                 return;
             }
-
-            // Tentukan nomor antrian
-            const queueRef = ref(db, 'logo-shop/queue');
-            let queueNumber = 1;
-            try {
-                const snapshot = await get(queueRef);
-                const queueData = snapshot.val();
-                if (queueData) {
-                    const numbers = Object.values(queueData).map(q => q.number || 0);
-                    const maxNum = Math.max(...numbers, 0);
-                    queueNumber = maxNum + 1;
-                }
-            } catch (e) {
-                console.warn('Gagal baca antrian:', e);
-            }
-
-            const orderUpdates = {
-                projectName,
-                waNumber,
-                sosmed: sosmed || '',
-                receiverNumber,
-                queueNumber,
-                status: 'in_queue'
-            };
-            await update(ref(db, `logo-shop/orders/${currentOrderKey}`), orderUpdates);
-
-            const newQueueRef = push(ref(db, 'logo-shop/queue'));
-            await set(newQueueRef, {
-                orderKey: currentOrderKey,
-                number: queueNumber,
-                deviceId: DEVICE_ID,
-                productName: currentProduct?.name || 'Layanan',
-                createdAt: serverTimestamp(),
-                status: 'waiting'
-            });
-
-            showQueuePopup(queueNumber);
+            // Simpan data produk ke localStorage
+            localStorage.setItem('payment_product', JSON.stringify(currentProduct));
+            // Redirect ke halaman pembayaran
+            window.location.href = 'payment.html';
         });
 
         // ============================================================
-        // 13. POPUP ANTRIAN
-        // ============================================================
-        function showQueuePopup(number) {
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay active';
-            overlay.style.display = 'flex';
-            overlay.style.zIndex = '10000';
-
-            const popup = document.createElement('div');
-            popup.className = 'modal';
-            popup.style.maxWidth = '400px';
-            popup.style.textAlign = 'center';
-            popup.innerHTML = `
-                    <div class="queue-popup">
-                        <div class="queue-icon"><i class="fas fa-clock"></i></div>
-                        <h2 style="font-size:1.3rem;margin-bottom:4px;">Pesanan Diterima!</h2>
-                        <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:8px;">
-                            Anda sedang menduduki nomor antrian
-                        </div>
-                        <div class="queue-number">#${number}</div>
-                        <div class="queue-status">${number === 1 ? '🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.' : '⏳ Mohon tunggu, pesanan Anda dalam antrian.'}</div>
-                        <div class="queue-note">
-                            <i class="fas fa-info-circle"></i> Antrian akan turun otomatis setelah pesanan sebelumnya selesai.<br>
-                            Admin akan menghubungi Anda via WhatsApp.
-                        </div>
-                        <button class="btn btn-primary" id="queueCloseBtn" style="margin-top:16px;width:100%;justify-content:center;">
-                            <i class="fas fa-check"></i> Saya Mengerti
-                        </button>
-                    </div>
-                `;
-            overlay.appendChild(popup);
-
-            document.getElementById('modalProduct').classList.remove('active');
-            document.body.appendChild(overlay);
-
-            document.getElementById('queueCloseBtn').addEventListener('click', () => {
-                overlay.remove();
-                closeModal();
-                showToast('Pesanan berhasil dikirim!', 'success');
-            });
-
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.remove();
-                    closeModal();
-                    showToast('Pesanan berhasil dikirim!', 'success');
-                }
-            });
-        }
-
-        // ============================================================
-        // 14. ESC
+        // 9. ESC
         // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
@@ -1398,4 +1003,4 @@
     </script>
 
 </body>
-    </html>
+</html>
