@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembayaran Produk Digital - LogoShop</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL — Premium Dark (sama seperti payment.html)
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0b0f1a;
+            --bg-secondary: #131a2b;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f4ff;
+            --text-secondary: #94a3b8;
+            --accent-gold: #f5b342;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-image: radial-gradient(ellipse at 10% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 90% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            width: 100%;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(59, 130, 246, 0.35);
+        }
+        .btn-success {
+            background: var(--accent-green);
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 36px rgba(16, 185, 129, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            color: #fff;
+            background: rgba(59, 130, 246, 0.08);
+        }
+        .btn-download {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-download:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .btn-whatsapp {
+            background: #25d366;
+            color: #fff;
+        }
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-3px);
+        }
+        .btn-close {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        /* ============================================================
+           CARD UTAMA
+           ============================================================ */
+        .payment-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px 32px 32px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(12px);
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .payment-header .icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+        .payment-header .icon-wrapper i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+        .payment-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .payment-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           DETAIL PRODUK
+           ============================================================ */
+        .product-detail {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .product-detail .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            align-items: flex-start;
+        }
+        .product-detail .row:last-child {
+            border-bottom: none;
+        }
+        .product-detail .label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            min-width: 90px;
+        }
+        .product-detail .value {
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: right;
+            word-break: break-word;
+            max-width: 70%;
+        }
+        .product-detail .value.price {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+        }
+
+        /* ============================================================
+           QR SECTION
+           ============================================================ */
+        .qr-section {
+            text-align: center;
+            padding: 12px 0 8px;
+        }
+        .qr-section .qr-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .qr-section .qr-label i {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+        .qr-section .qr-wrapper {
+            display: inline-block;
+            background: #fff;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            max-width: 220px;
+            margin: 0 auto;
+        }
+        .qr-section .qr-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+        .qr-section .qr-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .qr-section .qr-actions .btn {
+            flex: 0 1 auto;
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            width: auto;
+        }
+        .qr-section .qr-note {
+            margin-top: 14px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================================
+           KONFIRMASI
+           ============================================================ */
+        .confirm-section {
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        .confirm-section .icon-big {
+            font-size: 2.4rem;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .confirm-section h3 {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .confirm-section .sub-text {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 4px 0 16px;
+            line-height: 1.5;
+        }
+        .confirm-section .device-box {
+            background: var(--bg-card);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            margin-bottom: 16px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        .confirm-section .device-box small {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        .confirm-section .wa-btn {
+            margin-bottom: 12px;
+        }
+        .confirm-section .format-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        /* ============================================================
+           CODE INPUT
+           ============================================================ */
+        .code-area {
+            background: var(--bg-card);
+            padding: 16px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+        }
+        .code-area .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .code-area .label i {
+            color: var(--accent-blue);
+        }
+        .code-area .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        .code-area .input-group input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .code-area .input-group input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .code-area .input-group .btn {
+            padding: 10px 20px;
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        /* DOWNLOAD BOX (untuk produk digital) */
+        .download-box {
+            display: none;
+            margin-top: 12px;
+            padding: 14px;
+            background: rgba(16, 185, 129, 0.10);
+            border-radius: 12px;
+            border: 1px solid var(--accent-green);
+            text-align: center;
+        }
+        .download-box.active {
+            display: block;
+        }
+        .download-box p {
+            color: var(--accent-green);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .download-box .btn {
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           TOAST (notifikasi)
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 12px 28px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast i {
+            font-size: 1rem;
+        }
+        .toast.success i {
+            color: var(--accent-green);
+        }
+        .toast.error i {
+            color: #ef4444;
+        }
+        .toast.info i {
+            color: var(--accent-blue);
+        }
+
+        /* ============================================================
+           BACK BUTTON
+           ============================================================ */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: var(--transition);
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+        .back-link:hover {
+            color: #fff;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 640px) {
+            .payment-card {
+                padding: 28px 18px 24px;
+            }
+            .payment-header h1 {
+                font-size: 1.4rem;
+            }
+            .product-detail {
+                padding: 16px 18px;
+            }
+            .product-detail .row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            .product-detail .value {
+                text-align: left;
+                max-width: 100%;
+            }
+            .code-area .input-group {
+                flex-direction: column;
+            }
+            .code-area .input-group .btn {
+                width: 100%;
+            }
+            .qr-section .qr-wrapper {
+                max-width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="container">
+
+        <!-- BACK LINK -->
+        <a href="javascript:history.back()" class="back-link">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+
+        <!-- PAYMENT CARD -->
+        <div class="payment-card" id="paymentCard">
+
+            <!-- HEADER -->
+            <div class="payment-header">
+                <div class="icon-wrapper">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h1>Pembayaran</h1>
+                <p>Lengkapi pembayaran untuk mendapatkan produk digital</p>
+            </div>
+
+            <!-- DETAIL PRODUK -->
+            <div class="product-detail" id="productDetail">
+                <div class="row">
+                    <span class="label">Nama Produk</span>
+                    <span class="value" id="detailName">-</span>
+                </div>
+                <div class="row">
+                    <span class="label">Harga</span>
+                    <span class="value price" id="detailPrice">Rp 0</span>
+                </div>
+                <div class="row">
+                    <span class="label">Deskripsi</span>
+                    <span class="value" id="detailDesc" style="font-weight:400;color:var(--text-secondary);font-size:0.9rem;">-</span>
+                </div>
+            </div>
+
+            <!-- QR SECTION -->
+            <div id="qrSection">
+                <div class="qr-section">
+                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
+                    <div class="qr-wrapper">
+                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" />
+                    </div>
+                    <div class="qr-actions">
+                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
+                    </div>
+                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
+                    <button class="btn btn-success" id="btnSudahBayar">
+                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
+                    </button>
+                </div>
+            </div>
+
+            <!-- KONFIRMASI (muncul setelah klik "Saya Sudah Bayar") -->
+            <div id="confirmSection" style="display:none;">
+                <div class="confirm-section">
+                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Konfirmasi Pembayaran</h3>
+                    <p class="sub-text">
+                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
+                    </p>
+                    <div class="device-box">
+                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
+                        <span id="confirmDeviceId">-</span>
+                    </div>
+                    <button class="btn btn-whatsapp wa-btn" id="waButton">
+                        <i class="fab fa-whatsapp"></i> Hubungi Admin via WhatsApp
+                    </button>
+                    <p class="format-text">
+                        Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
+                    </p>
+
+                    <!-- INPUT KODE -->
+                    <div class="code-area">
+                        <div class="label"><i class="fas fa-info-circle"></i> Masukkan kode yang diberikan admin:</div>
+                        <div class="input-group">
+                            <input type="text" id="accessCodeInput" placeholder="Kode akses" />
+                            <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
+                        </div>
+                        <div class="download-box" id="downloadSection">
+                            <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
+                            <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
+                                <i class="fas fa-download"></i> Unduh Logo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOMBOL CLOSE -->
+            <button class="btn btn-close" id="btnClose" style="margin-top:20px;">
+                <i class="fas fa-times"></i> Tutup
+            </button>
+
+        </div>
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script type="module">
+        // ============================================================
+        // 1. FIREBASE
+        // ============================================================
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, push, set, update, serverTimestamp, onValue } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // 2. DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
+
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            const icon = t.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
+            t.className = 'toast show ' + type;
+            m.textContent = msg;
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+        }
+
+        // ============================================================
+        // 4. AMBIL DATA PRODUK DARI localStorage
+        // ============================================================
+        function getProductData() {
+            try {
+                const raw = localStorage.getItem('payment_product');
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        const product = getProductData();
+        if (!product) {
+            window.location.href = 'produk-digital.html';
+            showToast('Data produk tidak ditemukan.', 'error');
+        }
+
+        // ============================================================
+        // 5. TAMPILKAN DETAIL PRODUK
+        // ============================================================
+        document.getElementById('detailName').textContent = product.name || 'Produk';
+        document.getElementById('detailPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product.price ||
+            0);
+        document.getElementById('detailDesc').textContent = product.description || '—';
+
+        // ============================================================
+        // 6. UNDUH QR
+        // ============================================================
+        document.getElementById('downloadQrBtn').addEventListener('click', function() {
+            const img = document.getElementById('qrImage');
+            const link = document.createElement('a');
+            link.download = 'QRIS_LogoShop.png';
+            link.href = img.src;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('QR Code berhasil diunduh!', 'success');
+        });
+
+        // ============================================================
+        // 7. SUDAH BAYAR → GENERATE KODE & SIMPAN ORDER
+        // ============================================================
+        let currentOrderKey = null;
+
+        document.getElementById('btnSudahBayar').addEventListener('click', function() {
+            if (!product) { showToast('Data produk tidak valid.', 'error'); return; }
+
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let confirmCode = '';
+            for (let i = 0; i < 6; i++) {
+                confirmCode += chars[Math.floor(Math.random() * chars.length)];
+            }
+
+            const ordersRef = ref(db, 'logo-shop/orders');
+            const newOrderRef = push(ordersRef);
+            currentOrderKey = newOrderRef.key;
+
+            set(newOrderRef, {
+                productId: product.key || '',
+                productName: product.name || 'Produk',
+                price: product.price || 0,
+                deviceId: DEVICE_ID,
+                status: 'pending',
+                confirmationCode: confirmCode,
+                isJasa: false, // digital
+                orderDate: serverTimestamp(),
+            }).then(() => {
+                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
+            }).catch(err => {
+                showToast('Gagal menyimpan: ' + err.message, 'error');
+            });
+
+            // Sembunyikan QR, tampilkan konfirmasi
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('confirmSection').style.display = 'block';
+
+            // Update WhatsApp link
+            const price = product.price || 0;
+            const name = product.name || 'Produk';
+            const msg =
+                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${product.key || '—'} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
+            const waBtn = document.getElementById('waButton');
+            waBtn.onclick = function(e) {
+                e.preventDefault();
+                window.open(`https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+        });
+
+        // ============================================================
+        // 8. VERIFIKASI KODE → TAMPILKAN TOMBOL DOWNLOAD
+        // ============================================================
+        document.getElementById('btnVerifyCode').addEventListener('click', function() {
+            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
+            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
+
+            const ordersRef = ref(db, 'logo-shop/orders');
+            onValue(ordersRef, (snap) => {
+                const data = snap.val();
+                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
+                let found = false;
+                for (const [key, order] of Object.entries(data)) {
+                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
+                        found = true;
+                        currentOrderKey = key;
+                        update(ref(db, `logo-shop/orders/${key}`), { status: 'completed' });
+                        break;
+                    }
+                }
+                if (found) {
+                    // Tampilkan tombol download
+                    const downloadBox = document.getElementById('downloadSection');
+                    downloadBox.classList.add('active');
+                    document.getElementById('modalDownloadLink').href = product?.downloadLink || '#';
+                    // Sembunyikan input kode
+                    const codeArea = document.querySelector('.code-area');
+                    if (codeArea) codeArea.style.display = 'none';
+                    showToast('Kode valid! Silakan unduh produk.', 'success');
+                } else {
+                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
+                }
+            }, { onlyOnce: true });
+        });
+
+        // ============================================================
+        // 9. TOMBOL TUTUP
+        // ============================================================
+        document.getElementById('btnClose').addEventListener('click', () => {
+            window.location.href = 'produk-digital.html';
+        });
+
+        // ============================================================
+        // 10. INIT
+        // ============================================================
+        console.log('💳 Payment Produk page loaded. Device ID:', DEVICE_ID);
+    </script>
+
+</body>
+</html>
