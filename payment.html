@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           GLOBAL — TEMA PREMIUM (diperbaiki)
+           RESET & GLOBAL — Premium Dark
            ============================================================ */
         * {
             margin: 0;
@@ -30,10 +30,9 @@
         }
 
         :root {
-            --bg-primary: #0a0e1a;
-            --bg-secondary: #111827;
+            --bg-primary: #0b0f1a;
+            --bg-secondary: #131a2b;
             --bg-card: rgba(255, 255, 255, 0.05);
-            --bg-card-hover: rgba(255, 255, 255, 0.08);
             --border-color: rgba(255, 255, 255, 0.08);
             --text-primary: #f0f4ff;
             --text-secondary: #94a3b8;
@@ -41,7 +40,7 @@
             --accent-blue: #3b82f6;
             --accent-purple: #8b5cf6;
             --accent-green: #10b981;
-            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
             --radius-lg: 24px;
             --radius-md: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,15 +55,27 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+            background-image: radial-gradient(ellipse at 10% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 90% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+            position: relative;
+        }
+
+        /* Overlay halus untuk efek glow */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 600px;
             width: 100%;
-            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================================
@@ -84,6 +95,7 @@
             transition: var(--transition);
             font-family: inherit;
             width: 100%;
+            text-decoration: none;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
@@ -150,20 +162,6 @@
             box-shadow: var(--shadow-lg);
             backdrop-filter: blur(12px);
             animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .payment-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -30%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.06), transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
         }
 
         @keyframes slideUp {
@@ -180,8 +178,6 @@
         .payment-header {
             text-align: center;
             margin-bottom: 28px;
-            position: relative;
-            z-index: 1;
         }
         .payment-header .icon-wrapper {
             display: inline-flex;
@@ -210,7 +206,7 @@
         }
 
         /* ============================================================
-           DETAIL PRODUK (diperbaiki tata letak)
+           DETAIL PRODUK (lebih rapi)
            ============================================================ */
         .product-detail {
             background: var(--bg-card);
@@ -218,8 +214,6 @@
             border-radius: var(--radius-md);
             padding: 20px 24px;
             margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
         }
         .product-detail .row {
             display: flex;
@@ -235,19 +229,18 @@
             color: var(--text-secondary);
             font-weight: 500;
             font-size: 0.85rem;
-            min-width: 80px;
-            flex-shrink: 0;
+            min-width: 90px;
         }
         .product-detail .value {
             font-weight: 600;
             font-size: 0.95rem;
             text-align: right;
-            flex: 1;
             word-break: break-word;
+            max-width: 70%;
         }
         .product-detail .value.price {
             color: var(--accent-gold);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         .product-detail .support-list {
             display: flex;
@@ -270,13 +263,11 @@
         }
 
         /* ============================================================
-           QR SECTION (diperbaiki)
+           QR SECTION
            ============================================================ */
         .qr-section {
             text-align: center;
-            padding: 16px 0 8px;
-            position: relative;
-            z-index: 1;
+            padding: 12px 0 8px;
         }
         .qr-section .qr-label {
             font-size: 0.9rem;
@@ -327,14 +318,12 @@
         }
 
         /* ============================================================
-           KONFIRMASI (diperbaiki)
+           KONFIRMASI
            ============================================================ */
         .confirm-section {
-            margin-top: 24px;
+            margin-top: 20px;
             border-top: 1px solid var(--border-color);
-            padding-top: 24px;
-            position: relative;
-            z-index: 1;
+            padding-top: 20px;
         }
         .confirm-section .icon-big {
             font-size: 2.4rem;
@@ -352,7 +341,7 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin: 4px 0 16px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
         .confirm-section .device-box {
             background: var(--bg-card);
@@ -383,7 +372,7 @@
         }
 
         /* ============================================================
-           CODE INPUT (diperbaiki)
+           CODE INPUT
            ============================================================ */
         .code-area {
             background: var(--bg-card);
@@ -455,7 +444,7 @@
         }
 
         /* ============================================================
-           FORM PENGIRIMAN (diperbaiki)
+           FORM PENGIRIMAN
            ============================================================ */
         .form-delivery {
             margin-top: 16px;
@@ -509,7 +498,7 @@
         }
 
         /* ============================================================
-           TOAST
+           TOAST (notifikasi)
            ============================================================ */
         .toast {
             position: fixed;
@@ -562,111 +551,9 @@
             transition: var(--transition);
             text-decoration: none;
             margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
         }
         .back-link:hover {
             color: #fff;
-        }
-
-        /* ============================================================
-           POPUP ANTRIAN (diperbaiki)
-           ============================================================ */
-        .queue-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(16px);
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        .queue-popup {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            max-width: 420px;
-            width: 100%;
-            padding: 40px 32px 32px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .queue-popup::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.06), transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        .queue-popup .icon {
-            font-size: 3rem;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
-            position: relative;
-        }
-        .queue-popup h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            position: relative;
-        }
-        .queue-popup .sub {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-            position: relative;
-        }
-        .queue-popup .number {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: var(--accent-blue);
-            margin: 4px 0;
-            position: relative;
-        }
-        .queue-popup .status {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin: 4px 0 12px;
-            position: relative;
-        }
-        .queue-popup .note {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            position: relative;
-            line-height: 1.5;
-        }
-        .queue-popup .btn {
-            position: relative;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
         }
 
         /* ============================================================
@@ -689,11 +576,10 @@
             }
             .product-detail .value {
                 text-align: left;
-                width: 100%;
+                max-width: 100%;
             }
             .product-detail .support-list {
                 justify-content: flex-start;
-                width: 100%;
             }
             .code-area .input-group {
                 flex-direction: column;
@@ -702,24 +588,132 @@
                 width: 100%;
             }
             .qr-section .qr-wrapper {
-                max-width: 180px;
+                max-width: 160px;
             }
-            .queue-popup {
-                padding: 28px 20px 24px;
+        }
+
+        /* ============================================================
+           QUEUE POPUP (overlay)
+           ============================================================ */
+        .queue-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .queue-overlay.active {
+            display: flex;
+        }
+
+        .queue-popup {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 32px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .queue-popup .icon-big {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+        .queue-popup h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .queue-popup p.sub {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .queue-popup .number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            margin: 4px 0;
+        }
+        .queue-popup .status-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 4px 0 12px;
+        }
+        .queue-popup .note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .queue-popup .note i {
+            color: var(--accent-blue);
+        }
+        .queue-popup .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ QUEUE POPUP (overlay) ============ -->
+    <div class="queue-overlay" id="queueOverlay">
+        <div class="queue-popup">
+            <div class="icon-big"><i class="fas fa-clock"></i></div>
+            <h2>Pesanan Diterima!</h2>
+            <p class="sub">Anda sedang menduduki nomor antrian</p>
+            <div class="number" id="queueNumber">#1</div>
+            <div class="status-text" id="queueStatus">🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.</div>
+            <div class="note">
+                <i class="fas fa-info-circle"></i> Antrian akan turun otomatis setelah pesanan sebelumnya selesai.<br>
+                Admin akan menghubungi Anda via WhatsApp.
+            </div>
+            <button class="btn btn-primary" id="queueCloseBtn"><i class="fas fa-check"></i> Saya Mengerti</button>
+        </div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
     <div class="container">
 
-        <!-- ============ BACK LINK ============ -->
+        <!-- BACK LINK -->
         <a href="javascript:history.back()" class="back-link">
             <i class="fas fa-arrow-left"></i> Kembali
         </a>
 
-        <!-- ============ PAYMENT CARD ============ -->
+        <!-- PAYMENT CARD -->
         <div class="payment-card" id="paymentCard">
 
             <!-- HEADER -->
@@ -743,7 +737,7 @@
                 </div>
                 <div class="row">
                     <span class="label">Deskripsi</span>
-                    <span class="value" id="detailDesc" style="font-weight:400;color:var(--text-secondary);font-size:0.9rem;text-align:left;">-</span>
+                    <span class="value" id="detailDesc" style="font-weight:400;color:var(--text-secondary);font-size:0.9rem;">-</span>
                 </div>
                 <div class="row">
                     <span class="label">Dukungan</span>
@@ -753,7 +747,7 @@
                 </div>
             </div>
 
-            <!-- QR SECTION (awal tampil) -->
+            <!-- QR SECTION -->
             <div id="qrSection">
                 <div class="qr-section">
                     <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
@@ -835,18 +829,12 @@
                 </div>
             </div>
 
-            <!-- TOMBOL CLOSE / SELESAI -->
+            <!-- TOMBOL CLOSE -->
             <button class="btn btn-close" id="btnClose" style="margin-top:20px;">
                 <i class="fas fa-times"></i> Tutup
             </button>
 
         </div>
-    </div>
-
-    <!-- ============ TOAST ============ -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg">Berhasil!</span>
     </div>
 
     <!-- ============ JAVASCRIPT ============ -->
@@ -855,7 +843,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, push, set, update, serverTimestamp, get } from "firebase-database";
+        import { getDatabase, ref, push, set, update, serverTimestamp, get, onValue } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -987,9 +975,11 @@
                 showToast('Gagal menyimpan: ' + err.message, 'error');
             });
 
+            // Sembunyikan QR, tampilkan konfirmasi
             document.getElementById('qrSection').style.display = 'none';
             document.getElementById('confirmSection').style.display = 'block';
 
+            // Update WhatsApp link
             const price = product.price || 0;
             const name = product.name || 'Layanan';
             const msg =
@@ -1033,7 +1023,7 @@
         });
 
         // ============================================================
-        // 9. KIRIM DATA → SIMPAN KE ORDER + ANTRIAN
+        // 9. KIRIM DATA → SIMPAN KE ORDER + ANTRIAN + POPUP
         // ============================================================
         document.getElementById('btnKirimData').addEventListener('click', async function() {
             const projectName = document.getElementById('deliveryProjectName').value.trim();
@@ -1050,6 +1040,7 @@
                 return;
             }
 
+            // Tentukan nomor antrian
             const queueRef = ref(db, 'logo-shop/queue');
             let queueNumber = 1;
             try {
@@ -1084,53 +1075,41 @@
                 status: 'waiting'
             });
 
+            // TAMPILKAN POPUP ANTRIAN
             showQueuePopup(queueNumber);
         });
 
         // ============================================================
-        // 10. POPUP ANTRIAN (diperbaiki)
+        // 10. FUNGSI POPUP ANTRIAN (dengan overlay terpisah)
         // ============================================================
         function showQueuePopup(number) {
-            // Hapus overlay yang mungkin sudah ada
-            const existingOverlay = document.querySelector('.queue-overlay');
-            if (existingOverlay) existingOverlay.remove();
+            const overlay = document.getElementById('queueOverlay');
+            const numEl = document.getElementById('queueNumber');
+            const statusEl = document.getElementById('queueStatus');
 
-            const overlay = document.createElement('div');
-            overlay.className = 'queue-overlay';
+            numEl.textContent = '#' + number;
+            if (number === 1) {
+                statusEl.textContent = '🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.';
+            } else {
+                statusEl.textContent = '⏳ Mohon tunggu, pesanan Anda dalam antrian.';
+            }
 
-            const popup = document.createElement('div');
-            popup.className = 'queue-popup';
-            popup.innerHTML = `
-                    <div class="icon"><i class="fas fa-clock"></i></div>
-                    <h2>Pesanan Diterima!</h2>
-                    <p class="sub">Anda sedang menduduki nomor antrian</p>
-                    <div class="number">#${number}</div>
-                    <p class="status">${number === 1 ? '🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.' : '⏳ Mohon tunggu, pesanan Anda dalam antrian.'}</p>
-                    <p class="note">
-                        <i class="fas fa-info-circle"></i> Antrian akan turun otomatis setelah pesanan sebelumnya selesai.<br>
-                        Admin akan menghubungi Anda via WhatsApp.
-                    </p>
-                    <button class="btn btn-primary" id="queueCloseBtn">
-                        <i class="fas fa-check"></i> Saya Mengerti
-                    </button>
-                `;
-            overlay.appendChild(popup);
-            document.body.appendChild(overlay);
-
-            // Event tombol tutup
-            document.getElementById('queueCloseBtn').addEventListener('click', () => {
-                overlay.remove();
-                window.location.href = 'produk-jasa.html';
-            });
-
-            // Klik di luar popup
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    overlay.remove();
-                    window.location.href = 'produk-jasa.html';
-                }
-            });
+            overlay.classList.add('active');
         }
+
+        // Tutup popup
+        document.getElementById('queueCloseBtn').addEventListener('click', function() {
+            document.getElementById('queueOverlay').classList.remove('active');
+            window.location.href = 'produk-jasa.html';
+        });
+
+        // Klik di luar popup menutup
+        document.getElementById('queueOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                window.location.href = 'produk-jasa.html';
+            }
+        });
 
         // ============================================================
         // 11. TOMBOL TUTUP
