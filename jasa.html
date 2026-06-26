@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           GLOBAL
+           GLOBAL (sama seperti sebelumnya)
            ============================================================ */
         * {
             margin: 0;
@@ -119,15 +119,6 @@
             background: var(--accent-blue);
             color: #fff;
             border-color: var(--accent-blue);
-        }
-        .btn-warning {
-            background: #f59e0b;
-            color: #fff;
-            border-color: transparent;
-        }
-        .btn-warning:hover {
-            background: #d97706;
-            transform: translateY(-2px);
         }
 
         /* ============================================================
@@ -343,6 +334,18 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+        }
+        .product-info .badge-type {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 10px;
+            border-radius: 40px;
+            background: var(--accent-blue);
+            color: #fff;
+            align-self: flex-start;
+            margin-bottom: 6px;
         }
         .product-info h3 {
             font-size: 1rem;
@@ -761,7 +764,8 @@
         <div class="container">
             <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#berita">Berita</a></li>
+                <li><a href="index.html#berita">Home</a></li>
+                <li><a href="produk-digital.html">Produk</a></li>
                 <li><a href="produk-jasa.html" style="color:var(--accent-blue);">Jasa</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
             </ul>
@@ -781,7 +785,7 @@
         <span id="deviceIdDisplay">ID: ...</span>
     </div>
 
-    <!-- ============ HEADER PRODUK ============ -->
+    <!-- ============ HEADER ============ -->
     <header class="page-header">
         <div class="container">
             <h1><i class="fas fa-concierge-bell"></i> Layanan Jasa</h1>
@@ -813,7 +817,6 @@
             <h2 id="modalTitle">Nama Layanan</h2>
             <p class="modal-sub" id="modalSub">Detail layanan</p>
 
-            <!-- Detail Grid -->
             <div class="detail-grid">
                 <div class="detail-item">
                     <span class="detail-label">Harga</span>
@@ -837,7 +840,7 @@
                 <i class="fas fa-shopping-cart"></i> Pesan Sekarang
             </button>
 
-            <!-- QR SECTION (sama seperti sebelumnya) -->
+            <!-- QR SECTION -->
             <div id="qrSection" style="display:none;margin-top:16px;">
                 <hr class="divider" />
                 <div class="qr-section" style="text-align:center;">
@@ -890,7 +893,7 @@
                     </div>
                 </div>
 
-                <!-- FORM PENGIRIMAN (muncul setelah kode valid) -->
+                <!-- FORM PENGIRIMAN -->
                 <div id="formDeliverySection" style="display:none;margin-top:16px;text-align:left;">
                     <hr class="divider" />
                     <h4 style="font-size:1rem;font-weight:700;margin-bottom:8px;"><i class="fas fa-paper-plane" style="color:var(--accent-blue);"></i> Data Pengiriman</h4>
@@ -920,7 +923,7 @@
                     </div>
                 </div>
 
-                <!-- DOWNLOAD SECTION (untuk produk digital) -->
+                <!-- DOWNLOAD SECTION (untuk produk digital) — tidak dipakai di jasa -->
                 <div id="downloadSection" style="display:none;margin-top:12px;padding:12px;background:#ecfdf5;border-radius:8px;border:1px solid var(--accent-green);text-align:center;">
                     <p style="color:var(--accent-green);font-weight:600;"><i class="fas fa-check-circle"></i> Akses diberikan!</p>
                     <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success" style="width:100%;justify-content:center;margin-top:6px;">
@@ -939,7 +942,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue, push, set, update, serverTimestamp, get, child } from "firebase-database";
+        import { getDatabase, ref, onValue, push, set, update, serverTimestamp, get } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -993,7 +996,7 @@
         });
 
         // ============================================================
-        // 5. PRODUK (JASA) — dengan support badges
+        // 5. PRODUK (JASA) — FILTER hanya isJasa atau !downloadLink
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
@@ -1023,7 +1026,7 @@
         function renderProducts(productsArray) {
             const grid = document.getElementById('productsGrid');
             if (!productsArray || productsArray.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada layanan.</div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada layanan jasa.</div>`;
                 return;
             }
             let html = '';
@@ -1036,6 +1039,7 @@
                                 <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Layanan'}" loading="lazy" />
                             </div>
                             <div class="product-info">
+                                <span class="badge-type">Jasa</span>
                                 <h3>${item.name || 'Nama Layanan'}</h3>
                                 <div class="price">Rp ${priceFormatted} <small>/ jasa</small></div>
                                 <p class="desc">${item.description || 'Deskripsi layanan.'}</p>
@@ -1071,16 +1075,21 @@
             renderProducts(filteredProducts);
         }
 
+        // AMBIL DATA & FILTER JASA
         onValue(productsRef, (snap) => {
             const data = snap.val();
             if (!data) {
                 allProducts = [];
                 filteredProducts = [];
                 document.getElementById('productsGrid').innerHTML =
-                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada layanan.</div>`;
+                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada layanan jasa.</div>`;
                 return;
             }
-            allProducts = Object.entries(data).map(([key, value]) => ({ key, ...value }));
+            // Filter: hanya yang isJasa === true atau tidak memiliki downloadLink
+            allProducts = Object.entries(data)
+                .map(([key, value]) => ({ key, ...value }))
+                .filter(item => item.isJasa === true || !item.downloadLink);
+
             allProducts = shuffleArray([...allProducts]);
             filteredProducts = [...allProducts];
             renderProducts(filteredProducts);
@@ -1108,7 +1117,7 @@
         const modalClose = document.getElementById('modalClose');
         const btnTutupModal = document.getElementById('btnTutupModal');
         let currentProduct = null;
-        let currentOrderKey = null; // untuk menyimpan key order
+        let currentOrderKey = null;
 
         function renderSupportList(support) {
             if (!support) return '<span style="color:var(--text-secondary);font-size:0.85rem;">Tidak ada dukungan</span>';
@@ -1132,15 +1141,13 @@
             document.getElementById('modalDesc').textContent = product.description || '—';
             document.getElementById('modalSupport').innerHTML = renderSupportList(product.support);
 
-            // Reset semua state
+            // Reset
             document.getElementById('qrSection').style.display = 'none';
             document.getElementById('confirmSection').style.display = 'none';
             document.getElementById('formDeliverySection').style.display = 'none';
             document.getElementById('downloadSection').style.display = 'none';
             document.getElementById('btnPesan').style.display = 'block';
             document.getElementById('accessCodeInput').value = '';
-            document.getElementById('modalDownloadLink').href = '#';
-            // Reset form
             document.getElementById('deliveryProjectName').value = '';
             document.getElementById('deliveryWa').value = '';
             document.getElementById('deliverySosmed').value = '';
@@ -1215,7 +1222,6 @@
                 isJasa: true,
                 support: currentProduct.support || {},
                 orderDate: serverTimestamp(),
-                // nanti diisi dari form
                 projectName: '',
                 waNumber: '',
                 sosmed: '',
@@ -1253,22 +1259,17 @@
                 const data = snap.val();
                 if (!data) { showToast('Kode tidak valid.', 'error'); return; }
                 let found = false;
-                let orderKey = null;
                 for (const [key, order] of Object.entries(data)) {
                     if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
                         found = true;
-                        orderKey = key;
                         currentOrderKey = key;
-                        // Update status
                         update(ref(db, `logo-shop/orders/${key}`), { status: 'confirmed' });
                         break;
                     }
                 }
                 if (found) {
-                    // Sembunyikan input kode, tampilkan form
                     document.getElementById('formDeliverySection').style.display = 'block';
                     document.getElementById('downloadSection').style.display = 'none';
-                    // Sembunyikan bagian input kode (opsional)
                     const codeArea = document.querySelector('#confirmSection .code-input-area');
                     if (codeArea) codeArea.style.display = 'none';
                     showToast('Kode valid! Silakan isi data pengiriman.', 'success');
@@ -1303,7 +1304,6 @@
                 const snapshot = await get(queueRef);
                 const queueData = snapshot.val();
                 if (queueData) {
-                    // Cari nomor antrian terakhir
                     const numbers = Object.values(queueData).map(q => q.number || 0);
                     const maxNum = Math.max(...numbers, 0);
                     queueNumber = maxNum + 1;
@@ -1312,18 +1312,16 @@
                 console.warn('Gagal baca antrian:', e);
             }
 
-            // Simpan data order
             const orderUpdates = {
-                projectName: projectName,
-                waNumber: waNumber,
+                projectName,
+                waNumber,
                 sosmed: sosmed || '',
-                receiverNumber: receiverNumber,
-                queueNumber: queueNumber,
+                receiverNumber,
+                queueNumber,
                 status: 'in_queue'
             };
             await update(ref(db, `logo-shop/orders/${currentOrderKey}`), orderUpdates);
 
-            // Simpan ke antrian
             const newQueueRef = push(ref(db, 'logo-shop/queue'));
             await set(newQueueRef, {
                 orderKey: currentOrderKey,
@@ -1334,7 +1332,6 @@
                 status: 'waiting'
             });
 
-            // Tampilkan popup antrian
             showQueuePopup(queueNumber);
         });
 
@@ -1342,7 +1339,6 @@
         // 13. POPUP ANTRIAN
         // ============================================================
         function showQueuePopup(number) {
-            // Buat overlay khusus untuk antrian
             const overlay = document.createElement('div');
             overlay.className = 'modal-overlay active';
             overlay.style.display = 'flex';
@@ -1372,19 +1368,15 @@
                 `;
             overlay.appendChild(popup);
 
-            // Tutup modal utama sementara
             document.getElementById('modalProduct').classList.remove('active');
-
             document.body.appendChild(overlay);
 
             document.getElementById('queueCloseBtn').addEventListener('click', () => {
                 overlay.remove();
-                // Tutup semua modal
                 closeModal();
                 showToast('Pesanan berhasil dikirim!', 'success');
             });
 
-            // Klik di luar popup menutup
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.remove();
@@ -1406,4 +1398,4 @@
     </script>
 
 </body>
-</html>
+    </html>
