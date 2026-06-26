@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Produk Digital - LogoShop</title>
+    <title>Koleksi Logo - LogoShop</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
+    </script>
 
     <script type="importmap">
         {
@@ -21,13 +24,14 @@
 
     <style>
         /* ============================================================
-           GLOBAL (sama seperti halaman jasa)
+           GLOBAL
            ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         :root {
             --bg-primary: #f0f4fe;
             --bg-secondary: #ffffff;
@@ -38,13 +42,13 @@
             --accent-gold: #f5b342;
             --accent-blue: #3b82f6;
             --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-primary);
@@ -52,11 +56,16 @@
             line-height: 1.6;
             min-height: 100vh;
         }
+
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 20px;
         }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -85,7 +94,7 @@
             box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
         }
         .btn-success {
-            background: var(--accent-green);
+            background: #10b981;
             color: #fff;
             border-color: transparent;
             box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
@@ -103,8 +112,20 @@
             border-color: var(--accent-blue);
             color: var(--accent-blue);
         }
+        .btn-download {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-download:hover {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
 
-        /* NAVBAR */
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
         .navbar {
             position: fixed;
             top: 0;
@@ -190,7 +211,9 @@
             }
         }
 
-        /* HEADER */
+        /* ============================================================
+           PAGE HEADER
+           ============================================================ */
         .page-header {
             padding: 100px 0 30px;
             background: var(--bg-secondary);
@@ -211,7 +234,9 @@
             margin-top: 4px;
         }
 
-        /* TOOLBAR */
+        /* ============================================================
+           PRODUCTS TOOLBAR
+           ============================================================ */
         .products-toolbar {
             display: flex;
             justify-content: space-between;
@@ -267,12 +292,15 @@
             background: var(--accent-purple);
         }
 
-        /* GRID */
+        /* ============================================================
+           PRODUCTS GRID
+           ============================================================ */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
+
         .product-card {
             background: var(--bg-card);
             backdrop-filter: blur(8px);
@@ -308,18 +336,6 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-        }
-        .product-info .badge-type {
-            display: inline-block;
-            font-size: 0.6rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 2px 10px;
-            border-radius: 40px;
-            background: var(--accent-green);
-            color: #fff;
-            align-self: flex-start;
-            margin-bottom: 6px;
         }
         .product-info h3 {
             font-size: 1rem;
@@ -360,7 +376,9 @@
             border-radius: 40px;
         }
 
-        /* MODAL (versi sederhana untuk digital, tanpa form pengiriman) */
+        /* ============================================================
+           MODAL — DIPERBAIKI RAPI
+           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -384,10 +402,11 @@
                 opacity: 1;
             }
         }
+
         .modal {
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
-            max-width: 540px;
+            max-width: 520px;
             width: 100%;
             max-height: 92vh;
             overflow-y: auto;
@@ -407,6 +426,7 @@
                 transform: translateY(0) scale(1);
             }
         }
+
         .modal-close {
             position: absolute;
             top: 14px;
@@ -423,6 +443,7 @@
             color: var(--text-primary);
             transform: rotate(90deg);
         }
+
         .modal h2 {
             font-size: 1.5rem;
             font-weight: 800;
@@ -434,6 +455,8 @@
             font-size: 0.85rem;
             margin-bottom: 16px;
         }
+
+        /* DETAIL ROWS — RAPI */
         .modal .detail-grid {
             display: flex;
             flex-direction: column;
@@ -474,23 +497,41 @@
             font-size: 0.9rem;
             max-width: 70%;
         }
+
         .modal .divider {
             margin: 16px 0;
             border: none;
             border-top: 1px solid var(--border-color);
         }
+
+        /* QR SECTION */
         .qr-section {
             text-align: center;
             padding: 4px 0 8px;
+        }
+        .qr-section .qr-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .qr-section .qr-label i {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
         }
         .qr-section .qr-image-wrapper {
             display: inline-block;
             background: #fff;
             padding: 10px;
             border-radius: 12px;
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
             max-width: 220px;
             margin: 0 auto;
+            position: relative;
         }
         .qr-section .qr-image-wrapper img {
             width: 100%;
@@ -498,6 +539,150 @@
             display: block;
             border-radius: 4px;
         }
+        .qr-section .qr-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .qr-section .qr-actions .btn {
+            padding: 8px 18px;
+            font-size: 0.8rem;
+        }
+        .qr-section .qr-note {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* KONFIRMASI */
+        .confirm-section {
+            text-align: center;
+        }
+        .confirm-section .icon-big {
+            font-size: 2.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+        .confirm-section h3 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+        }
+        .confirm-section .sub-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 4px 0 12px;
+            line-height: 1.5;
+        }
+        .confirm-section .device-id-box {
+            background: var(--bg-primary);
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin: 10px 0 14px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+        .confirm-section .device-id-box small {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+        .confirm-section .wa-btn {
+            width: 100%;
+            justify-content: center;
+            margin: 6px 0 10px;
+        }
+        .confirm-section .format-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 6px 0 14px;
+        }
+        .confirm-section .code-input-area {
+            margin-top: 14px;
+            background: var(--bg-primary);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .confirm-section .code-input-area .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .confirm-section .code-input-area .label i {
+            color: var(--accent-blue);
+        }
+        .confirm-section .code-input-area .input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .confirm-section .code-input-area .input-group input {
+            flex: 1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .confirm-section .code-input-area .input-group input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+        .confirm-section .code-input-area .input-group .btn {
+            padding: 8px 16px;
+        }
+        .confirm-section .download-box {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ecfdf5;
+            border-radius: 8px;
+            border: 1px solid #10b981;
+        }
+        .confirm-section .download-box.active {
+            display: block;
+        }
+        .confirm-section .download-box p {
+            color: #10b981;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .confirm-section .download-box .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .modal .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .modal .btn-group .btn {
+            flex: 1;
+            min-width: 80px;
+            font-size: 0.85rem;
+            padding: 10px 16px;
+        }
+
+        /* ============================================================
+           TOAST & DEVICE BADGE
+           ============================================================ */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -527,7 +712,7 @@
             font-size: 1rem;
         }
         .toast.success i {
-            color: var(--accent-green);
+            color: #10b981;
         }
         .toast.error i {
             color: #ef4444;
@@ -535,6 +720,7 @@
         .toast.info i {
             color: var(--accent-blue);
         }
+
         .device-badge {
             position: fixed;
             bottom: 20px;
@@ -556,6 +742,7 @@
             color: var(--accent-blue);
             font-size: 0.8rem;
         }
+
         .empty-state {
             text-align: center;
             padding: 32px 0;
@@ -568,6 +755,10 @@
             display: block;
             margin-bottom: 8px;
         }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
         @media (max-width: 900px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -589,6 +780,9 @@
             .products-toolbar .search-box {
                 max-width: 100%;
             }
+            .modal .btn-group .btn {
+                flex: 1 1 100%;
+            }
             .page-header h1 {
                 font-size: 1.5rem;
             }
@@ -601,44 +795,52 @@
                 text-align: left;
                 max-width: 100%;
             }
+            .modal .detail-value.desc-value {
+                max-width: 100%;
+            }
+            .qr-section .qr-actions {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- ============ NAVBAR ============ -->
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html#berita">Berita</a></li>
-                <li><a href="produk-digital.html" style="color:var(--accent-blue);">Produk</a></li>
-                <li><a href="produk-jasa.html">Jasa</a></li>
+                <li><a href="produk.html" style="color:var(--accent-blue);">Produk</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- TOAST & DEVICE -->
+    <!-- ============ TOAST ============ -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Berhasil!</span>
     </div>
+
+    <!-- ============ DEVICE BADGE ============ -->
     <div class="device-badge">
         <i class="fas fa-mobile-alt"></i>
         <span id="deviceIdDisplay">ID: ...</span>
     </div>
 
-    <!-- HEADER -->
+    <!-- ============ HEADER PRODUK ============ -->
     <header class="page-header">
         <div class="container">
-            <h1><i class="fas fa-palette"></i> Produk Digital</h1>
-            <p class="sub">Unduh logo premium setelah pembayaran.</p>
+            <h1><i class="fas fa-palette"></i> Koleksi Logo</h1>
+            <p class="sub">Temukan desain logo premium untuk bisnis Anda.</p>
         </div>
     </header>
 
-    <!-- PRODUK -->
+    <!-- ============ PRODUK ============ -->
     <section style="padding: 0 0 60px;">
         <div class="container">
             <div class="products-toolbar">
@@ -648,18 +850,21 @@
                 </div>
                 <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
             </div>
+
             <div class="products-grid" id="productsGrid">
                 <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat produk...</div>
             </div>
         </div>
     </section>
 
-    <!-- MODAL (versi digital) -->
+    <!-- ============ MODAL ============ -->
     <div class="modal-overlay" id="modalProduct">
         <div class="modal">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
             <h2 id="modalTitle">Nama Produk</h2>
             <p class="modal-sub" id="modalSub">Detail produk</p>
+
+            <!-- Detail Grid - RAPI -->
             <div class="detail-grid">
                 <div class="detail-item">
                     <span class="detail-label">Harga</span>
@@ -670,66 +875,77 @@
                     <span class="detail-value desc-value" id="modalDesc">-</span>
                 </div>
             </div>
+
             <hr class="divider" />
+
             <button class="btn btn-primary" id="btnBayar" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
                 <i class="fas fa-credit-card"></i> Bayar Sekarang
             </button>
+
+            <!-- QR SECTION -->
             <div id="qrSection" style="display:none;margin-top:16px;">
                 <hr class="divider" />
                 <div class="qr-section">
-                    <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:10px;">
-                        <i class="fas fa-qrcode" style="color:var(--accent-blue);"></i> Scan QR untuk Pembayaran
+                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
+                    <div class="qr-image-wrapper" id="qrImageWrapper">
+                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS Pembayaran" />
                     </div>
-                    <div class="qr-image-wrapper">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" />
+                    <div class="qr-actions">
+                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
                     </div>
-                    <p style="margin-top:10px;font-size:0.8rem;color:var(--text-secondary);">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
+                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
                     <button class="btn btn-success" id="btnSudahBayar" style="width:100%;justify-content:center;margin-top:10px;">
                         <i class="fas fa-check-circle"></i> Saya Sudah Bayar
                     </button>
                 </div>
             </div>
+
+            <!-- KONFIRMASI -->
             <div id="confirmSection" style="display:none;margin-top:16px;">
                 <hr class="divider" />
-                <div style="text-align:center;">
-                    <div style="font-size:2.2rem;color:var(--accent-blue);margin-bottom:6px;"><i class="fas fa-shield-alt"></i></div>
-                    <h3 style="font-size:1.15rem;margin-bottom:4px;">Konfirmasi Pembayaran</h3>
-                    <p style="color:var(--text-secondary);font-size:0.9rem;margin:4px 0 12px;">
+                <div class="confirm-section">
+                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Konfirmasi Pembayaran</h3>
+                    <p class="sub-text">
                         Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
                     </p>
-                    <div style="background:var(--bg-primary);padding:10px 14px;border-radius:var(--radius-md);border:1px solid var(--border-color);margin:10px 0 14px;font-family:monospace;font-size:0.85rem;word-break:break-all;">
-                        <small style="font-family:'Inter',sans-serif;display:block;font-size:0.65rem;color:var(--text-secondary);"><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
+                    <div class="device-id-box">
+                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
                         <span id="confirmDeviceId">-</span>
                     </div>
                     <a href="https://wa.me/6289603266259?text=Halo%20admin%2C%20saya%20sudah%20bayar%20dengan%20nominal%20Rp%20XXXX%20dan%20no%20produk%20XXXX.%20Saya%20ingin%20meminta%20kode%20konfirmasi."
-                    target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin:6px 0 10px;">
+                    target="_blank"
+                    class="btn btn-primary wa-btn">
                     <i class="fab fa-whatsapp"></i> Hubungi Admin
                 </a>
-                <p style="font-size:0.75rem;color:var(--text-secondary);margin:6px 0 14px;">
+                <p class="format-text">
                     Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
                 </p>
-                <div style="background:var(--bg-primary);padding:12px 16px;border-radius:var(--radius-md);border:1px solid var(--border-color);text-align:left;">
-                    <div style="font-size:0.8rem;color:var(--text-secondary);display:flex;align-items:center;gap:6px;">
-                        <i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Masukkan kode yang diberikan admin:
+
+                <div class="code-input-area">
+                    <div class="label"><i class="fas fa-info-circle"></i> Masukkan kode yang diberikan admin:</div>
+                    <div class="input-group">
+                        <input type="text" id="accessCodeInput" placeholder="Kode akses" />
+                        <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
                     </div>
-                    <div style="display:flex;gap:8px;margin-top:6px;">
-                        <input type="text" id="accessCodeInput" placeholder="Kode akses" style="flex:1;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-size:0.9rem;outline:none;font-family:inherit;" />
-                        <button class="btn btn-primary" id="btnVerifyCode" style="padding:8px 16px;"><i class="fas fa-unlock"></i> Buka</button>
-                    </div>
-                    <div id="downloadSection" style="display:none;margin-top:10px;padding:10px;background:#ecfdf5;border-radius:8px;border:1px solid var(--accent-green);text-align:center;">
-                        <p style="color:var(--accent-green);font-weight:600;"><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                        <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success" style="width:100%;justify-content:center;margin-top:6px;">
+                    <div class="download-box" id="downloadSection">
+                        <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
+                        <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
                             <i class="fas fa-download"></i> Unduh Logo
                         </a>
                     </div>
                 </div>
             </div>
+
             <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:16px;">Tutup</button>
         </div>
     </div>
 
     <!-- ============ JAVASCRIPT ============ -->
     <script type="module">
+        // ============================================================
+        // 1. FIREBASE
+        // ============================================================
         import { initializeApp } from "firebase-app";
         import { getDatabase, ref, onValue, push, set, update, serverTimestamp } from "firebase-database";
 
@@ -742,6 +958,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // ============================================================
+        // 2. DEVICE ID
+        // ============================================================
         function getDeviceId() {
             let id = localStorage.getItem('logoShop_deviceId');
             if (!id) {
@@ -754,6 +973,9 @@
         document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
         document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
 
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
@@ -766,6 +988,9 @@
             t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
         }
 
+        // ============================================================
+        // 4. NAVBAR
+        // ============================================================
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
         });
@@ -775,7 +1000,9 @@
             });
         });
 
-        // ======== PRODUK DIGITAL ========
+        // ============================================================
+        // 5. PRODUK
+        // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
         let filteredProducts = [];
@@ -791,7 +1018,7 @@
         function renderProducts(productsArray) {
             const grid = document.getElementById('productsGrid');
             if (!productsArray || productsArray.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk digital.</div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk.</div>`;
                 return;
             }
             let html = '';
@@ -803,7 +1030,6 @@
                                 <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Produk'}" loading="lazy" />
                             </div>
                             <div class="product-info">
-                                <span class="badge-type">Digital</span>
                                 <h3>${item.name || 'Nama Produk'}</h3>
                                 <div class="price">Rp ${priceFormatted} <small>/ logo</small></div>
                                 <p class="desc">${item.description || 'Deskripsi produk.'}</p>
@@ -815,6 +1041,7 @@
                     `;
             });
             grid.innerHTML = html;
+
             document.querySelectorAll('.btn-detail').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const id = btn.dataset.id;
@@ -837,35 +1064,43 @@
             renderProducts(filteredProducts);
         }
 
-        // FILTER: hanya produk digital (ada downloadLink dan bukan jasa)
         onValue(productsRef, (snap) => {
             const data = snap.val();
             if (!data) {
                 allProducts = [];
                 filteredProducts = [];
                 document.getElementById('productsGrid').innerHTML =
-                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk digital.</div>`;
+                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk.</div>`;
                 return;
             }
-            allProducts = Object.entries(data)
-                .map(([key, value]) => ({ key, ...value }))
-                .filter(item => item.downloadLink && item.isJasa !== true);
+            allProducts = Object.entries(data).map(([key, value]) => ({ key, ...value }));
             allProducts = shuffleArray([...allProducts]);
             filteredProducts = [...allProducts];
             renderProducts(filteredProducts);
         });
 
+        // ============================================================
+        // 6. SEARCH
+        // ============================================================
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
-        searchBtn.addEventListener('click', () => filterProducts(searchInput.value));
-        searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') filterProducts(searchInput.value); });
 
-        // ======== MODAL DIGITAL ========
+        function doSearch() {
+            filterProducts(searchInput.value);
+        }
+
+        searchBtn.addEventListener('click', doSearch);
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') doSearch();
+        });
+
+        // ============================================================
+        // 7. MODAL
+        // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
         const btnTutupModal = document.getElementById('btnTutupModal');
         let currentProduct = null;
-        let currentOrderKey = null;
 
         function openProductDetail(product) {
             currentProduct = product;
@@ -874,49 +1109,76 @@
             document.getElementById('modalPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product
             .price || 0);
             document.getElementById('modalDesc').textContent = product.description || '—';
+
             document.getElementById('qrSection').style.display = 'none';
             document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').style.display = 'none';
+            document.getElementById('downloadSection').classList.remove('active');
             document.getElementById('btnBayar').style.display = 'block';
             document.getElementById('accessCodeInput').value = '';
+            document.getElementById('modalDownloadLink').href = '#';
+
             modal.classList.add('active');
         }
 
         function closeModal() {
             modal.classList.remove('active');
             currentProduct = null;
-            currentOrderKey = null;
         }
+
         modalClose.addEventListener('click', closeModal);
         btnTutupModal.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
 
+        // ============================================================
+        // 8. BAYAR → QR
+        // ============================================================
         document.getElementById('btnBayar').addEventListener('click', function() {
             if (!currentProduct) { showToast('Data produk tidak tersedia.', 'error'); return; }
             this.style.display = 'none';
             document.getElementById('qrSection').style.display = 'block';
             document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').style.display = 'none';
+            document.getElementById('downloadSection').classList.remove('active');
             showToast('Scan QR Code untuk pembayaran.', 'info');
         });
 
+        // ============================================================
+        // 9. UNDUH QR
+        // ============================================================
+        document.getElementById('downloadQrBtn').addEventListener('click', function() {
+            const img = document.getElementById('qrImage');
+            const link = document.createElement('a');
+            link.download = 'QRIS_LogoShop.png';
+            link.href = img.src;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('QR Code berhasil diunduh!', 'success');
+        });
+
+        // ============================================================
+        // 10. SUDAH BAYAR
+        // ============================================================
         document.getElementById('btnSudahBayar').addEventListener('click', function() {
             if (!currentProduct) { showToast('Produk tidak valid.', 'error'); return; }
+
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
             let confirmCode = '';
-            for (let i = 0; i < 6; i++) confirmCode += chars[Math.floor(Math.random() * chars.length)];
+            for (let i = 0; i < 6; i++) {
+                confirmCode += chars[Math.floor(Math.random() * chars.length)];
+            }
 
             const ordersRef = ref(db, 'logo-shop/orders');
             const newOrderRef = push(ordersRef);
-            currentOrderKey = newOrderRef.key;
             set(newOrderRef, {
                 productId: currentProduct.key,
-                productName: currentProduct.name || 'Produk',
+                productName: currentProduct.name || 'Logo',
                 price: currentProduct.price || 0,
                 deviceId: DEVICE_ID,
                 status: 'pending',
                 confirmationCode: confirmCode,
-                isJasa: false,
                 orderDate: serverTimestamp(),
             }).then(() => {
                 showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
@@ -926,20 +1188,24 @@
 
             document.getElementById('qrSection').style.display = 'none';
             document.getElementById('confirmSection').style.display = 'block';
-            document.getElementById('downloadSection').style.display = 'none';
+            document.getElementById('downloadSection').classList.remove('active');
             document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
 
             const price = currentProduct.price || 0;
-            const name = currentProduct.name || 'Produk';
+            const name = currentProduct.name || 'Logo';
             const msg =
                 `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${currentProduct.key} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
-            const waLink = document.querySelector('#confirmSection .btn-primary[href*="wa.me"]');
+            const waLink = document.querySelector('#confirmSection .wa-btn');
             waLink.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
         });
 
+        // ============================================================
+        // 11. VERIFIKASI KODE
+        // ============================================================
         document.getElementById('btnVerifyCode').addEventListener('click', function() {
             const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
             if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
+
             const ordersRef = ref(db, 'logo-shop/orders');
             onValue(ordersRef, (snap) => {
                 const data = snap.val();
@@ -948,13 +1214,12 @@
                 for (const [key, order] of Object.entries(data)) {
                     if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
                         found = true;
-                        currentOrderKey = key;
                         update(ref(db, `logo-shop/orders/${key}`), { status: 'completed' });
                         break;
                     }
                 }
                 if (found) {
-                    document.getElementById('downloadSection').style.display = 'block';
+                    document.getElementById('downloadSection').classList.add('active');
                     document.getElementById('modalDownloadLink').href = currentProduct?.downloadLink || '#';
                     showToast('Kode valid! Silakan unduh logo.', 'success');
                 } else {
@@ -963,9 +1228,16 @@
             }, { onlyOnce: true });
         });
 
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-        showToast('Selamat datang di Produk Digital!', 'info');
+        // ============================================================
+        // 12. ESC
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        showToast('Selamat datang di Koleksi Logo!', 'info');
+        console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
     </script>
 
 </body>
-</html>
+    </html>
