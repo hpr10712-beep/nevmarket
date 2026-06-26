@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Koleksi Logo - LogoShop</title>
+    <title>Admin Panel - LogoShop</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js">
-    </script>
 
     <script type="importmap">
         {
@@ -24,7 +21,7 @@
 
     <style>
         /* ============================================================
-           GLOBAL
+           GLOBAL — Tema terang rapi (sama seperti sebelumnya)
            ============================================================ */
         * {
             margin: 0;
@@ -39,9 +36,10 @@
             --border-color: rgba(0, 20, 60, 0.10);
             --text-primary: #0a1a3a;
             --text-secondary: #4a5a7a;
-            --accent-gold: #f5b342;
             --accent-blue: #3b82f6;
             --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-gold: #f5b342;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
             --radius-lg: 20px;
@@ -54,330 +52,329 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
+            padding: 20px;
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
         }
 
         /* ============================================================
-           BUTTONS
+           HEADER
            ============================================================ */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 22px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
-        }
-        .btn-success {
-            background: #10b981;
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
-        }
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        .btn-download {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border-color: var(--border-color);
-        }
-        .btn-download:hover {
-            background: var(--accent-blue);
-            color: #fff;
-            border-color: var(--accent-blue);
-        }
-
-        /* ============================================================
-           NAVBAR
-           ============================================================ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 12px 0;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(20px) saturate(1.8);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .navbar .container {
+        .admin-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-        .nav-brand {
-            font-size: 1.4rem;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-        }
-        .nav-brand i {
-            color: var(--accent-gold);
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            list-style: none;
-        }
-        .nav-links a {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            position: relative;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-blue);
-            transition: var(--transition);
-        }
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        .nav-hamburger {
-            display: none;
-            font-size: 1.4rem;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 64px;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                padding: 20px 24px;
-                gap: 14px;
-                border-bottom: 1px solid var(--border-color);
-            }
-            .nav-links.open {
-                display: flex;
-            }
-            .nav-hamburger {
-                display: block;
-            }
-        }
-
-        /* ============================================================
-           PAGE HEADER
-           ============================================================ */
-        .page-header {
-            padding: 100px 0 30px;
-            background: var(--bg-secondary);
+            padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-        .page-header h1 {
-            font-size: 2rem;
+        .admin-header h1 {
+            font-size: 1.8rem;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .page-header h1 i {
+        .admin-header h1 i {
             color: var(--accent-blue);
         }
-        .page-header .sub {
-            color: var(--text-secondary);
-            margin-top: 4px;
+        .admin-header .actions {
+            display: flex;
+            gap: 12px;
+        }
+        .admin-header .actions a {
+            padding: 10px 20px;
+            border-radius: 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .admin-header .actions a:hover {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
         }
 
         /* ============================================================
-           PRODUCTS TOOLBAR
+           TABS
            ============================================================ */
-        .products-toolbar {
+        .tabs {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin: 28px 0 24px;
-        }
-        .products-toolbar .search-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-primary);
-            padding: 4px 4px 4px 16px;
-            border-radius: 60px;
+            gap: 4px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 6px;
+            margin-bottom: 32px;
             border: 1px solid var(--border-color);
-            transition: var(--transition);
-            flex: 1;
-            max-width: 400px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
         }
-        .products-toolbar .search-box:focus-within {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-        }
-        .products-toolbar .search-box input {
+        .tab-btn {
+            padding: 12px 28px;
             border: none;
+            border-radius: 8px;
             background: transparent;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            width: 100%;
-            outline: none;
-            font-family: inherit;
-        }
-        .products-toolbar .search-box input::placeholder {
             color: var(--text-secondary);
-        }
-        .products-toolbar .search-box button {
-            background: var(--accent-blue);
-            border: none;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 60px;
             font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition);
+            flex: 1 0 auto;
+        }
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-primary);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           CARDS & TABLES
+           ============================================================ */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h2 i {
+            color: var(--accent-blue);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th,
+        td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.7rem;
+        }
+        tr:hover td {
+            background: var(--bg-primary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+        .btn-icon:hover {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .btn-icon.edit:hover {
+            color: var(--accent-blue);
+        }
+        .btn-icon.delete:hover {
+            color: #ef4444;
+        }
+        .btn-icon.check:hover {
+            color: var(--accent-green);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+        .btn-success {
+            background: var(--accent-green);
+            color: #fff;
+            border-color: transparent;
+        }
+        .btn-success:hover {
+            background: #059669;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            border-color: transparent;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+           FORMS
+           ============================================================ */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
             font-size: 0.85rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+        .form-group .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding-top: 6px;
+        }
+        .form-group .checkbox-group label {
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-        .products-toolbar .search-box button:hover {
-            background: var(--accent-purple);
-        }
-
-        /* ============================================================
-           PRODUCTS GRID
-           ============================================================ */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .product-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            flex-direction: column;
-        }
-        .product-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-blue);
-            box-shadow: var(--shadow-lg);
-        }
-        .product-card .img-wrap {
-            width: 100%;
-            background: #f8fafc;
-            overflow: hidden;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .product-card .img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .product-info {
-            padding: 14px 16px 18px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .product-info h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-            line-height: 1.3;
-        }
-        .product-info .price {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--accent-blue);
-            margin: 2px 0 6px;
-        }
-        .product-info .price small {
-            font-size: 0.7rem;
             font-weight: 400;
-            color: var(--text-secondary);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
         }
-        .product-info .desc {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-bottom: 12px;
-            flex: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.4;
+        .form-group .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-blue);
         }
-        .product-info .actions {
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-actions {
             display: flex;
-            gap: 8px;
-        }
-        .product-info .actions .btn {
-            flex: 1;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            border-radius: 40px;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
         /* ============================================================
-           MODAL — DIPERBAIKI RAPI
+           MODAL
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -386,333 +383,87 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(10px);
-            padding: 16px;
-            animation: fadeInOverlay 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
+            padding: 20px;
         }
         .modal-overlay.active {
             display: flex;
         }
-        @keyframes fadeInOverlay {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
         .modal {
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
-            max-width: 520px;
+            max-width: 600px;
             width: 100%;
-            max-height: 92vh;
+            max-height: 90vh;
             overflow-y: auto;
-            padding: 32px 28px 24px;
+            padding: 32px;
             box-shadow: var(--shadow-lg);
-            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            animation: slideUp 0.3s ease;
             border: 1px solid var(--border-color);
         }
-        @keyframes slideUpModal {
+        @keyframes slideUp {
             from {
+                transform: translateY(20px);
                 opacity: 0;
-                transform: translateY(40px) scale(0.94);
             }
             to {
+                transform: translateY(0);
                 opacity: 1;
-                transform: translateY(0) scale(1);
             }
         }
-
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
         .modal-close {
-            position: absolute;
-            top: 14px;
-            right: 18px;
-            font-size: 1.4rem;
-            color: var(--text-secondary);
             background: none;
             border: none;
+            color: var(--text-secondary);
+            font-size: 1.6rem;
             cursor: pointer;
             transition: var(--transition);
-            padding: 4px;
         }
         .modal-close:hover {
             color: var(--text-primary);
             transform: rotate(90deg);
         }
 
-        .modal h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            padding-right: 30px;
-        }
-        .modal .modal-sub {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-        }
-
-        /* DETAIL ROWS — RAPI */
-        .modal .detail-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .modal .detail-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .modal .detail-item:last-of-type {
-            border-bottom: none;
-        }
-        .modal .detail-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.9rem;
-            min-width: 80px;
-        }
-        .modal .detail-value {
-            font-weight: 600;
-            text-align: right;
-            font-size: 0.95rem;
-            max-width: 70%;
-            word-break: break-word;
-        }
-        .modal .detail-value .price-highlight {
-            color: var(--accent-blue);
-            font-size: 1.1rem;
-        }
-        .modal .detail-value.desc-value {
-            text-align: left;
-            font-weight: 400;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            max-width: 70%;
-        }
-
-        .modal .divider {
-            margin: 16px 0;
-            border: none;
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* QR SECTION */
-        .qr-section {
-            text-align: center;
-            padding: 4px 0 8px;
-        }
-        .qr-section .qr-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .qr-section .qr-label i {
-            color: var(--accent-blue);
-            font-size: 1.1rem;
-        }
-        .qr-section .qr-image-wrapper {
-            display: inline-block;
-            background: #fff;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            max-width: 220px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .qr-section .qr-image-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 4px;
-        }
-        .qr-section .qr-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        .qr-section .qr-actions .btn {
-            padding: 8px 18px;
-            font-size: 0.8rem;
-        }
-        .qr-section .qr-note {
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* KONFIRMASI */
-        .confirm-section {
-            text-align: center;
-        }
-        .confirm-section .icon-big {
-            font-size: 2.2rem;
-            color: var(--accent-blue);
-            margin-bottom: 6px;
-        }
-        .confirm-section h3 {
-            font-size: 1.15rem;
-            margin-bottom: 4px;
-        }
-        .confirm-section .sub-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin: 4px 0 12px;
-            line-height: 1.5;
-        }
-        .confirm-section .device-id-box {
-            background: var(--bg-primary);
-            padding: 10px 14px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            margin: 10px 0 14px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            word-break: break-all;
-        }
-        .confirm-section .device-id-box small {
-            font-family: 'Inter', sans-serif;
-            display: block;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-        }
-        .confirm-section .wa-btn {
-            width: 100%;
-            justify-content: center;
-            margin: 6px 0 10px;
-        }
-        .confirm-section .format-text {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin: 6px 0 14px;
-        }
-        .confirm-section .code-input-area {
-            margin-top: 14px;
-            background: var(--bg-primary);
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            text-align: left;
-        }
-        .confirm-section .code-input-area .label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .confirm-section .code-input-area .label i {
-            color: var(--accent-blue);
-        }
-        .confirm-section .code-input-area .input-group {
-            display: flex;
-            gap: 8px;
-            margin-top: 6px;
-        }
-        .confirm-section .code-input-area .input-group input {
-            flex: 1;
-            padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            outline: none;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .confirm-section .code-input-area .input-group input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
-        }
-        .confirm-section .code-input-area .input-group .btn {
-            padding: 8px 16px;
-        }
-        .confirm-section .download-box {
-            display: none;
-            margin-top: 10px;
-            padding: 10px;
-            background: #ecfdf5;
-            border-radius: 8px;
-            border: 1px solid #10b981;
-        }
-        .confirm-section .download-box.active {
-            display: block;
-        }
-        .confirm-section .download-box p {
-            color: #10b981;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .confirm-section .download-box .btn {
-            width: 100%;
-            justify-content: center;
-            margin-top: 6px;
-        }
-
-        .modal .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-        .modal .btn-group .btn {
-            flex: 1;
-            min-width: 80px;
-            font-size: 0.85rem;
-            padding: 10px 16px;
-        }
-
         /* ============================================================
-           TOAST & DEVICE BADGE
+           TOAST
            ============================================================ */
         .toast {
             position: fixed;
-            bottom: 24px;
+            bottom: 30px;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%);
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            padding: 10px 24px;
+            padding: 12px 28px;
             border-radius: 60px;
             box-shadow: var(--shadow-lg);
             z-index: 99999;
             display: none;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             backdrop-filter: blur(16px);
-            opacity: 0;
-            transition: all 0.35s ease;
             font-weight: 500;
-            font-size: 0.9rem;
         }
         .toast.show {
             display: flex;
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            animation: slideUp 0.3s ease;
         }
         .toast i {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         .toast.success i {
-            color: #10b981;
+            color: var(--accent-green);
         }
         .toast.error i {
             color: #ef4444;
@@ -721,28 +472,9 @@
             color: var(--accent-blue);
         }
 
-        .device-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: var(--shadow-sm);
-            font-family: monospace;
-        }
-        .device-badge i {
-            color: var(--accent-blue);
-            font-size: 0.8rem;
-        }
-
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
         .empty-state {
             text-align: center;
             padding: 32px 0;
@@ -750,7 +482,7 @@
             grid-column: 1 / -1;
         }
         .empty-state i {
-            font-size: 1.8rem;
+            font-size: 2rem;
             opacity: 0.3;
             display: block;
             margin-bottom: 8px;
@@ -759,186 +491,225 @@
         /* ============================================================
            RESPONSIVE
            ============================================================ */
-        @media (max-width: 900px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-        }
-        @media (max-width: 640px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-            .modal {
-                padding: 24px 18px 20px;
-            }
-            .products-toolbar {
+        @media (max-width: 768px) {
+            .admin-header {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .products-toolbar .search-box {
-                max-width: 100%;
+            .tab-btn {
+                flex: 1 1 auto;
+                padding: 10px 16px;
+                font-size: 0.8rem;
             }
-            .modal .btn-group .btn {
-                flex: 1 1 100%;
+            .modal {
+                padding: 20px;
             }
-            .page-header h1 {
-                font-size: 1.5rem;
-            }
-            .modal .detail-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .modal .detail-value {
-                text-align: left;
-                max-width: 100%;
-            }
-            .modal .detail-value.desc-value {
-                max-width: 100%;
-            }
-            .qr-section .qr-actions {
-                flex-direction: column;
-                align-items: center;
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============ NAVBAR ============ -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> LogoShop</a>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#berita">Berita</a></li>
-                <li><a href="produk.html" style="color:var(--accent-blue);">Produk</a></li>
-                <li><a href="index.html#tentang">Tentang</a></li>
-            </ul>
-            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <div class="container">
+
+        <!-- ============ HEADER ============ -->
+        <header class="admin-header">
+            <h1><i class="fas fa-crown"></i> Admin Panel</h1>
+            <div class="actions">
+                <a href="index.html" target="_blank"><i class="fas fa-store"></i> Lihat Toko</a>
+                <a href="#" id="refreshBtn"><i class="fas fa-sync"></i> Refresh</a>
+            </div>
+        </header>
+
+        <!-- ============ TABS ============ -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="home">🏠 Home</button>
+            <button class="tab-btn" data-tab="digital">🖼️ Digital</button>
+            <button class="tab-btn" data-tab="jasa">⚙️ Jasa</button>
+            <button class="tab-btn" data-tab="news">📰 Berita</button>
+            <button class="tab-btn" data-tab="orders">📦 Pesanan</button>
+            <button class="tab-btn" data-tab="queue">⏳ Antrian</button>
         </div>
-    </nav>
+
+        <!-- ============ TAB HOME ============ -->
+        <div class="tab-content active" id="tab-home">
+            <div class="card">
+                <h2><i class="fas fa-home"></i> Pengaturan Halaman Utama</h2>
+                <form id="homeForm">
+                    <div class="form-group">
+                        <label>Nama Toko</label>
+                        <input type="text" id="shopName" placeholder="LogoShop" />
+                    </div>
+                    <div class="form-group">
+                        <label>Judul Hero</label>
+                        <input type="text" id="heroTitle" placeholder="Desain Logo Premium untuk Bisnis Anda" />
+                    </div>
+                    <div class="form-group">
+                        <label>Subjudul</label>
+                        <input type="text" id="heroSubtitle" placeholder="Dapatkan logo berkualitas tinggi..." />
+                    </div>
+                    <div class="form-group">
+                        <label>URL Gambar Hero</label>
+                        <input type="url" id="heroImage" placeholder="https://example.com/hero.jpg" />
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ============ TAB DIGITAL ============ -->
+        <div class="tab-content" id="tab-digital">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                    <h2 style="margin:0;"><i class="fas fa-palette"></i> Produk Digital</h2>
+                    <button class="btn btn-primary" id="btnTambahDigital"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Harga</th>
+                                <th>Link Unduh</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="digitalTableBody">
+                            <tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB JASA ============ -->
+        <div class="tab-content" id="tab-jasa">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                    <h2 style="margin:0;"><i class="fas fa-concierge-bell"></i> Layanan Jasa</h2>
+                    <button class="btn btn-primary" id="btnTambahJasa"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Harga</th>
+                                <th>Dukungan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jasaTableBody">
+                            <tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB BERITA ============ -->
+        <div class="tab-content" id="tab-news">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;">
+                    <h2 style="margin:0;"><i class="fas fa-newspaper"></i> Daftar Berita</h2>
+                    <button class="btn btn-primary" id="btnTambahBerita"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="newsTableBody">
+                            <tr><td colspan="3" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB PESANAN ============ -->
+        <div class="tab-content" id="tab-orders">
+            <div class="card">
+                <h2><i class="fas fa-box"></i> Daftar Pesanan</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Harga</th>
+                                <th>Device ID</th>
+                                <th>Kode Konfirmasi</th>
+                                <th>Status</th>
+                                <th>Detail Jasa</th>
+                                <th>Waktu</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr><td colspan="8" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ TAB ANTRIAN ============ -->
+        <div class="tab-content" id="tab-queue">
+            <div class="card">
+                <h2><i class="fas fa-clock"></i> Daftar Antrian</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Antrian</th>
+                                <th>Produk</th>
+                                <th>Device ID</th>
+                                <th>Status</th>
+                                <th>Waktu</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queueTableBody">
+                            <tr><td colspan="6" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:16px;">
+                    <button class="btn btn-success" id="btnResetQueue"><i class="fas fa-redo"></i> Reset Antrian (Hapus Semua)</button>
+                    <span style="font-size:0.8rem;color:var(--text-secondary);margin-left:12px;">Antrian akan turun otomatis saat pesanan selesai.</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ MODAL FORM (untuk tambah/edit produk & berita) ============ -->
+    <div class="modal-overlay" id="formModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="formModalTitle">Tambah Item</h2>
+                <button class="modal-close" id="formModalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="formModalBody">
+                <div id="formFields"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="formSubmitBtn"><i class="fas fa-save"></i> Simpan</button>
+                    <button type="button" class="btn" id="formCancelBtn">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- ============ TOAST ============ -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Berhasil!</span>
-    </div>
-
-    <!-- ============ DEVICE BADGE ============ -->
-    <div class="device-badge">
-        <i class="fas fa-mobile-alt"></i>
-        <span id="deviceIdDisplay">ID: ...</span>
-    </div>
-
-    <!-- ============ HEADER PRODUK ============ -->
-    <header class="page-header">
-        <div class="container">
-            <h1><i class="fas fa-palette"></i> Koleksi Logo</h1>
-            <p class="sub">Temukan desain logo premium untuk bisnis Anda.</p>
-        </div>
-    </header>
-
-    <!-- ============ PRODUK ============ -->
-    <section style="padding: 0 0 60px;">
-        <div class="container">
-            <div class="products-toolbar">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cari produk..." />
-                    <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
-                </div>
-                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
-            </div>
-
-            <div class="products-grid" id="productsGrid">
-                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat produk...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============ MODAL ============ -->
-    <div class="modal-overlay" id="modalProduct">
-        <div class="modal">
-            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
-            <h2 id="modalTitle">Nama Produk</h2>
-            <p class="modal-sub" id="modalSub">Detail produk</p>
-
-            <!-- Detail Grid - RAPI -->
-            <div class="detail-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Harga</span>
-                    <span class="detail-value"><span class="price-highlight" id="modalPrice">Rp 0</span></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Deskripsi</span>
-                    <span class="detail-value desc-value" id="modalDesc">-</span>
-                </div>
-            </div>
-
-            <hr class="divider" />
-
-            <button class="btn btn-primary" id="btnBayar" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
-                <i class="fas fa-credit-card"></i> Bayar Sekarang
-            </button>
-
-            <!-- QR SECTION -->
-            <div id="qrSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="qr-section">
-                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
-                    <div class="qr-image-wrapper" id="qrImageWrapper">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS Pembayaran" />
-                    </div>
-                    <div class="qr-actions">
-                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
-                    </div>
-                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
-                    <button class="btn btn-success" id="btnSudahBayar" style="width:100%;justify-content:center;margin-top:10px;">
-                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
-                    </button>
-                </div>
-            </div>
-
-            <!-- KONFIRMASI -->
-            <div id="confirmSection" style="display:none;margin-top:16px;">
-                <hr class="divider" />
-                <div class="confirm-section">
-                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Konfirmasi Pembayaran</h3>
-                    <p class="sub-text">
-                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
-                    </p>
-                    <div class="device-id-box">
-                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
-                        <span id="confirmDeviceId">-</span>
-                    </div>
-                    <a href="https://wa.me/6289603266259?text=Halo%20admin%2C%20saya%20sudah%20bayar%20dengan%20nominal%20Rp%20XXXX%20dan%20no%20produk%20XXXX.%20Saya%20ingin%20meminta%20kode%20konfirmasi."
-                    target="_blank"
-                    class="btn btn-primary wa-btn">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin
-                </a>
-                <p class="format-text">
-                    Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
-                </p>
-
-                <div class="code-input-area">
-                    <div class="label"><i class="fas fa-info-circle"></i> Masukkan kode yang diberikan admin:</div>
-                    <div class="input-group">
-                        <input type="text" id="accessCodeInput" placeholder="Kode akses" />
-                        <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
-                    </div>
-                    <div class="download-box" id="downloadSection">
-                        <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                        <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
-                            <i class="fas fa-download"></i> Unduh Logo
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:16px;">Tutup</button>
-        </div>
     </div>
 
     <!-- ============ JAVASCRIPT ============ -->
@@ -947,7 +718,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue, push, set, update, serverTimestamp } from "firebase-database";
+        import { getDatabase, ref, set, push, onValue, remove, update, serverTimestamp, get } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -959,22 +730,7 @@
         const db = getDatabase(app);
 
         // ============================================================
-        // 2. DEVICE ID
-        // ============================================================
-        function getDeviceId() {
-            let id = localStorage.getItem('logoShop_deviceId');
-            if (!id) {
-                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
-                localStorage.setItem('logoShop_deviceId', id);
-            }
-            return id;
-        }
-        const DEVICE_ID = getDeviceId();
-        document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
-        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
-
-        // ============================================================
-        // 3. TOAST
+        // 2. TOAST
         // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
@@ -985,258 +741,625 @@
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
-            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 3500);
         }
 
         // ============================================================
-        // 4. NAVBAR
+        // 3. TABS
         // ============================================================
-        document.getElementById('hamburger').addEventListener('click', () => {
-            document.getElementById('navLinks').classList.toggle('open');
-        });
-        document.querySelectorAll('.nav-links a').forEach(a => {
-            a.addEventListener('click', () => {
-                document.getElementById('navLinks').classList.remove('open');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = {
+            home: document.getElementById('tab-home'),
+            digital: document.getElementById('tab-digital'),
+            jasa: document.getElementById('tab-jasa'),
+            news: document.getElementById('tab-news'),
+            orders: document.getElementById('tab-orders'),
+            queue: document.getElementById('tab-queue')
+        };
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const tab = btn.dataset.tab;
+                Object.keys(tabContents).forEach(key => {
+                    tabContents[key].classList.toggle('active', key === tab);
+                });
+                // Muat data sesuai tab
+                if (tab === 'digital') loadDigital();
+                if (tab === 'jasa') loadJasa();
+                if (tab === 'news') loadNews();
+                if (tab === 'orders') loadOrders();
+                if (tab === 'queue') loadQueue();
             });
         });
 
         // ============================================================
-        // 5. PRODUK
+        // 4. MODAL FORM
         // ============================================================
-        const productsRef = ref(db, 'logo-shop/products');
-        let allProducts = [];
-        let filteredProducts = [];
+        const modal = document.getElementById('formModal');
+        const modalClose = document.getElementById('formModalClose');
+        const modalCancel = document.getElementById('formCancelBtn');
+        const modalForm = document.getElementById('formModalBody');
+        const formFields = document.getElementById('formFields');
+        const formSubmitBtn = document.getElementById('formSubmitBtn');
+        const formModalTitle = document.getElementById('formModalTitle');
 
-        function shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
+        let currentEditKey = null;
+        let currentType = null; // 'digital', 'jasa', atau 'news'
 
-        function renderProducts(productsArray) {
-            const grid = document.getElementById('productsGrid');
-            if (!productsArray || productsArray.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i> Tidak ada produk.</div>`;
-                return;
-            }
-            let html = '';
-            productsArray.forEach((item) => {
-                const priceFormatted = new Intl.NumberFormat('id-ID').format(item.price || 0);
-                html += `
-                        <div class="product-card" data-id="${item.key}">
-                            <div class="img-wrap">
-                                <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Produk'}" loading="lazy" />
+        function openModal(type, editKey = null, data = null) {
+            currentType = type;
+            currentEditKey = editKey;
+            modal.classList.add('active');
+
+            if (type === 'digital') {
+                formModalTitle.textContent = editKey ? 'Edit Produk Digital' : 'Tambah Produk Digital';
+                formFields.innerHTML = `
+                        <div class="form-group">
+                            <label>Nama *</label>
+                            <input type="text" id="prodName" value="${data?.name || ''}" required />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Harga (Rp) *</label>
+                                <input type="number" id="prodPrice" value="${data?.price || ''}" required />
                             </div>
-                            <div class="product-info">
-                                <h3>${item.name || 'Nama Produk'}</h3>
-                                <div class="price">Rp ${priceFormatted} <small>/ logo</small></div>
-                                <p class="desc">${item.description || 'Deskripsi produk.'}</p>
-                                <div class="actions">
-                                    <button class="btn btn-primary btn-detail" data-id="${item.key}"><i class="fas fa-eye"></i> Detail</button>
-                                </div>
+                            <div class="form-group">
+                                <label>URL Gambar</label>
+                                <input type="url" id="prodImage" value="${data?.image || ''}" placeholder="https://..." />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea id="prodDesc" rows="3">${data?.description || ''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Link Unduhan *</label>
+                            <input type="url" id="prodDownload" value="${data?.downloadLink || ''}" placeholder="https://..." required />
+                        </div>
+                        <input type="hidden" id="prodIsJasa" value="false" />
                     `;
-            });
-            grid.innerHTML = html;
-
-            document.querySelectorAll('.btn-detail').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.dataset.id;
-                    const product = allProducts.find(p => p.key === id);
-                    if (product) openProductDetail(product);
-                });
-            });
-        }
-
-        function filterProducts(query) {
-            if (!query.trim()) {
-                filteredProducts = [...allProducts];
-            } else {
-                const q = query.trim().toLowerCase();
-                filteredProducts = allProducts.filter(p =>
-                    p.name?.toLowerCase().includes(q) ||
-                    p.description?.toLowerCase().includes(q)
-                );
+            } else if (type === 'jasa') {
+                formModalTitle.textContent = editKey ? 'Edit Layanan Jasa' : 'Tambah Layanan Jasa';
+                const support = data?.support || {};
+                formFields.innerHTML = `
+                        <div class="form-group">
+                            <label>Nama *</label>
+                            <input type="text" id="jasaName" value="${data?.name || ''}" required />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Harga (Rp) *</label>
+                                <input type="number" id="jasaPrice" value="${data?.price || ''}" required />
+                            </div>
+                            <div class="form-group">
+                                <label>URL Gambar</label>
+                                <input type="url" id="jasaImage" value="${data?.image || ''}" placeholder="https://..." />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea id="jasaDesc" rows="3">${data?.description || ''}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Dukungan (centang yang didukung)</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" id="supNama" ${support.nama ? 'checked' : ''}> Nama</label>
+                                <label><input type="checkbox" id="supWa" ${support.wa ? 'checked' : ''}> No WhatsApp</label>
+                                <label><input type="checkbox" id="supSosmed" ${support.sosmed ? 'checked' : ''}> Sosial Media</label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="jasaIsJasa" value="true" />
+                        <input type="hidden" id="jasaDownload" value="" />
+                    `;
+            } else if (type === 'news') {
+                formModalTitle.textContent = editKey ? 'Edit Berita' : 'Tambah Berita';
+                formFields.innerHTML = `
+                        <div class="form-group">
+                            <label>Judul Berita *</label>
+                            <input type="text" id="newsTitle" value="${data?.title || ''}" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal (opsional)</label>
+                            <input type="text" id="newsDate" value="${data?.date || ''}" placeholder="Misal: 24 Juni 2026" />
+                        </div>
+                        <div class="form-group">
+                            <label>URL Gambar</label>
+                            <input type="url" id="newsImage" value="${data?.image || ''}" placeholder="https://..." />
+                        </div>
+                        <div class="form-group">
+                            <label>Konten</label>
+                            <textarea id="newsContent" rows="4">${data?.content || ''}</textarea>
+                        </div>
+                    `;
             }
-            renderProducts(filteredProducts);
-        }
-
-        onValue(productsRef, (snap) => {
-            const data = snap.val();
-            if (!data) {
-                allProducts = [];
-                filteredProducts = [];
-                document.getElementById('productsGrid').innerHTML =
-                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada produk.</div>`;
-                return;
-            }
-            allProducts = Object.entries(data).map(([key, value]) => ({ key, ...value }));
-            allProducts = shuffleArray([...allProducts]);
-            filteredProducts = [...allProducts];
-            renderProducts(filteredProducts);
-        });
-
-        // ============================================================
-        // 6. SEARCH
-        // ============================================================
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-
-        function doSearch() {
-            filterProducts(searchInput.value);
-        }
-
-        searchBtn.addEventListener('click', doSearch);
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') doSearch();
-        });
-
-        // ============================================================
-        // 7. MODAL
-        // ============================================================
-        const modal = document.getElementById('modalProduct');
-        const modalClose = document.getElementById('modalClose');
-        const btnTutupModal = document.getElementById('btnTutupModal');
-        let currentProduct = null;
-
-        function openProductDetail(product) {
-            currentProduct = product;
-            document.getElementById('modalTitle').textContent = product.name || 'Produk';
-            document.getElementById('modalSub').textContent = 'Detail produk';
-            document.getElementById('modalPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product
-            .price || 0);
-            document.getElementById('modalDesc').textContent = product.description || '—';
-
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').classList.remove('active');
-            document.getElementById('btnBayar').style.display = 'block';
-            document.getElementById('accessCodeInput').value = '';
-            document.getElementById('modalDownloadLink').href = '#';
-
-            modal.classList.add('active');
         }
 
         function closeModal() {
             modal.classList.remove('active');
-            currentProduct = null;
+            currentEditKey = null;
+            currentType = null;
         }
 
         modalClose.addEventListener('click', closeModal);
-        btnTutupModal.addEventListener('click', closeModal);
+        modalCancel.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
         // ============================================================
-        // 8. BAYAR → QR
+        // 5. SUBMIT FORM
         // ============================================================
-        document.getElementById('btnBayar').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Data produk tidak tersedia.', 'error'); return; }
-            this.style.display = 'none';
-            document.getElementById('qrSection').style.display = 'block';
-            document.getElementById('confirmSection').style.display = 'none';
-            document.getElementById('downloadSection').classList.remove('active');
-            showToast('Scan QR Code untuk pembayaran.', 'info');
-        });
-
-        // ============================================================
-        // 9. UNDUH QR
-        // ============================================================
-        document.getElementById('downloadQrBtn').addEventListener('click', function() {
-            const img = document.getElementById('qrImage');
-            const link = document.createElement('a');
-            link.download = 'QRIS_LogoShop.png';
-            link.href = img.src;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('QR Code berhasil diunduh!', 'success');
-        });
-
-        // ============================================================
-        // 10. SUDAH BAYAR
-        // ============================================================
-        document.getElementById('btnSudahBayar').addEventListener('click', function() {
-            if (!currentProduct) { showToast('Produk tidak valid.', 'error'); return; }
-
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let confirmCode = '';
-            for (let i = 0; i < 6; i++) {
-                confirmCode += chars[Math.floor(Math.random() * chars.length)];
+        modalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentType) return;
+            try {
+                if (currentType === 'digital') {
+                    const name = document.getElementById('prodName').value.trim();
+                    const price = parseInt(document.getElementById('prodPrice').value) || 0;
+                    const image = document.getElementById('prodImage').value.trim();
+                    const description = document.getElementById('prodDesc').value.trim();
+                    const downloadLink = document.getElementById('prodDownload').value.trim();
+                    if (!name || !downloadLink) { showToast('Nama dan link unduhan wajib diisi.', 'error'); return; }
+                    const data = { name, price, image, description, downloadLink, isJasa: false };
+                    const productRef = currentEditKey ? ref(db, `logo-shop/products/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/products'));
+                    await set(productRef, data);
+                    showToast(currentEditKey ? 'Produk digital diperbarui!' : 'Produk digital ditambahkan!', 'success');
+                    closeModal();
+                    loadDigital();
+                } else if (currentType === 'jasa') {
+                    const name = document.getElementById('jasaName').value.trim();
+                    const price = parseInt(document.getElementById('jasaPrice').value) || 0;
+                    const image = document.getElementById('jasaImage').value.trim();
+                    const description = document.getElementById('jasaDesc').value.trim();
+                    const support = {
+                        nama: document.getElementById('supNama').checked,
+                        wa: document.getElementById('supWa').checked,
+                        sosmed: document.getElementById('supSosmed').checked
+                    };
+                    if (!name) { showToast('Nama layanan wajib diisi.', 'error'); return; }
+                    const data = { name, price, image, description, support, isJasa: true, downloadLink: '' };
+                    const productRef = currentEditKey ? ref(db, `logo-shop/products/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/products'));
+                    await set(productRef, data);
+                    showToast(currentEditKey ? 'Layanan jasa diperbarui!' : 'Layanan jasa ditambahkan!', 'success');
+                    closeModal();
+                    loadJasa();
+                } else if (currentType === 'news') {
+                    const title = document.getElementById('newsTitle').value.trim();
+                    const date = document.getElementById('newsDate').value.trim();
+                    const image = document.getElementById('newsImage').value.trim();
+                    const content = document.getElementById('newsContent').value.trim();
+                    if (!title) { showToast('Judul berita wajib diisi.', 'error'); return; }
+                    const data = { title, date, image, content };
+                    const newsRef = currentEditKey ? ref(db, `logo-shop/news/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/news'));
+                    await set(newsRef, data);
+                    showToast(currentEditKey ? 'Berita diperbarui!' : 'Berita ditambahkan!', 'success');
+                    closeModal();
+                    loadNews();
+                }
+            } catch (err) {
+                showToast('Gagal: ' + err.message, 'error');
             }
+        });
 
-            const ordersRef = ref(db, 'logo-shop/orders');
-            const newOrderRef = push(ordersRef);
-            set(newOrderRef, {
-                productId: currentProduct.key,
-                productName: currentProduct.name || 'Logo',
-                price: currentProduct.price || 0,
-                deviceId: DEVICE_ID,
-                status: 'pending',
-                confirmationCode: confirmCode,
-                orderDate: serverTimestamp(),
-            }).then(() => {
-                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
-            }).catch(err => {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
+        // ============================================================
+        // 6. HOME
+        // ============================================================
+        const homeForm = document.getElementById('homeForm');
+        homeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const shopName = document.getElementById('shopName').value.trim();
+            const heroTitle = document.getElementById('heroTitle').value.trim();
+            const heroSubtitle = document.getElementById('heroSubtitle').value.trim();
+            const heroImage = document.getElementById('heroImage').value.trim();
+            try {
+                await set(ref(db, 'logo-shop/home'), { shopName, title: heroTitle, subtitle: heroSubtitle, heroImage });
+                showToast('Pengaturan disimpan!', 'success');
+            } catch (err) { showToast('Gagal: ' + err.message, 'error'); }
+        });
+
+        function loadHome() {
+            onValue(ref(db, 'logo-shop/home'), (snap) => {
+                const data = snap.val() || {};
+                document.getElementById('shopName').value = data.shopName || '';
+                document.getElementById('heroTitle').value = data.title || '';
+                document.getElementById('heroSubtitle').value = data.subtitle || '';
+                document.getElementById('heroImage').value = data.heroImage || '';
             });
-
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'block';
-            document.getElementById('downloadSection').classList.remove('active');
-            document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
-
-            const price = currentProduct.price || 0;
-            const name = currentProduct.name || 'Logo';
-            const msg =
-                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${currentProduct.key} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
-            const waLink = document.querySelector('#confirmSection .wa-btn');
-            waLink.href = `https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`;
-        });
+        }
+        loadHome();
 
         // ============================================================
-        // 11. VERIFIKASI KODE
+        // 7. PRODUK DIGITAL
         // ============================================================
-        document.getElementById('btnVerifyCode').addEventListener('click', function() {
-            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
-            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            onValue(ordersRef, (snap) => {
+        function loadDigital() {
+            const tbody = document.getElementById('digitalTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/products'), (snap) => {
                 const data = snap.val();
-                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
-                let found = false;
-                for (const [key, order] of Object.entries(data)) {
-                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
-                        found = true;
-                        update(ref(db, `logo-shop/orders/${key}`), { status: 'completed' });
-                        break;
+                if (!data) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada produk digital.</td></tr>`;
+                    return;
+                }
+                // Filter digital: isJasa !== true dan ada downloadLink
+                const digitalItems = Object.entries(data)
+                    .filter(([key, item]) => item.isJasa !== true && item.downloadLink)
+                    .map(([key, item]) => ({ key, ...item }));
+
+                if (digitalItems.length === 0) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada produk digital.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                digitalItems.forEach((item) => {
+                    html += `
+                            <tr>
+                                <td><strong>${item.name || 'Tanpa nama'}</strong></td>
+                                <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                                <td><a href="${item.downloadLink || '#'}" target="_blank" style="color:var(--accent-blue);">Link</a></td>
+                                <td>
+                                    <button class="btn-icon edit" data-key="${item.key}" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete" data-key="${item.key}" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const key = btn.dataset.key;
+                        const item = digitalItems.find(d => d.key === key);
+                        openModal('digital', key, item);
+                    });
+                });
+                tbody.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const key = btn.dataset.key;
+                        if (confirm(`Hapus produk digital "${data[key]?.name}"?`)) {
+                            await remove(ref(db, `logo-shop/products/${key}`));
+                            showToast('Produk dihapus.', 'success');
+                            loadDigital();
+                        }
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // 8. PRODUK JASA
+        // ============================================================
+        function loadJasa() {
+            const tbody = document.getElementById('jasaTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/products'), (snap) => {
+                const data = snap.val();
+                if (!data) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada layanan jasa.</td></tr>`;
+                    return;
+                }
+                // Filter jasa: isJasa === true atau tidak punya downloadLink
+                const jasaItems = Object.entries(data)
+                    .filter(([key, item]) => item.isJasa === true || !item.downloadLink)
+                    .map(([key, item]) => ({ key, ...item }));
+
+                if (jasaItems.length === 0) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada layanan jasa.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                jasaItems.forEach((item) => {
+                    const support = item.support || {};
+                    const supportText = Object.keys(support).filter(k => support[k]).join(', ') || 'Tidak ada';
+                    html += `
+                            <tr>
+                                <td><strong>${item.name || 'Tanpa nama'}</strong></td>
+                                <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                                <td>${supportText}</td>
+                                <td>
+                                    <button class="btn-icon edit" data-key="${item.key}" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete" data-key="${item.key}" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const key = btn.dataset.key;
+                        const item = jasaItems.find(d => d.key === key);
+                        openModal('jasa', key, item);
+                    });
+                });
+                tbody.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const key = btn.dataset.key;
+                        if (confirm(`Hapus layanan jasa "${data[key]?.name}"?`)) {
+                            await remove(ref(db, `logo-shop/products/${key}`));
+                            showToast('Layanan dihapus.', 'success');
+                            loadJasa();
+                        }
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // 9. BERITA
+        // ============================================================
+        function loadNews() {
+            const tbody = document.getElementById('newsTableBody');
+            tbody.innerHTML = `<tr><td colspan="3" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/news'), (snap) => {
+                const data = snap.val();
+                if (!data) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="3" class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                Object.entries(data).forEach(([key, item]) => {
+                    html += `
+                            <tr>
+                                <td><strong>${item.title || 'Tanpa judul'}</strong></td>
+                                <td>${item.date || '—'}</td>
+                                <td>
+                                    <button class="btn-icon edit" data-key="${key}" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn-icon delete" data-key="${key}" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const key = btn.dataset.key;
+                        const item = data[key];
+                        openModal('news', key, item);
+                    });
+                });
+                tbody.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const key = btn.dataset.key;
+                        if (confirm(`Hapus berita "${data[key]?.title}"?`)) {
+                            await remove(ref(db, `logo-shop/news/${key}`));
+                            showToast('Berita dihapus.', 'success');
+                            loadNews();
+                        }
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // 10. PESANAN
+        // ============================================================
+        function loadOrders() {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/orders'), (snap) => {
+                const data = snap.val();
+                if (!data) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="8" class="empty-state"><i class="fas fa-box-open"></i> Belum ada pesanan.</td></tr>`;
+                    return;
+                }
+                let html = '';
+                Object.entries(data).forEach(([key, item]) => {
+                    const status = item.status || 'pending';
+                    let statusBadge = 'warning';
+                    if (status === 'completed') statusBadge = 'success';
+                    else if (status === 'in_queue') statusBadge = 'info';
+                    else if (status === 'confirmed') statusBadge = 'success';
+                    const time = item.orderDate ? new Date(item.orderDate).toLocaleString('id-ID') : '—';
+                    const confirmCode = item.confirmationCode || '-';
+                    let detailJasa = '-';
+                    if (item.isJasa || (item.support && Object.values(item.support).some(v => v))) {
+                        const parts = [];
+                        if (item.projectName) parts.push(`Proyek: ${item.projectName}`);
+                        if (item.waNumber) parts.push(`WA: ${item.waNumber}`);
+                        if (item.sosmed) parts.push(`Sosmed: ${item.sosmed}`);
+                        if (item.receiverNumber) parts.push(`Penerima: ${item.receiverNumber}`);
+                        if (item.queueNumber) parts.push(`Antrian #${item.queueNumber}`);
+                        detailJasa = parts.join('<br>') || 'Jasa';
                     }
+                    html += `
+                            <tr>
+                                <td>${item.productName || '—'}</td>
+                                <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                                <td><code style="font-size:0.7rem;background:var(--bg-primary);padding:2px 6px;border-radius:4px;">${item.deviceId || '—'}</code></td>
+                                <td><strong style="color:var(--accent-blue);font-family:monospace;">${confirmCode}</strong></td>
+                                <td><span class="badge badge-${statusBadge}">${status}</span></td>
+                                <td style="font-size:0.8rem;max-width:180px;">${detailJasa}</td>
+                                <td>${time}</td>
+                                <td>
+                                    <button class="btn-icon edit" data-orderkey="${key}" data-status="${status}" title="Ubah Status"><i class="fas fa-sync-alt"></i></button>
+                                    <button class="btn-icon delete" data-orderkey="${key}" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+
+                tbody.querySelectorAll('.edit[data-orderkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const key = btn.dataset.orderkey;
+                        const currentStatus = btn.dataset.status;
+                        let newStatus = 'pending';
+                        if (currentStatus === 'pending') newStatus = 'confirmed';
+                        else if (currentStatus === 'confirmed') newStatus = 'in_queue';
+                        else if (currentStatus === 'in_queue') newStatus = 'completed';
+                        else newStatus = 'pending';
+                        if (confirm(`Ubah status dari "${currentStatus}" menjadi "${newStatus}"?`)) {
+                            try {
+                                await update(ref(db, `logo-shop/orders/${key}`), { status: newStatus });
+                                if (newStatus === 'completed') {
+                                    const queueSnap = await get(ref(db, 'logo-shop/queue'));
+                                    const queueData = queueSnap.val();
+                                    if (queueData) {
+                                        for (const [qKey, qVal] of Object.entries(queueData)) {
+                                            if (qVal.orderKey === key) {
+                                                await remove(ref(db, `logo-shop/queue/${qKey}`));
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    await renumberQueue();
+                                }
+                                showToast('Status diperbarui.', 'success');
+                                loadOrders();
+                                loadQueue();
+                            } catch (err) {
+                                showToast('Gagal update: ' + err.message, 'error');
+                            }
+                        }
+                    });
+                });
+
+                tbody.querySelectorAll('.delete[data-orderkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const key = btn.dataset.orderkey;
+                        if (confirm('Hapus pesanan ini?')) {
+                            await remove(ref(db, `logo-shop/orders/${key}`));
+                            showToast('Pesanan dihapus.', 'success');
+                            loadOrders();
+                            loadQueue();
+                        }
+                    });
+                });
+            });
+        }
+
+        // ============================================================
+        // 11. ANTRIAN
+        // ============================================================
+        function loadQueue() {
+            const tbody = document.getElementById('queueTableBody');
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/queue'), (snap) => {
+                const data = snap.val();
+                if (!data) {
+                    tbody.innerHTML =
+                        `<tr><td colspan="6" class="empty-state"><i class="fas fa-clock"></i> Tidak ada antrian.</td></tr>`;
+                    return;
                 }
-                if (found) {
-                    document.getElementById('downloadSection').classList.add('active');
-                    document.getElementById('modalDownloadLink').href = currentProduct?.downloadLink || '#';
-                    showToast('Kode valid! Silakan unduh logo.', 'success');
-                } else {
-                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
+                const sorted = Object.entries(data).sort((a, b) => (a[1].number || 0) - (b[1].number || 0));
+                let html = '';
+                sorted.forEach(([key, item]) => {
+                    const time = item.createdAt ? new Date(item.createdAt).toLocaleString('id-ID') : '—';
+                    const status = item.status || 'waiting';
+                    const statusBadge = status === 'done' ? 'success' : 'warning';
+                    html += `
+                            <tr>
+                                <td><strong>#${item.number || '?'}</strong></td>
+                                <td>${item.productName || '—'}</td>
+                                <td><code style="font-size:0.7rem;">${item.deviceId || '—'}</code></td>
+                                <td><span class="badge badge-${statusBadge}">${status}</span></td>
+                                <td>${time}</td>
+                                <td>
+                                    <button class="btn-icon check" data-qkey="${key}" title="Tandai Selesai"><i class="fas fa-check-circle"></i></button>
+                                    <button class="btn-icon delete" data-qkey="${key}" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `;
+                });
+                tbody.innerHTML = html;
+
+                tbody.querySelectorAll('.check[data-qkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const qKey = btn.dataset.qkey;
+                        if (confirm('Tandai antrian ini selesai?')) {
+                            try {
+                                await remove(ref(db, `logo-shop/queue/${qKey}`));
+                                showToast('Antrian selesai.', 'success');
+                                loadQueue();
+                                loadOrders();
+                                await renumberQueue();
+                            } catch (err) {
+                                showToast('Gagal: ' + err.message, 'error');
+                            }
+                        }
+                    });
+                });
+
+                tbody.querySelectorAll('.delete[data-qkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const qKey = btn.dataset.qkey;
+                        if (confirm('Hapus antrian ini?')) {
+                            await remove(ref(db, `logo-shop/queue/${qKey}`));
+                            showToast('Antrian dihapus.', 'success');
+                            loadQueue();
+                            await renumberQueue();
+                        }
+                    });
+                });
+            });
+        }
+
+        async function renumberQueue() {
+            const queueRef = ref(db, 'logo-shop/queue');
+            const snap = await get(queueRef);
+            const data = snap.val();
+            if (!data) return;
+            const sorted = Object.entries(data).sort((a, b) => (a[1].number || 0) - (b[1].number || 0));
+            let i = 1;
+            for (const [key, val] of sorted) {
+                if (val.number !== i) {
+                    await update(ref(db, `logo-shop/queue/${key}`), { number: i });
                 }
-            }, { onlyOnce: true });
+                i++;
+            }
+            loadQueue();
+        }
+
+        // ============================================================
+        // 12. RESET ANTRIAN
+        // ============================================================
+        document.getElementById('btnResetQueue').addEventListener('click', async () => {
+            if (confirm('Yakin ingin menghapus semua antrian? Ini tidak akan menghapus pesanan.')) {
+                await remove(ref(db, 'logo-shop/queue'));
+                showToast('Semua antrian dihapus.', 'success');
+                loadQueue();
+            }
         });
 
         // ============================================================
-        // 12. ESC
+        // 13. TOMBOL TAMBAH
         // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+        document.getElementById('btnTambahDigital').addEventListener('click', () => openModal('digital'));
+        document.getElementById('btnTambahJasa').addEventListener('click', () => openModal('jasa'));
+        document.getElementById('btnTambahBerita').addEventListener('click', () => openModal('news'));
+
+        // ============================================================
+        // 14. REFRESH
+        // ============================================================
+        document.getElementById('refreshBtn').addEventListener('click', () => {
+            loadDigital();
+            loadJasa();
+            loadNews();
+            loadOrders();
+            loadQueue();
+            loadHome();
+            showToast('Data direfresh.', 'info');
         });
 
-        showToast('Selamat datang di Koleksi Logo!', 'info');
-        console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
+        // ============================================================
+        // 15. INIT
+        // ============================================================
+        loadDigital();
+        loadJasa();
+        loadNews();
+        loadOrders();
+        loadQueue();
+
+        console.log('✅ Admin Panel siap!');
     </script>
 
 </body>
