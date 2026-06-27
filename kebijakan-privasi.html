@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kebijakan Privasi - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ============================================================
+           ROOT VARIABLES (Light & Dark)
+           ============================================================ */
+        :root {
+            --bg-body: #f8faff;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.75);
+            --border: #e2e8f0;
+            --text-primary: #0a1a3a;
+            --text-secondary: #4a5a7a;
+            --text-muted: #8896b0;
+            --accent: #3b82f6;
+            --accent-gold: #f5b342;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+            --transition: 0.25s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0b0f1a;
+                --bg-card: #131a2b;
+                --bg-nav: rgba(11, 15, 26, 0.85);
+                --border: #2a3348;
+                --text-primary: #f0f4ff;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* ============================================================
+           RESET & GLOBAL
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ============================================================
+           CARD
+           ============================================================ */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            box-shadow: var(--shadow);
+        }
+
+        .card .icon-big {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+
+        .card h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card .sub {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h2 i {
+            color: var(--accent);
+            width: 24px;
+            text-align: center;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .card ul li {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            padding: 4px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .card ul li i {
+            color: var(--accent);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            min-width: 18px;
+        }
+
+        /* ============================================================
+           CONTACT BOX
+           ============================================================ */
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 24px;
+            box-shadow: var(--shadow);
+        }
+        .contact-box .info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 32px;
+        }
+        .contact-box .info a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .contact-box .info a:hover {
+            color: var(--accent);
+        }
+        .contact-box .info a i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .btn-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: #25d366;
+            color: #fff;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-wa:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            margin-top: 36px;
+            padding: 20px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer a:hover {
+            color: var(--accent);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 640px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 16px;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+            .card {
+                padding: 24px 20px;
+            }
+            .card h1 {
+                font-size: 1.6rem;
+            }
+            .contact-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .contact-box .info {
+                justify-content: center;
+            }
+            .btn-wa {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ============ NAVBAR ============ -->
+        <nav class="navbar">
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk-digital.html">Produk</a></li>
+                <li><a href="produk-jasa.html">Jasa</a></li>
+                <li><a href="tentang.html">Tentang</a></li>
+            </ul>
+        </nav>
+
+        <!-- ============ CONTENT ============ -->
+        <div class="card">
+            <div class="icon-big"><i class="fas fa-lock"></i></div>
+            <h1>Kebijakan Privasi</h1>
+            <p class="sub">Kami menjaga keamanan dan kerahasiaan data Anda.</p>
+
+            <h2><i class="fas fa-database"></i> Data yang Kami Kumpulkan</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Informasi kontak seperti nama, nomor WhatsApp, dan email yang Anda berikan saat bertransaksi.</li>
+                <li><i class="fas fa-check-circle"></i> Data perangkat (Device ID) untuk keperluan verifikasi dan keamanan transaksi.</li>
+                <li><i class="fas fa-check-circle"></i> Riwayat transaksi pembelian produk digital dan layanan jasa.</li>
+            </ul>
+
+            <h2><i class="fas fa-shield-alt"></i> Penggunaan Data</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Data digunakan untuk memproses pesanan, verifikasi pembayaran, dan pengiriman produk.</li>
+                <li><i class="fas fa-check-circle"></i> Nomor WhatsApp digunakan untuk komunikasi terkait pesanan dan konfirmasi.</li>
+                <li><i class="fas fa-check-circle"></i> Kami tidak akan membagikan data Anda kepada pihak ketiga tanpa izin.</li>
+            </ul>
+
+            <h2><i class="fas fa-cookie"></i> Keamanan Data</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> Kami menggunakan enkripsi dan sistem keamanan standar industri.</li>
+                <li><i class="fas fa-check-circle"></i> Device ID digunakan sebagai kunci verifikasi unik untuk setiap pengguna.</li>
+                <li><i class="fas fa-check-circle"></i> Data disimpan dengan aman dan hanya diakses oleh tim yang berwenang.</li>
+            </ul>
+
+            <h2><i class="fas fa-clock"></i> Perubahan Kebijakan</h2>
+            <ul>
+                <li><i class="fas fa-check-circle"></i> NEV Market berhak mengubah kebijakan privasi sewaktu-waktu.</li>
+                <li><i class="fas fa-check-circle"></i> Perubahan akan berlaku segera setelah dipublikasikan di halaman ini.</li>
+            </ul>
+        </div>
+
+        <!-- ============ CONTACT BOX ============ -->
+        <div class="contact-box">
+            <div class="info">
+                <a href="mailto:hpr10712@gmail.com"><i class="fas fa-envelope"></i> hpr10712@gmail.com</a>
+            </div>
+            <a href="https://wa.me/6289603266259?text=Halo%20NEV%20Market%2C%20saya%20ingin%20bertanya%20tentang%20privasi..." target="_blank" class="btn-wa">
+                <i class="fab fa-whatsapp"></i> Tanya via WhatsApp
+            </a>
+        </div>
+
+        <!-- ============ FOOTER ============ -->
+        <footer class="footer">
+            <p>&copy; 2026 <strong>NEV Market</strong> — Platform Produk Digital &amp; Jasa Kreatif</p>
+            <p style="margin-top:4px;font-size:0.75rem;">
+                <a href="tentang.html">Tentang</a> ·
+                <a href="kebijakan-privasi.html">Kebijakan Privasi</a> ·
+                <a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        console.log('✅ Halaman Kebijakan Privasi siap!');
+    </script>
+
+</body>
+</html>
