@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pembayaran - LogoShop</title>
+    <title>Admin Panel - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script type="importmap">
@@ -21,7 +21,47 @@
 
     <style>
         /* ============================================================
-           RESET & GLOBAL — Premium Dark
+           ROOT — Light / Dark Mode
+           ============================================================ */
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-input: #f8fafc;
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-gold: #f5b342;
+            --accent-red: #ef4444;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.25s ease;
+            --sidebar-width: 260px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0b0f1a;
+                --bg-card: #131a2b;
+                --bg-sidebar: #0f1422;
+                --bg-input: rgba(255, 255, 255, 0.04);
+                --border: #2a3348;
+                --text-primary: #f0f4ff;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* ============================================================
+           RESET & GLOBAL
            ============================================================ */
         * {
             margin: 0;
@@ -29,496 +69,577 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-primary: #0b0f1a;
-            --bg-secondary: #131a2b;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f0f4ff;
-            --text-secondary: #94a3b8;
-            --accent-gold: #f5b342;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
-            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-body);
             color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background-image: radial-gradient(ellipse at 10% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 90% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
-            position: relative;
-        }
-
-        /* Overlay halus untuk efek glow */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
+            transition: background 0.3s, color 0.3s;
         }
 
         /* ============================================================
-           BUTTONS
+           SIDEBAR
            ============================================================ */
-        .btn {
-            display: inline-flex;
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease, background 0.3s;
+        }
+
+        .sidebar .brand {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.95rem;
+            padding: 6px 12px 18px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .sidebar .brand i {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        .sidebar .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: var(--transition);
-            font-family: inherit;
-            width: 100%;
             text-decoration: none;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 36px rgba(59, 130, 246, 0.35);
-        }
-        .btn-success {
-            background: var(--accent-green);
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
-        }
-        .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 36px rgba(16, 185, 129, 0.35);
-        }
-        .btn-outline {
+            border: none;
             background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            width: 100%;
+            font-family: inherit;
         }
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: #fff;
-            background: rgba(59, 130, 246, 0.08);
-        }
-        .btn-download {
-            background: rgba(255, 255, 255, 0.06);
+        .sidebar .nav-item:hover {
+            background: rgba(59, 130, 246, 0.06);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
         }
-        .btn-download:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .btn-whatsapp {
-            background: #25d366;
+        .sidebar .nav-item.active {
+            background: var(--accent-blue);
             color: #fff;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
         }
-        .btn-whatsapp:hover {
-            background: #1da851;
-            transform: translateY(-3px);
+        .sidebar .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1rem;
         }
-        .btn-close {
-            background: transparent;
+        .sidebar .nav-item .badge-side {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 0 10px;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+        .sidebar .nav-item.active .badge-side {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar .bottom-links {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        /* ============================================================
+           MAIN CONTENT
+           ============================================================ */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 24px 32px 40px;
+            min-height: 100vh;
+            transition: margin 0.3s;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .main-header .left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .main-header .left .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 4px;
+        }
+        .main-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .main-header h1 i {
+            color: var(--accent-gold);
+        }
+        .main-header .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .main-header .actions a,
+        .main-header .actions button {
+            padding: 8px 18px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
             color: var(--text-secondary);
-            border: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
         }
-        .btn-close:hover {
-            background: rgba(255, 255, 255, 0.05);
+        .main-header .actions a:hover,
+        .main-header .actions button:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+            background: rgba(59, 130, 246, 0.04);
+        }
+        .main-header .actions .btn-refresh {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+        .main-header .actions .btn-refresh:hover {
+            background: var(--accent-blue);
+            opacity: 0.85;
             color: #fff;
         }
 
         /* ============================================================
-           CARD UTAMA
+           STATS
            ============================================================ */
-        .payment-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 40px 32px 32px;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
-            backdrop-filter: blur(12px);
-            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-card .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .stat-card .number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+        .stat-card .number.blue {
+            color: var(--accent-blue);
+        }
+        .stat-card .number.green {
+            color: var(--accent-green);
+        }
+        .stat-card .number.gold {
+            color: var(--accent-gold);
+        }
+        .stat-card .number.purple {
+            color: var(--accent-purple);
         }
 
+        /* ============================================================
+           CONTENT CARD
+           ============================================================ */
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .card-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-header h2 i {
+            color: var(--accent-blue);
+        }
+        .card-header .btn-add {
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: none;
+            background: var(--accent-blue);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .card-header .btn-add:hover {
+            background: var(--accent-blue);
+            opacity: 0.85;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+        .card-header .btn-add-success {
+            background: var(--accent-green);
+        }
+        .card-header .btn-add-success:hover {
+            background: var(--accent-green);
+            opacity: 0.85;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+
+        /* ============================================================
+           TABLES
+           ============================================================ */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        th,
+        td {
+            padding: 9px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-size: 0.6rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover td {
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 1px 10px;
+            border-radius: 40px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-success {
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--accent-green);
+        }
+        .badge-warning {
+            background: rgba(245, 179, 66, 0.12);
+            color: var(--accent-gold);
+        }
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+        }
+        .badge-info {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--accent-blue);
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+        .btn-icon:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        .btn-icon.edit:hover {
+            color: var(--accent-blue);
+        }
+        .btn-icon.delete:hover {
+            color: var(--accent-red);
+        }
+        .btn-icon.check:hover {
+            color: var(--accent-green);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 28px 0;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 1.8rem;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(6px);
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            max-width: 540px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px 24px 24px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.96);
+                transform: translateY(20px) scale(0.96);
             }
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
-
-        .payment-header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-        .payment-header .icon-wrapper {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
-            border: 1px solid var(--border-color);
-            margin-bottom: 12px;
-        }
-        .payment-header .icon-wrapper i {
-            font-size: 2rem;
-            color: var(--accent-gold);
-        }
-        .payment-header h1 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-        .payment-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 4px;
-        }
-
-        /* ============================================================
-           DETAIL PRODUK (lebih rapi)
-           ============================================================ */
-        .product-detail {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 20px 24px;
-            margin-bottom: 24px;
-        }
-        .product-detail .row {
+        .modal-header {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            align-items: flex-start;
-        }
-        .product-detail .row:last-child {
-            border-bottom: none;
-        }
-        .product-detail .label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.85rem;
-            min-width: 90px;
-        }
-        .product-detail .value {
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-align: right;
-            word-break: break-word;
-            max-width: 70%;
-        }
-        .product-detail .value.price {
-            color: var(--accent-gold);
-            font-size: 1.1rem;
-        }
-        .product-detail .support-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 16px;
-            justify-content: flex-end;
-        }
-        .product-detail .support-list .sup-item {
-            font-size: 0.8rem;
-            display: flex;
             align-items: center;
-            gap: 4px;
-            color: var(--text-secondary);
-        }
-        .product-detail .support-list .sup-item .check {
-            color: var(--accent-green);
-        }
-        .product-detail .support-list .sup-item .cross {
-            color: #ef4444;
-        }
-
-        /* ============================================================
-           QR SECTION
-           ============================================================ */
-        .qr-section {
-            text-align: center;
-            padding: 12px 0 8px;
-        }
-        .qr-section .qr-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .qr-section .qr-label i {
-            color: var(--accent-blue);
-            font-size: 1.1rem;
-        }
-        .qr-section .qr-wrapper {
-            display: inline-block;
-            background: #fff;
-            padding: 12px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            max-width: 220px;
-            margin: 0 auto;
-        }
-        .qr-section .qr-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 8px;
-        }
-        .qr-section .qr-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-        .qr-section .qr-actions .btn {
-            flex: 0 1 auto;
-            padding: 10px 24px;
-            font-size: 0.85rem;
-            width: auto;
-        }
-        .qr-section .qr-note {
-            margin-top: 14px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* ============================================================
-           KONFIRMASI
-           ============================================================ */
-        .confirm-section {
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-        .confirm-section .icon-big {
-            font-size: 2.4rem;
-            color: var(--accent-blue);
-            text-align: center;
-            margin-bottom: 6px;
-        }
-        .confirm-section h3 {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-        .confirm-section .sub-text {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin: 4px 0 16px;
-            line-height: 1.5;
-        }
-        .confirm-section .device-box {
-            background: var(--bg-card);
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            text-align: center;
             margin-bottom: 16px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            word-break: break-all;
         }
-        .confirm-section .device-box small {
-            font-family: 'Inter', sans-serif;
+        .modal-header h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
             display: block;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-        .confirm-section .wa-btn {
-            margin-bottom: 12px;
-        }
-        .confirm-section .format-text {
+            font-weight: 600;
             font-size: 0.75rem;
             color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 16px;
-            line-height: 1.5;
+            margin-bottom: 3px;
         }
-
-        /* ============================================================
-           CODE INPUT
-           ============================================================ */
-        .code-area {
-            background: var(--bg-card);
-            padding: 16px 18px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            margin-bottom: 16px;
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 9px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-family: inherit;
+            outline: none;
         }
-        .code-area .label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-group .checkbox-group {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding-top: 4px;
+        }
+        .form-group .checkbox-group label {
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 8px;
+            font-weight: 400;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
         }
-        .code-area .label i {
-            color: var(--accent-blue);
+        .form-group .checkbox-group input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--accent-blue);
         }
-        .code-area .input-group {
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-actions {
             display: flex;
             gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
         }
-        .code-area .input-group input {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .code-area .input-group input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-        .code-area .input-group .btn {
-            padding: 10px 20px;
-            width: auto;
-            flex-shrink: 0;
-        }
-        .download-box {
-            display: none;
-            margin-top: 12px;
-            padding: 14px;
-            background: rgba(16, 185, 129, 0.10);
-            border-radius: 12px;
-            border: 1px solid var(--accent-green);
-            text-align: center;
-        }
-        .download-box.active {
-            display: block;
-        }
-        .download-box p {
-            color: var(--accent-green);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .download-box .btn {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
-        /* ============================================================
-           FORM PENGIRIMAN
-           ============================================================ */
-        .form-delivery {
-            margin-top: 16px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-        }
-        .form-delivery h4 {
-            font-size: 1rem;
+        .form-actions .btn-submit {
+            padding: 9px 24px;
+            border-radius: 40px;
+            border: none;
+            background: var(--accent-blue);
+            color: #fff;
             font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-        }
-        .form-delivery h4 i {
-            color: var(--accent-blue);
-        }
-        .form-delivery .form-group {
-            margin-bottom: 14px;
-        }
-        .form-delivery .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-        .form-delivery .form-group label .required {
-            color: #ef4444;
-        }
-        .form-delivery .form-group input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-primary);
-            font-size: 0.9rem;
             font-family: inherit;
-            transition: var(--transition);
-            outline: none;
         }
-        .form-delivery .form-group input:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        .form-actions .btn-submit:hover {
+            background: var(--accent-blue);
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
-        .form-delivery .form-group .hint {
-            font-size: 0.7rem;
+        .form-actions .btn-cancel {
+            padding: 9px 24px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            background: transparent;
             color: var(--text-secondary);
-            margin-top: 3px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .form-actions .btn-cancel:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
         }
 
         /* ============================================================
-           TOAST (notifikasi)
+           TOAST
            ============================================================ */
         .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 12px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 10px 24px;
             border-radius: 60px;
             box-shadow: var(--shadow-lg);
             z-index: 99999;
             display: none;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             backdrop-filter: blur(16px);
             opacity: 0;
             transition: all 0.35s ease;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-primary);
         }
         .toast.show {
@@ -533,309 +654,246 @@
             color: var(--accent-green);
         }
         .toast.error i {
-            color: #ef4444;
+            color: var(--accent-red);
         }
         .toast.info i {
             color: var(--accent-blue);
         }
 
         /* ============================================================
-           BACK BUTTON
-           ============================================================ */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            transition: var(--transition);
-            text-decoration: none;
-            margin-bottom: 16px;
-        }
-        .back-link:hover {
-            color: #fff;
-        }
-
-        /* ============================================================
            RESPONSIVE
            ============================================================ */
-        @media (max-width: 640px) {
-            .payment-card {
-                padding: 28px 18px 24px;
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
             }
-            .payment-header h1 {
-                font-size: 1.4rem;
+            .sidebar.open {
+                transform: translateX(0);
             }
-            .product-detail {
-                padding: 16px 18px;
+            .main {
+                margin-left: 0;
+                padding: 16px 14px 24px;
             }
-            .product-detail .row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
+            .main-header .left .hamburger {
+                display: block;
             }
-            .product-detail .value {
-                text-align: left;
-                max-width: 100%;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            .product-detail .support-list {
-                justify-content: flex-start;
-            }
-            .code-area .input-group {
-                flex-direction: column;
-            }
-            .code-area .input-group .btn {
-                width: 100%;
-            }
-            .qr-section .qr-wrapper {
-                max-width: 160px;
+            .main-header h1 {
+                font-size: 1.2rem;
             }
         }
 
-        /* ============================================================
-           QUEUE POPUP (overlay)
-           ============================================================ */
-        .queue-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(14px);
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        .queue-overlay.active {
-            display: flex;
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .content-card {
+                padding: 14px 12px;
+            }
+            .modal {
+                padding: 20px 16px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .main-header .actions a,
+            .main-header .actions button {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
         }
 
-        .queue-popup {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            max-width: 420px;
-            width: 100%;
-            padding: 40px 32px 32px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* Scrollbar */
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
         }
-        .queue-popup .icon-big {
-            font-size: 3rem;
-            color: var(--accent-gold);
-            margin-bottom: 8px;
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .queue-popup h2 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        .queue-popup p.sub {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-        .queue-popup .number {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: var(--accent-blue);
-            margin: 4px 0;
-        }
-        .queue-popup .status-text {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin: 4px 0 12px;
-        }
-        .queue-popup .note {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-        .queue-popup .note i {
-            color: var(--accent-blue);
-        }
-        .queue-popup .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
 
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand"><i class="fas fa-crown"></i> NEV Market</div>
+
+        <button class="nav-item active" data-section="dashboard"><i class="fas fa-chart-pie"></i> Dashboard</button>
+        <button class="nav-item" data-section="digital"><i class="fas fa-palette"></i> Produk Digital</button>
+        <button class="nav-item" data-section="jasa"><i class="fas fa-concierge-bell"></i> Layanan Jasa</button>
+        <button class="nav-item" data-section="news"><i class="fas fa-newspaper"></i> Berita</button>
+        <button class="nav-item" data-section="orders-jasa"><i class="fas fa-box"></i> Pesanan Jasa</button>
+        <button class="nav-item" data-section="orders-produk"><i class="fas fa-shopping-cart"></i> Pesanan Produk</button>
+        <button class="nav-item" data-section="queue"><i class="fas fa-clock"></i> Antrian</button>
+
+        <div class="bottom-links">
+            <button class="nav-item" data-section="home"><i class="fas fa-store"></i> Lihat Toko</button>
+            <button class="nav-item" id="refreshBtn"><i class="fas fa-sync"></i> Refresh</button>
+        </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main" id="mainContent">
+
+        <!-- HEADER -->
+        <div class="main-header">
+            <div class="left">
+                <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+                <h1><i class="fas fa-crown"></i> <span id="pageTitle">Dashboard</span></h1>
+            </div>
+            <div class="actions">
+                <a href="index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Toko</a>
+                <button class="btn-refresh" id="refreshBtnTop"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: DASHBOARD
+        ========================================================== -->
+        <div id="section-dashboard">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card"><div class="label">Total Produk Digital</div><div class="number blue" id="totalDigital">0</div></div>
+                <div class="stat-card"><div class="label">Total Layanan Jasa</div><div class="number purple" id="totalJasa">0</div></div>
+                <div class="stat-card"><div class="label">Total Pesanan</div><div class="number gold" id="totalOrders">0</div></div>
+                <div class="stat-card"><div class="label">Antrian Aktif</div><div class="number green" id="totalQueue">0</div></div>
+            </div>
+
+            <div class="content-card">
+                <h2 style="font-size:0.95rem;font-weight:700;margin-bottom:4px;"><i class="fas fa-info-circle" style="color:var(--accent-blue);"></i> Selamat Datang di Admin Panel</h2>
+                <p style="color:var(--text-secondary);font-size:0.85rem;">Kelola produk digital, layanan jasa, berita, pesanan, dan antrian dari satu tempat.</p>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: PRODUK DIGITAL
+        ========================================================== -->
+        <div id="section-digital" style="display:none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-palette"></i> Produk Digital</h2>
+                    <button class="btn-add" id="btnTambahDigital"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Nama</th><th>Harga</th><th>Link</th><th>Aksi</th></tr></thead>
+                        <tbody id="digitalTableBody"><tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: LAYANAN JASA
+        ========================================================== -->
+        <div id="section-jasa" style="display:none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-concierge-bell"></i> Layanan Jasa</h2>
+                    <button class="btn-add" id="btnTambahJasa"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Nama</th><th>Harga</th><th>Dukungan</th><th>Aksi</th></tr></thead>
+                        <tbody id="jasaTableBody"><tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: BERITA
+        ========================================================== -->
+        <div id="section-news" style="display:none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-newspaper"></i> Berita</h2>
+                    <button class="btn-add" id="btnTambahBerita"><i class="fas fa-plus"></i> Tambah</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Judul</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+                        <tbody id="newsTableBody"><tr><td colspan="3" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: PESANAN JASA
+        ========================================================== -->
+        <div id="section-orders-jasa" style="display:none;">
+            <div class="content-card">
+                <div class="card-header"><h2><i class="fas fa-box"></i> Pesanan Jasa</h2></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Produk</th><th>Harga</th><th>Device</th><th>Kode</th><th>Status</th><th>Detail</th><th>Waktu</th><th>Aksi</th></tr></thead>
+                        <tbody id="ordersJasaTableBody"><tr><td colspan="8" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: PESANAN PRODUK
+        ========================================================== -->
+        <div id="section-orders-produk" style="display:none;">
+            <div class="content-card">
+                <div class="card-header"><h2><i class="fas fa-shopping-cart"></i> Pesanan Produk</h2></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Produk</th><th>Harga</th><th>Device</th><th>Kode</th><th>Status</th><th>Waktu</th><th>Aksi</th></tr></thead>
+                        <tbody id="ordersProdukTableBody"><tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================
+        SECTION: ANTRIAN
+        ========================================================== -->
+        <div id="section-queue" style="display:none;">
+            <div class="content-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-clock"></i> Antrian</h2>
+                    <button class="btn-add btn-add-success" id="btnResetQueue"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>No.</th><th>Produk</th><th>Device</th><th>Status</th><th>Waktu</th><th>Aksi</th></tr></thead>
+                        <tbody id="queueTableBody"><tr><td colspan="6" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ MODAL ============ -->
+    <div class="modal-overlay" id="formModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="formModalTitle">Tambah Item</h2>
+                <button class="modal-close" id="formModalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="formModalBody">
+                <div id="formFields"></div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Simpan</button>
+                    <button type="button" class="btn-cancel" id="formCancelBtn">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ============ TOAST ============ -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg">Berhasil!</span>
-    </div>
-
-    <!-- ============ QUEUE POPUP (overlay) ============ -->
-    <div class="queue-overlay" id="queueOverlay">
-        <div class="queue-popup">
-            <div class="icon-big"><i class="fas fa-clock"></i></div>
-            <h2>Pesanan Diterima!</h2>
-            <p class="sub">Anda sedang menduduki nomor antrian</p>
-            <div class="number" id="queueNumber">#1</div>
-            <div class="status-text" id="queueStatus">🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.</div>
-            <div class="note">
-                <i class="fas fa-info-circle"></i> Antrian akan turun otomatis setelah pesanan sebelumnya selesai.<br>
-                Admin akan menghubungi Anda via WhatsApp.
-            </div>
-            <button class="btn btn-primary" id="queueCloseBtn"><i class="fas fa-check"></i> Saya Mengerti</button>
-        </div>
-    </div>
-
-    <!-- ============ MAIN CONTENT ============ -->
-    <div class="container">
-
-        <!-- BACK LINK -->
-        <a href="javascript:history.back()" class="back-link">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </a>
-
-        <!-- PAYMENT CARD -->
-        <div class="payment-card" id="paymentCard">
-
-            <!-- HEADER -->
-            <div class="payment-header">
-                <div class="icon-wrapper">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <h1>Pembayaran</h1>
-                <p>Lengkapi pembayaran untuk mendapatkan layanan</p>
-            </div>
-
-            <!-- DETAIL PRODUK -->
-            <div class="product-detail" id="productDetail">
-                <div class="row">
-                    <span class="label">Nama Layanan</span>
-                    <span class="value" id="detailName">-</span>
-                </div>
-                <div class="row">
-                    <span class="label">Harga</span>
-                    <span class="value price" id="detailPrice">Rp 0</span>
-                </div>
-                <div class="row">
-                    <span class="label">Deskripsi</span>
-                    <span class="value" id="detailDesc" style="font-weight:400;color:var(--text-secondary);font-size:0.9rem;">-</span>
-                </div>
-                <div class="row">
-                    <span class="label">Dukungan</span>
-                    <span class="value" id="detailSupport" style="font-weight:400;">
-                        <div class="support-list" id="supportList"></div>
-                    </span>
-                </div>
-            </div>
-
-            <!-- QR SECTION -->
-            <div id="qrSection">
-                <div class="qr-section">
-                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
-                    <div class="qr-wrapper">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" />
-                    </div>
-                    <div class="qr-actions">
-                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
-                    </div>
-                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
-                    <button class="btn btn-success" id="btnSudahBayar">
-                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
-                    </button>
-                </div>
-            </div>
-
-            <!-- KONFIRMASI (muncul setelah klik "Saya Sudah Bayar") -->
-            <div id="confirmSection" style="display:none;">
-                <div class="confirm-section">
-                    <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Konfirmasi Pembayaran</h3>
-                    <p class="sub-text">
-                        Hubungi admin via WhatsApp dengan menyertakan ID perangkat di bawah ini untuk mendapatkan <strong>kode akses</strong>.
-                    </p>
-                    <div class="device-box">
-                        <small><i class="fas fa-fingerprint"></i> ID Perangkat Anda</small>
-                        <span id="confirmDeviceId">-</span>
-                    </div>
-                    <button class="btn btn-whatsapp wa-btn" id="waButton">
-                        <i class="fab fa-whatsapp"></i> Hubungi Admin via WhatsApp
-                    </button>
-                    <p class="format-text">
-                        Format: "Halo admin, saya sudah bayar dengan nominal Rp XXXX dan no produk XXXX. Saya ingin meminta kode konfirmasi"
-                    </p>
-
-                    <!-- INPUT KODE -->
-                    <div class="code-area">
-                        <div class="label"><i class="fas fa-info-circle"></i> Masukkan kode yang diberikan admin:</div>
-                        <div class="input-group">
-                            <input type="text" id="accessCodeInput" placeholder="Kode akses" />
-                            <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
-                        </div>
-                        <div class="download-box" id="downloadSection">
-                            <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                            <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
-                                <i class="fas fa-download"></i> Unduh Logo
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- FORM PENGIRIMAN (untuk jasa) -->
-                    <div id="formDeliverySection" style="display:none;">
-                        <div class="form-delivery">
-                            <h4><i class="fas fa-paper-plane"></i> Data Pengiriman</h4>
-                            <div class="form-group">
-                                <label>Nama Logo / Proyek <span class="required">*</span></label>
-                                <input type="text" id="deliveryProjectName" placeholder="Contoh: Logo Brand A" />
-                            </div>
-                            <div class="form-group">
-                                <label>Nomor WhatsApp <span class="required">*</span></label>
-                                <input type="text" id="deliveryWa" placeholder="08xxxxxxxxxx" />
-                                <div class="hint">Untuk penerimaan hasil jadi</div>
-                            </div>
-                            <div class="form-group">
-                                <label>Akun Sosial Media (opsional)</label>
-                                <input type="text" id="deliverySosmed" placeholder="@instagram atau link" />
-                                <div class="hint">Jika ada, untuk keperluan branding</div>
-                            </div>
-                            <div class="form-group">
-                                <label>Nomer Penerima <span class="required">*</span></label>
-                                <input type="text" id="deliveryReceiver" placeholder="Nomor HP penerima" />
-                                <div class="hint">Nomor yang akan menerima file hasil</div>
-                            </div>
-                            <button class="btn btn-success" id="btnKirimData">
-                                <i class="fas fa-paper-plane"></i> Kirim Data
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOMBOL CLOSE -->
-            <button class="btn btn-close" id="btnClose" style="margin-top:20px;">
-                <i class="fas fa-times"></i> Tutup
-            </button>
-
-        </div>
-    </div>
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMsg">Berhasil!</span></div>
 
     <!-- ============ JAVASCRIPT ============ -->
     <script type="module">
@@ -843,7 +901,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, push, set, update, serverTimestamp, get, onValue } from "firebase-database";
+        import { getDatabase, ref, set, push, onValue, remove, update, serverTimestamp, get } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -855,21 +913,7 @@
         const db = getDatabase(app);
 
         // ============================================================
-        // 2. DEVICE ID
-        // ============================================================
-        function getDeviceId() {
-            let id = localStorage.getItem('logoShop_deviceId');
-            if (!id) {
-                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
-                localStorage.setItem('logoShop_deviceId', id);
-            }
-            return id;
-        }
-        const DEVICE_ID = getDeviceId();
-        document.getElementById('confirmDeviceId').textContent = DEVICE_ID;
-
-        // ============================================================
-        // 3. TOAST
+        // 2. TOAST
         // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
@@ -880,249 +924,586 @@
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
-            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 3500);
         }
 
         // ============================================================
-        // 4. AMBIL DATA PRODUK DARI localStorage
+        // 3. SIDEBAR NAVIGATION
         // ============================================================
-        function getProductData() {
-            try {
-                const raw = localStorage.getItem('payment_product');
-                return raw ? JSON.parse(raw) : null;
-            } catch {
-                return null;
-            }
+        const sections = {
+            dashboard: document.getElementById('section-dashboard'),
+            digital: document.getElementById('section-digital'),
+            jasa: document.getElementById('section-jasa'),
+            news: document.getElementById('section-news'),
+            'orders-jasa': document.getElementById('section-orders-jasa'),
+            'orders-produk': document.getElementById('section-orders-produk'),
+            queue: document.getElementById('section-queue'),
+        };
+
+        const navItems = document.querySelectorAll('.sidebar .nav-item[data-section]');
+        const pageTitle = document.getElementById('pageTitle');
+
+        const sectionNames = {
+            dashboard: 'Dashboard',
+            digital: 'Produk Digital',
+            jasa: 'Layanan Jasa',
+            news: 'Berita',
+            'orders-jasa': 'Pesanan Jasa',
+            'orders-produk': 'Pesanan Produk',
+            queue: 'Antrian',
+        };
+
+        function navigateTo(sectionId) {
+            Object.values(sections).forEach(el => { if (el) el.style.display = 'none'; });
+            if (sections[sectionId]) sections[sectionId].style.display = 'block';
+            navItems.forEach(el => el.classList.remove('active'));
+            document.querySelector(`.sidebar .nav-item[data-section="${sectionId}"]`)?.classList.add('active');
+            pageTitle.textContent = sectionNames[sectionId] || 'Dashboard';
+            document.getElementById('sidebar').classList.remove('open');
+
+            if (sectionId === 'digital') loadDigital();
+            if (sectionId === 'jasa') loadJasa();
+            if (sectionId === 'news') loadNews();
+            if (sectionId === 'orders-jasa') loadOrdersJasa();
+            if (sectionId === 'orders-produk') loadOrdersProduk();
+            if (sectionId === 'queue') loadQueue();
+            if (sectionId === 'dashboard') loadStats();
         }
 
-        const product = getProductData();
-        if (!product) {
-            window.location.href = 'produk-jasa.html';
-            showToast('Data produk tidak ditemukan.', 'error');
-        }
-
-        // ============================================================
-        // 5. TAMPILKAN DETAIL PRODUK
-        // ============================================================
-        document.getElementById('detailName').textContent = product.name || 'Layanan';
-        document.getElementById('detailPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product.price ||
-            0);
-        document.getElementById('detailDesc').textContent = product.description || '—';
-
-        const support = product.support || {};
-        const supportItems = [
-            { key: 'nama', label: 'Nama' },
-            { key: 'wa', label: 'No WhatsApp' },
-            { key: 'sosmed', label: 'Sosial Media' }
-        ];
-        const supportHtml = supportItems.map(s => {
-            const aktif = support[s.key] === true;
-            return `<span class="sup-item"><i class="${aktif ? 'fas fa-check-circle check' : 'fas fa-times-circle cross'}"></i> ${s.label}</span>`;
-        }).join('');
-        document.getElementById('supportList').innerHTML = supportHtml || '<span style="color:var(--text-secondary);font-size:0.8rem;">Tidak ada dukungan</span>';
-
-        // ============================================================
-        // 6. UNDUH QR
-        // ============================================================
-        document.getElementById('downloadQrBtn').addEventListener('click', function() {
-            const img = document.getElementById('qrImage');
-            const link = document.createElement('a');
-            link.download = 'QRIS_LogoShop.png';
-            link.href = img.src;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('QR Code berhasil diunduh!', 'success');
-        });
-
-        // ============================================================
-        // 7. SUDAH BAYAR → GENERATE KODE & SIMPAN ORDER
-        // ============================================================
-        let currentOrderKey = null;
-
-        document.getElementById('btnSudahBayar').addEventListener('click', function() {
-            if (!product) { showToast('Data produk tidak valid.', 'error'); return; }
-
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let confirmCode = '';
-            for (let i = 0; i < 6; i++) {
-                confirmCode += chars[Math.floor(Math.random() * chars.length)];
-            }
-
-            const ordersRef = ref(db, 'logo-shop/orders');
-            const newOrderRef = push(ordersRef);
-            currentOrderKey = newOrderRef.key;
-
-            set(newOrderRef, {
-                productId: product.key || '',
-                productName: product.name || 'Layanan',
-                price: product.price || 0,
-                deviceId: DEVICE_ID,
-                status: 'pending',
-                confirmationCode: confirmCode,
-                isJasa: true,
-                support: product.support || {},
-                orderDate: serverTimestamp(),
-                projectName: '',
-                waNumber: '',
-                sosmed: '',
-                receiverNumber: '',
-                queueNumber: 0
-            }).then(() => {
-                showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
-            }).catch(err => {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
+        navItems.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const section = btn.dataset.section;
+                if (section === 'home') { window.open('index.html', '_blank'); return; }
+                navigateTo(section);
             });
-
-            // Sembunyikan QR, tampilkan konfirmasi
-            document.getElementById('qrSection').style.display = 'none';
-            document.getElementById('confirmSection').style.display = 'block';
-
-            // Update WhatsApp link
-            const price = product.price || 0;
-            const name = product.name || 'Layanan';
-            const msg =
-                `Halo admin, saya sudah bayar dengan nominal Rp ${new Intl.NumberFormat('id-ID').format(price)} dan no produk ${product.key || '—'} (${name}). Saya ingin meminta kode konfirmasi. Device ID: ${DEVICE_ID}`;
-            const waBtn = document.getElementById('waButton');
-            waBtn.onclick = function(e) {
-                e.preventDefault();
-                window.open(`https://wa.me/6289603266259?text=${encodeURIComponent(msg)}`, '_blank');
-            };
         });
 
+        navigateTo('dashboard');
+
         // ============================================================
-        // 8. VERIFIKASI KODE
+        // 4. STATS
         // ============================================================
-        document.getElementById('btnVerifyCode').addEventListener('click', function() {
-            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
-            if (!code) { showToast('Masukkan kode akses.', 'error'); return; }
+        function loadStats() {
+            const productsRef = ref(db, 'logo-shop/products');
+            onValue(productsRef, (snap) => {
+                const data = snap.val() || {};
+                const digital = Object.values(data).filter(p => p.downloadLink && p.isJasa !== true);
+                const jasa = Object.values(data).filter(p => p.isJasa === true || !p.downloadLink);
+                document.getElementById('totalDigital').textContent = digital.length;
+                document.getElementById('totalJasa').textContent = jasa.length;
+            }, { onlyOnce: true });
 
             const ordersRef = ref(db, 'logo-shop/orders');
             onValue(ordersRef, (snap) => {
-                const data = snap.val();
-                if (!data) { showToast('Kode tidak valid.', 'error'); return; }
-                let found = false;
-                for (const [key, order] of Object.entries(data)) {
-                    if (order.confirmationCode === code && order.deviceId === DEVICE_ID) {
-                        found = true;
-                        currentOrderKey = key;
-                        update(ref(db, `logo-shop/orders/${key}`), { status: 'confirmed' });
-                        break;
-                    }
-                }
-                if (found) {
-                    document.getElementById('formDeliverySection').style.display = 'block';
-                    const codeArea = document.querySelector('.code-area');
-                    if (codeArea) codeArea.style.display = 'none';
-                    showToast('Kode valid! Silakan isi data pengiriman.', 'success');
-                } else {
-                    showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
-                }
+                const data = snap.val() || {};
+                document.getElementById('totalOrders').textContent = Object.keys(data).length;
             }, { onlyOnce: true });
-        });
 
-        // ============================================================
-        // 9. KIRIM DATA → SIMPAN KE ORDER + ANTRIAN + POPUP
-        // ============================================================
-        document.getElementById('btnKirimData').addEventListener('click', async function() {
-            const projectName = document.getElementById('deliveryProjectName').value.trim();
-            const waNumber = document.getElementById('deliveryWa').value.trim();
-            const sosmed = document.getElementById('deliverySosmed').value.trim();
-            const receiverNumber = document.getElementById('deliveryReceiver').value.trim();
-
-            if (!projectName) { showToast('Nama proyek wajib diisi.', 'error'); return; }
-            if (!waNumber) { showToast('Nomor WhatsApp wajib diisi.', 'error'); return; }
-            if (!receiverNumber) { showToast('Nomer penerima wajib diisi.', 'error'); return; }
-
-            if (!currentOrderKey) {
-                showToast('Data order tidak ditemukan.', 'error');
-                return;
-            }
-
-            // Tentukan nomor antrian
             const queueRef = ref(db, 'logo-shop/queue');
-            let queueNumber = 1;
-            try {
-                const snapshot = await get(queueRef);
-                const queueData = snapshot.val();
-                if (queueData) {
-                    const numbers = Object.values(queueData).map(q => q.number || 0);
-                    const maxNum = Math.max(...numbers, 0);
-                    queueNumber = maxNum + 1;
-                }
-            } catch (e) {
-                console.warn('Gagal baca antrian:', e);
-            }
-
-            const orderUpdates = {
-                projectName,
-                waNumber,
-                sosmed: sosmed || '',
-                receiverNumber,
-                queueNumber,
-                status: 'in_queue'
-            };
-            await update(ref(db, `logo-shop/orders/${currentOrderKey}`), orderUpdates);
-
-            const newQueueRef = push(ref(db, 'logo-shop/queue'));
-            await set(newQueueRef, {
-                orderKey: currentOrderKey,
-                number: queueNumber,
-                deviceId: DEVICE_ID,
-                productName: product?.name || 'Layanan',
-                createdAt: serverTimestamp(),
-                status: 'waiting'
-            });
-
-            // TAMPILKAN POPUP ANTRIAN
-            showQueuePopup(queueNumber);
-        });
-
-        // ============================================================
-        // 10. FUNGSI POPUP ANTRIAN (dengan overlay terpisah)
-        // ============================================================
-        function showQueuePopup(number) {
-            const overlay = document.getElementById('queueOverlay');
-            const numEl = document.getElementById('queueNumber');
-            const statusEl = document.getElementById('queueStatus');
-
-            numEl.textContent = '#' + number;
-            if (number === 1) {
-                statusEl.textContent = '🎉 Anda adalah antrian pertama! Pesanan akan segera diproses.';
-            } else {
-                statusEl.textContent = '⏳ Mohon tunggu, pesanan Anda dalam antrian.';
-            }
-
-            overlay.classList.add('active');
+            onValue(queueRef, (snap) => {
+                const data = snap.val() || {};
+                document.getElementById('totalQueue').textContent = Object.keys(data).length;
+            }, { onlyOnce: true });
         }
 
-        // Tutup popup
-        document.getElementById('queueCloseBtn').addEventListener('click', function() {
-            document.getElementById('queueOverlay').classList.remove('active');
-            window.location.href = 'produk-jasa.html';
-        });
+        // ============================================================
+        // 5. MODAL FORM
+        // ============================================================
+        const modal = document.getElementById('formModal');
+        const modalClose = document.getElementById('formModalClose');
+        const modalCancel = document.getElementById('formCancelBtn');
+        const modalForm = document.getElementById('formModalBody');
+        const formFields = document.getElementById('formFields');
+        const formModalTitle = document.getElementById('formModalTitle');
 
-        // Klik di luar popup menutup
-        document.getElementById('queueOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                window.location.href = 'produk-jasa.html';
+        let currentEditKey = null;
+        let currentType = null;
+
+        function openModal(type, editKey = null, data = null) {
+            currentType = type;
+            currentEditKey = editKey;
+            modal.classList.add('active');
+
+            if (type === 'digital') {
+                formModalTitle.textContent = editKey ? 'Edit Produk Digital' : 'Tambah Produk Digital';
+                formFields.innerHTML = `
+                        <div class="form-group"><label>Nama *</label><input type="text" id="prodName" value="${data?.name || ''}" required /></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Harga (Rp) *</label><input type="number" id="prodPrice" value="${data?.price || ''}" required /></div>
+                            <div class="form-group"><label>URL Gambar</label><input type="url" id="prodImage" value="${data?.image || ''}" placeholder="https://..." /></div>
+                        </div>
+                        <div class="form-group"><label>Deskripsi</label><textarea id="prodDesc" rows="3">${data?.description || ''}</textarea></div>
+                        <div class="form-group"><label>Link Unduhan *</label><input type="url" id="prodDownload" value="${data?.downloadLink || ''}" placeholder="https://..." required /></div>
+                        <input type="hidden" id="prodIsJasa" value="false" />
+                    `;
+            } else if (type === 'jasa') {
+                formModalTitle.textContent = editKey ? 'Edit Layanan Jasa' : 'Tambah Layanan Jasa';
+                const support = data?.support || {};
+                formFields.innerHTML = `
+                        <div class="form-group"><label>Nama *</label><input type="text" id="jasaName" value="${data?.name || ''}" required /></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Harga (Rp) *</label><input type="number" id="jasaPrice" value="${data?.price || ''}" required /></div>
+                            <div class="form-group"><label>URL Gambar</label><input type="url" id="jasaImage" value="${data?.image || ''}" placeholder="https://..." /></div>
+                        </div>
+                        <div class="form-group"><label>Deskripsi</label><textarea id="jasaDesc" rows="3">${data?.description || ''}</textarea></div>
+                        <div class="form-group">
+                            <label>Dukungan</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" id="supNama" ${support.nama ? 'checked' : ''}> Nama</label>
+                                <label><input type="checkbox" id="supWa" ${support.wa ? 'checked' : ''}> No WhatsApp</label>
+                                <label><input type="checkbox" id="supSosmed" ${support.sosmed ? 'checked' : ''}> Sosial Media</label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="jasaIsJasa" value="true" />
+                        <input type="hidden" id="jasaDownload" value="" />
+                    `;
+            } else if (type === 'news') {
+                formModalTitle.textContent = editKey ? 'Edit Berita' : 'Tambah Berita';
+                formFields.innerHTML = `
+                        <div class="form-group"><label>Judul Berita *</label><input type="text" id="newsTitle" value="${data?.title || ''}" required /></div>
+                        <div class="form-group"><label>Tanggal</label><input type="text" id="newsDate" value="${data?.date || ''}" placeholder="Misal: 24 Juni 2026" /></div>
+                        <div class="form-group"><label>URL Gambar</label><input type="url" id="newsImage" value="${data?.image || ''}" placeholder="https://..." /></div>
+                        <div class="form-group"><label>Konten</label><textarea id="newsContent" rows="4">${data?.content || ''}</textarea></div>
+                    `;
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            currentEditKey = null;
+            currentType = null;
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalCancel.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        // ============================================================
+        // 6. SUBMIT FORM
+        // ============================================================
+        modalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentType) return;
+            try {
+                if (currentType === 'digital') {
+                    const name = document.getElementById('prodName').value.trim();
+                    const price = parseInt(document.getElementById('prodPrice').value) || 0;
+                    const image = document.getElementById('prodImage').value.trim();
+                    const description = document.getElementById('prodDesc').value.trim();
+                    const downloadLink = document.getElementById('prodDownload').value.trim();
+                    if (!name || !downloadLink) { showToast('Nama dan link unduhan wajib diisi.', 'error'); return; }
+                    const data = { name, price, image, description, downloadLink, isJasa: false };
+                    const productRef = currentEditKey ? ref(db, `logo-shop/products/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/products'));
+                    await set(productRef, data);
+                    showToast(currentEditKey ? 'Produk digital diperbarui!' : 'Produk digital ditambahkan!', 'success');
+                    closeModal();
+                    loadDigital();
+                    loadStats();
+                } else if (currentType === 'jasa') {
+                    const name = document.getElementById('jasaName').value.trim();
+                    const price = parseInt(document.getElementById('jasaPrice').value) || 0;
+                    const image = document.getElementById('jasaImage').value.trim();
+                    const description = document.getElementById('jasaDesc').value.trim();
+                    const support = {
+                        nama: document.getElementById('supNama').checked,
+                        wa: document.getElementById('supWa').checked,
+                        sosmed: document.getElementById('supSosmed').checked
+                    };
+                    if (!name) { showToast('Nama layanan wajib diisi.', 'error'); return; }
+                    const data = { name, price, image, description, support, isJasa: true, downloadLink: '' };
+                    const productRef = currentEditKey ? ref(db, `logo-shop/products/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/products'));
+                    await set(productRef, data);
+                    showToast(currentEditKey ? 'Layanan jasa diperbarui!' : 'Layanan jasa ditambahkan!', 'success');
+                    closeModal();
+                    loadJasa();
+                    loadStats();
+                } else if (currentType === 'news') {
+                    const title = document.getElementById('newsTitle').value.trim();
+                    const date = document.getElementById('newsDate').value.trim();
+                    const image = document.getElementById('newsImage').value.trim();
+                    const content = document.getElementById('newsContent').value.trim();
+                    if (!title) { showToast('Judul berita wajib diisi.', 'error'); return; }
+                    const data = { title, date, image, content };
+                    const newsRef = currentEditKey ? ref(db, `logo-shop/news/${currentEditKey}`) : push(ref(db,
+                        'logo-shop/news'));
+                    await set(newsRef, data);
+                    showToast(currentEditKey ? 'Berita diperbarui!' : 'Berita ditambahkan!', 'success');
+                    closeModal();
+                    loadNews();
+                }
+            } catch (err) {
+                showToast('Gagal: ' + err.message, 'error');
             }
         });
 
         // ============================================================
-        // 11. TOMBOL TUTUP
+        // 7. LOAD: PRODUK DIGITAL
         // ============================================================
-        document.getElementById('btnClose').addEventListener('click', () => {
-            window.location.href = 'produk-jasa.html';
+        function loadDigital() {
+            const tbody = document.getElementById('digitalTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/products'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada produk digital.</td></tr>`; return; }
+                const items = Object.entries(data).filter(([k, v]) => v.isJasa !== true && v.downloadLink).map(([k, v]) => ({ key: k,
+                    ...v }));
+                if (!items.length) { tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada produk digital.</td></tr>`; return; }
+                let html = '';
+                items.forEach(item => {
+                    html += `<tr>
+                            <td><strong>${item.name || 'Tanpa nama'}</strong></td>
+                            <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                            <td><a href="${item.downloadLink || '#'}" target="_blank" style="color:var(--accent-blue);">Link</a></td>
+                            <td>
+                                <button class="btn-icon edit" data-key="${item.key}"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon delete" data-key="${item.key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(b => b.addEventListener('click', () => {
+                    const key = b.dataset.key;
+                    const item = items.find(d => d.key === key);
+                    openModal('digital', key, item);
+                }));
+                tbody.querySelectorAll('.delete').forEach(b => b.addEventListener('click', async () => {
+                    const key = b.dataset.key;
+                    if (confirm(`Hapus produk "${data[key]?.name}"?`)) { await remove(ref(db,
+                            `logo-shop/products/${key}`));
+                        showToast('Produk dihapus.', 'success');
+                        loadDigital();
+                        loadStats(); }
+                }));
+            });
+        }
+
+        // ============================================================
+        // 8. LOAD: LAYANAN JASA
+        // ============================================================
+        function loadJasa() {
+            const tbody = document.getElementById('jasaTableBody');
+            tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/products'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada layanan jasa.</td></tr>`; return; }
+                const items = Object.entries(data).filter(([k, v]) => v.isJasa === true || !v.downloadLink).map(([k, v]) => ({ key: k,
+                    ...v }));
+                if (!items.length) { tbody.innerHTML =
+                        `<tr><td colspan="4" class="empty-state"><i class="fas fa-box-open"></i> Belum ada layanan jasa.</td></tr>`; return; }
+                let html = '';
+                items.forEach(item => {
+                    const support = item.support || {};
+                    const supportText = Object.keys(support).filter(k => support[k]).join(', ') || 'Tidak ada';
+                    html += `<tr>
+                            <td><strong>${item.name || 'Tanpa nama'}</strong></td>
+                            <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                            <td>${supportText}</td>
+                            <td>
+                                <button class="btn-icon edit" data-key="${item.key}"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon delete" data-key="${item.key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(b => b.addEventListener('click', () => {
+                    const key = b.dataset.key;
+                    const item = items.find(d => d.key === key);
+                    openModal('jasa', key, item);
+                }));
+                tbody.querySelectorAll('.delete').forEach(b => b.addEventListener('click', async () => {
+                    const key = b.dataset.key;
+                    if (confirm(`Hapus layanan "${data[key]?.name}"?`)) { await remove(ref(db,
+                            `logo-shop/products/${key}`));
+                        showToast('Layanan dihapus.', 'success');
+                        loadJasa();
+                        loadStats(); }
+                }));
+            });
+        }
+
+        // ============================================================
+        // 9. LOAD: BERITA
+        // ============================================================
+        function loadNews() {
+            const tbody = document.getElementById('newsTableBody');
+            tbody.innerHTML = `<tr><td colspan="3" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/news'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="3" class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</td></tr>`; return; }
+                let html = '';
+                Object.entries(data).forEach(([key, item]) => {
+                    html += `<tr>
+                            <td><strong>${item.title || 'Tanpa judul'}</strong></td>
+                            <td>${item.date || '—'}</td>
+                            <td>
+                                <button class="btn-icon edit" data-key="${key}"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon delete" data-key="${key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.edit').forEach(b => b.addEventListener('click', () => {
+                    const key = b.dataset.key;
+                    openModal('news', key, data[key]);
+                }));
+                tbody.querySelectorAll('.delete').forEach(b => b.addEventListener('click', async () => {
+                    const key = b.dataset.key;
+                    if (confirm(`Hapus berita "${data[key]?.title}"?`)) { await remove(ref(db,
+                            `logo-shop/news/${key}`));
+                        showToast('Berita dihapus.', 'success');
+                        loadNews(); }
+                }));
+            });
+        }
+
+        // ============================================================
+        // 10. LOAD: PESANAN JASA
+        // ============================================================
+        function loadOrdersJasa() {
+            const tbody = document.getElementById('ordersJasaTableBody');
+            tbody.innerHTML = `<tr><td colspan="8" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/orders'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="8" class="empty-state"><i class="fas fa-box-open"></i> Belum ada pesanan jasa.</td></tr>`; return; }
+                const items = Object.entries(data).filter(([k, v]) => v.isJasa === true);
+                if (!items.length) { tbody.innerHTML =
+                        `<tr><td colspan="8" class="empty-state"><i class="fas fa-box-open"></i> Belum ada pesanan jasa.</td></tr>`; return; }
+                let html = '';
+                items.forEach(([key, item]) => {
+                    const status = item.status || 'pending';
+                    const badge = status === 'completed' ? 'success' : status === 'in_queue' ? 'info' : status ===
+                        'confirmed' ? 'success' : 'warning';
+                    const time = item.orderDate ? new Date(item.orderDate).toLocaleString('id-ID') : '—';
+                    let detail = '-';
+                    const parts = [];
+                    if (item.projectName) parts.push(`Proyek: ${item.projectName}`);
+                    if (item.waNumber) parts.push(`WA: ${item.waNumber}`);
+                    if (item.sosmed) parts.push(`Sosmed: ${item.sosmed}`);
+                    if (item.receiverNumber) parts.push(`Penerima: ${item.receiverNumber}`);
+                    if (item.queueNumber) parts.push(`Antrian #${item.queueNumber}`);
+                    detail = parts.join('<br>') || 'Jasa';
+                    html += `<tr>
+                            <td>${item.productName || '—'}</td>
+                            <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                            <td><code style="font-size:0.7rem;background:var(--bg-input);padding:1px 6px;border-radius:4px;">${item.deviceId || '—'}</code></td>
+                            <td><strong style="color:var(--accent-gold);font-family:monospace;">${item.confirmationCode || '-'}</strong></td>
+                            <td><span class="badge badge-${badge}">${status}</span></td>
+                            <td style="font-size:0.75rem;max-width:150px;">${detail}</td>
+                            <td>${time}</td>
+                            <td>
+                                <button class="btn-icon edit" data-orderkey="${key}" data-status="${status}"><i class="fas fa-sync-alt"></i></button>
+                                <button class="btn-icon delete" data-orderkey="${key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                attachOrderEvents(tbody);
+            });
+        }
+
+        // ============================================================
+        // 11. LOAD: PESANAN PRODUK
+        // ============================================================
+        function loadOrdersProduk() {
+            const tbody = document.getElementById('ordersProdukTableBody');
+            tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/orders'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="7" class="empty-state"><i class="fas fa-box-open"></i> Belum ada pesanan produk.</td></tr>`; return; }
+                const items = Object.entries(data).filter(([k, v]) => v.isJasa !== true);
+                if (!items.length) { tbody.innerHTML =
+                        `<tr><td colspan="7" class="empty-state"><i class="fas fa-box-open"></i> Belum ada pesanan produk.</td></tr>`; return; }
+                let html = '';
+                items.forEach(([key, item]) => {
+                    const status = item.status || 'pending';
+                    const badge = status === 'completed' ? 'success' : status === 'confirmed' ? 'success' : 'warning';
+                    const time = item.orderDate ? new Date(item.orderDate).toLocaleString('id-ID') : '—';
+                    html += `<tr>
+                            <td>${item.productName || '—'}</td>
+                            <td>Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}</td>
+                            <td><code style="font-size:0.7rem;background:var(--bg-input);padding:1px 6px;border-radius:4px;">${item.deviceId || '—'}</code></td>
+                            <td><strong style="color:var(--accent-gold);font-family:monospace;">${item.confirmationCode || '-'}</strong></td>
+                            <td><span class="badge badge-${badge}">${status}</span></td>
+                            <td>${time}</td>
+                            <td>
+                                <button class="btn-icon edit" data-orderkey="${key}" data-status="${status}"><i class="fas fa-sync-alt"></i></button>
+                                <button class="btn-icon delete" data-orderkey="${key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                attachOrderEvents(tbody);
+            });
+        }
+
+        // ============================================================
+        // 12. ORDER EVENTS (shared)
+        // ============================================================
+        function attachOrderEvents(tbody) {
+            tbody.querySelectorAll('.edit[data-orderkey]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const key = btn.dataset.orderkey;
+                    const currentStatus = btn.dataset.status;
+                    let newStatus = 'pending';
+                    if (currentStatus === 'pending') newStatus = 'confirmed';
+                    else if (currentStatus === 'confirmed') newStatus = 'in_queue';
+                    else if (currentStatus === 'in_queue') newStatus = 'completed';
+                    else newStatus = 'pending';
+                    if (confirm(`Ubah status dari "${currentStatus}" menjadi "${newStatus}"?`)) {
+                        await update(ref(db, `logo-shop/orders/${key}`), { status: newStatus });
+                        if (newStatus === 'completed') {
+                            const queueSnap = await get(ref(db, 'logo-shop/queue'));
+                            const queueData = queueSnap.val();
+                            if (queueData) {
+                                for (const [qKey, qVal] of Object.entries(queueData)) {
+                                    if (qVal.orderKey === key) { await remove(ref(db,
+                                        `logo-shop/queue/${qKey}`)); break; }
+                                }
+                            }
+                            await renumberQueue();
+                        }
+                        showToast('Status diperbarui.', 'success');
+                        loadOrdersJasa();
+                        loadOrdersProduk();
+                        loadQueue();
+                        loadStats();
+                    }
+                });
+            });
+            tbody.querySelectorAll('.delete[data-orderkey]').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const key = btn.dataset.orderkey;
+                    if (confirm('Hapus pesanan ini?')) {
+                        await remove(ref(db, `logo-shop/orders/${key}`));
+                        showToast('Pesanan dihapus.', 'success');
+                        loadOrdersJasa();
+                        loadOrdersProduk();
+                        loadQueue();
+                        loadStats();
+                    }
+                });
+            });
+        }
+
+        // ============================================================
+        // 13. LOAD: ANTRIAN
+        // ============================================================
+        function loadQueue() {
+            const tbody = document.getElementById('queueTableBody');
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat...</td></tr>`;
+            onValue(ref(db, 'logo-shop/queue'), (snap) => {
+                const data = snap.val();
+                if (!data) { tbody.innerHTML =
+                        `<tr><td colspan="6" class="empty-state"><i class="fas fa-clock"></i> Tidak ada antrian.</td></tr>`; return; }
+                const sorted = Object.entries(data).sort((a, b) => (a[1].number || 0) - (b[1].number || 0));
+                let html = '';
+                sorted.forEach(([key, item]) => {
+                    const time = item.createdAt ? new Date(item.createdAt).toLocaleString('id-ID') : '—';
+                    const status = item.status || 'waiting';
+                    const badge = status === 'done' ? 'success' : 'warning';
+                    html += `<tr>
+                            <td><strong>#${item.number || '?'}</strong></td>
+                            <td>${item.productName || '—'}</td>
+                            <td><code style="font-size:0.7rem;">${item.deviceId || '—'}</code></td>
+                            <td><span class="badge badge-${badge}">${status}</span></td>
+                            <td>${time}</td>
+                            <td>
+                                <button class="btn-icon check" data-qkey="${key}"><i class="fas fa-check-circle"></i></button>
+                                <button class="btn-icon delete" data-qkey="${key}"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>`;
+                });
+                tbody.innerHTML = html;
+                tbody.querySelectorAll('.check[data-qkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const qKey = btn.dataset.qkey;
+                        if (confirm('Tandai antrian ini selesai?')) {
+                            await remove(ref(db, `logo-shop/queue/${qKey}`));
+                            showToast('Antrian selesai.', 'success');
+                            loadQueue();
+                            loadOrdersJasa();
+                            loadOrdersProduk();
+                            loadStats();
+                            await renumberQueue();
+                        }
+                    });
+                });
+                tbody.querySelectorAll('.delete[data-qkey]').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const qKey = btn.dataset.qkey;
+                        if (confirm('Hapus antrian ini?')) {
+                            await remove(ref(db, `logo-shop/queue/${qKey}`));
+                            showToast('Antrian dihapus.', 'success');
+                            loadQueue();
+                            await renumberQueue();
+                        }
+                    });
+                });
+            });
+        }
+
+        async function renumberQueue() {
+            const snap = await get(ref(db, 'logo-shop/queue'));
+            const data = snap.val();
+            if (!data) return;
+            const sorted = Object.entries(data).sort((a, b) => (a[1].number || 0) - (b[1].number || 0));
+            let i = 1;
+            for (const [key, val] of sorted) {
+                if (val.number !== i) await update(ref(db, `logo-shop/queue/${key}`), { number: i });
+                i++;
+            }
+            loadQueue();
+        }
+
+        // ============================================================
+        // 14. BUTTONS
+        // ============================================================
+        document.getElementById('btnTambahDigital').addEventListener('click', () => openModal('digital'));
+        document.getElementById('btnTambahJasa').addEventListener('click', () => openModal('jasa'));
+        document.getElementById('btnTambahBerita').addEventListener('click', () => openModal('news'));
+
+        document.getElementById('btnResetQueue').addEventListener('click', async () => {
+            if (confirm('Yakin menghapus semua antrian?')) { await remove(ref(db, 'logo-shop/queue'));
+                showToast('Semua antrian dihapus.', 'success');
+                loadQueue();
+                loadStats(); }
+        });
+
+        document.getElementById('refreshBtn').addEventListener('click', () => {
+            loadDigital();
+            loadJasa();
+            loadNews();
+            loadOrdersJasa();
+            loadOrdersProduk();
+            loadQueue();
+            loadStats();
+            showToast('Data direfresh.', 'info');
+        });
+        document.getElementById('refreshBtnTop').addEventListener('click', () => {
+            document.getElementById('refreshBtn').click();
         });
 
         // ============================================================
-        // 12. INIT
+        // 15. HAMBURGER
         // ============================================================
-        console.log('💳 Payment page loaded. Device ID:', DEVICE_ID);
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // ============================================================
+        // 16. INIT
+        // ============================================================
+        loadStats();
+        console.log('✅ Admin Panel siap!');
     </script>
 
 </body>
-</html>
+    </html>
