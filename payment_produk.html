@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pembayaran - NEV Market</title>
+    <title>Pembayaran Jasa - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           ROOT — Light / Dark Mode
+           ROOT — Light / Dark Mode (sama seperti sebelumnya)
            ============================================================ */
         :root {
             --bg-body: #f1f5f9;
@@ -58,9 +58,6 @@
             }
         }
 
-        /* ============================================================
-           RESET & GLOBAL
-           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -227,7 +224,6 @@
             margin-bottom: 20px;
         }
 
-        /* ANIMASI COIN + GELOMBANG UANG */
         .payment-animation {
             position: relative;
             width: 80px;
@@ -255,38 +251,17 @@
             border-radius: 50%;
             animation: shadowPulse 2.5s ease-in-out infinite;
         }
-
         @keyframes coinSpin {
-            0% {
-                transform: translate(-50%, -50%) rotateY(0deg) scale(1);
-            }
-            25% {
-                transform: translate(-50%, -50%) rotateY(180deg) scale(1.1);
-            }
-            50% {
-                transform: translate(-50%, -50%) rotateY(360deg) scale(1);
-            }
-            75% {
-                transform: translate(-50%, -50%) rotateY(540deg) scale(1.05);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotateY(720deg) scale(1);
-            }
+            0% { transform: translate(-50%, -50%) rotateY(0deg) scale(1); }
+            25% { transform: translate(-50%, -50%) rotateY(180deg) scale(1.1); }
+            50% { transform: translate(-50%, -50%) rotateY(360deg) scale(1); }
+            75% { transform: translate(-50%, -50%) rotateY(540deg) scale(1.05); }
+            100% { transform: translate(-50%, -50%) rotateY(720deg) scale(1); }
         }
-
         @keyframes shadowPulse {
-            0%,
-            100% {
-                transform: translateX(-50%) scale(1);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translateX(-50%) scale(0.7);
-                opacity: 0.2;
-            }
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+            50% { transform: translateX(-50%) scale(0.7); opacity: 0.2; }
         }
-
-        /* PARTIKEL UANG BERJATUHAN */
         .payment-animation .particles {
             position: absolute;
             top: 0;
@@ -303,46 +278,17 @@
             animation: particleFall 3s ease-in-out infinite;
             opacity: 0;
         }
-        .payment-animation .particles span:nth-child(1) {
-            left: 5%;
-            animation-delay: 0s;
-        }
-        .payment-animation .particles span:nth-child(2) {
-            left: 20%;
-            animation-delay: 0.6s;
-        }
-        .payment-animation .particles span:nth-child(3) {
-            left: 40%;
-            animation-delay: 1.2s;
-        }
-        .payment-animation .particles span:nth-child(4) {
-            left: 60%;
-            animation-delay: 0.3s;
-        }
-        .payment-animation .particles span:nth-child(5) {
-            left: 80%;
-            animation-delay: 0.9s;
-        }
-        .payment-animation .particles span:nth-child(6) {
-            left: 95%;
-            animation-delay: 1.5s;
-        }
-
+        .payment-animation .particles span:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .payment-animation .particles span:nth-child(2) { left: 20%; animation-delay: 0.6s; }
+        .payment-animation .particles span:nth-child(3) { left: 40%; animation-delay: 1.2s; }
+        .payment-animation .particles span:nth-child(4) { left: 60%; animation-delay: 0.3s; }
+        .payment-animation .particles span:nth-child(5) { left: 80%; animation-delay: 0.9s; }
+        .payment-animation .particles span:nth-child(6) { left: 95%; animation-delay: 1.5s; }
         @keyframes particleFall {
-            0% {
-                transform: translateY(-20px) rotate(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(70px) rotate(180deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(70px) rotate(180deg); opacity: 0; }
         }
 
         .payment-header h1 {
@@ -606,9 +552,7 @@
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
         /* ============================================================
@@ -665,7 +609,7 @@
         }
 
         /* ============================================================
-           POPUP SUKSES
+           POPUP SUKSES (untuk konfirmasi pembayaran)
            ============================================================ */
         .success-overlay {
             position: fixed;
@@ -685,22 +629,16 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            max-width: 420px;
+            max-width: 480px;
             width: 100%;
-            padding: 36px 24px 24px;
+            padding: 36px 28px 28px;
             text-align: center;
             box-shadow: var(--shadow-lg);
             animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes slideUpPopup {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.94); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
         .success-popup .icon {
             font-size: 3.5rem;
@@ -709,14 +647,8 @@
             animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes popIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
         .success-popup h2 {
             font-size: 1.3rem;
@@ -741,6 +673,148 @@
         .success-popup .btn {
             font-size: 0.9rem;
             padding: 12px;
+        }
+
+        /* ============================================================
+           POPUP FORM — untuk mengisi data jasa (muncul setelah konfirmasi)
+           ============================================================ */
+        .form-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            padding: 20px;
+        }
+        .form-overlay.active {
+            display: flex;
+        }
+        .form-popup {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px 28px 28px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .form-popup h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+        .form-popup .sub {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .form-popup .form-group {
+            margin-bottom: 14px;
+        }
+        .form-popup .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+        .form-popup .form-group label .required {
+            color: var(--accent-red);
+        }
+        .form-popup .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            font-family: inherit;
+            outline: none;
+        }
+        .form-popup .form-group input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+        .form-popup .form-group .hint {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .form-popup .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .form-popup .btn-group .btn {
+            flex: 1;
+        }
+
+        /* ============================================================
+           POPUP ANTRIAN
+           ============================================================ */
+        .queue-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10002;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            padding: 20px;
+        }
+        .queue-overlay.active {
+            display: flex;
+        }
+        .queue-popup {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            max-width: 440px;
+            width: 100%;
+            padding: 40px 28px 28px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .queue-popup .icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 8px;
+        }
+        .queue-popup h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .queue-popup .queue-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            margin: 4px 0;
+        }
+        .queue-popup .queue-status {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 4px 0 8px;
+        }
+        .queue-popup .queue-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .queue-popup .queue-note i {
+            color: var(--accent-blue);
         }
 
         /* ============================================================
@@ -775,97 +849,35 @@
         .toast i {
             font-size: 1rem;
         }
-        .toast.success i {
-            color: var(--accent-green);
-        }
-        .toast.error i {
-            color: var(--accent-red);
-        }
-        .toast.info i {
-            color: var(--accent-blue);
-        }
+        .toast.success i { color: var(--accent-green); }
+        .toast.error i { color: var(--accent-red); }
+        .toast.info i { color: var(--accent-blue); }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 480px) {
-            .payment-card {
-                padding: 18px 14px 18px;
-            }
-            .payment-header h1 {
-                font-size: 1.2rem;
-            }
-            .payment-methods {
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
-            }
-            .method-item {
-                padding: 8px 4px;
-            }
-            .method-item .icon img {
-                width: 28px;
-                height: 28px;
-            }
-            .method-item .name {
-                font-size: 0.7rem;
-            }
-            .method-item .sub {
-                font-size: 0.55rem;
-            }
-            .product-detail {
-                padding: 8px 10px;
-            }
-            .product-detail .label {
-                font-size: 0.6rem;
-                min-width: 48px;
-            }
-            .product-detail .value {
-                font-size: 0.7rem;
-                max-width: 55%;
-            }
-            .product-detail .value.price {
-                font-size: 0.8rem;
-            }
-            .product-detail .value.desc {
-                font-size: 0.65rem;
-            }
-            .method-detail {
-                padding: 10px 12px;
-                min-height: 80px;
-            }
-            .method-detail .number-box .number {
-                font-size: 0.85rem;
-            }
-            .payment-animation {
-                width: 60px;
-                height: 60px;
-            }
-            .payment-animation .coin {
-                font-size: 2.2rem;
-            }
-            .confirm-popup {
-                padding: 20px 16px 16px;
-            }
-            .confirm-popup .btn-group {
-                flex-direction: column;
-            }
-            .success-popup {
-                padding: 28px 16px 20px;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .payment-methods {
-                grid-template-columns: 1fr 1fr;
-                gap: 4px;
-            }
-            .method-item .icon img {
-                width: 24px;
-                height: 24px;
-            }
-            .method-item .name {
-                font-size: 0.65rem;
-            }
+            .payment-card { padding: 18px 14px 18px; }
+            .payment-header h1 { font-size: 1.2rem; }
+            .payment-methods { grid-template-columns: 1fr 1fr; gap: 6px; }
+            .method-item { padding: 8px 4px; }
+            .method-item .icon img { width: 28px; height: 28px; }
+            .method-item .name { font-size: 0.7rem; }
+            .method-item .sub { font-size: 0.55rem; }
+            .product-detail { padding: 8px 10px; }
+            .product-detail .label { font-size: 0.6rem; min-width: 48px; }
+            .product-detail .value { font-size: 0.7rem; max-width: 55%; }
+            .product-detail .value.price { font-size: 0.8rem; }
+            .product-detail .value.desc { font-size: 0.65rem; }
+            .method-detail { padding: 10px 12px; min-height: 80px; }
+            .method-detail .number-box .number { font-size: 0.85rem; }
+            .payment-animation { width: 60px; height: 60px; }
+            .payment-animation .coin { font-size: 2.2rem; }
+            .confirm-popup { padding: 20px 16px 16px; }
+            .confirm-popup .btn-group { flex-direction: column; }
+            .success-popup { padding: 28px 16px 20px; }
+            .form-popup { padding: 24px 16px 20px; }
+            .queue-popup { padding: 28px 16px 20px; }
         }
     </style>
 </head>
@@ -892,19 +904,46 @@
             </div>
         </div>
 
-        <!-- ============ POPUP SUKSES ============ -->
+        <!-- ============ POPUP SUKSES (konfirmasi pembayaran) ============ -->
         <div class="success-overlay" id="successOverlay">
             <div class="success-popup">
                 <div class="icon"><i class="fas fa-check-circle"></i></div>
                 <h2>Pembayaran Berhasil!</h2>
-                <p>Saldo Anda telah terkonfirmasi.</p>
+                <p>Saldo Anda telah terkonfirmasi. Silakan lengkapi data di bawah.</p>
                 <div class="product-name" id="successProductName">—</div>
-                <a href="#" id="successDownloadLink" target="_blank" class="btn btn-success">
-                    <i class="fas fa-download"></i> Unduh Sekarang
-                </a>
-                <button class="btn btn-ghost" id="successCloseBtn" style="margin-top:10px;width:auto;padding:6px 24px;">
-                    Selesai
+                <button class="btn btn-primary" id="successContinueBtn">
+                    <i class="fas fa-arrow-right"></i> Lanjutkan
                 </button>
+            </div>
+        </div>
+
+        <!-- ============ POPUP FORM JASA ============ -->
+        <div class="form-overlay" id="formOverlay">
+            <div class="form-popup">
+                <h2><i class="fas fa-pen-fancy"></i> Data Pengiriman</h2>
+                <p class="sub">Isi data berikut untuk memproses pesanan jasa Anda.</p>
+                <div id="formFields">
+                    <!-- akan diisi oleh JS -->
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-success" id="btnKirimData"><i class="fas fa-paper-plane"></i> Kirim</button>
+                    <button class="btn btn-outline" id="btnFormBatal">Batal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ POPUP ANTRIAN ============ -->
+        <div class="queue-overlay" id="queueOverlay">
+            <div class="queue-popup">
+                <div class="icon"><i class="fas fa-clock"></i></div>
+                <h2>Pesanan Diterima!</h2>
+                <div class="queue-number" id="queueNumber">#1</div>
+                <div class="queue-status" id="queueStatus">🎉 Produk telah diproses!</div>
+                <div class="queue-note">
+                    <i class="fas fa-info-circle"></i> Antrian akan turun otomatis setelah pesanan sebelumnya selesai.<br>
+                    Admin akan menghubungi Anda.
+                </div>
+                <button class="btn btn-primary" id="queueCloseBtn"><i class="fas fa-check"></i> Saya Mengerti</button>
             </div>
         </div>
 
@@ -921,20 +960,16 @@
                 <div class="payment-animation">
                     <div class="coin"><i class="fas fa-coins"></i></div>
                     <div class="particles">
-                        <span>💰</span>
-                        <span>💵</span>
-                        <span>💰</span>
-                        <span>💵</span>
-                        <span>💰</span>
-                        <span>💵</span>
+                        <span>💰</span><span>💵</span><span>💰</span>
+                        <span>💵</span><span>💰</span><span>💵</span>
                     </div>
                     <div class="coin-shadow"></div>
                 </div>
-                <h1>Pembayaran</h1>
+                <h1>Pembayaran Jasa</h1>
                 <p>Pilih metode & selesaikan transaksi</p>
             </div>
 
-            <!-- DETAIL PRODUK — COMPACT -->
+            <!-- DETAIL PRODUK -->
             <div class="product-detail" id="productDetail">
                 <div class="row">
                     <span class="label">Produk</span>
@@ -947,6 +982,10 @@
                 <div class="row">
                     <span class="label">Deskripsi</span>
                     <span class="value desc" id="detailDesc">-</span>
+                </div>
+                <div class="row" id="supportRow" style="display:none;">
+                    <span class="label">Dukungan</span>
+                    <span class="value desc" id="detailSupport" style="font-weight:400;font-size:0.7rem;"></span>
                 </div>
             </div>
 
@@ -980,7 +1019,7 @@
 
             <!-- DETAIL METODE -->
             <div class="method-detail" id="methodDetail">
-                <!-- Diisi oleh JS -->
+                <!-- diisi oleh JS -->
             </div>
 
             <!-- TOMBOL SUDAH BAYAR -->
@@ -1054,8 +1093,7 @@
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
             const icon = t.querySelector('i');
-            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
-                'info-circle');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle');
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
@@ -1066,7 +1104,6 @@
         // 4. POPUP KONFIRMASI CUSTOM
         // ============================================================
         let confirmCallback = null;
-
         function showConfirm(title, message, onConfirm) {
             const overlay = document.getElementById('confirmOverlay');
             document.getElementById('confirmTitle').textContent = title;
@@ -1074,12 +1111,10 @@
             confirmCallback = onConfirm;
             overlay.classList.add('active');
         }
-
         document.getElementById('confirmNo').addEventListener('click', () => {
             document.getElementById('confirmOverlay').classList.remove('active');
             confirmCallback = null;
         });
-
         document.getElementById('confirmYes').addEventListener('click', () => {
             document.getElementById('confirmOverlay').classList.remove('active');
             if (confirmCallback) {
@@ -1099,14 +1134,29 @@
         }
         const product = getProductData();
         if (!product) {
-            window.location.href = 'produk-digital.html';
+            window.location.href = 'produk-jasa.html';
             showToast('Data produk tidak ditemukan.', 'error');
         }
 
-        document.getElementById('detailName').textContent = product.name || 'Produk';
-        document.getElementById('detailPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product.price ||
-            0);
+        // Tampilkan detail produk
+        document.getElementById('detailName').textContent = product.name || 'Jasa';
+        document.getElementById('detailPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product.price || 0);
         document.getElementById('detailDesc').textContent = product.description || '—';
+
+        // Dukungan
+        const support = product.support || {};
+        const supportItems = [
+            { key: 'nama', label: 'Nama' },
+            { key: 'wa', label: 'No WhatsApp' },
+            { key: 'sosmed', label: 'Sosial Media' }
+        ];
+        const supportList = supportItems.filter(s => support[s.key] === true).map(s => s.label);
+        if (supportList.length) {
+            document.getElementById('supportRow').style.display = 'flex';
+            document.getElementById('detailSupport').textContent = supportList.join(', ');
+        } else {
+            document.getElementById('supportRow').style.display = 'none';
+        }
 
         // ============================================================
         // 6. METODE PEMBAYARAN
@@ -1116,47 +1166,47 @@
                 label: 'QRIS',
                 icon: 'https://i.ibb.co.com/59nMK9d/qris-icon.png',
                 render: () => `
-                        <div class="qr-wrap">
-                            <img src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" id="qrImage" />
-                        </div>
-                        <div class="actions">
-                            <button class="btn btn-ghost" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
-                        </div>
-                        <div class="info-text">Scan QR Code menggunakan mobile banking atau e-wallet.</div>
-                    `
+                    <div class="qr-wrap">
+                        <img src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" id="qrImage" />
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-ghost" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
+                    </div>
+                    <div class="info-text">Scan QR Code menggunakan mobile banking atau e-wallet.</div>
+                `
             },
             dana: {
                 label: 'DANA',
                 icon: 'https://i.ibb.co.com/4gKQKVr/dana-icon.png',
                 render: () => `
-                        <div class="number-box">
-                            <span class="number">0896-0326-6259</span>
-                            <button class="btn-copy" data-copy="089603266259"><i class="fas fa-copy"></i> Salin</button>
-                        </div>
-                        <div class="info-text">Kirim ke nomor DANA di atas, lalu klik "Saya Sudah Bayar".</div>
-                    `
+                    <div class="number-box">
+                        <span class="number">0896-0326-6259</span>
+                        <button class="btn-copy" data-copy="089603266259"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <div class="info-text">Kirim ke nomor DANA di atas, lalu klik "Saya Sudah Bayar".</div>
+                `
             },
             gopay: {
                 label: 'GoPay',
                 icon: 'https://i.ibb.co.com/3pPdcsL/gopay-icon.png',
                 render: () => `
-                        <div class="number-box">
-                            <span class="number">0899-3360-673</span>
-                            <button class="btn-copy" data-copy="08993360673"><i class="fas fa-copy"></i> Salin</button>
-                        </div>
-                        <div class="info-text">Kirim ke nomor GoPay di atas, lalu klik "Saya Sudah Bayar".</div>
-                    `
+                    <div class="number-box">
+                        <span class="number">0899-3360-673</span>
+                        <button class="btn-copy" data-copy="08993360673"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <div class="info-text">Kirim ke nomor GoPay di atas, lalu klik "Saya Sudah Bayar".</div>
+                `
             },
             seabank: {
                 label: 'SeaBank',
                 icon: 'https://i.ibb.co.com/YRkHJhC/seabank-icon.png',
                 render: () => `
-                        <div class="number-box">
-                            <span class="number">9016-5836-0604</span>
-                            <button class="btn-copy" data-copy="901658360604"><i class="fas fa-copy"></i> Salin</button>
-                        </div>
-                        <div class="info-text">Kirim ke rekening SeaBank di atas, lalu klik "Saya Sudah Bayar".</div>
-                    `
+                    <div class="number-box">
+                        <span class="number">9016-5836-0604</span>
+                        <button class="btn-copy" data-copy="901658360604"><i class="fas fa-copy"></i> Salin</button>
+                    </div>
+                    <div class="info-text">Kirim ke rekening SeaBank di atas, lalu klik "Saya Sudah Bayar".</div>
+                `
             }
         };
 
@@ -1235,7 +1285,6 @@
         function startTimer() {
             timerSeconds = 180;
             updateTimerDisplay();
-
             timerInterval = setInterval(() => {
                 timerSeconds--;
                 updateTimerDisplay();
@@ -1268,8 +1317,7 @@
         }
 
         function stopTimer() {
-            if (timerInterval) { clearInterval(timerInterval);
-                timerInterval = null; }
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
 
         function monitorOrderStatus(orderKey) {
@@ -1281,35 +1329,195 @@
                     if (!isConfirmed) {
                         isConfirmed = true;
                         stopTimer();
-                        showSuccessPopup();
+                        // Tampilkan popup sukses pembayaran
+                        showPaymentSuccess();
                         showToast('Pembayaran berhasil dikonfirmasi!', 'success');
-                        if (orderListenerRef) { orderListenerRef();
-                            orderListenerRef = null; }
+                        if (orderListenerRef) { orderListenerRef(); orderListenerRef = null; }
                     }
                 }
             });
         }
 
-        function showSuccessPopup() {
+        // ============================================================
+        // 8. POPUP SUKSES PEMBAYARAN → lanjut ke form
+        // ============================================================
+        function showPaymentSuccess() {
             const overlay = document.getElementById('successOverlay');
-            document.getElementById('successProductName').textContent = product.name || 'Produk';
-            document.getElementById('successDownloadLink').href = product?.downloadLink || '#';
+            document.getElementById('successProductName').textContent = product.name || 'Jasa';
             overlay.classList.add('active');
         }
 
-        document.getElementById('successCloseBtn').addEventListener('click', () => {
+        document.getElementById('successContinueBtn').addEventListener('click', function() {
             document.getElementById('successOverlay').classList.remove('active');
-            window.location.href = 'produk-digital.html';
+            showFormPopup();
         });
-        document.getElementById('successOverlay').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) {
-                e.currentTarget.classList.remove('active');
-                window.location.href = 'produk-digital.html';
+
+        // ============================================================
+        // 9. FORM POPUP
+        // ============================================================
+        function showFormPopup() {
+            const container = document.getElementById('formFields');
+            const support = product.support || {};
+
+            let html = '';
+            // Nama (jika support)
+            if (support.nama) {
+                html += `
+                    <div class="form-group">
+                        <label>Nama <span class="required">*</span></label>
+                        <input type="text" id="fieldNama" placeholder="Masukkan nama Anda" required />
+                    </div>
+                `;
+            }
+            // No WA/Telepon (jika support)
+            if (support.wa) {
+                html += `
+                    <div class="form-group">
+                        <label>Nomor WhatsApp/Telepon <span class="required">*</span></label>
+                        <input type="text" id="fieldWa" placeholder="08xxxxxxxxxx" required />
+                        <div class="hint">Untuk komunikasi dan pengiriman hasil</div>
+                    </div>
+                `;
+            }
+            // Sosial Media (jika support)
+            if (support.sosmed) {
+                html += `
+                    <div class="form-group">
+                        <label>Akun Sosial Media <span class="required">*</span></label>
+                        <input type="text" id="fieldSosmed" placeholder="@instagram atau link" required />
+                        <div class="hint">Untuk keperluan branding dan publikasi</div>
+                    </div>
+                `;
+            }
+            // Nomer/Email penerima (wajib)
+            html += `
+                <div class="form-group">
+                    <label>Nomer/Email Penerima <span class="required">*</span></label>
+                    <input type="text" id="fieldReceiver" placeholder="Nomor HP atau email" required />
+                    <div class="hint">Produk akan dikirim ke kontak ini</div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+            document.getElementById('formOverlay').classList.add('active');
+        }
+
+        // ============================================================
+        // 10. KIRIM DATA → antrian
+        // ============================================================
+        document.getElementById('btnKirimData').addEventListener('click', async function() {
+            // Kumpulkan data dari form
+            const support = product.support || {};
+            const data = {};
+            if (support.nama) {
+                const val = document.getElementById('fieldNama')?.value.trim();
+                if (!val) { showToast('Nama wajib diisi.', 'error'); return; }
+                data.nama = val;
+            }
+            if (support.wa) {
+                const val = document.getElementById('fieldWa')?.value.trim();
+                if (!val) { showToast('Nomor WhatsApp wajib diisi.', 'error'); return; }
+                data.wa = val;
+            }
+            if (support.sosmed) {
+                const val = document.getElementById('fieldSosmed')?.value.trim();
+                if (!val) { showToast('Akun Sosial Media wajib diisi.', 'error'); return; }
+                data.sosmed = val;
+            }
+            const receiver = document.getElementById('fieldReceiver')?.value.trim();
+            if (!receiver) { showToast('Nomer/Email penerima wajib diisi.', 'error'); return; }
+            data.receiver = receiver;
+
+            // Tentukan nomor antrian
+            const queueRef = ref(db, 'logo-shop/queue');
+            let queueNumber = 1;
+            try {
+                const snapshot = await get(queueRef);
+                const queueData = snapshot.val();
+                if (queueData) {
+                    const numbers = Object.values(queueData).map(q => q.number || 0);
+                    const maxNum = Math.max(...numbers, 0);
+                    queueNumber = maxNum + 1;
+                }
+            } catch (e) {
+                console.warn('Gagal baca antrian:', e);
+            }
+
+            // Update order dengan data + antrian
+            if (!currentOrderKey) {
+                showToast('Order tidak ditemukan.', 'error');
+                return;
+            }
+
+            const orderUpdates = {
+                ...data,
+                receiverNumber: receiver,
+                queueNumber,
+                status: 'in_queue',
+                formFilled: true
+            };
+            await update(ref(db, `logo-shop/orders/${currentOrderKey}`), orderUpdates);
+
+            // Simpan ke antrian
+            const newQueueRef = push(ref(db, 'logo-shop/queue'));
+            await set(newQueueRef, {
+                orderKey: currentOrderKey,
+                number: queueNumber,
+                deviceId: DEVICE_ID,
+                productName: product.name || 'Jasa',
+                createdAt: serverTimestamp(),
+                status: 'waiting'
+            });
+
+            // Tampilkan popup antrian
+            showQueuePopup(queueNumber);
+        });
+
+        // ============================================================
+        // 11. POPUP ANTRIAN
+        // ============================================================
+        function showQueuePopup(number) {
+            const overlay = document.getElementById('queueOverlay');
+            document.getElementById('queueNumber').textContent = '#' + number;
+            const statusEl = document.getElementById('queueStatus');
+            if (number === 1) {
+                statusEl.textContent = '🎉 Produk telah diproses!';
+            } else {
+                statusEl.textContent = '⏳ Mohon tunggu karena ada antrian lain.';
+            }
+            overlay.classList.add('active');
+            // Tutup form overlay
+            document.getElementById('formOverlay').classList.remove('active');
+        }
+
+        document.getElementById('queueCloseBtn').addEventListener('click', function() {
+            document.getElementById('queueOverlay').classList.remove('active');
+            window.location.href = 'produk-jasa.html';
+        });
+        document.getElementById('queueOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                window.location.href = 'produk-jasa.html';
             }
         });
 
         // ============================================================
-        // 8. TOMBOL "SUDAH BAYAR"
+        // 12. TOMBOL BATAL FORM
+        // ============================================================
+        document.getElementById('btnFormBatal').addEventListener('click', function() {
+            showConfirm(
+                'Batalkan Pengisian?',
+                'Data yang Anda isi akan hilang. Anda dapat mengisi ulang nanti.',
+                () => {
+                    document.getElementById('formOverlay').classList.remove('active');
+                    // Kembali ke halaman produk
+                    window.location.href = 'produk-jasa.html';
+                }
+            );
+        });
+
+        // ============================================================
+        // 13. TOMBOL "SUDAH BAYAR"
         // ============================================================
         document.getElementById('btnSudahBayar').addEventListener('click', function() {
             if (!product) { showToast('Data produk tidak valid.', 'error'); return; }
@@ -1323,15 +1531,22 @@
 
             set(newOrderRef, {
                 productId: product.key || '',
-                productName: product.name || 'Produk',
+                productName: product.name || 'Jasa',
                 price: product.price || 0,
                 deviceId: DEVICE_ID,
                 status: 'pending',
-                isJasa: false,
+                isJasa: true,
+                support: product.support || {},
                 paymentMethod: currentMethod,
                 orderDate: serverTimestamp(),
                 paymentDate: serverTimestamp(),
-                confirmed: false
+                confirmed: false,
+                formFilled: false,
+                nama: '',
+                wa: '',
+                sosmed: '',
+                receiverNumber: '',
+                queueNumber: 0
             }).then(() => {
                 showToast('Pesanan dibuat! Menunggu konfirmasi admin...', 'info');
             }).catch(err => {
@@ -1353,20 +1568,20 @@
         });
 
         // ============================================================
-        // 9. BATAL — DENGAN POPUP CUSTOM
+        // 14. BATAL — RESET STATE
         // ============================================================
         document.getElementById('btnBatal').addEventListener('click', function() {
             if (!currentOrderKey) return;
             showConfirm(
                 'Batalkan Pesanan?',
-                'Jika Anda membatalkan pesanan, proses pembayaran akan dihentikan. Anda dapat memesan ulang nanti.',
+                'Jika Anda membatalkan, proses akan direset dan Anda bisa memesan ulang.',
                 async () => {
                     try {
                         await update(ref(db, `logo-shop/orders/${currentOrderKey}`), { status: 'cancelled' });
                         showToast('Pesanan dibatalkan.', 'info');
                         stopTimer();
-                        if (orderListenerRef) { orderListenerRef();
-                            orderListenerRef = null; }
+                        if (orderListenerRef) { orderListenerRef(); orderListenerRef = null; }
+                        // Reset UI ke awal
                         document.getElementById('statusSection').classList.remove('active');
                         document.getElementById('btnSudahBayar').style.display = 'block';
                         document.getElementById('btnSudahBayar').disabled = false;
@@ -1375,6 +1590,8 @@
                         document.getElementById('methodDetail').style.display = 'flex';
                         document.getElementById('btnClose').style.display = 'block';
                         localStorage.removeItem('current_order_key');
+                        // Reset data produk (bisa reload ulang data dari localStorage)
+                        window.location.reload();
                     } catch (err) {
                         showToast('Gagal membatalkan: ' + err.message, 'error');
                     }
@@ -1383,44 +1600,34 @@
         });
 
         // ============================================================
-        // 10. KEMBALI — DENGAN POPUP CUSTOM
+        // 15. KEMBALI & TUTUP — dengan konfirmasi
         // ============================================================
         document.getElementById('btnBack').addEventListener('click', function() {
-            // Jika sedang dalam proses pembayaran (timer aktif), tanyakan konfirmasi
             if (document.getElementById('statusSection').classList.contains('active')) {
                 showConfirm(
                     'Kembali ke Halaman Sebelumnya?',
-                    'Pesanan Anda sedang diproses. Jika kembali, Anda harus memulai ulang pembayaran.',
-                    () => {
-                        window.location.href = 'produk.html';
-                    }
+                    'Pesanan sedang diproses. Jika kembali, Anda harus memulai ulang.',
+                    () => { window.location.href = 'produk-jasa.html'; }
                 );
             } else {
                 showConfirm(
                     'Kembali ke Halaman Sebelumnya?',
-                    'Data pembayaran akan hilang jika Anda kembali.',
-                    () => {
-                        window.location.href = 'produk.html';
-                    }
+                    'Data pembayaran akan hilang.',
+                    () => { window.location.href = 'produk-jasa.html'; }
                 );
             }
         });
 
-        // ============================================================
-        // 11. TOMBOL TUTUP
-        // ============================================================
         document.getElementById('btnClose').addEventListener('click', function() {
             showConfirm(
                 'Tutup Halaman?',
-                'Data pembayaran akan hilang jika Anda keluar.',
-                () => {
-                    window.location.href = 'produk.html';
-                }
+                'Data pembayaran akan hilang.',
+                () => { window.location.href = 'produk-jasa.html'; }
             );
         });
 
         // ============================================================
-        // 12. CEK ORDER TERTUNDA
+        // 16. CEK ORDER TERTUNDA
         // ============================================================
         const savedKey = localStorage.getItem('current_order_key');
         if (savedKey) {
@@ -1439,7 +1646,17 @@
                     monitorOrderStatus(savedKey);
                     showToast('Melanjutkan pesanan yang tertunda...', 'info');
                 } else if (order && (order.status === 'confirmed' || order.status === 'completed')) {
-                    showSuccessPopup();
+                    // Jika sudah confirmed, tampilkan form
+                    if (!order.formFilled) {
+                        showPaymentSuccess();
+                    } else {
+                        // Jika sudah diisi form, tampilkan antrian jika ada
+                        if (order.queueNumber) {
+                            showQueuePopup(order.queueNumber);
+                        } else {
+                            showPaymentSuccess();
+                        }
+                    }
                 } else {
                     localStorage.removeItem('current_order_key');
                 }
@@ -1447,10 +1664,10 @@
         }
 
         // ============================================================
-        // 13. INIT
+        // 17. INIT
         // ============================================================
-        console.log('💳 Payment page loaded. Device ID:', DEVICE_ID);
+        console.log('💳 Payment Jasa page loaded. Device ID:', DEVICE_ID);
     </script>
 
 </body>
-    </html>
+</html>
