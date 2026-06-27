@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pembayaran Produk - NEV Market</title>
+    <title>Pembayaran - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <script type="importmap">
@@ -21,7 +21,45 @@
 
     <style>
         /* ============================================================
-           RESET & GLOBAL — Premium Dark
+           ROOT — Light / Dark Mode
+           ============================================================ */
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-input: #f8fafc;
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-gold: #f5b342;
+            --accent-red: #ef4444;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --transition: 0.25s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-body: #0b0f1a;
+                --bg-card: #131a2b;
+                --bg-input: rgba(255, 255, 255, 0.04);
+                --border: #2a3348;
+                --text-primary: #f0f4ff;
+                --text-secondary: #94a3b8;
+                --text-muted: #64748b;
+                --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        /* ============================================================
+           RESET & GLOBAL
            ============================================================ */
         * {
             margin: 0;
@@ -29,53 +67,22 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-primary: #0b0f1a;
-            --bg-secondary: #131a2b;
-            --bg-card: rgba(255, 255, 255, 0.06);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #f0f4ff;
-            --text-secondary: #94a3b8;
-            --accent-gold: #f5b342;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --shadow-lg: 0 25px 60px rgba(0, 0, 0, 0.7);
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-body);
             color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            background-image: radial-gradient(ellipse at 10% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 90% 70%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 640px;
             width: 100%;
-            position: relative;
-            z-index: 1;
         }
 
         /* ============================================================
@@ -86,11 +93,11 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 14px 28px;
+            padding: 12px 24px;
             border: none;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: var(--transition);
             font-family: inherit;
@@ -100,83 +107,111 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             color: #fff;
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
         }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 36px rgba(59, 130, 246, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59, 130, 246, 0.35);
         }
         .btn-success {
             background: var(--accent-green);
             color: #fff;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
         }
         .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 36px rgba(16, 185, 129, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.35);
         }
         .btn-outline {
             background: transparent;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             color: var(--text-secondary);
         }
         .btn-outline:hover {
             border-color: var(--accent-blue);
-            color: #fff;
-            background: rgba(59, 130, 246, 0.08);
-        }
-        .btn-download {
-            background: rgba(255, 255, 255, 0.06);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
+            background: rgba(59, 130, 246, 0.04);
         }
-        .btn-download:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .btn-close {
+        .btn-ghost {
             background: transparent;
             color: var(--text-secondary);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            font-size: 0.8rem;
+            width: auto;
         }
-        .btn-close:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
+        .btn-ghost:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
         }
         .btn-batal {
             background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
             padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
             font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-            margin-top: 16px;
+            width: auto;
+            margin-top: 8px;
         }
         .btn-batal:hover {
             border-color: var(--accent-red);
             color: var(--accent-red);
+        }
+        .btn-back {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            margin-bottom: 16px;
+        }
+        .btn-back:hover {
+            color: var(--text-primary);
+        }
+        .btn-copy {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--accent-blue);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .btn-copy:hover {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
         }
 
         /* ============================================================
            CARD UTAMA
            ============================================================ */
         .payment-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 40px 32px 32px;
+            padding: 32px 28px 28px;
             box-shadow: var(--shadow-lg);
-            backdrop-filter: blur(12px);
-            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(40px) scale(0.96);
+                transform: translateY(30px) scale(0.96);
             }
             to {
                 opacity: 1;
@@ -184,52 +219,50 @@
             }
         }
 
+        /* HEADER */
         .payment-header {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
-        .payment-header .icon-wrapper {
+        .payment-header .icon-wrap {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 72px;
-            height: 72px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
-            border: 1px solid var(--border-color);
-            margin-bottom: 12px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
         }
-        .payment-header .icon-wrapper i {
-            font-size: 2rem;
+        .payment-header .icon-wrap i {
+            font-size: 1.8rem;
             color: var(--accent-gold);
         }
         .payment-header h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .payment-header p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 4px;
+            font-size: 0.9rem;
+            margin-top: 2px;
         }
 
-        /* ============================================================
-           DETAIL PRODUK
-           ============================================================ */
+        /* DETAIL PRODUK */
         .product-detail {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: var(--bg-input);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            padding: 20px 24px;
+            padding: 16px 20px;
             margin-bottom: 24px;
         }
         .product-detail .row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            align-items: flex-start;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
         }
         .product-detail .row:last-child {
             border-bottom: none;
@@ -237,105 +270,178 @@
         .product-detail .label {
             color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.85rem;
-            min-width: 90px;
+            font-size: 0.8rem;
         }
         .product-detail .value {
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-align: right;
             word-break: break-word;
-            max-width: 70%;
+            max-width: 65%;
         }
         .product-detail .value.price {
             color: var(--accent-gold);
-            font-size: 1.1rem;
+            font-size: 1rem;
+        }
+        .product-detail .value.desc {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.85rem;
+            text-align: right;
         }
 
         /* ============================================================
-           QR SECTION
+           METODE PEMBAYARAN
            ============================================================ */
-        .qr-section {
-            text-align: center;
-            padding: 12px 0 8px;
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-        .qr-section .qr-label {
+        .method-item {
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        .method-item:hover {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.04);
+        }
+        .method-item.active {
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.06);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
+        }
+        .method-item .icon {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .method-item .icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 4px;
+        }
+        .method-item .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .method-item .sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .method-item .check-mark {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            color: var(--accent-blue);
             font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+            display: none;
+        }
+        .method-item.active .check-mark {
+            display: block;
+        }
+
+        /* ============================================================
+           DETAIL PEMBAYARAN PER METODE
+           ============================================================ */
+        .method-detail {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            min-height: 120px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            text-align: center;
+            transition: var(--transition);
         }
-        .qr-section .qr-label i {
-            color: var(--accent-blue);
-        }
-        .qr-section .qr-wrapper {
-            display: inline-block;
+        .method-detail .qr-wrap {
             background: #fff;
-            padding: 12px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            max-width: 220px;
-            margin: 0 auto;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            max-width: 180px;
+            margin: 0 auto 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
         }
-        .qr-section .qr-wrapper img {
+        .method-detail .qr-wrap img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 8px;
+            border-radius: 6px;
         }
-        .qr-section .qr-actions {
+        .method-detail .number-box {
             display: flex;
+            align-items: center;
             gap: 12px;
-            justify-content: center;
-            margin-top: 16px;
             flex-wrap: wrap;
+            justify-content: center;
+            margin: 6px 0;
         }
-        .qr-section .qr-actions .btn {
-            flex: 0 1 auto;
-            padding: 10px 24px;
-            font-size: 0.85rem;
-            width: auto;
+        .method-detail .number-box .number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: monospace;
+            background: var(--bg-card);
+            padding: 4px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
-        .qr-section .qr-note {
-            margin-top: 14px;
-            font-size: 0.85rem;
+        .method-detail .info-text {
             color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .method-detail .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         /* ============================================================
-           TIMER & STATUS KONFIRMASI
+           STATUS / TIMER
            ============================================================ */
         .status-section {
             display: none;
-            margin-top: 20px;
-            padding: 24px 20px;
+            margin-top: 16px;
+            padding: 20px;
             border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-            background: var(--bg-card);
+            border: 1px solid var(--border);
+            background: var(--bg-input);
             text-align: center;
         }
         .status-section.active {
             display: block;
         }
-
         .status-section .timer-circle {
             position: relative;
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 12px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
         }
         .status-section .timer-circle svg {
             transform: rotate(-90deg);
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
         }
         .status-section .timer-circle .bg {
             fill: none;
-            stroke: var(--border-color);
+            stroke: var(--border);
             stroke-width: 5;
         }
         .status-section .timer-circle .progress {
@@ -343,8 +449,8 @@
             stroke: var(--accent-blue);
             stroke-width: 5;
             stroke-linecap: round;
-            stroke-dasharray: 251.2;
-            stroke-dashoffset: 251.2;
+            stroke-dasharray: 226.19;
+            stroke-dashoffset: 226.19;
             transition: stroke-dashoffset 1s linear;
         }
         .status-section .timer-circle .timer-text {
@@ -352,37 +458,36 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--text-primary);
         }
         .status-section .status-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .status-section .status-desc {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
         .status-section .status-desc .highlight {
             color: var(--accent-gold);
             font-weight: 600;
         }
-        .status-section .status-loading {
-            margin-top: 14px;
+        .status-section .spinner-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
+            margin-top: 10px;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
-        .status-section .status-loading .spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
+        .status-section .spinner-wrap .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border);
             border-top-color: var(--accent-blue);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -394,6 +499,85 @@
         }
 
         /* ============================================================
+           POPUP SUKSES
+           ============================================================ */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+        }
+        .success-overlay.active {
+            display: flex;
+        }
+        .success-popup {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            max-width: 440px;
+            width: 100%;
+            padding: 40px 28px 28px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes slideUpPopup {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .success-popup .icon {
+            font-size: 3.8rem;
+            color: var(--accent-green);
+            margin-bottom: 8px;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .success-popup h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .success-popup p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .success-popup .product-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            margin: 8px 0 14px;
+        }
+        .success-popup .btn {
+            font-size: 0.95rem;
+            padding: 14px;
+        }
+
+        /* ============================================================
            TOAST
            ============================================================ */
         .toast {
@@ -401,20 +585,20 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 12px 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 10px 24px;
             border-radius: 60px;
             box-shadow: var(--shadow-lg);
             z-index: 99999;
             display: none;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             backdrop-filter: blur(16px);
             opacity: 0;
             transition: all 0.35s ease;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-primary);
         }
         .toast.show {
@@ -429,225 +613,107 @@
             color: var(--accent-green);
         }
         .toast.error i {
-            color: #ef4444;
+            color: var(--accent-red);
         }
         .toast.info i {
             color: var(--accent-blue);
         }
 
         /* ============================================================
-           BACK BUTTON
-           ============================================================ */
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            transition: var(--transition);
-            text-decoration: none;
-            margin-bottom: 16px;
-        }
-        .back-link:hover {
-            color: #fff;
-        }
-
-        /* ============================================================
-           POPUP SUKSES
-           ============================================================ */
-        .success-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(14px);
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
-        }
-        .success-overlay.active {
-            display: flex;
-        }
-
-        .success-popup {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            max-width: 480px;
-            width: 100%;
-            padding: 44px 32px 32px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .success-popup::before {
-            content: '';
-            position: absolute;
-            top: -60%;
-            right: -30%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        .success-popup .icon-success {
-            font-size: 4rem;
-            color: var(--accent-green);
-            margin-bottom: 12px;
-            display: inline-block;
-            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        @keyframes popIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        @keyframes slideUpPopup {
-            from {
-                opacity: 0;
-                transform: translateY(30px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .success-popup h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        .success-popup p.sub {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-        }
-        .success-popup .product-name {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--accent-gold);
-            margin: 8px 0 12px;
-            padding: 10px;
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
-        }
-        .success-popup .download-btn {
-            margin-top: 16px;
-        }
-        .success-popup .download-btn .btn {
-            font-size: 1rem;
-            padding: 16px;
-        }
-        .success-popup .btn-close-popup {
-            margin-top: 14px;
-        }
-
-        /* ============================================================
            RESPONSIVE
            ============================================================ */
-        @media (max-width: 640px) {
+        @media (max-width: 480px) {
             .payment-card {
-                padding: 28px 18px 24px;
+                padding: 20px 16px 20px;
             }
             .payment-header h1 {
-                font-size: 1.4rem;
+                font-size: 1.3rem;
+            }
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .method-item {
+                padding: 10px 8px;
+            }
+            .method-item .icon img {
+                width: 32px;
+                height: 32px;
+            }
+            .method-item .name {
+                font-size: 0.75rem;
             }
             .product-detail {
-                padding: 16px 18px;
-            }
-            .product-detail .row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
+                padding: 12px 14px;
             }
             .product-detail .value {
-                text-align: left;
-                max-width: 100%;
+                max-width: 55%;
+                font-size: 0.8rem;
             }
-            .qr-section .qr-wrapper {
-                max-width: 160px;
+            .method-detail {
+                padding: 14px 14px;
             }
-            .success-popup {
-                padding: 32px 20px 24px;
+            .method-detail .number-box .number {
+                font-size: 0.9rem;
             }
-            .status-section .timer-circle {
-                width: 70px;
-                height: 70px;
+        }
+
+        @media (max-width: 380px) {
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
             }
-            .status-section .timer-circle svg {
-                width: 70px;
-                height: 70px;
+            .method-item .icon img {
+                width: 28px;
+                height: 28px;
             }
-            .status-section .timer-circle .timer-text {
-                font-size: 1.2rem;
+            .method-item .name {
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============ TOAST ============ -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg">Berhasil!</span>
-    </div>
+    <div class="container">
 
-    <!-- ============ POPUP SUKSES ============ -->
-    <div class="success-overlay" id="successOverlay">
-        <div class="success-popup">
-            <div class="icon-success"><i class="fas fa-check-circle"></i></div>
-            <h2>Pembayaran Berhasil!</h2>
-            <p class="sub">Saldo Anda telah terkonfirmasi. Produk siap diunduh.</p>
-            <div class="product-name" id="successProductName">—</div>
-            <div class="download-btn">
+        <!-- ============ TOAST ============ -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toastMsg">Berhasil!</span>
+        </div>
+
+        <!-- ============ POPUP SUKSES ============ -->
+        <div class="success-overlay" id="successOverlay">
+            <div class="success-popup">
+                <div class="icon"><i class="fas fa-check-circle"></i></div>
+                <h2>Pembayaran Berhasil!</h2>
+                <p>Saldo Anda telah terkonfirmasi.</p>
+                <div class="product-name" id="successProductName">—</div>
                 <a href="#" id="successDownloadLink" target="_blank" class="btn btn-success">
                     <i class="fas fa-download"></i> Unduh Sekarang
                 </a>
-            </div>
-            <div class="btn-close-popup">
-                <button class="btn btn-outline" id="successCloseBtn"><i class="fas fa-check"></i> Selesai</button>
+                <button class="btn btn-ghost" id="successCloseBtn" style="margin-top:12px;width:auto;padding:6px 24px;">
+                    Selesai
+                </button>
             </div>
         </div>
-    </div>
 
-    <!-- ============ MAIN CONTENT ============ -->
-    <div class="container">
-
-        <!-- BACK LINK -->
-        <a href="javascript:history.back()" class="back-link">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </a>
-
-        <!-- PAYMENT CARD -->
+        <!-- ============ PAYMENT CARD ============ -->
         <div class="payment-card" id="paymentCard">
+
+            <!-- BACK -->
+            <button class="btn-back" id="btnBack">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </button>
 
             <!-- HEADER -->
             <div class="payment-header">
-                <div class="icon-wrapper">
+                <div class="icon-wrap">
                     <i class="fas fa-crown"></i>
                 </div>
                 <h1>Pembayaran</h1>
-                <p>Lengkapi pembayaran untuk mendapatkan produk digital</p>
+                <p>Pilih metode pembayaran dan selesaikan transaksi</p>
             </div>
 
             <!-- DETAIL PRODUK -->
@@ -662,33 +728,54 @@
                 </div>
                 <div class="row">
                     <span class="label">Deskripsi</span>
-                    <span class="value" id="detailDesc" style="font-weight:400;color:var(--text-secondary);font-size:0.9rem;">-</span>
+                    <span class="value desc" id="detailDesc">-</span>
                 </div>
             </div>
 
-            <!-- QR SECTION -->
-            <div id="qrSection">
-                <div class="qr-section">
-                    <div class="qr-label"><i class="fas fa-qrcode"></i> Scan QR Code untuk Pembayaran</div>
-                    <div class="qr-wrapper">
-                        <img id="qrImage" src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" />
-                    </div>
-                    <div class="qr-actions">
-                        <button class="btn btn-download" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
-                    </div>
-                    <p class="qr-note">Transfer sesuai nominal, lalu klik tombol di bawah.</p>
-                    <button class="btn btn-success" id="btnSudahBayar">
-                        <i class="fas fa-check-circle"></i> Saya Sudah Bayar
-                    </button>
+            <!-- METODE PEMBAYARAN -->
+            <div class="payment-methods" id="methodContainer">
+                <div class="method-item active" data-method="qris">
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
+                    <span class="icon"><img src="https://i.ibb.co.com/59nMK9d/qris-icon.png" alt="QRIS" /></span>
+                    <span class="name">QRIS</span>
+                    <span class="sub">Scan QR</span>
+                </div>
+                <div class="method-item" data-method="dana">
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
+                    <span class="icon"><img src="https://i.ibb.co.com/4gKQKVr/dana-icon.png" alt="DANA" /></span>
+                    <span class="name">DANA</span>
+                    <span class="sub">0896-0326-6259</span>
+                </div>
+                <div class="method-item" data-method="gopay">
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
+                    <span class="icon"><img src="https://i.ibb.co.com/3pPdcsL/gopay-icon.png" alt="GoPay" /></span>
+                    <span class="name">GoPay</span>
+                    <span class="sub">0899-3360-673</span>
+                </div>
+                <div class="method-item" data-method="seabank">
+                    <span class="check-mark"><i class="fas fa-check-circle"></i></span>
+                    <span class="icon"><img src="https://i.ibb.co.com/YRkHJhC/seabank-icon.png" alt="SeaBank" /></span>
+                    <span class="name">SeaBank</span>
+                    <span class="sub">9016-5836-0604</span>
                 </div>
             </div>
 
-            <!-- STATUS KONFIRMASI (timer) -->
+            <!-- DETAIL METODE -->
+            <div class="method-detail" id="methodDetail">
+                <!-- Diisi oleh JS -->
+            </div>
+
+            <!-- TOMBOL SUDAH BAYAR -->
+            <button class="btn btn-success" id="btnSudahBayar">
+                <i class="fas fa-check-circle"></i> Saya Sudah Bayar
+            </button>
+
+            <!-- STATUS / TIMER -->
             <div class="status-section" id="statusSection">
                 <div class="timer-circle">
-                    <svg viewBox="0 0 90 90">
-                        <circle class="bg" cx="45" cy="45" r="40" />
-                        <circle class="progress" id="timerProgress" cx="45" cy="45" r="40" />
+                    <svg viewBox="0 0 80 80">
+                        <circle class="bg" cx="40" cy="40" r="36" />
+                        <circle class="progress" id="timerProgress" cx="40" cy="40" r="36" />
                     </svg>
                     <div class="timer-text" id="timerText">3:00</div>
                 </div>
@@ -697,15 +784,15 @@
                     Kami sedang menunggu konfirmasi apakah saldo Anda sudah masuk.
                     <span class="highlight">Mohon jangan tutup halaman ini.</span>
                 </div>
-                <div class="status-loading">
+                <div class="spinner-wrap">
                     <div class="spinner"></div>
                     <span id="loadingText">Menunggu konfirmasi dari admin...</span>
                 </div>
                 <button class="btn-batal" id="btnBatal">Batalkan Pesanan</button>
             </div>
 
-            <!-- TOMBOL CLOSE -->
-            <button class="btn btn-close" id="btnClose" style="margin-top:20px;">
+            <!-- TOMBOL TUTUP -->
+            <button class="btn btn-outline" id="btnClose" style="margin-top:16px;">
                 <i class="fas fa-times"></i> Tutup
             </button>
 
@@ -754,81 +841,173 @@
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
-            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 3500);
         }
 
         // ============================================================
-        // 4. AMBIL DATA PRODUK
+        // 4. DATA PRODUK
         // ============================================================
         function getProductData() {
             try {
                 const raw = localStorage.getItem('payment_product');
                 return raw ? JSON.parse(raw) : null;
-            } catch {
-                return null;
-            }
+            } catch { return null; }
         }
-
         const product = getProductData();
         if (!product) {
             window.location.href = 'produk-digital.html';
             showToast('Data produk tidak ditemukan.', 'error');
         }
 
-        // ============================================================
-        // 5. TAMPILKAN DETAIL PRODUK
-        // ============================================================
         document.getElementById('detailName').textContent = product.name || 'Produk';
         document.getElementById('detailPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product.price ||
             0);
         document.getElementById('detailDesc').textContent = product.description || '—';
 
         // ============================================================
-        // 6. UNDUH QR
+        // 5. METODE PEMBAYARAN
         // ============================================================
-        document.getElementById('downloadQrBtn').addEventListener('click', function() {
-            const img = document.getElementById('qrImage');
-            const link = document.createElement('a');
-            link.download = 'QRIS_LogoShop.png';
-            link.href = img.src;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('QR Code berhasil diunduh!', 'success');
+        const methods = {
+            qris: {
+                label: 'QRIS',
+                icon: 'https://i.ibb.co.com/59nMK9d/qris-icon.png',
+                render: () => `
+                        <div class="qr-wrap">
+                            <img src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" id="qrImage" />
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-ghost" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
+                        </div>
+                        <div class="info-text">Scan QR Code di atas menggunakan aplikasi mobile banking atau e-wallet Anda.</div>
+                    `
+            },
+            dana: {
+                label: 'DANA',
+                icon: 'https://i.ibb.co.com/4gKQKVr/dana-icon.png',
+                render: () => `
+                        <div class="number-box">
+                            <span class="number">0896-0326-6259</span>
+                            <button class="btn-copy" data-copy="089603266259"><i class="fas fa-copy"></i> Salin</button>
+                        </div>
+                        <div class="info-text">Kirim ke nomor DANA di atas, lalu klik "Saya Sudah Bayar".</div>
+                    `
+            },
+            gopay: {
+                label: 'GoPay',
+                icon: 'https://i.ibb.co.com/3pPdcsL/gopay-icon.png',
+                render: () => `
+                        <div class="number-box">
+                            <span class="number">0899-3360-673</span>
+                            <button class="btn-copy" data-copy="08993360673"><i class="fas fa-copy"></i> Salin</button>
+                        </div>
+                        <div class="info-text">Kirim ke nomor GoPay di atas, lalu klik "Saya Sudah Bayar".</div>
+                    `
+            },
+            seabank: {
+                label: 'SeaBank',
+                icon: 'https://i.ibb.co.com/YRkHJhC/seabank-icon.png',
+                render: () => `
+                        <div class="number-box">
+                            <span class="number">9016-5836-0604</span>
+                            <button class="btn-copy" data-copy="901658360604"><i class="fas fa-copy"></i> Salin</button>
+                        </div>
+                        <div class="info-text">Kirim ke nomor rekening SeaBank di atas, lalu klik "Saya Sudah Bayar".</div>
+                    `
+            }
+        };
+
+        let currentMethod = 'qris';
+
+        function renderMethodDetail(methodKey) {
+            const container = document.getElementById('methodDetail');
+            const method = methods[methodKey];
+            if (!method) return;
+            container.innerHTML = method.render();
+
+            // Event copy
+            container.querySelectorAll('.btn-copy').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const text = this.dataset.copy;
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            showToast('Nomor berhasil disalin!', 'success');
+                        }).catch(() => {
+                            fallbackCopy(text);
+                        });
+                    } else {
+                        fallbackCopy(text);
+                    }
+                });
+            });
+
+            // Event download QR (jika ada)
+            const downloadBtn = container.querySelector('#downloadQrBtn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    const img = document.getElementById('qrImage');
+                    if (!img) return;
+                    const link = document.createElement('a');
+                    link.download = 'QRIS_NEVMarket.png';
+                    link.href = img.src;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showToast('QR Code berhasil diunduh!', 'success');
+                });
+            }
+        }
+
+        function fallbackCopy(text) {
+            const input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            try {
+                document.execCommand('copy');
+                showToast('Nomor berhasil disalin!', 'success');
+            } catch {
+                showToast('Gagal menyalin. Silakan salin manual.', 'error');
+            }
+            document.body.removeChild(input);
+        }
+
+        // Pilih metode
+        document.querySelectorAll('.method-item').forEach(el => {
+            el.addEventListener('click', function() {
+                document.querySelectorAll('.method-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                currentMethod = this.dataset.method;
+                renderMethodDetail(currentMethod);
+            });
         });
 
+        // Render default (QRIS)
+        renderMethodDetail('qris');
+
         // ============================================================
-        // 7. VARIABLE TIMER & ORDER
+        // 6. TIMER & ORDER
         // ============================================================
         let currentOrderKey = null;
         let timerInterval = null;
-        let timerSeconds = 180; // 3 menit
+        let timerSeconds = 180;
         let isConfirmed = false;
-        let isTimerRunning = false;
         let orderListenerRef = null;
 
-        // ============================================================
-        // 8. FUNGSI TIMER
-        // ============================================================
         function startTimer() {
-            isTimerRunning = true;
             timerSeconds = 180;
             updateTimerDisplay();
 
             timerInterval = setInterval(() => {
                 timerSeconds--;
                 updateTimerDisplay();
-
                 if (timerSeconds <= 0) {
                     clearInterval(timerInterval);
                     timerInterval = null;
-                    isTimerRunning = false;
-                    // Timer habis
                     document.getElementById('statusTitle').textContent = '⏰ Waktu Habis!';
                     document.getElementById('statusDesc').innerHTML =
-                        'Konfirmasi tidak diterima dalam 3 menit. Silakan hubungi admin untuk bantuan.';
-                    document.getElementById('loadingText').textContent = 'Hubungi admin untuk konfirmasi manual.';
+                        'Konfirmasi tidak diterima dalam 3 menit. Silakan hubungi admin.';
+                    document.getElementById('loadingText').textContent = 'Hubungi admin untuk bantuan.';
                     document.getElementById('btnBatal').style.display = 'none';
                     showToast('Waktu konfirmasi habis. Hubungi admin.', 'error');
                 }
@@ -836,65 +1015,43 @@
         }
 
         function updateTimerDisplay() {
-            const minutes = Math.floor(timerSeconds / 60);
-            const seconds = timerSeconds % 60;
-            document.getElementById('timerText').textContent =
-                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            const m = Math.floor(timerSeconds / 60);
+            const s = timerSeconds % 60;
+            document.getElementById('timerText').textContent = `${m}:${s.toString().padStart(2, '0')}`;
 
-            // Update progress circle
             const progress = document.getElementById('timerProgress');
-            const circumference = 2 * Math.PI * 40; // 251.33
-            const offset = circumference - (timerSeconds / 180) * circumference;
+            const circ = 2 * Math.PI * 36;
+            const offset = circ - (timerSeconds / 180) * circ;
             progress.style.strokeDashoffset = offset;
 
-            // Warna berubah jika < 30 detik
-            if (timerSeconds <= 30) {
-                progress.style.stroke = 'var(--accent-red)';
-            } else if (timerSeconds <= 60) {
-                progress.style.stroke = 'var(--accent-gold)';
-            } else {
-                progress.style.stroke = 'var(--accent-blue)';
-            }
+            if (timerSeconds <= 30) progress.style.stroke = 'var(--accent-red)';
+            else if (timerSeconds <= 60) progress.style.stroke = 'var(--accent-gold)';
+            else progress.style.stroke = 'var(--accent-blue)';
         }
 
         function stopTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            isTimerRunning = false;
+            if (timerInterval) { clearInterval(timerInterval);
+                timerInterval = null; }
         }
 
-        // ============================================================
-        // 9. FUNGSI MONITOR STATUS ORDER
-        // ============================================================
         function monitorOrderStatus(orderKey) {
             const orderRef = ref(db, `logo-shop/orders/${orderKey}`);
             orderListenerRef = onValue(orderRef, (snap) => {
                 const order = snap.val();
                 if (!order) return;
-
-                // Jika status berubah menjadi 'confirmed' atau 'completed'
                 if (order.status === 'confirmed' || order.status === 'completed') {
                     if (!isConfirmed) {
                         isConfirmed = true;
                         stopTimer();
-                        // Tampilkan popup sukses
                         showSuccessPopup();
                         showToast('Pembayaran berhasil dikonfirmasi!', 'success');
-                        // Hapus listener
-                        if (orderListenerRef) {
-                            orderListenerRef();
-                            orderListenerRef = null;
-                        }
+                        if (orderListenerRef) { orderListenerRef();
+                            orderListenerRef = null; }
                     }
                 }
             });
         }
 
-        // ============================================================
-        // 10. POPUP SUKSES
-        // ============================================================
         function showSuccessPopup() {
             const overlay = document.getElementById('successOverlay');
             document.getElementById('successProductName').textContent = product.name || 'Produk';
@@ -902,29 +1059,26 @@
             overlay.classList.add('active');
         }
 
-        document.getElementById('successCloseBtn').addEventListener('click', function() {
+        document.getElementById('successCloseBtn').addEventListener('click', () => {
             document.getElementById('successOverlay').classList.remove('active');
             window.location.href = 'produk-digital.html';
         });
-
-        document.getElementById('successOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
+        document.getElementById('successOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                e.currentTarget.classList.remove('active');
                 window.location.href = 'produk-digital.html';
             }
         });
 
         // ============================================================
-        // 11. TOMBOL "SUDAH BAYAR"
+        // 7. TOMBOL "SUDAH BAYAR"
         // ============================================================
         document.getElementById('btnSudahBayar').addEventListener('click', function() {
             if (!product) { showToast('Data produk tidak valid.', 'error'); return; }
 
-            // Nonaktifkan tombol agar tidak double click
             this.disabled = true;
-            this.classList.add('btn-disabled');
+            this.style.opacity = '0.6';
 
-            // Buat order baru
             const ordersRef = ref(db, 'logo-shop/orders');
             const newOrderRef = push(ordersRef);
             currentOrderKey = newOrderRef.key;
@@ -936,104 +1090,94 @@
                 deviceId: DEVICE_ID,
                 status: 'pending',
                 isJasa: false,
+                paymentMethod: currentMethod,
                 orderDate: serverTimestamp(),
                 paymentDate: serverTimestamp(),
                 confirmed: false
             }).then(() => {
                 showToast('Pesanan dibuat! Menunggu konfirmasi admin...', 'info');
             }).catch(err => {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
+                showToast('Gagal: ' + err.message, 'error');
                 this.disabled = false;
-                this.classList.remove('btn-disabled');
+                this.style.opacity = '1';
                 return;
             });
 
-            // Sembunyikan QR, tampilkan status timer
-            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('btnSudahBayar').style.display = 'none';
+            document.querySelector('.payment-methods').style.display = 'none';
+            document.getElementById('methodDetail').style.display = 'none';
             document.getElementById('statusSection').classList.add('active');
             document.getElementById('btnClose').style.display = 'none';
 
-            // Mulai timer
             startTimer();
-
-            // Mulai monitoring status
             monitorOrderStatus(currentOrderKey);
-
-            // Simpan orderKey ke localStorage untuk referensi
             localStorage.setItem('current_order_key', currentOrderKey);
         });
 
         // ============================================================
-        // 12. TOMBOL BATAL
+        // 8. BATAL
         // ============================================================
         document.getElementById('btnBatal').addEventListener('click', async function() {
             if (!currentOrderKey) return;
             if (confirm('Yakin ingin membatalkan pesanan ini?')) {
-                try {
-                    await update(ref(db, `logo-shop/orders/${currentOrderKey}`), {
-                        status: 'cancelled'
-                    });
-                    showToast('Pesanan dibatalkan.', 'info');
-                    stopTimer();
-                    if (orderListenerRef) {
-                        orderListenerRef();
-                        orderListenerRef = null;
-                    }
-                    document.getElementById('statusSection').classList.remove('active');
-                    document.getElementById('qrSection').style.display = 'block';
-                    document.getElementById('btnClose').style.display = 'block';
-                    document.getElementById('btnSudahBayar').disabled = false;
-                    document.getElementById('btnSudahBayar').classList.remove('btn-disabled');
-                    localStorage.removeItem('current_order_key');
-                    window.location.reload();
-                } catch (err) {
-                    showToast('Gagal membatalkan: ' + err.message, 'error');
-                }
+                await update(ref(db, `logo-shop/orders/${currentOrderKey}`), { status: 'cancelled' });
+                showToast('Pesanan dibatalkan.', 'info');
+                stopTimer();
+                if (orderListenerRef) { orderListenerRef();
+                    orderListenerRef = null; }
+                document.getElementById('statusSection').classList.remove('active');
+                document.getElementById('btnSudahBayar').style.display = 'block';
+                document.getElementById('btnSudahBayar').disabled = false;
+                document.getElementById('btnSudahBayar').style.opacity = '1';
+                document.querySelector('.payment-methods').style.display = 'grid';
+                document.getElementById('methodDetail').style.display = 'flex';
+                document.getElementById('btnClose').style.display = 'block';
+                localStorage.removeItem('current_order_key');
             }
         });
 
         // ============================================================
-        // 13. TOMBOL TUTUP
+        // 9. TOMBOL TUTUP & BACK
         // ============================================================
         document.getElementById('btnClose').addEventListener('click', () => {
             window.location.href = 'produk-digital.html';
         });
+        document.getElementById('btnBack').addEventListener('click', () => {
+            window.location.href = 'produk-digital.html';
+        });
 
         // ============================================================
-        // 14. CEK ORDER YANG BELUM SELESAI (jika reload)
+        // 10. CEK ORDER TERTUNDA
         // ============================================================
-        const savedOrderKey = localStorage.getItem('current_order_key');
-        if (savedOrderKey) {
-            const orderRef = ref(db, `logo-shop/orders/${savedOrderKey}`);
-            get(orderRef).then((snap) => {
+        const savedKey = localStorage.getItem('current_order_key');
+        if (savedKey) {
+            get(ref(db, `logo-shop/orders/${savedKey}`)).then((snap) => {
                 const order = snap.val();
                 if (order && order.status === 'pending') {
-                    // Lanjutkan monitoring
-                    currentOrderKey = savedOrderKey;
-                    document.getElementById('qrSection').style.display = 'none';
+                    currentOrderKey = savedKey;
+                    document.getElementById('btnSudahBayar').style.display = 'none';
+                    document.querySelector('.payment-methods').style.display = 'none';
+                    document.getElementById('methodDetail').style.display = 'none';
                     document.getElementById('statusSection').classList.add('active');
                     document.getElementById('btnClose').style.display = 'none';
                     document.getElementById('btnSudahBayar').disabled = true;
-                    document.getElementById('btnSudahBayar').classList.add('btn-disabled');
+                    document.getElementById('btnSudahBayar').style.opacity = '0.6';
                     startTimer();
-                    monitorOrderStatus(savedOrderKey);
+                    monitorOrderStatus(savedKey);
                     showToast('Melanjutkan pesanan yang tertunda...', 'info');
                 } else if (order && (order.status === 'confirmed' || order.status === 'completed')) {
-                    // Sudah selesai, tampilkan popup
                     showSuccessPopup();
                 } else {
                     localStorage.removeItem('current_order_key');
                 }
-            }).catch(() => {
-                localStorage.removeItem('current_order_key');
-            });
+            }).catch(() => { localStorage.removeItem('current_order_key'); });
         }
 
         // ============================================================
-        // 15. INIT
+        // 11. INIT
         // ============================================================
-        console.log('💳 Payment Produk page loaded. Device ID:', DEVICE_ID);
+        console.log('💳 Payment page loaded. Device ID:', DEVICE_ID);
     </script>
 
 </body>
-</html>
+                    </html>
