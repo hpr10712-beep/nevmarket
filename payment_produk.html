@@ -152,6 +152,10 @@
             font-size: 0.8rem;
             width: auto;
             margin-top: 8px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
         }
         .btn-batal:hover {
             border-color: var(--accent-red);
@@ -178,9 +182,9 @@
             background: rgba(59, 130, 246, 0.08);
             color: var(--accent-blue);
             border: 1px solid rgba(59, 130, 246, 0.15);
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 40px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -203,7 +207,7 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 32px 28px 28px;
+            padding: 28px 24px 24px;
             box-shadow: var(--shadow-lg);
             animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -219,75 +223,113 @@
             }
         }
 
-        /* HEADER */
+        /* HEADER dengan animasi uang/coin */
         .payment-header {
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
-        .payment-header .icon-wrap {
+        .payment-header .coin-animation {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
-            border: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(245, 179, 66, 0.15), rgba(245, 179, 66, 0.05));
+            border: 1px solid rgba(245, 179, 66, 0.2);
             margin-bottom: 10px;
+            animation: coinFloat 2s ease-in-out infinite;
+            position: relative;
         }
-        .payment-header .icon-wrap i {
-            font-size: 1.8rem;
+        .payment-header .coin-animation i {
+            font-size: 2rem;
             color: var(--accent-gold);
+            animation: coinSpin 3s linear infinite;
         }
+        @keyframes coinFloat {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+        @keyframes coinSpin {
+            0% {
+                transform: rotateY(0deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+        /* Efek coin shine */
+        .payment-header .coin-animation::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), transparent 70%);
+            pointer-events: none;
+            animation: shinePulse 3s ease-in-out infinite;
+        }
+        @keyframes shinePulse {
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
         .payment-header h1 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
             letter-spacing: -0.3px;
         }
         .payment-header p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 2px;
         }
 
-        /* DETAIL PRODUK */
+        /* DETAIL PRODUK — diperkecil & rapi */
         .product-detail {
             background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 16px 20px;
-            margin-bottom: 24px;
-        }
-        .product-detail .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .product-detail .row:last-child {
-            border-bottom: none;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2px 12px;
+            font-size: 0.8rem;
         }
         .product-detail .label {
             color: var(--text-secondary);
             font-weight: 500;
-            font-size: 0.8rem;
         }
         .product-detail .value {
             font-weight: 600;
-            font-size: 0.9rem;
             text-align: right;
             word-break: break-word;
-            max-width: 65%;
         }
         .product-detail .value.price {
             color: var(--accent-gold);
-            font-size: 1rem;
         }
         .product-detail .value.desc {
             color: var(--text-secondary);
             font-weight: 400;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-align: right;
+        }
+        .product-detail .label-desc {
+            align-self: flex-start;
+            padding-top: 1px;
         }
 
         /* ============================================================
@@ -296,14 +338,14 @@
         .payment-methods {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
         .method-item {
             background: var(--bg-input);
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
-            padding: 14px 12px;
+            padding: 10px 8px;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
@@ -319,31 +361,31 @@
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
         }
         .method-item .icon {
-            font-size: 1.8rem;
-            margin-bottom: 4px;
+            font-size: 1.6rem;
+            margin-bottom: 2px;
             display: block;
         }
         .method-item .icon img {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             object-fit: contain;
             display: block;
-            margin: 0 auto 4px;
+            margin: 0 auto 2px;
         }
         .method-item .name {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         .method-item .sub {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
         }
         .method-item .check-mark {
             position: absolute;
-            top: 6px;
-            right: 6px;
+            top: 4px;
+            right: 4px;
             color: var(--accent-blue);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             display: none;
         }
         .method-item.active .check-mark {
@@ -351,15 +393,15 @@
         }
 
         /* ============================================================
-           DETAIL PEMBAYARAN PER METODE
+           DETAIL METODE
            ============================================================ */
         .method-detail {
             background: var(--bg-input);
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 18px 20px;
-            margin-bottom: 20px;
-            min-height: 120px;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -369,48 +411,48 @@
         }
         .method-detail .qr-wrap {
             background: #fff;
-            padding: 10px;
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border);
-            max-width: 180px;
-            margin: 0 auto 10px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            max-width: 150px;
+            margin: 0 auto 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
         }
         .method-detail .qr-wrap img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 6px;
+            border-radius: 4px;
         }
         .method-detail .number-box {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 6px 0;
+            margin: 4px 0;
         }
         .method-detail .number-box .number {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             font-family: monospace;
             background: var(--bg-card);
-            padding: 4px 14px;
-            border-radius: 8px;
+            padding: 2px 12px;
+            border-radius: 6px;
             border: 1px solid var(--border);
         }
         .method-detail .info-text {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             margin-top: 4px;
         }
         .method-detail .actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 6px;
         }
 
         /* ============================================================
@@ -418,9 +460,9 @@
            ============================================================ */
         .status-section {
             display: none;
-            margin-top: 16px;
-            padding: 20px;
-            border-radius: var(--radius-md);
+            margin-top: 14px;
+            padding: 16px;
+            border-radius: var(--radius-sm);
             border: 1px solid var(--border);
             background: var(--bg-input);
             text-align: center;
@@ -430,14 +472,14 @@
         }
         .status-section .timer-circle {
             position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 10px;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 8px;
         }
         .status-section .timer-circle svg {
             transform: rotate(-90deg);
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
         }
         .status-section .timer-circle .bg {
             fill: none;
@@ -449,8 +491,8 @@
             stroke: var(--accent-blue);
             stroke-width: 5;
             stroke-linecap: round;
-            stroke-dasharray: 226.19;
-            stroke-dashoffset: 226.19;
+            stroke-dasharray: 197.92;
+            stroke-dashoffset: 197.92;
             transition: stroke-dashoffset 1s linear;
         }
         .status-section .timer-circle .timer-text {
@@ -458,17 +500,17 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
         }
         .status-section .status-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 2px;
         }
         .status-section .status-desc {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             line-height: 1.5;
         }
         .status-section .status-desc .highlight {
@@ -479,14 +521,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 8px;
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .status-section .spinner-wrap .spinner {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border: 2px solid var(--border);
             border-top-color: var(--accent-blue);
             border-radius: 50%;
@@ -496,6 +538,69 @@
             to {
                 transform: rotate(360deg);
             }
+        }
+
+        /* ============================================================
+           POPUP KONFIRMASI BATAL
+           ============================================================ */
+        .confirm-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+        }
+        .confirm-overlay.active {
+            display: flex;
+        }
+        .confirm-popup {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            max-width: 380px;
+            width: 100%;
+            padding: 28px 24px 20px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+        .confirm-popup .icon {
+            font-size: 2.8rem;
+            color: var(--accent-red);
+            margin-bottom: 6px;
+        }
+        .confirm-popup h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .confirm-popup p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .confirm-popup .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .confirm-popup .actions .btn {
+            width: auto;
+            padding: 8px 24px;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+        .confirm-popup .actions .btn-danger {
+            background: var(--accent-red);
+            color: #fff;
+        }
+        .confirm-popup .actions .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
         }
 
         /* ============================================================
@@ -519,9 +624,9 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            max-width: 440px;
+            max-width: 400px;
             width: 100%;
-            padding: 40px 28px 28px;
+            padding: 36px 24px 24px;
             text-align: center;
             box-shadow: var(--shadow-lg);
             animation: slideUpPopup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -537,9 +642,9 @@
             }
         }
         .success-popup .icon {
-            font-size: 3.8rem;
+            font-size: 3.5rem;
             color: var(--accent-green);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         @keyframes popIn {
@@ -553,28 +658,28 @@
             }
         }
         .success-popup h2 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             margin-bottom: 2px;
         }
         .success-popup p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
         }
         .success-popup .product-name {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--accent-gold);
-            padding: 8px 12px;
+            padding: 6px 12px;
             background: var(--bg-input);
             border-radius: var(--radius-sm);
             border: 1px solid var(--border);
-            margin: 8px 0 14px;
+            margin: 6px 0 12px;
         }
         .success-popup .btn {
-            font-size: 0.95rem;
-            padding: 14px;
+            font-size: 0.9rem;
+            padding: 12px;
         }
 
         /* ============================================================
@@ -624,44 +729,23 @@
            ============================================================ */
         @media (max-width: 480px) {
             .payment-card {
-                padding: 20px 16px 20px;
+                padding: 18px 14px 18px;
             }
             .payment-header h1 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+            }
+            .payment-header .coin-animation {
+                width: 54px;
+                height: 54px;
+            }
+            .payment-header .coin-animation i {
+                font-size: 1.6rem;
             }
             .payment-methods {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
+                gap: 6px;
             }
             .method-item {
-                padding: 10px 8px;
-            }
-            .method-item .icon img {
-                width: 32px;
-                height: 32px;
-            }
-            .method-item .name {
-                font-size: 0.75rem;
-            }
-            .product-detail {
-                padding: 12px 14px;
-            }
-            .product-detail .value {
-                max-width: 55%;
-                font-size: 0.8rem;
-            }
-            .method-detail {
-                padding: 14px 14px;
-            }
-            .method-detail .number-box .number {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 380px) {
-            .payment-methods {
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
+                padding: 8px 6px;
             }
             .method-item .icon img {
                 width: 28px;
@@ -669,6 +753,58 @@
             }
             .method-item .name {
                 font-size: 0.7rem;
+            }
+            .method-item .sub {
+                font-size: 0.55rem;
+            }
+            .product-detail {
+                padding: 8px 12px;
+                font-size: 0.7rem;
+                gap: 2px 8px;
+            }
+            .product-detail .value.desc {
+                font-size: 0.65rem;
+            }
+            .method-detail {
+                padding: 12px 12px;
+                min-height: 80px;
+            }
+            .method-detail .number-box .number {
+                font-size: 0.8rem;
+            }
+            .method-detail .qr-wrap {
+                max-width: 120px;
+            }
+            .status-section .timer-circle {
+                width: 60px;
+                height: 60px;
+            }
+            .status-section .timer-circle svg {
+                width: 60px;
+                height: 60px;
+            }
+            .success-popup {
+                padding: 28px 18px 20px;
+            }
+            .confirm-popup {
+                padding: 24px 18px 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+            }
+            .method-item .icon img {
+                width: 24px;
+                height: 24px;
+            }
+            .method-item .name {
+                font-size: 0.65rem;
+            }
+            .method-item .sub {
+                font-size: 0.5rem;
             }
         }
     </style>
@@ -681,6 +817,19 @@
         <div class="toast" id="toast">
             <i class="fas fa-check-circle"></i>
             <span id="toastMsg">Berhasil!</span>
+        </div>
+
+        <!-- ============ POPUP KONFIRMASI BATAL ============ -->
+        <div class="confirm-overlay" id="confirmCancelOverlay">
+            <div class="confirm-popup">
+                <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>Batalkan Pesanan?</h3>
+                <p>Jika Anda membatalkan, pesanan akan dihapus dan Anda harus mengulang dari awal.</p>
+                <div class="actions">
+                    <button class="btn btn-outline" id="cancelNo">Batal</button>
+                    <button class="btn btn-danger" id="cancelYes">Ya, Batalkan</button>
+                </div>
+            </div>
         </div>
 
         <!-- ============ POPUP SUKSES ============ -->
@@ -707,29 +856,23 @@
                 <i class="fas fa-arrow-left"></i> Kembali
             </button>
 
-            <!-- HEADER -->
+            <!-- HEADER dengan animasi coin -->
             <div class="payment-header">
-                <div class="icon-wrap">
-                    <i class="fas fa-crown"></i>
+                <div class="coin-animation">
+                    <i class="fas fa-coins"></i>
                 </div>
                 <h1>Pembayaran</h1>
-                <p>Pilih metode pembayaran dan selesaikan transaksi</p>
+                <p>Pilih metode dan selesaikan transaksi</p>
             </div>
 
-            <!-- DETAIL PRODUK -->
+            <!-- DETAIL PRODUK (diperkecil) -->
             <div class="product-detail" id="productDetail">
-                <div class="row">
-                    <span class="label">Nama Produk</span>
-                    <span class="value" id="detailName">-</span>
-                </div>
-                <div class="row">
-                    <span class="label">Harga</span>
-                    <span class="value price" id="detailPrice">Rp 0</span>
-                </div>
-                <div class="row">
-                    <span class="label">Deskripsi</span>
-                    <span class="value desc" id="detailDesc">-</span>
-                </div>
+                <span class="label">Nama</span>
+                <span class="value" id="detailName">-</span>
+                <span class="label">Harga</span>
+                <span class="value price" id="detailPrice">Rp 0</span>
+                <span class="label label-desc">Deskripsi</span>
+                <span class="value desc" id="detailDesc">-</span>
             </div>
 
             <!-- METODE PEMBAYARAN -->
@@ -762,7 +905,7 @@
 
             <!-- DETAIL METODE -->
             <div class="method-detail" id="methodDetail">
-                <!-- Diisi oleh JS -->
+                <!-- diisi JS -->
             </div>
 
             <!-- TOMBOL SUDAH BAYAR -->
@@ -773,9 +916,9 @@
             <!-- STATUS / TIMER -->
             <div class="status-section" id="statusSection">
                 <div class="timer-circle">
-                    <svg viewBox="0 0 80 80">
-                        <circle class="bg" cx="40" cy="40" r="36" />
-                        <circle class="progress" id="timerProgress" cx="40" cy="40" r="36" />
+                    <svg viewBox="0 0 70 70">
+                        <circle class="bg" cx="35" cy="35" r="31.5" />
+                        <circle class="progress" id="timerProgress" cx="35" cy="35" r="31.5" />
                     </svg>
                     <div class="timer-text" id="timerText">3:00</div>
                 </div>
@@ -792,7 +935,7 @@
             </div>
 
             <!-- TOMBOL TUTUP -->
-            <button class="btn btn-outline" id="btnClose" style="margin-top:16px;">
+            <button class="btn btn-outline" id="btnClose" style="margin-top:14px;">
                 <i class="fas fa-times"></i> Tutup
             </button>
 
@@ -870,7 +1013,6 @@
         const methods = {
             qris: {
                 label: 'QRIS',
-                icon: 'https://i.ibb.co.com/59nMK9d/qris-icon.png',
                 render: () => `
                         <div class="qr-wrap">
                             <img src="https://i.ibb.co.com/r2ZsdNPT/IMG-20260626-112958.jpg" alt="QRIS" id="qrImage" />
@@ -878,12 +1020,11 @@
                         <div class="actions">
                             <button class="btn btn-ghost" id="downloadQrBtn"><i class="fas fa-download"></i> Unduh QR</button>
                         </div>
-                        <div class="info-text">Scan QR Code di atas menggunakan aplikasi mobile banking atau e-wallet Anda.</div>
+                        <div class="info-text">Scan QR Code di atas menggunakan mobile banking atau e-wallet.</div>
                     `
             },
             dana: {
                 label: 'DANA',
-                icon: 'https://i.ibb.co.com/4gKQKVr/dana-icon.png',
                 render: () => `
                         <div class="number-box">
                             <span class="number">0896-0326-6259</span>
@@ -894,7 +1035,6 @@
             },
             gopay: {
                 label: 'GoPay',
-                icon: 'https://i.ibb.co.com/3pPdcsL/gopay-icon.png',
                 render: () => `
                         <div class="number-box">
                             <span class="number">0899-3360-673</span>
@@ -905,13 +1045,12 @@
             },
             seabank: {
                 label: 'SeaBank',
-                icon: 'https://i.ibb.co.com/YRkHJhC/seabank-icon.png',
                 render: () => `
                         <div class="number-box">
                             <span class="number">9016-5836-0604</span>
                             <button class="btn-copy" data-copy="901658360604"><i class="fas fa-copy"></i> Salin</button>
                         </div>
-                        <div class="info-text">Kirim ke nomor rekening SeaBank di atas, lalu klik "Saya Sudah Bayar".</div>
+                        <div class="info-text">Kirim ke nomor SeaBank di atas, lalu klik "Saya Sudah Bayar".</div>
                     `
             }
         };
@@ -924,23 +1063,19 @@
             if (!method) return;
             container.innerHTML = method.render();
 
-            // Event copy
             container.querySelectorAll('.btn-copy').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const text = this.dataset.copy;
                     if (navigator.clipboard) {
                         navigator.clipboard.writeText(text).then(() => {
                             showToast('Nomor berhasil disalin!', 'success');
-                        }).catch(() => {
-                            fallbackCopy(text);
-                        });
+                        }).catch(() => fallbackCopy(text));
                     } else {
                         fallbackCopy(text);
                     }
                 });
             });
 
-            // Event download QR (jika ada)
             const downloadBtn = container.querySelector('#downloadQrBtn');
             if (downloadBtn) {
                 downloadBtn.addEventListener('click', function() {
@@ -972,7 +1107,6 @@
             document.body.removeChild(input);
         }
 
-        // Pilih metode
         document.querySelectorAll('.method-item').forEach(el => {
             el.addEventListener('click', function() {
                 document.querySelectorAll('.method-item').forEach(i => i.classList.remove('active'));
@@ -982,7 +1116,6 @@
             });
         });
 
-        // Render default (QRIS)
         renderMethodDetail('qris');
 
         // ============================================================
@@ -1020,7 +1153,7 @@
             document.getElementById('timerText').textContent = `${m}:${s.toString().padStart(2, '0')}`;
 
             const progress = document.getElementById('timerProgress');
-            const circ = 2 * Math.PI * 36;
+            const circ = 2 * Math.PI * 31.5;
             const offset = circ - (timerSeconds / 180) * circ;
             progress.style.strokeDashoffset = offset;
 
@@ -1115,11 +1248,25 @@
         });
 
         // ============================================================
-        // 8. BATAL
+        // 8. BATAL PESANAN (dengan popup konfirmasi)
         // ============================================================
-        document.getElementById('btnBatal').addEventListener('click', async function() {
-            if (!currentOrderKey) return;
-            if (confirm('Yakin ingin membatalkan pesanan ini?')) {
+        const confirmOverlay = document.getElementById('confirmCancelOverlay');
+
+        document.getElementById('btnBatal').addEventListener('click', function() {
+            confirmOverlay.classList.add('active');
+        });
+
+        document.getElementById('cancelNo').addEventListener('click', () => {
+            confirmOverlay.classList.remove('active');
+        });
+
+        document.getElementById('cancelYes').addEventListener('click', async function() {
+            confirmOverlay.classList.remove('active');
+            if (!currentOrderKey) {
+                showToast('Tidak ada pesanan yang aktif.', 'error');
+                return;
+            }
+            try {
                 await update(ref(db, `logo-shop/orders/${currentOrderKey}`), { status: 'cancelled' });
                 showToast('Pesanan dibatalkan.', 'info');
                 stopTimer();
@@ -1133,6 +1280,17 @@
                 document.getElementById('methodDetail').style.display = 'flex';
                 document.getElementById('btnClose').style.display = 'block';
                 localStorage.removeItem('current_order_key');
+                // Reset status
+                isConfirmed = false;
+            } catch (err) {
+                showToast('Gagal membatalkan: ' + err.message, 'error');
+            }
+        });
+
+        // Klik di luar popup menutup
+        confirmOverlay.addEventListener('click', (e) => {
+            if (e.target === confirmOverlay) {
+                confirmOverlay.classList.remove('active');
             }
         });
 
@@ -1140,10 +1298,22 @@
         // 9. TOMBOL TUTUP & BACK
         // ============================================================
         document.getElementById('btnClose').addEventListener('click', () => {
-            window.location.href = 'produk-digital.html';
+            if (currentOrderKey && document.getElementById('statusSection').classList.contains('active')) {
+                if (confirm('Anda memiliki pesanan yang sedang menunggu konfirmasi. Yakin ingin keluar?')) {
+                    window.location.href = 'produk-digital.html';
+                }
+            } else {
+                window.location.href = 'produk-digital.html';
+            }
         });
         document.getElementById('btnBack').addEventListener('click', () => {
-            window.location.href = 'produk-digital.html';
+            if (currentOrderKey && document.getElementById('statusSection').classList.contains('active')) {
+                if (confirm('Anda memiliki pesanan yang sedang menunggu konfirmasi. Yakin ingin keluar?')) {
+                    window.location.href = 'produk-digital.html';
+                }
+            } else {
+                window.location.href = 'produk-digital.html';
+            }
         });
 
         // ============================================================
@@ -1180,4 +1350,4 @@
     </script>
 
 </body>
-                    </html>
+    </html>
