@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           RESET & GLOBAL — Premium Dark (sama seperti payment.html)
+           RESET & GLOBAL — Premium Dark
            ============================================================ */
         * {
             margin: 0;
@@ -32,7 +32,7 @@
         :root {
             --bg-primary: #0b0f1a;
             --bg-secondary: #131a2b;
-            --bg-card: rgba(255, 255, 255, 0.05);
+            --bg-card: rgba(255, 255, 255, 0.06);
             --border-color: rgba(255, 255, 255, 0.08);
             --text-primary: #f0f4ff;
             --text-secondary: #94a3b8;
@@ -260,7 +260,6 @@
         }
         .qr-section .qr-label i {
             color: var(--accent-blue);
-            font-size: 1.1rem;
         }
         .qr-section .qr-wrapper {
             display: inline-block;
@@ -398,35 +397,8 @@
             flex-shrink: 0;
         }
 
-        /* DOWNLOAD BOX (untuk produk digital) */
-        .download-box {
-            display: none;
-            margin-top: 12px;
-            padding: 14px;
-            background: rgba(16, 185, 129, 0.10);
-            border-radius: 12px;
-            border: 1px solid var(--accent-green);
-            text-align: center;
-        }
-        .download-box.active {
-            display: block;
-        }
-        .download-box p {
-            color: var(--accent-green);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .download-box .btn {
-            padding: 10px;
-            font-size: 0.9rem;
-        }
-
         /* ============================================================
-           TOAST (notifikasi)
+           TOAST
            ============================================================ */
         .toast {
             position: fixed;
@@ -485,6 +457,116 @@
         }
 
         /* ============================================================
+           POPUP SUKSES — KEREN!
+           ============================================================ */
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(14px);
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .success-overlay.active {
+            display: flex;
+        }
+
+        .success-popup {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 480px;
+            width: 100%;
+            padding: 44px 32px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .success-popup::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .success-popup .icon-success {
+            font-size: 4rem;
+            color: var(--accent-green);
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .success-popup h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .success-popup p.sub {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        .success-popup .product-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            margin: 8px 0 12px;
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        .success-popup .download-btn {
+            margin-top: 16px;
+        }
+        .success-popup .download-btn .btn {
+            font-size: 1rem;
+            padding: 16px;
+        }
+        .success-popup .btn-close-popup {
+            margin-top: 14px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 640px) {
@@ -515,6 +597,9 @@
             .qr-section .qr-wrapper {
                 max-width: 160px;
             }
+            .success-popup {
+                padding: 32px 20px 24px;
+            }
         }
     </style>
 </head>
@@ -524,6 +609,24 @@
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ POPUP SUKSES ============ -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-popup">
+            <div class="icon-success"><i class="fas fa-check-circle"></i></div>
+            <h2>Pembayaran Berhasil!</h2>
+            <p class="sub">Kode akses valid. Produk siap diunduh.</p>
+            <div class="product-name" id="successProductName">—</div>
+            <div class="download-btn">
+                <a href="#" id="successDownloadLink" target="_blank" class="btn btn-success">
+                    <i class="fas fa-download"></i> Unduh Logo Sekarang
+                </a>
+            </div>
+            <div class="btn-close-popup">
+                <button class="btn btn-outline" id="successCloseBtn"><i class="fas fa-check"></i> Selesai</button>
+            </div>
+        </div>
     </div>
 
     <!-- ============ MAIN CONTENT ============ -->
@@ -579,7 +682,7 @@
                 </div>
             </div>
 
-            <!-- KONFIRMASI (muncul setelah klik "Saya Sudah Bayar") -->
+            <!-- KONFIRMASI -->
             <div id="confirmSection" style="display:none;">
                 <div class="confirm-section">
                     <div class="icon-big"><i class="fas fa-shield-alt"></i></div>
@@ -604,12 +707,6 @@
                         <div class="input-group">
                             <input type="text" id="accessCodeInput" placeholder="Kode akses" />
                             <button class="btn btn-primary" id="btnVerifyCode"><i class="fas fa-unlock"></i> Buka</button>
-                        </div>
-                        <div class="download-box" id="downloadSection">
-                            <p><i class="fas fa-check-circle"></i> Akses diberikan!</p>
-                            <a href="#" id="modalDownloadLink" target="_blank" class="btn btn-success">
-                                <i class="fas fa-download"></i> Unduh Logo
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -735,7 +832,7 @@
                 deviceId: DEVICE_ID,
                 status: 'pending',
                 confirmationCode: confirmCode,
-                isJasa: false, // digital
+                isJasa: false,
                 orderDate: serverTimestamp(),
             }).then(() => {
                 showToast('Kode konfirmasi telah dibuat! Hubungi admin.', 'success');
@@ -743,11 +840,9 @@
                 showToast('Gagal menyimpan: ' + err.message, 'error');
             });
 
-            // Sembunyikan QR, tampilkan konfirmasi
             document.getElementById('qrSection').style.display = 'none';
             document.getElementById('confirmSection').style.display = 'block';
 
-            // Update WhatsApp link
             const price = product.price || 0;
             const name = product.name || 'Produk';
             const msg =
@@ -760,7 +855,7 @@
         });
 
         // ============================================================
-        // 8. VERIFIKASI KODE → TAMPILKAN TOMBOL DOWNLOAD
+        // 8. VERIFIKASI KODE → TAMPILKAN POPUP SUKSES KEREN
         // ============================================================
         document.getElementById('btnVerifyCode').addEventListener('click', function() {
             const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
@@ -780,13 +875,11 @@
                     }
                 }
                 if (found) {
-                    // Tampilkan tombol download
-                    const downloadBox = document.getElementById('downloadSection');
-                    downloadBox.classList.add('active');
-                    document.getElementById('modalDownloadLink').href = product?.downloadLink || '#';
-                    // Sembunyikan input kode
-                    const codeArea = document.querySelector('.code-area');
-                    if (codeArea) codeArea.style.display = 'none';
+                    // TAMPILKAN POPUP SUKSES
+                    const overlay = document.getElementById('successOverlay');
+                    document.getElementById('successProductName').textContent = product.name || 'Produk';
+                    document.getElementById('successDownloadLink').href = product?.downloadLink || '#';
+                    overlay.classList.add('active');
                     showToast('Kode valid! Silakan unduh produk.', 'success');
                 } else {
                     showToast('Kode tidak valid. Periksa kembali atau hubungi admin.', 'error');
@@ -795,14 +888,30 @@
         });
 
         // ============================================================
-        // 9. TOMBOL TUTUP
+        // 9. TUTUP POPUP SUKSES
+        // ============================================================
+        document.getElementById('successCloseBtn').addEventListener('click', function() {
+            document.getElementById('successOverlay').classList.remove('active');
+            window.location.href = 'produk-digital.html';
+        });
+
+        // Klik di luar popup menutup
+        document.getElementById('successOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                window.location.href = 'produk-digital.html';
+            }
+        });
+
+        // ============================================================
+        // 10. TOMBOL TUTUP
         // ============================================================
         document.getElementById('btnClose').addEventListener('click', () => {
             window.location.href = 'produk-digital.html';
         });
 
         // ============================================================
-        // 10. INIT
+        // 11. INIT
         // ============================================================
         console.log('💳 Payment Produk page loaded. Device ID:', DEVICE_ID);
     </script>
