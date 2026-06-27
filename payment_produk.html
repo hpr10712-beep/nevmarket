@@ -892,14 +892,14 @@
         // ============================================================
         document.getElementById('successCloseBtn').addEventListener('click', function() {
             document.getElementById('successOverlay').classList.remove('active');
-            window.location.href = 'produk-digital.html';
+            window.location.href = 'produk.html';
         });
 
         // Klik di luar popup menutup
         document.getElementById('successOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
                 this.classList.remove('active');
-                window.location.href = 'produk-digital.html';
+                window.location.href = 'produk.html';
             }
         });
 
@@ -907,7 +907,7 @@
         // 10. TOMBOL TUTUP
         // ============================================================
         document.getElementById('btnClose').addEventListener('click', () => {
-            window.location.href = 'produk-digital.html';
+            window.location.href = 'produk.html';
         });
 
         // ============================================================
