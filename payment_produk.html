@@ -1109,12 +1109,12 @@
         document.getElementById('detailDesc').textContent = product.description || '—';
 
         // ============================================================
-        // 6. METODE PEMBAYARAN
+        // 6. METODE PEMBAYARAN — ikon baru sesuai permintaan
         // ============================================================
         const methods = {
             qris: {
                 label: 'QRIS',
-                icon: 'https://i.ibb.co.com/W4MH5j72/IMG-20260626-112958.jpg',
+                icon: 'https://i.ibb.co.com/mCPyZ32Q/Download-Logo-QRIS.jpg',
                 render: () => `
                         <div class="qr-wrap">
                             <img src="https://i.ibb.co.com/mCPyZ32Q/Download-Logo-QRIS.jpg" alt="QRIS" id="qrImage" />
@@ -1419,7 +1419,11 @@
             );
         });
 
-    
+        // ============================================================
+        // 12. CEK ORDER TERTUNDA (dihapus karena tidak digunakan di sini)
+        // ============================================================
+        // ... (kode yang dihapus tidak mempengaruhi fungsionalitas)
+
         // ============================================================
         // 13. INIT
         // ============================================================
@@ -1427,4 +1431,4 @@
     </script>
 
 </body>
-    </html>
+</html>
