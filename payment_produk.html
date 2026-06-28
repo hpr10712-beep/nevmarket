@@ -1392,7 +1392,7 @@
                     'Kembali ke Halaman Sebelumnya?',
                     'Pesanan Anda sedang diproses. Jika kembali, Anda harus memulai ulang pembayaran.',
                     () => {
-                        window.location.href = 'produk-digital.html';
+                        window.location.href = 'produk.html';
                     }
                 );
             } else {
@@ -1400,7 +1400,7 @@
                     'Kembali ke Halaman Sebelumnya?',
                     'Data pembayaran akan hilang jika Anda kembali.',
                     () => {
-                        window.location.href = 'produk-digital.html';
+                        window.location.href = 'produk.html';
                     }
                 );
             }
@@ -1414,38 +1414,12 @@
                 'Tutup Halaman?',
                 'Data pembayaran akan hilang jika Anda keluar.',
                 () => {
-                    window.location.href = 'produk-digital.html';
+                    window.location.href = 'produk.html';
                 }
             );
         });
 
-        // ============================================================
-        // 12. CEK ORDER TERTUNDA
-        // ============================================================
-        const savedKey = localStorage.getItem('current_order_key');
-        if (savedKey) {
-            get(ref(db, `logo-shop/orders/${savedKey}`)).then((snap) => {
-                const order = snap.val();
-                if (order && order.status === 'pending') {
-                    currentOrderKey = savedKey;
-                    document.getElementById('btnSudahBayar').style.display = 'none';
-                    document.querySelector('.payment-methods').style.display = 'none';
-                    document.getElementById('methodDetail').style.display = 'none';
-                    document.getElementById('statusSection').classList.add('active');
-                    document.getElementById('btnClose').style.display = 'none';
-                    document.getElementById('btnSudahBayar').disabled = true;
-                    document.getElementById('btnSudahBayar').style.opacity = '0.6';
-                    startTimer();
-                    monitorOrderStatus(savedKey);
-                    showToast('Melanjutkan pesanan yang tertunda...', 'info');
-                } else if (order && (order.status === 'confirmed' || order.status === 'completed')) {
-                    showSuccessPopup();
-                } else {
-                    localStorage.removeItem('current_order_key');
-                }
-            }).catch(() => { localStorage.removeItem('current_order_key'); });
-        }
-
+    
         // ============================================================
         // 13. INIT
         // ============================================================
