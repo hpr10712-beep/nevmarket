@@ -1607,13 +1607,13 @@
                 showConfirm(
                     'Kembali ke Halaman Sebelumnya?',
                     'Pesanan sedang diproses. Jika kembali, Anda harus memulai ulang.',
-                    () => { window.location.href = 'produk-jasa.html'; }
+                    () => { window.location.href = 'jasa.html'; }
                 );
             } else {
                 showConfirm(
                     'Kembali ke Halaman Sebelumnya?',
                     'Data pembayaran akan hilang.',
-                    () => { window.location.href = 'produk-jasa.html'; }
+                    () => { window.location.href = 'jasa.html'; }
                 );
             }
         });
@@ -1622,47 +1622,11 @@
             showConfirm(
                 'Tutup Halaman?',
                 'Data pembayaran akan hilang.',
-                () => { window.location.href = 'produk-jasa.html'; }
+                () => { window.location.href = 'jasa.html'; }
             );
         });
 
-        // ============================================================
-        // 16. CEK ORDER TERTUNDA
-        // ============================================================
-        const savedKey = localStorage.getItem('current_order_key');
-        if (savedKey) {
-            get(ref(db, `logo-shop/orders/${savedKey}`)).then((snap) => {
-                const order = snap.val();
-                if (order && order.status === 'pending') {
-                    currentOrderKey = savedKey;
-                    document.getElementById('btnSudahBayar').style.display = 'none';
-                    document.querySelector('.payment-methods').style.display = 'none';
-                    document.getElementById('methodDetail').style.display = 'none';
-                    document.getElementById('statusSection').classList.add('active');
-                    document.getElementById('btnClose').style.display = 'none';
-                    document.getElementById('btnSudahBayar').disabled = true;
-                    document.getElementById('btnSudahBayar').style.opacity = '0.6';
-                    startTimer();
-                    monitorOrderStatus(savedKey);
-                    showToast('Melanjutkan pesanan yang tertunda...', 'info');
-                } else if (order && (order.status === 'confirmed' || order.status === 'completed')) {
-                    // Jika sudah confirmed, tampilkan form
-                    if (!order.formFilled) {
-                        showPaymentSuccess();
-                    } else {
-                        // Jika sudah diisi form, tampilkan antrian jika ada
-                        if (order.queueNumber) {
-                            showQueuePopup(order.queueNumber);
-                        } else {
-                            showPaymentSuccess();
-                        }
-                    }
-                } else {
-                    localStorage.removeItem('current_order_key');
-                }
-            }).catch(() => { localStorage.removeItem('current_order_key'); });
-        }
-
+        
         // ============================================================
         // 17. INIT
         // ============================================================
