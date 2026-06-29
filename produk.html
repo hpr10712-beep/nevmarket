@@ -732,7 +732,12 @@
             <div class="icon"><i class="fas fa-store-alt-slash"></i></div>
             <h2>Toko Sedang Tutup Sementara</h2>
             <p>Maaf, saat ini toko kami sedang tutup sementara. Silakan kembali lagi nanti.</p>
-            <button class="btn btn-primary" id="shopClosedCloseBtn"><i class="fas fa-check"></i> Mengerti</button>
+            <a href="index.html" style="text-decoration: none;">
+  <button class="btn btn-primary" id="shopClosedCloseBtn">
+    <i class="fas fa-check"></i> Mengerti & Kembali
+  </button>
+</a>
+
         </div>
     </div>
 
@@ -1037,7 +1042,7 @@
             // Simpan data produk ke localStorage
             localStorage.setItem('payment_product', JSON.stringify(currentProduct));
             // Redirect ke halaman pembayaran produk digital
-            window.location.href = 'payment_produk.html';
+            window.location.href = 'produk.html';
         });
 
         // ============================================================
