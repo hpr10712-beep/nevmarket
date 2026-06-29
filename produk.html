@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           GLOBAL
+           GLOBAL (sama seperti sebelumnya)
            ============================================================ */
         * {
             margin: 0;
@@ -44,6 +44,21 @@
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-green: #10b981;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0b0f1a;
+                --bg-secondary: #131a2b;
+                --bg-card: rgba(255, 255, 255, 0.05);
+                --border-color: #2a3348;
+                --text-primary: #f0f4ff;
+                --text-secondary: #94a3b8;
+                --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            }
         }
 
         body {
@@ -52,6 +67,7 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
 
         .container {
@@ -61,7 +77,7 @@
         }
 
         /* ============================================================
-           BUTTONS
+           BUTTONS (sama)
            ============================================================ */
         .btn {
             display: inline-flex;
@@ -111,7 +127,7 @@
         }
 
         /* ============================================================
-           NAVBAR
+           NAVBAR (sama)
            ============================================================ */
         .navbar {
             position: fixed;
@@ -123,7 +139,14 @@
             background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(20px) saturate(1.8);
             border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s;
         }
+        @media (prefers-color-scheme: dark) {
+            .navbar {
+                background: rgba(11, 15, 26, 0.85);
+            }
+        }
+
         .navbar .container {
             display: flex;
             align-items: center;
@@ -503,6 +526,57 @@
         }
 
         /* ============================================================
+           SHOP CLOSED OVERLAY
+           ============================================================ */
+        .shop-closed-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .shop-closed-overlay.active {
+            display: flex;
+        }
+
+        .shop-closed-popup {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 32px 28px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .shop-closed-popup .icon {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+        }
+        .shop-closed-popup h2 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .shop-closed-popup p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .shop-closed-popup .btn {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
            TOAST & DEVICE BADGE
            ============================================================ */
         .toast {
@@ -617,6 +691,9 @@
             .modal .detail-value.desc-value {
                 max-width: 100%;
             }
+            .shop-closed-popup {
+                padding: 32px 20px 24px;
+            }
         }
     </style>
 </head>
@@ -647,6 +724,16 @@
     <div class="device-badge">
         <i class="fas fa-mobile-alt"></i>
         <span id="deviceIdDisplay">ID: ...</span>
+    </div>
+
+    <!-- ============ SHOP CLOSED OVERLAY ============ -->
+    <div class="shop-closed-overlay" id="shopClosedOverlay">
+        <div class="shop-closed-popup">
+            <div class="icon"><i class="fas fa-store-alt-slash"></i></div>
+            <h2>Toko Sedang Tutup Sementara</h2>
+            <p>Maaf, saat ini toko kami sedang tutup sementara. Silakan kembali lagi nanti.</p>
+            <button class="btn btn-primary" id="shopClosedCloseBtn"><i class="fas fa-check"></i> Mengerti</button>
+        </div>
     </div>
 
     <!-- ============ HEADER ============ -->
@@ -761,7 +848,44 @@
         });
 
         // ============================================================
-        // 5. PRODUK — HANYA DIGITAL (ada downloadLink dan bukan jasa)
+        // 5. CHECK SHOP STATUS (Toko Tutup Sementara)
+        // ============================================================
+        const shopStatusRef = ref(db, 'logo-shop/settings/shopOpen');
+        let isShopOpen = true;
+
+        function checkShopStatus() {
+            onValue(shopStatusRef, (snap) => {
+                const status = snap.val();
+                // default true jika belum di-set
+                isShopOpen = status !== false;
+                const overlay = document.getElementById('shopClosedOverlay');
+                if (!isShopOpen) {
+                    overlay.classList.add('active');
+                    // Sembunyikan produk grid dan tombol pesan jika perlu (opsional)
+                    document.getElementById('productsGrid').style.opacity = '0.5';
+                    document.querySelector('.products-toolbar .search-box button').disabled = true;
+                    document.querySelector('.products-toolbar .search-box input').disabled = true;
+                } else {
+                    overlay.classList.remove('active');
+                    document.getElementById('productsGrid').style.opacity = '1';
+                    document.querySelector('.products-toolbar .search-box button').disabled = false;
+                    document.querySelector('.products-toolbar .search-box input').disabled = false;
+                }
+            });
+        }
+
+        // Event untuk menutup popup (tapi tetap terkunci karena overlay akan tetap aktif)
+        document.getElementById('shopClosedCloseBtn').addEventListener('click', () => {
+            // Jika toko masih tutup, popup tidak bisa ditutup permanen (akan tetap muncul)
+            // Tapi kita bisa biarkan user menutupnya, namun overlay akan tetap ada
+            // Sebenarnya lebih baik popup tidak bisa ditutup agar user tidak bingung
+            // Untuk UX lebih baik, kita biarkan overlay tetap ada dan tombol hanya untuk "Mengerti"
+            // Tidak melakukan apa-apa selain memberi tahu user
+            showToast('Toko sedang tutup sementara. Silakan kembali lagi nanti.', 'info');
+        });
+
+        // ============================================================
+        // 6. PRODUK — HANYA DIGITAL (ada downloadLink dan bukan jasa)
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
@@ -805,6 +929,11 @@
 
             document.querySelectorAll('.btn-detail').forEach(btn => {
                 btn.addEventListener('click', () => {
+                    // Cek status toko sebelum membuka detail
+                    if (!isShopOpen) {
+                        showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
+                        return;
+                    }
                     const id = btn.dataset.id;
                     const product = allProducts.find(p => p.key === id);
                     if (product) openProductDetail(product);
@@ -845,12 +974,16 @@
         });
 
         // ============================================================
-        // 6. SEARCH
+        // 7. SEARCH
         // ============================================================
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
 
         function doSearch() {
+            if (!isShopOpen) {
+                showToast('Toko sedang tutup sementara.', 'error');
+                return;
+            }
             filterProducts(searchInput.value);
         }
 
@@ -860,7 +993,7 @@
         });
 
         // ============================================================
-        // 7. MODAL — hanya detail + tombol redirect ke payment_produk.html
+        // 8. MODAL — hanya detail + tombol redirect ke payment_produk.html
         // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
@@ -889,11 +1022,16 @@
         });
 
         // ============================================================
-        // 8. TOMBOL BAYAR → SIMPAN KE localStorage & REDIRECT
+        // 9. TOMBOL BAYAR → SIMPAN KE localStorage & REDIRECT
         // ============================================================
         document.getElementById('btnBayar').addEventListener('click', function() {
             if (!currentProduct) {
                 showToast('Data produk tidak tersedia.', 'error');
+                return;
+            }
+            // CEK STATUS TOKO SEBELUM MELANJUTKAN
+            if (!isShopOpen) {
+                showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
                 return;
             }
             // Simpan data produk ke localStorage
@@ -903,11 +1041,16 @@
         });
 
         // ============================================================
-        // 9. ESC
+        // 10. ESC
         // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
         });
+
+        // ============================================================
+        // 11. INIT — Jalankan pengecekan status toko
+        // ============================================================
+        checkShopStatus();
 
         showToast('Selamat datang di Koleksi Produk Kami!', 'info');
         console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
