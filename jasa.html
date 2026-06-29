@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Layanan Jasa - LogoShop</title>
+    <title>Layanan Jasa - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -661,6 +661,64 @@
                 max-width: 100%;
             }
         }
+
+        /* ============================================================
+           OVERLAY TOKO TUTUP (ditambahkan)
+           ============================================================ */
+        .shop-closed-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            animation: fadeInOverlay 0.4s ease;
+        }
+        .shop-closed-overlay.active {
+            display: flex;
+        }
+
+        .shop-closed-popup {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 420px;
+            width: 100%;
+            padding: 40px 32px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .shop-closed-popup .icon {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 12px;
+        }
+        .shop-closed-popup h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .shop-closed-popup p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .shop-closed-popup .btn {
+            width: 100%;
+            justify-content: center;
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+        .shop-closed-popup .btn:hover {
+            background: var(--accent-purple);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -690,6 +748,21 @@
     <div class="device-badge">
         <i class="fas fa-mobile-alt"></i>
         <span id="deviceIdDisplay">ID: ...</span>
+    </div>
+
+    <!-- ============ OVERLAY TOKO TUTUP ============ -->
+    <div class="shop-closed-overlay" id="shopClosedOverlay">
+        <div class="shop-closed-popup">
+            <div class="icon"><i class="fas fa-store-alt-slash"></i></div>
+            <h2>Toko Sedang Tutup</h2>
+            <p>Maaf, saat ini toko sedang dalam keadaan tutup sementara. Silakan coba lagi nanti. Terima kasih atas pengertiannya.</p>
+           <a href="index.html" style="text-decoration: none;">
+  <button class="btn btn-primary" id="shopClosedCloseBtn">
+    <i class="fas fa-check"></i> Mengerti & Kembali
+  </button>
+</a>
+
+        </div>
     </div>
 
     <!-- ============ HEADER ============ -->
@@ -981,7 +1054,49 @@
         });
 
         // ============================================================
-        // 9. ESC
+        // 9. STATUS TOKO (TUTUP / BUKA)
+        // ============================================================
+        const overlay = document.getElementById('shopClosedOverlay');
+        const closedOkBtn = document.getElementById('closedOkBtn');
+
+        // Fungsi untuk menutup overlay (hanya menyembunyikan, tidak mengubah status)
+        closedOkBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            // Setelah menutup, tombol pesan tetap tidak aktif (tapi kita sudah disable di bawah)
+        });
+
+        // Baca status toko dari Firebase
+        const statusRef = ref(db, 'logo-shop/settings/shopOpen');
+        onValue(statusRef, (snap) => {
+            const isOpen = snap.val() !== false; // default true
+            if (!isOpen) {
+                // Toko tutup
+                overlay.classList.add('active');
+                // Nonaktifkan semua tombol "Pesan Sekarang" di modal (jika ada)
+                const btnPesan = document.getElementById('btnPesan');
+                if (btnPesan) {
+                    btnPesan.disabled = true;
+                    btnPesan.style.opacity = '0.5';
+                    btnPesan.style.cursor = 'not-allowed';
+                    btnPesan.innerHTML = '<i class="fas fa-store-alt-slash"></i> Toko Tutup';
+                }
+                // Nonaktifkan tombol "Detail" di card? Lebih baik tetap bisa lihat detail,
+                // tapi tombol pesan di modal dinonaktifkan.
+                showToast('Toko sedang tutup sementara.', 'info');
+            } else {
+                overlay.classList.remove('active');
+                const btnPesan = document.getElementById('btnPesan');
+                if (btnPesan) {
+                    btnPesan.disabled = false;
+                    btnPesan.style.opacity = '1';
+                    btnPesan.style.cursor = 'pointer';
+                    btnPesan.innerHTML = '<i class="fas fa-shopping-cart"></i> Pesan Sekarang';
+                }
+            }
+        });
+
+        // ============================================================
+        // 10. ESC
         // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
