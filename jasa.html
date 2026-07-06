@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           GLOBAL (sama seperti produk.html)
+           GLOBAL — DENGAN LATAR SEPAK BOLA
            ============================================================ */
         * {
             margin: 0;
@@ -30,54 +30,161 @@
         }
 
         :root {
-            --bg-primary: #f0f4fe;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --border-color: rgba(0, 20, 60, 0.10);
-            --text-primary: #0a1a3a;
-            --text-secondary: #4a5a7a;
-            --accent-gold: #f5b342;
-            --accent-blue: #3b82f6;
+            --bg-primary: #0a2e0a;
+            --bg-secondary: rgba(5, 20, 5, 0.88);
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --accent-gold: #efb22c;
+            --accent-blue: #2563eb;
             --accent-purple: #8b5cf6;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
+            --accent-green: #10b981;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --accent-green: #10b981;
         }
 
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #0b0f1a;
-                --bg-secondary: #131a2b;
-                --bg-card: rgba(255, 255, 255, 0.05);
-                --border-color: #2a3348;
-                --text-primary: #f0f4ff;
-                --text-secondary: #94a3b8;
-                --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-                --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
-            }
-        }
-
+        /* ============================================================
+           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA
+           ============================================================ */
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
+            background-color: #0f3b0f;
+            background-image:
+                /* Garis-garis rumput (vertikal) */
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                /* Bayangan halus di tepi */
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                /* Warna dasar */
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        /* Elemen dekoratif: garis-garis lapangan */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Garis tepi lapangan (kotak) */
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Garis tengah lapangan */
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        /* Lingkaran tengah */
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Titik tengah */
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Area penalti (sederhana) — kiri & kanan */
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Area gawang (kecil) */
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Container utama — di atas lapangan */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================================
-           BUTTONS (sama)
+           BUTTONS (sama, dengan tema sepak bola)
            ============================================================ */
         .btn {
             display: inline-flex;
@@ -122,12 +229,12 @@
             color: var(--text-secondary);
         }
         .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
         }
 
         /* ============================================================
-           NAVBAR (sama)
+           NAVBAR (sama, dengan transparansi)
            ============================================================ */
         .navbar {
             position: fixed;
@@ -136,15 +243,10 @@
             right: 0;
             z-index: 1000;
             padding: 12px 0;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(20px) saturate(1.8);
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
             border-bottom: 1px solid var(--border-color);
             transition: background 0.3s;
-        }
-        @media (prefers-color-scheme: dark) {
-            .navbar {
-                background: rgba(11, 15, 26, 0.85);
-            }
         }
 
         .navbar .container {
@@ -159,6 +261,7 @@
             align-items: center;
             gap: 8px;
             color: var(--text-primary);
+            text-decoration: none;
         }
         .nav-brand i {
             color: var(--accent-gold);
@@ -175,6 +278,7 @@
             font-size: 0.9rem;
             transition: var(--transition);
             position: relative;
+            text-decoration: none;
         }
         .nav-links a::after {
             content: '';
@@ -183,7 +287,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--accent-blue);
+            background: var(--accent-gold);
             transition: var(--transition);
         }
         .nav-links a:hover {
@@ -208,7 +312,7 @@
                 top: 64px;
                 left: 0;
                 right: 0;
-                background: rgba(255, 255, 255, 0.98);
+                background: rgba(5, 20, 5, 0.98);
                 padding: 20px 24px;
                 gap: 14px;
                 border-bottom: 1px solid var(--border-color);
@@ -222,11 +326,12 @@
         }
 
         /* ============================================================
-           PAGE HEADER
+           PAGE HEADER — dengan latar transparan
            ============================================================ */
         .page-header {
             padding: 100px 0 30px;
-            background: var(--bg-secondary);
+            background: rgba(5, 20, 5, 0.60);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
         }
         .page-header h1 {
@@ -235,9 +340,10 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            color: var(--text-primary);
         }
         .page-header h1 i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
         }
         .page-header .sub {
             color: var(--text-secondary);
@@ -259,7 +365,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: var(--bg-primary);
+            background: rgba(10, 46, 10, 0.60);
+            backdrop-filter: blur(8px);
             padding: 4px 4px 4px 16px;
             border-radius: 60px;
             border: 1px solid var(--border-color);
@@ -268,8 +375,8 @@
             max-width: 400px;
         }
         .products-toolbar .search-box:focus-within {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.15);
         }
         .products-toolbar .search-box input {
             border: none;
@@ -285,12 +392,12 @@
             color: var(--text-secondary);
         }
         .products-toolbar .search-box button {
-            background: var(--accent-blue);
+            background: var(--accent-gold);
             border: none;
-            color: #fff;
+            color: #0a2a0a;
             padding: 8px 18px;
             border-radius: 60px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
             font-size: 0.85rem;
@@ -299,7 +406,8 @@
             gap: 6px;
         }
         .products-toolbar .search-box button:hover {
-            background: var(--accent-purple);
+            background: #f7d875;
+            transform: scale(1.02);
         }
 
         /* ============================================================
@@ -313,7 +421,7 @@
 
         .product-card {
             background: var(--bg-card);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             overflow: hidden;
@@ -324,12 +432,12 @@
         }
         .product-card:hover {
             transform: translateY(-4px);
-            border-color: var(--accent-blue);
+            border-color: var(--accent-gold);
             box-shadow: var(--shadow-lg);
         }
         .product-card .img-wrap {
             width: 100%;
-            background: #f8fafc;
+            background: rgba(5, 20, 5, 0.50);
             overflow: hidden;
             aspect-ratio: 1 / 1;
             display: flex;
@@ -364,11 +472,12 @@
             font-weight: 700;
             margin-bottom: 2px;
             line-height: 1.3;
+            color: var(--text-primary);
         }
         .product-info .price {
             font-size: 1.2rem;
             font-weight: 800;
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             margin: 2px 0 6px;
         }
         .product-info .price small {
@@ -422,7 +531,7 @@
         }
 
         /* ============================================================
-           MODAL — hanya detail + tombol pesan (redirect ke payment.html)
+           MODAL
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -431,8 +540,8 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
             padding: 16px;
             animation: fadeInOverlay 0.3s ease;
         }
@@ -494,6 +603,7 @@
             font-weight: 800;
             margin-bottom: 4px;
             padding-right: 30px;
+            color: var(--text-primary);
         }
         .modal .modal-sub {
             color: var(--text-secondary);
@@ -529,9 +639,10 @@
             font-size: 0.95rem;
             max-width: 70%;
             word-break: break-word;
+            color: var(--text-primary);
         }
         .modal .detail-value .price-highlight {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             font-size: 1.1rem;
         }
         .modal .detail-value.desc-value {
@@ -568,7 +679,7 @@
         }
 
         /* ============================================================
-           SHOP CLOSED OVERLAY (sama persis)
+           SHOP CLOSED OVERLAY
            ============================================================ */
         .shop-closed-overlay {
             position: fixed;
@@ -577,8 +688,8 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             padding: 20px;
             animation: fadeInOverlay 0.3s ease;
         }
@@ -606,6 +717,7 @@
             font-size: 1.4rem;
             font-weight: 800;
             margin-bottom: 6px;
+            color: var(--text-primary);
         }
         .shop-closed-popup p {
             color: var(--text-secondary);
@@ -640,6 +752,7 @@
             transition: all 0.35s ease;
             font-weight: 500;
             font-size: 0.9rem;
+            color: var(--text-primary);
         }
         .toast.show {
             display: flex;
@@ -656,7 +769,7 @@
             color: #ef4444;
         }
         .toast.info i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
         }
 
         .device-badge {
@@ -677,7 +790,7 @@
             font-family: monospace;
         }
         .device-badge i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             font-size: 0.8rem;
         }
 
@@ -741,6 +854,16 @@
 </head>
 <body>
 
+    <!-- ============================================================
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
+    ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
     <!-- ============ NAVBAR ============ -->
     <nav class="navbar">
         <div class="container">
@@ -748,7 +871,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="produk.html">Produk</a></li>
-                <li><a href="jasa.html" style="color:var(--accent-blue);">Jasa</a></li>
+                <li><a href="jasa.html" style="color:var(--accent-gold);">Jasa</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
                 <li><a href="payment.html">Payment</a></li>
             </ul>
@@ -786,7 +909,7 @@
     <!-- ============ HEADER ============ -->
     <header class="page-header">
         <div class="container">
-            <h1><i class="fas fa-concierge-bell"></i> Layanan Jasa</h1>
+            <h1><i class="fas fa-futbol"></i> Layanan Jasa</h1>
             <p class="sub">Butuh bantuan digital? Kami siap mengerjakan desain, website, aplikasi, editing, dan berbagai layanan lainnya dengan hasil berkualitas.</p>
         </div>
     </header>
@@ -808,7 +931,7 @@
         </div>
     </section>
 
-    <!-- ============ MODAL (hanya detail + tombol pesan) ============ -->
+    <!-- ============ MODAL ============ -->
     <div class="modal-overlay" id="modalProduct">
         <div class="modal">
             <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
@@ -901,7 +1024,7 @@
         });
 
         // ============================================================
-        // 5. CHECK SHOP STATUS (Toko Tutup Sementara) — SAMA PERSIS
+        // 5. CHECK SHOP STATUS
         // ============================================================
         const shopStatusRef = ref(db, 'logo-shop/settings/shopOpen');
         let isShopOpen = true;
@@ -909,12 +1032,10 @@
         function checkShopStatus() {
             onValue(shopStatusRef, (snap) => {
                 const status = snap.val();
-                // default true jika belum di-set
                 isShopOpen = status !== false;
                 const overlay = document.getElementById('shopClosedOverlay');
                 if (!isShopOpen) {
                     overlay.classList.add('active');
-                    // Sembunyikan produk grid dan tombol pesan jika perlu (opsional)
                     document.getElementById('productsGrid').style.opacity = '0.5';
                     document.querySelector('.products-toolbar .search-box button').disabled = true;
                     document.querySelector('.products-toolbar .search-box input').disabled = true;
@@ -927,18 +1048,12 @@
             });
         }
 
-        // Event untuk menutup popup (tapi tetap terkunci karena overlay akan tetap aktif)
         document.getElementById('shopClosedCloseBtn').addEventListener('click', () => {
-            // Jika toko masih tutup, popup tidak bisa ditutup permanen (akan tetap muncul)
-            // Tapi kita bisa biarkan user menutupnya, namun overlay akan tetap ada
-            // Sebenarnya lebih baik popup tidak bisa ditutup agar user tidak bingung
-            // Untuk UX lebih baik, kita biarkan overlay tetap ada dan tombol hanya untuk "Mengerti"
-            // Tidak melakukan apa-apa selain memberi tahu user
             showToast('Toko sedang tutup sementara. Silakan kembali lagi nanti.', 'info');
         });
 
         // ============================================================
-        // 6. PRODUK (JASA) — FILTER hanya isJasa atau !downloadLink
+        // 6. PRODUK (JASA)
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
@@ -997,7 +1112,6 @@
 
             document.querySelectorAll('.btn-detail').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Cek status toko sebelum membuka detail
                     if (!isShopOpen) {
                         showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
                         return;
@@ -1060,7 +1174,7 @@
         });
 
         // ============================================================
-        // 8. MODAL — hanya detail + tombol pesan ke payment.html
+        // 8. MODAL
         // ============================================================
         const modal = document.getElementById('modalProduct');
         const modalClose = document.getElementById('modalClose');
@@ -1104,21 +1218,18 @@
         });
 
         // ============================================================
-        // 9. PESAN → SIMPAN KE localStorage & REDIRECT KE payment.html
+        // 9. PESAN
         // ============================================================
         document.getElementById('btnPesan').addEventListener('click', function() {
             if (!currentProduct) {
                 showToast('Data layanan tidak tersedia.', 'error');
                 return;
             }
-            // CEK STATUS TOKO SEBELUM MELANJUTKAN
             if (!isShopOpen) {
                 showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
                 return;
             }
-            // Simpan data produk ke localStorage
             localStorage.setItem('payment_product', JSON.stringify(currentProduct));
-            // Redirect ke halaman pembayaran
             window.location.href = 'payment.html';
         });
 
@@ -1130,11 +1241,11 @@
         });
 
         // ============================================================
-        // 11. INIT — Jalankan pengecekan status toko
+        // 11. INIT
         // ============================================================
         checkShopStatus();
 
-        showToast('Selamat datang di Layanan Jasa!', 'info');
+        showToast('Selamat datang di Layanan Jasa Kami', 'info');
         console.log('🚀 Jasa page loaded. Device ID:', DEVICE_ID);
     </script>
 
