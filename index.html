@@ -30,35 +30,150 @@
         }
 
         :root {
-            --bg-primary: #f0f4fe;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.85);
-            --border-color: rgba(0, 20, 60, 0.10);
-            --text-primary: #0a1a3a;
-            --text-secondary: #4a5a7a;
-            --accent-gold: #f5b342;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 20px 50px rgba(0, 20, 60, 0.12);
-            --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.18);
+            --bg-primary: #0a2e0a;
+            --bg-secondary: #051405;
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --accent-gold: #efb22c;
+            --accent-emerald: #00b894;
+            --accent-white: #f0f8f0;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.7);
             --radius-lg: 20px;
             --radius-md: 14px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* ============================================================
+           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA
+           ============================================================ */
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-primary);
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.6;
-            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Elemen dekoratif: garis-garis lapangan */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Garis tepi lapangan (kotak) */
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Garis tengah lapangan */
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        /* Lingkaran tengah */
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* ============================================================
@@ -68,46 +183,94 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 10px 22px;
+            gap: 10px;
+            padding: 12px 28px;
             border: none;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
         }
+
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875, var(--accent-gold));
+            color: #0a2a0a;
             border-color: transparent;
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 4px 20px rgba(239, 178, 44, 0.30);
+            background-size: 200% 200%;
+            animation: shimmerGold 4s ease-in-out infinite;
         }
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.50);
         }
-        .btn-outline {
+        @keyframes shimmerGold {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .btn-emerald {
+            background: linear-gradient(135deg, #00b894, #00a381, #00b894);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.30);
+            background-size: 200% 200%;
+            animation: shimmerEmerald 4s ease-in-out infinite;
+        }
+        .btn-emerald:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0, 184, 148, 0.50);
+        }
+        @keyframes shimmerEmerald {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .btn-outline-gold {
             background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
+            border: 1.5px solid var(--accent-gold);
+            color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(239, 178, 44, 0.05);
         }
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.04);
+        .btn-outline-gold:hover {
+            background: rgba(239, 178, 44, 0.10);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(239, 178, 44, 0.20);
         }
+
+        .btn-white {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-primary);
+        }
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-3px);
+            border-color: var(--accent-gold);
+        }
+
         .btn-sm {
             padding: 6px 16px;
             font-size: 0.8rem;
         }
 
         /* ============================================================
-           NAVBAR
+           NAVBAR — dengan nama website
            ============================================================ */
         .navbar {
             position: fixed;
@@ -116,8 +279,8 @@
             right: 0;
             z-index: 1000;
             padding: 12px 0;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(20px) saturate(1.8);
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
             border-bottom: 1px solid var(--border-color);
         }
         .navbar .container {
@@ -132,6 +295,7 @@
             align-items: center;
             gap: 8px;
             color: var(--text-primary);
+            text-decoration: none;
         }
         .nav-brand i {
             color: var(--accent-gold);
@@ -148,6 +312,7 @@
             font-size: 0.9rem;
             transition: var(--transition);
             position: relative;
+            text-decoration: none;
         }
         .nav-links a::after {
             content: '';
@@ -156,7 +321,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--accent-blue);
+            background: var(--accent-gold);
             transition: var(--transition);
         }
         .nav-links a:hover {
@@ -181,7 +346,7 @@
                 top: 64px;
                 left: 0;
                 right: 0;
-                background: rgba(255, 255, 255, 0.98);
+                background: rgba(5, 20, 5, 0.98);
                 padding: 20px 24px;
                 gap: 14px;
                 border-bottom: 1px solid var(--border-color);
@@ -195,25 +360,121 @@
         }
 
         /* ============================================================
-           HERO
+           BANNER ADMIN — dengan loading
            ============================================================ */
-        .hero {
-            padding: 120px 0 60px;
-            background: linear-gradient(135deg, #e8edff 0%, #f0f4fe 100%);
-            text-align: center;
+        .admin-news-banner {
+            margin-top: 72px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, rgba(239, 178, 44, 0.12), rgba(0, 184, 148, 0.08));
+            border: 1px solid rgba(239, 178, 44, 0.20);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
-        .hero::after {
+        .admin-news-banner::before {
             content: '';
             position: absolute;
-            top: -30%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
-            border-radius: 50%;
+            top: -50%;
+            left: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(239, 178, 44, 0.05), transparent 70%);
             pointer-events: none;
+        }
+        .admin-news-banner .badge-admin {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            font-weight: 800;
+            font-size: 0.7rem;
+            padding: 4px 14px;
+            border-radius: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 12px rgba(239, 178, 44, 0.30);
+        }
+        .admin-news-banner .badge-admin i {
+            font-size: 0.65rem;
+        }
+        .admin-news-banner .news-text {
+            flex: 1;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            min-height: 28px;
+        }
+        .admin-news-banner .news-text .highlight-text {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+        .admin-news-banner .news-text .emerald-text {
+            color: #6dd5b8;
+            font-weight: 600;
+        }
+        .admin-news-banner .news-date {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 2px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        /* Loading spinner di admin banner */
+        .admin-loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .admin-loading .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .admin-news-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 16px;
+            }
+            .admin-news-banner .news-date {
+                align-self: flex-start;
+            }
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            padding: 30px 0 50px;
+            text-align: center;
+            position: relative;
         }
         .hero-content {
             position: relative;
@@ -239,26 +500,42 @@
         }
         .hero .btn-group {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 8px;
         }
+
         .hero-img-wrapper {
             margin-top: 36px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow-lg);
             border: 1px solid var(--border-color);
-            background: #fff;
+            background: rgba(10, 46, 10, 0.50);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
         }
         .hero-img-wrapper img {
             width: 100%;
             height: auto;
-            max-height: 400px;
+            display: block;
             object-fit: contain;
+            transition: var(--transition);
+        }
+        .hero-img-wrapper #loading {
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        .hero-img-wrapper #loading i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 12px;
         }
 
         /* ============================================================
@@ -277,7 +554,7 @@
             letter-spacing: -0.5px;
         }
         .section-header h2 i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             margin-right: 10px;
         }
         .section-header p {
@@ -286,10 +563,14 @@
         }
 
         /* ============================================================
-           NEWS — SWIPE HORIZONTAL + TOMBOL BACA
+           NEWS
            ============================================================ */
         #berita {
-            background: var(--bg-secondary);
+            background: rgba(5, 20, 5, 0.30);
+            backdrop-filter: blur(4px);
+            border-radius: var(--radius-lg);
+            margin: 0 0 20px 0;
+            padding: 40px 0;
         }
 
         .news-scroll {
@@ -305,11 +586,11 @@
             height: 6px;
         }
         .news-scroll::-webkit-scrollbar-track {
-            background: var(--bg-primary);
+            background: rgba(10, 46, 10, 0.40);
             border-radius: 10px;
         }
         .news-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
+            background: var(--accent-gold);
             border-radius: 10px;
         }
 
@@ -329,22 +610,22 @@
         }
         .news-card:hover {
             transform: translateY(-4px);
-            border-color: var(--accent-blue);
+            border-color: var(--accent-gold);
             box-shadow: var(--shadow-lg);
         }
         .news-card .img-wrap {
             width: 100%;
-            background: #f8fafc;
+            background: #0a2a0a;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            aspect-ratio: 16 / 9;
         }
         .news-card .img-wrap img {
             width: 100%;
-            height: auto;
-            max-height: 180px;
-            object-fit: contain;
+            height: 100%;
+            object-fit: cover;
         }
         .news-body {
             padding: 16px 18px 20px;
@@ -363,6 +644,7 @@
             font-size: 1.05rem;
             margin: 0 0 6px;
             line-height: 1.3;
+            color: #fff;
         }
         .news-body .preview-text {
             color: var(--text-secondary);
@@ -379,7 +661,7 @@
             align-self: flex-start;
             background: transparent;
             border: none;
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
@@ -390,7 +672,7 @@
             padding: 4px 0;
         }
         .news-body .btn-read:hover {
-            color: var(--accent-purple);
+            color: #ffffff;
             gap: 10px;
         }
         .news-body .btn-read i {
@@ -402,7 +684,7 @@
         }
 
         /* ============================================================
-           MODAL BERITA — POPUP KEREN
+           MODAL BERITA — TAMPILAN LEBIH MENARIK
            ============================================================ */
         .modal-news-overlay {
             position: fixed;
@@ -411,10 +693,10 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(14px);
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(16px);
             padding: 20px;
-            animation: fadeInOverlay 0.3s ease;
+            animation: fadeInOverlay 0.4s ease;
         }
         .modal-news-overlay.active {
             display: flex;
@@ -430,17 +712,30 @@
         }
 
         .modal-news {
-            background: var(--bg-secondary);
+            background: linear-gradient(145deg, rgba(20, 50, 20, 0.95), rgba(10, 30, 10, 0.98));
+            backdrop-filter: blur(20px);
             border-radius: var(--radius-lg);
             max-width: 600px;
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
-            padding: 36px 32px 28px;
-            box-shadow: var(--shadow-xl);
-            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 40px 36px 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            animation: slideUpModal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(239, 178, 44, 0.25);
+        }
+
+        .modal-news::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(239, 178, 44, 0.06), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         @keyframes slideUpModal {
@@ -466,9 +761,10 @@
             transition: var(--transition);
             padding: 4px;
             line-height: 1;
+            z-index: 2;
         }
         .modal-news-close:hover {
-            color: var(--text-primary);
+            color: var(--accent-gold);
             transform: rotate(90deg);
         }
 
@@ -476,71 +772,179 @@
             width: 100%;
             border-radius: var(--radius-md);
             overflow: hidden;
-            margin-bottom: 16px;
-            background: #f8fafc;
+            margin-bottom: 18px;
+            background: #0a2a0a;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid var(--border-color);
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
         .modal-news .modal-img-wrap img {
             width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: contain;
+            height: 100%;
+            object-fit: cover;
         }
 
         .modal-news .modal-meta {
             font-size: 0.75rem;
-            color: var(--text-secondary);
+            color: var(--accent-gold);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            margin-bottom: 4px;
+            letter-spacing: 0.6px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .modal-news .modal-meta i {
+            color: var(--text-secondary);
+        }
+
         .modal-news h2 {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            line-height: 1.2;
+            margin-bottom: 14px;
+            line-height: 1.25;
             padding-right: 30px;
+            color: #fff;
+            text-shadow: 0 2px 20px rgba(239, 178, 44, 0.05);
         }
+
         .modal-news .modal-content {
             color: var(--text-secondary);
             font-size: 1rem;
-            line-height: 1.8;
+            line-height: 1.9;
             white-space: pre-wrap;
             word-wrap: break-word;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            border-left: 3px solid rgba(239, 178, 44, 0.20);
         }
 
         .modal-news .btn-group {
             display: flex;
             gap: 12px;
-            margin-top: 20px;
+            margin-top: 24px;
             justify-content: flex-end;
         }
         .modal-news .btn-group .btn {
-            min-width: 100px;
+            min-width: 120px;
         }
 
         /* ============================================================
-           FOOTER — KEREN & DETAIL
+           FOOTER — dengan toggle buka/tutup
            ============================================================ */
+        .footer-wrapper {
+            margin-top: 20px;
+        }
+
+        .footer-toggle-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(8px);
+            margin-bottom: 16px;
+        }
+        .footer-toggle-btn:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+            background: rgba(239, 178, 44, 0.06);
+        }
+        .footer-toggle-btn i {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .footer-toggle-btn .arrow {
+            transition: var(--transition);
+        }
+        .footer-toggle-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .footer-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .footer-content.open {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .footer {
-            background: var(--text-primary);
+            background: rgba(3, 13, 3, 0.94);
+            backdrop-filter: blur(10px);
             color: rgba(255, 255, 255, 0.8);
             padding: 48px 0 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 2px solid rgba(239, 178, 44, 0.15);
+            position: relative;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(135deg, rgba(10, 46, 10, 0.9), rgba(3, 13, 3, 0.95)),
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 3px, transparent 3px, transparent 12px);
+            box-shadow: inset 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), #f7d875, var(--accent-gold), transparent);
+            opacity: 0.4;
+            border-radius: 4px;
         }
         .footer .container {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 40px;
+            position: relative;
+            z-index: 1;
         }
         .footer .col h4 {
             color: #fff;
             font-weight: 700;
             margin-bottom: 12px;
             font-size: 1.05rem;
+            position: relative;
+            display: inline-block;
+        }
+        .footer .col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 40%;
+            height: 2px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            opacity: 0.5;
         }
         .footer .col p,
         .footer .col a {
@@ -548,6 +952,7 @@
             font-size: 0.9rem;
             line-height: 1.8;
             transition: var(--transition);
+            text-decoration: none;
         }
         .footer .col a:hover {
             color: var(--accent-gold);
@@ -577,6 +982,7 @@
         }
         .footer .bottom a {
             color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
         }
         .footer .bottom a:hover {
             color: var(--accent-gold);
@@ -591,15 +997,23 @@
             .footer .col .social-icons {
                 justify-content: center;
             }
+            .footer .col h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60%;
+            }
             .news-card {
                 flex: 0 0 260px;
                 max-width: 260px;
             }
             .modal-news {
-                padding: 24px 20px 20px;
+                padding: 28px 20px 24px;
             }
             .modal-news h2 {
                 font-size: 1.3rem;
+            }
+            .admin-news-banner .news-text {
+                font-size: 0.85rem;
             }
         }
 
@@ -611,7 +1025,7 @@
             bottom: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 10px 24px;
             border-radius: 60px;
@@ -625,6 +1039,7 @@
             transition: all 0.35s ease;
             font-weight: 500;
             font-size: 0.9rem;
+            color: #fff;
         }
         .toast.show {
             display: flex;
@@ -641,14 +1056,14 @@
             color: #ef4444;
         }
         .toast.info i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
         }
 
         .device-badge {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             padding: 4px 14px;
             border-radius: 40px;
@@ -662,7 +1077,7 @@
             font-family: monospace;
         }
         .device-badge i {
-            color: var(--accent-blue);
+            color: var(--accent-gold);
             font-size: 0.8rem;
         }
 
@@ -678,14 +1093,119 @@
             display: block;
             margin-bottom: 8px;
         }
+
+        /* ============================================================
+           ANIMASI PENGUMUMAN ADMIN — MARQUEE LEMBUT
+           ============================================================ */
+        .admin-marquee {
+            display: inline-block;
+            animation: marqueeScroll 20s linear infinite;
+            white-space: nowrap;
+            padding-left: 100%;
+        }
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .admin-news-banner .news-text .marquee-wrapper {
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            max-width: 100%;
+        }
+        @media (max-width: 600px) {
+            .admin-news-banner .news-text .marquee-wrapper {
+                max-width: 100%;
+                width: 100%;
+            }
+            .admin-marquee {
+                white-space: normal;
+                animation: none;
+                padding-left: 0;
+            }
+        }
+
+        /* ============================================================
+           BRAND NAME — GAYA DEKORATIF KHUSUS NEV Market ⚽
+           ============================================================ */
+        .brand-name {
+            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            font-weight: 900;
+            text-shadow: none;
+            letter-spacing: -0.02em;
+            filter: drop-shadow(0 2px 8px rgba(239, 178, 44, 0.2));
+        }
+
+        /* GARIS BAWAH BERKILAU KHUSUS DI HERO (TENGAH HALAMAN) */
+        .hero .brand-name {
+            position: relative;
+        }
+        .hero .brand-name::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), #f7d875, var(--accent-gold), transparent);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(239, 178, 44, 0.7);
+            animation: glowLine 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowLine {
+            0% {
+                opacity: 0.4;
+                width: 60%;
+                left: 20%;
+            }
+            50% {
+                opacity: 1;
+                width: 90%;
+                left: 5%;
+            }
+            100% {
+                opacity: 0.7;
+                width: 70%;
+                left: 15%;
+            }
+        }
+
+        .navbar .brand-name::before,
+        .footer .brand-name::before {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ============ NAVBAR ============ -->
+    <!-- ============================================================
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
+    ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
     <nav class="navbar">
         <div class="container">
-            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-crown"></i>
+                <span class="brand-name">NEV Market</span>
+            </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#berita">Berita</a></li>
                 <li><a href="produk.html">Produk</a></li>
@@ -696,54 +1216,94 @@
         </div>
     </nav>
 
-    <!-- ============ TOAST ============ -->
+    <!-- ============================================================
+    BANNER ADMIN — data dari Firebase dengan loading
+    ============================================================ -->
+    <div class="container" style="margin-top: 0;">
+        <div class="admin-news-banner" id="adminBanner">
+            <span class="badge-admin"><i class="fas fa-bullhorn"></i> Admin</span>
+            <div class="news-text">
+                <span class="marquee-wrapper" id="adminTextWrapper">
+                    <!-- Loading spinner akan ditampilkan di sini -->
+                    <span class="admin-loading" id="adminLoading">
+                        <span class="spinner"></span>
+                        Memuat pengumuman...
+                    </span>
+                    <span class="admin-marquee" id="adminNewsText" style="display:none;">
+                        <span class="highlight-text">⚽ Selamat datang di NEV Market!</span>
+                        <span class="emerald-text">•</span>
+                        Dapatkan produk digital berkualitas dengan harga terbaik.
+                        <span class="emerald-text">•</span>
+                        <span class="highlight-text">Promo spesial</span> untuk pembelian pertama.
+                        <span class="emerald-text">•</span>
+                        Layanan jasa desain &amp; pengembangan website.
+                        <span class="emerald-text">•</span>
+                        <span class="highlight-text">#NEVMarket #FootballEdition</span>
+                    </span>
+                </span>
+            </div>
+            <span class="news-date"><i class="far fa-calendar-alt"></i> NOW</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Berhasil!</span>
     </div>
 
-    <!-- ============ DEVICE BADGE ============ -->
     <div class="device-badge">
         <i class="fas fa-mobile-alt"></i>
         <span id="deviceIdDisplay">ID: ...</span>
     </div>
 
-    <!-- ============ HERO ============ -->
+    <!-- ============================================================
+    HERO
+    ============================================================ -->
     <section class="hero" id="tentang">
         <div class="container">
             <div class="hero-content">
                 <h1 style="font-family: 'Inter', -apple-system, sans-serif; text-align: center; margin: 0 0 10px 0; line-height: 1.2;">
-    <span style="font-size: 3rem; font-weight: 800; color: #2563eb; letter-spacing: -0.03em; display: block;">
-        Marketplace
-    </span>
-    <span style="font-size: 1rem; font-weight: 600; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-top: 8px;">
-        Produk Digital &amp; Layanan Jasa
-    </span>
-</h1>
+                    <span class="brand-name" style="font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; display: block;">
+                        NEV Market
+                    </span>
+                    <span style="font-size: 1rem; font-weight: 600; color: #b8d9b8; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-top: 8px;">
+                        Produk Digital &amp; Layanan Jasa
+                    </span>
+                </h1>
                 <p id="heroDesc">Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas</p>
                 <div class="btn-group">
-                    <a href="produk.html" class="btn btn-primary"><i class="fas fa-rocket"></i> Lihat Produk</a>
-                    <a href="jasa.html" class="btn btn-primary">
-    <i class="fas fa-briefcase"></i> Lihat Jasa
+                    <a href="produk.html" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> Lihat Produk
                     </a>
-                    <a href="tentang.html" class="btn" style="background:transparent;border-color:var(--border-color);">Tentang Kami</a>
+                    <a href="jasa.html" class="btn btn-emerald">
+                        <i class="fas fa-briefcase"></i> Lihat Jasa
+                    </a>
+                    <a href="event.html" class="btn btn-white">
+                      <i class="fas fa-fire"></i> Event Spesial
+                    </a>
                 </div>
             </div>
             <div class="hero-img-wrapper">
-    <div id="loading">
-        <i class="fas fa-spinner fa-spin"></i>
-    </div>
-    <img id="heroImage" style="display:none;">
+                <div id="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Memuat gambar...</span>
+                </div>
+                <img id="heroImage" style="display:none;" alt="Hero Banner" />
             </div>
         </div>
     </section>
 
-    <!-- ============ BERITA ============ -->
+    <!-- ============================================================
+    BERITA
+    ============================================================ -->
     <section id="berita">
         <div class="container">
             <div class="section-header">
                 <h2><i class="fas fa-newspaper"></i> Info Terkini</h2>
-                <p>Update Terbaru Seputar NEV Market<span style="font-size:0.8rem;color:var(--text-secondary);"> </span></p>
+                <p>Update Terbaru Seputar NEV Market</p>
             </div>
             <div class="news-scroll" id="newsGrid">
                 <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat berita...</div>
@@ -751,7 +1311,9 @@
         </div>
     </section>
 
-    <!-- ============ MODAL BERITA ============ -->
+    <!-- ============================================================
+    MODAL BERITA
+    ============================================================ -->
     <div class="modal-news-overlay" id="modalNews">
         <div class="modal-news">
             <button class="modal-news-close" id="modalNewsClose"><i class="fas fa-times"></i></button>
@@ -762,47 +1324,66 @@
             <h2 id="modalNewsTitle">Judul Berita</h2>
             <div class="modal-content" id="modalNewsContent">Konten berita lengkap akan ditampilkan di sini.</div>
             <div class="btn-group">
-                <button class="btn btn-outline" id="modalNewsCloseBtn">Tutup</button>
+                <button class="btn btn-primary" id="modalNewsCloseBtn">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- ============ FOOTER ============ -->
-    <footer class="footer">
-        <div class="container">
-            <div class="col">
-                <h4><i class="fas fa-crown" style="color:var(--accent-gold);"></i> LogoShop</h4>
-                <p>Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas.</p>
-                <div style="margin-top:8px;">
-                    <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy; 2026 26 Juni.Kami Merilis Website Untuk Penjualan File, Template, Document, Aplikasi Dan Layanan Jasa</span>
-                </div>
-            </div>
-            <div class="col">
-                <h4>Kontak</h4>
-                <p><i class="fas fa-phone" style="width:20px;"></i> <a href="https://wa.me/6289603266259" target="_blank">0896-0326-6259</a></p>
-                <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:admin@logoshop.com">hpr10712@gmail.com</a></p>
-                <p><i class="fas fa-map-marker-alt" style="width:20px;"></i> Indonesia, Jawa Tengah, Purworejo, Bayan</p>
-            </div>
-            <div class="col">
-                <h4>Ikuti Kami</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
-                </div>
-                <div style="margin-top:16px;">
-                    <a href="tentang.html" style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-decoration:underline;">Tentang Kami</a>
-                </div>
-            </div>
-            <div class="bottom">
-                Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i> untuk para pengunjung.
-                <a href="kebijakan-privasi.html">Kebijakan Privasi</a> · <a href="syarat-ketentuan.html">Syarat & Ketentuan</a>
-            </div>
-        </div>
-    </footer>
+    <!-- ============================================================
+    FOOTER — dengan toggle buka/tutup
+    ============================================================ -->
+    <div class="footer-wrapper">
+        <!-- Tombol Toggle Footer -->
+        <button class="footer-toggle-btn" id="footerToggleBtn">
+            <i class="fas fa-chevron-down arrow" id="footerArrow"></i>
+            <span id="footerToggleLabel">Buka Footer</span>
+            <i class="fas fa-crown" style="margin-left:auto;color:var(--accent-gold);"></i>
+        </button>
 
-    <!-- ============ JAVASCRIPT ============ -->
+        <!-- Konten Footer (default tersembunyi) -->
+        <div class="footer-content" id="footerContent">
+            <footer class="footer">
+                <div class="container">
+                    <div class="col">
+                        <h4>
+                            <i class="fas fa-crown" style="color:var(--accent-gold);"></i>
+                            <span class="brand-name">NEV Market</span>
+                        </h4>
+                        <p>Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas.</p>
+                        <div style="margin-top:8px;">
+                            <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy;  26 Juni 2026. Kami Merilis Website Untuk Penjualan File, Template, Document, Aplikasi Dan Layanan Jasa</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h4>Kontak</h4>
+                        <p><i class="fas fa-phone" style="width:20px;"></i> <a href="https://wa.me/6289603266259" target="_blank">0896-0326-6259</a></p>
+                        <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:admin@logoshop.com">hpr10712@gmail.com</a></p>
+                        <p><i class="fas fa-map-marker-alt" style="width:20px;"></i> Indonesia, Jawa Tengah, Purworejo, Bayan</p>
+                    </div>
+                    <div class="col">
+                        <h4>Ikuti Kami</h4>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <a href="tentang.html" style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-decoration:underline;">Tentang Kami</a>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        Dibuat dengan <i class="fas fa-heart" style="color:var(--accent-gold);"></i> untuk para pengunjung.
+                        <a href="kebijakan-privasi.html">Kebijakan Privasi</a> · <a href="syarat-ketentuan.html">Syarat &amp; Ketentuan</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SCRIPT — FIREBASE & LOGIKA
+    ============================================================ -->
     <script type="module">
         // ============================================================
         // 1. FIREBASE
@@ -865,40 +1446,93 @@
         // ============================================================
         const homeRef = ref(db, 'logo-shop/home');
         const newsRef = ref(db, 'logo-shop/news');
+        const infoRef = ref(db, 'logo-shop/info');
 
-        // HOME
+        // ============================================================
+        // 6. UPDATE INFO TOKO & BANNER ADMIN — dengan loading
+        // ============================================================
+        const loadingEl = document.getElementById('adminLoading');
+        const textEl = document.getElementById('adminNewsText');
+        const wrapperEl = document.getElementById('adminTextWrapper');
+
+        // Tampilkan loading terlebih dahulu
+        loadingEl.style.display = 'inline-flex';
+        textEl.style.display = 'none';
+
+        onValue(infoRef, (snap) => {
+            const data = snap.val() || {};
+
+            // Update nama toko di semua tempat
+            if (data.shopName) {
+                const name = data.shopName;
+                const navBrand = document.querySelector('.nav-brand .brand-name');
+                if (navBrand) navBrand.textContent = name;
+                const footerBrand = document.querySelector('.footer .col h4 .brand-name');
+                if (footerBrand) footerBrand.textContent = name;
+                const heroBrand = document.querySelector('.hero .brand-name');
+                if (heroBrand) heroBrand.textContent = name;
+                document.title = name + ' - Toko Digital';
+            }
+
+            // Update teks banner admin — sembunyikan loading, tampilkan teks
+            if (data.adminBannerText) {
+                textEl.innerHTML = data.adminBannerText;
+            } else {
+                textEl.innerHTML =
+                    '<span class="highlight-text">⚽ Selamat datang di NEV Market!</span> <span class="emerald-text">•</span> Dapatkan produk digital berkualitas dengan harga terbaik. <span class="emerald-text">•</span> <span class="highlight-text">Promo spesial</span> untuk pembelian pertama. <span class="emerald-text">•</span> Layanan jasa desain &amp; pengembangan website. <span class="emerald-text">•</span> <span class="highlight-text">#NEVMarket #FootballEdition</span>';
+            }
+
+            // Sembunyikan loading, tampilkan teks
+            loadingEl.style.display = 'none';
+            textEl.style.display = 'inline-block';
+        });
+
+        // ============================================================
+        // 7. HOME (Hero Image, Subtitle, dll)
+        // ============================================================
         onValue(homeRef, (snap) => {
             const data = snap.val() || {};
-            if (data.title) document.querySelector('.hero h1').innerHTML = data.title.replace(/\n/g, '<br>');
-            document.getElementById('heroDesc').textContent = data.subtitle ||
+            const desc = document.getElementById('heroDesc');
+            if (desc) desc.textContent = data.subtitle ||
                 'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
-            if (data.heroImage) document.getElementById('heroImage').src = data.heroImage;
-            if (data.shopName) {
-                document.querySelector('.nav-brand').innerHTML = `<i class="fas fa-crown"></i> ${data.shopName}`;
-                document.querySelector('.footer .col h4').innerHTML =
-                    `<i class="fas fa-crown" style="color:var(--accent-gold);"></i> ${data.shopName}`;
-                document.title = data.shopName + ' - Toko Logo';
+            const heroImg = document.getElementById('heroImage');
+            if (data.heroImage) {
+                heroImg.src = data.heroImage;
+            }
+            if (data.heroImage) {
+                const img = document.getElementById('heroImage');
+                const loading = document.getElementById('loading');
+                img.onload = () => {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                };
+                img.onerror = () => {
+                    loading.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Gambar tidak tersedia';
+                };
+                if (img.complete && img.naturalHeight !== 0) {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                }
             }
         });
 
         // ============================================================
-        // 6. NEWS — dengan tombol "Baca Penjelasan"
+        // 8. NEWS
         // ============================================================
         function openNewsModal(item) {
             const modal = document.getElementById('modalNews');
-            document.getElementById('modalNewsImage').src = item.image ||
-                'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80';
-            document.getElementById('modalNewsImage').alt = item.title || 'Berita';
+            const img = document.getElementById('modalNewsImage');
+            const wrap = document.getElementById('modalNewsImageWrap');
+            if (item.image) {
+                img.src = item.image;
+                img.alt = item.title || 'Berita';
+                wrap.style.display = 'flex';
+            } else {
+                wrap.style.display = 'none';
+            }
             document.getElementById('modalNewsMeta').textContent = item.date || '—';
             document.getElementById('modalNewsTitle').textContent = item.title || 'Tanpa Judul';
             document.getElementById('modalNewsContent').textContent = item.content || 'Tidak ada konten.';
-            // Sembunyikan image wrap jika tidak ada gambar
-            const imgWrap = document.getElementById('modalNewsImageWrap');
-            if (!item.image) {
-                imgWrap.style.display = 'none';
-            } else {
-                imgWrap.style.display = 'flex';
-            }
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -908,31 +1542,31 @@
             document.body.style.overflow = '';
         }
 
-        // Event listener untuk modal berita
         document.getElementById('modalNewsClose').addEventListener('click', closeNewsModal);
         document.getElementById('modalNewsCloseBtn').addEventListener('click', closeNewsModal);
         document.getElementById('modalNews').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeNewsModal();
         });
 
-        // Ambil data berita
         onValue(newsRef, (snap) => {
             const data = snap.val();
             const grid = document.getElementById('newsGrid');
             if (!data) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
+                grid.innerHTML =
+                `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
                 return;
             }
             const entries = Object.entries(data).reverse();
             let html = '';
             entries.forEach(([key, item]) => {
-                // Buat preview teks (ambil 100 karakter pertama)
-                const previewText = item.content ? item.content.slice(0, 120) + (item.content.length > 120 ? '...' :
-                    '') : 'Klik "Baca Penjelasan" untuk melihat detail.';
+                const previewText = item.content ? item.content.slice(0, 120) + (item.content.length > 120 ?
+                    '...' : '') : 'Klik "Baca Penjelasan" untuk melihat detail.';
+                const imgSrc = item.image ||
+                    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80';
                 html += `
                         <div class="news-card" data-key="${key}">
                             <div class="img-wrap">
-                                <img src="${item.image || 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80'}" alt="${item.title || 'Berita'}" loading="lazy" />
+                                <img src="${imgSrc}" alt="${item.title || 'Berita'}" loading="lazy" />
                             </div>
                             <div class="news-body">
                                 <div class="meta"><i class="far fa-calendar-alt"></i> ${item.date || '—'}</div>
@@ -947,7 +1581,6 @@
             });
             grid.innerHTML = html;
 
-            // Event listener untuk tombol "Baca Penjelasan"
             grid.querySelectorAll('.btn-read').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -959,28 +1592,54 @@
         });
 
         // ============================================================
-        // 7. ESC untuk modal berita
+        // 9. FOOTER TOGGLE — buka/tutup
         // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeNewsModal();
+        const footerToggleBtn = document.getElementById('footerToggleBtn');
+        const footerContent = document.getElementById('footerContent');
+        const footerArrow = document.getElementById('footerArrow');
+        const footerToggleLabel = document.getElementById('footerToggleLabel');
+        let isFooterOpen = false;
+
+        footerToggleBtn.addEventListener('click', () => {
+            isFooterOpen = !isFooterOpen;
+            if (isFooterOpen) {
+                footerContent.classList.add('open');
+                footerArrow.classList.add('open');
+                footerToggleLabel.textContent = 'Tutup Footer';
+            } else {
+                footerContent.classList.remove('open');
+                footerArrow.classList.remove('open');
+                footerToggleLabel.textContent = 'Buka Footer';
             }
         });
 
-        showToast('Selamat datang', 'info');
-        console.log('🚀 LogoShop loaded. Device ID:', DEVICE_ID);
+        // ============================================================
+        // 10. ESC
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeNewsModal();
+        });
 
-        const heroImg = document.getElementById("heroImage");
+        showToast('Selamat datang di NEV Market!', 'info');
+        console.log('🚀 NEV Market loaded. Device ID:', DEVICE_ID);
 
-const img = document.getElementById("heroImage");
-
-img.onload = () => {
-    document.getElementById("loading").style.display = "none";
-    img.style.display = "block";
-};
-
-img.src = data.heroImage;
+        // Hero image loading — fallback
+        const heroImg = document.getElementById('heroImage');
+        const loadingElHero = document.getElementById('loading');
+        if (heroImg.complete && heroImg.naturalHeight !== 0) {
+            loadingElHero.style.display = 'none';
+            heroImg.style.display = 'block';
+        } else if (heroImg.src) {
+            heroImg.onload = () => {
+                loadingElHero.style.display = 'none';
+                heroImg.style.display = 'block';
+            };
+            heroImg.onerror = () => {
+                loadingElHero.innerHTML =
+                    '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Gambar tidak tersedia';
+            };
+        }
     </script>
 
 </body>
-    </html>
+</html>
