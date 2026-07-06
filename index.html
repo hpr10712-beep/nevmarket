@@ -1485,6 +1485,20 @@
             // Sembunyikan loading, tampilkan teks
             loadingEl.style.display = 'none';
             textEl.style.display = 'inline-block';
+
+            // ============================================================
+            // CEK STATUS TAMPILKAN PENGUMUMAN & ATUR MARGIN HERO
+            // ============================================================
+            const banner = document.getElementById('adminBanner');
+            const heroSection = document.querySelector('.hero');
+            if (banner) {
+                const show = data.showAnnouncement !== false; // default true
+                banner.style.display = show ? 'flex' : 'none';
+                // Atur margin-top hero agar tetap rapi saat banner disembunyikan
+                if (heroSection) {
+                    heroSection.style.marginTop = show ? '0' : '72px';
+                }
+            }
         });
 
         // ============================================================
