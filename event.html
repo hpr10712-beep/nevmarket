@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a2e0a;
+            --bg-secondary: #051405;
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --accent-gold: #efb22c;
+            --accent-emerald: #00b894;
+            --accent-white: #f0f8f0;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.7);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============================================================
+           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA
+           ============================================================ */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        /* Elemen dekoratif: garis-garis lapangan */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Garis tepi lapangan (kotak) */
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Garis tengah lapangan */
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        /* Lingkaran tengah */
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* ============================================================
+           KONTEN UTAMA — EVENT TIDAK TERSEDIA
+           ============================================================ */
+        .event-empty {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 600px;
+            padding: 40px 30px;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .event-empty .icon-wrap {
+            font-size: 5rem;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: pulseFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                filter: drop-shadow(0 0 20px rgba(239, 178, 44, 0.1));
+            }
+            100% {
+                transform: translateY(-12px) scale(1.06);
+                filter: drop-shadow(0 0 40px rgba(239, 178, 44, 0.25));
+            }
+        }
+
+        .event-empty h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #f7d875, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .event-empty .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+
+        .event-empty .message {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 12px 0 28px;
+            line-height: 1.7;
+        }
+
+        .event-empty .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875, var(--accent-gold));
+            color: #0a2a0a;
+            border-color: transparent;
+            box-shadow: 0 4px 20px rgba(239, 178, 44, 0.30);
+            background-size: 200% 200%;
+            animation: shimmerGold 4s ease-in-out infinite;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.50);
+        }
+        @keyframes shimmerGold {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .btn-outline-gold {
+            background: transparent;
+            border: 1.5px solid var(--accent-gold);
+            color: var(--accent-gold);
+            box-shadow: 0 0 20px rgba(239, 178, 44, 0.05);
+        }
+        .btn-outline-gold:hover {
+            background: rgba(239, 178, 44, 0.10);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(239, 178, 44, 0.20);
+        }
+
+        /* ============================================================
+           NAVBAR (opsional, untuk navigasi)
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+        .nav-brand .brand-name {
+            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(5, 20, 5, 0.98);
+                padding: 20px 24px;
+                gap: 14px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: block;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 600px) {
+            .event-empty {
+                padding: 30px 20px;
+                margin: 0 16px;
+            }
+            .event-empty h1 {
+                font-size: 2rem;
+            }
+            .event-empty .icon-wrap {
+                font-size: 3.6rem;
+            }
+            .event-empty .subtitle {
+                font-size: 1rem;
+            }
+            .event-empty .message {
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 10px 24px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .event-empty h1 {
+                font-size: 1.6rem;
+            }
+            .event-empty .icon-wrap {
+                font-size: 2.8rem;
+            }
+            .event-empty .subtitle {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
+    ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-crown"></i>
+                <span class="brand-name">NEV Market</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#berita">Berita</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="event.html" style="color:var(--accent-gold);">Event</a></li>
+                <li><a href="tentang.html">Tentang</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+    KONTEN UTAMA — EVENT TIDAK TERSEDIA
+    ============================================================ -->
+    <div class="event-empty">
+        <div class="icon-wrap">
+            <i class="fas fa-futbol"></i>
+        </div>
+        <h1>Event Tidak Tersedia</h1>
+        <p class="subtitle">Saat ini belum ada event yang berlangsung</p>
+        <p class="message">
+            Kami sedang mempersiapkan berbagai acara menarik untukmu. 
+            Pantau terus halaman ini ya, atau kunjungi beranda untuk melihat produk dan layanan terbaik kami.
+        </p>
+        <div class="btn-group">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i> Kembali ke Beranda
+            </a>
+            <a href="index.html#berita" class="btn btn-outline-gold">
+                <i class="fas fa-newspaper"></i> Lihat Berita
+            </a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    SCRIPT — NAVBAR
+    ============================================================ -->
+    <script>
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+        document.querySelectorAll('.nav-links a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+
+        // Opsional: animasi tambahan
+        console.log('⚽ Halaman Event — Tidak Tersedia');
+    </script>
+
+</body>
+</html>
