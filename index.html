@@ -177,7 +177,7 @@
         }
 
         /* ============================================================
-           BUTTONS
+           BUTTONS (sisa untuk modal dll)
            ============================================================ */
         .btn {
             display: inline-flex;
@@ -498,12 +498,296 @@
             max-width: 500px;
             margin: 0 auto 28px;
         }
-        .hero .btn-group {
+
+        /* ============================================================
+           CARD GRID — HORIZONTAL SCROLL + SWIPE
+           ============================================================ */
+        .card-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 8px 0 18px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE 10+ */
+            position: relative;
+            cursor: grab;
+            user-select: none;
+        }
+        .card-scroll-wrapper::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari, Opera */
+        }
+
+        .card-grid {
             display: flex;
-            gap: 16px;
+            gap: 30px;
+            padding: 0 20px;
+            flex-wrap: nowrap;
+            width: max-content;
+            min-width: 100%;
+            justify-content: flex-start;
+            pointer-events: none; /* biar scroll tetap jalan, tapi tombol bisa diklik via card itu sendiri */
+        }
+        .card-grid .service-card {
+            pointer-events: auto; /* aktifkan klik pada kartu */
+        }
+
+        .service-card {
+            width: 260px;
+            height: 260px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            display: block;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            /* animasi masuk tetap */
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            animation: cardEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .service-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .service-card:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        .service-card:nth-child(3) {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes cardEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .service-card:hover {
+            transform: scale(1.06) translateY(-10px);
+            box-shadow: 0 24px 64px rgba(239, 178, 44, 0.25), 0 0 40px rgba(239, 178, 44, 0.08);
+            border-color: var(--accent-gold);
+        }
+
+        .service-card .card-bg {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+
+        .service-card:hover .card-bg {
+            transform: scale(1.12);
+        }
+
+        .service-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg,
+                    rgba(5, 20, 5, 0.82) 0%,
+                    rgba(10, 46, 10, 0.72) 60%,
+                    rgba(5, 20, 5, 0.88) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
+            padding: 24px 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(239, 178, 44, 0.06);
+            border-radius: var(--radius-lg);
+        }
+
+        .service-card:hover .card-overlay {
+            background: linear-gradient(145deg,
+                    rgba(5, 20, 5, 0.68) 0%,
+                    rgba(10, 46, 10, 0.58) 60%,
+                    rgba(5, 20, 5, 0.78) 100%);
+            backdrop-filter: blur(4px);
+            border-color: rgba(239, 178, 44, 0.20);
+        }
+
+        .service-card .card-overlay i {
+            font-size: 2.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 0 16px rgba(239, 178, 44, 0.15));
+        }
+
+        .service-card:hover .card-overlay i {
+            transform: scale(1.18) rotate(-4deg) translateY(-2px);
+            filter: drop-shadow(0 0 30px rgba(239, 178, 44, 0.35));
+        }
+
+        .service-card .card-overlay h3 {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            letter-spacing: -0.3px;
+        }
+
+        .service-card .card-overlay p {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            margin-bottom: 10px;
+            opacity: 0.85;
+            line-height: 1.4;
+        }
+
+        .service-card .card-overlay .card-cta {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            padding: 4px 12px;
+            border-radius: 40px;
+            background: rgba(239, 178, 44, 0.08);
+            border: 1px solid rgba(239, 178, 44, 0.10);
+        }
+
+        .service-card:hover .card-overlay .card-cta {
+            gap: 14px;
+            background: rgba(239, 178, 44, 0.16);
+            border-color: rgba(239, 178, 44, 0.30);
+            box-shadow: 0 0 20px rgba(239, 178, 44, 0.06);
+        }
+
+        .service-card .card-overlay .card-cta i {
+            font-size: 0.7rem;
+            margin-bottom: 0;
+            filter: none;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .card-overlay .card-cta i {
+            transform: translateX(4px);
+            filter: none;
+        }
+
+        /* Glow ring pada hover */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: calc(var(--radius-lg) + 2px);
+            padding: 2px;
+            background: linear-gradient(135deg, transparent 40%, var(--accent-gold), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .service-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Responsif card scroll */
+        @media (max-width: 900px) {
+            .service-card {
+                width: 220px;
+                height: 220px;
+            }
+            .service-card .card-overlay i {
+                font-size: 2.2rem;
+            }
+            .service-card .card-overlay h3 {
+                font-size: 1.1rem;
+            }
+            .service-card .card-overlay p {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card-grid {
+                gap: 18px;
+                padding: 0 16px;
+            }
+            .service-card {
+                width: 160px;
+                height: 160px;
+                border-radius: 16px;
+            }
+            .service-card .card-overlay {
+                padding: 14px 12px;
+            }
+            .service-card .card-overlay i {
+                font-size: 1.8rem;
+                margin-bottom: 4px;
+            }
+            .service-card .card-overlay h3 {
+                font-size: 0.9rem;
+            }
+            .service-card .card-overlay p {
+                font-size: 0.65rem;
+                margin-bottom: 6px;
+                display: none;
+            }
+            .service-card .card-overlay .card-cta {
+                font-size: 0.7rem;
+                padding: 2px 10px;
+            }
+            .service-card:hover {
+                transform: scale(1.04) translateY(-4px);
+            }
+        }
+
+        @media (max-width: 420px) {
+            .service-card {
+                width: 140px;
+                height: 140px;
+            }
+            .service-card .card-overlay i {
+                font-size: 1.4rem;
+            }
+            .service-card .card-overlay h3 {
+                font-size: 0.75rem;
+            }
+            .service-card .card-overlay .card-cta {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+            }
+        }
+
+        /* Indikator scroll (opsional) — panah kecil di samping */
+        .scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
             margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            opacity: 0.5;
+            align-items: center;
+        }
+        .scroll-indicator i {
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+        }
+        @media (max-width: 600px) {
+            .scroll-indicator {
+                font-size: 0.65rem;
+            }
         }
 
         .hero-img-wrapper {
@@ -904,7 +1188,7 @@
             border-top: 2px solid rgba(239, 178, 44, 0.15);
             position: relative;
             overflow: hidden;
-            background-image: 
+            background-image:
                 linear-gradient(135deg, rgba(10, 46, 10, 0.9), rgba(3, 13, 3, 0.95)),
                 repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 3px, transparent 3px, transparent 12px);
             box-shadow: inset 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -1274,18 +1558,61 @@
                     </span>
                 </h1>
                 <p id="heroDesc">Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas</p>
-                <div class="btn-group">
-                    <a href="produk.html" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i> Lihat Produk
-                    </a>
-                    <a href="jasa.html" class="btn btn-emerald">
-                        <i class="fas fa-briefcase"></i> Lihat Jasa
-                    </a>
-                    <a href="event.html" class="btn btn-white">
-                      <i class="fas fa-fire"></i> Event Spesial
-                    </a>
+
+                <!-- ============================================================
+                CARD SCROLL — horizontal swipe
+                ============================================================ -->
+                <div class="card-scroll-wrapper" id="cardScrollWrapper">
+                    <div class="card-grid">
+                        <!-- Kartu Produk -->
+                        <a href="produk.html" class="service-card">
+                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/VWwMSD38/pngtree-cancel-cart-product-icon-png-image-5060873.jpg');"></div>
+                            <div class="card-overlay">
+                                <i class="fas fa-rocket"></i>
+                                <h3>Lihat Produk</h3>
+                                <p>Temukan produk digital terbaik</p>
+                                <span class="card-cta">
+                                    Jelajahi <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- Kartu Jasa -->
+                        <a href="jasa.html" class="service-card">
+                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/pk8Z221/18659902.png');"></div>
+                            <div class="card-overlay">
+                                <i class="fas fa-briefcase"></i>
+                                <h3>Lihat Jasa</h3>
+                                <p>Layanan profesional terpercaya</p>
+                                <span class="card-cta">
+                                    Jelajahi <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- Kartu Event Spesial -->
+                        <a href="event.html" class="service-card">
+                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/yBbp8F7s/event-icon-symbol-design-illustration-vector.jpg');"></div>
+                            <div class="card-overlay">
+                                <i class="fas fa-fire"></i>
+                                <h3>Event Spesial</h3>
+                                <p>Promo &amp; acara menarik</p>
+                                <span class="card-cta">
+                                    Jelajahi <i class="fas fa-arrow-right"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Indikator geser (opsional) -->
+                <div class="scroll-indicator">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Geser untuk melihat semua</span>
+                    <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
+
             <div class="hero-img-wrapper">
                 <div id="loading">
                     <i class="fas fa-spinner fa-spin"></i>
