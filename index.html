@@ -521,21 +521,21 @@
 
         .card-grid {
             display: flex;
-            gap: 30px;
+            gap: 24px;
             padding: 0 20px;
             flex-wrap: nowrap;
             width: max-content;
             min-width: 100%;
             justify-content: flex-start;
-            pointer-events: none; /* biar scroll tetap jalan, tapi tombol bisa diklik via card itu sendiri */
+            pointer-events: none;
         }
         .card-grid .service-card {
-            pointer-events: auto; /* aktifkan klik pada kartu */
+            pointer-events: auto;
         }
 
         .service-card {
-            width: 180px;
-            height: 180px;
+            width: 220px;
+            height: 220px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             position: relative;
@@ -546,7 +546,6 @@
             display: block;
             flex-shrink: 0;
             scroll-snap-align: start;
-            /* animasi masuk tetap */
             opacity: 0;
             transform: translateY(30px) scale(0.96);
             animation: cardEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -602,7 +601,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 24px 20px;
+            padding: 18px 16px;
             text-align: center;
             transition: all 0.4s ease;
             backdrop-filter: blur(2px);
@@ -620,9 +619,9 @@
         }
 
         .service-card .card-overlay i {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             color: var(--accent-gold);
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             filter: drop-shadow(0 0 16px rgba(239, 178, 44, 0.15));
         }
@@ -634,7 +633,7 @@
 
         .service-card .card-overlay h3 {
             color: #fff;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 2px;
             letter-spacing: -0.3px;
@@ -642,8 +641,8 @@
 
         .service-card .card-overlay p {
             color: var(--text-secondary);
-            font-size: 0.82rem;
-            margin-bottom: 10px;
+            font-size: 0.7rem;
+            margin-bottom: 6px;
             opacity: 0.85;
             line-height: 1.4;
         }
@@ -651,12 +650,12 @@
         .service-card .card-overlay .card-cta {
             color: var(--accent-gold);
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             display: inline-flex;
             align-items: center;
             gap: 6px;
             transition: all 0.3s ease;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 40px;
             background: rgba(239, 178, 44, 0.08);
             border: 1px solid rgba(239, 178, 44, 0.10);
@@ -681,7 +680,6 @@
             filter: none;
         }
 
-        /* Glow ring pada hover */
         .service-card::after {
             content: '';
             position: absolute;
@@ -701,51 +699,52 @@
             opacity: 1;
         }
 
-        /* Responsif card scroll */
         @media (max-width: 900px) {
             .service-card {
-                width: 220px;
-                height: 220px;
+                width: 180px;
+                height: 180px;
             }
             .service-card .card-overlay i {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             .service-card .card-overlay h3 {
-                font-size: 1.1rem;
+                font-size: 0.95rem;
             }
             .service-card .card-overlay p {
-                font-size: 0.75rem;
+                font-size: 0.65rem;
+            }
+            .service-card .card-overlay .card-cta {
+                font-size: 0.7rem;
+                padding: 2px 8px;
             }
         }
 
         @media (max-width: 600px) {
             .card-grid {
-                gap: 18px;
+                gap: 16px;
                 padding: 0 16px;
             }
             .service-card {
-                width: 160px;
-                height: 160px;
+                width: 130px;
+                height: 130px;
                 border-radius: 16px;
             }
             .service-card .card-overlay {
-                padding: 14px 12px;
+                padding: 12px 10px;
             }
             .service-card .card-overlay i {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
                 margin-bottom: 4px;
             }
             .service-card .card-overlay h3 {
-                font-size: 0.9rem;
+                font-size: 0.75rem;
             }
             .service-card .card-overlay p {
-                font-size: 0.65rem;
-                margin-bottom: 6px;
                 display: none;
             }
             .service-card .card-overlay .card-cta {
-                font-size: 0.7rem;
-                padding: 2px 10px;
+                font-size: 0.6rem;
+                padding: 2px 8px;
             }
             .service-card:hover {
                 transform: scale(1.04) translateY(-4px);
@@ -754,22 +753,21 @@
 
         @media (max-width: 420px) {
             .service-card {
-                width: 140px;
-                height: 140px;
+                width: 110px;
+                height: 110px;
             }
             .service-card .card-overlay i {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
             }
             .service-card .card-overlay h3 {
-                font-size: 0.75rem;
+                font-size: 0.65rem;
             }
             .service-card .card-overlay .card-cta {
-                font-size: 0.6rem;
-                padding: 2px 8px;
+                font-size: 0.55rem;
+                padding: 2px 6px;
             }
         }
 
-        /* Indikator scroll (opsional) — panah kecil di samping */
         .scroll-indicator {
             display: flex;
             justify-content: center;
@@ -968,7 +966,7 @@
         }
 
         /* ============================================================
-           MODAL BERITA — TAMPILAN LEBIH MENARIK
+           MODAL BERITA
            ============================================================ */
         .modal-news-overlay {
             position: fixed;
@@ -1119,7 +1117,7 @@
         }
 
         /* ============================================================
-           FOOTER — dengan toggle buka/tutup
+           FOOTER — tanpa garis bawah kuning
            ============================================================ */
         .footer-wrapper {
             margin-top: 20px;
@@ -1219,16 +1217,9 @@
             position: relative;
             display: inline-block;
         }
+        /* Hilangkan garis bawah kuning di footer */
         .footer .col h4::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 40%;
-            height: 2px;
-            background: var(--accent-gold);
-            border-radius: 2px;
-            opacity: 0.5;
+            display: none;
         }
         .footer .col p,
         .footer .col a {
@@ -1282,9 +1273,7 @@
                 justify-content: center;
             }
             .footer .col h4::after {
-                left: 50%;
-                transform: translateX(-50%);
-                width: 60%;
+                display: none; /* tetap hilang */
             }
             .news-card {
                 flex: 0 0 260px;
@@ -1428,7 +1417,6 @@
             filter: drop-shadow(0 2px 8px rgba(239, 178, 44, 0.2));
         }
 
-        /* GARIS BAWAH BERKILAU KHUSUS DI HERO (TENGAH HALAMAN) */
         .hero .brand-name {
             position: relative;
         }
@@ -1501,14 +1489,13 @@
     </nav>
 
     <!-- ============================================================
-    BANNER ADMIN — data dari Firebase dengan loading
+    BANNER ADMIN
     ============================================================ -->
     <div class="container" style="margin-top: 0;">
         <div class="admin-news-banner" id="adminBanner">
             <span class="badge-admin"><i class="fas fa-bullhorn"></i> Admin</span>
             <div class="news-text">
                 <span class="marquee-wrapper" id="adminTextWrapper">
-                    <!-- Loading spinner akan ditampilkan di sini -->
                     <span class="admin-loading" id="adminLoading">
                         <span class="spinner"></span>
                         Memuat pengumuman...
@@ -1559,12 +1546,8 @@
                 </h1>
                 <p id="heroDesc">Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas</p>
 
-                <!-- ============================================================
-                CARD SCROLL — horizontal swipe
-                ============================================================ -->
                 <div class="card-scroll-wrapper" id="cardScrollWrapper">
                     <div class="card-grid">
-                        <!-- Kartu Produk -->
                         <a href="produk.html" class="service-card">
                             <div class="card-bg" style="background-image: url('https://i.ibb.co.com/VWwMSD38/pngtree-cancel-cart-product-icon-png-image-5060873.jpg');"></div>
                             <div class="card-overlay">
@@ -1577,7 +1560,6 @@
                             </div>
                         </a>
 
-                        <!-- Kartu Jasa -->
                         <a href="jasa.html" class="service-card">
                             <div class="card-bg" style="background-image: url('https://i.ibb.co.com/35470Dvc/cogwheel-on-hand-denoting-icon-of-technical-service-in-trendy-style-vector.jpg');"></div>
                             <div class="card-overlay">
@@ -1590,7 +1572,6 @@
                             </div>
                         </a>
 
-                        <!-- Kartu Event Spesial -->
                         <a href="event.html" class="service-card">
                             <div class="card-bg" style="background-image: url('https://i.ibb.co.com/yBbp8F7s/event-icon-symbol-design-illustration-vector.jpg');"></div>
                             <div class="card-overlay">
@@ -1605,7 +1586,6 @@
                     </div>
                 </div>
 
-                <!-- Indikator geser (opsional) -->
                 <div class="scroll-indicator">
                     <i class="fas fa-chevron-left"></i>
                     <span>Geser untuk melihat semua</span>
@@ -1660,14 +1640,12 @@
     FOOTER — dengan toggle buka/tutup
     ============================================================ -->
     <div class="footer-wrapper">
-        <!-- Tombol Toggle Footer -->
         <button class="footer-toggle-btn" id="footerToggleBtn">
             <i class="fas fa-chevron-down arrow" id="footerArrow"></i>
             <span id="footerToggleLabel">Buka Footer</span>
             <i class="fas fa-crown" style="margin-left:auto;color:var(--accent-gold);"></i>
         </button>
 
-        <!-- Konten Footer (default tersembunyi) -->
         <div class="footer-content" id="footerContent">
             <footer class="footer">
                 <div class="container">
@@ -1678,13 +1656,13 @@
                         </h4>
                         <p>Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas.</p>
                         <div style="margin-top:8px;">
-                            <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy;  26 Juni 2026. Kami Merilis Website Untuk Penjualan File, Template, Document, Aplikasi Dan Layanan Jasa</span>
+                            <span style="color:rgba(255,255,255,0.5);font-size:0.8rem;">&copy; 26 Juni 2026. Kami Merilis Website Untuk Penjualan File, Template, Document, Aplikasi Dan Layanan Jasa</span>
                         </div>
                     </div>
                     <div class="col">
                         <h4>Kontak</h4>
-                        <p><i class="fas fa-phone" style="width:20px;"></i> <a href="https://wa.me/6289603266259" target="_blank">0896-0326-6259</a></p>
-                        <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:admin@logoshop.com">hpr10712@gmail.com</a></p>
+                        <p><i class="fas fa-phone" style="width:20px;"></i> <a href="https://wa.me/628993360673" target="_blank">0899-3360-673</a></p>
+                        <p><i class="fas fa-envelope" style="width:20px;"></i> <a href="mailto:hpr10712@gmail.com">hpr10712@gmail.com</a></p>
                         <p><i class="fas fa-map-marker-alt" style="width:20px;"></i> Indonesia, Jawa Tengah, Purworejo, Bayan</p>
                     </div>
                     <div class="col">
@@ -1712,9 +1690,6 @@
     SCRIPT — FIREBASE & LOGIKA
     ============================================================ -->
     <script type="module">
-        // ============================================================
-        // 1. FIREBASE
-        // ============================================================
         import { initializeApp } from "firebase-app";
         import { getDatabase, ref, onValue } from "firebase-database";
 
@@ -1727,9 +1702,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ============================================================
-        // 2. DEVICE ID
-        // ============================================================
         function getDeviceId() {
             let id = localStorage.getItem('logoShop_deviceId');
             if (!id) {
@@ -1741,9 +1713,6 @@
         const DEVICE_ID = getDeviceId();
         document.getElementById('deviceIdDisplay').textContent = DEVICE_ID.slice(0, 12) + '…';
 
-        // ============================================================
-        // 3. TOAST
-        // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
@@ -1756,9 +1725,6 @@
             t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
         }
 
-        // ============================================================
-        // 4. NAVBAR
-        // ============================================================
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
         });
@@ -1768,28 +1734,18 @@
             });
         });
 
-        // ============================================================
-        // 5. RENDER HOME & NEWS
-        // ============================================================
         const homeRef = ref(db, 'logo-shop/home');
         const newsRef = ref(db, 'logo-shop/news');
         const infoRef = ref(db, 'logo-shop/info');
 
-        // ============================================================
-        // 6. UPDATE INFO TOKO & BANNER ADMIN — dengan loading
-        // ============================================================
         const loadingEl = document.getElementById('adminLoading');
         const textEl = document.getElementById('adminNewsText');
-        const wrapperEl = document.getElementById('adminTextWrapper');
 
-        // Tampilkan loading terlebih dahulu
         loadingEl.style.display = 'inline-flex';
         textEl.style.display = 'none';
 
         onValue(infoRef, (snap) => {
             const data = snap.val() || {};
-
-            // Update nama toko di semua tempat
             if (data.shopName) {
                 const name = data.shopName;
                 const navBrand = document.querySelector('.nav-brand .brand-name');
@@ -1800,37 +1756,26 @@
                 if (heroBrand) heroBrand.textContent = name;
                 document.title = name + ' - Toko Digital';
             }
-
-            // Update teks banner admin — sembunyikan loading, tampilkan teks
             if (data.adminBannerText) {
                 textEl.innerHTML = data.adminBannerText;
             } else {
                 textEl.innerHTML =
                     '<span class="highlight-text">⚽ Selamat datang di NEV Market!</span> <span class="emerald-text">•</span> Dapatkan produk digital berkualitas dengan harga terbaik. <span class="emerald-text">•</span> <span class="highlight-text">Promo spesial</span> untuk pembelian pertama. <span class="emerald-text">•</span> Layanan jasa desain &amp; pengembangan website. <span class="emerald-text">•</span> <span class="highlight-text">#NEVMarket #FootballEdition</span>';
             }
-
-            // Sembunyikan loading, tampilkan teks
             loadingEl.style.display = 'none';
             textEl.style.display = 'inline-block';
 
-            // ============================================================
-            // CEK STATUS TAMPILKAN PENGUMUMAN & ATUR MARGIN HERO
-            // ============================================================
             const banner = document.getElementById('adminBanner');
             const heroSection = document.querySelector('.hero');
             if (banner) {
-                const show = data.showAnnouncement !== false; // default true
+                const show = data.showAnnouncement !== false;
                 banner.style.display = show ? 'flex' : 'none';
-                // Atur margin-top hero agar tetap rapi saat banner disembunyikan
                 if (heroSection) {
                     heroSection.style.marginTop = show ? '0' : '72px';
                 }
             }
         });
 
-        // ============================================================
-        // 7. HOME (Hero Image, Subtitle, dll)
-        // ============================================================
         onValue(homeRef, (snap) => {
             const data = snap.val() || {};
             const desc = document.getElementById('heroDesc');
@@ -1857,9 +1802,6 @@
             }
         });
 
-        // ============================================================
-        // 8. NEWS
-        // ============================================================
         function openNewsModal(item) {
             const modal = document.getElementById('modalNews');
             const img = document.getElementById('modalNewsImage');
@@ -1932,9 +1874,6 @@
             });
         });
 
-        // ============================================================
-        // 9. FOOTER TOGGLE — buka/tutup
-        // ============================================================
         const footerToggleBtn = document.getElementById('footerToggleBtn');
         const footerContent = document.getElementById('footerContent');
         const footerArrow = document.getElementById('footerArrow');
@@ -1954,9 +1893,6 @@
             }
         });
 
-        // ============================================================
-        // 10. ESC
-        // ============================================================
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeNewsModal();
         });
@@ -1964,7 +1900,6 @@
         showToast('Selamat datang di NEV Market!', 'info');
         console.log('🚀 NEV Market loaded. Device ID:', DEVICE_ID);
 
-        // Hero image loading — fallback
         const heroImg = document.getElementById('heroImage');
         const loadingElHero = document.getElementById('loading');
         if (heroImg.complete && heroImg.naturalHeight !== 0) {
@@ -1983,4 +1918,4 @@
     </script>
 
 </body>
-</html>
+    </html>
