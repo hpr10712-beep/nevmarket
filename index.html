@@ -270,7 +270,7 @@
         }
 
         /* ============================================================
-           NAVBAR — dengan nama website
+           NAVBAR — dengan menu baru
            ============================================================ */
         .navbar {
             position: fixed;
@@ -313,6 +313,7 @@
             transition: var(--transition);
             position: relative;
             text-decoration: none;
+            cursor: pointer;
         }
         .nav-links a::after {
             content: '';
@@ -360,7 +361,7 @@
         }
 
         /* ============================================================
-           BANNER ADMIN — dengan loading
+           BANNER ADMIN
            ============================================================ */
         .admin-news-banner {
             margin-top: 72px;
@@ -434,7 +435,6 @@
             flex-shrink: 0;
             white-space: nowrap;
         }
-        /* Loading spinner di admin banner */
         .admin-loading {
             display: inline-flex;
             align-items: center;
@@ -500,7 +500,7 @@
         }
 
         /* ============================================================
-           CARD GRID — HORIZONTAL SCROLL + SWIPE
+           CARD GRID
            ============================================================ */
         .card-scroll-wrapper {
             width: 100%;
@@ -509,14 +509,14 @@
             padding: 8px 0 18px 0;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none;  /* IE 10+ */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             position: relative;
             cursor: grab;
             user-select: none;
         }
         .card-scroll-wrapper::-webkit-scrollbar {
-            display: none;  /* Chrome, Safari, Opera */
+            display: none;
         }
 
         .card-grid {
@@ -1117,7 +1117,177 @@
         }
 
         /* ============================================================
-           FOOTER — tanpa garis bawah kuning
+           MODAL INFORMASI (Antrian & Statistik)
+           ============================================================ */
+        .info-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        .info-modal-overlay.active {
+            display: flex;
+        }
+
+        .info-modal {
+            background: linear-gradient(145deg, rgba(20, 50, 20, 0.96), rgba(8, 25, 8, 0.98));
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px 36px 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(239, 178, 44, 0.30);
+            position: relative;
+        }
+        .info-modal::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(239, 178, 44, 0.07), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .info-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 4px;
+            line-height: 1;
+            z-index: 2;
+        }
+        .info-modal-close:hover {
+            color: var(--accent-gold);
+            transform: rotate(90deg);
+        }
+
+        .info-modal h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .info-modal h2 i {
+            color: var(--accent-gold);
+        }
+        .info-modal .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(239, 178, 44, 0.15);
+            padding-bottom: 12px;
+        }
+
+        /* Statistik grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .stats-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 16px 14px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+        .stats-item:hover {
+            border-color: var(--accent-gold);
+            background: rgba(239, 178, 44, 0.05);
+        }
+        .stats-item .number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+            display: block;
+            line-height: 1.2;
+        }
+        .stats-item .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Antrian list */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .queue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
+            border-left: 3px solid var(--accent-gold);
+            transition: var(--transition);
+        }
+        .queue-item:hover {
+            background: rgba(239, 178, 44, 0.06);
+        }
+        .queue-item .q-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+        .queue-item .q-status {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .q-status.waiting {
+            background: rgba(239, 178, 44, 0.20);
+            color: var(--accent-gold);
+        }
+        .q-status.process {
+            background: rgba(0, 184, 148, 0.20);
+            color: #6dd5b8;
+        }
+        .q-status.done {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-secondary);
+        }
+        .queue-empty {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 20px 0;
+            font-style: italic;
+        }
+
+        /* ============================================================
+           FOOTER
            ============================================================ */
         .footer-wrapper {
             margin-top: 20px;
@@ -1217,7 +1387,6 @@
             position: relative;
             display: inline-block;
         }
-        /* Hilangkan garis bawah kuning di footer */
         .footer .col h4::after {
             display: none;
         }
@@ -1273,7 +1442,7 @@
                 justify-content: center;
             }
             .footer .col h4::after {
-                display: none; /* tetap hilang */
+                display: none;
             }
             .news-card {
                 flex: 0 0 260px;
@@ -1287,6 +1456,12 @@
             }
             .admin-news-banner .news-text {
                 font-size: 0.85rem;
+            }
+            .info-modal {
+                padding: 28px 20px 24px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -1367,9 +1542,6 @@
             margin-bottom: 8px;
         }
 
-        /* ============================================================
-           ANIMASI PENGUMUMAN ADMIN — MARQUEE LEMBUT
-           ============================================================ */
         .admin-marquee {
             display: inline-block;
             animation: marqueeScroll 20s linear infinite;
@@ -1402,9 +1574,6 @@
             }
         }
 
-        /* ============================================================
-           BRAND NAME — GAYA DEKORATIF KHUSUS NEV Market ⚽
-           ============================================================ */
         .brand-name {
             background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
             -webkit-background-clip: text;
@@ -1483,6 +1652,9 @@
                 <li><a href="produk.html">Produk</a></li>
                 <li><a href="jasa.html">Jasa</a></li>
                 <li><a href="tentang.html">Tentang</a></li>
+                <!-- Menu baru -->
+                <li><a id="menuAntrian"><i class="fas fa-clock"></i> Antrian Anda </a></li>
+                <li><a id="menuStatistik"><i class="fas fa-chart-bar"></i> Statistik Pembelian</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -1637,7 +1809,19 @@
     </div>
 
     <!-- ============================================================
-    FOOTER — dengan toggle buka/tutup
+    MODAL INFORMASI (Antrian & Statistik)
+    ============================================================ -->
+    <div class="info-modal-overlay" id="infoModal">
+        <div class="info-modal">
+            <button class="info-modal-close" id="infoModalClose"><i class="fas fa-times"></i></button>
+            <div id="infoModalContent">
+                <!-- Dinamis diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    FOOTER
     ============================================================ -->
     <div class="footer-wrapper">
         <button class="footer-toggle-btn" id="footerToggleBtn">
@@ -1725,6 +1909,7 @@
             t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
         }
 
+        // Hamburger
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
         });
@@ -1734,10 +1919,14 @@
             });
         });
 
+        // Firebase references
         const homeRef = ref(db, 'logo-shop/home');
         const newsRef = ref(db, 'logo-shop/news');
         const infoRef = ref(db, 'logo-shop/info');
+        const queueRef = ref(db, 'logo-shop/antrian');
+        const statsRef = ref(db, 'logo-shop/statistik');
 
+        // Admin banner
         const loadingEl = document.getElementById('adminLoading');
         const textEl = document.getElementById('adminNewsText');
 
@@ -1776,6 +1965,7 @@
             }
         });
 
+        // Home data
         onValue(homeRef, (snap) => {
             const data = snap.val() || {};
             const desc = document.getElementById('heroDesc');
@@ -1802,6 +1992,120 @@
             }
         });
 
+        // ============================================================
+        // MODAL INFORMASI (Antrian & Statistik)
+        // ============================================================
+        const infoModal = document.getElementById('infoModal');
+        const infoModalContent = document.getElementById('infoModalContent');
+        let currentInfoMode = 'antrian'; // 'antrian' atau 'statistik'
+
+        function openInfoModal(mode) {
+            currentInfoMode = mode;
+            renderInfoModal(mode);
+            infoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeInfoModal() {
+            infoModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('infoModalClose').addEventListener('click', closeInfoModal);
+        infoModal.addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeInfoModal();
+        });
+
+        // Tombol menu
+        document.getElementById('menuAntrian').addEventListener('click', (e) => {
+            e.preventDefault();
+            openInfoModal('antrian');
+            document.getElementById('navLinks').classList.remove('open');
+        });
+        document.getElementById('menuStatistik').addEventListener('click', (e) => {
+            e.preventDefault();
+            openInfoModal('statistik');
+            document.getElementById('navLinks').classList.remove('open');
+        });
+
+        // Fungsi render modal
+        function renderInfoModal(mode) {
+            if (mode === 'antrian') {
+                // Tampilkan antrian jasa
+                infoModalContent.innerHTML = `
+                    <h2><i class="fas fa-clock"></i> Antrian Jasa</h2>
+                    <div class="subtitle">Daftar antrian layanan jasa yang sedang berlangsung</div>
+                    <div id="queueListContainer">
+                        <div class="queue-empty"><i class="fas fa-spinner fa-spin"></i> Memuat antrian...</div>
+                    </div>
+                `;
+                // Load queue data
+                onValue(queueRef, (snap) => {
+                    const data = snap.val();
+                    const container = document.getElementById('queueListContainer');
+                    if (!data) {
+                        container.innerHTML = `<div class="queue-empty"><i class="fas fa-inbox"></i> Belum ada antrian.</div>`;
+                        return;
+                    }
+                    // Convert object to array and sort by nomor antrian
+                    const entries = Object.entries(data);
+                    if (entries.length === 0) {
+                        container.innerHTML = `<div class="queue-empty"><i class="fas fa-inbox"></i> Belum ada antrian.</div>`;
+                        return;
+                    }
+                    // Sort by nomor antrian (ascending)
+                    entries.sort((a, b) => (a[1].nomor || 0) - (b[1].nomor || 0));
+                    let html = `<div class="queue-list">`;
+                    entries.forEach(([key, item]) => {
+                        const status = item.status || 'waiting';
+                        const statusLabel = status === 'waiting' ? 'Menunggu' :
+                                           status === 'process' ? 'Diproses' :
+                                           status === 'done' ? 'Selesai' : 'Menunggu';
+                        const statusClass = status === 'waiting' ? 'waiting' :
+                                            status === 'process' ? 'process' :
+                                            status === 'done' ? 'done' : 'waiting';
+                        html += `
+                            <div class="queue-item">
+                                <span class="q-number">#${item.nomor || '?'} - ${item.nama || 'Tanpa nama'}</span>
+                                <span class="q-status ${statusClass}">${statusLabel}</span>
+                            </div>
+                        `;
+                    });
+                    html += `</div>`;
+                    container.innerHTML = html;
+                }, { onlyOnce: false });
+
+            } else if (mode === 'statistik') {
+                // Tampilkan statistik
+                infoModalContent.innerHTML = `
+                    <h2><i class="fas fa-chart-bar"></i> Statistik Pembelian</h2>
+                    <div class="subtitle">Rekapitulasi penjualan produk dan jasa</div>
+                    <div id="statsContainer">
+                        <div class="stats-grid">
+                            <div class="stats-item"><span class="number">...</span><span class="label">Produk Dibeli</span></div>
+                            <div class="stats-item"><span class="number">...</span><span class="label">Jasa Dibeli</span></div>
+                            <div class="stats-item"><span class="number">...</span><span class="label">Total Transaksi</span></div>
+                        </div>
+                    </div>
+                `;
+                // Load stats data
+                onValue(statsRef, (snap) => {
+                    const data = snap.val() || {};
+                    const container = document.getElementById('statsContainer');
+                    const items = container.querySelectorAll('.stats-item .number');
+                    if (items.length >= 4) {
+                        items[0].textContent = data.totalProdukTerjual || 0;
+                        items[1].textContent = data.totalJasaTerjual || 0;
+                        items[2].textContent = data.totalTransaksi || 0;
+                        items[3].textContent = (data.totalPendapatan || 0).toLocaleString('id-ID');
+                    }
+                }, { onlyOnce: false });
+            }
+        }
+
+        // ============================================================
+        // MODAL BERITA
+        // ============================================================
         function openNewsModal(item) {
             const modal = document.getElementById('modalNews');
             const img = document.getElementById('modalNewsImage');
@@ -1831,12 +2135,13 @@
             if (e.target === e.currentTarget) closeNewsModal();
         });
 
+        // Berita
         onValue(newsRef, (snap) => {
             const data = snap.val();
             const grid = document.getElementById('newsGrid');
             if (!data) {
                 grid.innerHTML =
-                `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
+                    `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
                 return;
             }
             const entries = Object.entries(data).reverse();
@@ -1874,6 +2179,7 @@
             });
         });
 
+        // Footer toggle
         const footerToggleBtn = document.getElementById('footerToggleBtn');
         const footerContent = document.getElementById('footerContent');
         const footerArrow = document.getElementById('footerArrow');
@@ -1893,13 +2199,19 @@
             }
         });
 
+        // Escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeNewsModal();
+            if (e.key === 'Escape') {
+                closeNewsModal();
+                closeInfoModal();
+            }
         });
 
+        // Toast sambutan
         showToast('Selamat datang di NEV Market!', 'info');
         console.log('🚀 NEV Market loaded. Device ID:', DEVICE_ID);
 
+        // Hero image
         const heroImg = document.getElementById('heroImage');
         const loadingElHero = document.getElementById('loading');
         if (heroImg.complete && heroImg.naturalHeight !== 0) {
@@ -1918,4 +2230,4 @@
     </script>
 
 </body>
-    </html>
+</html>
