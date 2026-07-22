@@ -820,7 +820,7 @@
         }
 
         /* ============================================================
-           TOMBOL INFO DI BAWAH GAMBAR HERO
+           TOMBOL INFO DI BAWAH GAMBAR HERO — SEKARANG LINK
            ============================================================ */
         .hero-info-buttons {
             display: flex;
@@ -1162,176 +1162,6 @@
         }
 
         /* ============================================================
-           MODAL INFORMASI (Antrian & Statistik)
-           ============================================================ */
-        .info-modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px);
-            padding: 20px;
-            animation: fadeInOverlay 0.3s ease;
-        }
-        .info-modal-overlay.active {
-            display: flex;
-        }
-
-        .info-modal {
-            background: linear-gradient(145deg, rgba(20, 50, 20, 0.96), rgba(8, 25, 8, 0.98));
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius-lg);
-            max-width: 700px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 40px 36px 32px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid rgba(239, 178, 44, 0.30);
-            position: relative;
-        }
-        .info-modal::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            right: -20%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(239, 178, 44, 0.07), transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .info-modal-close {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 4px;
-            line-height: 1;
-            z-index: 2;
-        }
-        .info-modal-close:hover {
-            color: var(--accent-gold);
-            transform: rotate(90deg);
-        }
-
-        .info-modal h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .info-modal h2 i {
-            color: var(--accent-gold);
-        }
-        .info-modal .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(239, 178, 44, 0.15);
-            padding-bottom: 12px;
-        }
-
-        /* Statistik grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-bottom: 28px;
-        }
-        .stats-item {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-md);
-            padding: 16px 14px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: var(--transition);
-        }
-        .stats-item:hover {
-            border-color: var(--accent-gold);
-            background: rgba(239, 178, 44, 0.05);
-        }
-        .stats-item .number {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            display: block;
-            line-height: 1.2;
-        }
-        .stats-item .label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
-        }
-
-        /* Antrian list */
-        .queue-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .queue-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-md);
-            padding: 12px 18px;
-            border-left: 3px solid var(--accent-gold);
-            transition: var(--transition);
-        }
-        .queue-item:hover {
-            background: rgba(239, 178, 44, 0.06);
-        }
-        .queue-item .q-number {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #fff;
-        }
-        .queue-item .q-status {
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 40px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-        .q-status.waiting {
-            background: rgba(239, 178, 44, 0.20);
-            color: var(--accent-gold);
-        }
-        .q-status.process {
-            background: rgba(0, 184, 148, 0.20);
-            color: #6dd5b8;
-        }
-        .q-status.done {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-secondary);
-        }
-        .queue-empty {
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 20px 0;
-            font-style: italic;
-        }
-
-        /* ============================================================
            FOOTER
            ============================================================ */
         .footer-wrapper {
@@ -1501,12 +1331,6 @@
             }
             .admin-news-banner .news-text {
                 font-size: 0.85rem;
-            }
-            .info-modal {
-                padding: 28px 20px 24px;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -1816,16 +1640,17 @@
             </div>
 
             <!-- ============================================================
-            TOMBOL INFORMASI DI BAWAH GAMBAR
+            TOMBOL INFO DI BAWAH GAMBAR — SEKARANG LINK KE HALAMAN TERPISAH
             ============================================================ -->
             <div class="hero-info-buttons">
-    <a href="informasi.html" class="btn-info">
-        <i class="fas fa-clock"></i> Informasi Anda
-    </a>
-    <a href="riwayat.html" class="btn-info">
-        <i class="fas fa-history"></i> Riwayat Anda
-    </a>
+                <a href="informasi.html" class="btn-info">
+                    <i class="fas fa-clock"></i> Informasi
+                </a>
+                <a href="riwayat.html" class="btn-info">
+                    <i class="fas fa-history"></i> Riwayat
+                </a>
             </div>
+        </div>
     </section>
 
     <!-- ============================================================
@@ -1857,18 +1682,6 @@
             <div class="modal-content" id="modalNewsContent">Konten berita lengkap akan ditampilkan di sini.</div>
             <div class="btn-group">
                 <button class="btn btn-primary" id="modalNewsCloseBtn">Tutup</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    MODAL INFORMASI (Antrian & Statistik)
-    ============================================================ -->
-    <div class="info-modal-overlay" id="infoModal">
-        <div class="info-modal">
-            <button class="info-modal-close" id="infoModalClose"><i class="fas fa-times"></i></button>
-            <div id="infoModalContent">
-                <!-- Dinamis diisi oleh JavaScript -->
             </div>
         </div>
     </div>
@@ -1924,7 +1737,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT — FIREBASE & LOGIKA
+    SCRIPT — FIREBASE & LOGIKA (tanpa modal info)
     ============================================================ -->
     <script type="module">
         import { initializeApp } from "firebase-app";
@@ -1976,8 +1789,6 @@
         const homeRef = ref(db, 'logo-shop/home');
         const newsRef = ref(db, 'logo-shop/news');
         const infoRef = ref(db, 'logo-shop/info');
-        const queueRef = ref(db, 'logo-shop/antrian');
-        const statsRef = ref(db, 'logo-shop/statistik');
 
         // Admin banner
         const loadingEl = document.getElementById('adminLoading');
@@ -2044,135 +1855,6 @@
                 }
             }
         });
-
-        // ============================================================
-        // MODAL INFORMASI (Antrian & Statistik) — REAL-TIME UPDATE
-        // ============================================================
-        const infoModal = document.getElementById('infoModal');
-        const infoModalContent = document.getElementById('infoModalContent');
-        let currentInfoMode = 'antrian';
-
-        // Referensi untuk listener yang akan dipasang
-        let queueListener = null;
-        let statsListener = null;
-
-        function openInfoModal(mode) {
-            currentInfoMode = mode;
-            // Bersihkan listener lama jika ada
-            if (queueListener) {
-                queueListener();
-                queueListener = null;
-            }
-            if (statsListener) {
-                statsListener();
-                statsListener = null;
-            }
-
-            renderInfoModal(mode);
-            infoModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeInfoModal() {
-            infoModal.classList.remove('active');
-            document.body.style.overflow = '';
-            // Lepaskan listener saat modal ditutup (opsional, biar tidak boros)
-            if (queueListener) {
-                queueListener();
-                queueListener = null;
-            }
-            if (statsListener) {
-                statsListener();
-                statsListener = null;
-            }
-        }
-
-        document.getElementById('infoModalClose').addEventListener('click', closeInfoModal);
-        infoModal.addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeInfoModal();
-        });
-
-        // Tombol info di bawah gambar hero
-        document.getElementById('btnAntrian').addEventListener('click', () => {
-            openInfoModal('antrian');
-        });
-        document.getElementById('btnStatistik').addEventListener('click', () => {
-            openInfoModal('statistik');
-        });
-
-        // Fungsi render modal
-        function renderInfoModal(mode) {
-            if (mode === 'antrian') {
-                infoModalContent.innerHTML = `
-                    <h2><i class="fas fa-clock"></i> Antrian Jasa</h2>
-                    <div class="subtitle">Daftar antrian layanan jasa yang sedang berlangsung (update real-time)</div>
-                    <div id="queueListContainer">
-                        <div class="queue-empty"><i class="fas fa-spinner fa-spin"></i> Memuat antrian...</div>
-                    </div>
-                `;
-                // Pasang listener untuk antrian
-                queueListener = onValue(queueRef, (snap) => {
-                    const data = snap.val();
-                    const container = document.getElementById('queueListContainer');
-                    if (!container) return;
-                    if (!data) {
-                        container.innerHTML = `<div class="queue-empty"><i class="fas fa-inbox"></i> Belum ada antrian.</div>`;
-                        return;
-                    }
-                    const entries = Object.entries(data);
-                    if (entries.length === 0) {
-                        container.innerHTML = `<div class="queue-empty"><i class="fas fa-inbox"></i> Belum ada antrian.</div>`;
-                        return;
-                    }
-                    entries.sort((a, b) => (a[1].nomor || 0) - (b[1].nomor || 0));
-                    let html = `<div class="queue-list">`;
-                    entries.forEach(([key, item]) => {
-                        const status = item.status || 'waiting';
-                        const statusLabel = status === 'waiting' ? 'Menunggu' :
-                                           status === 'process' ? 'Diproses' :
-                                           status === 'done' ? 'Selesai' : 'Menunggu';
-                        const statusClass = status === 'waiting' ? 'waiting' :
-                                            status === 'process' ? 'process' :
-                                            status === 'done' ? 'done' : 'waiting';
-                        html += `
-                            <div class="queue-item">
-                                <span class="q-number">#${item.nomor || '?'} - ${item.nama || 'Tanpa nama'}</span>
-                                <span class="q-status ${statusClass}">${statusLabel}</span>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                    container.innerHTML = html;
-                });
-
-            } else if (mode === 'statistik') {
-                infoModalContent.innerHTML = `
-                    <h2><i class="fas fa-chart-bar"></i> Statistik Pembelian</h2>
-                    <div class="subtitle">Rekapitulasi penjualan produk dan jasa (update real-time)</div>
-                    <div id="statsContainer">
-                        <div class="stats-grid">
-                            <div class="stats-item"><span class="number">...</span><span class="label">Produk Sukses Di Beli</span></div>
-                            <div class="stats-item"><span class="number">...</span><span class="label">Layanan Jasa Sukses Di Beli</span></div>
-                            <div class="stats-item"><span class="number">...</span><span class="label">Total Transaksi</span></div>
-                            <div class="stats-item"><span class="number">...</span><span class="label">Total Pengeluaran</span></div>
-                        </div>
-                    </div>
-                `;
-                // Pasang listener untuk statistik
-                statsListener = onValue(statsRef, (snap) => {
-                    const data = snap.val() || {};
-                    const container = document.getElementById('statsContainer');
-                    if (!container) return;
-                    const items = container.querySelectorAll('.stats-item .number');
-                    if (items.length >= 4) {
-                        items[0].textContent = data.totalProdukTerjual || 0;
-                        items[1].textContent = data.totalJasaTerjual || 0;
-                        items[2].textContent = data.totalTransaksi || 0;
-                        items[3].textContent = 'Rp ' + (data.totalPendapatan || 0).toLocaleString('id-ID');
-                    }
-                });
-            }
-        }
 
         // ============================================================
         // MODAL BERITA
@@ -2271,10 +1953,7 @@
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeNewsModal();
-                closeInfoModal();
-            }
+            if (e.key === 'Escape') closeNewsModal();
         });
 
         showToast('Selamat datang di NEV Market!', 'info');
@@ -2298,4 +1977,4 @@
     </script>
 
 </body>
-</html>
+    </html>
