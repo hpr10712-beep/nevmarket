@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Riwayat Pembelian - NEV Market</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg-primary: #0a2e0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --text-muted: #8aaa8a;
+            --accent-gold: #efb22c;
+            --accent-green: #6dd5b8;
+            --accent-blue: #93bbfc;
+            --accent-purple: #a78bfa;
+            --border-color: rgba(239,178,44,0.20);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34,120,34,0.45) 0px,
+                    rgba(34,120,34,0.45) 55px,
+                    rgba(20,80,20,0.45) 55px,
+                    rgba(20,80,20,0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0,0,0,0.0) 60%, rgba(0,0,0,0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background: rgba(10,46,10,0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(239,178,44,0.07), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(147,187,252,0.05), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header-left h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-left h1 i { color: var(--accent-gold); }
+        .header-left .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .back-btn:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+            background: rgba(239,178,44,0.10);
+        }
+
+        /* RINGKASAN STATISTIK */
+        .summary-section {
+            position: relative;
+            z-index: 1;
+            margin-top: 4px;
+        }
+        .summary-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .summary-title i { color: var(--accent-gold); }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 12px 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: var(--transition);
+        }
+        .summary-item:hover {
+            background: rgba(239,178,44,0.05);
+            border-color: rgba(239,178,44,0.15);
+        }
+        .summary-item .number {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            display: block;
+        }
+        .summary-item .number.green { color: var(--accent-green); }
+        .summary-item .number.blue { color: var(--accent-blue); }
+        .summary-item .number.purple { color: var(--accent-purple); }
+        .summary-item .label {
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-top: 2px;
+        }
+
+        /* DAFTAR RIWAYAT */
+        .history-section {
+            position: relative;
+            z-index: 1;
+        }
+        .history-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: space-between;
+        }
+        .history-title i { color: var(--accent-gold); }
+        .history-title span { font-size: 0.6rem; color: var(--text-muted); font-weight: 400; }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .history-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: var(--accent-gold);
+            border-radius: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 10px 16px;
+            border-left: 3px solid var(--accent-gold);
+            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .history-item:hover {
+            background: rgba(239,178,44,0.06);
+        }
+        .history-item .info {
+            flex: 1;
+            min-width: 120px;
+        }
+        .history-item .info .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .history-item .info .meta {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 1px;
+        }
+        .history-item .info .meta .type-badge {
+            background: rgba(255,255,255,0.06);
+            padding: 0 8px;
+            border-radius: 40px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .history-item .right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .history-item .price {
+            font-weight: 700;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .badge-status {
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 40px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .badge-status.completed { background: rgba(16,185,129,0.2); color: var(--accent-green); }
+        .badge-status.confirmed { background: rgba(59,130,246,0.2); color: var(--accent-blue); }
+        .badge-status.pending { background: rgba(239,178,44,0.2); color: var(--accent-gold); }
+        .badge-status.cancelled { background: rgba(239,68,68,0.2); color: #f87171; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 24px 0 8px;
+        }
+        .empty-state .icon-big {
+            font-size: 2.8rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .empty-state h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .empty-state .device-id {
+            margin-top: 12px;
+            background: rgba(255,255,255,0.04);
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        /* FOOTER */
+        .info-footer {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        .info-footer .live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-footer .live .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* SPINNER */
+        .spinner-wrap {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner-wrap p {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .card { padding: 24px 16px; }
+            .header-left h1 { font-size: 1.2rem; }
+            .summary-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .summary-item { padding: 10px 8px; }
+            .summary-item .number { font-size: 1.1rem; }
+            .history-item { padding: 8px 12px; }
+            .history-item .right { flex-wrap: wrap; }
+        }
+        @media (max-width: 380px) {
+            .summary-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="header-left">
+                    <h1><i class="fas fa-history"></i> Riwayat</h1>
+                    <div class="subtitle">
+                        <i class="fas fa-info-circle" style="color:var(--accent-gold);font-size:0.65rem;"></i>
+                        Lihat riwayat pembelian produk & jasa yang sudah Anda lakukan
+                    </div>
+                </div>
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+            </div>
+
+            <!-- KONTEN -->
+            <div id="historyContent">
+                <div class="spinner-wrap">
+                    <div class="spinner"></div>
+                    <p>Memuat riwayat pembelian Anda...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, onValue, query, orderByChild, limitToLast } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+        const container = document.getElementById('historyContent');
+
+        const ordersRef = ref(db, 'logo-shop/orders');
+
+        async function getUserSummary() {
+            try {
+                const snap = await new Promise((resolve) => {
+                    const unsubscribe = onValue(ordersRef, (s) => { resolve(s); unsubscribe(); });
+                });
+                const allOrders = snap.val() || {};
+                let totalTransaksi = 0, totalProduk = 0, totalJasa = 0, totalUang = 0;
+                Object.values(allOrders).forEach(order => {
+                    if (order.deviceId !== DEVICE_ID) return;
+                    if (order.status === 'cancelled') return;
+                    totalTransaksi++;
+                    if (order.isJasa) totalJasa++;
+                    else totalProduk++;
+                    totalUang += (order.price || 0);
+                });
+                return { totalTransaksi, totalProduk, totalJasa, totalUang };
+            } catch (e) {
+                console.warn('Gagal ambil ringkasan:', e);
+                return null;
+            }
+        }
+
+        async function renderHistory() {
+            const summary = await getUserSummary();
+            const recentQuery = query(ordersRef, orderByChild('orderDate'), limitToLast(10));
+
+            onValue(recentQuery, (snap) => {
+                const data = snap.val();
+                let html = '';
+
+                // RINGKASAN
+                if (summary) {
+                    html += `
+                        <div class="summary-section">
+                            <div class="summary-title">
+                                <i class="fas fa-chart-pie"></i> Ringkasan Pembelian Anda
+                                <span style="font-size:0.6rem;color:var(--text-muted);font-weight:400;margin-left:auto;">hanya transaksi milik Anda</span>
+                            </div>
+                            <div class="summary-grid">
+                                <div class="summary-item">
+                                    <span class="number">${summary.totalTransaksi}</span>
+                                    <span class="label">Total Transaksi</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="number blue">${summary.totalProduk}</span>
+                                    <span class="label">Produk Dibeli</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="number green">${summary.totalJasa}</span>
+                                    <span class="label">Jasa Dibeli</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="number purple">Rp ${new Intl.NumberFormat('id-ID').format(summary.totalUang)}</span>
+                                    <span class="label">Total Pengeluaran</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // DAFTAR RIWAYAT
+                html += `<div class="history-section">`;
+                if (!data) {
+                    html += `
+                        <div class="empty-state">
+                            <span class="icon-big"><i class="fas fa-box-open"></i></span>
+                            <h3>Belum Ada Riwayat</h3>
+                            <p>Anda belum melakukan pembelian apapun.</p>
+                            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">
+                                Mulai belanja produk digital atau layanan jasa sekarang!
+                            </p>
+                            <div class="device-id">
+                                <i class="fas fa-qrcode"></i> ${DEVICE_ID}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const ownEntries = Object.entries(data)
+                        .filter(([key, order]) => order.deviceId === DEVICE_ID)
+                        .sort((a, b) => (b[1].orderDate || 0) - (a[1].orderDate || 0))
+                        .slice(0, 5);
+
+                    if (!ownEntries.length) {
+                        html += `
+                            <div class="empty-state">
+                                <span class="icon-big"><i class="fas fa-box-open"></i></span>
+                                <h3>Belum Ada Riwayat</h3>
+                                <p>Anda belum melakukan pembelian apapun.</p>
+                                <div class="device-id">
+                                    <i class="fas fa-qrcode"></i> ${DEVICE_ID}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="history-title">
+                                <span><i class="fas fa-list"></i> 5 Transaksi Terakhir</span>
+                                <span>milik Anda</span>
+                            </div>
+                            <div class="history-list">
+                        `;
+                        ownEntries.forEach(([key, order]) => {
+                            const status = order.status || 'pending';
+                            const statusClass = status === 'completed' ? 'completed' :
+                                               status === 'confirmed' ? 'confirmed' :
+                                               status === 'cancelled' ? 'cancelled' : 'pending';
+                            const statusLabel = status === 'pending' ? 'Menunggu' :
+                                               status === 'confirmed' ? 'Dikonfirmasi' :
+                                               status === 'completed' ? 'Selesai' :
+                                               status === 'cancelled' ? 'Dibatalkan' : status;
+                            const time = order.orderDate ? new Date(order.orderDate).toLocaleString('id-ID') : '—';
+                            const productName = order.productName || 'Produk';
+                            const price = order.price ? `Rp ${new Intl.NumberFormat('id-ID').format(order.price)}` : 'Rp 0';
+                            const type = order.isJasa ? 'Jasa' : 'Produk';
+
+                            html += `
+                                <div class="history-item">
+                                    <div class="info">
+                                        <div class="name">${productName}</div>
+                                        <div class="meta">
+                                            <span>${time}</span>
+                                            <span class="type-badge">${type}</span>
+                                            <span>Device: ${(order.deviceId || '').slice(0,12)}…</span>
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <span class="price">${price}</span>
+                                        <span class="badge-status ${statusClass}">${statusLabel}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        html += `</div></div>`;
+                    }
+                }
+
+                html += `
+                    <div class="info-footer">
+                        <span class="live"><span class="dot"></span> NEV Market</span>
+                        <span><i class="fas fa-database" style="color:var(--text-muted);"></i> Data Anda</span>
+                    </div>
+                `;
+
+                container.innerHTML = html;
+            });
+        }
+
+        renderHistory();
+    </script>
+</body>
+</html>
