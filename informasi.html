@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Informasi Antrian - NEV Market</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg-primary: #0a2e0a;
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --text-muted: #8aaa8a;
+            --accent-gold: #efb22c;
+            --accent-green: #6dd5b8;
+            --accent-blue: #93bbfc;
+            --border-color: rgba(239,178,44,0.20);
+            --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34,120,34,0.45) 0px,
+                    rgba(34,120,34,0.45) 55px,
+                    rgba(20,80,20,0.45) 55px,
+                    rgba(20,80,20,0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0,0,0,0.0) 60%, rgba(0,0,0,0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background: rgba(10,46,10,0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(239,178,44,0.07), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0,184,148,0.05), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header-left h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-left h1 i { color: var(--accent-gold); }
+        .header-left .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .back-btn:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+            background: rgba(239,178,44,0.10);
+        }
+
+        /* INFO UTAMA */
+        .info-main {
+            position: relative;
+            z-index: 1;
+            margin-top: 6px;
+        }
+
+        /* STATUS BADGE BESAR */
+        .status-hero {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .status-hero .icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+        .status-hero .icon-wrap.waiting { background: rgba(239,178,44,0.20); color: var(--accent-gold); }
+        .status-hero .icon-wrap.process { background: rgba(16,185,129,0.20); color: var(--accent-green); }
+        .status-hero .icon-wrap.done { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+        .status-hero .icon-wrap.empty { background: rgba(255,255,255,0.04); color: var(--text-muted); }
+
+        .status-hero .status-text h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .status-hero .status-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1px;
+        }
+        .status-hero .status-text p .highlight {
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        /* GRID INFO */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .info-grid .info-item {
+            background: rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition);
+        }
+        .info-grid .info-item:hover {
+            background: rgba(239,178,44,0.05);
+            border-color: rgba(239,178,44,0.15);
+        }
+        .info-grid .info-item .label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .info-grid .info-item .label i { font-size: 0.6rem; }
+        .info-grid .info-item .value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+            word-break: break-all;
+        }
+        .info-grid .info-item .value.gold { color: var(--accent-gold); }
+        .info-grid .info-item .value.green { color: var(--accent-green); }
+        .info-grid .info-item .value.blue { color: var(--accent-blue); }
+        .info-grid .info-item .value.small { font-size: 0.75rem; font-family: monospace; }
+
+        .info-full {
+            background: rgba(255,255,255,0.03);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .info-full .label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .info-full .value {
+            font-weight: 700;
+            color: #fff;
+        }
+        .info-full .value.gold { color: var(--accent-gold); }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 24px 0 8px;
+        }
+        .empty-state .icon-big {
+            font-size: 2.8rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .empty-state h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+        .empty-state .device-id {
+            margin-top: 12px;
+            background: rgba(255,255,255,0.04);
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        /* FOOTER INFO */
+        .info-footer {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .info-footer .live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-footer .live .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        /* SPINNER */
+        .spinner-wrap {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .spinner {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner-wrap p {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .card { padding: 24px 16px; }
+            .header-left h1 { font-size: 1.2rem; }
+            .info-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .info-grid .info-item { padding: 10px 12px; }
+            .status-hero { padding: 12px 16px; }
+            .status-hero .icon-wrap { width: 44px; height: 44px; font-size: 1.2rem; }
+            .status-hero .status-text h2 { font-size: 0.95rem; }
+        }
+        @media (max-width: 380px) {
+            .info-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="header-left">
+                    <h1><i class="fas fa-clock"></i> Informasi</h1>
+                    <div class="subtitle">
+                        <i class="fas fa-info-circle" style="color:var(--accent-gold);font-size:0.65rem;"></i>
+                        Cek status antrian layanan jasa Anda secara real-time
+                    </div>
+                </div>
+                <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+            </div>
+
+            <!-- KONTEN -->
+            <div id="infoContent">
+                <div class="spinner-wrap">
+                    <div class="spinner"></div>
+                    <p>Memuat data antrian Anda...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, onValue } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+        const container = document.getElementById('infoContent');
+
+        const queueRef = ref(db, 'logo-shop/queue');
+
+        onValue(queueRef, (snap) => {
+            const data = snap.val();
+            let userQueue = null;
+            let allQueues = [];
+
+            if (data) {
+                const entries = Object.entries(data);
+                for (const [key, item] of entries) {
+                    if (item.deviceId === DEVICE_ID && (item.status === 'waiting' || item.status === 'process')) {
+                        userQueue = { key, ...item };
+                    }
+                    allQueues.push(item);
+                }
+                allQueues.sort((a, b) => (a.number || 0) - (b.number || 0));
+            }
+
+            // Cari posisi user dalam antrian (jika ada)
+            let position = null;
+            if (userQueue) {
+                const index = allQueues.findIndex(q => q.deviceId === DEVICE_ID && q.number === userQueue.number);
+                position = index + 1; // 1-based
+            }
+
+            if (userQueue) {
+                const statusLabel = userQueue.status === 'waiting' ? 'Menunggu' :
+                                   userQueue.status === 'process' ? 'Diproses' :
+                                   userQueue.status === 'done' ? 'Selesai' : 'Menunggu';
+                const statusIcon = userQueue.status === 'waiting' ? 'fa-hourglass-half' :
+                                  userQueue.status === 'process' ? 'fa-spinner' : 'fa-check-circle';
+                const statusClass = userQueue.status;
+
+                // Perkiraan posisi
+                const positionText = position ? `Antrian ke-${position} dari ${allQueues.length} orang` : '—';
+
+                container.innerHTML = `
+                    <div class="info-main">
+                        <!-- STATUS HERO -->
+                        <div class="status-hero">
+                            <div class="icon-wrap ${statusClass}">
+                                <i class="fas ${statusIcon}"></i>
+                            </div>
+                            <div class="status-text">
+                                <h2>Status: <span style="color:${statusClass === 'waiting' ? 'var(--accent-gold)' : statusClass === 'process' ? 'var(--accent-green)' : 'var(--text-muted)'};">${statusLabel}</span></h2>
+                                <p>${statusClass === 'waiting' ? 'Anda sedang menunggu giliran. Mohon bersabar.' :
+                                    statusClass === 'process' ? 'Antrian Anda sedang diproses oleh admin.' :
+                                    'Antrian Anda telah selesai.'}</p>
+                            </div>
+                        </div>
+
+                        <!-- GRID INFO -->
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="label"><i class="fas fa-hashtag"></i> Nomor Antrian</span>
+                                <span class="value gold">#${userQueue.number}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label"><i class="fas fa-user"></i> Posisi</span>
+                                <span class="value green">${positionText}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label"><i class="fas fa-concierge-bell"></i> Layanan</span>
+                                <span class="value">${userQueue.productName || 'Jasa'}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label"><i class="fas fa-clock"></i> Waktu Masuk</span>
+                                <span class="value blue" style="font-size:0.8rem;">${userQueue.createdAt ? new Date(userQueue.createdAt).toLocaleString('id-ID') : '—'}</span>
+                            </div>
+                        </div>
+
+                        <!-- FULL WIDTH: Device ID -->
+                        <div class="info-full">
+                            <span class="label"><i class="fas fa-qrcode"></i> Device ID</span>
+                            <span class="value small">${DEVICE_ID}</span>
+                            <span style="font-size:0.6rem;color:var(--text-muted);margin-left:auto;">(milik Anda)</span>
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="info-footer">
+                            <span class="live"><span class="dot"></span> Live update</span>
+                            <span><i class="fas fa-database" style="color:var(--text-muted);"></i> Data real-time dari Firebase</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="info-main">
+                        <div class="empty-state">
+                            <span class="icon-big"><i class="fas fa-inbox"></i></span>
+                            <h3>Anda Tidak Dalam Antrian</h3>
+                            <p>Saat ini Anda tidak memiliki antrian layanan jasa yang aktif.</p>
+                            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:2px;">
+                                Silakan pesan layanan jasa terlebih dahulu untuk mendapatkan nomor antrian.
+                            </p>
+                            <div class="device-id">
+                                <i class="fas fa-qrcode"></i> ${DEVICE_ID}
+                            </div>
+                        </div>
+                        <div class="info-footer" style="margin-top:12px;">
+                            <span class="live"><span class="dot"></span> NEV Market</span>
+                            <span><i class="fas fa-database" style="color:var(--text-muted);"></i> Data Anda</span>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
