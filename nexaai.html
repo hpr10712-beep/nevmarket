@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexa — Think. Search. Understand.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        /* ----- RESET & GLOBAL ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-primary: #0b0d11;
+            --bg-secondary: #14171e;
+            --bg-card: #1a1e26;
+            --bg-glass: rgba(20, 23, 30, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.06);
+            --text-primary: #e8edf5;
+            --text-secondary: #a0aec0;
+            --text-muted: #6b7a8f;
+            --accent: #6c8cff;
+            --accent-glow: rgba(108, 140, 255, 0.25);
+            --danger: #f87171;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        html, body {
+            height: 100%;
+            font-family: var(--font);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 8px; }
+        a { color: var(--accent); text-decoration: none; }
+        button {
+            font-family: var(--font);
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+        input, textarea, select {
+            font-family: var(--font);
+            background: transparent;
+            border: none;
+            color: inherit;
+            outline: none;
+        }
+
+        /* ----- LAYOUT ----- */
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 100%;
+            background: var(--bg-primary);
+            position: relative;
+        }
+
+        /* HEADER */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            padding-top: calc(14px + var(--safe-top));
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+            flex-shrink: 0;
+            z-index: 10;
+        }
+        .app-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .app-header .logo {
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #6c8cff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .app-header .tagline {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            opacity: 0.7;
+            margin-left: 6px;
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 4px 12px 4px 8px;
+            border-radius: 40px;
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+        .status-badge.offline {
+            background: rgba(248, 113, 113, 0.12);
+            color: var(--danger);
+            border-color: rgba(248, 113, 113, 0.2);
+        }
+        .status-badge .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            display: inline-block;
+        }
+        .status-badge.offline .dot {
+            background: var(--danger);
+        }
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        .btn-icon:hover, .btn-icon:active {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+        }
+        .btn-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* SIDEBAR (settings) */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            max-width: 85vw;
+            height: 100%;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-glass);
+            z-index: 101;
+            transition: right 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 24px 20px;
+            padding-top: calc(24px + var(--safe-top));
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar.open {
+            right: 0;
+        }
+        .sidebar h2 {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+        .sidebar .close-btn {
+            align-self: flex-end;
+            background: none;
+            font-size: 28px;
+            line-height: 1;
+            color: var(--text-secondary);
+        }
+        .sidebar .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .sidebar .setting-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .sidebar .setting-group select,
+        .sidebar .setting-group input[type="range"],
+        .sidebar .setting-group input[type="text"] {
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 100%;
+        }
+        .sidebar .setting-group input[type="range"] {
+            padding: 0;
+            background: transparent;
+            accent-color: var(--accent);
+        }
+        .sidebar .setting-group .range-value {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .sidebar .btn-danger {
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, 0.25);
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .sidebar .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.25);
+        }
+        .sidebar .btn-primary {
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--accent);
+            color: #fff;
+            font-weight: 500;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .sidebar .btn-primary:hover {
+            background: #5a7ae0;
+        }
+
+        /* MAIN CHAT AREA */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+            padding-bottom: 8px;
+        }
+        .chat-container .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 92%;
+            animation: fadeIn 0.25s ease;
+        }
+        .chat-container .message.user {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+        .chat-container .message.nexa {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+        .chat-container .message .bubble {
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            word-break: break-word;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: var(--shadow);
+            width: 100%;
+        }
+        .chat-container .message.user .bubble {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .chat-container .message .bubble .sender {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .chat-container .message.user .bubble .sender {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .chat-container .message .bubble .content {
+            white-space: pre-wrap;
+        }
+        .chat-container .message .bubble .content p {
+            margin-bottom: 8px;
+        }
+        .chat-container .message .bubble .content p:last-child {
+            margin-bottom: 0;
+        }
+        .chat-container .message .bubble .content code {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Menlo', 'Consolas', monospace;
+        }
+        .chat-container .message .bubble .content pre {
+            background: #0b0d11;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            margin: 8px 0;
+            font-size: 13px;
+            border: 1px solid var(--border-glass);
+        }
+        .chat-container .message .bubble .content pre code {
+            background: none;
+            padding: 0;
+            font-size: 13px;
+        }
+        .chat-container .message .bubble .content ul, 
+        .chat-container .message .bubble .content ol {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+        .chat-container .message .bubble .content blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+            margin: 8px 0;
+            color: var(--text-secondary);
+        }
+        .chat-container .message .sources {
+            margin-top: 6px;
+            font-size: 12px;
+            background: var(--bg-glass);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            max-width: 100%;
+        }
+        .chat-container .message .sources a {
+            color: var(--accent);
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        .chat-container .message .sources .source-item {
+            display: flex;
+            gap: 6px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .chat-container .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-glass);
+            align-self: flex-start;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .chat-container .typing-indicator .dots {
+            display: flex;
+            gap: 4px;
+        }
+        .chat-container .typing-indicator .dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            animation: pulse 1.2s infinite;
+        }
+        .chat-container .typing-indicator .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-container .typing-indicator .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes pulse {
+            0%, 60%, 100% { opacity: 0.2; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* INPUT AREA */
+        .input-area {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            padding: 12px 16px;
+            padding-bottom: calc(12px + var(--safe-bottom));
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-glass);
+            flex-shrink: 0;
+            position: relative;
+        }
+        .input-area .input-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-glass);
+            padding: 4px 12px;
+            transition: border-color 0.2s;
+        }
+        .input-area .input-wrapper:focus-within {
+            border-color: var(--accent);
+        }
+        .input-area .input-wrapper textarea {
+            flex: 1;
+            padding: 8px 0;
+            resize: none;
+            font-size: 15px;
+            line-height: 1.5;
+            max-height: 120px;
+            min-height: 24px;
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            outline: none;
+        }
+        .input-area .input-wrapper textarea::placeholder {
+            color: var(--text-muted);
+        }
+        .input-area .input-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding-left: 8px;
+        }
+        .input-area .input-actions button {
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            transition: 0.2s;
+            color: var(--text-secondary);
+        }
+        .input-area .input-actions button:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary);
+        }
+        .input-area .input-actions button svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .input-area .btn-send {
+            width: 44px;
+            height: 44px;
+            border-radius: 40px;
+            background: var(--accent);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: 0.2s;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .input-area .btn-send:hover {
+            transform: scale(1.04);
+            background: #5a7ae0;
+        }
+        .input-area .btn-send:disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .input-area .btn-send svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+        }
+
+        /* MODE SELECTOR */
+        .mode-selector {
+            display: flex;
+            gap: 6px;
+            padding: 4px 16px 0;
+            flex-wrap: wrap;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-glass);
+            flex-shrink: 0;
+        }
+        .mode-selector .mode-btn {
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+            transition: 0.2s;
+        }
+        .mode-selector .mode-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .mode-selector .mode-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .mode-selector .mode-btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* MOBILE BOTTOM NAV (optional) */
+        .bottom-nav {
+            display: none;
+        }
+
+        /* FILE UPLOAD */
+        .file-upload-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+            justify-content: center;
+            align-items: center;
+        }
+        .file-upload-overlay.open {
+            display: flex;
+        }
+        .file-upload-card {
+            background: var(--bg-secondary);
+            padding: 30px 24px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-glass);
+            max-width: 90vw;
+            width: 400px;
+            text-align: center;
+        }
+        .file-upload-card h3 {
+            margin-bottom: 12px;
+        }
+        .file-upload-card input[type="file"] {
+            margin: 12px 0;
+            padding: 8px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-glass);
+            width: 100%;
+            color: var(--text-primary);
+        }
+        .file-upload-card .btn-close {
+            margin-top: 12px;
+            padding: 8px 20px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .app-header .tagline { display: none; }
+            .mode-selector .mode-btn { font-size: 11px; padding: 4px 10px; }
+            .chat-container .message { max-width: 96%; }
+            .sidebar { width: 280px; }
+        }
+        @media (min-width: 768px) {
+            .chat-container { padding: 24px 32px 0; }
+            .input-area { padding: 16px 32px; }
+            .mode-selector { padding: 4px 32px 0; }
+        }
+        @media (max-width: 360px) {
+            .app-header .logo { font-size: 18px; }
+            .input-area .input-wrapper textarea { font-size: 14px; }
+        }
+
+        /* UTILITY */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .gap-2 { gap: 8px; }
+        .text-sm { font-size: 13px; }
+        .text-muted { color: var(--text-muted); }
+        .mt-2 { margin-top: 8px; }
+        .w-full { width: 100%; }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!-- HEADER -->
+    <header class="app-header">
+        <div class="brand">
+            <span class="logo">Nexa</span>
+            <span class="tagline">Think. Search. Understand.</span>
+        </div>
+        <div class="header-actions">
+            <span class="status-badge" id="statusBadge">
+                <span class="dot"></span>
+                <span id="statusText">Loading…</span>
+            </span>
+            <button class="btn-icon" id="uploadBtn" aria-label="Upload file">
+                <svg><use href="#icon-upload"/></svg>
+            </button>
+            <button class="btn-icon" id="settingsBtn" aria-label="Settings">
+                <svg><use href="#icon-settings"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MODE SELECTOR -->
+    <div class="mode-selector" id="modeSelector">
+        <button class="mode-btn active" data-mode="auto">Auto</button>
+        <button class="mode-btn" data-mode="chat">Chat</button>
+        <button class="mode-btn" data-mode="reasoning">Reasoning</button>
+        <button class="mode-btn" data-mode="search">Search</button>
+        <button class="mode-btn" data-mode="coding">Coding</button>
+        <button class="mode-btn" data-mode="math">Math</button>
+        <button class="mode-btn" data-mode="study">Study</button>
+        <button class="mode-btn" data-mode="summary">Summary</button>
+        <button class="mode-btn" data-mode="translate">Translate</button>
+    </div>
+
+    <!-- CHAT -->
+    <div class="chat-container" id="chatContainer"></div>
+
+    <!-- INPUT -->
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea id="chatInput" rows="1" placeholder="Tanya Nexa…" aria-label="Pesan"></textarea>
+            <div class="input-actions">
+                <button id="voiceBtn" aria-label="Voice input">
+                    <svg><use href="#icon-mic"/></svg>
+                </button>
+                <button id="clearBtn" aria-label="Clear chat">
+                    <svg><use href="#icon-trash"/></svg>
+                </button>
+            </div>
+        </div>
+        <button class="btn-send" id="sendBtn" aria-label="Kirim">
+            <svg><use href="#icon-send"/></svg>
+        </button>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <button class="close-btn" id="closeSidebar">✕</button>
+        <h2>Settings</h2>
+        <div class="setting-group">
+            <label>AI Model</label>
+            <select id="modelSelect">
+                <option value="Xenova/distilgpt2">distilgpt2 (82M)</option>
+                <option value="Xenova/gpt2">gpt2 (124M)</option>
+                <option value="Xenova/TinyLlama-1.1B-Chat-v1.0">TinyLlama-1.1B</option>
+                <option value="Xenova/Phi-3-mini-4k-instruct">Phi-3-mini (3.8B)</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>Model Status</label>
+            <div id="modelStatus" style="font-size:14px;color:var(--text-secondary);">Not loaded</div>
+        </div>
+        <div class="setting-group">
+            <label>Language</label>
+            <select id="langSelect">
+                <option value="id">Bahasa Indonesia</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>Temperature: <span id="tempValue" class="range-value">0.7</span></label>
+            <input type="range" id="tempRange" min="0" max="2" step="0.05" value="0.7">
+        </div>
+        <div class="setting-group">
+            <label>Max Tokens: <span id="maxTokensValue" class="range-value">256</span></label>
+            <input type="range" id="maxTokensRange" min="64" max="1024" step="32" value="256">
+        </div>
+        <div class="setting-group">
+            <label>Context Length: <span id="contextLenValue" class="range-value">1024</span></label>
+            <input type="range" id="contextLenRange" min="256" max="2048" step="64" value="1024">
+        </div>
+        <div class="setting-group">
+            <label>Web Search</label>
+            <select id="webSearchSelect">
+                <option value="auto">Auto (Online)</option>
+                <option value="on">On</option>
+                <option value="off">Off</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>Voice</label>
+            <select id="voiceSelect">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+            </select>
+        </div>
+        <div class="setting-group">
+            <label>Text-to-Speech</label>
+            <select id="ttsSelect">
+                <option value="on">On</option>
+                <option value="off">Off</option>
+            </select>
+        </div>
+        <button class="btn-danger" id="clearMemoryBtn">Clear Memory &amp; Chat</button>
+        <button class="btn-danger" id="resetNexaBtn">Reset Nexa</button>
+        <button class="btn-primary" id="loadModelBtn">Load Model</button>
+        <button class="btn-danger" id="unloadModelBtn">Unload Model</button>
+        <div style="margin-top:auto;font-size:12px;color:var(--text-muted);text-align:center;border-top:1px solid var(--border-glass);padding-top:12px;">
+            Nexa v1.0 · Local AI · No API
+        </div>
+    </aside>
+
+    <!-- FILE UPLOAD OVERLAY -->
+    <div class="file-upload-overlay" id="fileOverlay">
+        <div class="file-upload-card">
+            <h3>Upload File</h3>
+            <p class="text-muted text-sm">TXT, JSON, CSV, atau gambar (untuk analisis)</p>
+            <input type="file" id="fileInput" accept=".txt,.json,.csv,.png,.jpg,.jpeg,.gif,.bmp,.webp">
+            <button class="btn-close" id="fileCloseBtn">Tutup</button>
+        </div>
+    </div>
+
+    <!-- SVG sprite -->
+    <svg style="display:none;">
+        <symbol id="icon-send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
+        <symbol id="icon-mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+        <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+        <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+    </svg>
+</div>
+
+<script type="importmap">
+{
+    "imports": {
+        "@xenova/transformers": "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.11.0/dist/transformers.min.js"
+    }
+}
+</script>
+
+<script type="module">
+// ------------------------------------------------------------
+// IMPORTS
+// ------------------------------------------------------------
+import { pipeline, env } from '@xenova/transformers';
+
+// ------------------------------------------------------------
+// DOM REFS
+// ------------------------------------------------------------
+const chatContainer = document.getElementById('chatContainer');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const voiceBtn = document.getElementById('voiceBtn');
+const clearBtn = document.getElementById('clearBtn');
+const settingsBtn = document.getElementById('settingsBtn');
+const sidebar = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const closeSidebar = document.getElementById('closeSidebar');
+const statusBadge = document.getElementById('statusBadge');
+const statusText = document.getElementById('statusText');
+const modelSelect = document.getElementById('modelSelect');
+const modelStatus = document.getElementById('modelStatus');
+const loadModelBtn = document.getElementById('loadModelBtn');
+const unloadModelBtn = document.getElementById('unloadModelBtn');
+const clearMemoryBtn = document.getElementById('clearMemoryBtn');
+const resetNexaBtn = document.getElementById('resetNexaBtn');
+const tempRange = document.getElementById('tempRange');
+const tempValue = document.getElementById('tempValue');
+const maxTokensRange = document.getElementById('maxTokensRange');
+const maxTokensValue = document.getElementById('maxTokensValue');
+const contextLenRange = document.getElementById('contextLenRange');
+const contextLenValue = document.getElementById('contextLenValue');
+const langSelect = document.getElementById('langSelect');
+const webSearchSelect = document.getElementById('webSearchSelect');
+const voiceSelect = document.getElementById('voiceSelect');
+const ttsSelect = document.getElementById('ttsSelect');
+const uploadBtn = document.getElementById('uploadBtn');
+const fileOverlay = document.getElementById('fileOverlay');
+const fileInput = document.getElementById('fileInput');
+const fileCloseBtn = document.getElementById('fileCloseBtn');
+const modeBtns = document.querySelectorAll('.mode-btn');
+
+// ------------------------------------------------------------
+// STATE
+// ------------------------------------------------------------
+let currentMode = 'auto';
+let isGenerating = false;
+let generationAbortController = null;
+let chatHistory = []; // array of { role, content, sources? }
+let nexaAI = null; // instance
+let modelLoaded = false;
+let isOnline = navigator.onLine;
+
+// settings
+let settings = {
+    model: 'Xenova/distilgpt2',
+    temperature: 0.7,
+    maxTokens: 256,
+    contextLength: 1024,
+    language: 'id',
+    webSearch: 'auto',
+    voice: 'on',
+    tts: 'on',
+};
+
+// load settings from localStorage
+function loadSettings() {
+    try {
+        const raw = localStorage.getItem('nexa_settings');
+        if (raw) {
+            const parsed = JSON.parse(raw);
+            settings = { ...settings, ...parsed };
+        }
+    } catch (e) { /* ignore */ }
+    // apply to UI
+    modelSelect.value = settings.model;
+    tempRange.value = settings.temperature;
+    tempValue.textContent = settings.temperature;
+    maxTokensRange.value = settings.maxTokens;
+    maxTokensValue.textContent = settings.maxTokens;
+    contextLenRange.value = settings.contextLength;
+    contextLenValue.textContent = settings.contextLength;
+    langSelect.value = settings.language;
+    webSearchSelect.value = settings.webSearch;
+    voiceSelect.value = settings.voice;
+    ttsSelect.value = settings.tts;
+}
+function saveSettings() {
+    settings.model = modelSelect.value;
+    settings.temperature = parseFloat(tempRange.value);
+    settings.maxTokens = parseInt(maxTokensRange.value, 10);
+    settings.contextLength = parseInt(contextLenRange.value, 10);
+    settings.language = langSelect.value;
+    settings.webSearch = webSearchSelect.value;
+    settings.voice = voiceSelect.value;
+    settings.tts = ttsSelect.value;
+    localStorage.setItem('nexa_settings', JSON.stringify(settings));
+}
+loadSettings();
+
+// chat memory
+function loadChatHistory() {
+    try {
+        const raw = localStorage.getItem('nexa_chat');
+        if (raw) {
+            chatHistory = JSON.parse(raw);
+            if (!Array.isArray(chatHistory)) chatHistory = [];
+        }
+    } catch (e) { chatHistory = []; }
+    renderChat();
+}
+function saveChatHistory() {
+    try {
+        localStorage.setItem('nexa_chat', JSON.stringify(chatHistory));
+    } catch (e) { /* ignore */ }
+}
+function clearChatHistory() {
+    chatHistory = [];
+    saveChatHistory();
+    renderChat();
+}
+loadChatHistory();
+
+// ------------------------------------------------------------
+// STATUS
+// ------------------------------------------------------------
+function setStatus(text, isOffline = false) {
+    statusText.textContent = text;
+    if (isOffline) {
+        statusBadge.classList.add('offline');
+    } else {
+        statusBadge.classList.remove('offline');
+    }
+}
+function updateOnlineStatus() {
+    isOnline = navigator.onLine;
+    if (!isOnline) {
+        setStatus('Offline', true);
+    } else {
+        setStatus(modelLoaded ? 'Ready' : 'Model not loaded');
+    }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
+// ------------------------------------------------------------
+// NEXA AI ENGINE (local Transformers.js)
+// ------------------------------------------------------------
+class NexaAI {
+    constructor() {
+        this.pipeline = null;
+        this.generator = null;
+        this.modelName = settings.model;
+        this.isLoaded = false;
+        this.isLoading = false;
+        this.abortController = null;
+    }
+
+    async load(modelName = null) {
+        if (this.isLoading) return;
+        if (this.isLoaded && this.modelName === modelName) return;
+        if (modelName) this.modelName = modelName;
+        this.isLoading = true;
+        modelStatus.textContent = 'Loading model...';
+        setStatus('Loading model...');
+        try {
+            // Configure environment for local usage
+            env.allowLocalModels = false; // we want to download from HF
+            env.useBrowserCache = true;
+            // Create text-generation pipeline
+            this.pipeline = await pipeline('text-generation', this.modelName, {
+                // Progress callback
+                progress: (progress) => {
+                    modelStatus.textContent = `Loading: ${Math.round(progress.progress * 100)}%`;
+                }
+            });
+            this.isLoaded = true;
+            this.isLoading = false;
+            modelStatus.textContent = `Loaded: ${this.modelName}`;
+            setStatus('Ready');
+            return true;
+        } catch (err) {
+            console.error('Model load error:', err);
+            modelStatus.textContent = `Error: ${err.message || 'Failed to load model'}`;
+            setStatus('Error');
+            this.isLoaded = false;
+            this.isLoading = false;
+            throw err;
+        }
+    }
+
+    async unload() {
+        if (this.pipeline) {
+            // Cleanup: pipeline may hold references; we just drop it
+            this.pipeline = null;
+            this.isLoaded = false;
+            modelStatus.textContent = 'Unloaded';
+            setStatus('Model unloaded');
+            // Also clear any ongoing generation
+            this.stopGeneration();
+        }
+    }
+
+    stopGeneration() {
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
+        isGenerating = false;
+        // remove typing indicator
+        removeTypingIndicator();
+    }
+
+    async generate(prompt, options = {}) {
+        if (!this.isLoaded || !this.pipeline) {
+            throw new Error('Model not loaded');
+        }
+        if (isGenerating) {
+            throw new Error('Already generating');
+        }
+        isGenerating = true;
+        this.abortController = new AbortController();
+
+        const temperature = options.temperature ?? settings.temperature;
+        const max_new_tokens = options.maxTokens ?? settings.maxTokens;
+        const top_k = 50;
+        const top_p = 0.95;
+
+        // Build messages from chat history + current prompt?
+        // For simplicity, we use a single prompt with system + user.
+        // We'll use a simple format.
+        const systemPrompt = 'You are Nexa, a helpful AI assistant. Answer accurately. If unsure, say you don\'t know. Do not make up sources.';
+        let fullPrompt = `${systemPrompt}\n\n`;
+        // Add recent chat context (last 5 messages)
+        const contextMessages = chatHistory.slice(-6); // include current? we'll add prompt separately
+        for (const msg of contextMessages) {
+            if (msg.role === 'user') {
+                fullPrompt += `User: ${msg.content}\n`;
+            } else if (msg.role === 'assistant') {
+                fullPrompt += `Assistant: ${msg.content}\n`;
+            }
+        }
+        fullPrompt += `User: ${prompt}\nAssistant:`;
+
+        // Use pipeline with callback for streaming
+        const generateOptions = {
+            max_new_tokens,
+            temperature,
+            top_k,
+            top_p,
+            do_sample: true,
+            // Callback for streaming tokens
+            callback_function: (token) => {
+                // token is a string piece
+                if (this.abortController && this.abortController.signal.aborted) {
+                    // stop generation
+                    return false;
+                }
+                // append token to current message
+                appendToken(token);
+                return true;
+            },
+            // We'll get the full response at the end
+            // But we need to handle streaming ourselves
+        };
+
+        // Actually, the pipeline text-generation supports streaming via callback.
+        // We'll use a custom approach: we'll collect tokens and update UI.
+
+        // We'll use the pipeline directly.
+        try {
+            // The pipeline returns the full generated text.
+            const result = await this.pipeline(fullPrompt, generateOptions);
+            // result is an array of { generated_text }
+            const generated = result[0]?.generated_text || '';
+            // Remove the prompt from the beginning
+            let response = generated;
+            if (response.startsWith(fullPrompt)) {
+                response = response.slice(fullPrompt.length);
+            }
+            // If streaming didn't give tokens via callback, we have full response here.
+            // But we already appended tokens via callback, so we may have partial.
+            // To avoid duplication, we'll just use the callback approach.
+            // However, we need to ensure the final response is complete.
+            // We'll use a different method: we'll collect tokens in a variable.
+            let fullResponse = '';
+            const tokenCallback = (token) => {
+                if (this.abortController && this.abortController.signal.aborted) {
+                    return false;
+                }
+                fullResponse += token;
+                appendToken(token);
+                return true;
+            };
+            // Re-run generation with token callback.
+            // But we already started one. Better to refactor: we'll use our own loop.
+            // For simplicity, we'll use the pipeline with callback and then finalize.
+            // We'll use a custom generator.
+            // Since pipeline with callback doesn't return the full text in streaming mode,
+            // we need to use the callback to build the response.
+            // We'll implement a simple generator using the pipeline's streaming.
+            // But for brevity, we'll use the callback approach and then set final response.
+
+            // We'll clear any previous tokens from UI.
+            // Actually, we want to show streaming.
+            // We'll create a new message bubble for Nexa and stream into it.
+            // We'll do that outside this method.
+            // So we'll return a promise that resolves when generation is done.
+            // The callback will update UI.
+
+            // We'll use a simpler approach: use pipeline with callback and then return the final text.
+            // But we need to handle abort.
+            // Let's implement a manual loop using the pipeline's internal.
+            // Actually, the pipeline's text-generation with callback will call the callback for each token.
+            // We'll store the full response in a variable outside.
+            // We'll resolve when done.
+
+            let finalText = '';
+            const promise = new Promise((resolve, reject) => {
+                const cb = (token) => {
+                    if (this.abortController && this.abortController.signal.aborted) {
+                        reject(new Error('Generation aborted'));
+                        return false;
+                    }
+                    finalText += token;
+                    // update UI
+                    appendToken(token);
+                    return true;
+                };
+                // We need to call pipeline with callback
+                this.pipeline(fullPrompt, {
+                    max_new_tokens,
+                    temperature,
+                    top_k,
+                    top_p,
+                    do_sample: true,
+                    callback_function: cb,
+                }).then(result => {
+                    // result is array with generated_text
+                    const fullGenerated = result[0]?.generated_text || '';
+                    // Sometimes callback may not capture all, so we use fullGenerated
+                    // But we already built finalText from tokens.
+                    // If callback missed some, we can use fullGenerated.
+                    // We'll compare and use the longer.
+                    let responseText = fullGenerated;
+                    if (responseText.startsWith(fullPrompt)) {
+                        responseText = responseText.slice(fullPrompt.length);
+                    }
+                    // If finalText is shorter, use responseText
+                    if (finalText.length < responseText.length) {
+                        finalText = responseText;
+                    }
+                    // Ensure finalText is set
+                    resolve(finalText);
+                }).catch(err => {
+                    reject(err);
+                });
+            });
+
+            const resultText = await promise;
+            this.abortController = null;
+            isGenerating = false;
+            return resultText;
+        } catch (err) {
+            this.abortController = null;
+            isGenerating = false;
+            if (err.message === 'Generation aborted') {
+                throw new Error('Generation stopped');
+            }
+            throw err;
+        }
+    }
+
+    getStatus() {
+        if (this.isLoading) return 'loading';
+        if (this.isLoaded) return 'ready';
+        return 'not_loaded';
+    }
+}
+
+// ------------------------------------------------------------
+// UI HELPERS
+// ------------------------------------------------------------
+function addMessage(role, content, sources = null) {
+    chatHistory.push({ role, content, sources });
+    saveChatHistory();
+    renderChat();
+}
+
+function renderChat() {
+    chatContainer.innerHTML = '';
+    chatHistory.forEach((msg, idx) => {
+        const div = document.createElement('div');
+        div.className = `message ${msg.role === 'user' ? 'user' : 'nexa'}`;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const sender = document.createElement('div');
+        sender.className = 'sender';
+        sender.textContent = msg.role === 'user' ? 'You' : 'Nexa';
+        bubble.appendChild(sender);
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+        // Simple markdown-like rendering: we'll use innerHTML with sanitization
+        // We'll convert markdown manually (basic)
+        contentDiv.innerHTML = renderMarkdown(msg.content);
+        bubble.appendChild(contentDiv);
+        div.appendChild(bubble);
+        if (msg.sources && msg.sources.length > 0) {
+            const sourcesDiv = document.createElement('div');
+            sourcesDiv.className = 'sources';
+            sourcesDiv.innerHTML = '<strong>Sources:</strong> ' + msg.sources.map(s => {
+                return `<span class="source-item"><a href="${s.url}" target="_blank" rel="noopener">${s.title || s.url}</a> (${s.domain || ''})</span>`;
+            }).join(' ');
+            div.appendChild(sourcesDiv);
+        }
+        chatContainer.appendChild(div);
+    });
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+// Simple markdown renderer (supports bold, italic, code, links, lists, headings)
+function renderMarkdown(text) {
+    if (!text) return '';
+    // Escape HTML entities
+    let html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // Code blocks
+    html = html.replace(/```([\s\S]*?)```/g, (_, code) => {
+        return `<pre><code>${code.trim()}</code></pre>`;
+    });
+    // Inline code
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Bold
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    // Italic
+    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    // Headings
+    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+    // Lists (simple)
+    html = html.replace(/^\- (.*$)/gim, '<ul><li>$1</li></ul>');
+    html = html.replace(/^[0-9]+\. (.*$)/gim, '<ol><li>$1</li></ol>');
+    // Paragraphs: split by double newline
+    html = html.split('\n\n').map(p => p.trim()).filter(p => p).map(p => `<p>${p}</p>`).join('');
+    // Single newline to <br>
+    html = html.replace(/\n/g, '<br>');
+    return html;
+}
+
+let typingIndicator = null;
+
+function showTypingIndicator(text = 'Nexa is thinking...') {
+    removeTypingIndicator();
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.id = 'typingIndicator';
+    div.innerHTML = `
+        <span>${text}</span>
+        <span class="dots"><span></span><span></span><span></span></span>
+    `;
+    chatContainer.appendChild(div);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    typingIndicator = div;
+}
+
+function removeTypingIndicator() {
+    if (typingIndicator) {
+        typingIndicator.remove();
+        typingIndicator = null;
+    }
+}
+
+let currentStreamingMessage = null;
+let streamingContent = '';
+
+function appendToken(token) {
+    if (!currentStreamingMessage) {
+        // Create a new Nexa message bubble
+        const div = document.createElement('div');
+        div.className = 'message nexa';
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        const sender = document.createElement('div');
+        sender.className = 'sender';
+        sender.textContent = 'Nexa';
+        bubble.appendChild(sender);
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'content';
+        bubble.appendChild(contentDiv);
+        div.appendChild(bubble);
+        chatContainer.appendChild(div);
+        currentStreamingMessage = contentDiv;
+        streamingContent = '';
+        // Remove typing indicator
+        removeTypingIndicator();
+    }
+    streamingContent += token;
+    currentStreamingMessage.innerHTML = renderMarkdown(streamingContent);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function finalizeStreaming(sources = null) {
+    if (currentStreamingMessage) {
+        // Save to history
+        const content = streamingContent;
+        chatHistory.push({ role: 'assistant', content, sources });
+        saveChatHistory();
+        // Reset
+        currentStreamingMessage = null;
+        streamingContent = '';
+        renderChat(); // re-render to ensure consistency
+    } else {
+        // if no streaming, just render
+        renderChat();
+    }
+}
+
+// ------------------------------------------------------------
+// WEB SEARCH (DuckDuckGo Instant Answer + Wikipedia fallback)
+// ------------------------------------------------------------
+async function searchWeb(query) {
+    if (!isOnline) {
+        throw new Error('No internet connection');
+    }
+    // Try DuckDuckGo Instant Answer API
+    try {
+        const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('DDG API error');
+        const data = await response.json();
+        // Extract answer
+        let answer = data.AbstractText || data.Answer || data.Definition || '';
+        let sources = [];
+        if (data.AbstractURL) {
+            sources.push({ title: data.AbstractSource || 'Source', url: data.AbstractURL, domain: new URL(data.AbstractURL).hostname });
+        } else if (data.Redirect) {
+            // if redirect, we can use that
+            sources.push({ title: data.Heading || 'Link', url: data.Redirect, domain: new URL(data.Redirect).hostname });
+        } else if (data.Infobox && data.Infobox.content) {
+            // try to get a source
+            const infoboxSource = data.Infobox.content.find(item => item.label === 'Website' || item.label === 'URL');
+            if (infoboxSource && infoboxSource.value) {
+                sources.push({ title: 'Infobox', url: infoboxSource.value, domain: new URL(infoboxSource.value).hostname });
+            }
+        }
+        if (!answer && sources.length === 0) {
+            // fallback to Wikipedia
+            return await searchWikipedia(query);
+        }
+        return { answer, sources };
+    } catch (err) {
+        console.warn('DDG search failed, fallback to Wikipedia', err);
+        return await searchWikipedia(query);
+    }
+}
+
+async function searchWikipedia(query) {
+    try {
+        const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}?redirect=true`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Wikipedia API error');
+        const data = await response.json();
+        if (data.type === 'https://mediawiki.org/wiki/HyperSwitch/errors/not_found') {
+            throw new Error('No Wikipedia article found');
+        }
+        const answer = data.extract || '';
+        const sources = [];
+        if (data.content_urls && data.content_urls.desktop) {
+            sources.push({ title: data.title || 'Wikipedia', url: data.content_urls.desktop.page, domain: 'en.wikipedia.org' });
+        }
+        return { answer, sources };
+    } catch (err) {
+        throw new Error('Web search failed: ' + err.message);
+    }
+}
+
+// ------------------------------------------------------------
+// CALCULATOR ENGINE
+// ------------------------------------------------------------
+function evaluateExpression(expr) {
+    // Simple safe evaluator with basic arithmetic, parentheses, % , ^
+    // We'll tokenize and use shunting-yard or recursive descent.
+    // For simplicity, we use Function constructor with sanitization.
+    // We'll only allow numbers, operators, parentheses, spaces, decimal points.
+    // No letters, no eval.
+    const sanitized = expr.replace(/[^0-9+\-*/().%^ ]/g, '');
+    if (!sanitized) throw new Error('Invalid expression');
+    // Replace ^ with ** for power
+    const withPower = sanitized.replace(/\^/g, '**');
+    // Use Function constructor for safe evaluation
+    try {
+        const result = new Function(`return (${withPower})`)();
+        if (typeof result !== 'number' || !isFinite(result)) throw new Error('Result is not a number');
+        return result;
+    } catch (e) {
+        throw new Error('Calculation error: ' + e.message);
+    }
+}
+
+// ------------------------------------------------------------
+// FILE ANALYSIS
+// ------------------------------------------------------------
+async function analyzeFile(file) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const text = await file.text();
+    if (ext === 'txt') {
+        return { content: text, type: 'text' };
+    } else if (ext === 'json') {
+        try {
+            const json = JSON.parse(text);
+            return { content: JSON.stringify(json, null, 2), type: 'json', data: json };
+        } catch (e) {
+            throw new Error('Invalid JSON file');
+        }
+    } else if (ext === 'csv') {
+        // simple CSV parsing
+        const rows = text.split('\n').filter(row => row.trim());
+        const headers = rows[0].split(',').map(h => h.trim());
+        const data = rows.slice(1).map(row => {
+            const cols = row.split(',').map(c => c.trim());
+            const obj = {};
+            headers.forEach((h, i) => { obj[h] = cols[i] || ''; });
+            return obj;
+        });
+        return { content: `CSV with ${data.length} rows`, type: 'csv', data };
+    } else if (['png','jpg','jpeg','gif','bmp','webp'].includes(ext)) {
+        // For images, we could use OCR but not implemented; just inform
+        return { content: `Image file: ${file.name} (${file.size} bytes)`, type: 'image' };
+    } else {
+        throw new Error('Unsupported file type');
+    }
+}
+
+// ------------------------------------------------------------
+// VOICE (Web Speech)
+// ------------------------------------------------------------
+let recognition = null;
+let isListening = false;
+
+function initVoice() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        voiceBtn.style.display = 'none';
+        return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = settings.language === 'id' ? 'id-ID' : 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.onresult = (event) => {
+        let final = '';
+        let interim = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+                final += event.results[i][0].transcript;
+            } else {
+                interim += event.results[i][0].transcript;
+            }
+        }
+        if (final) {
+            chatInput.value = final;
+            stopListening();
+            sendMessage();
+        } else if (interim) {
+            chatInput.value = interim;
+        }
+    };
+    recognition.onerror = (e) => {
+        console.warn('Voice error', e);
+        stopListening();
+    };
+    recognition.onend = () => {
+        stopListening();
+    };
+}
+
+function startListening() {
+    if (!recognition) return;
+    if (isListening) return;
+    try {
+        recognition.start();
+        isListening = true;
+        voiceBtn.style.color = 'var(--accent)';
+    } catch (e) {
+        console.warn('Voice start error', e);
+    }
+}
+
+function stopListening() {
+    if (recognition && isListening) {
+        try {
+            recognition.stop();
+        } catch (e) { /* ignore */ }
+    }
+    isListening = false;
+    voiceBtn.style.color = '';
+}
+
+// TTS
+function speakText(text) {
+    if (settings.tts !== 'on') return;
+    if (!('speechSynthesis' in window)) return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = settings.language === 'id' ? 'id-ID' : 'en-US';
+    speechSynthesis.speak(utterance);
+}
+
+// ------------------------------------------------------------
+// MODE DETECTION & PROCESSING
+// ------------------------------------------------------------
+function detectMode(query) {
+    // AUTO: determine based on content
+    if (currentMode !== 'auto') return currentMode;
+
+    // Check if it's a calculation
+    if (/^[\d+\-*/().%^ ]+$/.test(query) && query.length > 1) {
+        return 'math';
+    }
+    // Check if it's a code request
+    if (/(buat|tulis|code|program|script|function|html|css|javascript|python|react)/i.test(query)) {
+        return 'coding';
+    }
+    // Check if it's a translation
+    if (/(terjemahkan|translate|artikan)/i.test(query)) {
+        return 'translate';
+    }
+    // Check if it's a summary
+    if (/(ringkas|summary|rangkum)/i.test(query) && query.length > 20) {
+        return 'summary';
+    }
+    // Check if it's a study/explain
+    if (/(jelaskan|apa itu|bagaimana|definisi|pengertian)/i.test(query)) {
+        return 'study';
+    }
+    // If it's a question requiring current info, use search if online
+    if (isOnline && settings.webSearch !== 'off') {
+        // Simple heuristic: ask about current events, people, latest, etc.
+        if (/(siapa|kapan|dimana|berapa|terbaru|sekarang|presiden|menteri|pemilu|olimpiade|piala dunia|cuaca|berita)/i.test(query)) {
+            return 'search';
+        }
+    }
+    // Default to reasoning/chat
+    return 'reasoning';
+}
+
+async function processQuery(query) {
+    if (!query.trim()) return;
+    // Add user message
+    addMessage('user', query);
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+
+    const mode = detectMode(query);
+    let response = '';
+    let sources = null;
+
+    try {
+        if (mode === 'math') {
+            // Use calculator
+            showTypingIndicator('Calculating...');
+            try {
+                const result = evaluateExpression(query);
+                response = `Hasil perhitungan: ${result}`;
+            } catch (e) {
+                response = `Error: ${e.message}`;
+            }
+            removeTypingIndicator();
+            addMessage('assistant', response);
+            speakText(response);
+            return;
+        }
+
+        if (mode === 'search' && isOnline && settings.webSearch !== 'off') {
+            showTypingIndicator('Searching the web...');
+            try {
+                const searchResult = await searchWeb(query);
+                response = searchResult.answer || 'Tidak ditemukan informasi yang relevan.';
+                sources = searchResult.sources;
+                removeTypingIndicator();
+                // Add assistant with sources
+                addMessage('assistant', response, sources);
+                speakText(response);
+                return;
+            } catch (e) {
+                removeTypingIndicator();
+                response = `Pencarian gagal: ${e.message}`;
+                addMessage('assistant', response);
+                speakText(response);
+                return;
+            }
+        }
+
+        // For other modes, use local AI
+        if (!nexaAI || !nexaAI.isLoaded) {
+            // Try to load model automatically
+            showTypingIndicator('Loading AI model...');
+            try {
+                await nexaAI.load(settings.model);
+                removeTypingIndicator();
+            } catch (e) {
+                removeTypingIndicator();
+                response = 'Model AI tidak dapat dimuat. Pastikan koneksi internet dan coba lagi.';
+                addMessage('assistant', response);
+                speakText(response);
+                return;
+            }
+        }
+
+        // Build prompt based on mode
+        let prompt = query;
+        if (mode === 'coding') {
+            prompt = `Berikan kode untuk permintaan berikut. Tampilkan hanya kode dan penjelasan singkat:\n${query}`;
+        } else if (mode === 'translate') {
+            prompt = `Terjemahkan teks berikut ke bahasa Indonesia (jika belum):\n${query}`;
+        } else if (mode === 'summary') {
+            prompt = `Ringkas teks berikut dengan jelas dan padat:\n${query}`;
+        } else if (mode === 'study') {
+            prompt = `Jelaskan secara mendalam tentang:\n${query}`;
+        } else {
+            prompt = query;
+        }
+
+        showTypingIndicator('Nexa is thinking...');
+        // Reset streaming
+        if (currentStreamingMessage) {
+            currentStreamingMessage = null;
+            streamingContent = '';
+        }
+        try {
+            const result = await nexaAI.generate(prompt, {
+                temperature: settings.temperature,
+                maxTokens: settings.maxTokens,
+            });
+            // result is already streamed via appendToken, but we need to finalize
+            removeTypingIndicator();
+            // Ensure we have the final text
+            // Since we streamed, content is in streamingContent
+            // But generate returns final text, use that
+            if (result) {
+                // If we didn't stream, we need to display
+                if (!streamingContent) {
+                    response = result;
+                    addMessage('assistant', response);
+                } else {
+                    // streaming handled it, but we need to update history
+                    // finalizeStreaming will handle it
+                    // But we need to set sources if any
+                    finalizeStreaming(null);
+                }
+                // Speak the final response
+                speakText(result);
+            } else {
+                throw new Error('No response generated');
+            }
+        } catch (e) {
+            removeTypingIndicator();
+            if (e.message === 'Generation stopped') {
+                response = 'Pembuatan respons dihentikan.';
+            } else {
+                response = `Error: ${e.message}`;
+            }
+            addMessage('assistant', response);
+            speakText(response);
+        }
+    } catch (e) {
+        removeTypingIndicator();
+        response = `Error: ${e.message}`;
+        addMessage('assistant', response);
+        speakText(response);
+    }
+}
+
+// ------------------------------------------------------------
+// EVENT LISTENERS
+// ------------------------------------------------------------
+// Send
+async function sendMessage() {
+    if (isGenerating) {
+        // Stop generation
+        if (nexaAI) nexaAI.stopGeneration();
+        isGenerating = false;
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = `<svg><use href="#icon-send"/></svg>`;
+        removeTypingIndicator();
+        return;
+    }
+    const query = chatInput.value.trim();
+    if (!query) return;
+    sendBtn.disabled = true;
+    sendBtn.innerHTML = `<span style="font-size:12px;">●</span>`; // stop icon
+    try {
+        await processQuery(query);
+    } catch (e) {
+        console.error('Send error', e);
+        addMessage('assistant', `Terjadi kesalahan: ${e.message}`);
+    } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = `<svg><use href="#icon-send"/></svg>`;
+        chatInput.focus();
+    }
+}
+
+sendBtn.addEventListener('click', sendMessage);
+
+chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+// Auto-resize textarea
+chatInput.addEventListener('input', () => {
+    chatInput.style.height = 'auto';
+    chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+});
+
+// Voice
+voiceBtn.addEventListener('click', () => {
+    if (isListening) {
+        stopListening();
+    } else {
+        startListening();
+    }
+});
+initVoice();
+
+// Clear chat
+clearBtn.addEventListener('click', () => {
+    if (confirm('Hapus semua percakapan?')) {
+        clearChatHistory();
+    }
+});
+
+// Settings
+settingsBtn.addEventListener('click', () => {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('open');
+});
+closeSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+});
+sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+});
+
+// Settings inputs
+tempRange.addEventListener('input', () => {
+    tempValue.textContent = tempRange.value;
+    saveSettings();
+});
+maxTokensRange.addEventListener('input', () => {
+    maxTokensValue.textContent = maxTokensRange.value;
+    saveSettings();
+});
+contextLenRange.addEventListener('input', () => {
+    contextLenValue.textContent = contextLenRange.value;
+    saveSettings();
+});
+modelSelect.addEventListener('change', saveSettings);
+langSelect.addEventListener('change', saveSettings);
+webSearchSelect.addEventListener('change', saveSettings);
+voiceSelect.addEventListener('change', saveSettings);
+ttsSelect.addEventListener('change', saveSettings);
+
+// Load model
+loadModelBtn.addEventListener('click', async () => {
+    if (!nexaAI) {
+        nexaAI = new NexaAI();
+    }
+    try {
+        await nexaAI.load(settings.model);
+        modelLoaded = nexaAI.isLoaded;
+        updateOnlineStatus();
+    } catch (e) {
+        alert('Gagal memuat model: ' + e.message);
+    }
+});
+
+unloadModelBtn.addEventListener('click', async () => {
+    if (nexaAI) {
+        await nexaAI.unload();
+        modelLoaded = false;
+        updateOnlineStatus();
+    }
+});
+
+// Clear memory
+clearMemoryBtn.addEventListener('click', () => {
+    if (confirm('Hapus semua memori (chat & settings)?')) {
+        localStorage.removeItem('nexa_chat');
+        localStorage.removeItem('nexa_settings');
+        chatHistory = [];
+        renderChat();
+        loadSettings();
+        // Reload settings UI
+        tempValue.textContent = settings.temperature;
+        maxTokensValue.textContent = settings.maxTokens;
+        contextLenValue.textContent = settings.contextLength;
+        modelSelect.value = settings.model;
+        langSelect.value = settings.language;
+        webSearchSelect.value = settings.webSearch;
+        voiceSelect.value = settings.voice;
+        ttsSelect.value = settings.tts;
+        alert('Memori dan chat telah dihapus.');
+    }
+});
+
+// Reset Nexa
+resetNexaBtn.addEventListener('click', async () => {
+    if (confirm('Reset Nexa (unload model & clear memory)?')) {
+        if (nexaAI) {
+            await nexaAI.unload();
+            modelLoaded = false;
+            nexaAI = null;
+        }
+        localStorage.removeItem('nexa_chat');
+        localStorage.removeItem('nexa_settings');
+        chatHistory = [];
+        renderChat();
+        loadSettings();
+        updateOnlineStatus();
+        alert('Nexa telah direset.');
+    }
+});
+
+// Mode buttons
+modeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        modeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMode = btn.dataset.mode;
+    });
+});
+
+// File upload
+uploadBtn.addEventListener('click', () => {
+    fileOverlay.classList.add('open');
+});
+fileCloseBtn.addEventListener('click', () => {
+    fileOverlay.classList.remove('open');
+});
+fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    fileOverlay.classList.remove('open');
+    try {
+        const result = await analyzeFile(file);
+        let content = `File: ${file.name}\n\n`;
+        if (result.type === 'text' || result.type === 'json') {
+            content += result.content;
+        } else if (result.type === 'csv') {
+            content += `Data CSV: ${result.data.length} baris.\n`;
+            content += JSON.stringify(result.data.slice(0, 5), null, 2);
+            if (result.data.length > 5) content += '\n... dan lainnya.';
+        } else {
+            content += result.content;
+        }
+        // Add to chat as user message
+        addMessage('user', `[Upload] ${file.name}`);
+        // Ask Nexa to analyze if model loaded
+        if (nexaAI && nexaAI.isLoaded) {
+            const prompt = `Analisis file berikut:\n\n${content}`;
+            showTypingIndicator('Menganalisis file...');
+            try {
+                const response = await nexaAI.generate(prompt, {
+                    temperature: settings.temperature,
+                    maxTokens: settings.maxTokens,
+                });
+                removeTypingIndicator();
+                addMessage('assistant', response);
+                speakText(response);
+            } catch (err) {
+                removeTypingIndicator();
+                addMessage('assistant', `Gagal menganalisis: ${err.message}`);
+            }
+        } else {
+            addMessage('assistant', `File berhasil diunggah. Muat model AI untuk analisis lebih lanjut.\n\n${content}`);
+        }
+    } catch (err) {
+        alert('Gagal memproses file: ' + err.message);
+    }
+    fileInput.value = '';
+});
+
+// ------------------------------------------------------------
+// INIT
+// ------------------------------------------------------------
+// Initialize NexaAI instance but don't load model automatically (user can load via settings or first query)
+nexaAI = new NexaAI();
+
+// Auto-load model on first query? We'll let the processQuery handle it.
+
+// Update status
+updateOnlineStatus();
+
+// Check if model is already loaded? We'll not auto-load to save resources.
+
+console.log('Nexa initialized. Load model via Settings or first query.');
+</script>
+</body>
+</html>
