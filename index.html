@@ -44,11 +44,11 @@
             --shadow-xl: 0 30px 70px rgba(0, 0, 0, 0.7);
             --radius-lg: 20px;
             --radius-md: 14px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ============================================================
-           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA
+           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA (TIDAK DIUBAH)
            ============================================================ */
         body {
             font-family: 'Inter', sans-serif;
@@ -69,7 +69,6 @@
             overflow-x: hidden;
         }
 
-        /* Elemen dekoratif: garis-garis lapangan */
         body::before,
         body::after {
             content: '';
@@ -78,7 +77,6 @@
             z-index: 0;
         }
 
-        /* Garis tepi lapangan (kotak) */
         body::before {
             top: 5%;
             left: 5%;
@@ -89,7 +87,6 @@
             box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
         }
 
-        /* Garis tengah lapangan */
         body::after {
             top: 49.5%;
             left: 8%;
@@ -99,7 +96,6 @@
             border-radius: 2px;
         }
 
-        /* Lingkaran tengah */
         .pitch-circle {
             position: fixed;
             top: 50%;
@@ -174,99 +170,6 @@
             padding: 0 20px;
             position: relative;
             z-index: 1;
-        }
-
-        /* ============================================================
-           BUTTONS
-           ============================================================ */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 28px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.3px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent-gold), #f7d875, var(--accent-gold));
-            color: #0a2a0a;
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(239, 178, 44, 0.30);
-            background-size: 200% 200%;
-            animation: shimmerGold 4s ease-in-out infinite;
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.50);
-        }
-        @keyframes shimmerGold {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        .btn-emerald {
-            background: linear-gradient(135deg, #00b894, #00a381, #00b894);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(0, 184, 148, 0.30);
-            background-size: 200% 200%;
-            animation: shimmerEmerald 4s ease-in-out infinite;
-        }
-        .btn-emerald:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 32px rgba(0, 184, 148, 0.50);
-        }
-        @keyframes shimmerEmerald {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        .btn-outline-gold {
-            background: transparent;
-            border: 1.5px solid var(--accent-gold);
-            color: var(--accent-gold);
-            box-shadow: 0 0 20px rgba(239, 178, 44, 0.05);
-        }
-        .btn-outline-gold:hover {
-            background: rgba(239, 178, 44, 0.10);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 28px rgba(239, 178, 44, 0.20);
-        }
-
-        .btn-white {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text-primary);
-        }
-        .btn-white:hover {
-            background: rgba(255, 255, 255, 0.16);
-            transform: translateY(-3px);
-            border-color: var(--accent-gold);
-        }
-
-        .btn-sm {
-            padding: 6px 16px;
-            font-size: 0.8rem;
         }
 
         /* ============================================================
@@ -468,10 +371,10 @@
         }
 
         /* ============================================================
-           HERO
+           HERO & SECTION DESAIGN BARU UNTUK KARTU / TOMBOL
            ============================================================ */
         .hero {
-            padding: 30px 0 50px;
+            padding: 35px 0 40px;
             text-align: center;
             position: relative;
         }
@@ -486,309 +389,236 @@
             line-height: 1.1;
             margin-bottom: 12px;
         }
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
         .hero p {
             font-size: 1.05rem;
             color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto 28px;
+            max-width: 580px;
+            margin: 0 auto 32px;
         }
 
-        /* ============================================================
-           CARD GRID
-           ============================================================ */
-        .card-scroll-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 8px 0 18px 0;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            position: relative;
-            cursor: grab;
-            user-select: none;
-        }
-        .card-scroll-wrapper::-webkit-scrollbar {
-            display: none;
+        /* GRID TOMBOL / KARTU AKSES (RESPONSIF HIGH-END) */
+        .card-grid-container {
+            max-width: 1050px;
+            margin: 0 auto 36px;
         }
 
         .card-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
-            padding: 0 20px;
-            flex-wrap: nowrap;
-            width: max-content;
-            min-width: 100%;
-            justify-content: flex-start;
-            pointer-events: none;
-        }
-        .card-grid .service-card {
-            pointer-events: auto;
+            width: 100%;
         }
 
         .service-card {
-            width: 220px;
-            height: 220px;
-            border-radius: var(--radius-lg);
+            background: rgba(8, 30, 8, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(239, 178, 44, 0.25);
+            border-radius: 22px;
             overflow: hidden;
             position: relative;
-            cursor: pointer;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-decoration: none;
-            display: block;
-            flex-shrink: 0;
-            scroll-snap-align: start;
-            opacity: 0;
-            transform: translateY(30px) scale(0.96);
-            animation: cardEntrance 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .service-card:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-        .service-card:nth-child(2) {
-            animation-delay: 0.15s;
-        }
-        .service-card:nth-child(3) {
-            animation-delay: 0.25s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 24px 20px;
+            min-height: 220px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        @keyframes cardEntrance {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.96);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            transition: opacity 0.4s ease, transform 0.6s ease;
+            z-index: 0;
+        }
+
+        .service-card:nth-child(1)::before {
+            background-image: url('https://i.ibb.co.com/VWwMSD38/pngtree-cancel-cart-product-icon-png-image-5060873.jpg');
+        }
+        .service-card:nth-child(2)::before {
+            background-image: url('https://i.ibb.co.com/35470Dvc/cogwheel-on-hand-denoting-icon-of-technical-service-in-trendy-style-vector.jpg');
+        }
+        .service-card:nth-child(3)::before {
+            background-image: url('https://i.ibb.co.com/yBbp8F7s/event-icon-symbol-design-illustration-vector.jpg');
         }
 
         .service-card:hover {
-            transform: scale(1.06) translateY(-10px);
-            box-shadow: 0 24px 64px rgba(239, 178, 44, 0.25), 0 0 40px rgba(239, 178, 44, 0.08);
+            transform: translateY(-8px) scale(1.02);
             border-color: var(--accent-gold);
+            box-shadow: 0 20px 45px rgba(239, 178, 44, 0.25), 0 0 25px rgba(239, 178, 44, 0.1);
         }
 
-        .service-card .card-bg {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            will-change: transform;
+        .service-card:hover::before {
+            opacity: 0.3;
+            transform: scale(1.1);
         }
 
-        .service-card:hover .card-bg {
-            transform: scale(1.12);
-        }
-
-        .service-card .card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(145deg,
-                    rgba(5, 20, 5, 0.82) 0%,
-                    rgba(10, 46, 10, 0.72) 60%,
-                    rgba(5, 20, 5, 0.88) 100%);
+        .card-icon-box {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(239, 178, 44, 0.2), rgba(0, 184, 148, 0.2));
+            border: 1px solid rgba(239, 178, 44, 0.4);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 18px 16px;
-            text-align: center;
+            margin: 0 auto 16px;
+            position: relative;
+            z-index: 1;
             transition: all 0.4s ease;
-            backdrop-filter: blur(2px);
-            border: 1px solid rgba(239, 178, 44, 0.06);
-            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .service-card:hover .card-overlay {
-            background: linear-gradient(145deg,
-                    rgba(5, 20, 5, 0.68) 0%,
-                    rgba(10, 46, 10, 0.58) 60%,
-                    rgba(5, 20, 5, 0.78) 100%);
-            backdrop-filter: blur(4px);
-            border-color: rgba(239, 178, 44, 0.20);
+        .service-card:hover .card-icon-box {
+            transform: scale(1.1) rotate(-5deg);
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
+            border-color: #ffffff;
+            box-shadow: 0 0 25px rgba(239, 178, 44, 0.6);
         }
 
-        .service-card .card-overlay i {
-            font-size: 2.2rem;
+        .card-icon-box i {
+            font-size: 1.6rem;
             color: var(--accent-gold);
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .card-icon-box i {
+            color: #0a2a0a;
+        }
+
+        .card-info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-info h3 {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 800;
             margin-bottom: 6px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            filter: drop-shadow(0 0 16px rgba(239, 178, 44, 0.15));
-        }
-
-        .service-card:hover .card-overlay i {
-            transform: scale(1.18) rotate(-4deg) translateY(-2px);
-            filter: drop-shadow(0 0 30px rgba(239, 178, 44, 0.35));
-        }
-
-        .service-card .card-overlay h3 {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 2px;
             letter-spacing: -0.3px;
         }
 
-        .service-card .card-overlay p {
+        .card-info p {
             color: var(--text-secondary);
-            font-size: 0.7rem;
-            margin-bottom: 6px;
-            opacity: 0.85;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+            opacity: 0.9;
             line-height: 1.4;
         }
 
-        .service-card .card-overlay .card-cta {
-            color: var(--accent-gold);
-            font-weight: 600;
-            font-size: 0.75rem;
+        .card-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 50px;
+            background: linear-gradient(135deg, rgba(239, 178, 44, 0.15), rgba(239, 178, 44, 0.05));
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            padding: 3px 10px;
-            border-radius: 40px;
-            background: rgba(239, 178, 44, 0.08);
-            border: 1px solid rgba(239, 178, 44, 0.10);
+            position: relative;
+            z-index: 1;
         }
 
-        .service-card:hover .card-overlay .card-cta {
-            gap: 14px;
-            background: rgba(239, 178, 44, 0.16);
-            border-color: rgba(239, 178, 44, 0.30);
-            box-shadow: 0 0 20px rgba(239, 178, 44, 0.06);
+        .service-card:hover .card-btn {
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
+            color: #0a2a0a;
+            box-shadow: 0 4px 20px rgba(239, 178, 44, 0.4);
         }
 
-        .service-card .card-overlay .card-cta i {
-            font-size: 0.7rem;
-            margin-bottom: 0;
-            filter: none;
+        .card-btn i {
+            font-size: 0.8rem;
             transition: transform 0.3s ease;
         }
 
-        .service-card:hover .card-overlay .card-cta i {
-            transform: translateX(4px);
-            filter: none;
+        .service-card:hover .card-btn i {
+            transform: translateX(5px);
         }
 
-        .service-card::after {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: calc(var(--radius-lg) + 2px);
-            padding: 2px;
-            background: linear-gradient(135deg, transparent 40%, var(--accent-gold), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-        }
-
-        .service-card:hover::after {
-            opacity: 1;
-        }
-
+        /* RESPONSIF MOBILE & TABLET */
         @media (max-width: 900px) {
-            .service-card {
-                width: 180px;
-                height: 180px;
-            }
-            .service-card .card-overlay i {
-                font-size: 1.8rem;
-            }
-            .service-card .card-overlay h3 {
-                font-size: 0.95rem;
-            }
-            .service-card .card-overlay p {
-                font-size: 0.65rem;
-            }
-            .service-card .card-overlay .card-cta {
-                font-size: 0.7rem;
-                padding: 2px 8px;
-            }
-        }
-
-        @media (max-width: 600px) {
             .card-grid {
                 gap: 16px;
-                padding: 0 16px;
             }
             .service-card {
-                width: 130px;
-                height: 130px;
-                border-radius: 16px;
+                padding: 18px 14px;
+                min-height: 200px;
             }
-            .service-card .card-overlay {
-                padding: 12px 10px;
+            .card-info h3 {
+                font-size: 1.1rem;
             }
-            .service-card .card-overlay i {
-                font-size: 1.4rem;
-                margin-bottom: 4px;
+            .card-info p {
+                font-size: 0.78rem;
+                margin-bottom: 12px;
             }
-            .service-card .card-overlay h3 {
-                font-size: 0.75rem;
-            }
-            .service-card .card-overlay p {
-                display: none;
-            }
-            .service-card .card-overlay .card-cta {
-                font-size: 0.6rem;
-                padding: 2px 8px;
-            }
-            .service-card:hover {
-                transform: scale(1.04) translateY(-4px);
+            .card-btn {
+                padding: 8px 14px;
+                font-size: 0.82rem;
             }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 680px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
             .service-card {
-                width: 110px;
-                height: 110px;
+                flex-direction: row;
+                align-items: center;
+                min-height: auto;
+                padding: 16px 20px;
+                text-align: left;
             }
-            .service-card .card-overlay i {
-                font-size: 1.2rem;
+            .card-icon-box {
+                margin: 0 16px 0 0;
+                width: 50px;
+                height: 50px;
+                flex-shrink: 0;
             }
-            .service-card .card-overlay h3 {
-                font-size: 0.65rem;
+            .card-info {
+                flex: 1;
             }
-            .service-card .card-overlay .card-cta {
-                font-size: 0.55rem;
-                padding: 2px 6px;
+            .card-info p {
+                margin-bottom: 0;
             }
-        }
-
-        .scroll-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 8px;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            opacity: 0.5;
-            align-items: center;
-        }
-        .scroll-indicator i {
-            font-size: 0.9rem;
-            color: var(--accent-gold);
-        }
-        @media (max-width: 600px) {
-            .scroll-indicator {
-                font-size: 0.65rem;
+            .card-btn {
+                width: auto;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+                margin-left: 10px;
             }
         }
 
+        @media (max-width: 440px) {
+            .service-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .card-icon-box {
+                margin: 0 auto 10px auto;
+            }
+            .card-info p {
+                margin-bottom: 14px;
+            }
+            .card-btn {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+        /* GAMBAR HERO HERO BANNER */
         .hero-img-wrapper {
-            margin-top: 36px;
+            margin-top: 10px;
             border-radius: var(--radius-lg);
             overflow: hidden;
             box-shadow: var(--shadow-lg);
@@ -820,53 +650,7 @@
         }
 
         /* ============================================================
-           TOMBOL INFO DI BAWAH GAMBAR HERO — SEKARANG LINK
-           ============================================================ */
-        .hero-info-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 24px;
-            flex-wrap: wrap;
-        }
-        .hero-info-buttons .btn-info {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(6px);
-            border: 1.5px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 14px 32px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: var(--transition);
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(239, 178, 44, 0.08);
-            font-family: inherit;
-        }
-        .hero-info-buttons .btn-info:hover {
-            background: rgba(239, 178, 44, 0.15);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.25);
-            border-color: #f7d875;
-            color: #fff;
-        }
-        .hero-info-buttons .btn-info i {
-            font-size: 1.2rem;
-        }
-        @media (max-width: 600px) {
-            .hero-info-buttons .btn-info {
-                padding: 10px 20px;
-                font-size: 0.85rem;
-                gap: 8px;
-            }
-        }
-
-        /* ============================================================
-           SECTION
+           SECTION BERITA
            ============================================================ */
         section {
             padding: 56px 0;
@@ -889,9 +673,6 @@
             font-size: 1rem;
         }
 
-        /* ============================================================
-           NEWS
-           ============================================================ */
         #berita {
             background: rgba(5, 20, 5, 0.30);
             backdrop-filter: blur(4px);
@@ -1030,12 +811,8 @@
         }
 
         @keyframes fadeInOverlay {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-news {
@@ -1051,18 +828,6 @@
             animation: slideUpModal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             border: 1px solid rgba(239, 178, 44, 0.25);
-        }
-
-        .modal-news::before {
-            content: '';
-            position: absolute;
-            top: -40%;
-            right: -20%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(239, 178, 44, 0.06), transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
         }
 
         @keyframes slideUpModal {
@@ -1125,9 +890,6 @@
             align-items: center;
             gap: 8px;
         }
-        .modal-news .modal-meta i {
-            color: var(--text-secondary);
-        }
 
         .modal-news h2 {
             font-size: 1.7rem;
@@ -1136,7 +898,6 @@
             line-height: 1.25;
             padding-right: 30px;
             color: #fff;
-            text-shadow: 0 2px 20px rgba(239, 178, 44, 0.05);
         }
 
         .modal-news .modal-content {
@@ -1157,8 +918,20 @@
             margin-top: 24px;
             justify-content: flex-end;
         }
-        .modal-news .btn-group .btn {
-            min-width: 120px;
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875, var(--accent-gold));
+            color: #0a2a0a;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 178, 44, 0.4);
         }
 
         /* ============================================================
@@ -1197,9 +970,6 @@
             font-size: 1rem;
             transition: var(--transition);
         }
-        .footer-toggle-btn .arrow {
-            transition: var(--transition);
-        }
         .footer-toggle-btn .arrow.open {
             transform: rotate(180deg);
         }
@@ -1213,14 +983,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .footer {
@@ -1231,21 +995,6 @@
             border-top: 2px solid rgba(239, 178, 44, 0.15);
             position: relative;
             overflow: hidden;
-            background-image:
-                linear-gradient(135deg, rgba(10, 46, 10, 0.9), rgba(3, 13, 3, 0.95)),
-                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 3px, transparent 3px, transparent 12px);
-            box-shadow: inset 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-gold), #f7d875, var(--accent-gold), transparent);
-            opacity: 0.4;
-            border-radius: 4px;
         }
         .footer .container {
             display: grid;
@@ -1259,11 +1008,6 @@
             font-weight: 700;
             margin-bottom: 12px;
             font-size: 1.05rem;
-            position: relative;
-            display: inline-block;
-        }
-        .footer .col h4::after {
-            display: none;
         }
         .footer .col p,
         .footer .col a {
@@ -1299,13 +1043,6 @@
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.5);
         }
-        .footer .bottom a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-        }
-        .footer .bottom a:hover {
-            color: var(--accent-gold);
-        }
 
         @media (max-width: 768px) {
             .footer .container {
@@ -1315,22 +1052,6 @@
             }
             .footer .col .social-icons {
                 justify-content: center;
-            }
-            .footer .col h4::after {
-                display: none;
-            }
-            .news-card {
-                flex: 0 0 260px;
-                max-width: 260px;
-            }
-            .modal-news {
-                padding: 28px 20px 24px;
-            }
-            .modal-news h2 {
-                font-size: 1.3rem;
-            }
-            .admin-news-banner .news-text {
-                font-size: 0.85rem;
             }
         }
 
@@ -1363,18 +1084,6 @@
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
-        .toast i {
-            font-size: 1rem;
-        }
-        .toast.success i {
-            color: #10b981;
-        }
-        .toast.error i {
-            color: #ef4444;
-        }
-        .toast.info i {
-            color: var(--accent-gold);
-        }
 
         .device-badge {
             position: fixed;
@@ -1393,22 +1102,12 @@
             box-shadow: var(--shadow-sm);
             font-family: monospace;
         }
-        .device-badge i {
-            color: var(--accent-gold);
-            font-size: 0.8rem;
-        }
 
         .empty-state {
             text-align: center;
             padding: 32px 0;
             color: var(--text-secondary);
             width: 100%;
-        }
-        .empty-state i {
-            font-size: 1.8rem;
-            opacity: 0.3;
-            display: block;
-            margin-bottom: 8px;
         }
 
         .admin-marquee {
@@ -1418,29 +1117,14 @@
             padding-left: 100%;
         }
         @keyframes marqueeScroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
         .admin-news-banner .news-text .marquee-wrapper {
             overflow: hidden;
             display: inline-block;
             vertical-align: middle;
             max-width: 100%;
-        }
-        @media (max-width: 600px) {
-            .admin-news-banner .news-text .marquee-wrapper {
-                max-width: 100%;
-                width: 100%;
-            }
-            .admin-marquee {
-                white-space: normal;
-                animation: none;
-                padding-left: 0;
-            }
         }
 
         .brand-name {
@@ -1450,48 +1134,6 @@
             background-clip: text;
             display: inline-block;
             font-weight: 900;
-            text-shadow: none;
-            letter-spacing: -0.02em;
-            filter: drop-shadow(0 2px 8px rgba(239, 178, 44, 0.2));
-        }
-
-        .hero .brand-name {
-            position: relative;
-        }
-        .hero .brand-name::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent-gold), #f7d875, var(--accent-gold), transparent);
-            border-radius: 4px;
-            box-shadow: 0 0 20px rgba(239, 178, 44, 0.7);
-            animation: glowLine 2.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes glowLine {
-            0% {
-                opacity: 0.4;
-                width: 60%;
-                left: 20%;
-            }
-            50% {
-                opacity: 1;
-                width: 90%;
-                left: 5%;
-            }
-            100% {
-                opacity: 0.7;
-                width: 70%;
-                left: 15%;
-            }
-        }
-
-        .navbar .brand-name::before,
-        .footer .brand-name::before {
-            display: none;
         }
     </style>
 </head>
@@ -1556,7 +1198,7 @@
     </div>
 
     <!-- ============================================================
-    TOAST
+    TOAST & DEVICE BADGE
     ============================================================ -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
@@ -1584,71 +1226,58 @@
                 </h1>
                 <p id="heroDesc">Pusat produk digital terlengkap untuk kebutuhan Anda. Dengan Harga Terjangkau Dan Berkualitas</p>
 
-                <div class="card-scroll-wrapper" id="cardScrollWrapper">
+                <!-- GRID TOMBOL LAYANAN (DITINGKATKAN VISUAL & KINERJANYA) -->
+                <div class="card-grid-container">
                     <div class="card-grid">
                         <a href="produk.html" class="service-card">
-                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/VWwMSD38/pngtree-cancel-cart-product-icon-png-image-5060873.jpg');"></div>
-                            <div class="card-overlay">
-                                <i class="fas fa-rocket"></i>
+                            <div class="card-icon-box">
+                                <i class="fas fa-box-open"></i>
+                            </div>
+                            <div class="card-info">
                                 <h3>Lihat Produk</h3>
-                                <p>Temukan produk digital terbaik</p>
-                                <span class="card-cta">
-                                    Jelajahi <i class="fas fa-arrow-right"></i>
-                                </span>
+                                <p>Temukan katalog produk digital terbaik</p>
+                            </div>
+                            <div class="card-btn">
+                                Jelajahi <i class="fas fa-arrow-right"></i>
                             </div>
                         </a>
 
                         <a href="jasa.html" class="service-card">
-                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/35470Dvc/cogwheel-on-hand-denoting-icon-of-technical-service-in-trendy-style-vector.jpg');"></div>
-                            <div class="card-overlay">
+                            <div class="card-icon-box">
                                 <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="card-info">
                                 <h3>Lihat Jasa</h3>
-                                <p>Layanan profesional terpercaya</p>
-                                <span class="card-cta">
-                                    Jelajahi <i class="fas fa-arrow-right"></i>
-                                </span>
+                                <p>Layanan profesional &amp; terpercaya</p>
+                            </div>
+                            <div class="card-btn">
+                                Jelajahi <i class="fas fa-arrow-right"></i>
                             </div>
                         </a>
 
                         <a href="event.html" class="service-card">
-                            <div class="card-bg" style="background-image: url('https://i.ibb.co.com/yBbp8F7s/event-icon-symbol-design-illustration-vector.jpg');"></div>
-                            <div class="card-overlay">
+                            <div class="card-icon-box">
                                 <i class="fas fa-fire"></i>
-                                <h3>Event Spesial</h3>
-                                <p>Promo &amp; acara menarik</p>
-                                <span class="card-cta">
-                                    Jelajahi <i class="fas fa-arrow-right"></i>
-                                </span>
+                            </div>
+                            <div class="card-info">
+                                <h3>Lihat Event</h3>
+                                <p>Dapatkan promo &amp; acara spesial</p>
+                            </div>
+                            <div class="card-btn">
+                                Jelajahi <i class="fas fa-arrow-right"></i>
                             </div>
                         </a>
                     </div>
                 </div>
-
-                <div class="scroll-indicator">
-                    <i class="fas fa-chevron-left"></i>
-                    <span>Geser untuk melihat semua</span>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
             </div>
 
+            <!-- GAMBAR HERO BANNER -->
             <div class="hero-img-wrapper">
                 <div id="loading">
                     <i class="fas fa-spinner fa-spin"></i>
                     <span>Memuat gambar...</span>
                 </div>
                 <img id="heroImage" style="display:none;" alt="Hero Banner" />
-            </div>
-
-            <!-- ============================================================
-            TOMBOL INFO DI BAWAH GAMBAR — SEKARANG LINK KE HALAMAN TERPISAH
-            ============================================================ -->
-            <div class="hero-info-buttons">
-                <a href="informasi.html" class="btn-info">
-                    <i class="fas fa-clock"></i> Informasi & Antrian
-                </a>
-                <a href="riwayat.html" class="btn-info">
-                    <i class="fas fa-history"></i> Riwayat Pembelian
-                </a>
             </div>
         </div>
     </section>
@@ -1681,7 +1310,7 @@
             <h2 id="modalNewsTitle">Judul Berita</h2>
             <div class="modal-content" id="modalNewsContent">Konten berita lengkap akan ditampilkan di sini.</div>
             <div class="btn-group">
-                <button class="btn btn-primary" id="modalNewsCloseBtn">Tutup</button>
+                <button class="btn-primary" id="modalNewsCloseBtn">Tutup</button>
             </div>
         </div>
     </div>
@@ -1737,7 +1366,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT — FIREBASE & LOGIKA (tanpa modal info)
+    SCRIPT — FIREBASE & LOGIKA TERHUBUNG
     ============================================================ -->
     <script type="module">
         import { initializeApp } from "firebase-app";
@@ -1767,8 +1396,7 @@
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
             const icon = t.querySelector('i');
-            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
-                'info-circle');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle');
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
@@ -1801,19 +1429,13 @@
             const data = snap.val() || {};
             if (data.shopName) {
                 const name = data.shopName;
-                const navBrand = document.querySelector('.nav-brand .brand-name');
-                if (navBrand) navBrand.textContent = name;
-                const footerBrand = document.querySelector('.footer .col h4 .brand-name');
-                if (footerBrand) footerBrand.textContent = name;
-                const heroBrand = document.querySelector('.hero .brand-name');
-                if (heroBrand) heroBrand.textContent = name;
+                document.querySelectorAll('.brand-name').forEach(el => el.textContent = name);
                 document.title = name + ' - Toko Digital';
             }
             if (data.adminBannerText) {
                 textEl.innerHTML = data.adminBannerText;
             } else {
-                textEl.innerHTML =
-                    '<span class="highlight-text">⚽ Selamat datang di NEV Market!</span> <span class="emerald-text">•</span> Dapatkan produk digital berkualitas dengan harga terbaik. <span class="emerald-text">•</span> <span class="highlight-text">Promo spesial</span> untuk pembelian pertama. <span class="emerald-text">•</span> Layanan jasa desain &amp; pengembangan website. <span class="emerald-text">•</span> <span class="highlight-text">#NEVMarket #FootballEdition</span>';
+                textEl.innerHTML = '<span class="highlight-text">⚽ Selamat datang di NEV Market!</span> <span class="emerald-text">•</span> Dapatkan produk digital berkualitas dengan harga terbaik. <span class="emerald-text">•</span> <span class="highlight-text">Promo spesial</span> untuk pembelian pertama. <span class="emerald-text">•</span> Layanan jasa desain &amp; pengembangan website. <span class="emerald-text">•</span> <span class="highlight-text">#NEVMarket #FootballEdition</span>';
             }
             loadingEl.style.display = 'none';
             textEl.style.display = 'inline-block';
@@ -1833,15 +1455,13 @@
         onValue(homeRef, (snap) => {
             const data = snap.val() || {};
             const desc = document.getElementById('heroDesc');
-            if (desc) desc.textContent = data.subtitle ||
-                'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
-            const heroImg = document.getElementById('heroImage');
+            if (desc) desc.textContent = data.subtitle || 'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
+            
+            const img = document.getElementById('heroImage');
+            const loading = document.getElementById('loading');
+
             if (data.heroImage) {
-                heroImg.src = data.heroImage;
-            }
-            if (data.heroImage) {
-                const img = document.getElementById('heroImage');
-                const loading = document.getElementById('loading');
+                img.src = data.heroImage;
                 img.onload = () => {
                     loading.style.display = 'none';
                     img.style.display = 'block';
@@ -1856,9 +1476,7 @@
             }
         });
 
-        // ============================================================
-        // MODAL BERITA
-        // ============================================================
+        // Modal Berita
         function openNewsModal(item) {
             const modal = document.getElementById('modalNews');
             const img = document.getElementById('modalNewsImage');
@@ -1893,32 +1511,29 @@
             const data = snap.val();
             const grid = document.getElementById('newsGrid');
             if (!data) {
-                grid.innerHTML =
-                    `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-newspaper"></i> Belum ada berita.</div>`;
                 return;
             }
             const entries = Object.entries(data).reverse();
             let html = '';
             entries.forEach(([key, item]) => {
-                const previewText = item.content ? item.content.slice(0, 120) + (item.content.length > 120 ?
-                    '...' : '') : 'Klik "Baca Penjelasan" untuk melihat detail.';
-                const imgSrc = item.image ||
-                    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80';
+                const previewText = item.content ? item.content.slice(0, 120) + (item.content.length > 120 ? '...' : '') : 'Klik "Baca Penjelasan" untuk melihat detail.';
+                const imgSrc = item.image || 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&q=80';
                 html += `
-                        <div class="news-card" data-key="${key}">
-                            <div class="img-wrap">
-                                <img src="${imgSrc}" alt="${item.title || 'Berita'}" loading="lazy" />
-                            </div>
-                            <div class="news-body">
-                                <div class="meta"><i class="far fa-calendar-alt"></i> ${item.date || '—'}</div>
-                                <h3>${item.title || 'Tanpa Judul'}</h3>
-                                <p class="preview-text">${previewText}</p>
-                                <button class="btn-read" data-key="${key}">
-                                    Baca Penjelasan <i class="fas fa-arrow-right"></i>
-                                </button>
-                            </div>
+                    <div class="news-card" data-key="${key}">
+                        <div class="img-wrap">
+                            <img src="${imgSrc}" alt="${item.title || 'Berita'}" loading="lazy" />
                         </div>
-                    `;
+                        <div class="news-body">
+                            <div class="meta"><i class="far fa-calendar-alt"></i> ${item.date || '—'}</div>
+                            <h3>${item.title || 'Tanpa Judul'}</h3>
+                            <p class="preview-text">${previewText}</p>
+                            <button class="btn-read" data-key="${key}">
+                                Baca Penjelasan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
             });
             grid.innerHTML = html;
 
@@ -1957,24 +1572,6 @@
         });
 
         showToast('Selamat datang di NEV Market!', 'info');
-        console.log('🚀 NEV Market loaded. Device ID:', DEVICE_ID);
-
-        const heroImg = document.getElementById('heroImage');
-        const loadingElHero = document.getElementById('loading');
-        if (heroImg.complete && heroImg.naturalHeight !== 0) {
-            loadingElHero.style.display = 'none';
-            heroImg.style.display = 'block';
-        } else if (heroImg.src) {
-            heroImg.onload = () => {
-                loadingElHero.style.display = 'none';
-                heroImg.style.display = 'block';
-            };
-            heroImg.onerror = () => {
-                loadingElHero.innerHTML =
-                    '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Gambar tidak tersedia';
-            };
-        }
     </script>
-
 </body>
-    </html>
+</html>
