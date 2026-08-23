@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           RESET & GLOBAL
+           RESET
            ============================================================ */
         * {
             margin: 0;
@@ -32,17 +32,17 @@
         :root {
             --bg-primary: #0a2e0a;
             --bg-secondary: #051405;
-            --bg-card: rgba(10, 46, 10, 0.85);
-            --border-color: rgba(239, 178, 44, 0.20);
+            --bg-card: rgba(10, 46, 10, 0.88);
+            --border-color: rgba(239, 178, 44, 0.18);
             --text-primary: #ffffff;
             --text-secondary: #b8d9b8;
+            --text-muted: rgba(255, 255, 255, 0.4);
             --accent-gold: #efb22c;
             --accent-emerald: #00b894;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
             --radius-lg: 20px;
-            --radius-md: 14px;
-            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-md: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
@@ -64,33 +64,22 @@
             overflow-x: hidden;
         }
 
-        body::before,
-        body::after {
+        /* Dekorasi lapangan */
+        body::before {
             content: '';
             position: fixed;
-            pointer-events: none;
-            z-index: 0;
-        }
-        body::before {
             top: 5%;
             left: 5%;
             right: 5%;
             bottom: 5%;
-            border: 2px solid rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.06);
             border-radius: 8px;
-            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
-        }
-        body::after {
-            top: 49.5%;
-            left: 8%;
-            right: 8%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.07);
-            border-radius: 2px;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
-            max-width: 1280px;
+            max-width: 720px;
             margin: 0 auto;
             padding: 0 20px;
             position: relative;
@@ -108,10 +97,13 @@
             z-index: 1000;
             padding: 12px 0;
             background: rgba(5, 20, 5, 0.88);
-            backdrop-filter: blur(20px) saturate(1.6);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
         }
-        .navbar .container {
+        .navbar .container-nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -127,6 +119,13 @@
         }
         .nav-brand i {
             color: var(--accent-gold);
+        }
+        .brand-name {
+            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
         }
         .nav-links {
             display: flex;
@@ -187,162 +186,173 @@
             }
         }
 
-        .brand-name {
-            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-            font-weight: 900;
-        }
-
         /* ============================================================
-           HERO PROFIL
+           PROFIL HEADER
            ============================================================ */
-        .profile-hero {
+        .profile-header {
             margin-top: 80px;
-            padding: 30px 0 10px;
+            padding: 24px 0 16px;
             text-align: center;
-            animation: fadeDown 0.6s ease;
-        }
-        @keyframes fadeDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
-        .profile-hero .avatar {
-            width: 90px;
-            height: 90px;
+        /* ===== AVATAR DENGAN EFEK PULSE GLOW ===== */
+        .profile-avatar {
+            width: 88px;
+            height: 88px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-gold), #f7d875);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             color: #0a2a0a;
-            box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.2), 0 8px 30px rgba(239, 178, 44, 0.2);
-            margin-bottom: 8px;
+            box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
+            margin-bottom: 6px;
+            transition: var(--transition);
+            animation: pulseGlow 2.5s ease-in-out infinite;
         }
-        .profile-hero .avatar i {
-            font-size: 2.8rem;
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(239, 178, 44, 0.30), 0 8px 40px rgba(239, 178, 44, 0.30);
+            }
+            100% {
+                box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
+            }
+        }
+
+        .profile-avatar i {
+            font-size: 2.6rem;
             color: #0a2a0a;
         }
-        .profile-hero h1 {
-            font-size: 2rem;
+
+        .profile-name {
+            font-size: 1.8rem;
             font-weight: 800;
             color: #fff;
-            margin: 2px 0;
+            letter-spacing: -0.3px;
         }
-        .profile-hero .device-id {
+
+        .profile-id {
             font-size: 0.7rem;
-            font-family: monospace;
-            color: rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.3);
+            font-family: 'Courier New', monospace;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
             padding: 2px 16px;
             border-radius: 30px;
             display: inline-block;
             margin-top: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .profile-hero .device-id i {
+        .profile-id i {
             margin-right: 6px;
             color: var(--accent-gold);
+        }
+
+        /* ===== TYPING SAPAAN ===== */
+        .typing-greeting {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            min-height: 2rem;
+            letter-spacing: 0.2px;
+        }
+        .typing-greeting .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1rem;
+            background: var(--accent-gold);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 0.8s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* ============================================================
            KARTU FORM
            ============================================================ */
-        .profile-card {
+        .form-card {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            padding: 36px 32px 32px;
+            padding: 32px 34px 28px;
             box-shadow: var(--shadow-lg);
-            max-width: 700px;
-            margin: 16px auto 30px;
-            animation: fadeUp 0.6s ease 0.1s backwards;
-        }
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            margin: 8px 0 28px;
         }
 
-        .profile-card .form-title {
-            font-size: 1.2rem;
+        .form-card .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+        }
+        .form-card .card-head .title {
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--accent-gold);
-            margin-bottom: 22px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding-bottom: 12px;
         }
-        .profile-card .form-title i {
-            font-size: 1.1rem;
+        .form-card .card-head .title i {
+            font-size: 1rem;
         }
-        .profile-card .form-title .badge-saved {
-            margin-left: auto;
+        .form-card .card-head .status {
             font-size: 0.7rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.04);
-            padding: 2px 14px;
+            font-weight: 500;
+            padding: 4px 14px;
             border-radius: 30px;
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .profile-card .form-title .badge-saved i {
-            margin-right: 4px;
+        .form-card .card-head .status i {
+            font-size: 0.5rem;
+        }
+        .form-card .card-head .status.complete {
+            color: #6dd5b8;
+        }
+        .form-card .card-head .status.incomplete {
+            color: #ff6b6b;
         }
 
+        /* ===== FORM — TANPA ICON & TANPA ASTERISK MERAH ===== */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .form-group label {
             display: block;
             font-weight: 600;
             color: var(--text-primary);
+            font-size: 0.85rem;
             margin-bottom: 4px;
-            font-size: 0.9rem;
-        }
-        .form-group label .required {
-            color: #ff6b6b;
-            margin-left: 4px;
-            font-weight: 700;
         }
         .form-group label .optional {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-weight: 400;
-            font-size: 0.75rem;
-            margin-left: 6px;
-        }
-        .form-group label i {
-            margin-right: 6px;
-            color: var(--accent-gold);
-            width: 18px;
+            font-size: 0.7rem;
         }
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border-color);
+            padding: 11px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: var(--radius-md);
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-family: inherit;
             transition: var(--transition);
             outline: none;
@@ -350,23 +360,31 @@
         .form-group input:focus,
         .form-group textarea:focus {
             border-color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.06);
         }
         .form-group textarea {
-            min-height: 80px;
+            min-height: 72px;
             resize: vertical;
         }
 
+        /* Grid 2 kolom untuk WA & Email */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ===== TOMBOL SIMPAN ===== */
         .btn-save {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: linear-gradient(135deg, var(--accent-gold), #f7d875);
             color: #0a2a0a;
             border: none;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
             margin-top: 6px;
@@ -374,56 +392,50 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            letter-spacing: 0.3px;
         }
         .btn-save:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(239, 178, 44, 0.4);
+            box-shadow: 0 6px 24px rgba(239, 178, 44, 0.35);
         }
         .btn-save:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
         .btn-save i {
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        /* ============================================================
-           TOMBOL KEMBALI
-           ============================================================ */
-        .back-wrapper {
+        /* ===== TOMBOL KEMBALI — DIPERBESAR ===== */
+        .back-row {
             text-align: center;
-            margin: 6px 0 30px;
+            margin-bottom: 32px;
         }
         .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 28px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border-color);
+            padding: 12px 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 50px;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-decoration: none;
             transition: var(--transition);
-            backdrop-filter: blur(4px);
         }
         .btn-back:hover {
             border-color: var(--accent-gold);
             color: #fff;
             background: rgba(239, 178, 44, 0.08);
             transform: translateX(-4px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         .btn-back i {
             color: var(--accent-gold);
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-        .btn-back:hover i {
-            transform: translateX(-4px);
+            font-size: 1rem;
         }
 
         /* ============================================================
@@ -431,12 +443,12 @@
            ============================================================ */
         .toast {
             position: fixed;
-            bottom: 24px;
+            bottom: 28px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 10px 24px;
+            padding: 10px 26px;
             border-radius: 60px;
             box-shadow: var(--shadow-lg);
             z-index: 99999;
@@ -456,29 +468,55 @@
             transform: translateX(-50%) translateY(0);
         }
         .toast i {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* ============================================================
            RESPONSIVE
            ============================================================ */
         @media (max-width: 600px) {
-            .profile-card {
-                padding: 24px 18px;
+            .form-card {
+                padding: 22px 18px 20px;
             }
-            .profile-hero .avatar {
-                width: 70px;
-                height: 70px;
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
             }
-            .profile-hero .avatar i {
-                font-size: 2.2rem;
+            .profile-avatar {
+                width: 72px;
+                height: 72px;
+                font-size: 1.8rem;
             }
-            .profile-hero h1 {
-                font-size: 1.6rem;
+            .profile-avatar i {
+                font-size: 2rem;
+            }
+            .profile-name {
+                font-size: 1.4rem;
+            }
+            .form-card .card-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
             }
             .btn-back {
-                padding: 8px 20px;
-                font-size: 0.8rem;
+                padding: 10px 24px;
+                font-size: 0.9rem;
+            }
+            .typing-greeting {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 0 14px;
+            }
+            .form-card {
+                padding: 18px 14px 16px;
+            }
+            .btn-back {
+                padding: 8px 18px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -486,10 +524,10 @@
 <body>
 
     <!-- ============================================================
-    NAVBAR
+    NAVBAR — URUTAN: Berita, Produk, Profil, Jasa, Tentang
     ============================================================ -->
     <nav class="navbar">
-        <div class="container">
+        <div class="container-nav">
             <a href="index.html" class="nav-brand">
                 <i class="fas fa-crown"></i>
                 <span class="brand-name">NEV Market</span>
@@ -497,64 +535,68 @@
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html#berita">Berita</a></li>
                 <li><a href="produk.html">Produk</a></li>
+                <li><a href="profil-user.html" style="color:var(--accent-gold);">Profil</a></li>
                 <li><a href="jasa.html">Jasa</a></li>
                 <li><a href="tentang.html">Tentang</a></li>
-                <li><a href="profil-user.html" style="color:var(--accent-gold);"><i class="fas fa-user"></i> Profil</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
     <!-- ============================================================
-    HERO PROFIL
+    PROFIL HEADER
     ============================================================ -->
-    <div class="profile-hero">
+    <div class="profile-header">
         <div class="container">
-            <div class="avatar" id="avatarInitial">
+            <div class="profile-avatar" id="avatarDisplay">
                 <i class="fas fa-user"></i>
             </div>
-            <h1 id="displayName">Pengguna</h1>
-            <span class="device-id" id="deviceIdDisplay">
+            <div class="profile-name" id="displayName">Pengguna</div>
+            <!-- TYPING GREETING -->
+            <div class="typing-greeting" id="typingGreeting"></div>
+            <div class="profile-id" id="deviceIdDisplay">
                 <i class="fas fa-microchip"></i> ID: memuat...
-            </span>
+            </div>
         </div>
     </div>
 
     <!-- ============================================================
-    FORM PROFIL
+    FORM
     ============================================================ -->
     <div class="container">
-        <div class="profile-card">
-            <div class="form-title">
-                <i class="fas fa-user-edit"></i> Data Diri
-                <span class="badge-saved" id="statusBadge">
-                    <i class="fas fa-circle" style="color:#ff6b6b;font-size:0.5rem;"></i> Belum disimpan
-                </span>
+        <div class="form-card">
+            <div class="card-head">
+                <div class="title">
+                    <i class="fas fa-user-edit"></i> Data Diri
+                </div>
+                <div class="status incomplete" id="statusBadge">
+                    <i class="fas fa-circle"></i> Belum lengkap
+                </div>
             </div>
 
             <form id="profileForm" autocomplete="off">
-                <!-- Nama (WAJIB) -->
+                <!-- Nama Panggilan (tanpa *) -->
                 <div class="form-group">
-                    <label><i class="fas fa-user"></i> Nama Lengkap <span class="required">*</span></label>
-                    <input type="text" id="nama" placeholder="Masukkan nama Anda" required />
+                    <label>Nama Panggilan</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama panggilan Anda" required />
                 </div>
 
-                <!-- WhatsApp (WAJIB) -->
-                <div class="form-group">
-                    <label><i class="fab fa-whatsapp"></i> Nomor WhatsApp <span class="required">*</span></label>
-                    <input type="tel" id="wa" placeholder="0812-3456-7890" required />
+                <!-- Row: WA + Email (WA tanpa *) -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="wa" placeholder="0812-3456-7890" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span class="optional">(opsional)</span></label>
+                        <input type="email" id="email" placeholder="email@example.com" />
+                    </div>
                 </div>
 
-                <!-- Email (OPSIONAL) -->
+                <!-- Catatan -->
                 <div class="form-group">
-                    <label><i class="fas fa-envelope"></i> Email <span class="optional">(opsional)</span></label>
-                    <input type="email" id="email" placeholder="email@example.com" />
-                </div>
-
-                <!-- Catatan (OPSIONAL) -->
-                <div class="form-group">
-                    <label><i class="fas fa-pen"></i> Catatan Tambahan <span class="optional">(opsional)</span></label>
-                    <textarea id="catatan" placeholder="Tambahkan informasi yang perlu diketahui admin..."></textarea>
+                    <label>Catatan <span class="optional">(opsional)</span></label>
+                    <textarea id="catatan" placeholder="Informasi tambahan untuk admin..."></textarea>
                 </div>
 
                 <button type="submit" class="btn-save" id="btnSimpan">
@@ -563,8 +605,8 @@
             </form>
         </div>
 
-        <!-- TOMBOL KEMBALI -->
-        <div class="back-wrapper">
+        <!-- Kembali (diperbesar) -->
+        <div class="back-row">
             <a href="index.html" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Kembali ke Beranda
                 <i class="fas fa-home" style="color:var(--accent-gold);margin-left:4px;"></i>
@@ -581,7 +623,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT — FIREBASE & LOGIKA
+    SCRIPT
     ============================================================ -->
     <script type="module">
         import { initializeApp } from "firebase-app";
@@ -630,6 +672,8 @@
         const form = document.getElementById('profileForm');
         const btnSimpan = document.getElementById('btnSimpan');
         const statusBadge = document.getElementById('statusBadge');
+        const avatarDisplay = document.getElementById('avatarDisplay');
+        const typingEl = document.getElementById('typingGreeting');
 
         const fields = {
             nama: document.getElementById('nama'),
@@ -637,37 +681,72 @@
             email: document.getElementById('email'),
             catatan: document.getElementById('catatan')
         };
-
         const displayName = document.getElementById('displayName');
-        const avatarInitial = document.getElementById('avatarInitial');
+
+        // ===== ANIMASI TYPING =====
+        function typeGreeting(text, callback) {
+            typingEl.innerHTML = '';
+            let index = 0;
+            const cursorSpan = document.createElement('span');
+            cursorSpan.className = 'cursor';
+            const interval = setInterval(() => {
+                if (index < text.length) {
+                    typingEl.innerHTML = text.substring(0, index + 1) + ' ';
+                    // tambahkan cursor
+                    const cursor = typingEl.querySelector('.cursor');
+                    if (!cursor) {
+                        const newCursor = document.createElement('span');
+                        newCursor.className = 'cursor';
+                        typingEl.appendChild(newCursor);
+                    }
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    // pastikan cursor tetap ada
+                    if (!typingEl.querySelector('.cursor')) {
+                        const c = document.createElement('span');
+                        c.className = 'cursor';
+                        typingEl.appendChild(c);
+                    }
+                    if (callback) callback();
+                }
+            }, 50);
+        }
 
         // ===== UPDATE UI =====
         function updateUI(data) {
             const nama = data.nama || 'Pengguna';
             displayName.textContent = nama;
 
-            // Avatar: inisial atau icon user
+            // Avatar
             if (nama && nama !== 'Pengguna') {
-                avatarInitial.innerHTML = nama.charAt(0).toUpperCase();
-                avatarInitial.style.fontSize = '2.5rem';
-                avatarInitial.style.fontWeight = '800';
+                avatarDisplay.textContent = nama.charAt(0).toUpperCase();
+                avatarDisplay.style.fontSize = '2.2rem';
+                avatarDisplay.style.fontWeight = '800';
             } else {
-                avatarInitial.innerHTML = '<i class="fas fa-user"></i>';
-                avatarInitial.style.fontSize = '2.8rem';
-                avatarInitial.style.fontWeight = 'normal';
+                avatarDisplay.innerHTML = '<i class="fas fa-user"></i>';
+                avatarDisplay.style.fontSize = '2.6rem';
+                avatarDisplay.style.fontWeight = 'normal';
             }
 
-            // Update badge status
-            if (data.nama && data.wa) {
-                statusBadge.innerHTML = '<i class="fas fa-check-circle" style="color:#6dd5b8;"></i> Tersimpan';
-                statusBadge.style.color = '#6dd5b8';
+            // Status badge
+            const isComplete = data.nama && data.wa;
+            if (isComplete) {
+                statusBadge.className = 'status complete';
+                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
             } else {
-                statusBadge.innerHTML = '<i class="fas fa-circle" style="color:#ff6b6b;font-size:0.5rem;"></i> Belum lengkap';
-                statusBadge.style.color = '#ff6b6b';
+                statusBadge.className = 'status incomplete';
+                statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum lengkap';
             }
+
+            // Typing greeting (hanya jika nama berubah atau pertama kali)
+            const greetingText = nama !== 'Pengguna'
+                ? `Halo, ${nama}! Selamat datang kembali.`
+                : 'Selamat datang! Lengkapi profilmu.';
+            typeGreeting(greetingText);
         }
 
-        // ===== LOAD DATA USER =====
+        // ===== LOAD DATA =====
         const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
         onValue(userRef, (snap) => {
             const data = snap.val() || {};
@@ -678,7 +757,7 @@
             updateUI(data);
         });
 
-        // ===== SIMPAN PROFIL =====
+        // ===== SIMPAN =====
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             btnSimpan.disabled = true;
@@ -692,7 +771,7 @@
                 lastUpdate: new Date().toISOString()
             };
 
-            // Validasi wajib
+            // Validasi wajib (tanpa asterisk di UI)
             if (!data.nama || !data.wa) {
                 showToast('Nama dan WhatsApp wajib diisi!', 'error');
                 btnSimpan.disabled = false;
@@ -705,15 +784,14 @@
                 showToast('Profil berhasil disimpan!', 'success');
                 updateUI(data);
             } catch (err) {
-                showToast('Gagal menyimpan: ' + err.message, 'error');
+                showToast('Gagal: ' + err.message, 'error');
             }
 
             btnSimpan.disabled = false;
             btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
         });
 
-        // ===== NOTIFIKASI AWAL =====
-        setTimeout(() => showToast('Lengkapi data diri Anda', 'info'), 600);
+        
     </script>
 </body>
 </html>
