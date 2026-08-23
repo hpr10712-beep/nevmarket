@@ -650,6 +650,93 @@
         }
 
         /* ============================================================
+           SPONSOR IKLAN
+           ============================================================ */
+        .sponsor-section {
+            padding: 40px 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .sponsor-section .section-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .sponsor-section .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        .sponsor-section .section-header h2 i {
+            color: var(--accent-gold);
+            margin-right: 8px;
+        }
+        .sponsor-section .section-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            align-items: stretch;
+        }
+        .sponsor-item {
+            background: rgba(10, 46, 10, 0.60);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(239, 178, 44, 0.15);
+            border-radius: var(--radius-md);
+            padding: 20px 16px;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 110px;
+        }
+        .sponsor-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 12px 30px rgba(239, 178, 44, 0.15);
+            background: rgba(10, 46, 10, 0.80);
+        }
+        .sponsor-item i {
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            opacity: 0.8;
+        }
+        .sponsor-item span {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+        .sponsor-item small {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+        @media (max-width: 500px) {
+            .sponsor-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+            .sponsor-item {
+                min-height: 90px;
+                padding: 16px 12px;
+            }
+            .sponsor-item i {
+                font-size: 1.8rem;
+            }
+            .sponsor-item span {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ============================================================
            SECTION BERITA
            ============================================================ */
         section {
@@ -789,6 +876,86 @@
         }
         .news-body .btn-read:hover i {
             transform: translateX(4px);
+        }
+
+        /* ============================================================
+           FAQ
+           ============================================================ */
+        .faq-section {
+            padding: 40px 0 50px;
+            background: rgba(5, 20, 5, 0.20);
+            backdrop-filter: blur(4px);
+            border-radius: var(--radius-lg);
+            margin: 0 0 20px 0;
+        }
+        .faq-item {
+            background: rgba(10, 46, 10, 0.50);
+            backdrop-filter: blur(6px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .faq-item:hover {
+            border-color: rgba(239, 178, 44, 0.40);
+        }
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            cursor: pointer;
+            gap: 16px;
+            transition: var(--transition);
+            user-select: none;
+        }
+        .faq-question h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            flex: 1;
+        }
+        .faq-question i {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+            padding: 0 24px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 20px 24px;
+        }
+        .faq-answer p {
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .faq-question {
+                padding: 14px 18px;
+            }
+            .faq-question h3 {
+                font-size: 0.95rem;
+            }
+            .faq-answer {
+                font-size: 0.9rem;
+            }
+            .faq-item.active .faq-answer {
+                padding: 0 18px 16px 18px;
+            }
         }
 
         /* ============================================================
@@ -1283,6 +1450,49 @@
     </section>
 
     <!-- ============================================================
+    SPONSOR IKLAN
+    ============================================================ -->
+    <section class="sponsor-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-handshake"></i> Sponsor & Iklan</h2>
+                <p>Didukung oleh mitra terpercaya kami</p>
+            </div>
+
+<div class="section-header">
+                <h2><i class="fas fa-handshake"></i> Sponsor & Iklan</h2>
+                <p>Didukung oleh mitra terpercaya kami</p>
+            </div>
+            
+            <div class="sponsor-grid">
+    <div class="sponsor-item">
+        <i class="fas fa-handshake"></i>
+        <span>RADITYA JUBEL</span>
+        <small>Official Partner</small>
+    </div>
+    <div class="sponsor-item">
+        <i class="fab fa-github"></i>
+        <span>GITHUB</span>
+        <small>Developer Partner</small>
+    </div>
+    <div class="sponsor-item">
+        <i class="fab fa-tiktok"></i>
+        <span>raditsahaja9</span>
+        <small>Content Creator Tiktok</small>
+    </div>
+    <div class="sponsor-item">
+        <i class="fas fa-wifi"></i>
+        <span>Tree</span>
+        <small>Network Partner</small>
+    </div>
+</div>
+>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
     BERITA
     ============================================================ -->
     <section id="berita">
@@ -1293,6 +1503,65 @@
             </div>
             <div class="news-scroll" id="newsGrid">
                 <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat berita...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+    FAQ
+    ============================================================ -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-question-circle"></i> Pertanyaan Umum (FAQ)</h2>
+                <p>Jawaban atas pertanyaan yang sering diajukan</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bagaimana cara membeli produk digital?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anda dapat mengunjungi halaman <strong>Produk</strong>, pilih item yang diinginkan, lalu ikuti petunjuk pembayaran. Setelah pembayaran dikonfirmasi, Anda akan mendapatkan akses unduh atau tautan produk via email.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Apakah produk digital bisa dikembalikan?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Karena sifatnya digital, produk tidak dapat dikembalikan. Namun jika Anda mengalami masalah dengan file atau tautan, tim kami siap membantu menyelesaikan kendala tersebut.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Metode pembayaran apa saja yang tersedia?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Kami menerima transfer bank (BCA, Mandiri, BRI), e-wallet (OVO, Dana, GoPay), dan pembayaran via QRIS. Detail akan diberikan saat proses checkout.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bagaimana cara memesan jasa desain atau pengembangan?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Kunjungi halaman <strong>Jasa</strong>, pilih layanan yang Anda butuhkan, lalu isi formulir permintaan. Kami akan menghubungi Anda dalam 1x24 jam untuk diskusi lebih lanjut.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Apakah ada garansi untuk jasa yang diberikan?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ya, setiap layanan jasa dilengkapi dengan garansi kepuasan dan revisi sesuai dengan kesepakatan awal. Detail garansi akan dijelaskan sebelum proyek dimulai.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1547,6 +1816,19 @@
             });
         });
 
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const isActive = item.classList.contains('active');
+                // Tutup semua
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
         // Footer toggle
         const footerToggleBtn = document.getElementById('footerToggleBtn');
         const footerContent = document.getElementById('footerContent');
@@ -1574,4 +1856,4 @@
         showToast('Selamat datang di NEV Market!', 'info');
     </script>
 </body>
-</html>
+                </html>
