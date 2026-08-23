@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Saya - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a2e0a;
+            --bg-secondary: #051405;
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --accent-gold: #efb22c;
+            --accent-emerald: #00b894;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(5, 20, 5, 0.98);
+                padding: 20px 24px;
+                gap: 14px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: block;
+            }
+        }
+
+        .brand-name {
+            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            font-weight: 900;
+        }
+
+        /* ============================================================
+           HERO PROFIL
+           ============================================================ */
+        .profile-hero {
+            margin-top: 80px;
+            padding: 30px 0 10px;
+            text-align: center;
+            animation: fadeDown 0.6s ease;
+        }
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-hero .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0a2a0a;
+            box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.2), 0 8px 30px rgba(239, 178, 44, 0.2);
+            margin-bottom: 8px;
+        }
+        .profile-hero .avatar i {
+            font-size: 2.8rem;
+            color: #0a2a0a;
+        }
+        .profile-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 2px 0;
+        }
+        .profile-hero .device-id {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 16px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+        .profile-hero .device-id i {
+            margin-right: 6px;
+            color: var(--accent-gold);
+        }
+
+        /* ============================================================
+           KARTU FORM
+           ============================================================ */
+        .profile-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px 32px;
+            box-shadow: var(--shadow-lg);
+            max-width: 700px;
+            margin: 16px auto 30px;
+            animation: fadeUp 0.6s ease 0.1s backwards;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-card .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 12px;
+        }
+        .profile-card .form-title i {
+            font-size: 1.1rem;
+        }
+        .profile-card .form-title .badge-saved {
+            margin-left: auto;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 2px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .profile-card .form-title .badge-saved i {
+            margin-right: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+        }
+        .form-group label .required {
+            color: #ff6b6b;
+            margin-left: 4px;
+            font-weight: 700;
+        }
+        .form-group label .optional {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.75rem;
+            margin-left: 6px;
+        }
+        .form-group label i {
+            margin-right: 6px;
+            color: var(--accent-gold);
+            width: 18px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-gold);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.1);
+        }
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
+            color: #0a2a0a;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(239, 178, 44, 0.4);
+        }
+        .btn-save:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-save i {
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           TOMBOL KEMBALI
+           ============================================================ */
+        .back-wrapper {
+            text-align: center;
+            margin: 6px 0 30px;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 28px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            backdrop-filter: blur(4px);
+        }
+        .btn-back:hover {
+            border-color: var(--accent-gold);
+            color: #fff;
+            background: rgba(239, 178, 44, 0.08);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .btn-back i {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .btn-back:hover i {
+            transform: translateX(-4px);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast i {
+            font-size: 1.1rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 600px) {
+            .profile-card {
+                padding: 24px 18px;
+            }
+            .profile-hero .avatar {
+                width: 70px;
+                height: 70px;
+            }
+            .profile-hero .avatar i {
+                font-size: 2.2rem;
+            }
+            .profile-hero h1 {
+                font-size: 1.6rem;
+            }
+            .btn-back {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    NAVBAR
+    ============================================================ -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i class="fas fa-crown"></i>
+                <span class="brand-name">NEV Market</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#berita">Berita</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="jasa.html">Jasa</a></li>
+                <li><a href="tentang.html">Tentang</a></li>
+                <li><a href="profil-user.html" style="color:var(--accent-gold);"><i class="fas fa-user"></i> Profil</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+    HERO PROFIL
+    ============================================================ -->
+    <div class="profile-hero">
+        <div class="container">
+            <div class="avatar" id="avatarInitial">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1 id="displayName">Pengguna</h1>
+            <span class="device-id" id="deviceIdDisplay">
+                <i class="fas fa-microchip"></i> ID: memuat...
+            </span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    FORM PROFIL
+    ============================================================ -->
+    <div class="container">
+        <div class="profile-card">
+            <div class="form-title">
+                <i class="fas fa-user-edit"></i> Data Diri
+                <span class="badge-saved" id="statusBadge">
+                    <i class="fas fa-circle" style="color:#ff6b6b;font-size:0.5rem;"></i> Belum disimpan
+                </span>
+            </div>
+
+            <form id="profileForm" autocomplete="off">
+                <!-- Nama (WAJIB) -->
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nama Lengkap <span class="required">*</span></label>
+                    <input type="text" id="nama" placeholder="Masukkan nama Anda" required />
+                </div>
+
+                <!-- WhatsApp (WAJIB) -->
+                <div class="form-group">
+                    <label><i class="fab fa-whatsapp"></i> Nomor WhatsApp <span class="required">*</span></label>
+                    <input type="tel" id="wa" placeholder="0812-3456-7890" required />
+                </div>
+
+                <!-- Email (OPSIONAL) -->
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email <span class="optional">(opsional)</span></label>
+                    <input type="email" id="email" placeholder="email@example.com" />
+                </div>
+
+                <!-- Catatan (OPSIONAL) -->
+                <div class="form-group">
+                    <label><i class="fas fa-pen"></i> Catatan Tambahan <span class="optional">(opsional)</span></label>
+                    <textarea id="catatan" placeholder="Tambahkan informasi yang perlu diketahui admin..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-save" id="btnSimpan">
+                    <i class="fas fa-save"></i> Simpan Profil
+                </button>
+            </form>
+        </div>
+
+        <!-- TOMBOL KEMBALI -->
+        <div class="back-wrapper">
+            <a href="index.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                <i class="fas fa-home" style="color:var(--accent-gold);margin-left:4px;"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST
+    ============================================================ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-info-circle"></i>
+        <span id="toastMsg">Pesan</span>
+    </div>
+
+    <!-- ============================================================
+    SCRIPT — FIREBASE & LOGIKA
+    ============================================================ -->
+    <script type="module">
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, onValue, update } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ===== DEVICE ID =====
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+        document.getElementById('deviceIdDisplay').innerHTML =
+            '<i class="fas fa-microchip"></i> ID: ' + DEVICE_ID.slice(0, 14) + '…';
+
+        // ===== TOAST =====
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            const icon = t.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle');
+            t.className = 'toast show ' + type;
+            m.textContent = msg;
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+        }
+
+        // ===== HAMBURGER =====
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // ===== ELEMEN =====
+        const form = document.getElementById('profileForm');
+        const btnSimpan = document.getElementById('btnSimpan');
+        const statusBadge = document.getElementById('statusBadge');
+
+        const fields = {
+            nama: document.getElementById('nama'),
+            wa: document.getElementById('wa'),
+            email: document.getElementById('email'),
+            catatan: document.getElementById('catatan')
+        };
+
+        const displayName = document.getElementById('displayName');
+        const avatarInitial = document.getElementById('avatarInitial');
+
+        // ===== UPDATE UI =====
+        function updateUI(data) {
+            const nama = data.nama || 'Pengguna';
+            displayName.textContent = nama;
+
+            // Avatar: inisial atau icon user
+            if (nama && nama !== 'Pengguna') {
+                avatarInitial.innerHTML = nama.charAt(0).toUpperCase();
+                avatarInitial.style.fontSize = '2.5rem';
+                avatarInitial.style.fontWeight = '800';
+            } else {
+                avatarInitial.innerHTML = '<i class="fas fa-user"></i>';
+                avatarInitial.style.fontSize = '2.8rem';
+                avatarInitial.style.fontWeight = 'normal';
+            }
+
+            // Update badge status
+            if (data.nama && data.wa) {
+                statusBadge.innerHTML = '<i class="fas fa-check-circle" style="color:#6dd5b8;"></i> Tersimpan';
+                statusBadge.style.color = '#6dd5b8';
+            } else {
+                statusBadge.innerHTML = '<i class="fas fa-circle" style="color:#ff6b6b;font-size:0.5rem;"></i> Belum lengkap';
+                statusBadge.style.color = '#ff6b6b';
+            }
+        }
+
+        // ===== LOAD DATA USER =====
+        const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
+        onValue(userRef, (snap) => {
+            const data = snap.val() || {};
+            fields.nama.value = data.nama || '';
+            fields.wa.value = data.wa || '';
+            fields.email.value = data.email || '';
+            fields.catatan.value = data.catatan || '';
+            updateUI(data);
+        });
+
+        // ===== SIMPAN PROFIL =====
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnSimpan.disabled = true;
+            btnSimpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+
+            const data = {
+                nama: fields.nama.value.trim(),
+                wa: fields.wa.value.trim(),
+                email: fields.email.value.trim(),
+                catatan: fields.catatan.value.trim(),
+                lastUpdate: new Date().toISOString()
+            };
+
+            // Validasi wajib
+            if (!data.nama || !data.wa) {
+                showToast('Nama dan WhatsApp wajib diisi!', 'error');
+                btnSimpan.disabled = false;
+                btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
+                return;
+            }
+
+            try {
+                await update(ref(db, `logo-shop/users/${DEVICE_ID}`), data);
+                showToast('Profil berhasil disimpan!', 'success');
+                updateUI(data);
+            } catch (err) {
+                showToast('Gagal menyimpan: ' + err.message, 'error');
+            }
+
+            btnSimpan.disabled = false;
+            btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
+        });
+
+        // ===== NOTIFIKASI AWAL =====
+        setTimeout(() => showToast('Lengkapi data diri Anda', 'info'), 600);
+    </script>
+</body>
+</html>
