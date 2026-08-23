@@ -1459,32 +1459,57 @@
     <p>Pusat produk digital & layanan jasa terpercaya untuk semua kebutuhan Anda</p>
 </div>
 
-<!-- Kategori dari Gambar -->
-<div class="category-grid">
-    <div class="category-item">
-        <i class="fas fa-folder-open"></i>
-        <span>File & Dokumen</span>
+<!-- Kategori dengan Animasi Hover (Tanpa CSS) -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; margin-top: 30px;">
+
+    <!-- 1. File & Dokumen -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-folder-open" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); text-shadow: 0 0 20px rgba(239, 178, 44, 0.15);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8; transition: color 0.3s;">File & Dokumen</span>
     </div>
-    <div class="category-item">
-        <i class="fas fa-code"></i>
-        <span>Script & Template</span>
+
+    <!-- 2. Script & Template -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-code" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8;">Script & Template</span>
     </div>
-    <div class="category-item">
-        <i class="fas fa-gamepad"></i>
-        <span>Game & Akun</span>
+
+    <!-- 3. Game & Akun -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-gamepad" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8;">Game & Akun</span>
     </div>
-    <div class="category-item">
-        <i class="fas fa-paint-brush"></i>
-        <span>Desain & Edit</span>
+
+    <!-- 4. Desain & Edit -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-paint-brush" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8;">Desain & Edit</span>
     </div>
-    <div class="category-item">
-        <i class="fas fa-ticket-alt"></i>
-        <span>Event & Promo</span>
+
+    <!-- 5. Event & Promo -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-ticket-alt" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8;">Event & Promo</span>
     </div>
-    <div class="category-item">
-        <i class="fas fa-ellipsis-h"></i>
-        <span>Dan masih banyak lagi!</span>
+
+    <!-- 6. Dan masih banyak lagi! -->
+    <div onmouseover="this.style.transform='translateY(-10px) scale(1.04)'; this.style.borderColor='#efb22c'; this.style.boxShadow='0 16px 45px rgba(239,178,44,0.3)'; this.style.background='rgba(10,46,10,0.85)'; this.querySelector('i').style.transform='scale(1.2) rotate(-6deg)'; this.querySelector('i').style.color='#f7d875';" 
+         onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.borderColor='rgba(239,178,44,0.15)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.3)'; this.style.background='rgba(10,46,10,0.55)'; this.querySelector('i').style.transform='scale(1) rotate(0deg)'; this.querySelector('i').style.color='#efb22c';"
+         style="background: rgba(10, 46, 10, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(239, 178, 44, 0.15); border-radius: 18px; padding: 28px 16px 22px; text-align: center; color: #fff; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); cursor: default;">
+        <i class="fas fa-ellipsis-h" style="font-size: 2.6rem; color: #efb22c; display: block; margin-bottom: 12px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);"></i>
+        <span style="font-size: 1rem; font-weight: 600; letter-spacing: 0.3px; display: block; color: #e8f0e8;">Dan masih banyak lagi!</span>
     </div>
+
 </div>
 
 <div class="section-header">
