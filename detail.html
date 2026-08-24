@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Produk - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           GLOBAL — SEPAK BOLA
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a2e0a;
+            --bg-secondary: rgba(5, 20, 5, 0.88);
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --accent-gold: #efb22c;
+            --accent-blue: #2563eb;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+        }
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(239, 178, 44, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 178, 44, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .btn-follow {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+        }
+        .btn-follow.following {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+        .btn-follow:hover {
+            transform: scale(1.03);
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(5, 20, 5, 0.98);
+                padding: 20px 24px;
+                gap: 14px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: block;
+            }
+        }
+
+        /* ============================================================
+           DETAIL UTAMA
+           ============================================================ */
+        .detail-wrapper {
+            margin-top: 100px;
+            padding-bottom: 40px;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+        }
+        .detail-image-wrap {
+            background: rgba(5, 20, 5, 0.60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            min-height: 400px;
+        }
+        .detail-image-wrap img {
+            width: 100%;
+            height: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+        }
+        .detail-info {
+            padding: 32px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .detail-info .badge-type {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 14px;
+            border-radius: 40px;
+            background: var(--accent-green);
+            color: #fff;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+        .detail-info .product-id {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            opacity: 0.6;
+            margin-bottom: 4px;
+        }
+        .detail-info h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        .detail-info .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin: 6px 0 10px;
+        }
+        .detail-info .price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .detail-info .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .detail-info .rating-row i {
+            color: var(--accent-gold);
+        }
+        .detail-info .description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 18px;
+            flex: 1;
+        }
+        .detail-info .store-section {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .store-section .store-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .store-section .store-info .store-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a2a0a;
+            font-size: 1.2rem;
+        }
+        .store-section .store-info .store-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        .store-section .store-info .store-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            padding: 1px 10px;
+            border-radius: 40px;
+        }
+        .store-section .store-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .store-section .store-actions .btn {
+            font-size: 0.75rem;
+            padding: 6px 14px;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .detail-actions .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            justify-content: center;
+        }
+
+        /* ============================================================
+           PRODUK LAIN DARI TOKO YANG SAMA
+           ============================================================ */
+        .other-products {
+            margin-top: 32px;
+        }
+        .other-products h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .other-products h2 i {
+            color: var(--accent-gold);
+        }
+        .other-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .other-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .other-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-lg);
+        }
+        .other-item .img-wrap {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: rgba(5, 20, 5, 0.50);
+        }
+        .other-item .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .other-item .info {
+            padding: 10px 12px;
+        }
+        .other-item .info .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .other-item .info .price {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast i {
+            font-size: 1rem;
+        }
+        .toast.success i {
+            color: #10b981;
+        }
+        .toast.error i {
+            color: #ef4444;
+        }
+        .toast.info i {
+            color: var(--accent-gold);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .detail-image-wrap {
+                min-height: 250px;
+                padding: 20px;
+            }
+            .detail-info {
+                padding: 20px;
+            }
+            .detail-info h1 {
+                font-size: 1.4rem;
+            }
+            .detail-info .price {
+                font-size: 1.4rem;
+            }
+            .store-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .store-section .store-actions {
+                justify-content: flex-start;
+            }
+            .detail-actions {
+                flex-direction: column;
+            }
+            .other-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .other-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
+    ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="jasa.html">Jasa</a></li>
+                <li><a href="index.html#tentang">Tentang</a></li>
+                <li><a href="payment_produk.html">Payment</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ DETAIL ============ -->
+    <div class="container detail-wrapper">
+        <div class="detail-card" id="detailCard">
+            <div class="detail-grid">
+                <div class="detail-image-wrap">
+                    <img id="detailImage" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="Gambar produk" />
+                </div>
+                <div class="detail-info">
+                    <span class="badge-type" id="detailBadge">Digital</span>
+                    <div class="product-id" id="detailProductId">ID: -</div>
+                    <h1 id="detailName">Nama Produk</h1>
+                    <div class="price" id="detailPrice">Rp 0 <small>/ produk</small></div>
+                    <div class="rating-row">
+                        <span><i class="fas fa-star"></i> <span id="detailRating">0.0</span> (<span id="detailTotalRatings">0</span> rating)</span>
+                        <span><i class="fas fa-shopping-cart"></i> <span id="detailTerjual">0</span> terjual</span>
+                    </div>
+                    <div class="description" id="detailDescription">Deskripsi produk.</div>
+
+                    <!-- Toko -->
+                    <div class="store-section" id="storeSection">
+                        <div class="store-info">
+                            <div class="store-icon"><i class="fas fa-store"></i></div>
+                            <div>
+                                <div class="store-name" id="storeName">Toko</div>
+                                <span class="store-label" id="storeLabel">Default</span>
+                            </div>
+                        </div>
+                        <div class="store-actions">
+                            <button class="btn btn-follow" id="followBtn"><i class="fas fa-heart"></i> <span id="followText">Ikuti</span></button>
+                            <a href="#" id="viewStoreBtn" class="btn btn-outline"><i class="fas fa-store-alt"></i> Lihat Toko</a>
+                        </div>
+                    </div>
+
+                    <div class="detail-actions">
+                        <button class="btn btn-gold" id="btnBeli"><i class="fas fa-credit-card"></i> Beli Sekarang</button>
+                        <a href="produk.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Produk lain dari toko yang sama -->
+        <div class="other-products" id="otherProducts" style="display:none;">
+            <h2><i class="fas fa-store"></i> Produk Lain dari Toko Ini</h2>
+            <div class="other-grid" id="otherGrid"></div>
+        </div>
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script type="module">
+        // ============================================================
+        // 1. FIREBASE
+        // ============================================================
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, get, set, onValue } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // 2. DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            const icon = t.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
+            t.className = 'toast show ' + type;
+            m.textContent = msg;
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+        }
+
+        // ============================================================
+        // 4. NAVBAR
+        // ============================================================
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // ============================================================
+        // 5. GET PRODUCT ID FROM URL
+        // ============================================================
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('productId');
+
+        if (!productId) {
+            showToast('Produk tidak ditemukan.', 'error');
+            document.getElementById('detailCard').innerHTML = `
+                    <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        <h2>Produk tidak ditemukan</h2>
+                        <p>Pastikan URL mengandung parameter productId yang valid.</p>
+                        <a href="produk.html" class="btn btn-primary" style="margin-top:12px;">Kembali ke Produk</a>
+                    </div>
+                `;
+            throw new Error('Product ID missing');
+        }
+
+        // ============================================================
+        // 6. LOAD DATA
+        // ============================================================
+        let productData = null;
+        let sellerData = null;
+        let ordersData = {};
+
+        async function loadData() {
+            try {
+                // Ambil produk
+                const productSnap = await get(ref(db, `logo-shop/products/${productId}`));
+                if (!productSnap.exists()) {
+                    showToast('Produk tidak ditemukan.', 'error');
+                    document.getElementById('detailCard').innerHTML = `
+                            <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                                <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                                <h2>Produk tidak ditemukan</h2>
+                                <a href="produk.html" class="btn btn-primary" style="margin-top:12px;">Kembali ke Produk</a>
+                            </div>
+                        `;
+                    return;
+                }
+                productData = productSnap.val();
+                productData.key = productId;
+
+                // Ambil orders untuk menghitung terjual
+                const ordersSnap = await get(ref(db, 'logo-shop/orders'));
+                ordersData = ordersSnap.val() || {};
+
+                // Ambil seller
+                const sellerId = productData.sellerId;
+                if (sellerId) {
+                    const sellerSnap = await get(ref(db, `logo-shop/sellers/${sellerId}`));
+                    if (sellerSnap.exists()) {
+                        sellerData = sellerSnap.val();
+                        sellerData.id = sellerId;
+                    } else {
+                        sellerData = { storeName: 'Toko Tidak Diketahui', label: 'Default' };
+                    }
+                } else {
+                    sellerData = { storeName: 'Toko Tidak Diketahui', label: 'Default' };
+                }
+
+                renderDetail();
+                loadOtherProducts(sellerId);
+
+                // Cek status follow
+                if (sellerId) checkFollowStatus(sellerId);
+
+            } catch (err) {
+                showToast('Gagal memuat data: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // ============================================================
+        // 7. RENDER DETAIL
+        // ============================================================
+        function renderDetail() {
+            const isJasa = productData.isJasa === true;
+            const typeLabel = isJasa ? 'Jasa' : 'Digital';
+            const priceFormatted = new Intl.NumberFormat('id-ID').format(productData.price || 0);
+            const rating = productData.rating || 0;
+            const totalRatings = productData.totalRatings || 0;
+            const shortId = productData.shortId || productData.key.slice(0, 6);
+
+            // Hitung terjual
+            let terjual = 0;
+            for (const orderKey in ordersData) {
+                const order = ordersData[orderKey];
+                if (order.productId === productData.key && order.status === 'completed') {
+                    terjual++;
+                }
+            }
+
+            document.getElementById('detailBadge').textContent = typeLabel;
+            document.getElementById('detailProductId').textContent = `ID: ${shortId}`;
+            document.getElementById('detailName').textContent = productData.name || 'Nama Produk';
+            document.getElementById('detailPrice').innerHTML = `Rp ${priceFormatted} <small>/ ${isJasa ? 'jasa' : 'produk'}</small>`;
+            document.getElementById('detailRating').textContent = rating.toFixed(1);
+            document.getElementById('detailTotalRatings').textContent = totalRatings;
+            document.getElementById('detailTerjual').textContent = terjual;
+            document.getElementById('detailDescription').textContent = productData.description || 'Tidak ada deskripsi.';
+
+            const imageUrl = productData.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80';
+            document.getElementById('detailImage').src = imageUrl;
+
+            // Toko
+            const storeName = sellerData?.storeName || 'Toko Tidak Diketahui';
+            const storeLabel = sellerData?.label || 'Default';
+            document.getElementById('storeName').textContent = storeName;
+            document.getElementById('storeLabel').textContent = storeLabel;
+
+            // Tombol lihat toko
+            const viewBtn = document.getElementById('viewStoreBtn');
+            if (sellerData?.id) {
+                viewBtn.href = `toko.html?sellerId=${sellerData.id}`;
+                viewBtn.style.display = 'inline-flex';
+            } else {
+                viewBtn.style.display = 'none';
+            }
+
+            // Tombol beli
+            const btnBeli = document.getElementById('btnBeli');
+            btnBeli.onclick = () => {
+                localStorage.setItem('payment_product', JSON.stringify(productData));
+                window.location.href = isJasa ? 'payment_jasa.html' : 'payment_produk.html';
+            };
+        }
+
+        // ============================================================
+        // 8. LOAD PRODUK LAIN DARI TOKO SAMA
+        // ============================================================
+        async function loadOtherProducts(sellerId) {
+            if (!sellerId) return;
+            const productsRef = ref(db, 'logo-shop/products');
+            const snap = await get(productsRef);
+            const data = snap.val();
+            if (!data) return;
+
+            const others = Object.entries(data)
+                .filter(([key, val]) => val.sellerId === sellerId && key !== productId)
+                .map(([key, val]) => ({ key, ...val }));
+
+            if (others.length === 0) {
+                document.getElementById('otherProducts').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('otherProducts').style.display = 'block';
+            const grid = document.getElementById('otherGrid');
+            let html = '';
+            others.forEach(item => {
+                const price = `Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}`;
+                const img = item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&q=80';
+                html += `
+                        <a href="detail.html?productId=${item.key}" class="other-item">
+                            <div class="img-wrap"><img src="${img}" alt="${item.name}" loading="lazy" /></div>
+                            <div class="info">
+                                <div class="name">${item.name || 'Produk'}</div>
+                                <div class="price">${price}</div>
+                            </div>
+                        </a>
+                    `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // ============================================================
+        // 9. FOLLOW / UNFOLLOW
+        // ============================================================
+        let isFollowing = false;
+
+        async function checkFollowStatus(sellerId) {
+            const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+            const snap = await get(followRef);
+            isFollowing = snap.exists();
+            updateFollowButton();
+        }
+
+        function updateFollowButton() {
+            const btn = document.getElementById('followBtn');
+            const text = document.getElementById('followText');
+            if (isFollowing) {
+                btn.classList.add('following');
+                text.textContent = 'Mengikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            } else {
+                btn.classList.remove('following');
+                text.textContent = 'Ikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            }
+        }
+
+        document.getElementById('followBtn').addEventListener('click', async function() {
+            const sellerId = sellerData?.id;
+            if (!sellerId) {
+                showToast('Toko tidak valid.', 'error');
+                return;
+            }
+            try {
+                const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+                if (isFollowing) {
+                    await set(followRef, null);
+                    isFollowing = false;
+                    showToast('Berhenti mengikuti toko.', 'info');
+                } else {
+                    await set(followRef, true);
+                    isFollowing = true;
+                    showToast('Berhasil mengikuti toko!', 'success');
+                }
+                updateFollowButton();
+            } catch (err) {
+                showToast('Gagal: ' + err.message, 'error');
+            }
+        });
+
+        // ============================================================
+        // 10. INIT
+        // ============================================================
+        loadData();
+        console.log('🚀 Detail page loaded. Product ID:', productId);
+    </script>
+
+</body>
+</html>
