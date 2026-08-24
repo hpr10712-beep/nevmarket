@@ -1302,6 +1302,34 @@
             display: inline-block;
             font-weight: 900;
         }
+
+/* ============================================================
+   LOADING SCREEN — ANIMASI
+   ============================================================ */
+@keyframes loadPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.04); opacity: 0.9; }
+}
+
+@keyframes loadGradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+@keyframes loadNoInternetFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.02); }
+}
+
+#loadingScreen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#loadingScreen.hidden #noInternetOverlay {
+    display: none !important;
+}
     </style>
 </head>
 <body>
@@ -1315,6 +1343,209 @@
     <div class="pitch-penalty-right"></div>
     <div class="pitch-goal-left"></div>
     <div class="pitch-goal-right"></div>
+
+<!-- ============================================================
+LOADING SCREEN — KEREN & SMOOTH
+============================================================ -->
+<div id="loadingScreen" style="
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #0f3b0f;
+    background-image:
+        repeating-linear-gradient(90deg,
+            rgba(34, 120, 34, 0.45) 0px,
+            rgba(34, 120, 34, 0.45) 55px,
+            rgba(20, 80, 20, 0.45) 55px,
+            rgba(20, 80, 20, 0.45) 110px),
+        radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+        linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+    background-size: 100% 100%, 100% 100%, 100% 100%;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    font-family: 'Inter', -apple-system, sans-serif;
+">
+    <!-- Dekorasi lapangan -->
+    <div style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 160px;
+        height: 160px;
+        border: 2px solid rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+        pointer-events: none;
+    "></div>
+    <div style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 50%;
+        pointer-events: none;
+    "></div>
+
+    <!-- ===== LOGO / ICON ===== -->
+    <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 28px;
+        animation: loadPulse 1.8s ease-in-out infinite;
+    ">
+        <div style="
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(239, 178, 44, 0.15), rgba(16, 185, 129, 0.10));
+            border: 2px solid rgba(239, 178, 44, 0.20);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: #efb22c;
+            box-shadow: 0 0 40px rgba(239, 178, 44, 0.05);
+        ">
+            <i class="fas fa-crown"></i>
+        </div>
+        <div style="
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        ">
+            NEV Market
+        </div>
+    </div>
+
+    <!-- ===== PROGRESS BAR ===== -->
+    <div style="
+        width: 280px;
+        max-width: 80vw;
+        margin-bottom: 10px;
+    ">
+        <div style="
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+        ">
+            <div id="progressBar" style="
+                width: 0%;
+                height: 100%;
+                background: linear-gradient(90deg, #10b981, #efb22c, #f7d875, #10b981);
+                background-size: 300% 100%;
+                border-radius: 10px;
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: loadGradient 2s linear infinite;
+            "></div>
+        </div>
+    </div>
+
+    <!-- ===== PERSENTASE ===== -->
+    <div style="
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.5px;
+        font-variant-numeric: tabular-nums;
+        min-width: 40px;
+        text-align: center;
+    ">
+        <span id="progressPercent">0</span>%
+    </div>
+
+    <!-- ===== STATUS TEKS ===== -->
+    <div style="
+        margin-top: 10px;
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.2);
+        letter-spacing: 0.3px;
+        min-height: 1.2rem;
+    ">
+        <span id="loadingStatus">Memulai...</span>
+    </div>
+
+    <!-- ===== NO INTERNET OVERLAY ===== -->
+    <div id="noInternetOverlay" style="
+        position: absolute;
+        inset: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(12px);
+        padding: 30px;
+        z-index: 10;
+    ">
+        <div style="
+            font-size: 3.5rem;
+            color: rgba(239, 178, 44, 0.3);
+            margin-bottom: 16px;
+            animation: loadNoInternetFloat 2.5s ease-in-out infinite;
+        ">
+            <i class="fas fa-wifi"></i>
+            <span style="
+                position: absolute;
+                font-size: 1.5rem;
+                color: #ef4444;
+                opacity: 0.5;
+                margin-left: -20px;
+                margin-top: -10px;
+            ">✕</span>
+        </div>
+        <div style="
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        ">
+            Tidak Ada Koneksi
+        </div>
+        <div style="
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            max-width: 320px;
+            text-align: center;
+            line-height: 1.5;
+        ">
+            Periksa kembali jaringan internet Anda dan refresh halaman.
+        </div>
+        <button onclick="location.reload()" style="
+            margin-top: 18px;
+            padding: 8px 30px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        "
+        onmouseover="this.style.transform='scale(1.04)'"
+        onmouseout="this.style.transform='scale(1)'">
+            <i class="fas fa-redo"></i> Refresh
+        </button>
+    </div>
+</div>
 
     <!-- ============================================================
     NAVBAR
@@ -2159,6 +2390,263 @@
         });
 
         showToast('Selamat datang di NEV Market!', 'info');
+
+// ============================================================
+// LOADING SCREEN — PROGRESS BAR REAL + DETEKSI INTERNET
+// ============================================================
+(function() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const progressBar = document.getElementById('progressBar');
+    const progressPercent = document.getElementById('progressPercent');
+    const loadingStatus = document.getElementById('loadingStatus');
+    const noInternetOverlay = document.getElementById('noInternetOverlay');
+
+    let progress = 0;
+    let isLoadingComplete = false;
+    let isInternetConnected = navigator.onLine !== false;
+
+    // ===== STATUS TEKS =====
+    const statusMessages = [
+        { max: 10, text: 'Memulai...' },
+        { max: 25, text: 'Menghubungkan server...' },
+        { max: 40, text: 'Memuat data...' },
+        { max: 60, text: 'Menyiapkan konten...' },
+        { max: 75, text: 'Hampir selesai...' },
+        { max: 90, text: 'Finishing...' },
+        { max: 100, text: 'Siap!' }
+    ];
+
+    function updateStatus(prog) {
+        for (let i = statusMessages.length - 1; i >= 0; i--) {
+            if (prog >= statusMessages[i].max) {
+                loadingStatus.textContent = statusMessages[i].text;
+                break;
+            }
+        }
+        if (prog >= 100) loadingStatus.textContent = 'Siap!';
+    }
+
+    // ===== UPDATE PROGRESS =====
+    function updateProgress(value) {
+        progress = Math.min(value, 100);
+        progressBar.style.width = progress + '%';
+        progressPercent.textContent = Math.round(progress);
+        updateStatus(progress);
+    }
+
+    // ===== CEK INTERNET =====
+    function checkInternet() {
+        isInternetConnected = navigator.onLine !== false;
+        if (!isInternetConnected && !isLoadingComplete) {
+            noInternetOverlay.style.display = 'flex';
+            loadingStatus.textContent = 'Tidak ada koneksi';
+            progressBar.style.animationPlayState = 'paused';
+        } else {
+            noInternetOverlay.style.display = 'none';
+            progressBar.style.animationPlayState = 'running';
+        }
+        return isInternetConnected;
+    }
+
+    // ===== EVENT INTERNET =====
+    window.addEventListener('online', () => {
+        isInternetConnected = true;
+        noInternetOverlay.style.display = 'none';
+        progressBar.style.animationPlayState = 'running';
+        if (!isLoadingComplete) {
+            loadingStatus.textContent = 'Koneksi pulih...';
+            setTimeout(() => { if (!isLoadingComplete) loadingStatus.textContent = 'Melanjutkan...'; }, 800);
+        }
+    });
+
+    window.addEventListener('offline', () => {
+        isInternetConnected = false;
+        if (!isLoadingComplete) {
+            noInternetOverlay.style.display = 'flex';
+            loadingStatus.textContent = 'Koneksi terputus';
+            progressBar.style.animationPlayState = 'paused';
+        }
+    });
+
+    // ===== PROGRESS BAR REAL =====
+    function startLoading() {
+        // Cek internet awal
+        if (!checkInternet()) return;
+
+        // Stage 1: DOM parsing (0-30%)
+        let domProgress = 0;
+        const domInterval = setInterval(() => {
+            if (document.readyState === 'loading') {
+                domProgress += 0.8;
+            } else if (document.readyState === 'interactive') {
+                domProgress += 2;
+            } else if (document.readyState === 'complete') {
+                domProgress += 3;
+            }
+            if (domProgress >= 30) {
+                clearInterval(domInterval);
+                updateProgress(30);
+                // Lanjut ke stage 2
+                setTimeout(() => loadResources(), 200);
+            } else {
+                updateProgress(Math.min(30, domProgress));
+            }
+        }, 50);
+
+        // Fallback jika DOM sudah selesai
+        if (document.readyState === 'complete') {
+            clearInterval(domInterval);
+            updateProgress(30);
+            setTimeout(() => loadResources(), 200);
+        }
+    }
+
+    // ===== STAGE 2: LOAD RESOURCES (30-90%) =====
+    let resourceLoaded = false;
+    let resourceProgress = 30;
+
+    function loadResources() {
+        if (resourceLoaded) return;
+        resourceLoaded = true;
+
+        // Hitung total resource (gambar, css, js)
+        const resources = document.querySelectorAll('img, link[rel="stylesheet"], script[src]');
+        let loaded = 0;
+        const total = resources.length || 1;
+        let isComplete = false;
+
+        function updateResourceProgress() {
+            if (isComplete) return;
+            loaded++;
+            const pct = 30 + Math.min((loaded / total) * 55, 55);
+            updateProgress(Math.min(90, pct));
+            if (loaded >= total) {
+                isComplete = true;
+                setTimeout(() => finishLoading(), 300);
+            }
+        }
+
+        // Jika tidak ada resource, langsung selesai
+        if (total === 0) {
+            setTimeout(() => finishLoading(), 300);
+            return;
+        }
+
+        // Track image load
+        document.querySelectorAll('img').forEach(img => {
+            if (img.complete) {
+                updateResourceProgress();
+            } else {
+                img.addEventListener('load', updateResourceProgress);
+                img.addEventListener('error', updateResourceProgress);
+            }
+        });
+
+        // Track CSS
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+            if (link.sheet) {
+                updateResourceProgress();
+            } else {
+                link.addEventListener('load', updateResourceProgress);
+                link.addEventListener('error', updateResourceProgress);
+            }
+        });
+
+        // Track JS
+        document.querySelectorAll('script[src]').forEach(script => {
+            if (script.readyState === 'complete' || script.readyState === 'loaded') {
+                updateResourceProgress();
+            } else {
+                script.addEventListener('load', updateResourceProgress);
+                script.addEventListener('error', updateResourceProgress);
+            }
+        });
+
+        // Fallback: jika ada resource yang tidak terdeteksi
+        setTimeout(() => {
+            if (!isComplete) {
+                // Cek progress terakhir
+                const current = progress;
+                if (current < 85) {
+                    // Force progress ke 85%
+                    let fallbackPct = 85;
+                    const fallbackInterval = setInterval(() => {
+                        if (isComplete) { clearInterval(fallbackInterval); return; }
+                        fallbackPct += 1;
+                        if (fallbackPct >= 90) {
+                            clearInterval(fallbackInterval);
+                            if (!isComplete) {
+                                isComplete = true;
+                                finishLoading();
+                            }
+                        } else {
+                            updateProgress(fallbackPct);
+                        }
+                    }, 300);
+                }
+            }
+        }, 5000);
+
+        // Window load sebagai final trigger
+        window.addEventListener('load', () => {
+            if (!isComplete) {
+                isComplete = true;
+                setTimeout(() => finishLoading(), 300);
+            }
+        });
+    }
+
+    // ===== FINISH LOADING (90-100%) =====
+    function finishLoading() {
+        if (isLoadingComplete) return;
+        isLoadingComplete = true;
+
+        // Progress ke 100%
+        let finalProgress = 90;
+        const finalInterval = setInterval(() => {
+            finalProgress += 2;
+            if (finalProgress >= 100) {
+                clearInterval(finalInterval);
+                updateProgress(100);
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    // Tampilkan toast selamat datang dari kode utama
+                    setTimeout(() => {
+                        const toast = document.getElementById('toast');
+                        if (toast) {
+                            const msg = document.getElementById('toastMsg');
+                            if (msg) msg.textContent = 'Selamat datang di NEV Market!';
+                            toast.classList.add('show');
+                            setTimeout(() => toast.classList.remove('show'), 3500);
+                        }
+                    }, 300);
+                }, 400);
+            } else {
+                updateProgress(finalProgress);
+            }
+        }, 80);
+    }
+
+    // ===== MULAI LOADING =====
+    // Tunggu sedikit agar CSS loading screen tampil dulu
+    setTimeout(startLoading, 300);
+
+    // Cek internet secara berkala
+    setInterval(checkInternet, 3000);
+
+    // Jika user sudah offline saat halaman dimuat
+    if (!navigator.onLine) {
+        setTimeout(() => {
+            if (!isLoadingComplete) {
+                noInternetOverlay.style.display = 'flex';
+                loadingStatus.textContent = 'Tidak ada koneksi';
+                progressBar.style.animationPlayState = 'paused';
+            }
+        }, 500);
+    }
+})();
+
+
     </script>
 </body>
                 </html>
