@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil Saya - NEV Market</title>
+    <title>Detail Produk - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           RESET (TIDAK DIUBAH)
+           GLOBAL — SEPAK BOLA
            ============================================================ */
         * {
             margin: 0;
@@ -31,17 +31,22 @@
 
         :root {
             --bg-primary: #0a2e0a;
-            --bg-secondary: #051405;
-            --bg-card: rgba(10, 46, 10, 0.88);
-            --border-color: rgba(239, 178, 44, 0.18);
+            --bg-secondary: rgba(5, 20, 5, 0.88);
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
             --text-primary: #ffffff;
             --text-secondary: #b8d9b8;
             --text-muted: rgba(255, 255, 255, 0.4);
             --accent-gold: #efb22c;
-            --accent-emerald: #00b894;
+            --accent-blue: #2563eb;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
             --radius-lg: 20px;
-            --radius-md: 12px;
+            --radius-md: 14px;
+            --radius-sm: 8px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -64,21 +69,103 @@
             overflow-x: hidden;
         }
 
-        body::before {
+        body::before,
+        body::after {
             content: '';
             position: fixed;
-            top: 5%;
-            left: 5%;
-            right: 5%;
-            bottom: 5%;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
             pointer-events: none;
             z-index: 0;
         }
 
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
         .container {
-            max-width: 720px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
             position: relative;
@@ -86,7 +173,85 @@
         }
 
         /* ============================================================
-           NAVBAR (TIDAK DIUBAH)
+           BUTTONS
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+        }
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(239, 178, 44, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 178, 44, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .btn-follow {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+        }
+        .btn-follow.following {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+        .btn-follow:hover {
+            transform: scale(1.03);
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.75rem;
+        }
+
+        /* ============================================================
+           NAVBAR
            ============================================================ */
         .navbar {
             position: fixed;
@@ -96,13 +261,10 @@
             z-index: 1000;
             padding: 12px 0;
             background: rgba(5, 20, 5, 0.88);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px) saturate(1.6);
             border-bottom: 1px solid var(--border-color);
         }
-        .navbar .container-nav {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .navbar .container {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -118,13 +280,6 @@
         }
         .nav-brand i {
             color: var(--accent-gold);
-        }
-        .brand-name {
-            background: linear-gradient(135deg, #ffffff, #f7d875, #efb22c);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 900;
         }
         .nav-links {
             display: flex;
@@ -186,305 +341,462 @@
         }
 
         /* ============================================================
-           PROFIL HEADER (TIDAK DIUBAH)
+           SKELETON LOADING
            ============================================================ */
-        .profile-header {
-            margin-top: 80px;
-            padding: 24px 0 16px;
-            text-align: center;
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
-        .profile-avatar {
-            width: 88px;
-            height: 88px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #0a2a0a;
-            box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
-            margin-bottom: 6px;
-            transition: var(--transition);
-            animation: pulseGlow 2.5s ease-in-out infinite;
-        }
-        @keyframes pulseGlow {
-            0% {
-                box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(239, 178, 44, 0.30), 0 8px 40px rgba(239, 178, 44, 0.30);
-            }
-            100% {
-                box-shadow: 0 0 0 4px rgba(239, 178, 44, 0.15), 0 8px 28px rgba(239, 178, 44, 0.15);
-            }
-        }
-
-        .profile-avatar i {
-            font-size: 2.6rem;
-            color: #0a2a0a;
-        }
-
-        .profile-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.3px;
-        }
-
-        .profile-id {
-            font-size: 0.7rem;
-            font-family: 'Courier New', monospace;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.04);
-            padding: 2px 16px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-top: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .profile-id i {
-            margin-right: 6px;
-            color: var(--accent-gold);
-        }
-
-        .typing-greeting {
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            margin-top: 6px;
-            min-height: 2rem;
-            letter-spacing: 0.2px;
-        }
-        .typing-greeting .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.1rem;
-            background: var(--accent-gold);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: blink 0.8s step-end infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* ============================================================
-           KARTU FORM (TIDAK DIUBAH)
-           ============================================================ */
-        .form-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 32px 34px 28px;
-            box-shadow: var(--shadow-lg);
-            margin: 8px 0 28px;
-        }
-
-        .form-card .card-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 14px;
-            margin-bottom: 24px;
-        }
-        .form-card .card-head .title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .form-card .card-head .title i {
-            font-size: 1rem;
-        }
-        .form-card .card-head .status {
-            font-size: 0.7rem;
-            font-weight: 500;
-            padding: 4px 14px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .form-card .card-head .status i {
-            font-size: 0.5rem;
-        }
-        .form-card .card-head .status.complete {
-            color: #6dd5b8;
-        }
-        .form-card .card-head .status.incomplete {
-            color: #ff6b6b;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-        }
-        .form-group label .optional {
-            color: var(--text-muted);
-            font-weight: 400;
-            font-size: 0.7rem;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 11px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-md);
-            color: #fff;
-            font-size: 0.95rem;
-            font-family: inherit;
-            transition: var(--transition);
-            outline: none;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.06);
-        }
-        .form-group textarea {
-            min-height: 72px;
-            resize: vertical;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .btn-save {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
-            color: #0a2a0a;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            letter-spacing: 0.3px;
-        }
-        .btn-save:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(239, 178, 44, 0.35);
-        }
-        .btn-save:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .back-row {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .btn-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 32px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 50px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        .btn-back:hover {
-            border-color: var(--accent-gold);
-            color: #fff;
-            background: rgba(239, 178, 44, 0.08);
-            transform: translateX(-4px);
-        }
-        .btn-back i {
-            color: var(--accent-gold);
-            font-size: 1rem;
-        }
-
-        /* ============================================================
-           TOMBOL AYO BUAT AKUN BISNIS (BARU)
-           ============================================================ */
-        .btn-business {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-            width: 100%;
-            padding: 16px 28px;
-            background: linear-gradient(135deg, #efb22c, #f7d875, #efb22c);
-            background-size: 200% 200%;
-            color: #0a2a0a;
-            border: none;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 1.15rem;
-            cursor: pointer;
-            text-decoration: none;
-            font-family: inherit;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.25);
-            animation: btnBusinessPulse 2.5s ease-in-out infinite;
+        .skeleton {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-sm);
             position: relative;
             overflow: hidden;
         }
-        .btn-business:hover {
-            transform: scale(1.03) translateY(-3px);
-            box-shadow: 0 12px 48px rgba(239, 178, 44, 0.4);
-        }
-        .btn-business i {
-            font-size: 1.3rem;
-        }
-        .btn-business .arrow {
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-        .btn-business:hover .arrow {
-            transform: translateX(6px);
+        .skeleton::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.04) 25%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.04) 75%,
+                    transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s ease-in-out infinite;
         }
 
-        @keyframes btnBusinessPulse {
-            0%, 100% { box-shadow: 0 8px 32px rgba(239, 178, 44, 0.25); }
-            50% { box-shadow: 0 8px 48px rgba(239, 178, 44, 0.45); }
+        .skeleton-img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .skeleton-text {
+            height: 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            margin-bottom: 8px;
+        }
+        .skeleton-text.w-50 { width: 50%; }
+        .skeleton-text.w-70 { width: 70%; }
+        .skeleton-text.w-90 { width: 90%; }
+        .skeleton-text.w-30 { width: 30%; }
+        .skeleton-text.w-40 { width: 40%; }
+        .skeleton-text.h-20 { height: 20px; }
+        .skeleton-text.h-24 { height: 24px; }
+        .skeleton-text.h-30 { height: 30px; }
+        .skeleton-text.h-40 { height: 40px; }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            min-height: 400px;
+        }
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+        }
+        .skeleton-left {
+            padding: 30px;
+            background: rgba(5, 20, 5, 0.60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skeleton-right {
+            padding: 32px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .skeleton-right .skeleton-text {
+            margin-bottom: 10px;
         }
 
         /* ============================================================
-           TOAST (TIDAK DIUBAH)
+           DETAIL UTAMA
+           ============================================================ */
+        .detail-wrapper {
+            margin-top: 100px;
+            padding-bottom: 40px;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-card.hidden {
+            display: none;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+        }
+        .detail-image-wrap {
+            background: rgba(5, 20, 5, 0.60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            min-height: 400px;
+        }
+        .detail-image-wrap img {
+            width: 100%;
+            height: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+        }
+        .detail-info {
+            padding: 32px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .detail-info .badge-type {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 14px;
+            border-radius: 40px;
+            background: var(--accent-green);
+            color: #fff;
+            align-self: flex-start;
+            margin-bottom: 10px;
+        }
+        .detail-info .product-id {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            opacity: 0.6;
+            margin-bottom: 4px;
+        }
+        .detail-info h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        .detail-info .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin: 6px 0 10px;
+        }
+        .detail-info .price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+        .detail-info .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        .detail-info .rating-row i {
+            color: var(--accent-gold);
+        }
+        .detail-info .description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 18px;
+            flex: 1;
+        }
+        .detail-info .store-section {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .store-section .store-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .store-section .store-info .store-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0a2a0a;
+            font-size: 1.2rem;
+        }
+        .store-section .store-info .store-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        .store-section .store-info .store-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            padding: 1px 10px;
+            border-radius: 40px;
+        }
+        .store-section .store-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .store-section .store-actions .btn {
+            font-size: 0.75rem;
+            padding: 6px 14px;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .detail-actions .btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            justify-content: center;
+        }
+
+        /* ============================================================
+           ULASAN / KOMENTAR
+           ============================================================ */
+        .reviews-section {
+            margin-top: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .reviews-section h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .reviews-section h2 i {
+            color: var(--accent-gold);
+        }
+
+        .review-form {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+        .review-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .review-form .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .review-form .form-group label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+        .review-form .form-group input,
+        .review-form .form-group textarea {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            outline: none;
+        }
+        .review-form .form-group input:focus,
+        .review-form .form-group textarea:focus {
+            border-color: var(--accent-gold);
+        }
+        .review-form .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 4px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            margin: 4px 0 8px;
+        }
+        .star-rating i {
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .star-rating i.active {
+            color: var(--accent-gold);
+        }
+        .star-rating i:hover {
+            transform: scale(1.15);
+        }
+
+        .review-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .review-item .review-header .reviewer {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        .review-item .review-header .stars {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+        }
+        .review-item .review-header .date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .review-item .review-comment {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .review-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px 0;
+        }
+        .review-empty i {
+            font-size: 1.8rem;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ============================================================
+           PRODUK LAIN DARI TOKO YANG SAMA
+           ============================================================ */
+        .other-products {
+            margin-top: 32px;
+        }
+        .other-products h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .other-products h2 i {
+            color: var(--accent-gold);
+        }
+        .other-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .other-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .other-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-lg);
+        }
+        .other-item .img-wrap {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: rgba(5, 20, 5, 0.50);
+        }
+        .other-item .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .other-item .info {
+            padding: 10px 12px;
+        }
+        .other-item .info .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .other-item .info .price {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* ============================================================
+           TOAST
            ============================================================ */
         .toast {
             position: fixed;
-            bottom: 28px;
+            bottom: 24px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--bg-card);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            padding: 10px 26px;
+            padding: 10px 24px;
             border-radius: 60px;
             box-shadow: var(--shadow-lg);
             z-index: 99999;
@@ -496,7 +808,7 @@
             transition: all 0.35s ease;
             font-weight: 500;
             font-size: 0.9rem;
-            color: #fff;
+            color: var(--text-primary);
         }
         .toast.show {
             display: flex;
@@ -506,158 +818,69 @@
         .toast i {
             font-size: 1rem;
         }
-
-        /* ============================================================
-           MODAL RATING (BARU)
-           ============================================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(6px);
-            padding: 16px;
+        .toast.success i {
+            color: #10b981;
         }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            max-width: 480px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 28px 30px;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.3s ease;
+        .toast.error i {
+            color: #ef4444;
         }
-        @keyframes slideUp {
-            from { opacity:0; transform: translateY(20px); }
-            to { opacity:1; transform: translateY(0); }
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .modal-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); }
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .modal-close:hover { color: var(--text-primary); }
-
-        .form-actions {
-            display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
-        }
-        .form-actions .btn-submit {
-            padding: 8px 24px;
-            border-radius: 40px;
-            border: none;
-            background: var(--accent-green);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .form-actions .btn-submit:hover { background: var(--accent-green-dark); }
-        .form-actions .btn-cancel {
-            padding: 8px 24px;
-            border-radius: 40px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .form-actions .btn-cancel:hover {
-            border-color: var(--text-primary);
-            color: var(--text-primary);
-        }
-
-        #starContainer span {
-            font-size: 2rem;
-            cursor: pointer;
-            transition: 0.2s;
-            color: var(--text-muted);
-            user-select: none;
-        }
-        #starContainer span.active {
+        .toast.info i {
             color: var(--accent-gold);
         }
-        #starContainer span:hover {
-            transform: scale(1.1);
-        }
 
         /* ============================================================
-           RESPONSIVE (TIDAK DIUBAH)
+           RESPONSIVE
            ============================================================ */
-        @media (max-width: 600px) {
-            .form-card {
-                padding: 22px 18px 20px;
-            }
-            .form-row {
+        @media (max-width: 768px) {
+            .detail-grid {
                 grid-template-columns: 1fr;
-                gap: 0;
             }
-            .profile-avatar {
-                width: 72px;
-                height: 72px;
-                font-size: 1.8rem;
-            }
-            .profile-avatar i {
-                font-size: 2rem;
-            }
-            .profile-name {
-                font-size: 1.4rem;
-            }
-            .form-card .card-head {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            .btn-back {
-                padding: 10px 24px;
-                font-size: 0.9rem;
-            }
-            .typing-greeting {
-                font-size: 0.9rem;
-            }
-            .modal {
+            .detail-image-wrap {
+                min-height: 250px;
                 padding: 20px;
             }
-            #starContainer span {
-                font-size: 1.6rem;
+            .detail-info {
+                padding: 20px;
             }
-            .btn-business {
-                font-size: 1rem;
-                padding: 14px 20px;
+            .detail-info h1 {
+                font-size: 1.4rem;
+            }
+            .detail-info .price {
+                font-size: 1.4rem;
+            }
+            .store-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .store-section .store-actions {
+                justify-content: flex-start;
+            }
+            .detail-actions {
+                flex-direction: column;
+            }
+            .other-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .skeleton-grid {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-left {
+                min-height: 200px;
+                padding: 20px;
+            }
+            .skeleton-right {
+                padding: 20px;
+            }
+            .review-form .form-row {
+                grid-template-columns: 1fr;
+            }
+            .reviews-section {
+                padding: 16px;
             }
         }
-        @media (max-width: 400px) {
-            .container {
-                padding: 0 14px;
-            }
-            .form-card {
-                padding: 18px 14px 16px;
-            }
-            .btn-back {
-                padding: 8px 18px;
-                font-size: 0.85rem;
+        @media (max-width: 480px) {
+            .other-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -665,228 +888,148 @@
 <body>
 
     <!-- ============================================================
-    NAVBAR (TIDAK DIUBAH)
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
     ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
+    <!-- ============ NAVBAR ============ -->
     <nav class="navbar">
-        <div class="container-nav">
-            <a href="index.html" class="nav-brand">
-                <i class="fas fa-crown"></i>
-                <span class="brand-name">NEV Market</span>
-            </a>
+        <div class="container">
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#berita">Berita</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="produk.html">Produk</a></li>
-                <li><a href="profil-user.html" style="color:var(--accent-gold);">Profil</a></li>
                 <li><a href="jasa.html">Jasa</a></li>
-                <li><a href="tentang.html">Tentang</a></li>
+                <li><a href="index.html#tentang">Tentang</a></li>
+                <li><a href="payment_produk.html">Payment</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
-    <!-- ============================================================
-    PROFIL HEADER (TIDAK DIUBAH)
-    ============================================================ -->
-    <div class="profile-header">
-        <div class="container">
-            <div class="profile-avatar" id="avatarDisplay">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="profile-name" id="displayName">Pengguna</div>
-            <div class="typing-greeting" id="typingGreeting"></div>
-            <div class="profile-id" id="deviceIdDisplay">
-                <i class="fas fa-microchip"></i> ID: memuat...
-            </div>
-        </div>
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
     </div>
 
-    <!-- ============================================================
-    FORM DATA DIRI (TIDAK DIUBAH)
-    ============================================================ -->
-    <div class="container">
-        <div class="form-card">
-            <div class="card-head">
-                <div class="title">
-                    <i class="fas fa-user-edit"></i> Data Diri
+    <!-- ============ DETAIL ============ -->
+    <div class="container detail-wrapper">
+
+        <!-- SKELETON LOADING -->
+        <div id="skeletonCard" class="skeleton-card">
+            <div class="skeleton-grid">
+                <div class="skeleton-left">
+                    <div class="skeleton-img"></div>
                 </div>
-                <div class="status incomplete" id="statusBadge">
-                    <i class="fas fa-circle"></i> Belum lengkap
+                <div class="skeleton-right">
+                    <div class="skeleton-text w-30 h-20" style="margin-bottom:12px;"></div>
+                    <div class="skeleton-text w-50 h-24" style="margin-bottom:6px;"></div>
+                    <div class="skeleton-text w-90 h-30" style="margin-bottom:8px;"></div>
+                    <div class="skeleton-text w-40 h-20" style="margin-bottom:4px;"></div>
+                    <div class="skeleton-text w-60 h-20" style="margin-bottom:12px;"></div>
+                    <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
+                    <div class="skeleton-text w-100 h-60" style="margin-bottom:16px;"></div>
+                    <div class="skeleton-text w-70 h-20" style="margin-bottom:8px;"></div>
+                    <div class="skeleton-text w-100 h-40"></div>
                 </div>
             </div>
-
-            <form id="profileForm" autocomplete="off">
-                <div class="form-group">
-                    <label>Nama Panggilan</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama panggilan Anda" required />
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>WhatsApp</label>
-                        <input type="tel" id="wa" placeholder="0812-3456-7890" required />
-                    </div>
-                    <div class="form-group">
-                        <label>Email <span class="optional">(opsional)</span></label>
-                        <input type="email" id="email" placeholder="email@example.com" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Catatan <span class="optional">(opsional)</span></label>
-                    <textarea id="catatan" placeholder="Informasi tambahan untuk admin..."></textarea>
-                </div>
-                <button type="submit" class="btn-save" id="btnSimpan">
-                    <i class="fas fa-save"></i> Simpan Profil
-                </button>
-            </form>
         </div>
 
-        <!-- ============================================================
-        AKUN BISNIS (DIUBAH MENJADI TOMBOL KE akun_bisnis.html)
-        ============================================================ -->
-        <div id="businessSection">
-
-            <!-- Tombol Ayo Buat Akun Bisnis (muncul jika belum punya toko) -->
-            <div id="registerStoreBtn" class="form-card" style="margin-top:0; text-align:center;">
-                <div style="margin-bottom:10px;">
-                    <i class="fas fa-store-alt" style="font-size:3rem; color:var(--accent-gold); opacity:0.6;"></i>
+        <!-- DETAIL CARD (awalnya disembunyikan) -->
+        <div id="detailCard" class="detail-card hidden">
+            <div class="detail-grid">
+                <div class="detail-image-wrap">
+                    <img id="detailImage" src="" alt="Gambar produk" />
                 </div>
-                <h3 style="color:var(--text-primary); margin-bottom:6px;">Jualan di NEV Market?</h3>
-                <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:18px;">
-                    Daftarkan toko Anda dan mulai jual produk digital & jasa
-                </p>
-                <a href="akun_bisnis.html" class="btn-business">
-                    <i class="fas fa-store"></i>
-                    Ayo Buat Akun Bisnis
-                    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
-                </a>
-            </div>
-
-            <!-- Info Toko (muncul jika sudah punya toko) -->
-            <div id="storeInfo" class="form-card" style="margin-top:0; display:none;">
-                <div class="card-head">
-                    <div class="title">
-                        <i class="fas fa-store"></i> Toko Saya
+                <div class="detail-info">
+                    <span class="badge-type" id="detailBadge">Digital</span>
+                    <div class="product-id" id="detailProductId">ID: -</div>
+                    <h1 id="detailName">Nama Produk</h1>
+                    <div class="price" id="detailPrice">Rp 0 <small>/ produk</small></div>
+                    <div class="rating-row">
+                        <span><i class="fas fa-star"></i> <span id="detailRating">0.0</span> (<span id="detailTotalRatings">0</span> rating)</span>
+                        <span><i class="fas fa-shopping-cart"></i> <span id="detailTerjual">0</span> terjual</span>
                     </div>
-                    <!-- Di dalam div storeInfo, setelah storeDescDisplay -->
-<div style="margin-top:12px;">
-    <a href="tambah_produkjasa.html" class="btn-business" style="
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 28px;
-        background: linear-gradient(135deg, #efb22c, #f7d875);
-        color: #0a2a0a;
-        border: none;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        text-decoration: none;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        box-shadow: 0 4px 16px rgba(239, 178, 44, 0.2);
-    "
-    onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 6px 24px rgba(239,178,44,0.35)'"
-    onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(239,178,44,0.2)'">
-        <i class="fas fa-rocket"></i> Ayo Mulai        <i class="fas fa-arrow-right" style="font-size:0.7rem;"></i>
-    </a>
-</div>
-                    <span style="background:var(--accent-green); padding:4px 14px; border-radius:30px; font-size:0.7rem; font-weight:700; color:#0a2a0a;">Aktif</span>
+                    <div class="description" id="detailDescription">Deskripsi produk.</div>
+
+                    <!-- Toko -->
+                    <div class="store-section" id="storeSection">
+                        <div class="store-info">
+                            <div class="store-icon"><i class="fas fa-store"></i></div>
+                            <div>
+                                <div class="store-name" id="storeName">Toko</div>
+                                <span class="store-label" id="storeLabel">Default</span>
+                            </div>
+                        </div>
+                        <div class="store-actions">
+                            <button class="btn btn-follow" id="followBtn"><i class="fas fa-heart"></i> <span id="followText">Ikuti</span></button>
+                            <a href="#" id="viewStoreBtn" class="btn btn-outline"><i class="fas fa-store-alt"></i> Lihat Toko</a>
+                        </div>
+                    </div>
+
+                    <div class="detail-actions">
+                        <button class="btn btn-gold" id="btnBeli"><i class="fas fa-credit-card"></i> Beli Sekarang</button>
+                        <a href="produk.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
+                    </div>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                    <div>
-                        <h3 id="storeNameDisplay" style="color:var(--accent-gold); font-size:1.3rem;"></h3>
-                        <p id="storeDescDisplay" style="color:var(--text-secondary); font-size:0.9rem;"></p>
-                        <div style="display:flex; gap:20px; margin-top:8px; font-size:0.85rem; flex-wrap:wrap;">
-                            <span><i class="fas fa-users" style="color:var(--accent-gold);"></i> <span id="storeFollowers">0</span> Pengikut</span>
-                            <span><i class="fas fa-star" style="color:var(--accent-gold);"></i> <span id="storeRating">0.0</span> (dari <span id="storeTotalRatings">0</span> rating)</span>
+            </div>
+        </div>
+
+        <!-- ULASAN / KOMENTAR -->
+        <div id="reviewsSection" class="reviews-section hidden">
+            <h2><i class="fas fa-comments"></i> Ulasan & Komentar</h2>
+
+            <!-- Form ulasan -->
+            <div class="review-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nama Anda</label>
+                        <input type="text" id="reviewerName" placeholder="Masukkan nama..." />
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <div class="star-rating" id="starRating">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
                         </div>
                     </div>
                 </div>
-                <div style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
-                    <h4 style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;"><i class="fas fa-box"></i> Produk Anda</h4>
-                    <div id="storeProductsList" style="font-size:0.8rem; color:var(--text-secondary);">
-                        <span style="color:var(--text-muted);">Belum ada produk.</span>
-                    </div>
+                <div class="form-group" style="margin-bottom:10px;">
+                    <label>Komentar</label>
+                    <textarea id="reviewComment" rows="3" placeholder="Tulis pengalaman Anda menggunakan produk ini..."></textarea>
                 </div>
+                <button class="btn btn-success" id="submitReview"><i class="fas fa-paper-plane"></i> Kirim Ulasan</button>
             </div>
 
-            <!-- ============================================================
-            RIWAYAT PEMBELIAN (BARU)
-            ============================================================ -->
-            <div id="riwayatSection" class="form-card" style="margin-top:20px;">
-                <div class="card-head">
-                    <div class="title">
-                        <i class="fas fa-history"></i> Riwayat Pembelian
-                    </div>
-                    <span style="font-size:0.7rem; color:var(--text-muted);">Sukses & Diproses</span>
-                </div>
-                <div id="riwayatList" style="max-height:300px; overflow-y:auto;">
-                    <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
-                        <i class="fas fa-shopping-bag" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
-                        Belum ada pembelian.
-                    </div>
-                </div>
+            <!-- Daftar ulasan -->
+            <div id="reviewsList">
+                <div class="review-empty"><i class="fas fa-comment-slash"></i> Belum ada ulasan. Jadilah yang pertama!</div>
             </div>
         </div>
 
-        <!-- ============================================================
-        TOMBOL KEMBALI (TIDAK DIUBAH)
-        ============================================================ -->
-        <div class="back-row">
-            <a href="index.html" class="btn-back">
-                <i class="fas fa-arrow-left"></i> Kembali ke Beranda
-                <i class="fas fa-home" style="color:var(--accent-gold);margin-left:4px;"></i>
-            </a>
+        <!-- Produk lain dari toko yang sama -->
+        <div class="other-products" id="otherProducts" style="display:none;">
+            <h2><i class="fas fa-store"></i> Produk Lain dari Toko Ini</h2>
+            <div class="other-grid" id="otherGrid"></div>
         </div>
     </div>
 
-    <!-- ============================================================
-    MODAL RATING (BARU)
-    ============================================================ -->
-    <div class="modal-overlay" id="ratingModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2><i class="fas fa-star" style="color:var(--accent-gold);"></i> Beri Rating</h2>
-                <button class="modal-close" id="ratingModalClose"><i class="fas fa-times"></i></button>
-            </div>
-            <div style="margin-bottom:12px;">
-                <p style="color:var(--text-secondary); font-size:0.85rem;" id="ratingProductName">Produk: ...</p>
-                <div style="display:flex; gap:6px; font-size:2rem; cursor:pointer; margin:8px 0;" id="starContainer">
-                    <span data-star="1">☆</span>
-                    <span data-star="2">☆</span>
-                    <span data-star="3">☆</span>
-                    <span data-star="4">☆</span>
-                    <span data-star="5">☆</span>
-                </div>
-                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;" id="ratingLabel">Pilih bintang</div>
-            </div>
-            <div class="form-group">
-                <label>Alasan (maks 200 karakter)</label>
-                <textarea id="ratingReview" rows="3" maxlength="200" placeholder="Tulis alasan Anda..." style="width:100%; padding:8px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border-color); border-radius:var(--radius-md); color:var(--text-primary); font-family:inherit; resize:vertical;"></textarea>
-                <div style="text-align:right; font-size:0.7rem; color:var(--text-muted);"><span id="charCount">0</span>/200</div>
-            </div>
-            <div class="form-actions">
-                <button class="btn-submit" id="submitRating" style="background:var(--accent-gold); color:#0a2a0a;">Kirim Rating</button>
-                <button class="btn-cancel" id="ratingCancel">Batal</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    TOAST (TIDAK DIUBAH)
-    ============================================================ -->
-    <div class="toast" id="toast">
-        <i class="fas fa-info-circle"></i>
-        <span id="toastMsg">Pesan</span>
-    </div>
-
-    <!-- ============================================================
-    SCRIPT (TAMBAHAN FITUR BISNIS & RATING)
-    ============================================================ -->
+    <!-- ============ JAVASCRIPT ============ -->
     <script type="module">
         // ============================================================
-        // IMPORTS
+        // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue, update, get } from "firebase-database";
+        import { getDatabase, ref, get, set, push, onValue, update } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -898,7 +1041,7 @@
         const db = getDatabase(app);
 
         // ============================================================
-        // DEVICE ID
+        // 2. DEVICE ID
         // ============================================================
         function getDeviceId() {
             let id = localStorage.getItem('logoShop_deviceId');
@@ -909,17 +1052,16 @@
             return id;
         }
         const DEVICE_ID = getDeviceId();
-        document.getElementById('deviceIdDisplay').innerHTML =
-            '<i class="fas fa-microchip"></i> ID: ' + DEVICE_ID.slice(0, 14) + '…';
 
         // ============================================================
-        // TOAST
+        // 3. TOAST
         // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
             const icon = t.querySelector('i');
-            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
             t.className = 'toast show ' + type;
             m.textContent = msg;
             clearTimeout(t._hide);
@@ -927,454 +1069,383 @@
         }
 
         // ============================================================
-        // HAMBURGER
+        // 4. NAVBAR
         // ============================================================
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
         });
 
         // ============================================================
-        // ELEMEN DATA DIRI
+        // 5. GET PRODUCT ID FROM URL
         // ============================================================
-        const form = document.getElementById('profileForm');
-        const btnSimpan = document.getElementById('btnSimpan');
-        const statusBadge = document.getElementById('statusBadge');
-        const avatarDisplay = document.getElementById('avatarDisplay');
-        const typingEl = document.getElementById('typingGreeting');
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('productId');
 
-        const fields = {
-            nama: document.getElementById('nama'),
-            wa: document.getElementById('wa'),
-            email: document.getElementById('email'),
-            catatan: document.getElementById('catatan')
-        };
-        const displayName = document.getElementById('displayName');
+        if (!productId) {
+            showToast('Produk tidak ditemukan.', 'error');
+            document.getElementById('skeletonCard').innerHTML = `
+                    <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        <h2>Produk tidak ditemukan</h2>
+                        <p>Pastikan URL mengandung parameter productId yang valid.</p>
+                        <a href="produk.html" class="btn btn-primary" style="margin-top:12px;">Kembali ke Produk</a>
+                    </div>
+                `;
+            throw new Error('Product ID missing');
+        }
 
         // ============================================================
-        // TYPING GREETING
+        // 6. LOAD DATA
         // ============================================================
-        function typeGreeting(text, callback) {
-            typingEl.innerHTML = '';
-            let index = 0;
-            const interval = setInterval(() => {
-                if (index < text.length) {
-                    typingEl.innerHTML = text.substring(0, index + 1) + ' ';
-                    if (!typingEl.querySelector('.cursor')) {
-                        const c = document.createElement('span');
-                        c.className = 'cursor';
-                        typingEl.appendChild(c);
-                    }
-                    index++;
-                } else {
-                    clearInterval(interval);
-                    if (!typingEl.querySelector('.cursor')) {
-                        const c = document.createElement('span');
-                        c.className = 'cursor';
-                        typingEl.appendChild(c);
-                    }
-                    if (callback) callback();
+        let productData = null;
+        let sellerData = null;
+        let ordersData = {};
+        let reviewsData = {};
+        let isFollowing = false;
+
+        async function loadData() {
+            try {
+                // Ambil produk
+                const productSnap = await get(ref(db, `logo-shop/products/${productId}`));
+                if (!productSnap.exists()) {
+                    showToast('Produk tidak ditemukan.', 'error');
+                    document.getElementById('skeletonCard').innerHTML = `
+                            <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                                <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                                <h2>Produk tidak ditemukan</h2>
+                                <a href="produk.html" class="btn btn-primary" style="margin-top:12px;">Kembali ke Produk</a>
+                            </div>
+                        `;
+                    return;
                 }
-            }, 50);
+                productData = productSnap.val();
+                productData.key = productId;
+
+                // Ambil orders untuk menghitung terjual
+                const ordersSnap = await get(ref(db, 'logo-shop/orders'));
+                ordersData = ordersSnap.val() || {};
+
+                // Ambil ulasan
+                const reviewsSnap = await get(ref(db, `logo-shop/reviews/${productId}`));
+                reviewsData = reviewsSnap.val() || {};
+
+                // Ambil seller
+                const sellerId = productData.sellerId;
+                if (sellerId) {
+                    const sellerSnap = await get(ref(db, `logo-shop/sellers/${sellerId}`));
+                    if (sellerSnap.exists()) {
+                        sellerData = sellerSnap.val();
+                        sellerData.id = sellerId;
+                    } else {
+                        sellerData = { storeName: 'Toko Tidak Diketahui', label: 'Default' };
+                    }
+                } else {
+                    sellerData = { storeName: 'Toko Tidak Diketahui', label: 'Default' };
+                }
+
+                // Sembunyikan skeleton, tampilkan konten
+                document.getElementById('skeletonCard').style.display = 'none';
+                document.getElementById('detailCard').classList.remove('hidden');
+
+                renderDetail();
+                renderReviews();
+                loadOtherProducts(sellerId);
+
+                // Cek status follow
+                if (sellerId) checkFollowStatus(sellerId);
+
+                // Tampilkan section ulasan
+                document.getElementById('reviewsSection').classList.remove('hidden');
+
+            } catch (err) {
+                showToast('Gagal memuat data: ' + err.message, 'error');
+                console.error(err);
+            }
         }
 
         // ============================================================
-        // UPDATE UI DATA DIRI
+        // 7. RENDER DETAIL
         // ============================================================
-        function updateUI(data) {
-            const nama = data.nama || 'Pengguna';
-            displayName.textContent = nama;
-            if (nama && nama !== 'Pengguna') {
-                avatarDisplay.textContent = nama.charAt(0).toUpperCase();
-                avatarDisplay.style.fontSize = '2.2rem';
-                avatarDisplay.style.fontWeight = '800';
-            } else {
-                avatarDisplay.innerHTML = '<i class="fas fa-user"></i>';
-                avatarDisplay.style.fontSize = '2.6rem';
-                avatarDisplay.style.fontWeight = 'normal';
+        function renderDetail() {
+            const isJasa = productData.isJasa === true;
+            const typeLabel = isJasa ? 'Jasa' : 'Digital';
+            const priceFormatted = new Intl.NumberFormat('id-ID').format(productData.price || 0);
+            const rating = productData.rating || 0;
+            const totalRatings = productData.totalRatings || 0;
+            const shortId = productData.shortId || productData.key.slice(0, 6);
+
+            // Hitung terjual
+            let terjual = 0;
+            for (const orderKey in ordersData) {
+                const order = ordersData[orderKey];
+                if (order.productId === productData.key && order.status === 'completed') {
+                    terjual++;
+                }
             }
-            const isComplete = data.nama && data.wa;
-            if (isComplete) {
-                statusBadge.className = 'status complete';
-                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
+
+            document.getElementById('detailBadge').textContent = typeLabel;
+            document.getElementById('detailProductId').textContent = `ID: ${shortId}`;
+            document.getElementById('detailName').textContent = productData.name || 'Nama Produk';
+            document.getElementById('detailPrice').innerHTML = `Rp ${priceFormatted} <small>/ ${isJasa ? 'jasa' : 'produk'}</small>`;
+            document.getElementById('detailRating').textContent = rating.toFixed(1);
+            document.getElementById('detailTotalRatings').textContent = totalRatings;
+            document.getElementById('detailTerjual').textContent = terjual;
+            document.getElementById('detailDescription').textContent = productData.description || 'Tidak ada deskripsi.';
+
+            const imageUrl = productData.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80';
+            document.getElementById('detailImage').src = imageUrl;
+
+            // Toko
+            const storeName = sellerData?.storeName || 'Toko Tidak Diketahui';
+            const storeLabel = sellerData?.label || 'Default';
+            document.getElementById('storeName').textContent = storeName;
+            document.getElementById('storeLabel').textContent = storeLabel;
+
+            // Tombol lihat toko
+            const viewBtn = document.getElementById('viewStoreBtn');
+            if (sellerData?.id) {
+                viewBtn.href = `toko.html?sellerId=${sellerData.id}`;
+                viewBtn.style.display = 'inline-flex';
             } else {
-                statusBadge.className = 'status incomplete';
-                statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum lengkap';
+                viewBtn.style.display = 'none';
             }
-            const greetingText = nama !== 'Pengguna'
-                ? `Halo, ${nama}! Selamat datang kembali.`
-                : 'Selamat datang! Lengkapi profilmu.';
-            typeGreeting(greetingText);
+
+            // Tombol beli
+            const btnBeli = document.getElementById('btnBeli');
+            btnBeli.onclick = () => {
+                localStorage.setItem('payment_product', JSON.stringify(productData));
+                window.location.href = isJasa ? 'payment_jasa.html' : 'payment_produk.html';
+            };
         }
 
         // ============================================================
-        // LOAD DATA DIRI
+        // 8. RENDER ULASAN
         // ============================================================
-        const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
-        onValue(userRef, (snap) => {
-            const data = snap.val() || {};
-            fields.nama.value = data.nama || '';
-            fields.wa.value = data.wa || '';
-            fields.email.value = data.email || '';
-            fields.catatan.value = data.catatan || '';
-            updateUI(data);
+        function renderReviews() {
+            const list = document.getElementById('reviewsList');
+            const reviewEntries = Object.entries(reviewsData);
+
+            if (reviewEntries.length === 0) {
+                list.innerHTML = `<div class="review-empty"><i class="fas fa-comment-slash"></i> Belum ada ulasan. Jadilah yang pertama!</div>`;
+                return;
+            }
+
+            // Urutkan dari yang terbaru
+            const sorted = reviewEntries.sort((a, b) => {
+                const timeA = a[1].timestamp || 0;
+                const timeB = b[1].timestamp || 0;
+                return timeB - timeA;
+            });
+
+            let html = '';
+            sorted.forEach(([key, review]) => {
+                const stars = '⭐'.repeat(Math.min(review.rating || 0, 5));
+                const date = review.timestamp ? new Date(review.timestamp).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                }) : '—';
+                html += `
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer">${review.nama || 'Anonim'}</span>
+                                <span class="stars">${stars}</span>
+                                <span class="date">${date}</span>
+                            </div>
+                            <div class="review-comment">${review.komentar || 'Tidak ada komentar.'}</div>
+                        </div>
+                    `;
+            });
+            list.innerHTML = html;
+        }
+
+        // ============================================================
+        // 9. SUBMIT ULASAN
+        // ============================================================
+        // Star rating
+        const stars = document.querySelectorAll('#starRating i');
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.dataset.value);
+                stars.forEach(s => {
+                    const val = parseInt(s.dataset.value);
+                    s.classList.toggle('active', val <= selectedRating);
+                });
+            });
+            star.addEventListener('mouseenter', function() {
+                const val = parseInt(this.dataset.value);
+                stars.forEach(s => {
+                    const v = parseInt(s.dataset.value);
+                    s.classList.toggle('active', v <= val);
+                });
+            });
+            star.addEventListener('mouseleave', function() {
+                stars.forEach(s => {
+                    const v = parseInt(s.dataset.value);
+                    s.classList.toggle('active', v <= selectedRating);
+                });
+            });
         });
 
-        // ============================================================
-        // SIMPAN DATA DIRI
-        // ============================================================
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            btnSimpan.disabled = true;
-            btnSimpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+        document.getElementById('submitReview').addEventListener('click', async function() {
+            const nama = document.getElementById('reviewerName').value.trim() || 'Anonim';
+            const komentar = document.getElementById('reviewComment').value.trim();
+            const rating = selectedRating;
 
-            const data = {
-                nama: fields.nama.value.trim(),
-                wa: fields.wa.value.trim(),
-                email: fields.email.value.trim(),
-                catatan: fields.catatan.value.trim(),
-                lastUpdate: new Date().toISOString()
-            };
+            if (rating === 0) {
+                showToast('Pilih rating bintang terlebih dahulu!', 'error');
+                return;
+            }
 
-            if (!data.nama || !data.wa) {
-                showToast('Nama dan WhatsApp wajib diisi!', 'error');
-                btnSimpan.disabled = false;
-                btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
+            if (!komentar) {
+                showToast('Tulis komentar Anda!', 'error');
                 return;
             }
 
             try {
-                await update(ref(db, `logo-shop/users/${DEVICE_ID}`), data);
-                showToast('Profil berhasil disimpan!', 'success');
-                updateUI(data);
+                const reviewData = {
+                    nama: nama,
+                    rating: rating,
+                    komentar: komentar,
+                    timestamp: Date.now(),
+                    deviceId: DEVICE_ID
+                };
+
+                // Simpan ulasan
+                const newReviewRef = push(ref(db, `logo-shop/reviews/${productId}`));
+                await set(newReviewRef, reviewData);
+
+                // Update rating produk
+                const currentTotal = productData.totalRatings || 0;
+                const currentRating = productData.rating || 0;
+                const newTotal = currentTotal + 1;
+                const newRating = ((currentRating * currentTotal) + rating) / newTotal;
+
+                await update(ref(db, `logo-shop/products/${productId}`), {
+                    rating: newRating,
+                    totalRatings: newTotal
+                });
+
+                showToast('Ulasan berhasil dikirim!', 'success');
+
+                // Reset form
+                document.getElementById('reviewerName').value = '';
+                document.getElementById('reviewComment').value = '';
+                selectedRating = 0;
+                stars.forEach(s => s.classList.remove('active'));
+
+                // Reload data
+                const reviewsSnap = await get(ref(db, `logo-shop/reviews/${productId}`));
+                reviewsData = reviewsSnap.val() || {};
+                renderReviews();
+
+                // Update rating di detail
+                const productSnap = await get(ref(db, `logo-shop/products/${productId}`));
+                if (productSnap.exists()) {
+                    productData = productSnap.val();
+                    productData.key = productId;
+                    document.getElementById('detailRating').textContent = (productData.rating || 0).toFixed(1);
+                    document.getElementById('detailTotalRatings').textContent = productData.totalRatings || 0;
+                }
+
+            } catch (err) {
+                showToast('Gagal mengirim ulasan: ' + err.message, 'error');
+            }
+        });
+
+        // ============================================================
+        // 10. LOAD PRODUK LAIN DARI TOKO SAMA
+        // ============================================================
+        async function loadOtherProducts(sellerId) {
+            if (!sellerId) return;
+            const productsRef = ref(db, 'logo-shop/products');
+            const snap = await get(productsRef);
+            const data = snap.val();
+            if (!data) return;
+
+            const others = Object.entries(data)
+                .filter(([key, val]) => val.sellerId === sellerId && key !== productId)
+                .map(([key, val]) => ({ key, ...val }));
+
+            if (others.length === 0) {
+                document.getElementById('otherProducts').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('otherProducts').style.display = 'block';
+            const grid = document.getElementById('otherGrid');
+            let html = '';
+            others.forEach(item => {
+                const price = `Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}`;
+                const img = item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&q=80';
+                html += `
+                        <a href="detail.html?productId=${item.key}" class="other-item">
+                            <div class="img-wrap"><img src="${img}" alt="${item.name}" loading="lazy" /></div>
+                            <div class="info">
+                                <div class="name">${item.name || 'Produk'}</div>
+                                <div class="price">${price}</div>
+                            </div>
+                        </a>
+                    `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // ============================================================
+        // 11. FOLLOW / UNFOLLOW
+        // ============================================================
+        async function checkFollowStatus(sellerId) {
+            const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+            const snap = await get(followRef);
+            isFollowing = snap.exists();
+            updateFollowButton();
+        }
+
+        function updateFollowButton() {
+            const btn = document.getElementById('followBtn');
+            const text = document.getElementById('followText');
+            if (isFollowing) {
+                btn.classList.add('following');
+                text.textContent = 'Mengikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            } else {
+                btn.classList.remove('following');
+                text.textContent = 'Ikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            }
+        }
+
+        document.getElementById('followBtn').addEventListener('click', async function() {
+            const sellerId = sellerData?.id;
+            if (!sellerId) {
+                showToast('Toko tidak valid.', 'error');
+                return;
+            }
+            try {
+                const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+                if (isFollowing) {
+                    await set(followRef, null);
+                    isFollowing = false;
+                    showToast('Berhenti mengikuti toko.', 'info');
+                } else {
+                    await set(followRef, true);
+                    isFollowing = true;
+                    showToast('Berhasil mengikuti toko!', 'success');
+                }
+                updateFollowButton();
             } catch (err) {
                 showToast('Gagal: ' + err.message, 'error');
             }
-
-            btnSimpan.disabled = false;
-            btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
         });
 
         // ============================================================
-        // ============ FITUR BISNIS & RATING =========================
+        // 12. INIT
         // ============================================================
-
-        // --- ELEMEN ---
-        const registerStoreBtn = document.getElementById('registerStoreBtn');
-        const storeInfo = document.getElementById('storeInfo');
-        const storeNameDisplay = document.getElementById('storeNameDisplay');
-        const storeDescDisplay = document.getElementById('storeDescDisplay');
-        const storeFollowers = document.getElementById('storeFollowers');
-        const storeRating = document.getElementById('storeRating');
-        const storeTotalRatings = document.getElementById('storeTotalRatings');
-        const storeProductsList = document.getElementById('storeProductsList');
-        const riwayatList = document.getElementById('riwayatList');
-
-        // --- REFS ---
-        const sellerRef = ref(db, `logo-shop/sellers/${DEVICE_ID}`);
-        const productsRef = ref(db, 'logo-shop/products');
-        const ordersRef = ref(db, 'logo-shop/orders');
-
-        // --- CEK STATUS TOKO ---
-        function loadStoreInfo() {
-            onValue(sellerRef, (snap) => {
-                const sellerData = snap.val();
-                if (sellerData && sellerData.storeName) {
-                    // Sudah punya toko
-                    registerStoreBtn.style.display = 'none';
-                    storeInfo.style.display = 'block';
-                    storeNameDisplay.textContent = sellerData.storeName;
-                    storeDescDisplay.textContent = sellerData.description || 'Toko tanpa deskripsi.';
-                    storeFollowers.textContent = sellerData.followers || 0;
-                    storeRating.textContent = sellerData.rating ? sellerData.rating.toFixed(1) : '0.0';
-                    storeTotalRatings.textContent = sellerData.totalRatings || 0;
-                    loadStoreProducts(sellerData.storeName);
-                } else {
-                    // Belum punya toko
-                    registerStoreBtn.style.display = 'block';
-                    storeInfo.style.display = 'none';
-                }
-            }, { onlyOnce: true });
-        }
-
-        // --- TAMPILKAN PRODUK TOKO ---
-        function loadStoreProducts(storeName) {
-            onValue(productsRef, (snap) => {
-                const data = snap.val() || {};
-                let html = '';
-                let hasProduct = false;
-                for (const key in data) {
-                    const prod = data[key];
-                    if (prod.sellerId === DEVICE_ID && prod.storeName === storeName) {
-                        hasProduct = true;
-                        html += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
-                            <span>${prod.name || 'Tanpa nama'}</span>
-                            <span style="color:var(--accent-gold);">Rp ${new Intl.NumberFormat('id-ID').format(prod.price || 0)}</span>
-                        </div>`;
-                    }
-                }
-                if (!hasProduct) {
-                    html = '<span style="color:var(--text-muted);">Belum ada produk.</span>';
-                }
-                storeProductsList.innerHTML = html;
-            }, { onlyOnce: true });
-        }
-
-        // --- TAMPILKAN RIWAYAT PEMBELIAN ---
-        function loadRiwayat() {
-            onValue(ordersRef, async (snap) => {
-                const orders = snap.val() || {};
-                let html = '';
-                let hasOrder = false;
-
-                const userOrders = Object.entries(orders).filter(([key, order]) => order.buyerId === DEVICE_ID);
-                userOrders.sort((a, b) => (b[1].orderDate || 0) - (a[1].orderDate || 0));
-
-                for (const [key, order] of userOrders) {
-                    const status = order.status || 'pending';
-                    if (status !== 'completed' && status !== 'processing') continue;
-                    hasOrder = true;
-
-                    const productName = order.productName || 'Produk';
-                    const price = order.price ? `Rp ${new Intl.NumberFormat('id-ID').format(order.price)}` : '-';
-                    const orderDate = order.orderDate ? new Date(order.orderDate).toLocaleString('id-ID') : '—';
-
-                    let ratingGiven = false;
-                    if (status === 'completed') {
-                        const snapRatings = await get(ref(db, 'logo-shop/ratings'));
-                        const allRatings = snapRatings.val() || {};
-                        for (const rKey in allRatings) {
-                            const r = allRatings[rKey];
-                            if (r.buyerId === DEVICE_ID && r.orderId === key) {
-                                ratingGiven = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    html += `
-                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); gap:8px; flex-wrap:wrap;">
-                            <div>
-                                <div style="font-weight:600;">${productName}</div>
-                                <div style="font-size:0.7rem; color:var(--text-muted);">${orderDate} • ${price}</div>
-                                <span style="font-size:0.6rem; padding:2px 10px; border-radius:30px; background:${status === 'completed' ? 'var(--accent-green)' : '#f59e0b'}; color:#0a2a0a; font-weight:700;">
-                                    ${status === 'completed' ? '✅ Sukses' : '🔄 Diproses'}
-                                </span>
-                            </div>
-                            <div>
-                                ${status === 'completed' && !ratingGiven ? 
-                                    `<button class="btn-rating" data-orderkey="${key}" data-productname="${productName}" style="padding:4px 14px; border-radius:30px; border:none; background:var(--accent-gold); color:#0a2a0a; font-weight:600; cursor:pointer; font-size:0.7rem; transition:0.2s;">
-                                        <i class="fas fa-star"></i> Beri Rating
-                                    </button>` : 
-                                    (ratingGiven ? '<span style="font-size:0.7rem; color:var(--text-muted);"><i class="fas fa-check-circle" style="color:var(--accent-green);"></i> Sudah dinilai</span>' : '')
-                                }
-                            </div>
-                        </div>
-                    `;
-                }
-
-                if (!hasOrder) {
-                    html = `
-                        <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
-                            <i class="fas fa-shopping-bag" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
-                            Belum ada pembelian.
-                        </div>
-                    `;
-                }
-                riwayatList.innerHTML = html;
-
-                riwayatList.querySelectorAll('.btn-rating').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const orderKey = this.dataset.orderkey;
-                        const productName = this.dataset.productname;
-                        openRatingModal(orderKey, productName);
-                    });
-                });
-            }, { onlyOnce: true });
-        }
-
-        // --- MODAL RATING ---
-        let selectedRating = 0;
-        let currentOrderId = '';
-        let currentProductName = '';
-
-        const ratingModal = document.getElementById('ratingModal');
-        const ratingModalClose = document.getElementById('ratingModalClose');
-        const ratingCancel = document.getElementById('ratingCancel');
-        const ratingProductName = document.getElementById('ratingProductName');
-        const starContainer = document.getElementById('starContainer');
-        const ratingLabel = document.getElementById('ratingLabel');
-        const ratingReview = document.getElementById('ratingReview');
-        const charCount = document.getElementById('charCount');
-        const submitRatingBtn = document.getElementById('submitRating');
-
-        function openRatingModal(orderId, productName) {
-            currentOrderId = orderId;
-            currentProductName = productName;
-            ratingProductName.textContent = `Produk: ${productName}`;
-            selectedRating = 0;
-            ratingReview.value = '';
-            charCount.textContent = '0';
-            updateStars(0);
-            ratingLabel.textContent = 'Pilih bintang';
-            ratingModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeRatingModal() {
-            ratingModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        ratingModalClose.addEventListener('click', closeRatingModal);
-        ratingCancel.addEventListener('click', closeRatingModal);
-        ratingModal.addEventListener('click', (e) => { if (e.target === ratingModal) closeRatingModal(); });
-
-        starContainer.querySelectorAll('span').forEach(star => {
-            star.addEventListener('click', function() {
-                const val = parseInt(this.dataset.star);
-                selectedRating = val;
-                updateStars(val);
-                const labels = ['', 'Sangat Buruk', 'Buruk', 'Cukup', 'Baik', 'Sangat Baik'];
-                ratingLabel.textContent = labels[val] || 'Pilih bintang';
-            });
-            star.addEventListener('mouseenter', function() {
-                const val = parseInt(this.dataset.star);
-                updateStars(val, true);
-            });
-            star.addEventListener('mouseleave', function() {
-                updateStars(selectedRating);
-            });
-        });
-
-        function updateStars(val, hover = false) {
-            const stars = starContainer.querySelectorAll('span');
-            stars.forEach((s, i) => {
-                if (i < val) {
-                    s.textContent = '★';
-                    s.style.color = 'var(--accent-gold)';
-                } else {
-                    s.textContent = '☆';
-                    s.style.color = hover ? 'var(--text-muted)' : 'var(--text-muted)';
-                }
-            });
-        }
-
-        ratingReview.addEventListener('input', function() {
-            const len = this.value.length;
-            charCount.textContent = len;
-            if (len > 200) {
-                this.value = this.value.slice(0, 200);
-                charCount.textContent = 200;
-            }
-        });
-
-        submitRatingBtn.addEventListener('click', async function() {
-            if (selectedRating === 0) {
-                showToast('Pilih bintang terlebih dahulu!', 'error');
-                return;
-            }
-            const review = ratingReview.value.trim();
-            if (review.length === 0) {
-                showToast('Alasan wajib diisi!', 'error');
-                return;
-            }
-            if (review.length > 200) {
-                showToast('Alasan maksimal 200 karakter!', 'error');
-                return;
-            }
-
-            try {
-                const orderSnap = await get(ref(db, `logo-shop/orders/${currentOrderId}`));
-                const orderData = orderSnap.val();
-                if (!orderData) {
-                    showToast('Data pesanan tidak ditemukan.', 'error');
-                    return;
-                }
-                const productId = orderData.productId;
-                const sellerId = orderData.sellerId;
-
-                const ratingRef = push(ref(db, 'logo-shop/ratings'));
-                await set(ratingRef, {
-                    productId: productId,
-                    orderId: currentOrderId,
-                    buyerId: DEVICE_ID,
-                    sellerId: sellerId,
-                    storeName: orderData.storeName || '',
-                    rating: selectedRating,
-                    review: review,
-                    timestamp: new Date().toISOString()
-                });
-
-                await update(ref(db, `logo-shop/orders/${currentOrderId}`), { rated: true });
-                await updateProductRating(productId);
-                if (orderData.storeName) {
-                    await calculateStoreRating(orderData.storeName);
-                }
-
-                showToast('Rating berhasil dikirim!', 'success');
-                closeRatingModal();
-                loadRiwayat();
-
-            } catch (err) {
-                showToast('Gagal kirim rating: ' + err.message, 'error');
-            }
-        });
-
-        async function updateProductRating(productId) {
-            try {
-                const snap = await get(ref(db, 'logo-shop/ratings'));
-                const allRatings = snap.val() || {};
-                let total = 0;
-                let count = 0;
-                for (const key in allRatings) {
-                    const r = allRatings[key];
-                    if (r.productId === productId) {
-                        total += r.rating || 0;
-                        count++;
-                    }
-                }
-                const avg = count > 0 ? (total / count) : 0;
-                await update(ref(db, `logo-shop/products/${productId}`), {
-                    rating: avg,
-                    totalRatings: count
-                });
-            } catch (e) {
-                console.warn('Gagal update rating produk:', e);
-            }
-        }
-
-        async function calculateStoreRating(storeName) {
-            try {
-                const snap = await get(ref(db, 'logo-shop/ratings'));
-                const allRatings = snap.val() || {};
-                let total = 0;
-                let count = 0;
-                for (const key in allRatings) {
-                    const r = allRatings[key];
-                    if (r.storeName === storeName) {
-                        total += r.rating || 0;
-                        count++;
-                    }
-                }
-                const avg = count > 0 ? (total / count) : 0;
-                await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
-                    rating: avg,
-                    totalRatings: count
-                });
-                storeRating.textContent = avg.toFixed(1);
-                storeTotalRatings.textContent = count;
-            } catch (e) {
-                console.warn('Gagal hitung rating toko:', e);
-            }
-        }
-
-        // ============================================================
-        // INIT SEMUA FITUR
-        // ============================================================
-        loadStoreInfo();
-        loadRiwayat();
-
-        console.log('Profil dengan fitur bisnis & rating siap!');
+        loadData();
+        console.log('🚀 Detail page loaded. Product ID:', productId);
     </script>
+
 </body>
-</html>
+                </html>
