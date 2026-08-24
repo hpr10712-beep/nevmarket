@@ -1448,6 +1448,313 @@
                 <img id="heroImage" style="display:none;" alt="Hero Banner" />
             </div>
     </section>
+<!-- ============================================================
+     AJAKAN DAFTAR AKUN — GLOW ATAS & BAWAH + TRANSPARAN
+     ============================================================ -->
+<div id="registerBanner" style="
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(10, 46, 10, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(239, 178, 44, 0.15);
+    padding: 20px 22px 18px;
+    margin: 16px auto;
+    max-width: 460px;
+    text-align: center;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+    font-family: 'Inter', -apple-system, sans-serif;
+    animation: regFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+">
+
+    <!-- ===== GLOW ATAS ===== -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #efb22c, #f7d875, #efb22c, transparent);
+        border-radius: 0 0 6px 6px;
+        animation: regGoldPulse 3s ease-in-out infinite;
+    "></div>
+
+    <!-- ===== GLOW BAWAH ===== -->
+    <div style="
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #efb22c, #f7d875, #efb22c, transparent);
+        border-radius: 6px 6px 0 0;
+        animation: regGoldPulse 3s ease-in-out infinite 1.5s;
+    "></div>
+
+    <!-- ===== PARTIKEL HALUS ===== -->
+    <div style="
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    ">
+        <div style="position:absolute;width:3px;height:3px;background:rgba(239,178,44,0.10);border-radius:50%;top:15%;left:8%;animation:regParticle 14s ease-in-out infinite;"></div>
+        <div style="position:absolute;width:2px;height:2px;background:rgba(16,185,129,0.08);border-radius:50%;top:70%;left:88%;animation:regParticle 16s ease-in-out infinite 1.5s;"></div>
+        <div style="position:absolute;width:4px;height:4px;background:rgba(239,178,44,0.07);border-radius:50%;top:30%;left:78%;animation:regParticle 12s ease-in-out infinite 0.8s;"></div>
+        <div style="position:absolute;width:2px;height:2px;background:rgba(16,185,129,0.10);border-radius:50%;top:80%;left:15%;animation:regParticle 15s ease-in-out infinite 2s;"></div>
+    </div>
+
+    <!-- ===== KONTEN ===== -->
+    <div style="position: relative; z-index: 1;">
+
+        <!-- ===== JUDUL ===== -->
+        <div style="
+            font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+            font-weight: 800;
+            margin-bottom: 2px;
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        ">
+            <span style="
+                background: linear-gradient(135deg, #efb22c, #f7d875, #10b981);
+                background-size: 200% 200%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: regGoldGrad 4s ease-in-out infinite;
+            ">
+                Daftar Akun
+            </span>
+            <span style="
+                background: linear-gradient(135deg, #f7d875, #efb22c);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            ">
+                Sekarang!
+            </span>
+        </div>
+
+        <!-- ===== SUB JUDUL (Typing 4 Kalimat) ===== -->
+        <div style="
+            font-size: 0.85rem;
+            color: #b8d9b8;
+            max-width: 360px;
+            margin: 2px auto 12px;
+            line-height: 1.5;
+            font-weight: 400;
+            min-height: 2.2rem;
+        ">
+            <span id="typingText" style="color: #d4d0c0;"></span>
+            <span style="
+                display: inline-block;
+                width: 2px;
+                height: 0.85rem;
+                background: #efb22c;
+                margin-left: 2px;
+                vertical-align: text-bottom;
+                animation: regBlink 0.9s step-end infinite;
+            "></span>
+        </div>
+
+        <!-- ===== TOMBOL DAFTAR ===== -->
+        <a href="profil-user.html" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 28px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid rgba(239, 178, 44, 0.18);
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.20);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        "
+        onmouseover="this.style.transform='scale(1.03)';this.style.boxShadow='0 6px 20px rgba(16,185,129,0.30)'"
+        onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(16,185,129,0.20)'">
+            <span style="
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(239, 178, 44, 0.06), transparent 50%);
+                pointer-events: none;
+                border-radius: 50px;
+            "></span>
+            <span style="position: relative; z-index: 1; display: flex; align-items: center; gap: 6px;">
+                <span style="color: #f7d875; font-size: 0.7rem;">✦</span>
+                Klik Untuk Daftar
+                <span style="display:inline-block;transition:transform 0.3s ease;color:#f7d875;font-size:0.7rem;">-></span>
+            </span>
+        </a>
+
+        <!-- ===== TEKS KECIL ===== -->
+        <p style="
+            margin-top: 8px;
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 0.3px;
+        ">
+            <span style="color: rgba(239, 178, 44, 0.20);">✦</span>
+            Gratis &amp; hanya 1 menit
+            <span style="color: rgba(239, 178, 44, 0.20);">✦</span>
+        </p>
+    </div>
+</div>
+
+<!-- ============================================================
+     ANIMASI CSS
+     ============================================================ -->
+<style>
+    @keyframes regFadeIn {
+        0% { opacity: 0; transform: translateY(12px) scale(0.97); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes regParticle {
+        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+        25% { transform: translate(15px, -20px) scale(1.5); opacity: 0.6; }
+        50% { transform: translate(-10px, -32px) scale(0.7); opacity: 0.3; }
+        75% { transform: translate(20px, -12px) scale(1.2); opacity: 0.7; }
+    }
+
+    @keyframes regGoldPulse {
+        0%, 100% { opacity: 0.4; width: 60px; }
+        50% { opacity: 1; width: 100px; }
+    }
+
+    @keyframes regGoldGrad {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    @keyframes regBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>
+
+<!-- ============================================================
+     FONT AWESOME
+     ============================================================ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<!-- ============================================================
+     JAVASCRIPT — TYPING 4 KALIMAT + DETEKSI PROFIL
+     ============================================================ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+        authDomain: "mybro-9ba5f.firebaseapp.com",
+        databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+        projectId: "mybro-9ba5f"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    function getDeviceId() {
+        let id = localStorage.getItem('logoShop_deviceId');
+        if (!id) {
+            id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+            localStorage.setItem('logoShop_deviceId', id);
+        }
+        return id;
+    }
+    const DEVICE_ID = getDeviceId();
+
+    const typingElement = document.getElementById('typingText');
+
+    const textLines = [
+        'Dapatkan Akses Semua Produk Dan Event Kami',
+        'Dengan Daftar Akun Anda Untuk Profil Anda',
+        'Proses Daftar Akun Hanya Sebentar Kok',
+        'Ayo Daftar Sekarang'
+    ];
+
+    let lineIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let currentText = '';
+    let isPaused = false;
+
+    function typeEffect() {
+        if (isPaused) {
+            setTimeout(typeEffect, 100);
+            return;
+        }
+
+        const fullText = textLines[lineIndex];
+
+        if (isDeleting) {
+            currentText = fullText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            currentText = fullText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        typingElement.textContent = currentText;
+
+        let speed = isDeleting ? 20 : 35;
+
+        if (!isDeleting && charIndex === fullText.length) {
+            isPaused = true;
+            setTimeout(() => {
+                isPaused = false;
+                isDeleting = true;
+                typeEffect();
+            }, 1200);
+            return;
+        }
+
+        if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            lineIndex = (lineIndex + 1) % textLines.length;
+            if (lineIndex === 0) {
+                isPaused = true;
+                setTimeout(() => {
+                    isPaused = false;
+                    typeEffect();
+                }, 600);
+                return;
+            }
+            speed = 300;
+        }
+
+        setTimeout(typeEffect, speed);
+    }
+
+    async function checkProfile() {
+        try {
+            const snap = await get(ref(db, `logo-shop/users/${DEVICE_ID}`));
+            const data = snap.val();
+            if (data && data.nama && data.wa) {
+                const banner = document.getElementById('registerBanner');
+                if (banner) banner.style.display = 'none';
+                return true;
+            }
+            return false;
+        } catch (e) { return false; }
+    }
+
+    checkProfile().then(hasProfile => {
+        if (!hasProfile) {
+            setTimeout(typeEffect, 500);
+        }
+    });
+</script>
 
     <!-- ============================================================
     SPONSOR IKLAN
@@ -1560,65 +1867,6 @@
             </div>
             <div class="news-scroll" id="newsGrid">
                 <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat berita...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-    FAQ
-    ============================================================ -->
-    <section class="faq-section" id="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-question-circle"></i> Pertanyaan Umum (FAQ)</h2>
-                <p>Jawaban atas pertanyaan yang sering diajukan</p>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bagaimana cara membeli produk digital?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Anda dapat mengunjungi halaman <strong>Produk</strong>, pilih item yang diinginkan, lalu ikuti petunjuk pembayaran. Setelah pembayaran dikonfirmasi, Anda akan mendapatkan akses unduh atau tautan produk via email.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Apakah produk digital bisa dikembalikan?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Karena sifatnya digital, produk tidak dapat dikembalikan. Namun jika Anda mengalami masalah dengan file atau tautan, tim kami siap membantu menyelesaikan kendala tersebut.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Metode pembayaran apa saja yang tersedia?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Kami menerima transfer bank (BCA, Mandiri, BRI), e-wallet (OVO, Dana, GoPay), dan pembayaran via QRIS. Detail akan diberikan saat proses checkout.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bagaimana cara memesan jasa desain atau pengembangan?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Kunjungi halaman <strong>Jasa</strong>, pilih layanan yang Anda butuhkan, lalu isi formulir permintaan. Kami akan menghubungi Anda dalam 1x24 jam untuk diskusi lebih lanjut.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Apakah ada garansi untuk jasa yang diberikan?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Ya, setiap layanan jasa dilengkapi dengan garansi kepuasan dan revisi sesuai dengan kesepakatan awal. Detail garansi akan dijelaskan sebelum proyek dimulai.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
