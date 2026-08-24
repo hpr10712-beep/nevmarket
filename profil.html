@@ -21,7 +21,7 @@
 
     <style>
         /* ============================================================
-           RESET
+           RESET (TIDAK DIUBAH)
            ============================================================ */
         * {
             margin: 0;
@@ -64,7 +64,6 @@
             overflow-x: hidden;
         }
 
-        /* Dekorasi lapangan */
         body::before {
             content: '';
             position: fixed;
@@ -87,7 +86,7 @@
         }
 
         /* ============================================================
-           NAVBAR
+           NAVBAR (TIDAK DIUBAH)
            ============================================================ */
         .navbar {
             position: fixed;
@@ -187,7 +186,7 @@
         }
 
         /* ============================================================
-           PROFIL HEADER
+           PROFIL HEADER (TIDAK DIUBAH)
            ============================================================ */
         .profile-header {
             margin-top: 80px;
@@ -195,7 +194,6 @@
             text-align: center;
         }
 
-        /* ===== AVATAR DENGAN EFEK PULSE GLOW ===== */
         .profile-avatar {
             width: 88px;
             height: 88px;
@@ -252,7 +250,6 @@
             color: var(--accent-gold);
         }
 
-        /* ===== TYPING SAPAAN ===== */
         .typing-greeting {
             font-size: 1.05rem;
             font-weight: 400;
@@ -276,7 +273,7 @@
         }
 
         /* ============================================================
-           KARTU FORM
+           KARTU FORM (TIDAK DIUBAH)
            ============================================================ */
         .form-card {
             background: var(--bg-card);
@@ -328,7 +325,6 @@
             color: #ff6b6b;
         }
 
-        /* ===== FORM — TANPA ICON & TANPA ASTERISK MERAH ===== */
         .form-group {
             margin-bottom: 16px;
         }
@@ -368,14 +364,12 @@
             resize: vertical;
         }
 
-        /* Grid 2 kolom untuk WA & Email */
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
 
-        /* ===== TOMBOL SIMPAN ===== */
         .btn-save {
             width: 100%;
             padding: 13px;
@@ -404,11 +398,7 @@
             transform: none;
             box-shadow: none;
         }
-        .btn-save i {
-            font-size: 0.95rem;
-        }
 
-        /* ===== TOMBOL KEMBALI — DIPERBESAR ===== */
         .back-row {
             text-align: center;
             margin-bottom: 32px;
@@ -439,7 +429,53 @@
         }
 
         /* ============================================================
-           TOAST
+           TOMBOL AYO BUAT AKUN BISNIS (BARU)
+           ============================================================ */
+        .btn-business {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+            padding: 16px 28px;
+            background: linear-gradient(135deg, #efb22c, #f7d875, #efb22c);
+            background-size: 200% 200%;
+            color: #0a2a0a;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: inherit;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 32px rgba(239, 178, 44, 0.25);
+            animation: btnBusinessPulse 2.5s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-business:hover {
+            transform: scale(1.03) translateY(-3px);
+            box-shadow: 0 12px 48px rgba(239, 178, 44, 0.4);
+        }
+        .btn-business i {
+            font-size: 1.3rem;
+        }
+        .btn-business .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .btn-business:hover .arrow {
+            transform: translateX(6px);
+        }
+
+        @keyframes btnBusinessPulse {
+            0%, 100% { box-shadow: 0 8px 32px rgba(239, 178, 44, 0.25); }
+            50% { box-shadow: 0 8px 48px rgba(239, 178, 44, 0.45); }
+        }
+
+        /* ============================================================
+           TOAST (TIDAK DIUBAH)
            ============================================================ */
         .toast {
             position: fixed;
@@ -472,7 +508,103 @@
         }
 
         /* ============================================================
-           RESPONSIVE
+           MODAL RATING (BARU)
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px);
+            padding: 16px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            max-width: 480px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px 30px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { opacity:0; transform: translateY(20px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .modal-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-close:hover { color: var(--text-primary); }
+
+        .form-actions {
+            display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+        }
+        .form-actions .btn-submit {
+            padding: 8px 24px;
+            border-radius: 40px;
+            border: none;
+            background: var(--accent-green);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .form-actions .btn-submit:hover { background: var(--accent-green-dark); }
+        .form-actions .btn-cancel {
+            padding: 8px 24px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .form-actions .btn-cancel:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        #starContainer span {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-muted);
+            user-select: none;
+        }
+        #starContainer span.active {
+            color: var(--accent-gold);
+        }
+        #starContainer span:hover {
+            transform: scale(1.1);
+        }
+
+        /* ============================================================
+           RESPONSIVE (TIDAK DIUBAH)
            ============================================================ */
         @media (max-width: 600px) {
             .form-card {
@@ -505,8 +637,17 @@
             .typing-greeting {
                 font-size: 0.9rem;
             }
+            .modal {
+                padding: 20px;
+            }
+            #starContainer span {
+                font-size: 1.6rem;
+            }
+            .btn-business {
+                font-size: 1rem;
+                padding: 14px 20px;
+            }
         }
-
         @media (max-width: 400px) {
             .container {
                 padding: 0 14px;
@@ -524,7 +665,7 @@
 <body>
 
     <!-- ============================================================
-    NAVBAR — URUTAN: Berita, Produk, Profil, Jasa, Tentang
+    NAVBAR (TIDAK DIUBAH)
     ============================================================ -->
     <nav class="navbar">
         <div class="container-nav">
@@ -544,7 +685,7 @@
     </nav>
 
     <!-- ============================================================
-    PROFIL HEADER
+    PROFIL HEADER (TIDAK DIUBAH)
     ============================================================ -->
     <div class="profile-header">
         <div class="container">
@@ -552,7 +693,6 @@
                 <i class="fas fa-user"></i>
             </div>
             <div class="profile-name" id="displayName">Pengguna</div>
-            <!-- TYPING GREETING -->
             <div class="typing-greeting" id="typingGreeting"></div>
             <div class="profile-id" id="deviceIdDisplay">
                 <i class="fas fa-microchip"></i> ID: memuat...
@@ -561,7 +701,7 @@
     </div>
 
     <!-- ============================================================
-    FORM
+    FORM DATA DIRI (TIDAK DIUBAH)
     ============================================================ -->
     <div class="container">
         <div class="form-card">
@@ -575,13 +715,10 @@
             </div>
 
             <form id="profileForm" autocomplete="off">
-                <!-- Nama Panggilan (tanpa *) -->
                 <div class="form-group">
                     <label>Nama Panggilan</label>
                     <input type="text" id="nama" placeholder="Masukkan nama panggilan Anda" required />
                 </div>
-
-                <!-- Row: WA + Email (WA tanpa *) -->
                 <div class="form-row">
                     <div class="form-group">
                         <label>WhatsApp</label>
@@ -592,20 +729,85 @@
                         <input type="email" id="email" placeholder="email@example.com" />
                     </div>
                 </div>
-
-                <!-- Catatan -->
                 <div class="form-group">
                     <label>Catatan <span class="optional">(opsional)</span></label>
                     <textarea id="catatan" placeholder="Informasi tambahan untuk admin..."></textarea>
                 </div>
-
                 <button type="submit" class="btn-save" id="btnSimpan">
                     <i class="fas fa-save"></i> Simpan Profil
                 </button>
             </form>
         </div>
 
-        <!-- Kembali (diperbesar) -->
+        <!-- ============================================================
+        AKUN BISNIS (DIUBAH MENJADI TOMBOL KE akun_bisnis.html)
+        ============================================================ -->
+        <div id="businessSection">
+
+            <!-- Tombol Ayo Buat Akun Bisnis (muncul jika belum punya toko) -->
+            <div id="registerStoreBtn" class="form-card" style="margin-top:0; text-align:center;">
+                <div style="margin-bottom:10px;">
+                    <i class="fas fa-store-alt" style="font-size:3rem; color:var(--accent-gold); opacity:0.6;"></i>
+                </div>
+                <h3 style="color:var(--text-primary); margin-bottom:6px;">Jualan di NEV Market?</h3>
+                <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:18px;">
+                    Daftarkan toko Anda dan mulai jual produk digital & jasa
+                </p>
+                <a href="akun_bisnis.html" class="btn-business">
+                    <i class="fas fa-store"></i>
+                    Ayo Buat Akun Bisnis
+                    <span class="arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+            </div>
+
+            <!-- Info Toko (muncul jika sudah punya toko) -->
+            <div id="storeInfo" class="form-card" style="margin-top:0; display:none;">
+                <div class="card-head">
+                    <div class="title">
+                        <i class="fas fa-store"></i> Toko Saya
+                    </div>
+                    <span style="background:var(--accent-green); padding:4px 14px; border-radius:30px; font-size:0.7rem; font-weight:700; color:#0a2a0a;">Aktif</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <h3 id="storeNameDisplay" style="color:var(--accent-gold); font-size:1.3rem;"></h3>
+                        <p id="storeDescDisplay" style="color:var(--text-secondary); font-size:0.9rem;"></p>
+                        <div style="display:flex; gap:20px; margin-top:8px; font-size:0.85rem; flex-wrap:wrap;">
+                            <span><i class="fas fa-users" style="color:var(--accent-gold);"></i> <span id="storeFollowers">0</span> Pengikut</span>
+                            <span><i class="fas fa-star" style="color:var(--accent-gold);"></i> <span id="storeRating">0.0</span> (dari <span id="storeTotalRatings">0</span> rating)</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:16px; border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
+                    <h4 style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:6px;"><i class="fas fa-box"></i> Produk Anda</h4>
+                    <div id="storeProductsList" style="font-size:0.8rem; color:var(--text-secondary);">
+                        <span style="color:var(--text-muted);">Belum ada produk.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+            RIWAYAT PEMBELIAN (BARU)
+            ============================================================ -->
+            <div id="riwayatSection" class="form-card" style="margin-top:20px;">
+                <div class="card-head">
+                    <div class="title">
+                        <i class="fas fa-history"></i> Riwayat Pembelian
+                    </div>
+                    <span style="font-size:0.7rem; color:var(--text-muted);">Sukses & Diproses</span>
+                </div>
+                <div id="riwayatList" style="max-height:300px; overflow-y:auto;">
+                    <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
+                        <i class="fas fa-shopping-bag" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
+                        Belum ada pembelian.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        TOMBOL KEMBALI (TIDAK DIUBAH)
+        ============================================================ -->
         <div class="back-row">
             <a href="index.html" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Kembali ke Beranda
@@ -615,7 +817,39 @@
     </div>
 
     <!-- ============================================================
-    TOAST
+    MODAL RATING (BARU)
+    ============================================================ -->
+    <div class="modal-overlay" id="ratingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-star" style="color:var(--accent-gold);"></i> Beri Rating</h2>
+                <button class="modal-close" id="ratingModalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div style="margin-bottom:12px;">
+                <p style="color:var(--text-secondary); font-size:0.85rem;" id="ratingProductName">Produk: ...</p>
+                <div style="display:flex; gap:6px; font-size:2rem; cursor:pointer; margin:8px 0;" id="starContainer">
+                    <span data-star="1">☆</span>
+                    <span data-star="2">☆</span>
+                    <span data-star="3">☆</span>
+                    <span data-star="4">☆</span>
+                    <span data-star="5">☆</span>
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;" id="ratingLabel">Pilih bintang</div>
+            </div>
+            <div class="form-group">
+                <label>Alasan (maks 200 karakter)</label>
+                <textarea id="ratingReview" rows="3" maxlength="200" placeholder="Tulis alasan Anda..." style="width:100%; padding:8px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border-color); border-radius:var(--radius-md); color:var(--text-primary); font-family:inherit; resize:vertical;"></textarea>
+                <div style="text-align:right; font-size:0.7rem; color:var(--text-muted);"><span id="charCount">0</span>/200</div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-submit" id="submitRating" style="background:var(--accent-gold); color:#0a2a0a;">Kirim Rating</button>
+                <button class="btn-cancel" id="ratingCancel">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST (TIDAK DIUBAH)
     ============================================================ -->
     <div class="toast" id="toast">
         <i class="fas fa-info-circle"></i>
@@ -623,11 +857,14 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT
+    SCRIPT (TAMBAHAN FITUR BISNIS & RATING)
     ============================================================ -->
     <script type="module">
+        // ============================================================
+        // IMPORTS
+        // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue, update } from "firebase-database";
+        import { getDatabase, ref, onValue, update, get } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -638,7 +875,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ===== DEVICE ID =====
+        // ============================================================
+        // DEVICE ID
+        // ============================================================
         function getDeviceId() {
             let id = localStorage.getItem('logoShop_deviceId');
             if (!id) {
@@ -651,7 +890,9 @@
         document.getElementById('deviceIdDisplay').innerHTML =
             '<i class="fas fa-microchip"></i> ID: ' + DEVICE_ID.slice(0, 14) + '…';
 
-        // ===== TOAST =====
+        // ============================================================
+        // TOAST
+        // ============================================================
         function showToast(msg, type = 'info') {
             const t = document.getElementById('toast');
             const m = document.getElementById('toastMsg');
@@ -663,12 +904,16 @@
             t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
         }
 
-        // ===== HAMBURGER =====
+        // ============================================================
+        // HAMBURGER
+        // ============================================================
         document.getElementById('hamburger').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('open');
         });
 
-        // ===== ELEMEN =====
+        // ============================================================
+        // ELEMEN DATA DIRI
+        // ============================================================
         const form = document.getElementById('profileForm');
         const btnSimpan = document.getElementById('btnSimpan');
         const statusBadge = document.getElementById('statusBadge');
@@ -683,26 +928,23 @@
         };
         const displayName = document.getElementById('displayName');
 
-        // ===== ANIMASI TYPING =====
+        // ============================================================
+        // TYPING GREETING
+        // ============================================================
         function typeGreeting(text, callback) {
             typingEl.innerHTML = '';
             let index = 0;
-            const cursorSpan = document.createElement('span');
-            cursorSpan.className = 'cursor';
             const interval = setInterval(() => {
                 if (index < text.length) {
                     typingEl.innerHTML = text.substring(0, index + 1) + ' ';
-                    // tambahkan cursor
-                    const cursor = typingEl.querySelector('.cursor');
-                    if (!cursor) {
-                        const newCursor = document.createElement('span');
-                        newCursor.className = 'cursor';
-                        typingEl.appendChild(newCursor);
+                    if (!typingEl.querySelector('.cursor')) {
+                        const c = document.createElement('span');
+                        c.className = 'cursor';
+                        typingEl.appendChild(c);
                     }
                     index++;
                 } else {
                     clearInterval(interval);
-                    // pastikan cursor tetap ada
                     if (!typingEl.querySelector('.cursor')) {
                         const c = document.createElement('span');
                         c.className = 'cursor';
@@ -713,12 +955,12 @@
             }, 50);
         }
 
-        // ===== UPDATE UI =====
+        // ============================================================
+        // UPDATE UI DATA DIRI
+        // ============================================================
         function updateUI(data) {
             const nama = data.nama || 'Pengguna';
             displayName.textContent = nama;
-
-            // Avatar
             if (nama && nama !== 'Pengguna') {
                 avatarDisplay.textContent = nama.charAt(0).toUpperCase();
                 avatarDisplay.style.fontSize = '2.2rem';
@@ -728,8 +970,6 @@
                 avatarDisplay.style.fontSize = '2.6rem';
                 avatarDisplay.style.fontWeight = 'normal';
             }
-
-            // Status badge
             const isComplete = data.nama && data.wa;
             if (isComplete) {
                 statusBadge.className = 'status complete';
@@ -738,15 +978,15 @@
                 statusBadge.className = 'status incomplete';
                 statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum lengkap';
             }
-
-            // Typing greeting (hanya jika nama berubah atau pertama kali)
             const greetingText = nama !== 'Pengguna'
                 ? `Halo, ${nama}! Selamat datang kembali.`
                 : 'Selamat datang! Lengkapi profilmu.';
             typeGreeting(greetingText);
         }
 
-        // ===== LOAD DATA =====
+        // ============================================================
+        // LOAD DATA DIRI
+        // ============================================================
         const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
         onValue(userRef, (snap) => {
             const data = snap.val() || {};
@@ -757,7 +997,9 @@
             updateUI(data);
         });
 
-        // ===== SIMPAN =====
+        // ============================================================
+        // SIMPAN DATA DIRI
+        // ============================================================
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             btnSimpan.disabled = true;
@@ -771,7 +1013,6 @@
                 lastUpdate: new Date().toISOString()
             };
 
-            // Validasi wajib (tanpa asterisk di UI)
             if (!data.nama || !data.wa) {
                 showToast('Nama dan WhatsApp wajib diisi!', 'error');
                 btnSimpan.disabled = false;
@@ -791,7 +1032,327 @@
             btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
         });
 
-        
+        // ============================================================
+        // ============ FITUR BISNIS & RATING =========================
+        // ============================================================
+
+        // --- ELEMEN ---
+        const registerStoreBtn = document.getElementById('registerStoreBtn');
+        const storeInfo = document.getElementById('storeInfo');
+        const storeNameDisplay = document.getElementById('storeNameDisplay');
+        const storeDescDisplay = document.getElementById('storeDescDisplay');
+        const storeFollowers = document.getElementById('storeFollowers');
+        const storeRating = document.getElementById('storeRating');
+        const storeTotalRatings = document.getElementById('storeTotalRatings');
+        const storeProductsList = document.getElementById('storeProductsList');
+        const riwayatList = document.getElementById('riwayatList');
+
+        // --- REFS ---
+        const sellerRef = ref(db, `logo-shop/sellers/${DEVICE_ID}`);
+        const productsRef = ref(db, 'logo-shop/products');
+        const ordersRef = ref(db, 'logo-shop/orders');
+
+        // --- CEK STATUS TOKO ---
+        function loadStoreInfo() {
+            onValue(sellerRef, (snap) => {
+                const sellerData = snap.val();
+                if (sellerData && sellerData.storeName) {
+                    // Sudah punya toko
+                    registerStoreBtn.style.display = 'none';
+                    storeInfo.style.display = 'block';
+                    storeNameDisplay.textContent = sellerData.storeName;
+                    storeDescDisplay.textContent = sellerData.description || 'Toko tanpa deskripsi.';
+                    storeFollowers.textContent = sellerData.followers || 0;
+                    storeRating.textContent = sellerData.rating ? sellerData.rating.toFixed(1) : '0.0';
+                    storeTotalRatings.textContent = sellerData.totalRatings || 0;
+                    loadStoreProducts(sellerData.storeName);
+                } else {
+                    // Belum punya toko
+                    registerStoreBtn.style.display = 'block';
+                    storeInfo.style.display = 'none';
+                }
+            }, { onlyOnce: true });
+        }
+
+        // --- TAMPILKAN PRODUK TOKO ---
+        function loadStoreProducts(storeName) {
+            onValue(productsRef, (snap) => {
+                const data = snap.val() || {};
+                let html = '';
+                let hasProduct = false;
+                for (const key in data) {
+                    const prod = data[key];
+                    if (prod.sellerId === DEVICE_ID && prod.storeName === storeName) {
+                        hasProduct = true;
+                        html += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+                            <span>${prod.name || 'Tanpa nama'}</span>
+                            <span style="color:var(--accent-gold);">Rp ${new Intl.NumberFormat('id-ID').format(prod.price || 0)}</span>
+                        </div>`;
+                    }
+                }
+                if (!hasProduct) {
+                    html = '<span style="color:var(--text-muted);">Belum ada produk.</span>';
+                }
+                storeProductsList.innerHTML = html;
+            }, { onlyOnce: true });
+        }
+
+        // --- TAMPILKAN RIWAYAT PEMBELIAN ---
+        function loadRiwayat() {
+            onValue(ordersRef, async (snap) => {
+                const orders = snap.val() || {};
+                let html = '';
+                let hasOrder = false;
+
+                const userOrders = Object.entries(orders).filter(([key, order]) => order.buyerId === DEVICE_ID);
+                userOrders.sort((a, b) => (b[1].orderDate || 0) - (a[1].orderDate || 0));
+
+                for (const [key, order] of userOrders) {
+                    const status = order.status || 'pending';
+                    if (status !== 'completed' && status !== 'processing') continue;
+                    hasOrder = true;
+
+                    const productName = order.productName || 'Produk';
+                    const price = order.price ? `Rp ${new Intl.NumberFormat('id-ID').format(order.price)}` : '-';
+                    const orderDate = order.orderDate ? new Date(order.orderDate).toLocaleString('id-ID') : '—';
+
+                    let ratingGiven = false;
+                    if (status === 'completed') {
+                        const snapRatings = await get(ref(db, 'logo-shop/ratings'));
+                        const allRatings = snapRatings.val() || {};
+                        for (const rKey in allRatings) {
+                            const r = allRatings[rKey];
+                            if (r.buyerId === DEVICE_ID && r.orderId === key) {
+                                ratingGiven = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    html += `
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); gap:8px; flex-wrap:wrap;">
+                            <div>
+                                <div style="font-weight:600;">${productName}</div>
+                                <div style="font-size:0.7rem; color:var(--text-muted);">${orderDate} • ${price}</div>
+                                <span style="font-size:0.6rem; padding:2px 10px; border-radius:30px; background:${status === 'completed' ? 'var(--accent-green)' : '#f59e0b'}; color:#0a2a0a; font-weight:700;">
+                                    ${status === 'completed' ? '✅ Sukses' : '🔄 Diproses'}
+                                </span>
+                            </div>
+                            <div>
+                                ${status === 'completed' && !ratingGiven ? 
+                                    `<button class="btn-rating" data-orderkey="${key}" data-productname="${productName}" style="padding:4px 14px; border-radius:30px; border:none; background:var(--accent-gold); color:#0a2a0a; font-weight:600; cursor:pointer; font-size:0.7rem; transition:0.2s;">
+                                        <i class="fas fa-star"></i> Beri Rating
+                                    </button>` : 
+                                    (ratingGiven ? '<span style="font-size:0.7rem; color:var(--text-muted);"><i class="fas fa-check-circle" style="color:var(--accent-green);"></i> Sudah dinilai</span>' : '')
+                                }
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (!hasOrder) {
+                    html = `
+                        <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
+                            <i class="fas fa-shopping-bag" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
+                            Belum ada pembelian.
+                        </div>
+                    `;
+                }
+                riwayatList.innerHTML = html;
+
+                riwayatList.querySelectorAll('.btn-rating').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const orderKey = this.dataset.orderkey;
+                        const productName = this.dataset.productname;
+                        openRatingModal(orderKey, productName);
+                    });
+                });
+            }, { onlyOnce: true });
+        }
+
+        // --- MODAL RATING ---
+        let selectedRating = 0;
+        let currentOrderId = '';
+        let currentProductName = '';
+
+        const ratingModal = document.getElementById('ratingModal');
+        const ratingModalClose = document.getElementById('ratingModalClose');
+        const ratingCancel = document.getElementById('ratingCancel');
+        const ratingProductName = document.getElementById('ratingProductName');
+        const starContainer = document.getElementById('starContainer');
+        const ratingLabel = document.getElementById('ratingLabel');
+        const ratingReview = document.getElementById('ratingReview');
+        const charCount = document.getElementById('charCount');
+        const submitRatingBtn = document.getElementById('submitRating');
+
+        function openRatingModal(orderId, productName) {
+            currentOrderId = orderId;
+            currentProductName = productName;
+            ratingProductName.textContent = `Produk: ${productName}`;
+            selectedRating = 0;
+            ratingReview.value = '';
+            charCount.textContent = '0';
+            updateStars(0);
+            ratingLabel.textContent = 'Pilih bintang';
+            ratingModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRatingModal() {
+            ratingModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        ratingModalClose.addEventListener('click', closeRatingModal);
+        ratingCancel.addEventListener('click', closeRatingModal);
+        ratingModal.addEventListener('click', (e) => { if (e.target === ratingModal) closeRatingModal(); });
+
+        starContainer.querySelectorAll('span').forEach(star => {
+            star.addEventListener('click', function() {
+                const val = parseInt(this.dataset.star);
+                selectedRating = val;
+                updateStars(val);
+                const labels = ['', 'Sangat Buruk', 'Buruk', 'Cukup', 'Baik', 'Sangat Baik'];
+                ratingLabel.textContent = labels[val] || 'Pilih bintang';
+            });
+            star.addEventListener('mouseenter', function() {
+                const val = parseInt(this.dataset.star);
+                updateStars(val, true);
+            });
+            star.addEventListener('mouseleave', function() {
+                updateStars(selectedRating);
+            });
+        });
+
+        function updateStars(val, hover = false) {
+            const stars = starContainer.querySelectorAll('span');
+            stars.forEach((s, i) => {
+                if (i < val) {
+                    s.textContent = '★';
+                    s.style.color = 'var(--accent-gold)';
+                } else {
+                    s.textContent = '☆';
+                    s.style.color = hover ? 'var(--text-muted)' : 'var(--text-muted)';
+                }
+            });
+        }
+
+        ratingReview.addEventListener('input', function() {
+            const len = this.value.length;
+            charCount.textContent = len;
+            if (len > 200) {
+                this.value = this.value.slice(0, 200);
+                charCount.textContent = 200;
+            }
+        });
+
+        submitRatingBtn.addEventListener('click', async function() {
+            if (selectedRating === 0) {
+                showToast('Pilih bintang terlebih dahulu!', 'error');
+                return;
+            }
+            const review = ratingReview.value.trim();
+            if (review.length === 0) {
+                showToast('Alasan wajib diisi!', 'error');
+                return;
+            }
+            if (review.length > 200) {
+                showToast('Alasan maksimal 200 karakter!', 'error');
+                return;
+            }
+
+            try {
+                const orderSnap = await get(ref(db, `logo-shop/orders/${currentOrderId}`));
+                const orderData = orderSnap.val();
+                if (!orderData) {
+                    showToast('Data pesanan tidak ditemukan.', 'error');
+                    return;
+                }
+                const productId = orderData.productId;
+                const sellerId = orderData.sellerId;
+
+                const ratingRef = push(ref(db, 'logo-shop/ratings'));
+                await set(ratingRef, {
+                    productId: productId,
+                    orderId: currentOrderId,
+                    buyerId: DEVICE_ID,
+                    sellerId: sellerId,
+                    storeName: orderData.storeName || '',
+                    rating: selectedRating,
+                    review: review,
+                    timestamp: new Date().toISOString()
+                });
+
+                await update(ref(db, `logo-shop/orders/${currentOrderId}`), { rated: true });
+                await updateProductRating(productId);
+                if (orderData.storeName) {
+                    await calculateStoreRating(orderData.storeName);
+                }
+
+                showToast('Rating berhasil dikirim!', 'success');
+                closeRatingModal();
+                loadRiwayat();
+
+            } catch (err) {
+                showToast('Gagal kirim rating: ' + err.message, 'error');
+            }
+        });
+
+        async function updateProductRating(productId) {
+            try {
+                const snap = await get(ref(db, 'logo-shop/ratings'));
+                const allRatings = snap.val() || {};
+                let total = 0;
+                let count = 0;
+                for (const key in allRatings) {
+                    const r = allRatings[key];
+                    if (r.productId === productId) {
+                        total += r.rating || 0;
+                        count++;
+                    }
+                }
+                const avg = count > 0 ? (total / count) : 0;
+                await update(ref(db, `logo-shop/products/${productId}`), {
+                    rating: avg,
+                    totalRatings: count
+                });
+            } catch (e) {
+                console.warn('Gagal update rating produk:', e);
+            }
+        }
+
+        async function calculateStoreRating(storeName) {
+            try {
+                const snap = await get(ref(db, 'logo-shop/ratings'));
+                const allRatings = snap.val() || {};
+                let total = 0;
+                let count = 0;
+                for (const key in allRatings) {
+                    const r = allRatings[key];
+                    if (r.storeName === storeName) {
+                        total += r.rating || 0;
+                        count++;
+                    }
+                }
+                const avg = count > 0 ? (total / count) : 0;
+                await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
+                    rating: avg,
+                    totalRatings: count
+                });
+                storeRating.textContent = avg.toFixed(1);
+                storeTotalRatings.textContent = count;
+            } catch (e) {
+                console.warn('Gagal hitung rating toko:', e);
+            }
+        }
+
+        // ============================================================
+        // INIT SEMUA FITUR
+        // ============================================================
+        loadStoreInfo();
+        loadRiwayat();
+
+        console.log('Profil dengan fitur bisnis & rating siap!');
     </script>
 </body>
 </html>
