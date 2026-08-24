@@ -36,14 +36,17 @@
             --border-color: rgba(239, 178, 44, 0.20);
             --text-primary: #ffffff;
             --text-secondary: #b8d9b8;
+            --text-muted: rgba(255, 255, 255, 0.4);
             --accent-gold: #efb22c;
             --accent-blue: #2563eb;
             --accent-purple: #8b5cf6;
             --accent-green: #10b981;
+            --accent-red: #ef4444;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
             --radius-lg: 20px;
             --radius-md: 14px;
+            --radius-sm: 8px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -334,6 +337,89 @@
         }
 
         /* ============================================================
+           SKELETON LOADING
+           ============================================================ */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .skeleton {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.04) 25%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.04) 75%,
+                    transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s ease-in-out infinite;
+        }
+
+        .skeleton-img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .skeleton-text {
+            height: 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            margin-bottom: 8px;
+        }
+        .skeleton-text.w-50 { width: 50%; }
+        .skeleton-text.w-70 { width: 70%; }
+        .skeleton-text.w-90 { width: 90%; }
+        .skeleton-text.w-30 { width: 30%; }
+        .skeleton-text.w-40 { width: 40%; }
+        .skeleton-text.h-20 { height: 20px; }
+        .skeleton-text.h-24 { height: 24px; }
+        .skeleton-text.h-30 { height: 30px; }
+        .skeleton-text.h-40 { height: 40px; }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            min-height: 400px;
+        }
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+        }
+        .skeleton-left {
+            padding: 30px;
+            background: rgba(5, 20, 5, 0.60);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skeleton-right {
+            padding: 32px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .skeleton-right .skeleton-text {
+            margin-bottom: 10px;
+        }
+
+        /* ============================================================
            DETAIL UTAMA
            ============================================================ */
         .detail-wrapper {
@@ -353,6 +439,10 @@
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .detail-card.hidden {
+            display: none;
         }
 
         .detail-grid {
@@ -498,6 +588,98 @@
         }
 
         /* ============================================================
+           ULASAN / KOMENTAR (READ-ONLY)
+           ============================================================ */
+        .reviews-section {
+            margin-top: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .reviews-section h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
+        .reviews-section h2 i {
+            color: var(--accent-gold);
+        }
+        .reviews-section .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+        }
+        .reviews-section .rating-summary .big-star {
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+        .reviews-section .rating-summary .big-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .reviews-section .rating-summary .total {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .review-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+        .review-item .review-header .reviewer {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        .review-item .review-header .stars {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+        }
+        .review-item .review-header .date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .review-item .review-comment {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .review-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px 0;
+        }
+        .review-empty i {
+            font-size: 1.8rem;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        /* ============================================================
            PRODUK LAIN DARI TOKO YANG SAMA
            ============================================================ */
         .other-products {
@@ -636,6 +818,22 @@
             .other-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            .skeleton-grid {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-left {
+                min-height: 200px;
+                padding: 20px;
+            }
+            .skeleton-right {
+                padding: 20px;
+            }
+            .reviews-section {
+                padding: 16px;
+            }
+            .reviews-section .rating-summary {
+                flex-wrap: wrap;
+            }
         }
         @media (max-width: 480px) {
             .other-grid {
@@ -679,10 +877,32 @@
 
     <!-- ============ DETAIL ============ -->
     <div class="container detail-wrapper">
-        <div class="detail-card" id="detailCard">
+
+        <!-- SKELETON LOADING -->
+        <div id="skeletonCard" class="skeleton-card">
+            <div class="skeleton-grid">
+                <div class="skeleton-left">
+                    <div class="skeleton-img"></div>
+                </div>
+                <div class="skeleton-right">
+                    <div class="skeleton-text w-30 h-20" style="margin-bottom:12px;"></div>
+                    <div class="skeleton-text w-50 h-24" style="margin-bottom:6px;"></div>
+                    <div class="skeleton-text w-90 h-30" style="margin-bottom:8px;"></div>
+                    <div class="skeleton-text w-40 h-20" style="margin-bottom:4px;"></div>
+                    <div class="skeleton-text w-60 h-20" style="margin-bottom:12px;"></div>
+                    <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
+                    <div class="skeleton-text w-100 h-60" style="margin-bottom:16px;"></div>
+                    <div class="skeleton-text w-70 h-20" style="margin-bottom:8px;"></div>
+                    <div class="skeleton-text w-100 h-40"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DETAIL CARD (awalnya disembunyikan) -->
+        <div id="detailCard" class="detail-card hidden">
             <div class="detail-grid">
                 <div class="detail-image-wrap">
-                    <img id="detailImage" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="Gambar produk" />
+                    <img id="detailImage" src="" alt="Gambar produk" />
                 </div>
                 <div class="detail-info">
                     <span class="badge-type" id="detailBadge">Digital</span>
@@ -718,6 +938,23 @@
             </div>
         </div>
 
+        <!-- ULASAN / KOMENTAR (READ-ONLY) -->
+        <div id="reviewsSection" class="reviews-section hidden">
+            <h2><i class="fas fa-comments"></i> Ulasan & Komentar</h2>
+
+            <!-- Ringkasan Rating -->
+            <div class="rating-summary" id="ratingSummary">
+                <span class="big-star">⭐</span>
+                <span class="big-number" id="summaryRating">0.0</span>
+                <span class="total">dari <span id="summaryTotal">0</span> ulasan</span>
+            </div>
+
+            <!-- Daftar ulasan -->
+            <div id="reviewsList">
+                <div class="review-empty"><i class="fas fa-comment-slash"></i> Belum ada ulasan untuk produk ini.</div>
+            </div>
+        </div>
+
         <!-- Produk lain dari toko yang sama -->
         <div class="other-products" id="otherProducts" style="display:none;">
             <h2><i class="fas fa-store"></i> Produk Lain dari Toko Ini</h2>
@@ -731,7 +968,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, get, set, onValue } from "firebase-database";
+        import { getDatabase, ref, get, set, onValue, update } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -785,7 +1022,7 @@
 
         if (!productId) {
             showToast('Produk tidak ditemukan.', 'error');
-            document.getElementById('detailCard').innerHTML = `
+            document.getElementById('skeletonCard').innerHTML = `
                     <div style="padding:40px;text-align:center;color:var(--text-secondary);">
                         <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
                         <h2>Produk tidak ditemukan</h2>
@@ -802,6 +1039,8 @@
         let productData = null;
         let sellerData = null;
         let ordersData = {};
+        let reviewsData = {};
+        let isFollowing = false;
 
         async function loadData() {
             try {
@@ -809,7 +1048,7 @@
                 const productSnap = await get(ref(db, `logo-shop/products/${productId}`));
                 if (!productSnap.exists()) {
                     showToast('Produk tidak ditemukan.', 'error');
-                    document.getElementById('detailCard').innerHTML = `
+                    document.getElementById('skeletonCard').innerHTML = `
                             <div style="padding:40px;text-align:center;color:var(--text-secondary);">
                                 <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
                                 <h2>Produk tidak ditemukan</h2>
@@ -825,6 +1064,10 @@
                 const ordersSnap = await get(ref(db, 'logo-shop/orders'));
                 ordersData = ordersSnap.val() || {};
 
+                // Ambil ulasan
+                const reviewsSnap = await get(ref(db, `logo-shop/reviews/${productId}`));
+                reviewsData = reviewsSnap.val() || {};
+
                 // Ambil seller
                 const sellerId = productData.sellerId;
                 if (sellerId) {
@@ -839,11 +1082,19 @@
                     sellerData = { storeName: 'Toko Tidak Diketahui', label: 'Default' };
                 }
 
+                // Sembunyikan skeleton, tampilkan konten
+                document.getElementById('skeletonCard').style.display = 'none';
+                document.getElementById('detailCard').classList.remove('hidden');
+
                 renderDetail();
+                renderReviews();
                 loadOtherProducts(sellerId);
 
                 // Cek status follow
                 if (sellerId) checkFollowStatus(sellerId);
+
+                // Tampilkan section ulasan
+                document.getElementById('reviewsSection').classList.remove('hidden');
 
             } catch (err) {
                 showToast('Gagal memuat data: ' + err.message, 'error');
@@ -907,7 +1158,54 @@
         }
 
         // ============================================================
-        // 8. LOAD PRODUK LAIN DARI TOKO SAMA
+        // 8. RENDER ULASAN (READ-ONLY)
+        // ============================================================
+        function renderReviews() {
+            const list = document.getElementById('reviewsList');
+            const reviewEntries = Object.entries(reviewsData);
+
+            // Update ringkasan rating
+            const rating = productData.rating || 0;
+            const total = productData.totalRatings || 0;
+            document.getElementById('summaryRating').textContent = rating.toFixed(1);
+            document.getElementById('summaryTotal').textContent = total;
+
+            if (reviewEntries.length === 0) {
+                list.innerHTML = `<div class="review-empty"><i class="fas fa-comment-slash"></i> Belum ada ulasan untuk produk ini.</div>`;
+                return;
+            }
+
+            // Urutkan dari yang terbaru
+            const sorted = reviewEntries.sort((a, b) => {
+                const timeA = a[1].timestamp || 0;
+                const timeB = b[1].timestamp || 0;
+                return timeB - timeA;
+            });
+
+            let html = '';
+            sorted.forEach(([key, review]) => {
+                const stars = '⭐'.repeat(Math.min(review.rating || 0, 5));
+                const date = review.timestamp ? new Date(review.timestamp).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                }) : '—';
+                html += `
+                        <div class="review-item">
+                            <div class="review-header">
+                                <span class="reviewer">${review.nama || 'Anonim'}</span>
+                                <span class="stars">${stars}</span>
+                                <span class="date">${date}</span>
+                            </div>
+                            <div class="review-comment">${review.komentar || 'Tidak ada komentar.'}</div>
+                        </div>
+                    `;
+            });
+            list.innerHTML = html;
+        }
+
+        // ============================================================
+        // 9. LOAD PRODUK LAIN DARI TOKO SAMA
         // ============================================================
         async function loadOtherProducts(sellerId) {
             if (!sellerId) return;
@@ -945,10 +1243,8 @@
         }
 
         // ============================================================
-        // 9. FOLLOW / UNFOLLOW
+        // 10. FOLLOW / UNFOLLOW
         // ============================================================
-        let isFollowing = false;
-
         async function checkFollowStatus(sellerId) {
             const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
             const snap = await get(followRef);
@@ -994,11 +1290,30 @@
         });
 
         // ============================================================
-        // 10. INIT
+        // 11. REAL-TIME UPDATE ULASAN
         // ============================================================
-        loadData();
+        function listenReviews() {
+            const reviewsRef = ref(db, `logo-shop/reviews/${productId}`);
+            onValue(reviewsRef, (snap) => {
+                reviewsData = snap.val() || {};
+                renderReviews();
+                // Update rating di detail juga
+                if (productData) {
+                    const rating = productData.rating || 0;
+                    const total = productData.totalRatings || 0;
+                    document.getElementById('detailRating').textContent = rating.toFixed(1);
+                    document.getElementById('detailTotalRatings').textContent = total;
+                }
+            });
+        }
+
+        // ============================================================
+        // 12. INIT
+        // ============================================================
+        await loadData();
+        listenReviews();
         console.log('🚀 Detail page loaded. Product ID:', productId);
     </script>
 
 </body>
-</html>
+    </html>
