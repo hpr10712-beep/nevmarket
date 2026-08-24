@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Layanan Jasa - NEV Market</title>
+    <title>Koleksi Jasa - NEV Market</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -47,22 +47,16 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ============================================================
-           LAPANGAN SEPAK BOLA — BACKGROUND UTAMA
-           ============================================================ */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0f3b0f;
             background-image:
-                /* Garis-garis rumput (vertikal) */
                 repeating-linear-gradient(90deg,
                     rgba(34, 120, 34, 0.45) 0px,
                     rgba(34, 120, 34, 0.45) 55px,
                     rgba(20, 80, 20, 0.45) 55px,
                     rgba(20, 80, 20, 0.45) 110px),
-                /* Bayangan halus di tepi */
                 radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
-                /* Warna dasar */
                 linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
             background-size: 100% 100%, 100% 100%, 100% 100%;
             min-height: 100vh;
@@ -72,7 +66,6 @@
             overflow-x: hidden;
         }
 
-        /* Elemen dekoratif: garis-garis lapangan */
         body::before,
         body::after {
             content: '';
@@ -81,7 +74,6 @@
             z-index: 0;
         }
 
-        /* Garis tepi lapangan (kotak) */
         body::before {
             top: 5%;
             left: 5%;
@@ -92,7 +84,6 @@
             box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
         }
 
-        /* Garis tengah lapangan */
         body::after {
             top: 49.5%;
             left: 8%;
@@ -102,7 +93,6 @@
             border-radius: 2px;
         }
 
-        /* Lingkaran tengah */
         .pitch-circle {
             position: fixed;
             top: 50%;
@@ -116,7 +106,6 @@
             z-index: 0;
         }
 
-        /* Titik tengah */
         .pitch-center-dot {
             position: fixed;
             top: 50%;
@@ -130,7 +119,6 @@
             z-index: 0;
         }
 
-        /* Area penalti (sederhana) — kiri & kanan */
         .pitch-penalty-left,
         .pitch-penalty-right {
             position: fixed;
@@ -152,7 +140,6 @@
             border-radius: 0 4px 4px 0;
         }
 
-        /* Area gawang (kecil) */
         .pitch-goal-left,
         .pitch-goal-right {
             position: fixed;
@@ -174,7 +161,6 @@
             border-radius: 0 4px 4px 0;
         }
 
-        /* Container utama — di atas lapangan */
         .container {
             max-width: 1280px;
             margin: 0 auto;
@@ -184,7 +170,7 @@
         }
 
         /* ============================================================
-           BUTTONS (sama, dengan tema sepak bola)
+           BUTTONS
            ============================================================ */
         .btn {
             display: inline-flex;
@@ -202,6 +188,7 @@
             color: var(--text-primary);
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
+            text-decoration: none;
         }
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
@@ -223,6 +210,16 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
         }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(239, 178, 44, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 178, 44, 0.35);
+        }
         .btn-outline {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -234,7 +231,7 @@
         }
 
         /* ============================================================
-           NAVBAR (sama, dengan transparansi)
+           NAVBAR
            ============================================================ */
         .navbar {
             position: fixed;
@@ -326,7 +323,7 @@
         }
 
         /* ============================================================
-           PAGE HEADER — dengan latar transparan
+           PAGE HEADER
            ============================================================ */
         .page-header {
             padding: 100px 0 30px;
@@ -462,10 +459,29 @@
             text-transform: uppercase;
             padding: 2px 10px;
             border-radius: 40px;
-            background: var(--accent-blue);
+            background: var(--accent-green);
             color: #fff;
             align-self: flex-start;
             margin-bottom: 6px;
+        }
+        .product-info .product-id {
+            font-size: 0.65rem;
+            font-family: monospace;
+            color: var(--text-muted);
+            opacity: 0.6;
+            margin-bottom: 2px;
+        }
+        .product-info .store-name {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .product-info .store-name i {
+            color: var(--accent-gold);
+            font-size: 0.65rem;
         }
         .product-info h3 {
             font-size: 1rem;
@@ -485,10 +501,21 @@
             font-weight: 400;
             color: var(--text-secondary);
         }
+        .product-info .rating {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .product-info .rating i {
+            color: var(--accent-gold);
+        }
         .product-info .desc {
             color: var(--text-secondary);
             font-size: 0.8rem;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             flex: 1;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -496,29 +523,6 @@
             overflow: hidden;
             line-height: 1.4;
         }
-        .product-info .support-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px 12px;
-            margin-bottom: 12px;
-            font-size: 0.7rem;
-        }
-        .product-info .support-badges .badge {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-secondary);
-        }
-        .product-info .support-badges .badge i {
-            font-size: 0.8rem;
-        }
-        .product-info .support-badges .badge .check {
-            color: var(--accent-green);
-        }
-        .product-info .support-badges .badge .cross {
-            color: #ef4444;
-        }
-
         .product-info .actions {
             display: flex;
             gap: 8px;
@@ -528,154 +532,6 @@
             padding: 8px 12px;
             font-size: 0.8rem;
             border-radius: 40px;
-        }
-
-        /* ============================================================
-           MODAL
-           ============================================================ */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 16px;
-            animation: fadeInOverlay 0.3s ease;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        @keyframes fadeInOverlay {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .modal {
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            max-width: 540px;
-            width: 100%;
-            max-height: 92vh;
-            overflow-y: auto;
-            padding: 32px 28px 24px;
-            box-shadow: var(--shadow-lg);
-            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            border: 1px solid var(--border-color);
-        }
-        @keyframes slideUpModal {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 14px;
-            right: 18px;
-            font-size: 1.4rem;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 4px;
-        }
-        .modal-close:hover {
-            color: var(--text-primary);
-            transform: rotate(90deg);
-        }
-
-        .modal h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            padding-right: 30px;
-            color: var(--text-primary);
-        }
-        .modal .modal-sub {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-        }
-
-        .modal .detail-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .modal .detail-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .modal .detail-item:last-of-type {
-            border-bottom: none;
-        }
-        .modal .detail-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.9rem;
-            min-width: 80px;
-        }
-        .modal .detail-value {
-            font-weight: 600;
-            text-align: right;
-            font-size: 0.95rem;
-            max-width: 70%;
-            word-break: break-word;
-            color: var(--text-primary);
-        }
-        .modal .detail-value .price-highlight {
-            color: var(--accent-gold);
-            font-size: 1.1rem;
-        }
-        .modal .detail-value.desc-value {
-            text-align: left;
-            font-weight: 400;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            max-width: 70%;
-        }
-        .modal .support-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px 20px;
-            padding: 6px 0;
-        }
-        .modal .support-list .sup-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        .modal .support-list .sup-item .check {
-            color: var(--accent-green);
-        }
-        .modal .support-list .sup-item .cross {
-            color: #ef4444;
-        }
-
-        .modal .divider {
-            margin: 16px 0;
-            border: none;
-            border-top: 1px solid var(--border-color);
         }
 
         /* ============================================================
@@ -821,9 +677,6 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
-            .modal {
-                padding: 24px 18px 20px;
-            }
             .products-toolbar {
                 flex-direction: column;
                 align-items: stretch;
@@ -834,20 +687,13 @@
             .page-header h1 {
                 font-size: 1.5rem;
             }
-            .modal .detail-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            .modal .detail-value {
-                text-align: left;
-                max-width: 100%;
-            }
-            .modal .detail-value.desc-value {
-                max-width: 100%;
-            }
             .shop-closed-popup {
                 padding: 32px 20px 24px;
+            }
+        }
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -873,7 +719,7 @@
                 <li><a href="produk.html">Produk</a></li>
                 <li><a href="jasa.html" style="color:var(--accent-gold);">Jasa</a></li>
                 <li><a href="index.html#tentang">Tentang</a></li>
-                <li><a href="payment.html">Payment</a></li>
+                <li><a href="payment_produk.html">Payment</a></li>
             </ul>
             <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
         </div>
@@ -898,72 +744,39 @@
             <h2>Toko Sedang Tutup Sementara</h2>
             <p>Maaf, saat ini toko kami sedang tutup sementara. Silakan kembali lagi nanti.</p>
             <a href="index.html" style="text-decoration: none;">
-  <button class="btn btn-primary" id="shopClosedCloseBtn">
-    <i class="fas fa-check"></i> Mengerti & Kembali
-  </button>
-</a>
-
+                <button class="btn btn-primary" id="shopClosedCloseBtn">
+                    <i class="fas fa-check"></i> Mengerti & Kembali
+                </button>
+            </a>
         </div>
     </div>
 
     <!-- ============ HEADER ============ -->
     <header class="page-header">
         <div class="container">
-            <h1><i class="fas fa-futbol"></i> Layanan Jasa</h1>
-            <p class="sub">Butuh bantuan digital? Kami siap mengerjakan desain, website, aplikasi, editing, dan berbagai layanan lainnya dengan hasil berkualitas.</p>
+            <h1><i class="fas fa-futbol"></i> Koleksi Jasa</h1>
+            <p class="sub">Temukan berbagai layanan jasa profesional, mulai dari desain grafis, pembuatan website, editing video, konsultasi bisnis, dan masih banyak lagi.</p>
         </div>
     </header>
 
-    <!-- ============ PRODUK ============ -->
+    <!-- ============ JASA ============ -->
     <section style="padding: 0 0 60px;">
         <div class="container">
+
+            <!-- TOMBOL PENCARIAN -->
             <div class="products-toolbar">
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cari layanan..." />
+                    <input type="text" id="searchInput" placeholder="Cari nama, ID, atau deskripsi..." />
                     <button id="searchBtn"><i class="fas fa-search"></i> Cari</button>
                 </div>
-                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali Ke Halaman Utama</a>
+                <a href="index.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Kembali</a>
             </div>
 
             <div class="products-grid" id="productsGrid">
-                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat layanan...</div>
+                <div class="empty-state"><i class="fas fa-spinner fa-spin"></i> Memuat jasa...</div>
             </div>
         </div>
     </section>
-
-    <!-- ============ MODAL ============ -->
-    <div class="modal-overlay" id="modalProduct">
-        <div class="modal">
-            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
-            <h2 id="modalTitle">Nama Layanan</h2>
-            <p class="modal-sub" id="modalSub">Detail layanan</p>
-
-            <div class="detail-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Harga</span>
-                    <span class="detail-value"><span class="price-highlight" id="modalPrice">Rp 0</span></span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Deskripsi</span>
-                    <span class="detail-value desc-value" id="modalDesc">-</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Dukungan</span>
-                    <span class="detail-value" style="text-align:left;max-width:70%;">
-                        <div class="support-list" id="modalSupport"></div>
-                    </span>
-                </div>
-            </div>
-
-            <hr class="divider" />
-
-            <button class="btn btn-primary" id="btnPesan" style="width:100%;justify-content:center;font-size:1rem;padding:12px;">
-                <i class="fas fa-shopping-cart"></i> Pesan Sekarang
-            </button>
-
-            <button class="btn btn-outline" id="btnTutupModal" style="width:100%;justify-content:center;margin-top:16px;">Tutup</button>
-        </div>
-    </div>
 
     <!-- ============ JAVASCRIPT ============ -->
     <script type="module">
@@ -971,7 +784,7 @@
         // 1. FIREBASE
         // ============================================================
         import { initializeApp } from "firebase-app";
-        import { getDatabase, ref, onValue } from "firebase-database";
+        import { getDatabase, ref, onValue, get } from "firebase-database";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -1047,17 +860,38 @@
                 }
             });
         }
-
         document.getElementById('shopClosedCloseBtn').addEventListener('click', () => {
             showToast('Toko sedang tutup sementara. Silakan kembali lagi nanti.', 'info');
         });
 
         // ============================================================
-        // 6. PRODUK (JASA)
+        // 6. AMBIL DATA SELLER (untuk menampilkan nama toko per produk)
+        // ============================================================
+        let sellersCache = {};
+
+        async function loadSellersData() {
+            const snap = await get(ref(db, 'logo-shop/sellers'));
+            if (snap.exists()) {
+                sellersCache = snap.val();
+            } else {
+                sellersCache = {};
+            }
+        }
+
+        function getStoreName(sellerId) {
+            if (sellersCache[sellerId] && sellersCache[sellerId].storeName) {
+                return sellersCache[sellerId].storeName;
+            }
+            return 'Toko Tidak Diketahui';
+        }
+
+        // ============================================================
+        // 7. PRODUK (JASA) & STATISTIK PER PRODUK
         // ============================================================
         const productsRef = ref(db, 'logo-shop/products');
         let allProducts = [];
         let filteredProducts = [];
+        let ordersData = {};
 
         function shuffleArray(arr) {
             for (let i = arr.length - 1; i > 0; i--) {
@@ -1065,19 +899,6 @@
                 [arr[i], arr[j]] = [arr[j], arr[i]];
             }
             return arr;
-        }
-
-        function renderSupportBadges(support) {
-            if (!support) return '';
-            const items = [
-                { key: 'nama', label: 'Nama', icon: 'fa-user' },
-                { key: 'wa', label: 'No WA', icon: 'fa-phone' },
-                { key: 'sosmed', label: 'Sosmed', icon: 'fa-share-alt' }
-            ];
-            return items.map(s => {
-                const aktif = support[s.key] === true;
-                return `<span class="badge"><i class="${aktif ? 'fas fa-check-circle check' : 'fas fa-times-circle cross'}"></i> ${s.label}</span>`;
-            }).join('');
         }
 
         function renderProducts(productsArray) {
@@ -1089,20 +910,33 @@
             let html = '';
             productsArray.forEach((item) => {
                 const priceFormatted = new Intl.NumberFormat('id-ID').format(item.price || 0);
-                const supportHtml = renderSupportBadges(item.support);
+                const rating = item.rating || 0;
+                const totalRatings = item.totalRatings || 0;
+                const shortId = item.shortId || item.key.slice(0, 6);
+                const terjual = item._terjual || 0;
+                const storeName = getStoreName(item.sellerId);
+
                 html += `
                         <div class="product-card" data-id="${item.key}">
                             <div class="img-wrap">
-                                <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Layanan'}" loading="lazy" />
+                                <img src="${item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'}" alt="${item.name || 'Jasa'}" loading="lazy" />
                             </div>
                             <div class="product-info">
                                 <span class="badge-type">Jasa</span>
-                                <h3>${item.name || 'Nama Layanan'}</h3>
+                                <div class="product-id">ID: ${shortId}</div>
+                                <div class="store-name"><i class="fas fa-store"></i> ${storeName}</div>
+                                <h3>${item.name || 'Nama Jasa'}</h3>
                                 <div class="price">Rp ${priceFormatted} <small>/ jasa</small></div>
-                                <p class="desc">${item.description || 'Deskripsi layanan.'}</p>
-                                <div class="support-badges">${supportHtml}</div>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i> ${rating.toFixed(1)} (${totalRatings} rating)
+                                    <span style="margin-left:auto;color:var(--text-muted);font-size:0.7rem;">
+                                        <i class="fas fa-shopping-cart"></i> ${terjual} terjual
+                                    </span>
+                                </div>
+                                <p class="desc">${item.description || 'Deskripsi jasa.'}</p>
                                 <div class="actions">
-                                    <button class="btn btn-primary btn-detail" data-id="${item.key}"><i class="fas fa-eye"></i> Detail</button>
+                                    <a href="detail.html?productId=${item.key}" class="btn btn-primary"><i class="fas fa-eye"></i> Detail</a>
+                                    <button class="btn btn-success btn-beli" data-id="${item.key}"><i class="fas fa-shopping-cart"></i> Beli</button>
                                 </div>
                             </div>
                         </div>
@@ -1110,52 +944,121 @@
             });
             grid.innerHTML = html;
 
-            document.querySelectorAll('.btn-detail').forEach(btn => {
+            // Event Beli langsung
+            document.querySelectorAll('.btn-beli').forEach(btn => {
                 btn.addEventListener('click', () => {
                     if (!isShopOpen) {
-                        showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
+                        showToast('Toko sedang tutup sementara.', 'error');
                         return;
                     }
                     const id = btn.dataset.id;
                     const product = allProducts.find(p => p.key === id);
-                    if (product) openProductDetail(product);
+                    if (product) {
+                        localStorage.setItem('payment_jasa', JSON.stringify(product));
+                        window.location.href = 'payment_jasa.html';
+                    }
                 });
             });
         }
 
+        // ============================================================
+        // 8. FILTER & SEARCH (Pintar: ID, nama, deskripsi)
+        // ============================================================
         function filterProducts(query) {
             if (!query.trim()) {
                 filteredProducts = [...allProducts];
             } else {
                 const q = query.trim().toLowerCase();
-                filteredProducts = allProducts.filter(p =>
-                    p.name?.toLowerCase().includes(q) ||
-                    p.description?.toLowerCase().includes(q)
-                );
+                const scored = allProducts.map(p => {
+                    let score = 0;
+                    const name = (p.name || '').toLowerCase();
+                    const desc = (p.description || '').toLowerCase();
+                    const id = (p.shortId || p.key || '').toLowerCase();
+
+                    if (id === q) score += 100;
+                    else if (id.includes(q)) score += 50;
+
+                    if (name.includes(q)) score += 30;
+                    else if (name.split(' ').some(w => w.startsWith(q))) score += 15;
+
+                    if (desc.includes(q)) score += 10;
+
+                    if (name.startsWith(q)) score += 20;
+
+                    return { product: p, score };
+                });
+
+                const filtered = scored.filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+                filteredProducts = filtered.map(s => s.product);
+
+                if (filteredProducts.length === 0) {
+                    const words = q.split(/\s+/).filter(w => w.length > 1);
+                    if (words.length > 0) {
+                        const fuzzyScored = allProducts.map(p => {
+                            let score = 0;
+                            const name = (p.name || '').toLowerCase();
+                            const desc = (p.description || '').toLowerCase();
+                            const id = (p.shortId || p.key || '').toLowerCase();
+                            for (const w of words) {
+                                if (id.includes(w)) score += 30;
+                                if (name.includes(w)) score += 20;
+                                if (desc.includes(w)) score += 8;
+                            }
+                            return { product: p, score };
+                        });
+                        const fuzzyFiltered = fuzzyScored.filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+                        filteredProducts = fuzzyFiltered.map(s => s.product);
+                    }
+                }
             }
             renderProducts(filteredProducts);
         }
 
-        onValue(productsRef, (snap) => {
-            const data = snap.val();
-            if (!data) {
-                allProducts = [];
-                filteredProducts = [];
-                document.getElementById('productsGrid').innerHTML =
-                    `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada layanan jasa.</div>`;
-                return;
-            }
-            allProducts = Object.entries(data)
-                .map(([key, value]) => ({ key, ...value }))
-                .filter(item => item.isJasa === true || !item.downloadLink);
+        // ============================================================
+        // 9. LOAD DATA DARI FIREBASE
+        // ============================================================
+        async function loadAllData() {
+            // Ambil data seller untuk semua produk
+            await loadSellersData();
 
-            allProducts = shuffleArray([...allProducts]);
-            filteredProducts = [...allProducts];
-            renderProducts(filteredProducts);
-        });
+            // Ambil orders
+            const ordersSnap = await get(ref(db, 'logo-shop/orders'));
+            ordersData = ordersSnap.val() || {};
+
+            // Ambil produk (hanya jasa: isJasa === true dan tidak punya downloadLink)
+            onValue(productsRef, (snap) => {
+                const data = snap.val();
+                if (!data) {
+                    allProducts = [];
+                    filteredProducts = [];
+                    document.getElementById('productsGrid').innerHTML =
+                        `<div class="empty-state"><i class="fas fa-palette"></i> Belum ada layanan jasa.</div>`;
+                    return;
+                }
+
+                let rawProducts = Object.entries(data)
+                    .map(([key, value]) => ({ key, ...value }))
+                    .filter(item => item.isJasa === true && !item.downloadLink);
+
+                rawProducts = rawProducts.map(p => {
+                    let terjual = 0;
+                    for (const orderKey in ordersData) {
+                        const order = ordersData[orderKey];
+                        if (order.productId === p.key && order.status === 'completed') {
+                            terjual++;
+                        }
+                    }
+                    return { ...p, _terjual: terjual };
+                });
+
+                allProducts = shuffleArray([...rawProducts]);
+                filteredProducts = [...allProducts];
+                renderProducts(filteredProducts);
+            }, { onlyOnce: true });
+        }
 
         // ============================================================
-        // 7. SEARCH
+        // 10. SEARCH
         // ============================================================
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
@@ -1174,78 +1077,12 @@
         });
 
         // ============================================================
-        // 8. MODAL
-        // ============================================================
-        const modal = document.getElementById('modalProduct');
-        const modalClose = document.getElementById('modalClose');
-        const btnTutupModal = document.getElementById('btnTutupModal');
-        let currentProduct = null;
-
-        function renderSupportList(support) {
-            if (!support) return '<span style="color:var(--text-secondary);font-size:0.85rem;">Tidak ada dukungan</span>';
-            const items = [
-                { key: 'nama', label: 'Nama', icon: 'fa-user' },
-                { key: 'wa', label: 'Nomor WhatsApp', icon: 'fa-phone' },
-                { key: 'sosmed', label: 'Akun Sosial Media', icon: 'fa-share-alt' }
-            ];
-            return items.map(s => {
-                const aktif = support[s.key] === true;
-                return `<div class="sup-item"><i class="${aktif ? 'fas fa-check-circle check' : 'fas fa-times-circle cross'}"></i> ${s.label} ${aktif ? '(✓)' : '(✗)'}</div>`;
-            }).join('');
-        }
-
-        function openProductDetail(product) {
-            currentProduct = product;
-            document.getElementById('modalTitle').textContent = product.name || 'Layanan';
-            document.getElementById('modalSub').textContent = 'Detail layanan';
-            document.getElementById('modalPrice').textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(product
-            .price || 0);
-            document.getElementById('modalDesc').textContent = product.description || '—';
-            document.getElementById('modalSupport').innerHTML = renderSupportList(product.support);
-
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            currentProduct = null;
-        }
-
-        modalClose.addEventListener('click', closeModal);
-        btnTutupModal.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // ============================================================
-        // 9. PESAN
-        // ============================================================
-        document.getElementById('btnPesan').addEventListener('click', function() {
-            if (!currentProduct) {
-                showToast('Data layanan tidak tersedia.', 'error');
-                return;
-            }
-            if (!isShopOpen) {
-                showToast('Toko sedang tutup sementara. Tidak dapat memesan.', 'error');
-                return;
-            }
-            localStorage.setItem('payment_product', JSON.stringify(currentProduct));
-            window.location.href = 'payment.html';
-        });
-
-        // ============================================================
-        // 10. ESC
-        // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // ============================================================
         // 11. INIT
         // ============================================================
+        await loadAllData();
         checkShopStatus();
 
-        showToast('Selamat datang di Layanan Jasa Kami', 'info');
+        showToast('Selamat datang!', 'info');
         console.log('🚀 Jasa page loaded. Device ID:', DEVICE_ID);
     </script>
 
