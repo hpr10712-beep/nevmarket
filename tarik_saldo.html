@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarik Saldo - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a2e0a;
+            --bg-card: rgba(10, 46, 10, 0.88);
+            --border-color: rgba(239, 178, 44, 0.18);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --accent-gold: #efb22c;
+            --accent-red: #ff6b6b;
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 520px;
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 34px 28px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .header .title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header .title i {
+            font-size: 1.2rem;
+        }
+
+        .header .store-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(239, 178, 44, 0.12);
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(239, 178, 44, 0.2);
+        }
+
+        .balance-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .balance-box .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .balance-box .amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .balance-box .amount .currency {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-right: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: var(--transition);
+            outline: none;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.06);
+        }
+
+        .form-group input::placeholder {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+        .hint i {
+            margin-right: 4px;
+        }
+
+        .fee-breakdown {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            margin: 16px 0 22px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .fee-breakdown .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .fee-breakdown .row .label {
+            color: var(--text-secondary);
+        }
+
+        .fee-breakdown .row .value {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .fee-breakdown .row .value.fee-amount {
+            color: var(--accent-red);
+        }
+
+        .fee-breakdown .row .value.net-amount {
+            color: var(--accent-gold);
+        }
+
+        .fee-breakdown .divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 8px 0;
+        }
+
+        .fee-breakdown .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .fee-breakdown .total-row .label {
+            color: #fff;
+        }
+
+        .fee-breakdown .total-row .value {
+            color: var(--accent-gold);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .actions .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .actions .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .actions .btn-confirm {
+            flex: 2;
+            padding: 12px;
+            background: linear-gradient(135deg, #efb22c, #f7d875);
+            border: none;
+            border-radius: 50px;
+            color: #0a2a0a;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(239, 178, 44, 0.25);
+        }
+
+        .actions .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(239, 178, 44, 0.35);
+        }
+
+        .actions .btn-confirm:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 26px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 22px 18px 20px;
+            }
+            .balance-box .amount {
+                font-size: 1.4rem;
+            }
+            .header .title {
+                font-size: 1.1rem;
+            }
+            .header .store-name {
+                font-size: 0.7rem;
+                padding: 4px 12px;
+            }
+            .actions {
+                flex-direction: column;
+            }
+            .fee-breakdown .row {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="title">
+                <i class="fas fa-arrow-up-from-bracket"></i> Tarik Saldo
+            </div>
+            <span class="store-name" id="storeNameDisplay">Toko Saya</span>
+        </div>
+
+        <!-- Saldo -->
+        <div class="balance-box">
+            <span class="label">Saldo tersedia</span>
+            <span class="amount"><span class="currency">Rp</span><span id="balanceDisplay">0</span></span>
+        </div>
+
+        <!-- Form -->
+        <div class="form-group">
+            <label for="withdrawAmount">Jumlah penarikan</label>
+            <input type="number" id="withdrawAmount" placeholder="Minimal 20.000" min="20000" step="1000" />
+            <div class="hint"><i class="fas fa-info-circle"></i> Minimal penarikan Rp 20.000</div>
+        </div>
+
+        <!-- Rincian biaya -->
+        <div class="fee-breakdown" id="feeBreakdown">
+            <div class="row">
+                <span class="label">Jumlah ditarik</span>
+                <span class="value" id="fdGross">Rp 0</span>
+            </div>
+            <div class="row">
+                <span class="label">Biaya layanan</span>
+                <span class="value fee-amount" id="fdFee">Rp 0</span>
+            </div>
+            <div class="divider"></div>
+            <div class="total-row">
+                <span class="label">Total diterima</span>
+                <span class="value net-amount" id="fdNet">Rp 0</span>
+            </div>
+        </div>
+
+        <!-- Tombol -->
+        <div class="actions">
+            <a href="profil-user.html" class="btn-cancel">Batal</a>
+            <button class="btn-confirm" id="btnConfirm" disabled>
+                <i class="fas fa-paper-plane"></i> Kirim Tagihan
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-info-circle"></i>
+        <span id="toastMsg">Pesan</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, get, push, set, update, onValue } from "firebase-database";
+
+        // ============================================================
+        // FIREBASE
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+
+        // ============================================================
+        // DOM
+        // ============================================================
+        const storeNameDisplay = document.getElementById('storeNameDisplay');
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const withdrawInput = document.getElementById('withdrawAmount');
+        const fdGross = document.getElementById('fdGross');
+        const fdFee = document.getElementById('fdFee');
+        const fdNet = document.getElementById('fdNet');
+        const btnConfirm = document.getElementById('btnConfirm');
+
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
+
+        // ============================================================
+        // UTILITY
+        // ============================================================
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID').format(angka);
+        }
+
+        function showToast(msg, type = 'info') {
+            const icon = toast.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
+            toast.className = 'toast show ' + type;
+            toastMsg.textContent = msg;
+            clearTimeout(toast._hide);
+            toast._hide = setTimeout(() => { toast.classList.remove('show'); }, 4500);
+        }
+
+        // ============================================================
+        // FEE CALCULATION
+        // ============================================================
+        function calculateFee(amount) {
+            if (amount <= 100000) return 2000;
+            if (amount <= 1000000) return 10000;
+            if (amount <= 10000000) return 50000;
+            if (amount <= 100000000) return 250000;
+            if (amount <= 500000000) return 750000;
+            if (amount <= 1000000000) return 1500000;
+            return Math.round(amount * 0.002);
+        }
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentBalance = 0;
+        let storeName = 'Toko Saya';
+
+        // ============================================================
+        // LOAD DATA
+        // ============================================================
+        async function loadData() {
+            try {
+                const snap = await get(ref(db, `logo-shop/sellers/${DEVICE_ID}`));
+                const data = snap.val();
+                if (data && data.storeName) {
+                    storeName = data.storeName;
+                    currentBalance = data.balance || 0;
+                } else {
+                    storeName = 'Belum ada toko';
+                    currentBalance = 0;
+                }
+                storeNameDisplay.textContent = storeName;
+                balanceDisplay.textContent = formatRupiah(currentBalance);
+                updateFeeBreakdown();
+            } catch (e) {
+                console.error('Gagal load data:', e);
+            }
+        }
+
+        // ============================================================
+        // UPDATE FEE BREAKDOWN
+        // ============================================================
+        function updateFeeBreakdown() {
+            const raw = parseInt(withdrawInput.value) || 0;
+            const amount = Math.min(raw, currentBalance);
+            const fee = calculateFee(amount);
+            const net = amount - fee;
+
+            fdGross.textContent = 'Rp ' + formatRupiah(amount);
+            fdFee.textContent = 'Rp ' + formatRupiah(fee);
+            fdNet.textContent = 'Rp ' + formatRupiah(net);
+
+            // Validasi: minimal 20.000, tidak melebihi saldo, net > 0
+            const isValid = amount >= 20000 && amount <= currentBalance && net > 0;
+            btnConfirm.disabled = !isValid;
+            return { amount, fee, net, isValid };
+        }
+
+        // ============================================================
+        // EVENT: input
+        // ============================================================
+        withdrawInput.addEventListener('input', updateFeeBreakdown);
+
+        // ============================================================
+        // CONFIRM
+        // ============================================================
+        btnConfirm.addEventListener('click', async () => {
+            const raw = parseInt(withdrawInput.value) || 0;
+            const amount = Math.min(raw, currentBalance);
+            const fee = calculateFee(amount);
+            const net = amount - fee;
+
+            if (amount < 20000) {
+                showToast('Minimal penarikan Rp 20.000', 'error');
+                return;
+            }
+            if (amount > currentBalance) {
+                showToast('Jumlah melebihi saldo', 'error');
+                return;
+            }
+            if (net <= 0) {
+                showToast('Setelah biaya, nominal tidak valid', 'error');
+                return;
+            }
+
+            btnConfirm.disabled = true;
+            btnConfirm.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+
+            try {
+                const withdrawalRef = push(ref(db, 'logo-shop/withdrawals'));
+                const now = Date.now();
+                await set(withdrawalRef, {
+                    sellerId: DEVICE_ID,
+                    storeName: storeName,
+                    amount: amount,
+                    fee: fee,
+                    netAmount: net,
+                    status: 'pending',
+                    createdAt: now,
+                    note: `Penarikan saldo oleh ${storeName}`
+                });
+
+                // Kurangi saldo
+                const newBalance = currentBalance - amount;
+                await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
+                    balance: newBalance
+                });
+
+                currentBalance = newBalance;
+                balanceDisplay.textContent = formatRupiah(currentBalance);
+
+                showToast(`Tagihan penarikan Rp ${formatRupiah(amount)} telah dikirim ke admin`, 'success');
+
+                // Reset
+                withdrawInput.value = '';
+                updateFeeBreakdown();
+
+            } catch (err) {
+                showToast('Gagal: ' + err.message, 'error');
+            } finally {
+                btnConfirm.disabled = false;
+                btnConfirm.innerHTML = '<i class="fas fa-paper-plane"></i> Kirim Tagihan';
+            }
+        });
+
+        // ============================================================
+        // REALTIME BALANCE
+        // ============================================================
+        const balanceRef = ref(db, `logo-shop/sellers/${DEVICE_ID}/balance`);
+        onValue(balanceRef, (snap) => {
+            const val = snap.val();
+            if (val !== null && val !== undefined) {
+                currentBalance = val;
+                balanceDisplay.textContent = formatRupiah(currentBalance);
+                updateFeeBreakdown();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        loadData();
+    </script>
+</body>
+</html>
