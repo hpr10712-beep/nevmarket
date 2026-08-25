@@ -1816,7 +1816,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT
+    SCRIPT (DIPERBAIKI DENGAN LOG UNTUK DEBUG)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -1834,6 +1834,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        console.log('🔥 Firebase initialized');
+
         // ============================================================
         // DEVICE ID
         // ============================================================
@@ -1846,6 +1848,7 @@
             return id;
         }
         const DEVICE_ID = getDeviceId();
+        console.log('🆔 DEVICE_ID:', DEVICE_ID);
 
         // ============================================================
         // TOAST
@@ -1934,24 +1937,48 @@
         let currentUserData = null;
 
         // ============================================================
-        // FUNGSI CEK UNIK (Username, Email, WA)
+        // FUNGSI CEK UNIK (Username, Email, WA) — DENGAN LOG
         // ============================================================
         async function isUsernameTaken(username) {
             if (!username) return false;
-            const snap = await get(ref(db, `logo-shop/usernames/${username}`));
-            return snap.exists();
+            console.log('🔍 Cek username:', username);
+            try {
+                const snap = await get(ref(db, `logo-shop/usernames/${username}`));
+                const taken = snap.exists();
+                console.log('  → username', taken ? 'sudah digunakan' : 'tersedia');
+                return taken;
+            } catch (err) {
+                console.error('❌ Error cek username:', err);
+                throw err;
+            }
         }
 
         async function isEmailTaken(email) {
             if (!email) return false;
-            const snap = await get(ref(db, `logo-shop/emails/${email}`));
-            return snap.exists();
+            console.log('🔍 Cek email:', email);
+            try {
+                const snap = await get(ref(db, `logo-shop/emails/${email}`));
+                const taken = snap.exists();
+                console.log('  → email', taken ? 'sudah digunakan' : 'tersedia');
+                return taken;
+            } catch (err) {
+                console.error('❌ Error cek email:', err);
+                throw err;
+            }
         }
 
         async function isWaTaken(wa) {
             if (!wa) return false;
-            const snap = await get(ref(db, `logo-shop/phones/${wa}`));
-            return snap.exists();
+            console.log('🔍 Cek WA:', wa);
+            try {
+                const snap = await get(ref(db, `logo-shop/phones/${wa}`));
+                const taken = snap.exists();
+                console.log('  → WA', taken ? 'sudah digunakan' : 'tersedia');
+                return taken;
+            } catch (err) {
+                console.error('❌ Error cek WA:', err);
+                throw err;
+            }
         }
 
         // ============================================================
@@ -2277,10 +2304,12 @@
         });
 
         // ============================================================
-        // REGISTER
+        // REGISTER — DIPERBAIKI DENGAN LOG
         // ============================================================
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('📝 REGISTER FORM SUBMITTED');
+
             const nama = document.getElementById('regNama').value.trim();
             const username = document.getElementById('regUsername').value.trim();
             const email = document.getElementById('regEmail').value.trim();
@@ -2288,32 +2317,56 @@
             const password = document.getElementById('regPassword').value.trim();
             const catatan = document.getElementById('regCatatan').value.trim();
 
+            console.log('📋 Data pendaftaran:', { nama, username, email, wa, password: '***', catatan });
+
+            // Validasi
             if (!nama) { showToast('Nama lengkap wajib diisi!', 'error'); return; }
             if (!username) { showToast('Username wajib diisi!', 'error'); return; }
             if (!email) { showToast('Email wajib diisi!', 'error'); return; }
             if (!wa) { showToast('Nomor WhatsApp wajib diisi!', 'error'); return; }
             if (!password || password.length < 8) { showToast('Sandi minimal 8 karakter!', 'error'); return; }
 
-            const usernameTaken = await isUsernameTaken(username);
-            if (usernameTaken) { showToast('Username sudah digunakan!', 'error'); return; }
-            const emailTaken = await isEmailTaken(email);
-            if (emailTaken) { showToast('Email sudah digunakan!', 'error'); return; }
-            const waTaken = await isWaTaken(wa);
-            if (waTaken) { showToast('Nomor WhatsApp sudah digunakan!', 'error'); return; }
-
             try {
+                // Cek duplikasi
+                const [usernameTaken, emailTaken, waTaken] = await Promise.all([
+                    isUsernameTaken(username),
+                    isEmailTaken(email),
+                    isWaTaken(wa)
+                ]);
+
+                if (usernameTaken) { showToast('Username sudah digunakan!', 'error'); return; }
+                if (emailTaken) { showToast('Email sudah digunakan!', 'error'); return; }
+                if (waTaken) { showToast('Nomor WhatsApp sudah digunakan!', 'error'); return; }
+
+                console.log('✅ Semua cek unik lolos');
+
+                // Siapkan data
                 const userData = {
-                    nama, username, email, wa, password, catatan,
+                    nama,
+                    username,
+                    email,
+                    wa,
+                    password,
+                    catatan,
                     isLoggedIn: true,
                     createdAt: new Date().toISOString(),
                     lastLogin: new Date().toISOString(),
                     deviceId: DEVICE_ID
                 };
 
+                console.log('💾 Menyimpan data user...');
+                // Simpan ke Firebase
                 await set(ref(db, `logo-shop/users/${DEVICE_ID}`), userData);
+                console.log('✅ User saved');
+
                 await set(ref(db, `logo-shop/usernames/${username}`), DEVICE_ID);
+                console.log('✅ Username index saved');
+
                 await set(ref(db, `logo-shop/emails/${email}`), DEVICE_ID);
+                console.log('✅ Email index saved');
+
                 await set(ref(db, `logo-shop/phones/${wa}`), DEVICE_ID);
+                console.log('✅ Phone index saved');
 
                 isLoggedIn = true;
                 currentUserData = userData;
@@ -2323,6 +2376,7 @@
                 loadStoreInfo();
 
             } catch (err) {
+                console.error('❌ ERROR saat register:', err);
                 showToast('Gagal daftar: ' + err.message, 'error');
             }
         });
@@ -2857,8 +2911,7 @@
             showContent();
         }, 1500);
 
-        console.log('🔍 Profil dengan tombol login besar & riwayat tersembunyi siap!');
-        console.log('🆔 DEVICE_ID Anda:', DEVICE_ID);
+        console.log('✅ Profil siap! Cek console untuk loog register.');
     </script>
 </body>
 </html>
