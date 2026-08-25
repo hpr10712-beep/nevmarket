@@ -14,15 +14,14 @@
         {
             "imports": {
                 "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js",
-                "firebase-auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
             }
         }
     </script>
 
     <style>
         /* ============================================================
-           RESET (SAMA SEPERTI SEBELUMNYA)
+           RESET (TIDAK DIUBAH)
            ============================================================ */
         * {
             margin: 0;
@@ -88,7 +87,7 @@
         }
 
         /* ============================================================
-           NAVBAR (SAMA)
+           NAVBAR (TIDAK DIUBAH)
            ============================================================ */
         .navbar {
             position: fixed;
@@ -188,7 +187,7 @@
         }
 
         /* ============================================================
-           SKELETON LOADING (SAMA)
+           SKELETON LOADING
            ============================================================ */
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -269,7 +268,7 @@
         }
 
         /* ============================================================
-           PROFIL HEADER (SAMA)
+           PROFIL HEADER (TIDAK DIUBAH)
            ============================================================ */
         .profile-header {
             margin-top: 80px;
@@ -359,132 +358,7 @@
         }
 
         /* ============================================================
-           AUTH SECTION — TOMBOL LOGIN (SAMA)
-           ============================================================ */
-        .auth-section {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 20px 12px;
-            text-align: center;
-        }
-
-        .auth-invite {
-            margin-bottom: 16px;
-        }
-        .auth-invite h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-        .auth-invite p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        .btn-login-main {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            padding: 20px 50px;
-            background: linear-gradient(135deg, #efb22c, #f7d875, #efb22c);
-            background-size: 200% 200%;
-            color: #0a2a0a;
-            border: none;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 6px 24px rgba(239, 178, 44, 0.25);
-            font-family: inherit;
-            width: auto;
-            min-width: 260px;
-            justify-content: center;
-            margin-top: 4px;
-            animation: btnPulse 2.5s ease-in-out infinite;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-login-main::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 60px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent 60%);
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .btn-login-main:hover {
-            transform: scale(1.04) translateY(-3px);
-            box-shadow: 0 10px 36px rgba(239, 178, 44, 0.45);
-        }
-        .btn-login-main:hover::before {
-            opacity: 1;
-        }
-        .btn-login-main i {
-            font-size: 1.8rem;
-        }
-
-        @keyframes btnPulse {
-            0% { transform: scale(1); box-shadow: 0 6px 24px rgba(239, 178, 44, 0.25); }
-            50% { transform: scale(1.02); box-shadow: 0 10px 40px rgba(239, 178, 44, 0.45); }
-            100% { transform: scale(1); box-shadow: 0 6px 24px rgba(239, 178, 44, 0.25); }
-        }
-
-        .btn-logout-main {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 28px;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-            margin-top: 4px;
-        }
-        .btn-logout-main:hover {
-            border-color: #ff6b6b;
-            color: #ff6b6b;
-        }
-
-        .btn-edit-profile-main {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 28px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-            margin-top: 8px;
-            text-decoration: none;
-        }
-        .btn-edit-profile-main:hover {
-            border-color: var(--accent-gold);
-            color: var(--text-primary);
-        }
-
-        .auth-buttons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        /* ============================================================
-           KARTU FORM — DATA DIRI (SAMA)
+           KARTU FORM — DATA DIRI
            ============================================================ */
         .form-card {
             background: var(--bg-card);
@@ -503,8 +377,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-bottom: 14px;
             margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 8px;
         }
         .form-card .card-head .title {
             font-size: 1.1rem;
@@ -592,10 +464,6 @@
             font-weight: 400;
             font-size: 0.7rem;
         }
-        .form-group label .required {
-            color: #ff6b6b;
-            font-weight: 700;
-        }
         .form-group input,
         .form-group textarea {
             width: 100%;
@@ -673,45 +541,6 @@
             color: var(--text-primary);
         }
 
-        /* ============================================================
-           TOMBOL BUKA/TUTUP RIWAYAT (SAMA)
-           ============================================================ */
-        .btn-toggle-riwayat {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 28px;
-            background: linear-gradient(135deg, var(--accent-gold), #f7d875);
-            color: #0a2a0a;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 16px rgba(239, 178, 44, 0.2);
-            font-family: inherit;
-            width: 100%;
-            justify-content: center;
-            margin-top: 4px;
-        }
-        .btn-toggle-riwayat:hover {
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 8px 28px rgba(239, 178, 44, 0.35);
-        }
-        .btn-toggle-riwayat i {
-            font-size: 1rem;
-        }
-
-        #riwayatListContainer {
-            display: none;
-            margin-top: 16px;
-            animation: fadeUp 0.4s ease;
-        }
-        #riwayatListContainer.open {
-            display: block;
-        }
-
         .back-row {
             text-align: center;
             margin-bottom: 32px;
@@ -741,9 +570,6 @@
             font-size: 1rem;
         }
 
-        /* ============================================================
-           TOMBOL BUSINESS (SAMA)
-           ============================================================ */
         .btn-business {
             display: inline-flex;
             align-items: center;
@@ -787,9 +613,6 @@
             50% { box-shadow: 0 8px 48px rgba(239, 178, 44, 0.45); }
         }
 
-        /* ============================================================
-           TOAST (SAMA)
-           ============================================================ */
         .toast {
             position: fixed;
             bottom: 28px;
@@ -820,9 +643,6 @@
             font-size: 1rem;
         }
 
-        /* ============================================================
-           MODAL LOGIN — BARU (Google + Phone)
-           ============================================================ */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -840,9 +660,9 @@
             backdrop-filter: blur(16px);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
-            max-height: 92vh;
+            max-height: 90vh;
             overflow-y: auto;
             padding: 28px 30px;
             box-shadow: var(--shadow-lg);
@@ -858,14 +678,7 @@
             align-items: center;
             margin-bottom: 12px;
         }
-        .modal-header h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .modal-header h2 { font-size: 1.2rem; font-weight: 800; color: var(--accent-gold); }
         .modal-close {
             background: none;
             border: none;
@@ -875,52 +688,6 @@
             transition: var(--transition);
         }
         .modal-close:hover { color: var(--text-primary); }
-
-        .btn-google {
-            width: 100%;
-            padding: 12px;
-            border-radius: 40px;
-            border: none;
-            background: #ffffff;
-            color: #333;
-            font-weight: 600;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .btn-google:hover {
-            background: #f1f1f1;
-            transform: scale(1.02);
-        }
-        .btn-google i {
-            font-size: 1.2rem;
-        }
-
-        .btn-phone {
-            width: 100%;
-            padding: 12px;
-            border-radius: 40px;
-            border: none;
-            background: var(--accent-gold);
-            color: #0a2a0a;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .btn-phone:hover {
-            background: #f7d875;
-        }
-
-        #recaptcha-container {
-            margin: 12px 0;
-        }
 
         .form-actions {
             display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;
@@ -937,11 +704,11 @@
             transition: var(--transition);
             font-family: inherit;
         }
-        .form-actions .btn-submit:hover { background: #f7d875; }
+        .form-actions .btn-submit:hover { background: var(--accent-gold-dark); }
         .form-actions .btn-cancel {
             padding: 8px 24px;
             border-radius: 40px;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
             background: transparent;
             color: var(--text-secondary);
             font-weight: 600;
@@ -956,7 +723,7 @@
         }
 
         /* ============================================================
-           SLIDER RATING (SAMA)
+           SLIDER RATING HALUS — BINTANG EMAS
            ============================================================ */
         .rating-slider-container {
             margin: 12px 0 6px;
@@ -1188,7 +955,7 @@
         }
 
         /* ============================================================
-           RIWAYAT PEMBELIAN (SAMA)
+           RIWAYAT PEMBELIAN — LEBAR & RAPI
            ============================================================ */
         #riwayatSection {
             padding: 20px 24px 24px;
@@ -1244,6 +1011,7 @@
             flex-wrap: wrap;
         }
 
+        /* STATUS BADGE — TEKS WARNA TERANG */
         .status-badge {
             font-size: 0.65rem;
             padding: 4px 14px;
@@ -1312,7 +1080,7 @@
         }
 
         /* ============================================================
-           RESPONSIVE (SAMA)
+           RESPONSIVE
            ============================================================ */
         @media (max-width: 600px) {
             .form-card {
@@ -1373,17 +1141,6 @@
             .rating-stars-display {
                 font-size: 1.8rem;
             }
-            .btn-login-main {
-                font-size: 1.2rem;
-                padding: 16px 32px;
-                min-width: 200px;
-            }
-            .auth-invite h2 {
-                font-size: 1.2rem;
-            }
-            .auth-invite p {
-                font-size: 0.85rem;
-            }
         }
         @media (max-width: 400px) {
             .container {
@@ -1402,18 +1159,13 @@
             .riwayat-item .left {
                 min-width: 120px;
             }
-            .btn-login-main {
-                font-size: 1rem;
-                padding: 14px 24px;
-                min-width: 160px;
-            }
         }
     </style>
 </head>
 <body>
 
     <!-- ============================================================
-    NAVBAR (SAMA)
+    NAVBAR (TIDAK DIUBAH)
     ============================================================ -->
     <nav class="navbar">
         <div class="container-nav">
@@ -1452,40 +1204,18 @@
                 </div>
                 <div class="profile-name" id="displayName">Pengguna</div>
                 <div class="typing-greeting" id="typingGreeting"></div>
-                <div class="profile-id" id="uidDisplay">
-                    <i class="fas fa-microchip"></i> UID: memuat...
+                <div class="profile-id" id="deviceIdDisplay">
+                    <i class="fas fa-microchip"></i> ID: memuat...
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-    TOMBOL LOGIN / REGISTER
-    ============================================================ -->
-    <div class="auth-section" id="authSection">
-        <div class="auth-invite" id="authInvite">
-            <h2>Ayo daftarkan akunmu segera!</h2>
-            <p>Nikmati semua fitur NEV Market dengan akun pribadimu.</p>
-        </div>
-        <button class="btn-login-main" id="btnLoginRegister" style="display:inline-flex;">
-            <i class="fas fa-sign-in-alt"></i> Masuk / Daftar
-        </button>
-        <div class="auth-buttons" id="authButtons" style="display:none;">
-            <button class="btn-logout-main" id="btnLogout">
-                <i class="fas fa-sign-out-alt"></i> Keluar
-            </button>
-            <button class="btn-edit-profile-main" id="btnEditProfileMain">
-                <i class="fas fa-pen"></i> Edit Data Diri
-            </button>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    KONTEN UTAMA — FORM DATA DIRI, TOKO, RIWAYAT
+    FORM DATA DIRI — SKELETON & KONTEN
     ============================================================ -->
     <div class="container">
-
-        <!-- FORM DATA DIRI — SKELETON & KONTEN -->
+        <!-- SKELETON FORM DATA DIRI -->
         <div id="skeletonProfileForm" class="skeleton-card">
             <div class="skeleton-title">
                 <div class="skeleton-text w-30 h-24"></div>
@@ -1496,10 +1226,10 @@
             <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
             <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
             <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
-            <div class="skeleton-text w-100 h-40" style="margin-bottom:16px;"></div>
             <div class="skeleton-text w-100 h-40"></div>
         </div>
 
+        <!-- KONTEN FORM DATA DIRI (awalnya disembunyikan) -->
         <div id="profileFormContent" style="display:none;">
             <div class="form-card">
                 <div class="card-head">
@@ -1511,31 +1241,27 @@
                     </div>
                 </div>
 
-                <div id="profileFormContainer" style="display:none;">
+                <!-- Tombol Edit Data Diri -->
+                <button class="btn-edit-profile" id="btnEditProfile">
+                    <i class="fas fa-pen"></i> Edit Data Diri
+                </button>
+
+                <!-- Form (tersembunyi, muncul saat klik edit atau jika belum punya profil) -->
+                <div id="profileFormContainer">
                     <form id="profileForm" autocomplete="off">
                         <div class="form-group">
-                            <label>Nama Lengkap <span class="required">*</span></label>
-                            <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required />
+                            <label>Nama Panggilan</label>
+                            <input type="text" id="nama" placeholder="Masukkan nama panggilan Anda" required />
                         </div>
-                        <div class="form-group">
-                            <label>Username <span class="required">*</span></label>
-                            <input type="text" id="username" placeholder="Masukkan username (unik)" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Username hanya boleh 1 dan tidak boleh sama dengan pengguna lain.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Aktif <span class="required">*</span></label>
-                            <input type="email" id="email" placeholder="email@example.com" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Email akan diverifikasi dan hanya boleh 1 akun per email.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Nomor WhatsApp <span class="required">*</span></label>
-                            <input type="tel" id="wa" placeholder="0812-3456-7890" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Nomor WhatsApp hanya boleh 1 akun.</div>
-                        </div>
-                        <!-- Password dihapus karena login via Google/Phone -->
-                        <div class="form-group" style="display:none;">
-                            <label>Sandi <span class="optional">(opsional)</span></label>
-                            <input type="password" id="password" placeholder="Minimal 8 karakter" minlength="8" />
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>WhatsApp</label>
+                                <input type="tel" id="wa" placeholder="0812-3456-7890" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Email <span class="optional">(opsional)</span></label>
+                                <input type="email" id="email" placeholder="email@example.com" />
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Catatan <span class="optional">(opsional)</span></label>
@@ -1550,8 +1276,12 @@
             </div>
         </div>
 
-        <!-- AKUN BISNIS & TOKO -->
+        <!-- ============================================================
+        AKUN BISNIS & TOKO — SKELETON & KONTEN
+        ============================================================ -->
         <div id="businessSection">
+
+            <!-- SKELETON INFO TOKO -->
             <div id="skeletonStoreInfo" class="skeleton-card">
                 <div class="skeleton-title">
                     <div class="skeleton-text w-30 h-24"></div>
@@ -1564,7 +1294,10 @@
                 <div class="skeleton-text w-40 h-30"></div>
             </div>
 
+            <!-- KONTEN TOKO (awalnya disembunyikan) -->
             <div id="storeContent" style="display:none;">
+
+                <!-- Tombol Ayo Buat Akun Bisnis (muncul jika belum punya toko) -->
                 <div id="registerStoreBtn" class="form-card" style="margin-top:0; text-align:center;">
                     <div style="margin-bottom:10px;">
                         <i class="fas fa-store-alt" style="font-size:3rem; color:var(--accent-gold); opacity:0.6;"></i>
@@ -1580,17 +1313,20 @@
                     </a>
                 </div>
 
+                <!-- Info Toko (muncul jika sudah punya toko) -->
                 <div id="storeInfo" class="form-card" style="margin-top:0; display:none;">
                     <div class="card-head">
                         <div class="title">
                             <i class="fas fa-store"></i> Toko Saya
                         </div>
                     </div>
+
                     <div class="store-content">
                         <div class="store-name-row">
                             <h3 id="storeNameDisplay"></h3>
                         </div>
                         <div class="store-desc" id="storeDescDisplay">Toko tanpa deskripsi.</div>
+
                         <div class="store-stats">
                             <span><i class="fas fa-users"></i> <span id="storeFollowers">0</span> Pengikut</span>
                             <span><i class="fas fa-star"></i> <span id="storeRating">0.0</span> (dari <span id="storeTotalRatings">0</span> rating)</span>
@@ -1598,6 +1334,7 @@
                                 <i class="fas fa-user-plus"></i> Mengikuti <span id="followingCount">0</span>
                             </span>
                         </div>
+
                         <div class="store-products-section">
                             <h4><i class="fas fa-box"></i> Produk Anda</h4>
                             <div id="storeProductsList">
@@ -1614,18 +1351,30 @@
                 </div>
             </div>
 
-            <!-- RIWAYAT PEMBELIAN -->
-            <div id="riwayatSection" class="form-card" style="margin-top:20px; display:none;">
-                <div class="card-head">
-                    <div class="title">
-                        <i class="fas fa-history"></i> Riwayat Pembelian
-                    </div>
-                    <span style="font-size:0.7rem; color:var(--text-muted);">Sukses & Diproses</span>
+            <!-- ============================================================
+            RIWAYAT PEMBELIAN — SKELETON & KONTEN
+            ============================================================ -->
+            <!-- SKELETON RIWAYAT -->
+            <div id="skeletonRiwayat" class="skeleton-card">
+                <div class="skeleton-title">
+                    <div class="skeleton-text w-30 h-24"></div>
+                    <div class="skeleton-text w-15 h-20"></div>
                 </div>
-                <button class="btn-toggle-riwayat" id="btnToggleRiwayat">
-                    <i class="fas fa-chevron-down"></i> Lihat Riwayat
-                </button>
-                <div id="riwayatListContainer">
+                <div class="skeleton-text w-100 h-30" style="margin-bottom:10px;"></div>
+                <div class="skeleton-text w-100 h-30" style="margin-bottom:10px;"></div>
+                <div class="skeleton-text w-100 h-30" style="margin-bottom:10px;"></div>
+                <div class="skeleton-text w-100 h-30"></div>
+            </div>
+
+            <!-- KONTEN RIWAYAT (awalnya disembunyikan) -->
+            <div id="riwayatContent" style="display:none;">
+                <div id="riwayatSection" class="form-card" style="margin-top:20px;">
+                    <div class="card-head">
+                        <div class="title">
+                            <i class="fas fa-history"></i> Riwayat Pembelian
+                        </div>
+                        <span style="font-size:0.7rem; color:var(--text-muted);">Sukses & Diproses</span>
+                    </div>
                     <div id="riwayatList" style="max-height:420px; overflow-y:auto; padding-right:4px;">
                         <div style="text-align:center; padding:24px 0; color:var(--text-muted);">
                             <i class="fas fa-spinner fa-spin" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
@@ -1636,6 +1385,9 @@
             </div>
         </div>
 
+        <!-- ============================================================
+        TOMBOL KEMBALI (TIDAK DIUBAH)
+        ============================================================ -->
         <div class="back-row">
             <a href="index.html" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Kembali ke Beranda
@@ -1645,43 +1397,7 @@
     </div>
 
     <!-- ============================================================
-    MODAL LOGIN (Google + Phone)
-    ============================================================ -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2><i class="fas fa-user-circle"></i> Masuk / Daftar</h2>
-                <button class="modal-close" id="loginModalClose"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <!-- Google -->
-                <button id="googleSignInBtn" class="btn-google">
-                    <i class="fab fa-google"></i> Masuk dengan Google
-                </button>
-                <div style="text-align:center; color:var(--text-muted); margin:16px 0;">atau</div>
-                <!-- Phone -->
-                <div id="phoneLoginContainer">
-                    <div class="form-group">
-                        <label>Nomor Telepon</label>
-                        <input type="tel" id="phoneNumberInput" placeholder="+628123456789" />
-                    </div>
-                    <div id="recaptcha-container"></div>
-                    <button id="sendCodeBtn" class="btn-submit" style="width:100%;">Kirim Kode</button>
-                    <div id="verificationContainer" style="display:none; margin-top:12px;">
-                        <div class="form-group">
-                            <label>Kode Verifikasi</label>
-                            <input type="text" id="verificationCodeInput" placeholder="6 digit kode" />
-                        </div>
-                        <button id="verifyCodeBtn" class="btn-submit" style="width:100%;">Verifikasi</button>
-                    </div>
-                    <div id="phoneError" style="color:#ff6b6b; font-size:0.8rem; margin-top:6px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ============================================================
-    MODAL RATING (SAMA)
+    MODAL RATING — DENGAN SLIDER HALUS & PERBAIKAN
     ============================================================ -->
     <div class="modal-overlay" id="ratingModal">
         <div class="modal">
@@ -1691,6 +1407,8 @@
             </div>
             <div style="margin-bottom:6px;">
                 <p style="color:var(--text-secondary); font-size:0.85rem;" id="ratingProductName">Produk: ...</p>
+
+                <!-- BINTANG DINAMIS — SEMUA EMAS -->
                 <div class="rating-stars-display" id="ratingStarsDisplay">
                     <i class="fas fa-star" data-i="0"></i>
                     <i class="fas fa-star" data-i="1"></i>
@@ -1698,6 +1416,8 @@
                     <i class="fas fa-star" data-i="3"></i>
                     <i class="fas fa-star" data-i="4"></i>
                 </div>
+
+                <!-- SLIDER HALUS -->
                 <div class="rating-slider-container">
                     <div class="rating-slider-wrapper">
                         <input type="range" class="rating-slider" id="ratingSlider"
@@ -1708,11 +1428,13 @@
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label>Alasan (maks 200 karakter)</label>
                 <textarea id="ratingReview" rows="3" maxlength="200" placeholder="Tulis alasan Anda..." style="width:100%; padding:8px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border-color); border-radius:var(--radius-md); color:var(--text-primary); font-family:inherit; resize:vertical;"></textarea>
                 <div style="text-align:right; font-size:0.7rem; color:var(--text-muted);"><span id="charCount">0</span>/200</div>
             </div>
+
             <div class="form-actions">
                 <button class="btn-submit" id="submitRating">Kirim Rating</button>
                 <button class="btn-cancel" id="ratingCancel">Batal</button>
@@ -1721,7 +1443,7 @@
     </div>
 
     <!-- ============================================================
-    MODAL MENGIKUTI (SAMA)
+    MODAL MENGIKUTI (DAFTAR AKUN YANG DIKUTI)
     ============================================================ -->
     <div class="modal-overlay" id="followingModal">
         <div class="modal">
@@ -1742,7 +1464,7 @@
     </div>
 
     <!-- ============================================================
-    TOAST
+    TOAST (TIDAK DIUBAH)
     ============================================================ -->
     <div class="toast" id="toast">
         <i class="fas fa-info-circle"></i>
@@ -1750,7 +1472,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT — FIREBASE AUTH (Google + Phone)
+    SCRIPT
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -1758,16 +1480,6 @@
         // ============================================================
         import { initializeApp } from "firebase-app";
         import { getDatabase, ref, onValue, update, get, set, remove, push } from "firebase-database";
-        import {
-            getAuth,
-            signInWithPopup,
-            GoogleAuthProvider,
-            signInWithPhoneNumber,
-            RecaptchaVerifier,
-            PhoneAuthProvider,
-            onAuthStateChanged,
-            signOut
-        } from "firebase-auth";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -1777,10 +1489,19 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
 
-        console.log('🔥 Firebase initialized with Auth');
+        // ============================================================
+        // DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
 
         // ============================================================
         // TOAST
@@ -1804,105 +1525,41 @@
         });
 
         // ============================================================
-        // SHOW/HIDE SKELETON
+        // SHOW/HIDE SKELETON & CONTENT
         // ============================================================
         function showContent() {
             document.getElementById('skeletonHeader').style.display = 'none';
             document.getElementById('skeletonProfileForm').style.display = 'none';
             document.getElementById('skeletonStoreInfo').style.display = 'none';
+            document.getElementById('skeletonRiwayat').style.display = 'none';
             document.getElementById('profileContent').style.display = 'block';
             document.getElementById('profileFormContent').style.display = 'block';
             document.getElementById('storeContent').style.display = 'block';
+            document.getElementById('riwayatContent').style.display = 'block';
         }
 
         // ============================================================
-        // ELEMEN
+        // ELEMEN DATA DIRI
         // ============================================================
         const form = document.getElementById('profileForm');
         const btnSimpan = document.getElementById('btnSimpan');
         const btnCancelForm = document.getElementById('btnCancelForm');
+        const btnEditProfile = document.getElementById('btnEditProfile');
         const formContainer = document.getElementById('profileFormContainer');
         const statusBadge = document.getElementById('statusBadge');
         const avatarDisplay = document.getElementById('avatarDisplay');
         const typingEl = document.getElementById('typingGreeting');
-        const btnLoginRegister = document.getElementById('btnLoginRegister');
-        const btnLogout = document.getElementById('btnLogout');
-        const btnEditProfileMain = document.getElementById('btnEditProfileMain');
-        const displayName = document.getElementById('displayName');
-        const uidDisplay = document.getElementById('uidDisplay');
 
         const fields = {
             nama: document.getElementById('nama'),
-            username: document.getElementById('username'),
-            email: document.getElementById('email'),
             wa: document.getElementById('wa'),
-            password: document.getElementById('password'), // disembunyikan
+            email: document.getElementById('email'),
             catatan: document.getElementById('catatan')
         };
+        const displayName = document.getElementById('displayName');
 
-        // ============================================================
-        // TOMBOL BUKA/TUTUP RIWAYAT
-        // ============================================================
-        const btnToggleRiwayat = document.getElementById('btnToggleRiwayat');
-        const riwayatListContainer = document.getElementById('riwayatListContainer');
-        const riwayatSection = document.getElementById('riwayatSection');
-        let riwayatOpen = false;
-
-        btnToggleRiwayat.addEventListener('click', function() {
-            riwayatOpen = !riwayatOpen;
-            if (riwayatOpen) {
-                riwayatListContainer.classList.add('open');
-                btnToggleRiwayat.innerHTML = '<i class="fas fa-chevron-up"></i> Tutup Riwayat';
-                loadRiwayat();
-            } else {
-                riwayatListContainer.classList.remove('open');
-                btnToggleRiwayat.innerHTML = '<i class="fas fa-chevron-down"></i> Lihat Riwayat';
-            }
-        });
-
-        // ============================================================
-        // VARIABEL STATUS
-        // ============================================================
-        let currentUser = null;          // Firebase user
-        let currentUserData = null;      // data dari database
-        let isLoggedIn = false;
         let isFormOpen = false;
-
-        // ============================================================
-        // FUNGSI CEK UNIK (Username, Email, WA)
-        // ============================================================
-        async function isUsernameTaken(username) {
-            if (!username) return false;
-            try {
-                const snap = await get(ref(db, `logo-shop/usernames/${username}`));
-                return snap.exists();
-            } catch (err) {
-                console.error('Error cek username:', err);
-                throw err;
-            }
-        }
-
-        async function isEmailTaken(email) {
-            if (!email) return false;
-            try {
-                const snap = await get(ref(db, `logo-shop/emails/${email}`));
-                return snap.exists();
-            } catch (err) {
-                console.error('Error cek email:', err);
-                throw err;
-            }
-        }
-
-        async function isWaTaken(wa) {
-            if (!wa) return false;
-            try {
-                const snap = await get(ref(db, `logo-shop/phones/${wa}`));
-                return snap.exists();
-            } catch (err) {
-                console.error('Error cek WA:', err);
-                throw err;
-            }
-        }
+        let hasProfileData = false;
 
         // ============================================================
         // TYPING GREETING
@@ -1932,7 +1589,7 @@
         }
 
         // ============================================================
-        // UPDATE UI
+        // UPDATE UI DATA DIRI
         // ============================================================
         function updateUI(data) {
             const nama = data.nama || 'Pengguna';
@@ -1946,37 +1603,18 @@
                 avatarDisplay.style.fontSize = '2.6rem';
                 avatarDisplay.style.fontWeight = 'normal';
             }
-
-            // Status
-            const isComplete = data.nama && data.username && data.email && data.wa;
-            if (isComplete && isLoggedIn) {
+            const isComplete = data.nama && data.wa;
+            hasProfileData = isComplete;
+            if (isComplete) {
                 statusBadge.className = 'status complete';
                 statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
-            } else if (isLoggedIn) {
+            } else {
                 statusBadge.className = 'status incomplete';
                 statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum lengkap';
-            } else {
-                statusBadge.className = 'status incomplete';
-                statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum login';
             }
-
-            // Tampilkan tombol
-            if (isLoggedIn) {
-                btnLoginRegister.style.display = 'none';
-                document.getElementById('authButtons').style.display = 'flex';
-                document.getElementById('authInvite').style.display = 'none';
-                riwayatSection.style.display = 'block';
-            } else {
-                btnLoginRegister.style.display = 'inline-flex';
-                document.getElementById('authButtons').style.display = 'none';
-                document.getElementById('authInvite').style.display = 'block';
-                riwayatSection.style.display = 'none';
-                formContainer.classList.remove('open');
-            }
-
-            const greetingText = isLoggedIn && nama !== 'Pengguna'
+            const greetingText = nama !== 'Pengguna'
                 ? `Halo, ${nama}! Selamat datang kembali.`
-                : isLoggedIn ? 'Selamat datang! Lengkapi profilmu.' : 'Silakan login untuk mengelola akun.';
+                : 'Selamat datang! Lengkapi profilmu.';
             typeGreeting(greetingText);
         }
 
@@ -1986,140 +1624,72 @@
         function openForm() {
             formContainer.classList.add('open');
             isFormOpen = true;
-            btnEditProfileMain.textContent = 'Tutup Form';
-            btnEditProfileMain.innerHTML = '<i class="fas fa-times"></i> Tutup Form';
+            btnEditProfile.textContent = 'Tutup Form';
+            btnEditProfile.innerHTML = '<i class="fas fa-times"></i> Tutup Form';
         }
 
         function closeForm() {
             formContainer.classList.remove('open');
             isFormOpen = false;
-            btnEditProfileMain.textContent = 'Edit Data Diri';
-            btnEditProfileMain.innerHTML = '<i class="fas fa-pen"></i> Edit Data Diri';
+            btnEditProfile.textContent = 'Edit Data Diri';
+            btnEditProfile.innerHTML = '<i class="fas fa-pen"></i> Edit Data Diri';
         }
 
-        btnEditProfileMain.addEventListener('click', () => {
-            if (isFormOpen) closeForm();
-            else openForm();
-        });
+        function toggleForm() {
+            if (isFormOpen) {
+                closeForm();
+            } else {
+                openForm();
+            }
+        }
+
+        btnEditProfile.addEventListener('click', toggleForm);
         btnCancelForm.addEventListener('click', closeForm);
 
         // ============================================================
-        // LOAD DATA USER DARI DATABASE (berdasarkan UID)
+        // LOAD DATA DIRI
         // ============================================================
-        function loadUserData(uid) {
-            if (!uid) {
-                console.warn('loadUserData dipanggil tanpa uid');
-                return;
+        const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
+        onValue(userRef, (snap) => {
+            const data = snap.val() || {};
+            fields.nama.value = data.nama || '';
+            fields.wa.value = data.wa || '';
+            fields.email.value = data.email || '';
+            fields.catatan.value = data.catatan || '';
+            updateUI(data);
+
+            if (!data.nama || !data.wa) {
+                openForm();
+            } else {
+                closeForm();
             }
-            const userRef = ref(db, `logo-shop/users/${uid}`);
-            onValue(userRef, (snap) => {
-                const data = snap.val() || {};
-                currentUserData = data;
-                // Isi form
-                fields.nama.value = data.nama || '';
-                fields.username.value = data.username || '';
-                fields.email.value = data.email || '';
-                fields.wa.value = data.wa || '';
-                fields.password.value = data.password || '';
-                fields.catatan.value = data.catatan || '';
-                // Jika data kosong, buat entri baru dengan email/nama dari Firebase Auth
-                if (!data.nama && currentUser) {
-                    // User baru, buat data default
-                    const newData = {
-                        nama: currentUser.displayName || 'Pengguna',
-                        email: currentUser.email || '',
-                        wa: currentUser.phoneNumber || '',
-                        username: '',
-                        catatan: '',
-                        isLoggedIn: true,
-                        createdAt: new Date().toISOString(),
-                        lastLogin: new Date().toISOString()
-                    };
-                    set(ref(db, `logo-shop/users/${uid}`), newData)
-                        .then(() => {
-                            console.log('✅ Data user baru dibuat di database');
-                            currentUserData = newData;
-                            updateUI(newData);
-                            // Update form
-                            fields.nama.value = newData.nama;
-                            fields.email.value = newData.email;
-                            fields.wa.value = newData.wa;
-                            if (newData.nama && newData.nama !== 'Pengguna') {
-                                statusBadge.className = 'status complete';
-                                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
-                            }
-                        })
-                        .catch(err => showToast('Gagal buat data: ' + err.message, 'error'));
-                } else {
-                    updateUI(data);
-                    if (data.nama && data.email && data.wa) {
-                        statusBadge.className = 'status complete';
-                        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
-                    }
-                }
-            }, { onlyOnce: false });
-        }
+        });
 
         // ============================================================
-        // SIMPAN PROFIL
+        // SIMPAN DATA DIRI
         // ============================================================
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentUser) {
-                showToast('Anda belum login.', 'error');
-                return;
-            }
             btnSimpan.disabled = true;
             btnSimpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
 
             const data = {
                 nama: fields.nama.value.trim(),
-                username: fields.username.value.trim(),
-                email: fields.email.value.trim(),
                 wa: fields.wa.value.trim(),
+                email: fields.email.value.trim(),
                 catatan: fields.catatan.value.trim(),
-                lastUpdate: new Date().toISOString(),
-                isLoggedIn: true
+                lastUpdate: new Date().toISOString()
             };
 
-            if (!data.nama) { showToast('Nama lengkap wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            if (!data.username) { showToast('Username wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            if (!data.email) { showToast('Email wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            if (!data.wa) { showToast('Nomor WhatsApp wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-
-            // Cek unik
-            const uid = currentUser.uid;
-            if (data.username !== currentUserData?.username) {
-                const taken = await isUsernameTaken(data.username);
-                if (taken) { showToast('Username sudah digunakan!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            }
-            if (data.email !== currentUserData?.email) {
-                const taken = await isEmailTaken(data.email);
-                if (taken) { showToast('Email sudah digunakan!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            }
-            if (data.wa !== currentUserData?.wa) {
-                const taken = await isWaTaken(data.wa);
-                if (taken) { showToast('Nomor WhatsApp sudah digunakan!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
+            if (!data.nama || !data.wa) {
+                showToast('Nama dan WhatsApp wajib diisi!', 'error');
+                btnSimpan.disabled = false;
+                btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil';
+                return;
             }
 
             try {
-                // Hapus index lama jika berubah
-                if (currentUserData?.username && currentUserData.username !== data.username) {
-                    await set(ref(db, `logo-shop/usernames/${currentUserData.username}`), null);
-                }
-                if (currentUserData?.email && currentUserData.email !== data.email) {
-                    await set(ref(db, `logo-shop/emails/${currentUserData.email}`), null);
-                }
-                if (currentUserData?.wa && currentUserData.wa !== data.wa) {
-                    await set(ref(db, `logo-shop/phones/${currentUserData.wa}`), null);
-                }
-
-                await update(ref(db, `logo-shop/users/${uid}`), data);
-                await set(ref(db, `logo-shop/usernames/${data.username}`), uid);
-                await set(ref(db, `logo-shop/emails/${data.email}`), uid);
-                await set(ref(db, `logo-shop/phones/${data.wa}`), uid);
-
-                currentUserData = data;
+                await update(ref(db, `logo-shop/users/${DEVICE_ID}`), data);
                 showToast('Profil berhasil disimpan!', 'success');
                 updateUI(data);
                 closeForm();
@@ -2132,170 +1702,10 @@
         });
 
         // ============================================================
-        // MODAL LOGIN
+        // ============ FITUR BISNIS & RATING =========================
         // ============================================================
-        const loginModal = document.getElementById('loginModal');
-        const loginModalClose = document.getElementById('loginModalClose');
 
-        function openLoginModal() {
-            loginModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Reset phone UI
-            document.getElementById('verificationContainer').style.display = 'none';
-            document.getElementById('phoneError').textContent = '';
-            document.getElementById('phoneNumberInput').value = '';
-            document.getElementById('verificationCodeInput').value = '';
-        }
-
-        function closeLoginModal() {
-            loginModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        btnLoginRegister.addEventListener('click', openLoginModal);
-        loginModalClose.addEventListener('click', closeLoginModal);
-        loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLoginModal(); });
-
-        // ============================================================
-        // LOGIN DENGAN GOOGLE
-        // ============================================================
-        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                // User signed in
-                console.log('Google login success:', result.user);
-                showToast('Login Google berhasil!', 'success');
-                closeLoginModal();
-                // Data akan dimuat oleh onAuthStateChanged
-            } catch (error) {
-                console.error('Google login error:', error);
-                showToast('Gagal login Google: ' + error.message, 'error');
-            }
-        });
-
-        // ============================================================
-        // LOGIN DENGAN NOMOR TELEPON
-        // ============================================================
-        let confirmationResult = null;
-        let recaptchaVerifier = null;
-
-        function initRecaptcha() {
-            const container = document.getElementById('recaptcha-container');
-            container.innerHTML = ''; // kosongkan
-            recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                'size': 'normal',
-                'callback': () => {
-                    // reCAPTCHA solved
-                    console.log('reCAPTCHA solved');
-                },
-                'expired-callback': () => {
-                    showToast('reCAPTCHA expired, silakan coba lagi.', 'error');
-                }
-            });
-        }
-
-        document.getElementById('sendCodeBtn').addEventListener('click', async () => {
-            const phoneNumber = document.getElementById('phoneNumberInput').value.trim();
-            if (!phoneNumber) {
-                showToast('Masukkan nomor telepon.', 'error');
-                return;
-            }
-            // Reset error
-            document.getElementById('phoneError').textContent = '';
-
-            try {
-                if (!recaptchaVerifier) {
-                    initRecaptcha();
-                }
-                // Render reCAPTCHA
-                await recaptchaVerifier.render();
-                const result = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
-                confirmationResult = result;
-                document.getElementById('verificationContainer').style.display = 'block';
-                showToast('Kode verifikasi telah dikirim.', 'success');
-            } catch (error) {
-                console.error('Error sending code:', error);
-                document.getElementById('phoneError').textContent = error.message;
-                showToast('Gagal kirim kode: ' + error.message, 'error');
-                // Reset reCAPTCHA
-                if (recaptchaVerifier) {
-                    try { recaptchaVerifier.clear(); } catch(e) {}
-                    initRecaptcha();
-                }
-            }
-        });
-
-        document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
-            const code = document.getElementById('verificationCodeInput').value.trim();
-            if (!code) {
-                showToast('Masukkan kode verifikasi.', 'error');
-                return;
-            }
-            if (!confirmationResult) {
-                showToast('Kirim kode terlebih dahulu.', 'error');
-                return;
-            }
-            try {
-                const result = await confirmationResult.confirm(code);
-                console.log('Phone login success:', result.user);
-                showToast('Login berhasil!', 'success');
-                closeLoginModal();
-                // Data akan dimuat oleh onAuthStateChanged
-            } catch (error) {
-                console.error('Error verifying code:', error);
-                showToast('Kode salah atau kadaluarsa: ' + error.message, 'error');
-            }
-        });
-
-        // ============================================================
-        // LOGOUT
-        // ============================================================
-        btnLogout.addEventListener('click', async () => {
-            if (!confirm('Yakin ingin keluar?')) return;
-            try {
-                await signOut(auth);
-                showToast('Anda telah keluar.', 'info');
-            } catch (err) {
-                showToast('Gagal keluar: ' + err.message, 'error');
-            }
-        });
-
-        // ============================================================
-        // ON AUTH STATE CHANGED
-        // ============================================================
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                isLoggedIn = true;
-                uidDisplay.textContent = 'UID: ' + user.uid.slice(0, 14) + '…';
-                console.log('User logged in:', user.uid);
-                loadUserData(user.uid);
-                loadStoreInfo();
-                showContent();
-            } else {
-                currentUser = null;
-                isLoggedIn = false;
-                currentUserData = null;
-                uidDisplay.textContent = 'UID: belum login';
-                // Reset UI ke keadaan belum login
-                const emptyData = {};
-                updateUI(emptyData);
-                // Sembunyikan riwayat
-                riwayatSection.style.display = 'none';
-                // Sembunyikan form
-                formContainer.classList.remove('open');
-                // Sembunyikan store info
-                document.getElementById('storeInfo').style.display = 'none';
-                document.getElementById('registerStoreBtn').style.display = 'block';
-                // Tampilkan skeleton? tidak, biarkan content tetap
-                showContent(); // tetap tampilkan konten dengan data kosong
-                console.log('User logged out');
-            }
-        });
-
-        // ============================================================
-        // FITUR BISNIS & RATING (sama seperti sebelumnya, tetapi gunakan uid)
-        // ============================================================
+        // --- ELEMEN ---
         const registerStoreBtn = document.getElementById('registerStoreBtn');
         const storeInfo = document.getElementById('storeInfo');
         const storeNameDisplay = document.getElementById('storeNameDisplay');
@@ -2307,12 +1717,16 @@
         const storeProductsList = document.getElementById('storeProductsList');
         const riwayatList = document.getElementById('riwayatList');
 
-        const sellerRef = (uid) => ref(db, `logo-shop/sellers/${uid}`);
+        // --- REFS ---
+        const sellerRef = ref(db, `logo-shop/sellers/${DEVICE_ID}`);
         const productsRef = ref(db, 'logo-shop/products');
         const ordersRef = ref(db, 'logo-shop/orders');
         const ratingsRef = ref(db, 'logo-shop/ratings');
         const followersRef = ref(db, 'logo-shop/followers');
 
+        // ============================================================
+        // FUNGSI UNTUK MENDAPATKAN JUMLAH PENGIKUT
+        // ============================================================
         async function updateFollowersCount(sellerId) {
             try {
                 const snap = await get(ref(db, `logo-shop/followers/${sellerId}`));
@@ -2322,15 +1736,15 @@
                 await update(ref(db, `logo-shop/sellers/${sellerId}`), { followers: count });
                 return count;
             } catch (e) {
+                console.warn('Gagal hitung pengikut:', e);
                 storeFollowers.textContent = '0';
                 return 0;
             }
         }
 
+        // --- CEK STATUS TOKO ---
         function loadStoreInfo() {
-            if (!currentUser) return;
-            const uid = currentUser.uid;
-            onValue(sellerRef(uid), (snap) => {
+            onValue(sellerRef, (snap) => {
                 const sellerData = snap.val();
                 if (sellerData && sellerData.storeName) {
                     registerStoreBtn.style.display = 'none';
@@ -2339,26 +1753,26 @@
                     storeDescDisplay.textContent = sellerData.description || 'Toko tanpa deskripsi.';
                     storeRating.textContent = sellerData.rating ? sellerData.rating.toFixed(1) : '0.0';
                     storeTotalRatings.textContent = sellerData.totalRatings || 0;
-                    updateFollowersCount(uid);
+                    updateFollowersCount(DEVICE_ID);
                     loadStoreProducts(sellerData.storeName);
                     loadFollowingCount();
                 } else {
                     registerStoreBtn.style.display = 'block';
                     storeInfo.style.display = 'none';
                 }
+                checkAllDataLoaded();
             }, { onlyOnce: true });
         }
 
+        // --- TAMPILKAN PRODUK TOKO ---
         function loadStoreProducts(storeName) {
             onValue(productsRef, (snap) => {
                 const data = snap.val() || {};
                 let html = '';
                 let hasProduct = false;
-                if (!currentUser) return;
-                const uid = currentUser.uid;
                 for (const key in data) {
                     const prod = data[key];
-                    if (prod.sellerId === uid && prod.storeName === storeName) {
+                    if (prod.sellerId === DEVICE_ID && prod.storeName === storeName) {
                         hasProduct = true;
                         html += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
                             <span>${prod.name || 'Tanpa nama'}</span>
@@ -2373,20 +1787,20 @@
             }, { onlyOnce: true });
         }
 
+        // --- HITUNG JUMLAH MENGIKITI ---
         async function loadFollowingCount() {
             try {
                 const snap = await get(followersRef);
                 const data = snap.val() || {};
                 let count = 0;
-                if (!currentUser) return;
-                const uid = currentUser.uid;
                 for (const sellerId in data) {
-                    if (data[sellerId][uid]) {
+                    if (data[sellerId][DEVICE_ID]) {
                         count++;
                     }
                 }
                 followingCount.textContent = count;
             } catch (e) {
+                console.warn('Gagal hitung mengikuti:', e);
                 followingCount.textContent = '0';
             }
         }
@@ -2395,16 +1809,14 @@
         // TAMPILKAN RIWAYAT PEMBELIAN
         // ============================================================
         function loadRiwayat() {
-            if (!currentUser) return;
-            const uid = currentUser.uid;
             onValue(ordersRef, async (snap) => {
                 const orders = snap.val() || {};
                 let html = '';
                 let hasOrder = false;
 
                 const userOrders = Object.entries(orders).filter(([key, order]) => {
-                    const orderUid = order.uid || order.buyerId || '';
-                    return orderUid === uid;
+                    const orderDeviceId = order.deviceId || order.buyerId || '';
+                    return orderDeviceId === DEVICE_ID;
                 });
                 userOrders.sort((a, b) => (b[1].orderDate || 0) - (a[1].orderDate || 0));
 
@@ -2413,11 +1825,9 @@
                         <div style="text-align:center; padding:24px 0; color:var(--text-muted);">
                             <i class="fas fa-shopping-bag" style="font-size:1.6rem; display:block; margin-bottom:8px; opacity:0.4;"></i>
                             Belum ada pembelian.
-                            <div style="margin-top:8px; font-size:0.8rem; color:var(--text-muted);">
-                                Silakan beli produk terlebih dahulu untuk melihat riwayat.
-                            </div>
                         </div>
                     `;
+                    checkAllDataLoaded();
                     return;
                 }
 
@@ -2434,7 +1844,7 @@
 
                     let ratingGiven = false;
                     for (const rKey in allRatings) {
-                        if (allRatings[rKey].buyerId === uid && allRatings[rKey].orderId === key) {
+                        if (allRatings[rKey].buyerId === DEVICE_ID && allRatings[rKey].orderId === key) {
                             ratingGiven = true;
                             break;
                         }
@@ -2496,14 +1906,17 @@
                         openRatingModal(orderKey, productName);
                     });
                 });
+
+                checkAllDataLoaded();
             }, { onlyOnce: true });
         }
 
         // ============================================================
-        // MODAL RATING (sama)
+        // MODAL RATING — DIPERBAIKI AGAR TIDAK GAGAL
         // ============================================================
         let selectedRating = 1.0;
         let currentOrderId = '';
+        let currentProductName = '';
         let currentOrderData = null;
 
         const ratingModal = document.getElementById('ratingModal');
@@ -2523,6 +1936,7 @@
             const half = value % 1 >= 0.5;
             stars.forEach((star, index) => {
                 star.className = 'fas fa-star';
+                star.style.color = '';
                 if (index < full) {
                     star.classList.add('active');
                 } else if (index === full && half) {
@@ -2542,12 +1956,11 @@
         });
 
         async function openRatingModal(orderId, productName) {
-            if (!isLoggedIn) {
-                showToast('Silakan login terlebih dahulu.', 'error');
-                openLoginModal();
-                return;
-            }
             currentOrderId = orderId;
+            currentProductName = productName;
+            currentOrderData = null;
+
+            // Ambil data order terlebih dahulu untuk validasi
             try {
                 const orderSnap = await get(ref(db, `logo-shop/orders/${orderId}`));
                 if (orderSnap.exists()) {
@@ -2592,10 +2005,6 @@
         });
 
         submitRatingBtn.addEventListener('click', async function() {
-            if (!currentUser) {
-                showToast('Anda belum login.', 'error');
-                return;
-            }
             const rating = selectedRating;
             const review = ratingReview.value.trim();
 
@@ -2612,52 +2021,77 @@
                 return;
             }
 
+            // Gunakan currentOrderData yang sudah diambil saat modal dibuka
             const orderData = currentOrderData;
             if (!orderData) {
                 showToast('Data pesanan tidak ditemukan.', 'error');
                 return;
             }
 
+            // Ambil productId dari order
             const productId = orderData.productId;
             if (!productId) {
                 showToast('Produk tidak valid.', 'error');
+                console.error('Order tidak memiliki productId:', orderData);
                 return;
             }
 
+            // Ambil sellerId dari order atau dari produk
             let sellerId = orderData.sellerId;
             if (!sellerId) {
+                // Coba ambil dari produk
                 try {
                     const prodSnap = await get(ref(db, `logo-shop/products/${productId}`));
                     if (prodSnap.exists()) {
-                        sellerId = prodSnap.val().sellerId;
+                        const prodData = prodSnap.val();
+                        sellerId = prodData.sellerId;
                     }
-                } catch (e) {}
+                } catch (e) {
+                    console.warn('Gagal ambil sellerId dari produk:', e);
+                }
             }
 
             if (!sellerId) {
                 showToast('Toko tidak valid untuk dirating.', 'error');
+                console.error('SellerId tidak ditemukan untuk order:', currentOrderId, orderData);
                 return;
             }
 
             try {
                 const ratingRef = push(ref(db, 'logo-shop/ratings'));
-                await set(ratingRef, {
-                    productId, orderId: currentOrderId,
-                    buyerId: currentUser.uid, sellerId,
+                const ratingData = {
+                    productId: productId,
+                    orderId: currentOrderId,
+                    buyerId: DEVICE_ID,
+                    sellerId: sellerId,
                     storeName: orderData.storeName || '',
-                    rating, review,
+                    rating: rating,
+                    review: review,
                     timestamp: new Date().toISOString()
-                });
+                };
+                console.log('📤 Mengirim rating:', ratingData);
+                await set(ratingRef, ratingData);
 
+                // Tandai order sudah dirating
                 await update(ref(db, `logo-shop/orders/${currentOrderId}`), { rated: true });
+
+                // Update rating produk
                 await updateProductRating(productId);
-                if (orderData.storeName) await calculateStoreRating(orderData.storeName);
-                else await updateSellerRating(sellerId);
+
+                // Update rating toko jika ada storeName
+                if (orderData.storeName) {
+                    await calculateStoreRating(orderData.storeName);
+                } else if (sellerId) {
+                    // Coba update rating seller berdasarkan sellerId
+                    await updateSellerRating(sellerId);
+                }
 
                 showToast('Rating berhasil dikirim!', 'success');
                 closeRatingModal();
                 loadRiwayat();
+
             } catch (err) {
+                console.error('❌ Error kirim rating:', err);
                 showToast('Gagal kirim rating: ' + err.message, 'error');
             }
         });
@@ -2666,63 +2100,92 @@
             try {
                 const snap = await get(ratingsRef);
                 const allRatings = snap.val() || {};
-                let total = 0, count = 0;
+                let total = 0;
+                let count = 0;
                 for (const key in allRatings) {
-                    if (allRatings[key].productId === productId) {
-                        total += allRatings[key].rating || 0;
+                    const r = allRatings[key];
+                    if (r.productId === productId) {
+                        total += r.rating || 0;
                         count++;
                     }
                 }
-                const avg = count > 0 ? total / count : 0;
-                await update(ref(db, `logo-shop/products/${productId}`), { rating: avg, totalRatings: count });
-            } catch (e) {}
+                const avg = count > 0 ? (total / count) : 0;
+                await update(ref(db, `logo-shop/products/${productId}`), {
+                    rating: avg,
+                    totalRatings: count
+                });
+                console.log('✅ Rating produk diperbarui:', productId, avg, count);
+            } catch (e) {
+                console.warn('Gagal update rating produk:', e);
+            }
         }
 
         async function calculateStoreRating(storeName) {
             try {
                 const snap = await get(ratingsRef);
                 const allRatings = snap.val() || {};
-                let total = 0, count = 0;
+                let total = 0;
+                let count = 0;
                 for (const key in allRatings) {
-                    if (allRatings[key].storeName === storeName) {
-                        total += allRatings[key].rating || 0;
+                    const r = allRatings[key];
+                    if (r.storeName === storeName) {
+                        total += r.rating || 0;
                         count++;
                     }
                 }
-                const avg = count > 0 ? total / count : 0;
+                const avg = count > 0 ? (total / count) : 0;
+                // Cari sellerId berdasarkan storeName
                 const sellerSnap = await get(ref(db, 'logo-shop/sellers'));
                 const sellers = sellerSnap.val() || {};
                 for (const sid in sellers) {
                     if (sellers[sid].storeName === storeName) {
-                        await update(ref(db, `logo-shop/sellers/${sid}`), { rating: avg, totalRatings: count });
+                        await update(ref(db, `logo-shop/sellers/${sid}`), {
+                            rating: avg,
+                            totalRatings: count
+                        });
+                        storeRating.textContent = avg.toFixed(1);
+                        storeTotalRatings.textContent = count;
                         break;
                     }
                 }
-            } catch (e) {}
+                console.log('✅ Rating toko diperbarui:', storeName, avg, count);
+            } catch (e) {
+                console.warn('Gagal hitung rating toko:', e);
+            }
         }
 
         async function updateSellerRating(sellerId) {
             try {
                 const snap = await get(ratingsRef);
                 const allRatings = snap.val() || {};
-                let total = 0, count = 0;
+                let total = 0;
+                let count = 0;
+                // Cari rating yang sellerId-nya sama
                 for (const key in allRatings) {
-                    if (allRatings[key].sellerId === sellerId) {
-                        total += allRatings[key].rating || 0;
+                    const r = allRatings[key];
+                    if (r.sellerId === sellerId) {
+                        total += r.rating || 0;
                         count++;
                     }
                 }
-                const avg = count > 0 ? total / count : 0;
-                await update(ref(db, `logo-shop/sellers/${sellerId}`), { rating: avg, totalRatings: count });
-                if (sellerId === currentUser?.uid) {
+                const avg = count > 0 ? (total / count) : 0;
+                await update(ref(db, `logo-shop/sellers/${sellerId}`), {
+                    rating: avg,
+                    totalRatings: count
+                });
+                // Jika ini adalah toko sendiri, update tampilan
+                if (sellerId === DEVICE_ID) {
                     storeRating.textContent = avg.toFixed(1);
                     storeTotalRatings.textContent = count;
                 }
-            } catch (e) {}
+                console.log('✅ Rating seller diperbarui:', sellerId, avg, count);
+            } catch (e) {
+                console.warn('Gagal update rating seller:', e);
+            }
         }
 
         // ============================================================
-        // FITUR MENGIKUTI (sama, gunakan uid)
+        // FITUR MENGIKITI
         // ============================================================
         const followingModal = document.getElementById('followingModal');
         const followingModalClose = document.getElementById('followingModalClose');
@@ -2745,34 +2208,44 @@
         followingModal.addEventListener('click', (e) => { if (e.target === followingModal) closeFollowingModal(); });
 
         async function loadFollowingList() {
-            if (!currentUser) {
-                followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);">Silakan login terlebih dahulu.</div>`;
-                return;
-            }
-            followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i> Memuat...</div>`;
+            followingList.innerHTML = `
+                <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
+                    <i class="fas fa-spinner fa-spin" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
+                    Memuat...
+                </div>
+            `;
 
             try {
                 const followersSnap = await get(followersRef);
                 const followersData = followersSnap.val() || {};
+
                 const followingSellers = [];
-                const uid = currentUser.uid;
                 for (const sellerId in followersData) {
-                    if (followersData[sellerId][uid]) followingSellers.push(sellerId);
+                    if (followersData[sellerId][DEVICE_ID]) {
+                        followingSellers.push(sellerId);
+                    }
                 }
 
                 if (followingSellers.length === 0) {
-                    followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);"><i class="fas fa-user-plus" style="font-size:1.2rem; display:block; margin-bottom:6px; opacity:0.4;"></i> Anda belum mengikuti siapa pun.</div>`;
+                    followingList.innerHTML = `
+                        <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
+                            <i class="fas fa-user-plus" style="font-size:1.2rem; display:block; margin-bottom:6px; opacity:0.4;"></i>
+                            Anda belum mengikuti siapa pun.
+                        </div>
+                    `;
                     return;
                 }
 
                 const sellersSnap = await get(ref(db, 'logo-shop/sellers'));
                 const sellersData = sellersSnap.val() || {};
+
                 let html = '';
                 for (const sellerId of followingSellers) {
                     const seller = sellersData[sellerId] || {};
                     const name = seller.storeName || 'Toko Tanpa Nama';
                     const label = seller.label || '';
                     const initial = name.charAt(0).toUpperCase();
+
                     html += `
                         <div class="follow-item">
                             <div class="info">
@@ -2793,7 +2266,7 @@
                         const sellerId = this.dataset.sellerid;
                         if (!confirm(`Berhenti mengikuti "${this.closest('.follow-item').querySelector('.name').textContent}"?`)) return;
                         try {
-                            await remove(ref(db, `logo-shop/followers/${sellerId}/${currentUser.uid}`));
+                            await remove(ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`));
                             showToast('Berhenti mengikuti.', 'info');
                             await loadFollowingList();
                             await loadFollowingCount();
@@ -2805,24 +2278,35 @@
                 });
 
             } catch (err) {
-                followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);"><i class="fas fa-exclamation-triangle" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i> Gagal memuat daftar: ${err.message}</div>`;
+                followingList.innerHTML = `
+                    <div style="text-align:center; padding:20px 0; color:var(--text-muted);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i>
+                        Gagal memuat daftar: ${err.message}
+                    </div>
+                `;
             }
         }
 
         // ============================================================
-        // INIT
+        // CEK SEMUA DATA SIAP
         // ============================================================
-        // Panggil showContent setelah render
+        function checkAllDataLoaded() {}
+
+        // ============================================================
+        // INIT SEMUA FITUR
+        // ============================================================
+        document.getElementById('deviceIdDisplay').innerHTML =
+            '<i class="fas fa-microchip"></i> ID: ' + DEVICE_ID.slice(0, 14) + '…';
+
+        loadStoreInfo();
+        loadRiwayat();
+
         setTimeout(() => {
             showContent();
-        }, 1000);
+        }, 1500);
 
-        // Inisialisasi reCAPTCHA saat modal dibuka (opsional)
-        document.getElementById('loginModal').addEventListener('shown.bs.modal', function() {
-            // Tidak digunakan, kita inisialisasi saat kirim kode
-        });
-
-        console.log('✅ Profil dengan Firebase Auth siap!');
+        console.log('🔍 Profil dengan perbaikan rating siap!');
+        console.log('🆔 DEVICE_ID Anda:', DEVICE_ID);
     </script>
 </body>
 </html>
