@@ -14,14 +14,15 @@
         {
             "imports": {
                 "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
-                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js",
+                "firebase-auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"
             }
         }
     </script>
 
     <style>
         /* ============================================================
-           RESET (TIDAK DIUBAH)
+           RESET (SAMA SEPERTI SEBELUMNYA)
            ============================================================ */
         * {
             margin: 0;
@@ -87,7 +88,7 @@
         }
 
         /* ============================================================
-           NAVBAR (TIDAK DIUBAH)
+           NAVBAR (SAMA)
            ============================================================ */
         .navbar {
             position: fixed;
@@ -187,7 +188,7 @@
         }
 
         /* ============================================================
-           SKELETON LOADING
+           SKELETON LOADING (SAMA)
            ============================================================ */
         @keyframes shimmer {
             0% { background-position: -200% 0; }
@@ -268,7 +269,7 @@
         }
 
         /* ============================================================
-           PROFIL HEADER (TIDAK DIUBAH)
+           PROFIL HEADER (SAMA)
            ============================================================ */
         .profile-header {
             margin-top: 80px;
@@ -358,7 +359,7 @@
         }
 
         /* ============================================================
-           AUTH SECTION — TOMBOL LOGIN YANG KEREN
+           AUTH SECTION — TOMBOL LOGIN (SAMA)
            ============================================================ */
         .auth-section {
             max-width: 720px;
@@ -483,7 +484,7 @@
         }
 
         /* ============================================================
-           KARTU FORM — DATA DIRI (TIDAK DIUBAH)
+           KARTU FORM — DATA DIRI (SAMA)
            ============================================================ */
         .form-card {
             background: var(--bg-card);
@@ -673,7 +674,7 @@
         }
 
         /* ============================================================
-           TOMBOL BUKA/TUTUP RIWAYAT
+           TOMBOL BUKA/TUTUP RIWAYAT (SAMA)
            ============================================================ */
         .btn-toggle-riwayat {
             display: inline-flex;
@@ -741,7 +742,7 @@
         }
 
         /* ============================================================
-           TOMBOL BUSINESS (TIDAK DIUBAH)
+           TOMBOL BUSINESS (SAMA)
            ============================================================ */
         .btn-business {
             display: inline-flex;
@@ -787,7 +788,7 @@
         }
 
         /* ============================================================
-           TOAST (TIDAK DIUBAH)
+           TOAST (SAMA)
            ============================================================ */
         .toast {
             position: fixed;
@@ -820,7 +821,7 @@
         }
 
         /* ============================================================
-           MODAL LOGIN / REGISTER
+           MODAL LOGIN — BARU (Google + Phone)
            ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -875,38 +876,50 @@
         }
         .modal-close:hover { color: var(--text-primary); }
 
-        .modal-tabs {
-            display: flex;
-            gap: 4px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 60px;
-            padding: 4px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .modal-tabs .tab {
-            flex: 1;
-            padding: 8px 12px;
+        .btn-google {
+            width: 100%;
+            padding: 12px;
             border-radius: 40px;
             border: none;
-            background: transparent;
-            color: var(--text-secondary);
+            background: #ffffff;
+            color: #333;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             cursor: pointer;
             transition: var(--transition);
             font-family: inherit;
         }
-        .modal-tabs .tab.active {
-            background: var(--accent-gold);
-            color: #0a2a0a;
+        .btn-google:hover {
+            background: #f1f1f1;
+            transform: scale(1.02);
         }
-        .modal-tabs .tab:hover:not(.active) {
-            background: rgba(255,255,255,0.05);
+        .btn-google i {
+            font-size: 1.2rem;
         }
 
-        .modal-body {
-            min-height: 200px;
+        .btn-phone {
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            border: none;
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .btn-phone:hover {
+            background: #f7d875;
+        }
+
+        #recaptcha-container {
+            margin: 12px 0;
         }
 
         .form-actions {
@@ -943,7 +956,7 @@
         }
 
         /* ============================================================
-           SLIDER RATING HALUS — BINTANG EMAS
+           SLIDER RATING (SAMA)
            ============================================================ */
         .rating-slider-container {
             margin: 12px 0 6px;
@@ -1175,7 +1188,7 @@
         }
 
         /* ============================================================
-           RIWAYAT PEMBELIAN — LEBAR & RAPI
+           RIWAYAT PEMBELIAN (SAMA)
            ============================================================ */
         #riwayatSection {
             padding: 20px 24px 24px;
@@ -1299,7 +1312,7 @@
         }
 
         /* ============================================================
-           RESPONSIVE
+           RESPONSIVE (SAMA)
            ============================================================ */
         @media (max-width: 600px) {
             .form-card {
@@ -1360,10 +1373,6 @@
             .rating-stars-display {
                 font-size: 1.8rem;
             }
-            .modal-tabs .tab {
-                font-size: 0.75rem;
-                padding: 6px 10px;
-            }
             .btn-login-main {
                 font-size: 1.2rem;
                 padding: 16px 32px;
@@ -1404,7 +1413,7 @@
 <body>
 
     <!-- ============================================================
-    NAVBAR (TIDAK DIUBAH)
+    NAVBAR (SAMA)
     ============================================================ -->
     <nav class="navbar">
         <div class="container-nav">
@@ -1443,29 +1452,24 @@
                 </div>
                 <div class="profile-name" id="displayName">Pengguna</div>
                 <div class="typing-greeting" id="typingGreeting"></div>
-                <div class="profile-id" id="deviceIdDisplay">
-                    <i class="fas fa-microchip"></i> ID: memuat...
+                <div class="profile-id" id="uidDisplay">
+                    <i class="fas fa-microchip"></i> UID: memuat...
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-    TOMBOL LOGIN / REGISTER — DIPERBESAR & DIBERI AJAKAN
+    TOMBOL LOGIN / REGISTER
     ============================================================ -->
     <div class="auth-section" id="authSection">
-        <!-- Teks ajakan -->
         <div class="auth-invite" id="authInvite">
             <h2>Ayo daftarkan akunmu segera!</h2>
             <p>Nikmati semua fitur NEV Market dengan akun pribadimu.</p>
         </div>
-
-        <!-- Tombol Login/Register (muncul jika belum login) -->
         <button class="btn-login-main" id="btnLoginRegister" style="display:inline-flex;">
             <i class="fas fa-sign-in-alt"></i> Masuk / Daftar
         </button>
-
-        <!-- Tombol Logout & Edit Profil (muncul jika sudah login) -->
         <div class="auth-buttons" id="authButtons" style="display:none;">
             <button class="btn-logout-main" id="btnLogout">
                 <i class="fas fa-sign-out-alt"></i> Keluar
@@ -1481,10 +1485,7 @@
     ============================================================ -->
     <div class="container">
 
-        <!-- ============================================================
-        FORM DATA DIRI — SKELETON & KONTEN
-        ============================================================ -->
-        <!-- SKELETON FORM DATA DIRI -->
+        <!-- FORM DATA DIRI — SKELETON & KONTEN -->
         <div id="skeletonProfileForm" class="skeleton-card">
             <div class="skeleton-title">
                 <div class="skeleton-text w-30 h-24"></div>
@@ -1499,7 +1500,6 @@
             <div class="skeleton-text w-100 h-40"></div>
         </div>
 
-        <!-- KONTEN FORM DATA DIRI (awalnya disembunyikan) -->
         <div id="profileFormContent" style="display:none;">
             <div class="form-card">
                 <div class="card-head">
@@ -1511,7 +1511,6 @@
                     </div>
                 </div>
 
-                <!-- Form Data Diri (muncul saat klik Edit) -->
                 <div id="profileFormContainer" style="display:none;">
                     <form id="profileForm" autocomplete="off">
                         <div class="form-group">
@@ -1533,10 +1532,10 @@
                             <input type="tel" id="wa" placeholder="0812-3456-7890" required />
                             <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Nomor WhatsApp hanya boleh 1 akun.</div>
                         </div>
-                        <div class="form-group">
-                            <label>Sandi <span class="required">*</span></label>
-                            <input type="password" id="password" placeholder="Minimal 8 karakter" required minlength="8" />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Minimal 8 karakter.</div>
+                        <!-- Password dihapus karena login via Google/Phone -->
+                        <div class="form-group" style="display:none;">
+                            <label>Sandi <span class="optional">(opsional)</span></label>
+                            <input type="password" id="password" placeholder="Minimal 8 karakter" minlength="8" />
                         </div>
                         <div class="form-group">
                             <label>Catatan <span class="optional">(opsional)</span></label>
@@ -1551,12 +1550,8 @@
             </div>
         </div>
 
-        <!-- ============================================================
-        AKUN BISNIS & TOKO — SKELETON & KONTEN
-        ============================================================ -->
+        <!-- AKUN BISNIS & TOKO -->
         <div id="businessSection">
-
-            <!-- SKELETON INFO TOKO -->
             <div id="skeletonStoreInfo" class="skeleton-card">
                 <div class="skeleton-title">
                     <div class="skeleton-text w-30 h-24"></div>
@@ -1569,10 +1564,7 @@
                 <div class="skeleton-text w-40 h-30"></div>
             </div>
 
-            <!-- KONTEN TOKO (awalnya disembunyikan) -->
             <div id="storeContent" style="display:none;">
-
-                <!-- Tombol Ayo Buat Akun Bisnis (muncul jika belum punya toko) -->
                 <div id="registerStoreBtn" class="form-card" style="margin-top:0; text-align:center;">
                     <div style="margin-bottom:10px;">
                         <i class="fas fa-store-alt" style="font-size:3rem; color:var(--accent-gold); opacity:0.6;"></i>
@@ -1588,20 +1580,17 @@
                     </a>
                 </div>
 
-                <!-- Info Toko (muncul jika sudah punya toko) -->
                 <div id="storeInfo" class="form-card" style="margin-top:0; display:none;">
                     <div class="card-head">
                         <div class="title">
                             <i class="fas fa-store"></i> Toko Saya
                         </div>
                     </div>
-
                     <div class="store-content">
                         <div class="store-name-row">
                             <h3 id="storeNameDisplay"></h3>
                         </div>
                         <div class="store-desc" id="storeDescDisplay">Toko tanpa deskripsi.</div>
-
                         <div class="store-stats">
                             <span><i class="fas fa-users"></i> <span id="storeFollowers">0</span> Pengikut</span>
                             <span><i class="fas fa-star"></i> <span id="storeRating">0.0</span> (dari <span id="storeTotalRatings">0</span> rating)</span>
@@ -1609,7 +1598,6 @@
                                 <i class="fas fa-user-plus"></i> Mengikuti <span id="followingCount">0</span>
                             </span>
                         </div>
-
                         <div class="store-products-section">
                             <h4><i class="fas fa-box"></i> Produk Anda</h4>
                             <div id="storeProductsList">
@@ -1626,9 +1614,7 @@
                 </div>
             </div>
 
-            <!-- ============================================================
-            RIWAYAT PEMBELIAN — DISEMBUNYIKAN JIKA BELUM LOGIN
-            ============================================================ -->
+            <!-- RIWAYAT PEMBELIAN -->
             <div id="riwayatSection" class="form-card" style="margin-top:20px; display:none;">
                 <div class="card-head">
                     <div class="title">
@@ -1636,13 +1622,9 @@
                     </div>
                     <span style="font-size:0.7rem; color:var(--text-muted);">Sukses & Diproses</span>
                 </div>
-
-                <!-- Tombol Buka/Tutup Riwayat -->
                 <button class="btn-toggle-riwayat" id="btnToggleRiwayat">
                     <i class="fas fa-chevron-down"></i> Lihat Riwayat
                 </button>
-
-                <!-- Konten Riwayat (tersembunyi) -->
                 <div id="riwayatListContainer">
                     <div id="riwayatList" style="max-height:420px; overflow-y:auto; padding-right:4px;">
                         <div style="text-align:center; padding:24px 0; color:var(--text-muted);">
@@ -1652,12 +1634,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-        <!-- ============================================================
-        TOMBOL KEMBALI (TIDAK DIUBAH)
-        ============================================================ -->
         <div class="back-row">
             <a href="index.html" class="btn-back">
                 <i class="fas fa-arrow-left"></i> Kembali ke Beranda
@@ -1667,83 +1645,43 @@
     </div>
 
     <!-- ============================================================
-    MODAL LOGIN / REGISTER
+    MODAL LOGIN (Google + Phone)
     ============================================================ -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
             <div class="modal-header">
-                <h2><i class="fas fa-user-circle"></i> <span id="modalLoginTitle">Masuk</span></h2>
+                <h2><i class="fas fa-user-circle"></i> Masuk / Daftar</h2>
                 <button class="modal-close" id="loginModalClose"><i class="fas fa-times"></i></button>
             </div>
-
-            <!-- Tab Login / Register -->
-            <div class="modal-tabs">
-                <button class="tab active" data-tab="login">Masuk</button>
-                <button class="tab" data-tab="register">Daftar</button>
-            </div>
-
             <div class="modal-body">
-                <!-- FORM LOGIN -->
-                <div id="loginFormContainer">
-                    <form id="loginForm">
+                <!-- Google -->
+                <button id="googleSignInBtn" class="btn-google">
+                    <i class="fab fa-google"></i> Masuk dengan Google
+                </button>
+                <div style="text-align:center; color:var(--text-muted); margin:16px 0;">atau</div>
+                <!-- Phone -->
+                <div id="phoneLoginContainer">
+                    <div class="form-group">
+                        <label>Nomor Telepon</label>
+                        <input type="tel" id="phoneNumberInput" placeholder="+628123456789" />
+                    </div>
+                    <div id="recaptcha-container"></div>
+                    <button id="sendCodeBtn" class="btn-submit" style="width:100%;">Kirim Kode</button>
+                    <div id="verificationContainer" style="display:none; margin-top:12px;">
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" id="loginUsername" placeholder="Masukkan username" required />
+                            <label>Kode Verifikasi</label>
+                            <input type="text" id="verificationCodeInput" placeholder="6 digit kode" />
                         </div>
-                        <div class="form-group">
-                            <label>Sandi</label>
-                            <input type="password" id="loginPassword" placeholder="Masukkan sandi" required />
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-submit" id="btnLoginSubmit"><i class="fas fa-sign-in-alt"></i> Masuk</button>
-                            <button type="button" class="btn-cancel" id="loginCancel">Batal</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- FORM REGISTER -->
-                <div id="registerFormContainer" style="display:none;">
-                    <form id="registerForm">
-                        <div class="form-group">
-                            <label>Nama Lengkap <span class="required">*</span></label>
-                            <input type="text" id="regNama" placeholder="Nama lengkap" required />
-                        </div>
-                        <div class="form-group">
-                            <label>Username <span class="required">*</span></label>
-                            <input type="text" id="regUsername" placeholder="Username unik" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Hanya 1 akun per username.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email <span class="required">*</span></label>
-                            <input type="email" id="regEmail" placeholder="email@example.com" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Hanya 1 akun per email.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Nomor WhatsApp <span class="required">*</span></label>
-                            <input type="tel" id="regWa" placeholder="0812-3456-7890" required />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Hanya 1 akun per nomor WhatsApp.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Sandi <span class="required">*</span></label>
-                            <input type="password" id="regPassword" placeholder="Minimal 8 karakter" required minlength="8" />
-                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:2px;">Minimal 8 karakter.</div>
-                        </div>
-                        <div class="form-group">
-                            <label>Catatan <span class="optional">(opsional)</span></label>
-                            <textarea id="regCatatan" placeholder="Informasi tambahan..."></textarea>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-submit" id="btnRegisterSubmit"><i class="fas fa-user-plus"></i> Daftar</button>
-                            <button type="button" class="btn-cancel" id="registerCancel">Batal</button>
-                        </div>
-                    </form>
+                        <button id="verifyCodeBtn" class="btn-submit" style="width:100%;">Verifikasi</button>
+                    </div>
+                    <div id="phoneError" style="color:#ff6b6b; font-size:0.8rem; margin-top:6px;"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- ============================================================
-    MODAL RATING — DENGAN SLIDER HALUS
+    MODAL RATING (SAMA)
     ============================================================ -->
     <div class="modal-overlay" id="ratingModal">
         <div class="modal">
@@ -1753,7 +1691,6 @@
             </div>
             <div style="margin-bottom:6px;">
                 <p style="color:var(--text-secondary); font-size:0.85rem;" id="ratingProductName">Produk: ...</p>
-
                 <div class="rating-stars-display" id="ratingStarsDisplay">
                     <i class="fas fa-star" data-i="0"></i>
                     <i class="fas fa-star" data-i="1"></i>
@@ -1761,7 +1698,6 @@
                     <i class="fas fa-star" data-i="3"></i>
                     <i class="fas fa-star" data-i="4"></i>
                 </div>
-
                 <div class="rating-slider-container">
                     <div class="rating-slider-wrapper">
                         <input type="range" class="rating-slider" id="ratingSlider"
@@ -1772,13 +1708,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>Alasan (maks 200 karakter)</label>
                 <textarea id="ratingReview" rows="3" maxlength="200" placeholder="Tulis alasan Anda..." style="width:100%; padding:8px 12px; background:rgba(255,255,255,0.05); border:1px solid var(--border-color); border-radius:var(--radius-md); color:var(--text-primary); font-family:inherit; resize:vertical;"></textarea>
                 <div style="text-align:right; font-size:0.7rem; color:var(--text-muted);"><span id="charCount">0</span>/200</div>
             </div>
-
             <div class="form-actions">
                 <button class="btn-submit" id="submitRating">Kirim Rating</button>
                 <button class="btn-cancel" id="ratingCancel">Batal</button>
@@ -1787,7 +1721,7 @@
     </div>
 
     <!-- ============================================================
-    MODAL MENGIKUTI (DAFTAR AKUN YANG DIKUTI)
+    MODAL MENGIKUTI (SAMA)
     ============================================================ -->
     <div class="modal-overlay" id="followingModal">
         <div class="modal">
@@ -1808,7 +1742,7 @@
     </div>
 
     <!-- ============================================================
-    TOAST (TIDAK DIUBAH)
+    TOAST
     ============================================================ -->
     <div class="toast" id="toast">
         <i class="fas fa-info-circle"></i>
@@ -1816,7 +1750,7 @@
     </div>
 
     <!-- ============================================================
-    SCRIPT (DIPERBAIKI DENGAN LOG UNTUK DEBUG)
+    SCRIPT — FIREBASE AUTH (Google + Phone)
     ============================================================ -->
     <script type="module">
         // ============================================================
@@ -1824,6 +1758,16 @@
         // ============================================================
         import { initializeApp } from "firebase-app";
         import { getDatabase, ref, onValue, update, get, set, remove, push } from "firebase-database";
+        import {
+            getAuth,
+            signInWithPopup,
+            GoogleAuthProvider,
+            signInWithPhoneNumber,
+            RecaptchaVerifier,
+            PhoneAuthProvider,
+            onAuthStateChanged,
+            signOut
+        } from "firebase-auth";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
@@ -1833,22 +1777,10 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-        console.log('🔥 Firebase initialized');
-
-        // ============================================================
-        // DEVICE ID
-        // ============================================================
-        function getDeviceId() {
-            let id = localStorage.getItem('logoShop_deviceId');
-            if (!id) {
-                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
-                localStorage.setItem('logoShop_deviceId', id);
-            }
-            return id;
-        }
-        const DEVICE_ID = getDeviceId();
-        console.log('🆔 DEVICE_ID:', DEVICE_ID);
+        console.log('🔥 Firebase initialized with Auth');
 
         // ============================================================
         // TOAST
@@ -1872,20 +1804,19 @@
         });
 
         // ============================================================
-        // SHOW/HIDE SKELETON & CONTENT
+        // SHOW/HIDE SKELETON
         // ============================================================
         function showContent() {
             document.getElementById('skeletonHeader').style.display = 'none';
             document.getElementById('skeletonProfileForm').style.display = 'none';
             document.getElementById('skeletonStoreInfo').style.display = 'none';
-            document.getElementById('skeletonRiwayat').style.display = 'none';
             document.getElementById('profileContent').style.display = 'block';
             document.getElementById('profileFormContent').style.display = 'block';
             document.getElementById('storeContent').style.display = 'block';
         }
 
         // ============================================================
-        // ELEMEN DATA DIRI
+        // ELEMEN
         // ============================================================
         const form = document.getElementById('profileForm');
         const btnSimpan = document.getElementById('btnSimpan');
@@ -1894,21 +1825,20 @@
         const statusBadge = document.getElementById('statusBadge');
         const avatarDisplay = document.getElementById('avatarDisplay');
         const typingEl = document.getElementById('typingGreeting');
-
-        // Tombol utama
         const btnLoginRegister = document.getElementById('btnLoginRegister');
         const btnLogout = document.getElementById('btnLogout');
         const btnEditProfileMain = document.getElementById('btnEditProfileMain');
+        const displayName = document.getElementById('displayName');
+        const uidDisplay = document.getElementById('uidDisplay');
 
         const fields = {
             nama: document.getElementById('nama'),
             username: document.getElementById('username'),
             email: document.getElementById('email'),
             wa: document.getElementById('wa'),
-            password: document.getElementById('password'),
+            password: document.getElementById('password'), // disembunyikan
             catatan: document.getElementById('catatan')
         };
-        const displayName = document.getElementById('displayName');
 
         // ============================================================
         // TOMBOL BUKA/TUTUP RIWAYAT
@@ -1931,52 +1861,45 @@
         });
 
         // ============================================================
-        // VARIABEL STATUS LOGIN
+        // VARIABEL STATUS
         // ============================================================
+        let currentUser = null;          // Firebase user
+        let currentUserData = null;      // data dari database
         let isLoggedIn = false;
-        let currentUserData = null;
+        let isFormOpen = false;
 
         // ============================================================
-        // FUNGSI CEK UNIK (Username, Email, WA) — DENGAN LOG
+        // FUNGSI CEK UNIK (Username, Email, WA)
         // ============================================================
         async function isUsernameTaken(username) {
             if (!username) return false;
-            console.log('🔍 Cek username:', username);
             try {
                 const snap = await get(ref(db, `logo-shop/usernames/${username}`));
-                const taken = snap.exists();
-                console.log('  → username', taken ? 'sudah digunakan' : 'tersedia');
-                return taken;
+                return snap.exists();
             } catch (err) {
-                console.error('❌ Error cek username:', err);
+                console.error('Error cek username:', err);
                 throw err;
             }
         }
 
         async function isEmailTaken(email) {
             if (!email) return false;
-            console.log('🔍 Cek email:', email);
             try {
                 const snap = await get(ref(db, `logo-shop/emails/${email}`));
-                const taken = snap.exists();
-                console.log('  → email', taken ? 'sudah digunakan' : 'tersedia');
-                return taken;
+                return snap.exists();
             } catch (err) {
-                console.error('❌ Error cek email:', err);
+                console.error('Error cek email:', err);
                 throw err;
             }
         }
 
         async function isWaTaken(wa) {
             if (!wa) return false;
-            console.log('🔍 Cek WA:', wa);
             try {
                 const snap = await get(ref(db, `logo-shop/phones/${wa}`));
-                const taken = snap.exists();
-                console.log('  → WA', taken ? 'sudah digunakan' : 'tersedia');
-                return taken;
+                return snap.exists();
             } catch (err) {
-                console.error('❌ Error cek WA:', err);
+                console.error('Error cek WA:', err);
                 throw err;
             }
         }
@@ -2009,7 +1932,7 @@
         }
 
         // ============================================================
-        // UPDATE UI DATA DIRI & TOMBOL
+        // UPDATE UI
         // ============================================================
         function updateUI(data) {
             const nama = data.nama || 'Pengguna';
@@ -2024,8 +1947,8 @@
                 avatarDisplay.style.fontWeight = 'normal';
             }
 
-            // Update status
-            const isComplete = data.nama && data.username && data.email && data.wa && data.password && data.password.length >= 8;
+            // Status
+            const isComplete = data.nama && data.username && data.email && data.wa;
             if (isComplete && isLoggedIn) {
                 statusBadge.className = 'status complete';
                 statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
@@ -2037,20 +1960,17 @@
                 statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum login';
             }
 
-            // Tampilkan/sembunyikan tombol
+            // Tampilkan tombol
             if (isLoggedIn) {
                 btnLoginRegister.style.display = 'none';
                 document.getElementById('authButtons').style.display = 'flex';
                 document.getElementById('authInvite').style.display = 'none';
-                // Tampilkan riwayat
                 riwayatSection.style.display = 'block';
             } else {
                 btnLoginRegister.style.display = 'inline-flex';
                 document.getElementById('authButtons').style.display = 'none';
                 document.getElementById('authInvite').style.display = 'block';
-                // Sembunyikan riwayat
                 riwayatSection.style.display = 'none';
-                // Sembunyikan form
                 formContainer.classList.remove('open');
             }
 
@@ -2061,10 +1981,8 @@
         }
 
         // ============================================================
-        // TOGGLE FORM EDIT
+        // TOGGLE FORM
         // ============================================================
-        let isFormOpen = false;
-
         function openForm() {
             formContainer.classList.add('open');
             isFormOpen = true;
@@ -2079,53 +1997,78 @@
             btnEditProfileMain.innerHTML = '<i class="fas fa-pen"></i> Edit Data Diri';
         }
 
-        function toggleForm() {
-            if (isFormOpen) {
-                closeForm();
-            } else {
-                openForm();
-            }
-        }
-
-        btnEditProfileMain.addEventListener('click', toggleForm);
+        btnEditProfileMain.addEventListener('click', () => {
+            if (isFormOpen) closeForm();
+            else openForm();
+        });
         btnCancelForm.addEventListener('click', closeForm);
 
         // ============================================================
-        // LOAD DATA DIRI DARI FIREBASE
+        // LOAD DATA USER DARI DATABASE (berdasarkan UID)
         // ============================================================
-        function loadUserData() {
-            const userRef = ref(db, `logo-shop/users/${DEVICE_ID}`);
+        function loadUserData(uid) {
+            if (!uid) {
+                console.warn('loadUserData dipanggil tanpa uid');
+                return;
+            }
+            const userRef = ref(db, `logo-shop/users/${uid}`);
             onValue(userRef, (snap) => {
                 const data = snap.val() || {};
                 currentUserData = data;
+                // Isi form
                 fields.nama.value = data.nama || '';
                 fields.username.value = data.username || '';
                 fields.email.value = data.email || '';
                 fields.wa.value = data.wa || '';
                 fields.password.value = data.password || '';
                 fields.catatan.value = data.catatan || '';
-                // Cek login
-                if (data.username && data.password && data.isLoggedIn) {
-                    isLoggedIn = true;
+                // Jika data kosong, buat entri baru dengan email/nama dari Firebase Auth
+                if (!data.nama && currentUser) {
+                    // User baru, buat data default
+                    const newData = {
+                        nama: currentUser.displayName || 'Pengguna',
+                        email: currentUser.email || '',
+                        wa: currentUser.phoneNumber || '',
+                        username: '',
+                        catatan: '',
+                        isLoggedIn: true,
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    };
+                    set(ref(db, `logo-shop/users/${uid}`), newData)
+                        .then(() => {
+                            console.log('✅ Data user baru dibuat di database');
+                            currentUserData = newData;
+                            updateUI(newData);
+                            // Update form
+                            fields.nama.value = newData.nama;
+                            fields.email.value = newData.email;
+                            fields.wa.value = newData.wa;
+                            if (newData.nama && newData.nama !== 'Pengguna') {
+                                statusBadge.className = 'status complete';
+                                statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
+                            }
+                        })
+                        .catch(err => showToast('Gagal buat data: ' + err.message, 'error'));
                 } else {
-                    isLoggedIn = false;
+                    updateUI(data);
+                    if (data.nama && data.email && data.wa) {
+                        statusBadge.className = 'status complete';
+                        statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
+                    }
                 }
-                updateUI(data);
-                if (isLoggedIn && data.nama && data.email && data.wa) {
-                    statusBadge.className = 'status complete';
-                    statusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Lengkap';
-                } else if (isLoggedIn) {
-                    statusBadge.className = 'status incomplete';
-                    statusBadge.innerHTML = '<i class="fas fa-circle"></i> Belum lengkap';
-                }
-            });
+            }, { onlyOnce: false });
         }
 
         // ============================================================
-        // SIMPAN DATA DIRI
+        // SIMPAN PROFIL
         // ============================================================
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!currentUser) {
+                showToast('Anda belum login.', 'error');
+                return;
+            }
             btnSimpan.disabled = true;
             btnSimpan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
 
@@ -2134,20 +2077,18 @@
                 username: fields.username.value.trim(),
                 email: fields.email.value.trim(),
                 wa: fields.wa.value.trim(),
-                password: fields.password.value.trim(),
                 catatan: fields.catatan.value.trim(),
                 lastUpdate: new Date().toISOString(),
                 isLoggedIn: true
             };
 
-            // Validasi
             if (!data.nama) { showToast('Nama lengkap wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
             if (!data.username) { showToast('Username wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
             if (!data.email) { showToast('Email wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
             if (!data.wa) { showToast('Nomor WhatsApp wajib diisi!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
-            if (!data.password || data.password.length < 8) { showToast('Sandi minimal 8 karakter!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
 
             // Cek unik
+            const uid = currentUser.uid;
             if (data.username !== currentUserData?.username) {
                 const taken = await isUsernameTaken(data.username);
                 if (taken) { showToast('Username sudah digunakan!', 'error'); btnSimpan.disabled = false; btnSimpan.innerHTML = '<i class="fas fa-save"></i> Simpan Profil'; return; }
@@ -2162,7 +2103,7 @@
             }
 
             try {
-                // Hapus index lama
+                // Hapus index lama jika berubah
                 if (currentUserData?.username && currentUserData.username !== data.username) {
                     await set(ref(db, `logo-shop/usernames/${currentUserData.username}`), null);
                 }
@@ -2173,12 +2114,11 @@
                     await set(ref(db, `logo-shop/phones/${currentUserData.wa}`), null);
                 }
 
-                await update(ref(db, `logo-shop/users/${DEVICE_ID}`), data);
-                await set(ref(db, `logo-shop/usernames/${data.username}`), DEVICE_ID);
-                await set(ref(db, `logo-shop/emails/${data.email}`), DEVICE_ID);
-                await set(ref(db, `logo-shop/phones/${data.wa}`), DEVICE_ID);
+                await update(ref(db, `logo-shop/users/${uid}`), data);
+                await set(ref(db, `logo-shop/usernames/${data.username}`), uid);
+                await set(ref(db, `logo-shop/emails/${data.email}`), uid);
+                await set(ref(db, `logo-shop/phones/${data.wa}`), uid);
 
-                isLoggedIn = true;
                 currentUserData = data;
                 showToast('Profil berhasil disimpan!', 'success');
                 updateUI(data);
@@ -2192,51 +2132,19 @@
         });
 
         // ============================================================
-        // MODAL LOGIN / REGISTER
+        // MODAL LOGIN
         // ============================================================
         const loginModal = document.getElementById('loginModal');
         const loginModalClose = document.getElementById('loginModalClose');
-        const loginCancel = document.getElementById('loginCancel');
-        const registerCancel = document.getElementById('registerCancel');
-        const modalLoginTitle = document.getElementById('modalLoginTitle');
-
-        const tabs = document.querySelectorAll('.tab');
-        const loginFormContainer = document.getElementById('loginFormContainer');
-        const registerFormContainer = document.getElementById('registerFormContainer');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                const target = this.dataset.tab;
-                if (target === 'login') {
-                    loginFormContainer.style.display = 'block';
-                    registerFormContainer.style.display = 'none';
-                    modalLoginTitle.textContent = 'Masuk';
-                } else {
-                    loginFormContainer.style.display = 'none';
-                    registerFormContainer.style.display = 'block';
-                    modalLoginTitle.textContent = 'Daftar';
-                }
-            });
-        });
 
         function openLoginModal() {
             loginModal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            document.getElementById('loginUsername').value = '';
-            document.getElementById('loginPassword').value = '';
-            document.getElementById('regNama').value = '';
-            document.getElementById('regUsername').value = '';
-            document.getElementById('regEmail').value = '';
-            document.getElementById('regWa').value = '';
-            document.getElementById('regPassword').value = '';
-            document.getElementById('regCatatan').value = '';
-            tabs.forEach(t => t.classList.remove('active'));
-            document.querySelector('.tab[data-tab="login"]').classList.add('active');
-            loginFormContainer.style.display = 'block';
-            registerFormContainer.style.display = 'none';
-            modalLoginTitle.textContent = 'Masuk';
+            // Reset phone UI
+            document.getElementById('verificationContainer').style.display = 'none';
+            document.getElementById('phoneError').textContent = '';
+            document.getElementById('phoneNumberInput').value = '';
+            document.getElementById('verificationCodeInput').value = '';
         }
 
         function closeLoginModal() {
@@ -2246,138 +2154,96 @@
 
         btnLoginRegister.addEventListener('click', openLoginModal);
         loginModalClose.addEventListener('click', closeLoginModal);
-        loginCancel.addEventListener('click', closeLoginModal);
-        registerCancel.addEventListener('click', closeLoginModal);
         loginModal.addEventListener('click', (e) => { if (e.target === loginModal) closeLoginModal(); });
 
         // ============================================================
-        // LOGIN
+        // LOGIN DENGAN GOOGLE
         // ============================================================
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            if (!username || !password) {
-                showToast('Username dan sandi wajib diisi!', 'error');
-                return;
-            }
-
+        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
             try {
-                const usernameSnap = await get(ref(db, `logo-shop/usernames/${username}`));
-                if (!usernameSnap.exists()) {
-                    showToast('Username tidak ditemukan!', 'error');
-                    return;
-                }
-                const deviceId = usernameSnap.val();
-                const userSnap = await get(ref(db, `logo-shop/users/${deviceId}`));
-                if (!userSnap.exists()) {
-                    showToast('Akun tidak ditemukan!', 'error');
-                    return;
-                }
-                const userData = userSnap.val();
-                if (userData.password !== password) {
-                    showToast('Sandi salah!', 'error');
-                    return;
-                }
-
-                await update(ref(db, `logo-shop/users/${deviceId}`), { isLoggedIn: true, lastLogin: new Date().toISOString() });
-                if (deviceId !== DEVICE_ID) {
-                    const currentData = { ...userData, isLoggedIn: true, lastLogin: new Date().toISOString() };
-                    await set(ref(db, `logo-shop/users/${DEVICE_ID}`), currentData);
-                    await set(ref(db, `logo-shop/usernames/${username}`), DEVICE_ID);
-                    if (userData.email) await set(ref(db, `logo-shop/emails/${userData.email}`), DEVICE_ID);
-                    if (userData.wa) await set(ref(db, `logo-shop/phones/${userData.wa}`), DEVICE_ID);
-                    await set(ref(db, `logo-shop/users/${deviceId}`), null);
-                }
-
-                isLoggedIn = true;
-                currentUserData = userData;
-                showToast('Selamat datang, ' + (userData.nama || username) + '!', 'success');
+                const result = await signInWithPopup(auth, provider);
+                // User signed in
+                console.log('Google login success:', result.user);
+                showToast('Login Google berhasil!', 'success');
                 closeLoginModal();
-                loadUserData();
-                loadStoreInfo();
-
-            } catch (err) {
-                showToast('Gagal login: ' + err.message, 'error');
+                // Data akan dimuat oleh onAuthStateChanged
+            } catch (error) {
+                console.error('Google login error:', error);
+                showToast('Gagal login Google: ' + error.message, 'error');
             }
         });
 
         // ============================================================
-        // REGISTER — DIPERBAIKI DENGAN LOG
+        // LOGIN DENGAN NOMOR TELEPON
         // ============================================================
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            console.log('📝 REGISTER FORM SUBMITTED');
+        let confirmationResult = null;
+        let recaptchaVerifier = null;
 
-            const nama = document.getElementById('regNama').value.trim();
-            const username = document.getElementById('regUsername').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
-            const wa = document.getElementById('regWa').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const catatan = document.getElementById('regCatatan').value.trim();
+        function initRecaptcha() {
+            const container = document.getElementById('recaptcha-container');
+            container.innerHTML = ''; // kosongkan
+            recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+                'size': 'normal',
+                'callback': () => {
+                    // reCAPTCHA solved
+                    console.log('reCAPTCHA solved');
+                },
+                'expired-callback': () => {
+                    showToast('reCAPTCHA expired, silakan coba lagi.', 'error');
+                }
+            });
+        }
 
-            console.log('📋 Data pendaftaran:', { nama, username, email, wa, password: '***', catatan });
-
-            // Validasi
-            if (!nama) { showToast('Nama lengkap wajib diisi!', 'error'); return; }
-            if (!username) { showToast('Username wajib diisi!', 'error'); return; }
-            if (!email) { showToast('Email wajib diisi!', 'error'); return; }
-            if (!wa) { showToast('Nomor WhatsApp wajib diisi!', 'error'); return; }
-            if (!password || password.length < 8) { showToast('Sandi minimal 8 karakter!', 'error'); return; }
+        document.getElementById('sendCodeBtn').addEventListener('click', async () => {
+            const phoneNumber = document.getElementById('phoneNumberInput').value.trim();
+            if (!phoneNumber) {
+                showToast('Masukkan nomor telepon.', 'error');
+                return;
+            }
+            // Reset error
+            document.getElementById('phoneError').textContent = '';
 
             try {
-                // Cek duplikasi
-                const [usernameTaken, emailTaken, waTaken] = await Promise.all([
-                    isUsernameTaken(username),
-                    isEmailTaken(email),
-                    isWaTaken(wa)
-                ]);
+                if (!recaptchaVerifier) {
+                    initRecaptcha();
+                }
+                // Render reCAPTCHA
+                await recaptchaVerifier.render();
+                const result = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+                confirmationResult = result;
+                document.getElementById('verificationContainer').style.display = 'block';
+                showToast('Kode verifikasi telah dikirim.', 'success');
+            } catch (error) {
+                console.error('Error sending code:', error);
+                document.getElementById('phoneError').textContent = error.message;
+                showToast('Gagal kirim kode: ' + error.message, 'error');
+                // Reset reCAPTCHA
+                if (recaptchaVerifier) {
+                    try { recaptchaVerifier.clear(); } catch(e) {}
+                    initRecaptcha();
+                }
+            }
+        });
 
-                if (usernameTaken) { showToast('Username sudah digunakan!', 'error'); return; }
-                if (emailTaken) { showToast('Email sudah digunakan!', 'error'); return; }
-                if (waTaken) { showToast('Nomor WhatsApp sudah digunakan!', 'error'); return; }
-
-                console.log('✅ Semua cek unik lolos');
-
-                // Siapkan data
-                const userData = {
-                    nama,
-                    username,
-                    email,
-                    wa,
-                    password,
-                    catatan,
-                    isLoggedIn: true,
-                    createdAt: new Date().toISOString(),
-                    lastLogin: new Date().toISOString(),
-                    deviceId: DEVICE_ID
-                };
-
-                console.log('💾 Menyimpan data user...');
-                // Simpan ke Firebase
-                await set(ref(db, `logo-shop/users/${DEVICE_ID}`), userData);
-                console.log('✅ User saved');
-
-                await set(ref(db, `logo-shop/usernames/${username}`), DEVICE_ID);
-                console.log('✅ Username index saved');
-
-                await set(ref(db, `logo-shop/emails/${email}`), DEVICE_ID);
-                console.log('✅ Email index saved');
-
-                await set(ref(db, `logo-shop/phones/${wa}`), DEVICE_ID);
-                console.log('✅ Phone index saved');
-
-                isLoggedIn = true;
-                currentUserData = userData;
-                showToast('Akun berhasil dibuat! Selamat datang, ' + nama + '!', 'success');
+        document.getElementById('verifyCodeBtn').addEventListener('click', async () => {
+            const code = document.getElementById('verificationCodeInput').value.trim();
+            if (!code) {
+                showToast('Masukkan kode verifikasi.', 'error');
+                return;
+            }
+            if (!confirmationResult) {
+                showToast('Kirim kode terlebih dahulu.', 'error');
+                return;
+            }
+            try {
+                const result = await confirmationResult.confirm(code);
+                console.log('Phone login success:', result.user);
+                showToast('Login berhasil!', 'success');
                 closeLoginModal();
-                loadUserData();
-                loadStoreInfo();
-
-            } catch (err) {
-                console.error('❌ ERROR saat register:', err);
-                showToast('Gagal daftar: ' + err.message, 'error');
+                // Data akan dimuat oleh onAuthStateChanged
+            } catch (error) {
+                console.error('Error verifying code:', error);
+                showToast('Kode salah atau kadaluarsa: ' + error.message, 'error');
             }
         });
 
@@ -2387,10 +2253,7 @@
         btnLogout.addEventListener('click', async () => {
             if (!confirm('Yakin ingin keluar?')) return;
             try {
-                await update(ref(db, `logo-shop/users/${DEVICE_ID}`), { isLoggedIn: false });
-                isLoggedIn = false;
-                currentUserData = null;
-                loadUserData();
+                await signOut(auth);
                 showToast('Anda telah keluar.', 'info');
             } catch (err) {
                 showToast('Gagal keluar: ' + err.message, 'error');
@@ -2398,9 +2261,41 @@
         });
 
         // ============================================================
-        // ============ FITUR BISNIS & RATING =========================
+        // ON AUTH STATE CHANGED
         // ============================================================
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                isLoggedIn = true;
+                uidDisplay.textContent = 'UID: ' + user.uid.slice(0, 14) + '…';
+                console.log('User logged in:', user.uid);
+                loadUserData(user.uid);
+                loadStoreInfo();
+                showContent();
+            } else {
+                currentUser = null;
+                isLoggedIn = false;
+                currentUserData = null;
+                uidDisplay.textContent = 'UID: belum login';
+                // Reset UI ke keadaan belum login
+                const emptyData = {};
+                updateUI(emptyData);
+                // Sembunyikan riwayat
+                riwayatSection.style.display = 'none';
+                // Sembunyikan form
+                formContainer.classList.remove('open');
+                // Sembunyikan store info
+                document.getElementById('storeInfo').style.display = 'none';
+                document.getElementById('registerStoreBtn').style.display = 'block';
+                // Tampilkan skeleton? tidak, biarkan content tetap
+                showContent(); // tetap tampilkan konten dengan data kosong
+                console.log('User logged out');
+            }
+        });
 
+        // ============================================================
+        // FITUR BISNIS & RATING (sama seperti sebelumnya, tetapi gunakan uid)
+        // ============================================================
         const registerStoreBtn = document.getElementById('registerStoreBtn');
         const storeInfo = document.getElementById('storeInfo');
         const storeNameDisplay = document.getElementById('storeNameDisplay');
@@ -2412,7 +2307,7 @@
         const storeProductsList = document.getElementById('storeProductsList');
         const riwayatList = document.getElementById('riwayatList');
 
-        const sellerRef = ref(db, `logo-shop/sellers/${DEVICE_ID}`);
+        const sellerRef = (uid) => ref(db, `logo-shop/sellers/${uid}`);
         const productsRef = ref(db, 'logo-shop/products');
         const ordersRef = ref(db, 'logo-shop/orders');
         const ratingsRef = ref(db, 'logo-shop/ratings');
@@ -2433,7 +2328,9 @@
         }
 
         function loadStoreInfo() {
-            onValue(sellerRef, (snap) => {
+            if (!currentUser) return;
+            const uid = currentUser.uid;
+            onValue(sellerRef(uid), (snap) => {
                 const sellerData = snap.val();
                 if (sellerData && sellerData.storeName) {
                     registerStoreBtn.style.display = 'none';
@@ -2442,7 +2339,7 @@
                     storeDescDisplay.textContent = sellerData.description || 'Toko tanpa deskripsi.';
                     storeRating.textContent = sellerData.rating ? sellerData.rating.toFixed(1) : '0.0';
                     storeTotalRatings.textContent = sellerData.totalRatings || 0;
-                    updateFollowersCount(DEVICE_ID);
+                    updateFollowersCount(uid);
                     loadStoreProducts(sellerData.storeName);
                     loadFollowingCount();
                 } else {
@@ -2457,9 +2354,11 @@
                 const data = snap.val() || {};
                 let html = '';
                 let hasProduct = false;
+                if (!currentUser) return;
+                const uid = currentUser.uid;
                 for (const key in data) {
                     const prod = data[key];
-                    if (prod.sellerId === DEVICE_ID && prod.storeName === storeName) {
+                    if (prod.sellerId === uid && prod.storeName === storeName) {
                         hasProduct = true;
                         html += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
                             <span>${prod.name || 'Tanpa nama'}</span>
@@ -2479,8 +2378,10 @@
                 const snap = await get(followersRef);
                 const data = snap.val() || {};
                 let count = 0;
+                if (!currentUser) return;
+                const uid = currentUser.uid;
                 for (const sellerId in data) {
-                    if (data[sellerId][DEVICE_ID]) {
+                    if (data[sellerId][uid]) {
                         count++;
                     }
                 }
@@ -2494,14 +2395,16 @@
         // TAMPILKAN RIWAYAT PEMBELIAN
         // ============================================================
         function loadRiwayat() {
+            if (!currentUser) return;
+            const uid = currentUser.uid;
             onValue(ordersRef, async (snap) => {
                 const orders = snap.val() || {};
                 let html = '';
                 let hasOrder = false;
 
                 const userOrders = Object.entries(orders).filter(([key, order]) => {
-                    const orderDeviceId = order.deviceId || order.buyerId || '';
-                    return orderDeviceId === DEVICE_ID;
+                    const orderUid = order.uid || order.buyerId || '';
+                    return orderUid === uid;
                 });
                 userOrders.sort((a, b) => (b[1].orderDate || 0) - (a[1].orderDate || 0));
 
@@ -2531,7 +2434,7 @@
 
                     let ratingGiven = false;
                     for (const rKey in allRatings) {
-                        if (allRatings[rKey].buyerId === DEVICE_ID && allRatings[rKey].orderId === key) {
+                        if (allRatings[rKey].buyerId === uid && allRatings[rKey].orderId === key) {
                             ratingGiven = true;
                             break;
                         }
@@ -2597,11 +2500,10 @@
         }
 
         // ============================================================
-        // MODAL RATING
+        // MODAL RATING (sama)
         // ============================================================
         let selectedRating = 1.0;
         let currentOrderId = '';
-        let currentProductName = '';
         let currentOrderData = null;
 
         const ratingModal = document.getElementById('ratingModal');
@@ -2646,7 +2548,6 @@
                 return;
             }
             currentOrderId = orderId;
-            currentProductName = productName;
             try {
                 const orderSnap = await get(ref(db, `logo-shop/orders/${orderId}`));
                 if (orderSnap.exists()) {
@@ -2691,6 +2592,10 @@
         });
 
         submitRatingBtn.addEventListener('click', async function() {
+            if (!currentUser) {
+                showToast('Anda belum login.', 'error');
+                return;
+            }
             const rating = selectedRating;
             const review = ratingReview.value.trim();
 
@@ -2738,7 +2643,7 @@
                 const ratingRef = push(ref(db, 'logo-shop/ratings'));
                 await set(ratingRef, {
                     productId, orderId: currentOrderId,
-                    buyerId: DEVICE_ID, sellerId,
+                    buyerId: currentUser.uid, sellerId,
                     storeName: orderData.storeName || '',
                     rating, review,
                     timestamp: new Date().toISOString()
@@ -2809,7 +2714,7 @@
                 }
                 const avg = count > 0 ? total / count : 0;
                 await update(ref(db, `logo-shop/sellers/${sellerId}`), { rating: avg, totalRatings: count });
-                if (sellerId === DEVICE_ID) {
+                if (sellerId === currentUser?.uid) {
                     storeRating.textContent = avg.toFixed(1);
                     storeTotalRatings.textContent = count;
                 }
@@ -2817,7 +2722,7 @@
         }
 
         // ============================================================
-        // FITUR MENGIKITI
+        // FITUR MENGIKUTI (sama, gunakan uid)
         // ============================================================
         const followingModal = document.getElementById('followingModal');
         const followingModalClose = document.getElementById('followingModalClose');
@@ -2840,14 +2745,19 @@
         followingModal.addEventListener('click', (e) => { if (e.target === followingModal) closeFollowingModal(); });
 
         async function loadFollowingList() {
+            if (!currentUser) {
+                followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);">Silakan login terlebih dahulu.</div>`;
+                return;
+            }
             followingList.innerHTML = `<div style="text-align:center; padding:20px 0; color:var(--text-muted);"><i class="fas fa-spinner fa-spin" style="font-size:1.2rem; display:block; margin-bottom:6px;"></i> Memuat...</div>`;
 
             try {
                 const followersSnap = await get(followersRef);
                 const followersData = followersSnap.val() || {};
                 const followingSellers = [];
+                const uid = currentUser.uid;
                 for (const sellerId in followersData) {
-                    if (followersData[sellerId][DEVICE_ID]) followingSellers.push(sellerId);
+                    if (followersData[sellerId][uid]) followingSellers.push(sellerId);
                 }
 
                 if (followingSellers.length === 0) {
@@ -2883,7 +2793,7 @@
                         const sellerId = this.dataset.sellerid;
                         if (!confirm(`Berhenti mengikuti "${this.closest('.follow-item').querySelector('.name').textContent}"?`)) return;
                         try {
-                            await remove(ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`));
+                            await remove(ref(db, `logo-shop/followers/${sellerId}/${currentUser.uid}`));
                             showToast('Berhenti mengikuti.', 'info');
                             await loadFollowingList();
                             await loadFollowingCount();
@@ -2902,16 +2812,17 @@
         // ============================================================
         // INIT
         // ============================================================
-        document.getElementById('deviceIdDisplay').innerHTML = '<i class="fas fa-microchip"></i> ID: ' + DEVICE_ID.slice(0, 14) + '…';
-
-        loadUserData();
-        loadStoreInfo();
-
+        // Panggil showContent setelah render
         setTimeout(() => {
             showContent();
-        }, 1500);
+        }, 1000);
 
-        console.log('✅ Profil siap! Cek console untuk loog register.');
+        // Inisialisasi reCAPTCHA saat modal dibuka (opsional)
+        document.getElementById('loginModal').addEventListener('shown.bs.modal', function() {
+            // Tidak digunakan, kita inisialisasi saat kirim kode
+        });
+
+        console.log('✅ Profil dengan Firebase Auth siap!');
     </script>
 </body>
 </html>
