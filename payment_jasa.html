@@ -821,7 +821,32 @@
         renderMethodDetail('qris');
 
         // ============================================================
-        // 7. TIMER & ORDER
+        // 7. TAMBAH SALDO (fungsi baru)
+        // ============================================================
+        async function tambahSaldo(jumlah) {
+            if (jumlah <= 0) return false;
+            try {
+                // Ambil saldo saat ini
+                const snap = await get(ref(db, `logo-shop/sellers/${DEVICE_ID}/balance`));
+                const saldoSekarang = snap.val() || 0;
+                const saldoBaru = saldoSekarang + jumlah;
+                
+                // Update saldo
+                await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
+                    balance: saldoBaru
+                });
+                
+                console.log(`✅ Saldo bertambah Rp ${new Intl.NumberFormat('id-ID').format(jumlah)}. Total: Rp ${new Intl.NumberFormat('id-ID').format(saldoBaru)}`);
+                showToast(`💰 Saldo Anda bertambah Rp ${new Intl.NumberFormat('id-ID').format(jumlah)}`, 'success');
+                return true;
+            } catch (e) {
+                console.error('Gagal tambah saldo:', e);
+                return false;
+            }
+        }
+
+        // ============================================================
+        // 8. TIMER & ORDER
         // ============================================================
         let currentOrderKey = null;
         let timerInterval = null;
@@ -867,26 +892,51 @@
             if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         }
 
+        // ===== MODIFIKASI monitorOrderStatus (dengan tambahan saldo) =====
         function monitorOrderStatus(orderKey) {
             const orderRef = ref(db, `logo-shop/orders/${orderKey}`);
-            orderListenerRef = onValue(orderRef, (snap) => {
+            orderListenerRef = onValue(orderRef, async (snap) => {
                 const order = snap.val();
                 if (!order) return;
-                if (order.status === 'confirmed' || order.status === 'completed') {
-                    if (!isConfirmed) {
-                        isConfirmed = true;
-                        stopTimer();
-                        // Tampilkan popup sukses pembayaran
-                        showPaymentSuccess();
-                        showToast('Pembayaran berhasil dikonfirmasi!', 'success');
-                        if (orderListenerRef) { orderListenerRef(); orderListenerRef = null; }
+                
+                // Jika status confirmed dan belum diproses
+                if (order.status === 'confirmed' && !isConfirmed) {
+                    isConfirmed = true;
+                    stopTimer();
+                    
+                    // TAMBAH SALDO PENJUAL
+                    const harga = order.price || 0;
+                    if (harga > 0) {
+                        await tambahSaldo(harga);
                     }
+                    
+                    // Tampilkan popup sukses
+                    showPaymentSuccess();
+                    showToast('Pembayaran berhasil dikonfirmasi! Saldo Anda bertambah.', 'success');
+                    
+                    if (orderListenerRef) { orderListenerRef(); orderListenerRef = null; }
+                }
+                
+                // Jika status completed, pastikan saldo sudah ditambahkan
+                if (order.status === 'completed' && !isConfirmed) {
+                    isConfirmed = true;
+                    stopTimer();
+                    
+                    const harga = order.price || 0;
+                    if (harga > 0) {
+                        await tambahSaldo(harga);
+                    }
+                    
+                    showPaymentSuccess();
+                    showToast('Pesanan selesai! Saldo Anda bertambah.', 'success');
+                    
+                    if (orderListenerRef) { orderListenerRef(); orderListenerRef = null; }
                 }
             });
         }
 
         // ============================================================
-        // 8. POPUP SUKSES PEMBAYARAN → lanjut ke form
+        // 9. POPUP SUKSES PEMBAYARAN → lanjut ke form
         // ============================================================
         function showPaymentSuccess() {
             const overlay = document.getElementById('successOverlay');
@@ -900,7 +950,7 @@
         });
 
         // ============================================================
-        // 9. FORM POPUP
+        // 10. FORM POPUP
         // ============================================================
         function showFormPopup() {
             const container = document.getElementById('formFields');
@@ -950,7 +1000,7 @@
         }
 
         // ============================================================
-        // 10. KIRIM DATA → antrian
+        // 11. KIRIM DATA → antrian
         // ============================================================
         document.getElementById('btnKirimData').addEventListener('click', async function() {
             // Kumpulkan data dari form
@@ -1021,7 +1071,7 @@
         });
 
         // ============================================================
-        // 11. POPUP ANTRIAN
+        // 12. POPUP ANTRIAN
         // ============================================================
         function showQueuePopup(number) {
             const overlay = document.getElementById('queueOverlay');
@@ -1049,7 +1099,7 @@
         });
 
         // ============================================================
-        // 12. TOMBOL BATAL FORM
+        // 13. TOMBOL BATAL FORM
         // ============================================================
         document.getElementById('btnFormBatal').addEventListener('click', function() {
             showConfirm(
@@ -1064,7 +1114,7 @@
         });
 
         // ============================================================
-        // 13. TOMBOL "SUDAH BAYAR"
+        // 14. TOMBOL "SUDAH BAYAR"
         // ============================================================
         document.getElementById('btnSudahBayar').addEventListener('click', function() {
             if (!product) { showToast('Data produk tidak valid.', 'error'); return; }
@@ -1115,7 +1165,7 @@
         });
 
         // ============================================================
-        // 14. BATAL — RESET STATE
+        // 15. BATAL — RESET STATE
         // ============================================================
         document.getElementById('btnBatal').addEventListener('click', function() {
             if (!currentOrderKey) return;
@@ -1147,14 +1197,14 @@
         });
 
         // ============================================================
-        // 15. KEMBALI & TUTUP — dengan konfirmasi
+        // 16. KEMBALI & TUTUP — dengan konfirmasi
         // ============================================================
         document.getElementById('btnBack').addEventListener('click', function() {
             if (document.getElementById('statusSection').classList.contains('active')) {
                 showConfirm(
                     'Kembali ke Halaman Sebelumnya?',
                     'Pesanan sedang diproses. Jika kembali, Anda harus memulai ulang.',
-                    () => { window.location.href = 'payment.html'; }
+                    () => { window.location.href = 'payment_jasa.html'; }
                 );
             } else {
                 showConfirm(
@@ -1180,4 +1230,4 @@
     </script>
 
 </body>
-    </html>
+</html>
