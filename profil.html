@@ -1397,7 +1397,7 @@
     </div>
 
     <!-- ============================================================
-    MODAL RATING — DENGAN SLIDER HALUS
+    MODAL RATING — DENGAN SLIDER HALUS & PERBAIKAN
     ============================================================ -->
     <div class="modal-overlay" id="ratingModal">
         <div class="modal">
@@ -1912,11 +1912,12 @@
         }
 
         // ============================================================
-        // MODAL RATING — DENGAN SLIDER HALUS & BINTANG EMAS
+        // MODAL RATING — DIPERBAIKI AGAR TIDAK GAGAL
         // ============================================================
-        let selectedRating = 0;
+        let selectedRating = 1.0;
         let currentOrderId = '';
         let currentProductName = '';
+        let currentOrderData = null;
 
         const ratingModal = document.getElementById('ratingModal');
         const ratingModalClose = document.getElementById('ratingModalClose');
@@ -1934,7 +1935,7 @@
             const full = Math.floor(value);
             const half = value % 1 >= 0.5;
             stars.forEach((star, index) => {
-                star.className = 'fas fa-star'; // reset
+                star.className = 'fas fa-star';
                 star.style.color = '';
                 if (index < full) {
                     star.classList.add('active');
@@ -1942,7 +1943,6 @@
                     star.className = 'fas fa-star-half-alt';
                     star.classList.add('active');
                 } else {
-                    // tidak aktif, biarkan CSS mengatur warna emas redup
                     star.classList.remove('active');
                 }
             });
@@ -1955,9 +1955,25 @@
             updateStarsDisplay(val);
         });
 
-        function openRatingModal(orderId, productName) {
+        async function openRatingModal(orderId, productName) {
             currentOrderId = orderId;
             currentProductName = productName;
+            currentOrderData = null;
+
+            // Ambil data order terlebih dahulu untuk validasi
+            try {
+                const orderSnap = await get(ref(db, `logo-shop/orders/${orderId}`));
+                if (orderSnap.exists()) {
+                    currentOrderData = orderSnap.val();
+                } else {
+                    showToast('Data pesanan tidak ditemukan.', 'error');
+                    return;
+                }
+            } catch (err) {
+                showToast('Gagal memuat data pesanan: ' + err.message, 'error');
+                return;
+            }
+
             ratingProductName.textContent = `Produk: ${productName}`;
             selectedRating = 1.0;
             ratingSlider.value = 1.0;
@@ -1972,6 +1988,7 @@
         function closeRatingModal() {
             ratingModal.classList.remove('active');
             document.body.style.overflow = '';
+            currentOrderData = null;
         }
 
         ratingModalClose.addEventListener('click', closeRatingModal);
@@ -1991,7 +2008,7 @@
             const rating = selectedRating;
             const review = ratingReview.value.trim();
 
-            if (rating === 0) {
+            if (!rating || rating === 0) {
                 showToast('Pilih rating terlebih dahulu!', 'error');
                 return;
             }
@@ -2004,18 +2021,45 @@
                 return;
             }
 
-            try {
-                const orderSnap = await get(ref(db, `logo-shop/orders/${currentOrderId}`));
-                const orderData = orderSnap.val();
-                if (!orderData) {
-                    showToast('Data pesanan tidak ditemukan.', 'error');
-                    return;
-                }
-                const productId = orderData.productId;
-                const sellerId = orderData.sellerId;
+            // Gunakan currentOrderData yang sudah diambil saat modal dibuka
+            const orderData = currentOrderData;
+            if (!orderData) {
+                showToast('Data pesanan tidak ditemukan.', 'error');
+                return;
+            }
 
+            // Ambil productId dari order
+            const productId = orderData.productId;
+            if (!productId) {
+                showToast('Produk tidak valid.', 'error');
+                console.error('Order tidak memiliki productId:', orderData);
+                return;
+            }
+
+            // Ambil sellerId dari order atau dari produk
+            let sellerId = orderData.sellerId;
+            if (!sellerId) {
+                // Coba ambil dari produk
+                try {
+                    const prodSnap = await get(ref(db, `logo-shop/products/${productId}`));
+                    if (prodSnap.exists()) {
+                        const prodData = prodSnap.val();
+                        sellerId = prodData.sellerId;
+                    }
+                } catch (e) {
+                    console.warn('Gagal ambil sellerId dari produk:', e);
+                }
+            }
+
+            if (!sellerId) {
+                showToast('Toko tidak valid untuk dirating.', 'error');
+                console.error('SellerId tidak ditemukan untuk order:', currentOrderId, orderData);
+                return;
+            }
+
+            try {
                 const ratingRef = push(ref(db, 'logo-shop/ratings'));
-                await set(ratingRef, {
+                const ratingData = {
                     productId: productId,
                     orderId: currentOrderId,
                     buyerId: DEVICE_ID,
@@ -2024,12 +2068,22 @@
                     rating: rating,
                     review: review,
                     timestamp: new Date().toISOString()
-                });
+                };
+                console.log('📤 Mengirim rating:', ratingData);
+                await set(ratingRef, ratingData);
 
+                // Tandai order sudah dirating
                 await update(ref(db, `logo-shop/orders/${currentOrderId}`), { rated: true });
+
+                // Update rating produk
                 await updateProductRating(productId);
+
+                // Update rating toko jika ada storeName
                 if (orderData.storeName) {
                     await calculateStoreRating(orderData.storeName);
+                } else if (sellerId) {
+                    // Coba update rating seller berdasarkan sellerId
+                    await updateSellerRating(sellerId);
                 }
 
                 showToast('Rating berhasil dikirim!', 'success');
@@ -2037,6 +2091,7 @@
                 loadRiwayat();
 
             } catch (err) {
+                console.error('❌ Error kirim rating:', err);
                 showToast('Gagal kirim rating: ' + err.message, 'error');
             }
         });
@@ -2059,6 +2114,7 @@
                     rating: avg,
                     totalRatings: count
                 });
+                console.log('✅ Rating produk diperbarui:', productId, avg, count);
             } catch (e) {
                 console.warn('Gagal update rating produk:', e);
             }
@@ -2078,14 +2134,53 @@
                     }
                 }
                 const avg = count > 0 ? (total / count) : 0;
-                await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
+                // Cari sellerId berdasarkan storeName
+                const sellerSnap = await get(ref(db, 'logo-shop/sellers'));
+                const sellers = sellerSnap.val() || {};
+                for (const sid in sellers) {
+                    if (sellers[sid].storeName === storeName) {
+                        await update(ref(db, `logo-shop/sellers/${sid}`), {
+                            rating: avg,
+                            totalRatings: count
+                        });
+                        storeRating.textContent = avg.toFixed(1);
+                        storeTotalRatings.textContent = count;
+                        break;
+                    }
+                }
+                console.log('✅ Rating toko diperbarui:', storeName, avg, count);
+            } catch (e) {
+                console.warn('Gagal hitung rating toko:', e);
+            }
+        }
+
+        async function updateSellerRating(sellerId) {
+            try {
+                const snap = await get(ratingsRef);
+                const allRatings = snap.val() || {};
+                let total = 0;
+                let count = 0;
+                // Cari rating yang sellerId-nya sama
+                for (const key in allRatings) {
+                    const r = allRatings[key];
+                    if (r.sellerId === sellerId) {
+                        total += r.rating || 0;
+                        count++;
+                    }
+                }
+                const avg = count > 0 ? (total / count) : 0;
+                await update(ref(db, `logo-shop/sellers/${sellerId}`), {
                     rating: avg,
                     totalRatings: count
                 });
-                storeRating.textContent = avg.toFixed(1);
-                storeTotalRatings.textContent = count;
+                // Jika ini adalah toko sendiri, update tampilan
+                if (sellerId === DEVICE_ID) {
+                    storeRating.textContent = avg.toFixed(1);
+                    storeTotalRatings.textContent = count;
+                }
+                console.log('✅ Rating seller diperbarui:', sellerId, avg, count);
             } catch (e) {
-                console.warn('Gagal hitung rating toko:', e);
+                console.warn('Gagal update rating seller:', e);
             }
         }
 
@@ -2210,8 +2305,8 @@
             showContent();
         }, 1500);
 
-        console.log('🔍 Profil dengan perbaikan riwayat & slider rating siap!');
+        console.log('🔍 Profil dengan perbaikan rating siap!');
         console.log('🆔 DEVICE_ID Anda:', DEVICE_ID);
     </script>
 </body>
-                                    </html>
+</html>
