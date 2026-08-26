@@ -147,22 +147,27 @@
             margin-bottom: 6px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 12px 16px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: var(--radius-md);
             color: #fff;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1rem;
             font-family: inherit;
             transition: var(--transition);
             outline: none;
-            letter-spacing: 0.5px;
         }
 
-        .form-group input:focus {
+        .form-group select option {
+            background: #0a2e0a;
+            color: #fff;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: var(--accent-gold);
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 3px rgba(239, 178, 44, 0.06);
@@ -172,6 +177,12 @@
             font-weight: 400;
             color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        .form-group input#withdrawAmount {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
         }
 
         .hint {
@@ -365,11 +376,30 @@
             <span class="amount"><span class="currency">Rp</span><span id="balanceDisplay">0</span></span>
         </div>
 
-        <!-- Form -->
+        <!-- Jumlah Penarikan -->
         <div class="form-group">
             <label for="withdrawAmount">Jumlah penarikan</label>
             <input type="number" id="withdrawAmount" placeholder="Minimal 20.000" min="20000" step="1000" />
             <div class="hint"><i class="fas fa-info-circle"></i> Minimal penarikan Rp 20.000</div>
+        </div>
+
+        <!-- ===== METODE PENARIKAN ===== -->
+        <div class="form-group">
+            <label for="paymentMethod">Metode penarikan</label>
+            <select id="paymentMethod">
+                <option value="dana">DANA</option>
+                <option value="gopay">GoPay</option>
+                <option value="seabank">SeaBank</option>
+                <option value="shopeepay">ShopeePay</option>
+            </select>
+            <div class="hint"><i class="fas fa-info-circle"></i> Pilih metode pencairan dana</div>
+        </div>
+
+        <!-- ===== NOMOR TUJUAN ===== -->
+        <div class="form-group" id="destinationGroup">
+            <label for="destinationAccount">Nomor tujuan <span id="methodLabel">(DANA)</span></label>
+            <input type="text" id="destinationAccount" placeholder="Masukkan nomor tujuan" />
+            <div class="hint"><i class="fas fa-info-circle"></i> <span id="methodHint">Nomor DANA aktif</span></div>
         </div>
 
         <!-- Rincian biaya -->
@@ -439,6 +469,10 @@
         const storeNameDisplay = document.getElementById('storeNameDisplay');
         const balanceDisplay = document.getElementById('balanceDisplay');
         const withdrawInput = document.getElementById('withdrawAmount');
+        const paymentMethod = document.getElementById('paymentMethod');
+        const destinationAccount = document.getElementById('destinationAccount');
+        const methodLabel = document.getElementById('methodLabel');
+        const methodHint = document.getElementById('methodHint');
         const fdGross = document.getElementById('fdGross');
         const fdFee = document.getElementById('fdFee');
         const fdNet = document.getElementById('fdNet');
@@ -446,6 +480,27 @@
 
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toastMsg');
+
+        // ============================================================
+        // METHOD LABELS & HINTS (hanya 4 metode)
+        // ============================================================
+        const methodInfo = {
+            dana: { label: '(DANA)', hint: 'Nomor DANA aktif (08xx)' },
+            gopay: { label: '(GoPay)', hint: 'Nomor GoPay aktif (08xx)' },
+            seabank: { label: '(SeaBank)', hint: 'Nomor rekening SeaBank' },
+            shopeepay: { label: '(ShopeePay)', hint: 'Nomor ShopeePay aktif' }
+        };
+
+        function updateMethodInfo() {
+            const key = paymentMethod.value;
+            const info = methodInfo[key] || methodInfo.dana;
+            methodLabel.textContent = info.label;
+            methodHint.textContent = info.hint;
+            destinationAccount.placeholder = 'Masukkan ' + info.hint.replace('Nomor ', '').toLowerCase();
+        }
+
+        paymentMethod.addEventListener('change', updateMethodInfo);
+        updateMethodInfo();
 
         // ============================================================
         // UTILITY
@@ -538,6 +593,7 @@
             const fee = calculateFee(amount);
             const net = amount - fee;
 
+            // Validasi jumlah
             if (amount < 20000) {
                 showToast('Minimal penarikan Rp 20.000', 'error');
                 return;
@@ -548,6 +604,19 @@
             }
             if (net <= 0) {
                 showToast('Setelah biaya, nominal tidak valid', 'error');
+                return;
+            }
+
+            // Validasi metode & nomor tujuan
+            const method = paymentMethod.value;
+            const destination = destinationAccount.value.trim();
+            if (!destination) {
+                showToast('Masukkan nomor tujuan penarikan', 'error');
+                destinationAccount.focus();
+                return;
+            }
+            if (destination.length < 4) {
+                showToast('Nomor tujuan terlalu pendek', 'error');
                 return;
             }
 
@@ -563,9 +632,11 @@
                     amount: amount,
                     fee: fee,
                     netAmount: net,
+                    method: method,
+                    destination: destination,
                     status: 'pending',
                     createdAt: now,
-                    note: `Penarikan saldo oleh ${storeName}`
+                    note: `Penarikan saldo oleh ${storeName} via ${method}`
                 });
 
                 // Kurangi saldo
@@ -577,10 +648,12 @@
                 currentBalance = newBalance;
                 balanceDisplay.textContent = formatRupiah(currentBalance);
 
-                showToast(`Tagihan penarikan Rp ${formatRupiah(amount)} telah dikirim ke admin`, 'success');
+                const methodName = paymentMethod.options[paymentMethod.selectedIndex].text;
+                showToast(`Tagihan penarikan Rp ${formatRupiah(amount)} via ${methodName} telah dikirim ke admin`, 'success');
 
                 // Reset
                 withdrawInput.value = '';
+                destinationAccount.value = '';
                 updateFeeBreakdown();
 
             } catch (err) {
