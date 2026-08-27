@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lihat Toko - NEV Market</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase-app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase-database": "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js"
+            }
+        }
+    </script>
+
+    <style>
+        /* ============================================================
+           GLOBAL — SEPAK BOLA
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a2e0a;
+            --bg-secondary: rgba(5, 20, 5, 0.88);
+            --bg-card: rgba(10, 46, 10, 0.85);
+            --border-color: rgba(239, 178, 44, 0.20);
+            --text-primary: #ffffff;
+            --text-secondary: #b8d9b8;
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --accent-gold: #efb22c;
+            --accent-blue: #2563eb;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f3b0f;
+            background-image:
+                repeating-linear-gradient(90deg,
+                    rgba(34, 120, 34, 0.45) 0px,
+                    rgba(34, 120, 34, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 55px,
+                    rgba(20, 80, 20, 0.45) 110px),
+                radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.0) 60%, rgba(0, 0, 0, 0.35) 100%),
+                linear-gradient(180deg, #0f3b0f 0%, #0a2a0a 100%);
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::before {
+            top: 5%;
+            left: 5%;
+            right: 5%;
+            bottom: 5%;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3);
+        }
+
+        body::after {
+            top: 49.5%;
+            left: 8%;
+            right: 8%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 2px;
+        }
+
+        .pitch-circle {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-center-dot {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.10);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .pitch-penalty-left,
+        .pitch-penalty-right {
+            position: fixed;
+            top: 28%;
+            width: 60px;
+            height: 200px;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-penalty-left {
+            left: 6%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-penalty-right {
+            right: 6%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .pitch-goal-left,
+        .pitch-goal-right {
+            position: fixed;
+            top: 36%;
+            width: 30px;
+            height: 110px;
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .pitch-goal-left {
+            left: 3%;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .pitch-goal-right {
+            right: 3%;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+        }
+        .btn-success {
+            background: #10b981;
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        }
+        .btn-gold {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(239, 178, 44, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(239, 178, 44, 0.35);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .btn-follow {
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            border-color: transparent;
+        }
+        .btn-follow.following {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+        .btn-follow:hover {
+            transform: scale(1.03);
+        }
+        .btn-back {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 4px 0;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            margin-bottom: 16px;
+        }
+        .btn-back:hover {
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 12px 0;
+            background: rgba(5, 20, 5, 0.88);
+            backdrop-filter: blur(20px) saturate(1.6);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .nav-brand i {
+            color: var(--accent-gold);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(5, 20, 5, 0.98);
+                padding: 20px 24px;
+                gap: 14px;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-hamburger {
+                display: block;
+            }
+        }
+
+        /* ============================================================
+           SKELETON LOADING
+           ============================================================ */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .skeleton {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        .skeleton::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.04) 25%,
+                    rgba(255, 255, 255, 0.08) 50%,
+                    rgba(255, 255, 255, 0.04) 75%,
+                    transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s ease-in-out infinite;
+        }
+
+        .skeleton-text {
+            height: 14px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            margin-bottom: 8px;
+        }
+        .skeleton-text.w-50 { width: 50%; }
+        .skeleton-text.w-70 { width: 70%; }
+        .skeleton-text.w-90 { width: 90%; }
+        .skeleton-text.w-30 { width: 30%; }
+        .skeleton-text.w-40 { width: 40%; }
+        .skeleton-text.h-20 { height: 20px; }
+        .skeleton-text.h-24 { height: 24px; }
+        .skeleton-text.h-30 { height: 30px; }
+        .skeleton-text.h-40 { height: 40px; }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            min-height: 400px;
+            padding: 32px;
+        }
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        .skeleton-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 0 auto;
+        }
+        .skeleton-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ============================================================
+           TOKO HEADER
+           ============================================================ */
+        .store-wrapper {
+            margin-top: 100px;
+            padding-bottom: 40px;
+        }
+
+        .store-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: fadeUp 0.6s ease;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .store-card.hidden {
+            display: none;
+        }
+
+        .store-header {
+            padding: 32px 34px 24px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .store-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #0a2a0a;
+            flex-shrink: 0;
+            border: 3px solid var(--border-color);
+            overflow: hidden;
+        }
+        .store-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .store-header-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        .store-header-info .store-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .store-header-info .store-label {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--accent-gold);
+            color: #0a2a0a;
+            padding: 2px 14px;
+            border-radius: 40px;
+            margin-top: 2px;
+        }
+        .store-header-info .store-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 6px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+        .store-header-info .store-contact {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .store-header-info .store-contact i {
+            color: var(--accent-gold);
+            width: 16px;
+        }
+        .store-header-info .store-contact a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .store-header-info .store-contact a:hover {
+            color: var(--accent-gold);
+        }
+
+        .store-header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           STORE STATS
+           ============================================================ */
+        .store-stats-bar {
+            display: flex;
+            gap: 30px;
+            padding: 16px 34px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+        .store-stats-bar .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .store-stats-bar .stat-item i {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            width: 18px;
+        }
+        .store-stats-bar .stat-item .num {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        .store-stats-bar .stat-item .num.gold {
+            color: var(--accent-gold);
+        }
+
+        /* ============================================================
+           PRODUK TOKO
+           ============================================================ */
+        .store-products {
+            padding: 24px 34px 34px;
+        }
+        .store-products .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .store-products .section-title i {
+            color: var(--accent-gold);
+        }
+        .store-products .section-title .count {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .product-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .product-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+            box-shadow: var(--shadow-lg);
+        }
+        .product-item .img-wrap {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: rgba(5, 20, 5, 0.50);
+        }
+        .product-item .img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-item .info {
+            padding: 10px 12px 12px;
+        }
+        .product-item .info .name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-item .info .price {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+        .product-item .info .meta {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+        }
+        .product-item .info .meta i {
+            color: var(--accent-gold);
+        }
+        .product-item .badge-type {
+            font-size: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1px 8px;
+            border-radius: 40px;
+            background: var(--accent-green);
+            color: #fff;
+            display: inline-block;
+        }
+
+        .product-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 40px 0;
+        }
+        .product-empty i {
+            font-size: 2.5rem;
+            opacity: 0.3;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-lg);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(16px);
+            opacity: 0;
+            transition: all 0.35s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .toast.show {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast i {
+            font-size: 1rem;
+        }
+        .toast.success i {
+            color: #10b981;
+        }
+        .toast.error i {
+            color: #ef4444;
+        }
+        .toast.info i {
+            color: var(--accent-gold);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .store-header {
+                padding: 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .store-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2.2rem;
+            }
+            .store-header-info .store-name {
+                font-size: 1.4rem;
+            }
+            .store-header-info .store-desc {
+                font-size: 0.85rem;
+            }
+            .store-header-actions {
+                align-self: center;
+                justify-content: center;
+            }
+            .store-stats-bar {
+                padding: 12px 20px;
+                gap: 16px;
+                justify-content: center;
+            }
+            .store-stats-bar .stat-item {
+                font-size: 0.75rem;
+            }
+            .store-products {
+                padding: 16px 20px 24px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .skeleton-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .skeleton-avatar {
+                width: 80px;
+                height: 80px;
+            }
+            .skeleton-card {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .store-stats-bar {
+                gap: 10px;
+            }
+            .store-stats-bar .stat-item {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    ELEMEN DEKORASI LAPANGAN SEPAK BOLA
+    ============================================================ -->
+    <div class="pitch-circle"></div>
+    <div class="pitch-center-dot"></div>
+    <div class="pitch-penalty-left"></div>
+    <div class="pitch-penalty-right"></div>
+    <div class="pitch-goal-left"></div>
+    <div class="pitch-goal-right"></div>
+
+    <!-- ============ NAVBAR ============ -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand"><i class="fas fa-crown"></i> NEV Market</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="produk.html">Produk</a></li>
+                <li><a href="jasa.html">Jasa</a></li>
+                <li><a href="index.html#tentang">Tentang</a></li>
+                <li><a href="payment_produk.html">Payment</a></li>
+            </ul>
+            <button class="nav-hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- ============ TOAST ============ -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- ============ MAIN ============ -->
+    <div class="container store-wrapper">
+
+        <!-- TOMBOL KEMBALI -->
+        <button class="btn-back" id="btnBack">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </button>
+
+        <!-- SKELETON LOADING -->
+        <div id="skeletonCard" class="skeleton-card">
+            <div class="skeleton-grid">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+                    <div class="skeleton-avatar"></div>
+                    <div class="skeleton-text w-70 h-20"></div>
+                    <div class="skeleton-text w-50 h-16"></div>
+                </div>
+                <div class="skeleton-info">
+                    <div class="skeleton-text w-90 h-24"></div>
+                    <div class="skeleton-text w-70 h-20"></div>
+                    <div class="skeleton-text w-100 h-40"></div>
+                    <div class="skeleton-text w-60 h-20" style="margin-top:8px;"></div>
+                    <div class="skeleton-text w-80 h-16"></div>
+                    <div style="display:flex;gap:10px;margin-top:12px;">
+                        <div class="skeleton-text w-30 h-30" style="border-radius:60px;"></div>
+                        <div class="skeleton-text w-30 h-30" style="border-radius:60px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STORE CARD -->
+        <div id="storeCard" class="store-card hidden">
+            <!-- HEADER -->
+            <div class="store-header">
+                <div class="store-avatar" id="storeAvatar">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="store-header-info">
+                    <div class="store-name" id="storeName">Nama Toko</div>
+                    <span class="store-label" id="storeLabel">Default</span>
+                    <div class="store-desc" id="storeDesc">Deskripsi toko.</div>
+                    <div class="store-contact" id="storeContact">
+                        <span><i class="fas fa-whatsapp"></i> <a href="#" id="storeWhatsapp">-</a></span>
+                        <span><i class="fas fa-globe"></i> <a href="#" id="storeLink" target="_blank">-</a></span>
+                        <span><i class="fas fa-calendar-alt"></i> <span id="storeJoined">-</span></span>
+                    </div>
+                </div>
+                <div class="store-header-actions">
+                    <button class="btn btn-follow" id="followBtn"><i class="fas fa-heart"></i> <span id="followText">Ikuti</span></button>
+                    <a href="#" id="storeWhatsappBtn" class="btn btn-success" target="_blank"><i class="fab fa-whatsapp"></i> Chat</a>
+                </div>
+            </div>
+
+            <!-- STATS -->
+            <div class="store-stats-bar" id="storeStats">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span class="num" id="storeFollowers">0</span> pengikut
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-star"></i>
+                    <span class="num gold" id="storeRating">0.0</span>
+                    <span style="color:var(--text-muted);font-size:0.75rem;">(<span id="storeTotalRatings">0</span> ulasan)</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-box"></i>
+                    <span class="num" id="storeTotalProducts">0</span> produk
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="num" id="storeTotalTerjual">0</span> terjual
+                </div>
+            </div>
+
+            <!-- PRODUK -->
+            <div class="store-products">
+                <div class="section-title">
+                    <i class="fas fa-box"></i> Produk Toko
+                    <span class="count" id="productCount">(0)</span>
+                </div>
+                <div class="product-grid" id="productGrid">
+                    <div class="product-empty"><i class="fas fa-box-open"></i> Belum ada produk.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script type="module">
+        // ============================================================
+        // 1. FIREBASE
+        // ============================================================
+        import { initializeApp } from "firebase-app";
+        import { getDatabase, ref, get, set, onValue, update } from "firebase-database";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+            authDomain: "mybro-9ba5f.firebaseapp.com",
+            databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+            projectId: "mybro-9ba5f"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ============================================================
+        // 2. DEVICE ID
+        // ============================================================
+        function getDeviceId() {
+            let id = localStorage.getItem('logoShop_deviceId');
+            if (!id) {
+                id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+                localStorage.setItem('logoShop_deviceId', id);
+            }
+            return id;
+        }
+        const DEVICE_ID = getDeviceId();
+
+        // ============================================================
+        // 3. TOAST
+        // ============================================================
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            const m = document.getElementById('toastMsg');
+            const icon = t.querySelector('i');
+            icon.className = 'fas fa-' + (type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' :
+                'info-circle');
+            t.className = 'toast show ' + type;
+            m.textContent = msg;
+            clearTimeout(t._hide);
+            t._hide = setTimeout(() => { t.classList.remove('show'); }, 4000);
+        }
+
+        // ============================================================
+        // 4. NAVBAR
+        // ============================================================
+        document.getElementById('hamburger').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('open');
+        });
+
+        // ============================================================
+        // 5. GET SELLER ID FROM URL
+        // ============================================================
+        const params = new URLSearchParams(window.location.search);
+        const sellerId = params.get('sellerId');
+
+        if (!sellerId) {
+            showToast('Toko tidak ditemukan.', 'error');
+            document.getElementById('skeletonCard').innerHTML = `
+                    <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        <h2>Toko tidak ditemukan</h2>
+                        <p>Pastikan URL mengandung parameter sellerId yang valid.</p>
+                        <button class="btn btn-primary" style="margin-top:12px;" onclick="history.back()">Kembali</button>
+                    </div>
+                `;
+            throw new Error('Seller ID missing');
+        }
+
+        // ============================================================
+        // 6. LOAD DATA
+        // ============================================================
+        let sellerData = null;
+        let productsData = {};
+        let ordersData = {};
+        let isFollowing = false;
+        let allProducts = [];
+
+        async function loadData() {
+            try {
+                // Ambil seller
+                const sellerSnap = await get(ref(db, `logo-shop/sellers/${sellerId}`));
+                if (!sellerSnap.exists()) {
+                    showToast('Toko tidak ditemukan.', 'error');
+                    document.getElementById('skeletonCard').innerHTML = `
+                            <div style="padding:40px;text-align:center;color:var(--text-secondary);">
+                                <i class="fas fa-store-slash" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                                <h2>Toko tidak ditemukan</h2>
+                                <button class="btn btn-primary" style="margin-top:12px;" onclick="history.back()">Kembali</button>
+                            </div>
+                        `;
+                    return;
+                }
+                sellerData = sellerSnap.val();
+                sellerData.id = sellerId;
+
+                // Ambil semua produk
+                const productsSnap = await get(ref(db, 'logo-shop/products'));
+                productsData = productsSnap.val() || {};
+
+                // Filter produk milik seller ini
+                allProducts = Object.entries(productsData)
+                    .filter(([key, val]) => val.sellerId === sellerId)
+                    .map(([key, val]) => ({ key, ...val }));
+
+                // Ambil orders untuk menghitung terjual
+                const ordersSnap = await get(ref(db, 'logo-shop/orders'));
+                ordersData = ordersSnap.val() || {};
+
+                // Sembunyikan skeleton, tampilkan konten
+                document.getElementById('skeletonCard').style.display = 'none';
+                document.getElementById('storeCard').classList.remove('hidden');
+
+                renderStore();
+                renderProducts();
+
+                // Cek status follow
+                checkFollowStatus();
+
+            } catch (err) {
+                showToast('Gagal memuat data: ' + err.message, 'error');
+                console.error(err);
+            }
+        }
+
+        // ============================================================
+        // 7. RENDER STORE
+        // ============================================================
+        function renderStore() {
+            const storeName = sellerData.storeName || 'Toko Tidak Diketahui';
+            const label = sellerData.category || 'Default';
+            const description = sellerData.description || 'Tidak ada deskripsi.';
+            const image = sellerData.image || '';
+            const whatsapp = sellerData.whatsapp || '';
+            const link = sellerData.link || '';
+            const joined = sellerData.createdAt ? new Date(sellerData.createdAt).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }) : '-';
+
+            // Avatar
+            const avatar = document.getElementById('storeAvatar');
+            if (image) {
+                avatar.innerHTML = `<img src="${image}" alt="${storeName}" />`;
+            } else {
+                avatar.innerHTML = `<i class="fas fa-store"></i>`;
+            }
+
+            document.getElementById('storeName').textContent = storeName;
+            document.getElementById('storeLabel').textContent = label;
+            document.getElementById('storeDesc').textContent = description;
+
+            // Kontak
+            const waEl = document.getElementById('storeWhatsapp');
+            const linkEl = document.getElementById('storeLink');
+            const waBtn = document.getElementById('storeWhatsappBtn');
+
+            if (whatsapp) {
+                const waNumber = whatsapp.replace(/[^0-9]/g, '');
+                waEl.textContent = whatsapp;
+                waEl.href = `https://wa.me/${waNumber}`;
+                waBtn.href = `https://wa.me/${waNumber}`;
+                waBtn.style.display = 'inline-flex';
+            } else {
+                waEl.textContent = '-';
+                waEl.href = '#';
+                waBtn.style.display = 'none';
+            }
+
+            if (link) {
+                linkEl.textContent = link;
+                linkEl.href = link;
+                linkEl.style.display = 'inline';
+            } else {
+                linkEl.textContent = '-';
+                linkEl.href = '#';
+                linkEl.style.display = 'none';
+            }
+
+            document.getElementById('storeJoined').textContent = joined;
+
+            // Stats
+            const followers = sellerData.followers || 0;
+            const rating = sellerData.rating || 0;
+            const totalRatings = sellerData.totalRatings || 0;
+            const totalProducts = allProducts.length;
+
+            // Hitung total terjual dari semua produk toko
+            let totalTerjual = 0;
+            for (const orderKey in ordersData) {
+                const order = ordersData[orderKey];
+                if (order.status === 'completed') {
+                    const product = allProducts.find(p => p.key === order.productId);
+                    if (product) totalTerjual++;
+                }
+            }
+
+            document.getElementById('storeFollowers').textContent = followers;
+            document.getElementById('storeRating').textContent = rating.toFixed(1);
+            document.getElementById('storeTotalRatings').textContent = totalRatings;
+            document.getElementById('storeTotalProducts').textContent = totalProducts;
+            document.getElementById('storeTotalTerjual').textContent = totalTerjual;
+        }
+
+        // ============================================================
+        // 8. RENDER PRODUCTS
+        // ============================================================
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const count = document.getElementById('productCount');
+
+            count.textContent = `(${allProducts.length})`;
+
+            if (allProducts.length === 0) {
+                grid.innerHTML = `<div class="product-empty"><i class="fas fa-box-open"></i> Toko ini belum memiliki produk.</div>`;
+                return;
+            }
+
+            let html = '';
+            allProducts.forEach(item => {
+                const isJasa = item.isJasa === true;
+                const typeLabel = isJasa ? 'Jasa' : 'Digital';
+                const price = `Rp ${new Intl.NumberFormat('id-ID').format(item.price || 0)}`;
+                const img = item.image || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&q=80';
+                const rating = item.rating || 0;
+                const totalRatings = item.totalRatings || 0;
+
+                // Hitung terjual per produk
+                let terjual = 0;
+                for (const orderKey in ordersData) {
+                    const order = ordersData[orderKey];
+                    if (order.productId === item.key && order.status === 'completed') {
+                        terjual++;
+                    }
+                }
+
+                html += `
+                        <a href="detail.html?productId=${item.key}" class="product-item">
+                            <div class="img-wrap"><img src="${img}" alt="${item.name}" loading="lazy" /></div>
+                            <div class="info">
+                                <div class="name">${item.name || 'Produk'}</div>
+                                <div class="price">${price}</div>
+                                <div class="meta">
+                                    <span><i class="fas fa-star"></i> ${rating.toFixed(1)} (${totalRatings})</span>
+                                    <span><i class="fas fa-shopping-cart"></i> ${terjual}</span>
+                                    <span class="badge-type">${typeLabel}</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // ============================================================
+        // 9. FOLLOW / UNFOLLOW
+        // ============================================================
+        async function checkFollowStatus() {
+            const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+            const snap = await get(followRef);
+            isFollowing = snap.exists();
+            updateFollowButton();
+        }
+
+        function updateFollowButton() {
+            const btn = document.getElementById('followBtn');
+            const text = document.getElementById('followText');
+            if (isFollowing) {
+                btn.classList.add('following');
+                text.textContent = 'Mengikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            } else {
+                btn.classList.remove('following');
+                text.textContent = 'Ikuti';
+                btn.querySelector('i').className = 'fas fa-heart';
+            }
+        }
+
+        document.getElementById('followBtn').addEventListener('click', async function() {
+            try {
+                const followRef = ref(db, `logo-shop/followers/${sellerId}/${DEVICE_ID}`);
+                if (isFollowing) {
+                    await set(followRef, null);
+                    const currentFollowers = sellerData?.followers || 0;
+                    await update(ref(db, `logo-shop/sellers/${sellerId}`), {
+                        followers: Math.max(0, currentFollowers - 1)
+                    });
+                    isFollowing = false;
+                    showToast('Berhenti mengikuti toko.', 'info');
+                } else {
+                    await set(followRef, true);
+                    const currentFollowers = sellerData?.followers || 0;
+                    await update(ref(db, `logo-shop/sellers/${sellerId}`), {
+                        followers: currentFollowers + 1
+                    });
+                    isFollowing = true;
+                    showToast('Berhasil mengikuti toko!', 'success');
+                }
+                // Refresh data
+                const sellerSnap = await get(ref(db, `logo-shop/sellers/${sellerId}`));
+                if (sellerSnap.exists()) {
+                    sellerData = sellerSnap.val();
+                    sellerData.id = sellerId;
+                    renderStore();
+                }
+                updateFollowButton();
+            } catch (err) {
+                showToast('Gagal: ' + err.message, 'error');
+            }
+        });
+
+        // ============================================================
+        // 10. REAL-TIME UPDATE
+        // ============================================================
+        function listenFollowers() {
+            const followersRef = ref(db, `logo-shop/sellers/${sellerId}/followers`);
+            onValue(followersRef, (snap) => {
+                const val = snap.val() || 0;
+                document.getElementById('storeFollowers').textContent = val;
+                if (sellerData) sellerData.followers = val;
+            });
+        }
+
+        function listenProducts() {
+            const productsRef = ref(db, 'logo-shop/products');
+            onValue(productsRef, (snap) => {
+                productsData = snap.val() || {};
+                allProducts = Object.entries(productsData)
+                    .filter(([key, val]) => val.sellerId === sellerId)
+                    .map(([key, val]) => ({ key, ...val }));
+                renderProducts();
+                renderStore();
+            });
+        }
+
+        function listenOrders() {
+            const ordersRef = ref(db, 'logo-shop/orders');
+            onValue(ordersRef, (snap) => {
+                ordersData = snap.val() || {};
+                renderProducts();
+                renderStore();
+            });
+        }
+
+        // ============================================================
+        // 11. TOMBOL KEMBALI
+        // ============================================================
+        document.getElementById('btnBack').addEventListener('click', () => {
+            window.history.back();
+        });
+
+        // ============================================================
+        // 12. INIT
+        // ============================================================
+        await loadData();
+        listenFollowers();
+        listenProducts();
+        listenOrders();
+        console.log('🏪 Store page loaded. Seller ID:', sellerId);
+    </script>
+
+</body>
+</html>
