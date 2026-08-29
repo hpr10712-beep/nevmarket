@@ -12,43 +12,50 @@
         }
         body {
             background: #0a0a12;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             color: #f0f0ff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 300;
             letter-spacing: 2px;
-            margin-bottom: 10px;
             background: linear-gradient(135deg, #ff6ec7, #7b4bff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
         }
         .sub {
             color: #8888aa;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
         }
         .container {
             background: #14141e;
-            border-radius: 24px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 16px;
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
             border: 1px solid #2a2a3a;
-            max-width: 800px;
+            max-width: 720px;
             width: 100%;
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
         }
         video {
             width: 100%;
-            border-radius: 16px;
-            background: #000;
             display: block;
+            border-radius: 14px;
+            background: #111;
         }
         canvas {
             position: absolute;
@@ -58,53 +65,57 @@
             height: 100%;
             pointer-events: none;
         }
-        .video-wrapper {
-            position: relative;
-            width: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #000;
-        }
-        .info-panel {
+        .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 14px;
         }
         .info-item {
             background: #1e1e2e;
-            padding: 12px 10px;
-            border-radius: 14px;
+            padding: 10px 8px;
+            border-radius: 12px;
             text-align: center;
             border: 1px solid #2a2a3e;
         }
         .info-item .label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             text-transform: uppercase;
             color: #7777aa;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
         .info-item .value {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-top: 4px;
+            margin-top: 3px;
         }
-        .info-item .value.gender-male { color: #4fc3f7; }
-        .info-item .value.gender-female { color: #f06292; }
-        .info-item .value.high { color: #ff6b6b; }
-        .info-item .value.medium { color: #ffd93d; }
-        .info-item .value.low { color: #6bcb77; }
+        .value.male {
+            color: #4fc3f7;
+        }
+        .value.female {
+            color: #f06292;
+        }
+        .value.high {
+            color: #ff6b6b;
+        }
+        .value.medium {
+            color: #ffd93d;
+        }
+        .value.low {
+            color: #6bcb77;
+        }
         .status {
             margin-top: 12px;
             text-align: center;
             color: #8888bb;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
-        .status .dot {
+        .dot {
             display: inline-block;
             width: 10px;
             height: 10px;
@@ -113,27 +124,69 @@
             animation: pulse 1.2s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
         }
         .btn {
             background: #2a2a42;
             border: none;
             color: #f0f0ff;
-            padding: 8px 20px;
+            padding: 6px 18px;
             border-radius: 30px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
             border: 1px solid #3a3a5a;
+            font-size: 0.8rem;
         }
         .btn:hover {
             background: #3a3a5a;
         }
+        .btn-danger {
+            background: #5a2a2a;
+            border-color: #7a3a3a;
+        }
+        .btn-danger:hover {
+            background: #7a3a3a;
+        }
         .footer {
-            margin-top: 20px;
+            margin-top: 16px;
             color: #555577;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+            text-align: center;
+        }
+        .error-box {
+            background: #2a1a1a;
+            border: 1px solid #6a3a3a;
+            border-radius: 12px;
+            padding: 12px;
+            color: #ff8a8a;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+        .error-box.show {
+            display: block;
+        }
+        .loading-text {
+            color: #aaaadd;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px 0;
         }
         .hidden {
             display: none !important;
@@ -151,41 +204,45 @@
             <canvas id="overlay"></canvas>
         </div>
 
-        <div class="info-panel" id="infoPanel">
+        <div class="info-grid" id="infoGrid">
             <div class="info-item">
                 <div class="label">Jenis Kelamin</div>
-                <div class="value" id="genderValue">—</div>
+                <div class="value" id="genderVal">—</div>
             </div>
             <div class="info-item">
                 <div class="label">Ekspresi</div>
-                <div class="value" id="expressionValue">—</div>
+                <div class="value" id="exprVal">—</div>
             </div>
             <div class="info-item">
                 <div class="label">Usia</div>
-                <div class="value" id="ageValue">—</div>
+                <div class="value" id="ageVal">—</div>
             </div>
             <div class="info-item">
-                <div class="label">Arousal (gairah)</div>
-                <div class="value" id="arousalValue">—</div>
+                <div class="label">Arousal</div>
+                <div class="value" id="arousalVal">—</div>
             </div>
         </div>
 
         <div class="status">
-            <span class="dot"></span>
-            <span id="statusText">Memulai kamera...</span>
+            <span class="dot" id="statusDot"></span>
+            <span id="statusText">Memulai...</span>
         </div>
 
-        <div style="display:flex; justify-content:center; gap:12px; margin-top:12px;">
-            <button class="btn" id="toggleCam">⏸ Jeda</button>
-            <button class="btn" id="resetBtn">↺ Reset</button>
+        <div class="error-box" id="errorBox">
+            <strong>⚠️ Error:</strong> <span id="errorMsg"></span>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" id="toggleBtn">⏸ Jeda</button>
+            <button class="btn btn-danger" id="resetBtn">↺ Reset</button>
         </div>
     </div>
 
     <div class="footer">
-        ⚡ Deteksi wajah menggunakan face-api.js · Hanya untuk demonstrasi teknis
+        ⚡ face-api.js · Semua pemrosesan di sisi klien · Data tidak dikirim ke server
     </div>
 
-    <!-- Load face-api.js -->
+    <!-- Load face-api.js dari CDN -->
     <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js">
     </script>
 
@@ -198,52 +255,76 @@
             const canvas = document.getElementById('overlay');
             const ctx = canvas.getContext('2d');
 
-            const genderEl = document.getElementById('genderValue');
-            const expressionEl = document.getElementById('expressionValue');
-            const ageEl = document.getElementById('ageValue');
-            const arousalEl = document.getElementById('arousalValue');
+            const genderVal = document.getElementById('genderVal');
+            const exprVal = document.getElementById('exprVal');
+            const ageVal = document.getElementById('ageVal');
+            const arousalVal = document.getElementById('arousalVal');
             const statusText = document.getElementById('statusText');
-            const toggleBtn = document.getElementById('toggleCam');
+            const statusDot = document.getElementById('statusDot');
+            const errorBox = document.getElementById('errorBox');
+            const errorMsg = document.getElementById('errorMsg');
+            const toggleBtn = document.getElementById('toggleBtn');
             const resetBtn = document.getElementById('resetBtn');
 
             let isStreaming = true;
             let stream = null;
             let detectionInterval = null;
+            let modelsLoaded = false;
+
+            // ─── Tampilkan error ────────────────────────────────────
+            function showError(msg) {
+                errorBox.classList.add('show');
+                errorMsg.textContent = msg;
+                statusText.textContent = '❌ Error';
+                statusDot.style.animation = 'none';
+                statusDot.style.background = '#ff6b6b';
+            }
+
+            function hideError() {
+                errorBox.classList.remove('show');
+            }
 
             // ─── Model loading ──────────────────────────────────────
             const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/models';
 
             async function loadModels() {
-                statusText.textContent = '⏳ Memuat model AI...';
-                await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-                await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-                await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-                await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
-                await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
-                statusText.textContent = '✅ Model siap, menunggu kamera...';
-                return true;
+                try {
+                    statusText.textContent = '⏳ Memuat model AI (5-15 detik)...';
+                    await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+                    await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+                    await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+                    await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+                    await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
+                    modelsLoaded = true;
+                    statusText.textContent = '✅ Model siap, menunggu kamera...';
+                    hideError();
+                    return true;
+                } catch (err) {
+                    showError('Gagal memuat model: ' + err.message + '. Periksa koneksi internet.');
+                    console.error(err);
+                    return false;
+                }
             }
 
             // ─── Kamera ─────────────────────────────────────────────
             async function startCamera() {
                 try {
                     stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'user',
-                            width: { ideal: 640 },
-                            height: { ideal: 480 }
-                        },
+                        video: { facingMode: 'user', width: { ideal: 480 }, height: { ideal: 360 } },
                         audio: false
                     });
                     video.srcObject = stream;
                     await video.play();
+                    // set canvas ukuran video
+                    const w = video.videoWidth || 480;
+                    const h = video.videoHeight || 360;
+                    canvas.width = w;
+                    canvas.height = h;
                     statusText.textContent = '📷 Kamera aktif, mendeteksi...';
-                    // set canvas size
-                    canvas.width = video.videoWidth || 640;
-                    canvas.height = video.videoHeight || 480;
+                    hideError();
                     startDetection();
                 } catch (err) {
-                    statusText.textContent = '❌ Gagal akses kamera: ' + err.message;
+                    showError('Gagal akses kamera: ' + err.message + '. Izinkan akses kamera di browser.');
                     console.error(err);
                 }
             }
@@ -252,49 +333,58 @@
             function startDetection() {
                 if (detectionInterval) clearInterval(detectionInterval);
                 detectionInterval = setInterval(async () => {
-                    if (!isStreaming) return;
+                    if (!isStreaming || !modelsLoaded) return;
                     if (video.paused || video.ended) return;
 
-                    const detections = await faceapi.detectAllFaces(video,
-                            new faceapi.TinyFaceDetectorOptions({
-                                inputSize: 224,
-                                scoreThreshold: 0.5
-                            }))
-                        .withFaceLandmarks()
-                        .withFaceExpressions()
-                        .withAgeAndGender();
+                    try {
+                        const detections = await faceapi.detectAllFaces(video,
+                                new faceapi.TinyFaceDetectorOptions({
+                                    inputSize: 224,
+                                    scoreThreshold: 0.5
+                                }))
+                            .withFaceLandmarks()
+                            .withFaceExpressions()
+                            .withAgeAndGender();
 
-                    // draw overlay
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    if (detections.length > 0) {
-                        // ambil wajah pertama (terbesar)
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                        if (detections.length === 0) {
+                            genderVal.textContent = '—';
+                            genderVal.className = 'value';
+                            exprVal.textContent = '—';
+                            ageVal.textContent = '—';
+                            arousalVal.textContent = '—';
+                            arousalVal.className = 'value';
+                            statusText.textContent = '😶 Tidak ada wajah';
+                            return;
+                        }
+
+                        // ambil wajah pertama
                         const det = detections[0];
                         const box = det.detection.box;
                         const gender = det.gender;
                         const genderProb = det.genderProbability;
                         const age = det.age;
                         const expressions = det.expressions;
-                        // cari ekspresi dominan
+
+                        // ekspresi dominan
                         let maxExpr = 'neutral';
                         let maxScore = 0;
                         for (const [expr, score] of Object.entries(expressions)) {
-                            if (score > maxScore) {
-                                maxScore = score;
-                                maxExpr = expr;
-                            }
+                            if (score > maxScore) { maxScore = score;
+                                maxExpr = expr; }
                         }
                         const exprLabel = maxExpr.charAt(0).toUpperCase() + maxExpr.slice(1);
 
                         // Update UI
-                        genderEl.textContent = gender;
-                        genderEl.className = 'value ' + (gender === 'male' ? 'gender-male' : 'gender-female');
-                        expressionEl.textContent = exprLabel + ' (' + (maxScore * 100).toFixed(0) + '%)';
-                        ageEl.textContent = Math.round(age) + ' th';
+                        genderVal.textContent = gender.charAt(0).toUpperCase() + gender.slice(1);
+                        genderVal.className = 'value ' + gender;
 
-                        // Arousal simulation based on expression + gender? (just for fun)
-                        // Kita gunakan kombinasi ekspresi: happy, surprised, angry -> high arousal
-                        // neutral, sad -> low
-                        let arousal = 0.3; // default
+                        exprVal.textContent = exprLabel + ' (' + (maxScore * 100).toFixed(0) + '%)';
+                        ageVal.textContent = Math.round(age) + ' th';
+
+                        // Arousal simulasi dari ekspresi
+                        let arousal = 0.3;
                         if (maxExpr === 'happy') arousal = 0.75;
                         else if (maxExpr === 'surprised') arousal = 0.85;
                         else if (maxExpr === 'angry') arousal = 0.7;
@@ -302,64 +392,49 @@
                         else if (maxExpr === 'disgusted') arousal = 0.5;
                         else if (maxExpr === 'sad') arousal = 0.2;
                         else if (maxExpr === 'neutral') arousal = 0.3;
-
-                        // tambah variasi dari gender prob (hanya efek)
-                        if (genderProb > 0.9) arousal += 0.05;
-
-                        // clamp
                         arousal = Math.min(1, Math.max(0, arousal));
 
                         let arousalText = (arousal * 100).toFixed(0) + '%';
                         let arousalClass = 'low';
                         if (arousal > 0.7) arousalClass = 'high';
                         else if (arousal > 0.4) arousalClass = 'medium';
-                        arousalEl.textContent = arousalText;
-                        arousalEl.className = 'value ' + arousalClass;
+                        arousalVal.textContent = arousalText;
+                        arousalVal.className = 'value ' + arousalClass;
 
-                        // Draw bounding box
+                        // Gambar bounding box
                         ctx.strokeStyle = '#00ffcc';
                         ctx.lineWidth = 2;
                         ctx.strokeRect(box.x, box.y, box.width, box.height);
 
-                        // Label gender + age
                         ctx.fillStyle = '#00ffcc';
-                        ctx.font = '16px sans-serif';
+                        ctx.font = '14px sans-serif';
                         ctx.fillText(`${gender} (${(genderProb*100).toFixed(0)}%)  ${Math.round(age)}th`, box.x, box.y - 8);
 
-                        // draw landmarks (opsional)
-                        const landmarks = det.landmarks.positions;
+                        // landmark
                         ctx.fillStyle = '#ff66aa';
-                        for (const pt of landmarks) {
+                        for (const pt of det.landmarks.positions) {
                             ctx.beginPath();
                             ctx.arc(pt.x, pt.y, 2, 0, 2 * Math.PI);
                             ctx.fill();
                         }
 
-                        statusText.textContent = `👤 Terdeteksi 1 wajah`;
+                        statusText.textContent = '👤 Deteksi aktif';
+                        hideError();
 
-                    } else {
-                        // tidak ada wajah
-                        genderEl.textContent = '—';
-                        genderEl.className = 'value';
-                        expressionEl.textContent = '—';
-                        ageEl.textContent = '—';
-                        arousalEl.textContent = '—';
-                        arousalEl.className = 'value';
-                        statusText.textContent = '😶 Tidak ada wajah terdeteksi';
+                    } catch (err) {
+                        console.warn('Detection error:', err);
+                        // jangan tampilkan error ke user, hanya log
                     }
-                }, 200);
+                }, 180);
             }
 
-            // ─── Toggle kamera ──────────────────────────────────────
+            // ─── Toggle ─────────────────────────────────────────────
             function toggleCamera() {
                 isStreaming = !isStreaming;
                 if (isStreaming) {
                     toggleBtn.textContent = '⏸ Jeda';
                     statusText.textContent = '▶️ Deteksi dilanjutkan';
-                    if (stream) {
-                        // jika stream paused, resume
-                        video.play().catch(() => {});
-                    }
+                    video.play().catch(() => {});
                 } else {
                     toggleBtn.textContent = '▶️ Lanjut';
                     statusText.textContent = '⏸ Deteksi dijeda';
@@ -368,33 +443,50 @@
             }
 
             // ─── Reset ──────────────────────────────────────────────
-            function resetDetection() {
-                // reload halaman (cara cepat)
-                location.reload();
+            function resetAll() {
+                if (detectionInterval) clearInterval(detectionInterval);
+                if (stream) {
+                    stream.getTracks().forEach(t => t.stop());
+                }
+                video.srcObject = null;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                genderVal.textContent = '—';
+                genderVal.className = 'value';
+                exprVal.textContent = '—';
+                ageVal.textContent = '—';
+                arousalVal.textContent = '—';
+                arousalVal.className = 'value';
+                statusText.textContent = '↺ Mereset...';
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
             }
 
             // ─── Init ───────────────────────────────────────────────
             async function init() {
-                await loadModels();
+                const loaded = await loadModels();
+                if (!loaded) {
+                    // coba sekali lagi dengan delay
+                    setTimeout(async () => {
+                        await loadModels();
+                        if (modelsLoaded) startCamera();
+                    }, 3000);
+                    return;
+                }
                 await startCamera();
                 toggleBtn.addEventListener('click', toggleCamera);
-                resetBtn.addEventListener('click', resetDetection);
+                resetBtn.addEventListener('click', resetAll);
 
-                // handle resize
-                window.addEventListener('resize', () => {
-                    // canvas size diatur setiap frame deteksi
+                // resize canvas saat video berubah
+                video.addEventListener('loadedmetadata', () => {
+                    canvas.width = video.videoWidth || 480;
+                    canvas.height = video.videoHeight || 360;
                 });
             }
 
-            // handle jika video size berubah
-            video.addEventListener('loadedmetadata', () => {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-            });
-
             init().catch(err => {
+                showError('Init error: ' + err.message);
                 console.error(err);
-                statusText.textContent = '❌ Error: ' + err.message;
             });
 
         })();
