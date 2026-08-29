@@ -616,7 +616,7 @@
             }
         }
 
-        /* GAMBAR HERO HERO BANNER */
+        /* GAMBAR / VIDEO HERO BANNER */
         .hero-img-wrapper {
             margin-top: 10px;
             border-radius: var(--radius-lg);
@@ -629,6 +629,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            position: relative;
         }
         .hero-img-wrapper img {
             width: 100%;
@@ -637,10 +638,26 @@
             object-fit: contain;
             transition: var(--transition);
         }
+        .hero-img-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--radius-lg);
+            background: #0a2a0a;
+        }
+        .hero-img-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 320px;
+            border: none;
+            border-radius: var(--radius-lg);
+            display: block;
+        }
         .hero-img-wrapper #loading {
             padding: 40px 20px;
             color: var(--text-secondary);
             font-size: 1rem;
+            text-align: center;
         }
         .hero-img-wrapper #loading i {
             font-size: 2rem;
@@ -1670,15 +1687,28 @@ LOADING SCREEN — KEREN & SMOOTH
                 </div>
             </div>
 
-            <!-- GAMBAR HERO BANNER -->
+            <!-- GAMBAR / VIDEO HERO BANNER (SUPPORT URL VIDEO) -->
             <div class="hero-img-wrapper">
                 <div id="loading">
                     <i class="fas fa-spinner fa-spin"></i>
-                    <span>Memuat gambar...</span>
+                    <span>Memuat konten...</span>
                 </div>
                 <img id="heroImage" style="display:none;" alt="Hero Banner" />
+                <div id="heroVideoContainer" style="display:none;width:100%;">
+                    <video id="heroVideo" style="width:100%;height:auto;display:block;border-radius:var(--radius-lg);" controls autoplay muted loop playsinline>
+                        <source id="heroVideoSource" src="" type="video/mp4">
+                        Browser Anda tidak mendukung video.
+                    </video>
+                </div>
+                <div id="heroIframeContainer" style="display:none;width:100%;position:relative;padding-bottom:56.25%;height:0;border-radius:var(--radius-lg);overflow:hidden;">
+                    <iframe id="heroIframe" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:var(--radius-lg);" 
+                            src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media">
+                    </iframe>
+                </div>
             </div>
+        </div>
     </section>
+
 <!-- ============================================================
      AJAKAN DAFTAR AKUN — GLOW ATAS & BAWAH + TRANSPARAN
      ============================================================ -->
@@ -2218,7 +2248,48 @@ LOADING SCREEN — KEREN & SMOOTH
             });
         });
 
-        // Firebase references
+        // ============================================================
+        // FUNGSI DETEKSI JENIS URL (GAMBAR / VIDEO / YOUTUBE)
+        // ============================================================
+        function isImageUrl(url) {
+            if (!url) return false;
+            const ext = url.split('.').pop().toLowerCase();
+            const imgExt = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'bmp', 'ico', 'tiff', 'tif'];
+            return imgExt.includes(ext);
+        }
+
+        function isVideoUrl(url) {
+            if (!url) return false;
+            const ext = url.split('.').pop().toLowerCase();
+            const vidExt = ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', 'flv', 'wmv', 'm4v', '3gp', 'mpeg', 'mpg'];
+            return vidExt.includes(ext);
+        }
+
+        function isYouTubeUrl(url) {
+            if (!url) return false;
+            return url.includes('youtube.com') || url.includes('youtu.be');
+        }
+
+        function getYouTubeEmbedUrl(url) {
+            let videoId = '';
+            const regExp = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s#]+)/;
+            const match = url.match(regExp);
+            if (match && match[1]) {
+                videoId = match[1];
+            } else {
+                // coba ambil dari parameter v
+                const urlParams = new URLSearchParams(new URL(url).search);
+                videoId = urlParams.get('v') || '';
+            }
+            if (videoId) {
+                return 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=1&rel=0';
+            }
+            return null;
+        }
+
+        // ============================================================
+        // FIREBASE REFERENCES
+        // ============================================================
         const homeRef = ref(db, 'logo-shop/home');
         const newsRef = ref(db, 'logo-shop/news');
         const infoRef = ref(db, 'logo-shop/info');
@@ -2256,23 +2327,80 @@ LOADING SCREEN — KEREN & SMOOTH
             }
         });
 
-        // Home data
+        // ============================================================
+        // HOME DATA — MENAMPILKAN GAMBAR / VIDEO / YOUTUBE
+        // ============================================================
         onValue(homeRef, (snap) => {
             const data = snap.val() || {};
             const desc = document.getElementById('heroDesc');
             if (desc) desc.textContent = data.subtitle || 'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
-            
+
             const img = document.getElementById('heroImage');
             const loading = document.getElementById('loading');
+            const videoContainer = document.getElementById('heroVideoContainer');
+            const video = document.getElementById('heroVideo');
+            const videoSource = document.getElementById('heroVideoSource');
+            const iframeContainer = document.getElementById('heroIframeContainer');
+            const iframe = document.getElementById('heroIframe');
 
-            if (data.heroImage) {
-                img.src = data.heroImage;
+            // Sembunyikan semua
+            img.style.display = 'none';
+            videoContainer.style.display = 'none';
+            iframeContainer.style.display = 'none';
+
+            const url = data.heroImage;
+
+            if (!url) {
+                loading.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Konten tidak tersedia';
+                loading.style.display = 'block';
+                return;
+            }
+
+            // ===== DETEKSI JENIS KONTEN =====
+            if (isYouTubeUrl(url)) {
+                // YouTube
+                const embedUrl = getYouTubeEmbedUrl(url);
+                if (embedUrl) {
+                    iframe.src = embedUrl;
+                    iframeContainer.style.display = 'block';
+                    loading.style.display = 'none';
+                } else {
+                    loading.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--accent-gold);"></i><br>URL YouTube tidak valid';
+                    loading.style.display = 'block';
+                }
+            } else if (isVideoUrl(url)) {
+                // Video biasa (MP4, WebM, dll)
+                videoSource.src = url;
+                video.load();
+                videoContainer.style.display = 'block';
+                loading.style.display = 'none';
+                // Coba mainkan otomatis
+                video.play().catch(() => {});
+            } else if (isImageUrl(url)) {
+                // Gambar
+                img.src = url;
                 img.onload = () => {
                     loading.style.display = 'none';
                     img.style.display = 'block';
                 };
                 img.onerror = () => {
-                    loading.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Gambar tidak tersedia';
+                    loading.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--accent-gold);"></i><br>Gambar tidak dapat dimuat';
+                    loading.style.display = 'block';
+                };
+                if (img.complete && img.naturalHeight !== 0) {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                }
+            } else {
+                // Tidak dikenali — coba sebagai gambar
+                img.src = url;
+                img.onload = () => {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                };
+                img.onerror = () => {
+                    loading.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size:2rem;color:var(--accent-gold);"></i><br>Konten tidak dapat dimuat';
+                    loading.style.display = 'block';
                 };
                 if (img.complete && img.naturalHeight !== 0) {
                     loading.style.display = 'none';
@@ -2649,4 +2777,4 @@ LOADING SCREEN — KEREN & SMOOTH
 
     </script>
 </body>
-                </html>
+</html>
