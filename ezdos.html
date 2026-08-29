@@ -3,519 +3,401 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DDoS Target · ezdos</title>
+    <title>Face Detection · Gender & Expression</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        :root {
-            --bg: #0b0a0e;
-            --surface: #16111c;
-            --surface2: #221a2b;
-            --border: #3a2a4a;
-            --text: #f5edf9;
-            --text2: #b8a5cc;
-            --pink1: #ff2d8a;
-            --pink2: #ff6bb5;
-            --green: #00e676;
-            --red: #ff5252;
-            --gold: #ffd740;
-            --radius: 14px;
-        }
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            background: #0a0a12;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #f0f0ff;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 30px 28px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-        }
         h1 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        h1 .ez {
-            background: linear-gradient(135deg, var(--pink1), var(--pink2));
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff6ec7, #7b4bff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        h1 .dos {
-            color: var(--text);
-        }
-        .badge {
-            display: inline-block;
-            background: var(--pink1);
-            color: #0b0a0e;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-left: 8px;
-        }
         .sub {
-            color: var(--text2);
-            margin: 6px 0 20px 0;
-            font-size: 0.95rem;
+            color: #8888aa;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
-        .sub i {
-            color: var(--pink1);
-            margin: 0 6px;
+        .container {
+            background: #14141e;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+            border: 1px solid #2a2a3a;
+            max-width: 800px;
+            width: 100%;
         }
-
-        /* mode instruksi */
-        .instructions {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 18px 20px;
-            margin: 16px 0;
-        }
-        .instructions code {
-            background: #0b0a0e;
-            padding: 12px 16px;
+        video {
+            width: 100%;
+            border-radius: 16px;
+            background: #000;
             display: block;
-            border-radius: 8px;
-            color: var(--pink2);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            white-space: pre-wrap;
-            word-break: break-all;
-            margin: 10px 0;
-            border: 1px solid var(--border);
         }
-        .btn-copy {
-            background: var(--pink1);
-            border: none;
-            color: #0b0a0e;
-            padding: 6px 18px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
-        .btn-copy:hover {
-            opacity: 0.8;
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
         }
-
-        /* mode target (dashboard) */
-        .stats-grid {
+        .info-panel {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
-        @media (max-width: 600px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .stat-item {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
+        .info-item {
+            background: #1e1e2e;
             padding: 12px 10px;
+            border-radius: 14px;
             text-align: center;
+            border: 1px solid #2a2a3e;
         }
-        .stat-item .value {
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-        .stat-item .label {
+        .info-item .label {
             font-size: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text2);
+            color: #7777aa;
+            letter-spacing: 1px;
+        }
+        .info-item .value {
+            font-size: 1.3rem;
+            font-weight: 600;
             margin-top: 4px;
         }
-        .value.green {
-            color: var(--green);
-        }
-        .value.red {
-            color: var(--red);
-        }
-        .value.pink {
-            color: var(--pink1);
-        }
-        .value.gold {
-            color: var(--gold);
-        }
-
-        .log-wrap {
-            max-height: 200px;
-            overflow-y: auto;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            line-height: 1.6;
-            margin-top: 10px;
-        }
-        .log-wrap::-webkit-scrollbar {
-            width: 4px;
-        }
-        .log-wrap::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
-        .log-entry {
-            display: flex;
-            gap: 12px;
-            padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .log-entry .time {
-            color: #6b5a7a;
-            min-width: 60px;
-        }
-        .log-entry .status {
-            font-weight: 600;
-            min-width: 32px;
-        }
-        .log-entry .status.ok {
-            color: var(--green);
-        }
-        .log-entry .status.err {
-            color: var(--red);
-        }
-        .log-entry .ip {
-            color: var(--text2);
-        }
-        .log-empty {
-            color: #6b5a7a;
+        .info-item .value.gender-male { color: #4fc3f7; }
+        .info-item .value.gender-female { color: #f06292; }
+        .info-item .value.high { color: #ff6b6b; }
+        .info-item .value.medium { color: #ffd93d; }
+        .info-item .value.low { color: #6bcb77; }
+        .status {
+            margin-top: 12px;
             text-align: center;
-            padding: 16px 0;
-            opacity: 0.6;
-        }
-
-        .footer {
-            margin-top: 24px;
-            color: var(--text2);
-            font-size: 0.75rem;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            padding-top: 16px;
-        }
-        .footer i {
-            color: var(--pink1);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .flex {
+            color: #8888bb;
+            font-size: 0.85rem;
             display: flex;
-            gap: 10px;
             align-items: center;
-            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .status .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4fc3f7;
+            animation: pulse 1.2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
         }
         .btn {
-            padding: 6px 18px;
+            background: #2a2a42;
             border: none;
-            border-radius: 6px;
-            font-weight: 600;
+            color: #f0f0ff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
             cursor: pointer;
             transition: 0.2s;
-            background: var(--surface2);
-            color: var(--text);
-            border: 1px solid var(--border);
+            border: 1px solid #3a3a5a;
         }
         .btn:hover {
-            background: var(--border);
+            background: #3a3a5a;
         }
-        .btn-danger {
-            background: var(--red);
-            color: #0b0a0e;
-            border-color: var(--red);
+        .footer {
+            margin-top: 20px;
+            color: #555577;
+            font-size: 0.7rem;
         }
-        .btn-danger:hover {
-            opacity: 0.8;
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="app">
-        <!-- ====== MODE INSTRUKSI (jika diakses file://) ====== -->
-        <div id="modeInstructions">
-            <h1><span class="ez">ez</span><span class="dos">dos</span> <span class="badge">TARGET</span></h1>
-            <p class="sub"><i class="fas fa-skull"></i> Server target untuk pengujian DDoS — jalankan dengan Python</p>
+    <h1>🎭 Face Detector</h1>
+    <div class="sub">Gender · Ekspresi · Arousal (simulasi)</div>
 
-            <div class="instructions">
-                <p style="margin-bottom: 8px;"><strong>1. Buat file <code>server.py</code> dengan kode di bawah ini:</strong></p>
-                <code id="pythonCode">#!/usr/bin/env python3
-import http.server
-import socketserver
-import json
-import time
-from collections import defaultdict
+    <div class="container">
+        <div class="video-wrapper">
+            <video id="video" autoplay muted playsinline></video>
+            <canvas id="overlay"></canvas>
+        </div>
 
-PORT = 8080
-STATS = {
-    'total': 0,
-    'success': 0,
-    'failed': 0,
-    'requests': [],  # simpan 200 log terakhir
-    'start_time': time.time()
-}
-RATE_WINDOW = 60  # detik
-
-class CustomHandler(http.server.SimpleHTTPRequestHandler):
-    def log_request(self, code='-', size='-'):
-        # override untuk mencatat request
-        pass
-
-    def send_response(self, code, message=None):
-        super().send_response(code, message)
-        # catat statistik
-        STATS['total'] += 1
-        if 200 <= code < 300:
-            STATS['success'] += 1
-        else:
-            STATS['failed'] += 1
-        # simpan log (max 200)
-        STATS['requests'].append({
-            'time': time.strftime('%H:%M:%S'),
-            'status': code,
-            'path': self.path,
-            'ip': self.client_address[0]
-        })
-        if len(STATS['requests']) > 200:
-            STATS['requests'] = STATS['requests'][-200:]
-
-    def do_GET(self):
-        if self.path == '/stats':
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
-            # hitung rate
-            now = time.time()
-            recent = [r for r in STATS['requests'] if now - r.get('_ts', 0) < RATE_WINDOW]
-            rate = len(recent) / RATE_WINDOW
-            data = {
-                'total': STATS['total'],
-                'success': STATS['success'],
-                'failed': STATS['failed'],
-                'rate': round(rate, 2),
-                'requests': STATS['requests'][-50:],
-                'uptime': int(now - STATS['start_time'])
-            }
-            self.wfile.write(json.dumps(data).encode())
-            return
-
-        # serve file statis (termasuk halaman ini)
-        return super().do_GET()
-
-    def log_message(self, format, *args):
-        # matikan logging bawaan
-        pass
-
-Handler = CustomHandler
-with socketserver.TCPServer(("0.0.0.0", PORT), Handler) as httpd:
-    print(f"✅ Server target berjalan di http://localhost:{PORT}")
-    print("🚀 Tekan Ctrl+C untuk berhenti")
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        print("\n⏹ Server dihentikan.")</code>
-                <div class="flex">
-                    <button class="btn-copy" onclick="copyCode()"><i class="fas fa-copy"></i> Salin kode</button>
-                    <span style="color:var(--text2);font-size:0.8rem;">atau download langsung</span>
-                    <button class="btn" onclick="downloadServer()"><i class="fas fa-download"></i> Download server.py</button>
-                </div>
+        <div class="info-panel" id="infoPanel">
+            <div class="info-item">
+                <div class="label">Jenis Kelamin</div>
+                <div class="value" id="genderValue">—</div>
             </div>
-
-            <div class="instructions">
-                <p><strong>2. Jalankan server:</strong></p>
-                <code style="background:#0b0a0e;color:var(--gold);">python3 server.py</code>
-                <p class="mt-8" style="color:var(--text2);font-size:0.9rem;">
-                    <i class="fas fa-info-circle"></i> Server akan berjalan di <strong>http://localhost:8080</strong>
-                </p>
-                <p style="color:var(--text2);font-size:0.9rem;margin-top:6px;">
-                    <i class="fas fa-bolt"></i> Setelah server berjalan, <strong>buka ulang halaman ini</strong> (atau akses <code>http://localhost:8080</code>) untuk melihat dashboard target.
-                </p>
+            <div class="info-item">
+                <div class="label">Ekspresi</div>
+                <div class="value" id="expressionValue">—</div>
             </div>
-
-            <div class="footer">
-                <i class="fas fa-shield-alt"></i> Hanya untuk pengujian di server sendiri.
+            <div class="info-item">
+                <div class="label">Usia</div>
+                <div class="value" id="ageValue">—</div>
+            </div>
+            <div class="info-item">
+                <div class="label">Arousal (gairah)</div>
+                <div class="value" id="arousalValue">—</div>
             </div>
         </div>
 
-        <!-- ====== MODE TARGET (jika diakses via HTTP) ====== -->
-        <div id="modeTarget" class="hidden">
-            <h1><span class="ez">ez</span><span class="dos">dos</span> <span class="badge">TARGET</span></h1>
-            <p class="sub"><i class="fas fa-chart-line"></i> Dashboard penerima serangan — <span id="uptimeDisplay">0s</span></p>
+        <div class="status">
+            <span class="dot"></span>
+            <span id="statusText">Memulai kamera...</span>
+        </div>
 
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="value pink" id="totalReq">0</div>
-                    <div class="label">Total Request</div>
-                </div>
-                <div class="stat-item">
-                    <div class="value green" id="successReq">0</div>
-                    <div class="label">Berhasil (2xx)</div>
-                </div>
-                <div class="stat-item">
-                    <div class="value red" id="failedReq">0</div>
-                    <div class="label">Gagal (4xx/5xx)</div>
-                </div>
-                <div class="stat-item">
-                    <div class="value gold" id="rateReq">0</div>
-                    <div class="label">Req / detik</div>
-                </div>
-            </div>
-
-            <div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 6px;">
-                <span style="color:var(--text2);font-size:0.8rem;"><i class="fas fa-list-ul"></i> Log request terakhir</span>
-                <button class="btn btn-danger" onclick="resetStats()"><i class="fas fa-undo-alt"></i> Reset</button>
-            </div>
-            <div class="log-wrap" id="logContainer">
-                <div class="log-empty">Belum ada request — serang sekarang!</div>
-            </div>
-
-            <div class="footer">
-                <i class="fas fa-skull"></i> Server target berjalan — gunakan <strong>ezdos</strong> untuk menyerang.
-            </div>
+        <div style="display:flex; justify-content:center; gap:12px; margin-top:12px;">
+            <button class="btn" id="toggleCam">⏸ Jeda</button>
+            <button class="btn" id="resetBtn">↺ Reset</button>
         </div>
     </div>
 
+    <div class="footer">
+        ⚡ Deteksi wajah menggunakan face-api.js · Hanya untuk demonstrasi teknis
+    </div>
+
+    <!-- Load face-api.js -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js">
+    </script>
+
     <script>
-        // ─── Mode deteksi ──────────────────────────────────────────
-        const isFileProtocol = window.location.protocol === 'file:';
-        const modeInstructions = document.getElementById('modeInstructions');
-        const modeTarget = document.getElementById('modeTarget');
+        (function() {
+            'use strict';
 
-        if (isFileProtocol) {
-            modeInstructions.classList.remove('hidden');
-            modeTarget.classList.add('hidden');
-        } else {
-            modeInstructions.classList.add('hidden');
-            modeTarget.classList.remove('hidden');
-            // mulai polling statistik
-            startPolling();
-        }
+            // ─── DOM ────────────────────────────────────────────────
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('overlay');
+            const ctx = canvas.getContext('2d');
 
-        // ─── Copy kode Python ──────────────────────────────────────
-        function copyCode() {
-            const codeEl = document.getElementById('pythonCode');
-            const text = codeEl.textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ Kode Python disalin ke clipboard!');
-            }).catch(() => {
-                // fallback
-                const area = document.createElement('textarea');
-                area.value = text;
-                document.body.appendChild(area);
-                area.select();
-                document.execCommand('copy');
-                document.body.removeChild(area);
-                alert('✅ Kode Python disalin!');
+            const genderEl = document.getElementById('genderValue');
+            const expressionEl = document.getElementById('expressionValue');
+            const ageEl = document.getElementById('ageValue');
+            const arousalEl = document.getElementById('arousalValue');
+            const statusText = document.getElementById('statusText');
+            const toggleBtn = document.getElementById('toggleCam');
+            const resetBtn = document.getElementById('resetBtn');
+
+            let isStreaming = true;
+            let stream = null;
+            let detectionInterval = null;
+
+            // ─── Model loading ──────────────────────────────────────
+            const MODEL_URL = 'https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/models';
+
+            async function loadModels() {
+                statusText.textContent = '⏳ Memuat model AI...';
+                await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+                await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
+                statusText.textContent = '✅ Model siap, menunggu kamera...';
+                return true;
+            }
+
+            // ─── Kamera ─────────────────────────────────────────────
+            async function startCamera() {
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'user',
+                            width: { ideal: 640 },
+                            height: { ideal: 480 }
+                        },
+                        audio: false
+                    });
+                    video.srcObject = stream;
+                    await video.play();
+                    statusText.textContent = '📷 Kamera aktif, mendeteksi...';
+                    // set canvas size
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 480;
+                    startDetection();
+                } catch (err) {
+                    statusText.textContent = '❌ Gagal akses kamera: ' + err.message;
+                    console.error(err);
+                }
+            }
+
+            // ─── Deteksi ────────────────────────────────────────────
+            function startDetection() {
+                if (detectionInterval) clearInterval(detectionInterval);
+                detectionInterval = setInterval(async () => {
+                    if (!isStreaming) return;
+                    if (video.paused || video.ended) return;
+
+                    const detections = await faceapi.detectAllFaces(video,
+                            new faceapi.TinyFaceDetectorOptions({
+                                inputSize: 224,
+                                scoreThreshold: 0.5
+                            }))
+                        .withFaceLandmarks()
+                        .withFaceExpressions()
+                        .withAgeAndGender();
+
+                    // draw overlay
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    if (detections.length > 0) {
+                        // ambil wajah pertama (terbesar)
+                        const det = detections[0];
+                        const box = det.detection.box;
+                        const gender = det.gender;
+                        const genderProb = det.genderProbability;
+                        const age = det.age;
+                        const expressions = det.expressions;
+                        // cari ekspresi dominan
+                        let maxExpr = 'neutral';
+                        let maxScore = 0;
+                        for (const [expr, score] of Object.entries(expressions)) {
+                            if (score > maxScore) {
+                                maxScore = score;
+                                maxExpr = expr;
+                            }
+                        }
+                        const exprLabel = maxExpr.charAt(0).toUpperCase() + maxExpr.slice(1);
+
+                        // Update UI
+                        genderEl.textContent = gender;
+                        genderEl.className = 'value ' + (gender === 'male' ? 'gender-male' : 'gender-female');
+                        expressionEl.textContent = exprLabel + ' (' + (maxScore * 100).toFixed(0) + '%)';
+                        ageEl.textContent = Math.round(age) + ' th';
+
+                        // Arousal simulation based on expression + gender? (just for fun)
+                        // Kita gunakan kombinasi ekspresi: happy, surprised, angry -> high arousal
+                        // neutral, sad -> low
+                        let arousal = 0.3; // default
+                        if (maxExpr === 'happy') arousal = 0.75;
+                        else if (maxExpr === 'surprised') arousal = 0.85;
+                        else if (maxExpr === 'angry') arousal = 0.7;
+                        else if (maxExpr === 'fearful') arousal = 0.6;
+                        else if (maxExpr === 'disgusted') arousal = 0.5;
+                        else if (maxExpr === 'sad') arousal = 0.2;
+                        else if (maxExpr === 'neutral') arousal = 0.3;
+
+                        // tambah variasi dari gender prob (hanya efek)
+                        if (genderProb > 0.9) arousal += 0.05;
+
+                        // clamp
+                        arousal = Math.min(1, Math.max(0, arousal));
+
+                        let arousalText = (arousal * 100).toFixed(0) + '%';
+                        let arousalClass = 'low';
+                        if (arousal > 0.7) arousalClass = 'high';
+                        else if (arousal > 0.4) arousalClass = 'medium';
+                        arousalEl.textContent = arousalText;
+                        arousalEl.className = 'value ' + arousalClass;
+
+                        // Draw bounding box
+                        ctx.strokeStyle = '#00ffcc';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(box.x, box.y, box.width, box.height);
+
+                        // Label gender + age
+                        ctx.fillStyle = '#00ffcc';
+                        ctx.font = '16px sans-serif';
+                        ctx.fillText(`${gender} (${(genderProb*100).toFixed(0)}%)  ${Math.round(age)}th`, box.x, box.y - 8);
+
+                        // draw landmarks (opsional)
+                        const landmarks = det.landmarks.positions;
+                        ctx.fillStyle = '#ff66aa';
+                        for (const pt of landmarks) {
+                            ctx.beginPath();
+                            ctx.arc(pt.x, pt.y, 2, 0, 2 * Math.PI);
+                            ctx.fill();
+                        }
+
+                        statusText.textContent = `👤 Terdeteksi 1 wajah`;
+
+                    } else {
+                        // tidak ada wajah
+                        genderEl.textContent = '—';
+                        genderEl.className = 'value';
+                        expressionEl.textContent = '—';
+                        ageEl.textContent = '—';
+                        arousalEl.textContent = '—';
+                        arousalEl.className = 'value';
+                        statusText.textContent = '😶 Tidak ada wajah terdeteksi';
+                    }
+                }, 200);
+            }
+
+            // ─── Toggle kamera ──────────────────────────────────────
+            function toggleCamera() {
+                isStreaming = !isStreaming;
+                if (isStreaming) {
+                    toggleBtn.textContent = '⏸ Jeda';
+                    statusText.textContent = '▶️ Deteksi dilanjutkan';
+                    if (stream) {
+                        // jika stream paused, resume
+                        video.play().catch(() => {});
+                    }
+                } else {
+                    toggleBtn.textContent = '▶️ Lanjut';
+                    statusText.textContent = '⏸ Deteksi dijeda';
+                    video.pause();
+                }
+            }
+
+            // ─── Reset ──────────────────────────────────────────────
+            function resetDetection() {
+                // reload halaman (cara cepat)
+                location.reload();
+            }
+
+            // ─── Init ───────────────────────────────────────────────
+            async function init() {
+                await loadModels();
+                await startCamera();
+                toggleBtn.addEventListener('click', toggleCamera);
+                resetBtn.addEventListener('click', resetDetection);
+
+                // handle resize
+                window.addEventListener('resize', () => {
+                    // canvas size diatur setiap frame deteksi
+                });
+            }
+
+            // handle jika video size berubah
+            video.addEventListener('loadedmetadata', () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
             });
-        }
 
-        function downloadServer() {
-            const code = document.getElementById('pythonCode').textContent;
-            const blob = new Blob([code], { type: 'text/x-python' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'server.py';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+            init().catch(err => {
+                console.error(err);
+                statusText.textContent = '❌ Error: ' + err.message;
+            });
 
-        // ─── Dashboard target (polling) ────────────────────────────
-        let pollingInterval = null;
-
-        function startPolling() {
-            fetchStats();
-            pollingInterval = setInterval(fetchStats, 800);
-        }
-
-        async function fetchStats() {
-            try {
-                const res = await fetch('/stats');
-                if (!res.ok) throw new Error('Gagal fetch stats');
-                const data = await res.json();
-                updateDashboard(data);
-            } catch (e) {
-                // jika server mati, tampilkan pesan
-                document.getElementById('logContainer').innerHTML =
-                    '<div class="log-empty" style="color:var(--red);">⚠️ Server tidak merespon. Pastikan server Python berjalan.</div>';
-            }
-        }
-
-        function updateDashboard(data) {
-            document.getElementById('totalReq').textContent = data.total || 0;
-            document.getElementById('successReq').textContent = data.success || 0;
-            document.getElementById('failedReq').textContent = data.failed || 0;
-            document.getElementById('rateReq').textContent = data.rate ? data.rate.toFixed(1) : '0';
-
-            const uptime = data.uptime || 0;
-            const mins = Math.floor(uptime / 60);
-            const secs = uptime % 60;
-            document.getElementById('uptimeDisplay').textContent = `${mins}m ${secs}s`;
-
-            // log
-            const logContainer = document.getElementById('logContainer');
-            const requests = data.requests || [];
-            if (requests.length === 0) {
-                logContainer.innerHTML = '<div class="log-empty">Belum ada request — serang sekarang!</div>';
-                return;
-            }
-            let html = '';
-            // tampilkan dari yang terbaru (reverse)
-            const slice = requests.slice(-50).reverse();
-            for (const r of slice) {
-                const statusClass = (r.status >= 200 && r.status < 300) ? 'ok' :
-                    (r.status >= 300 && r.status < 400) ? 'ok' : 'err';
-                html += `<div class="log-entry">
-                    <span class="time">${r.time || '--'}</span>
-                    <span class="status ${statusClass}">${r.status || '?'}</span>
-                    <span class="ip">${r.ip || 'unknown'}</span>
-                    <span style="color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px;">${r.path || '/'}</span>
-                </div>`;
-            }
-            logContainer.innerHTML = html;
-        }
-
-        async function resetStats() {
-            if (!confirm('Reset semua statistik?')) return;
-            try {
-                // Kita tidak punya endpoint reset, jadi kita reload halaman
-                // Tapi server tidak punya reset, jadi kita restart server manual.
-                alert('Reset statistik hanya bisa dilakukan dengan merestart server Python (Ctrl+C lalu jalankan ulang).');
-            } catch (e) {}
-        }
-
-        // ─── cleanup ──────────────────────────────────────────────
-        window.addEventListener('beforeunload', function() {
-            if (pollingInterval) clearInterval(pollingInterval);
-        });
+        })();
     </script>
 
 </body>
