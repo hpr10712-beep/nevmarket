@@ -1082,6 +1082,14 @@
         await loadAllData();
         checkShopStatus();
 
+        // ===== PRODUK DIGITAL =====
+const data = { 
+    name, price, image, description, downloadLink, 
+    isJasa: false,
+    sellerId: 'admin' // ✅ sellerId admin
+};
+await set(productRef, data);
+
         showToast('Selamat datang!', 'info');
         console.log('🚀 Produk page loaded. Device ID:', DEVICE_ID);
     </script>
