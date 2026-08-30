@@ -2239,7 +2239,7 @@ LOADING SCREEN — KEREN & SMOOTH
                 videoId = urlParams.get('v') || '';
             }
             if (videoId) {
-                return 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId + '&controls=1&rel=0';
+                return 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&enablejsapi=1&controls=1&rel=0';
             }
             return null;
         }
@@ -2265,11 +2265,9 @@ LOADING SCREEN — KEREN & SMOOTH
                 document.querySelectorAll('.brand-name').forEach(el => el.textContent = name);
                 document.title = name + ' - Toko Digital';
             }
-            // 🔥 Jika admin mengatur teks banner, tetap gunakan, tapi default sudah diubah
             if (data.adminBannerText) {
                 textEl.innerHTML = data.adminBannerText;
             } else {
-                // default sudah "Hallo Terimakasih Sudah Berkunjung, Selamat Berbelanja Bub"
                 textEl.innerHTML = '<span class="highlight-text">Hallo Terimakasih Sudah Berkunjung, Selamat Berbelanja Bub</span>';
             }
             loadingEl.style.display = 'none';
@@ -2287,150 +2285,368 @@ LOADING SCREEN — KEREN & SMOOTH
         });
 
         // ============================================================
-        // HOME DATA — MENAMPILKAN GAMBAR / VIDEO PLAYLIST (DIUBAH)
+        // HOME DATA — PLAYLIST VIDEO DENGAN SHUFFLE 1 KALI PUTARAN
         // ============================================================
-        // Variabel untuk playlist video
+        // Variabel untuk playlist
         let videoList = [];
         let currentVideoIndex = 0;
         let isVideoPlaylistMode = false;
+        let playMode = 'sequential'; // 'sequential' atau 'shuffle'
+        let youtubePlayer = null;
+        let isYouTubeReady = false;
+        let imageTimer = null;
 
-        onValue(homeRef, (snap) => {
-            const data = snap.val() || {};
-            const desc = document.getElementById('heroDesc');
-            if (desc) desc.textContent = data.subtitle || 'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
+        // Untuk shuffle 1 kali putaran
+        let shuffledIndices = []; // array indeks yang sudah diacak
+        let shuffleIndex = 0;     // posisi saat ini dalam array shuffledIndices
 
-            const img = document.getElementById('heroImage');
-            const loading = document.getElementById('loading');
-            const videoContainer = document.getElementById('heroVideoContainer');
-            const video = document.getElementById('heroVideo');
-            const videoSource = document.getElementById('heroVideoSource');
-            const iframeContainer = document.getElementById('heroIframeContainer');
-            const iframe = document.getElementById('heroIframe');
+        // Fungsi untuk menghasilkan array indeks acak
+        function generateShuffledIndices() {
+            const indices = Array.from({ length: videoList.length }, (_, i) => i);
+            // Fisher-Yates shuffle
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+            shuffledIndices = indices;
+            shuffleIndex = 0;
+        }
+
+        const img = document.getElementById('heroImage');
+        const loading = document.getElementById('loading');
+        const videoContainer = document.getElementById('heroVideoContainer');
+        const video = document.getElementById('heroVideo');
+        const videoSource = document.getElementById('heroVideoSource');
+        const iframeContainer = document.getElementById('heroIframeContainer');
+        const iframe = document.getElementById('heroIframe');
+
+        // Fungsi untuk memuat YouTube API
+        function loadYouTubeAPI() {
+            return new Promise((resolve, reject) => {
+                if (window.YT && window.YT.Player) {
+                    resolve();
+                    return;
+                }
+                const script = document.createElement('script');
+                script.src = 'https://www.youtube.com/iframe_api';
+                script.async = true;
+                script.onload = () => {
+                    const checkReady = setInterval(() => {
+                        if (window.YT && window.YT.Player) {
+                            clearInterval(checkReady);
+                            resolve();
+                        }
+                    }, 100);
+                };
+                script.onerror = () => reject('Gagal memuat YouTube API');
+                document.head.appendChild(script);
+            });
+        }
+
+        // Fungsi untuk menginisialisasi YouTube Player
+        function initYouTubePlayer(videoId, onEnd) {
+            return new Promise((resolve) => {
+                if (window.YT && window.YT.Player) {
+                    const player = new YT.Player(iframe, {
+                        videoId: videoId,
+                        playerVars: {
+                            autoplay: 1,
+                            mute: 1,
+                            controls: 1,
+                            rel: 0,
+                            enablejsapi: 1
+                        },
+                        events: {
+                            onReady: (event) => {
+                                resolve(player);
+                            },
+                            onStateChange: (event) => {
+                                if (event.data === YT.PlayerState.ENDED) {
+                                    onEnd();
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    setTimeout(() => initYouTubePlayer(videoId, onEnd).then(resolve), 500);
+                }
+            });
+        }
+
+        // Fungsi untuk memutar item berdasarkan indeks (dari array videoList)
+        function playVideoByIndex(index) {
+            // Hapus timer gambar jika ada
+            if (imageTimer) {
+                clearTimeout(imageTimer);
+                imageTimer = null;
+            }
+
+            if (index >= videoList.length) {
+                // Jika indeks melebihi, artinya siklus shuffle selesai
+                if (playMode === 'shuffle') {
+                    // Generate ulang urutan acak
+                    generateShuffledIndices();
+                    // Mulai dari indeks pertama dari urutan baru
+                    playVideoByIndex(shuffledIndices[0]);
+                    return;
+                } else {
+                    // sequential: loop ke awal
+                    playVideoByIndex(0);
+                    return;
+                }
+            }
+
+            const url = videoList[index];
+            if (!url) {
+                // Jika URL kosong, skip ke berikutnya
+                const nextIndex = (playMode === 'shuffle') ? 
+                    (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                    : index + 1;
+                playVideoByIndex(nextIndex);
+                return;
+            }
 
             // Sembunyikan semua
             img.style.display = 'none';
             videoContainer.style.display = 'none';
             iframeContainer.style.display = 'none';
+            loading.style.display = 'none';
 
-            // 🔥 Cek apakah ada array video dari admin (heroVideos)
+            // Cek jenis konten
+            if (isYouTubeUrl(url)) {
+                // YouTube
+                const embedUrl = getYouTubeEmbedUrl(url);
+                if (!embedUrl) {
+                    const nextIndex = (playMode === 'shuffle') ? 
+                        (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                        : index + 1;
+                    playVideoByIndex(nextIndex);
+                    return;
+                }
+                // Hapus iframe lama dan buat baru agar player baru
+                const iframeParent = iframe.parentNode;
+                const newIframe = document.createElement('iframe');
+                newIframe.id = 'heroIframe';
+                newIframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:var(--radius-lg);';
+                newIframe.allow = 'autoplay; encrypted-media';
+                newIframe.allowFullscreen = true;
+                iframeParent.replaceChild(newIframe, iframe);
+                const updatedIframe = document.getElementById('heroIframe');
+
+                iframeContainer.style.display = 'block';
+                loading.style.display = 'none';
+
+                loadYouTubeAPI().then(() => {
+                    const videoIdMatch = embedUrl.match(/embed\/([^?]+)/);
+                    const videoId = videoIdMatch ? videoIdMatch[1] : '';
+                    if (!videoId) {
+                        const nextIndex = (playMode === 'shuffle') ? 
+                            (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                            : index + 1;
+                        playVideoByIndex(nextIndex);
+                        return;
+                    }
+                    initYouTubePlayer(videoId, () => {
+                        // Video selesai
+                        if (playMode === 'shuffle') {
+                            shuffleIndex++;
+                            if (shuffleIndex >= shuffledIndices.length) {
+                                // Selesai satu siklus, generate ulang
+                                generateShuffledIndices();
+                                playVideoByIndex(shuffledIndices[0]);
+                            } else {
+                                playVideoByIndex(shuffledIndices[shuffleIndex]);
+                            }
+                        } else {
+                            // sequential
+                            playVideoByIndex(index + 1);
+                        }
+                    }).then(player => {
+                        youtubePlayer = player;
+                    });
+                }).catch(() => {
+                    const nextIndex = (playMode === 'shuffle') ? 
+                        (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                        : index + 1;
+                    playVideoByIndex(nextIndex);
+                });
+            } else if (isVideoUrl(url)) {
+                // Video biasa
+                videoSource.src = url;
+                video.load();
+                videoContainer.style.display = 'block';
+                video.onended = null;
+                video.onended = function() {
+                    if (playMode === 'shuffle') {
+                        shuffleIndex++;
+                        if (shuffleIndex >= shuffledIndices.length) {
+                            generateShuffledIndices();
+                            playVideoByIndex(shuffledIndices[0]);
+                        } else {
+                            playVideoByIndex(shuffledIndices[shuffleIndex]);
+                        }
+                    } else {
+                        playVideoByIndex(index + 1);
+                    }
+                };
+                video.play().catch(() => {});
+            } else if (isImageUrl(url)) {
+                // Gambar
+                img.src = url;
+                img.onload = () => {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                    imageTimer = setTimeout(() => {
+                        if (playMode === 'shuffle') {
+                            shuffleIndex++;
+                            if (shuffleIndex >= shuffledIndices.length) {
+                                generateShuffledIndices();
+                                playVideoByIndex(shuffledIndices[0]);
+                            } else {
+                                playVideoByIndex(shuffledIndices[shuffleIndex]);
+                            }
+                        } else {
+                            playVideoByIndex(index + 1);
+                        }
+                    }, 5000);
+                };
+                img.onerror = () => {
+                    const nextIndex = (playMode === 'shuffle') ? 
+                        (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                        : index + 1;
+                    playVideoByIndex(nextIndex);
+                };
+                if (img.complete && img.naturalHeight !== 0) {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                    imageTimer = setTimeout(() => {
+                        if (playMode === 'shuffle') {
+                            shuffleIndex++;
+                            if (shuffleIndex >= shuffledIndices.length) {
+                                generateShuffledIndices();
+                                playVideoByIndex(shuffledIndices[0]);
+                            } else {
+                                playVideoByIndex(shuffledIndices[shuffleIndex]);
+                            }
+                        } else {
+                            playVideoByIndex(index + 1);
+                        }
+                    }, 5000);
+                }
+            } else {
+                // Tidak dikenali, coba sebagai gambar
+                img.src = url;
+                img.onload = () => {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                    imageTimer = setTimeout(() => {
+                        if (playMode === 'shuffle') {
+                            shuffleIndex++;
+                            if (shuffleIndex >= shuffledIndices.length) {
+                                generateShuffledIndices();
+                                playVideoByIndex(shuffledIndices[0]);
+                            } else {
+                                playVideoByIndex(shuffledIndices[shuffleIndex]);
+                            }
+                        } else {
+                            playVideoByIndex(index + 1);
+                        }
+                    }, 5000);
+                };
+                img.onerror = () => {
+                    const nextIndex = (playMode === 'shuffle') ? 
+                        (shuffleIndex < shuffledIndices.length ? shuffledIndices[shuffleIndex] : 0) 
+                        : index + 1;
+                    playVideoByIndex(nextIndex);
+                };
+                if (img.complete && img.naturalHeight !== 0) {
+                    loading.style.display = 'none';
+                    img.style.display = 'block';
+                    imageTimer = setTimeout(() => {
+                        if (playMode === 'shuffle') {
+                            shuffleIndex++;
+                            if (shuffleIndex >= shuffledIndices.length) {
+                                generateShuffledIndices();
+                                playVideoByIndex(shuffledIndices[0]);
+                            } else {
+                                playVideoByIndex(shuffledIndices[shuffleIndex]);
+                            }
+                        } else {
+                            playVideoByIndex(index + 1);
+                        }
+                    }, 5000);
+                }
+            }
+        }
+
+        // Fungsi untuk memulai playlist
+        function startPlaylist() {
+            if (videoList.length === 0) {
+                loading.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Konten tidak tersedia';
+                loading.style.display = 'block';
+                return;
+            }
+            isVideoPlaylistMode = true;
+            if (playMode === 'shuffle') {
+                generateShuffledIndices();
+                playVideoByIndex(shuffledIndices[0]);
+            } else {
+                // sequential
+                currentVideoIndex = 0;
+                playVideoByIndex(0);
+            }
+        }
+
+        // Listen perubahan data home
+        onValue(homeRef, (snap) => {
+            const data = snap.val() || {};
+            const desc = document.getElementById('heroDesc');
+            if (desc) desc.textContent = data.subtitle || 'Dapatkan logo berkualitas tinggi dengan harga terjangkau. Proses aman dan terpercaya.';
+
+            // Ambil playlist dan mode
             const heroVideos = data.heroVideos;
             let videoUrls = [];
 
             if (heroVideos && Array.isArray(heroVideos) && heroVideos.length > 0) {
-                // Filter hanya URL video yang valid
                 videoUrls = heroVideos.filter(url => url && typeof url === 'string' && url.trim() !== '');
             } else if (data.heroImage) {
-                // Fallback ke heroImage single
                 videoUrls = [data.heroImage];
             }
 
-            if (videoUrls.length === 0) {
+            // Simpan mode
+            playMode = data.playMode || 'sequential';
+
+            // Update daftar video
+            videoList = videoUrls;
+
+            // Reset youtube player jika ada
+            if (youtubePlayer) {
+                youtubePlayer.destroy();
+                youtubePlayer = null;
+            }
+
+            // Reset shuffle state
+            shuffledIndices = [];
+            shuffleIndex = 0;
+
+            // Jika tidak ada video, tampilkan pesan
+            if (videoList.length === 0) {
                 loading.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:var(--text-secondary);"></i><br>Konten tidak tersedia';
                 loading.style.display = 'block';
-                videoList = [];
-                isVideoPlaylistMode = false;
+                img.style.display = 'none';
+                videoContainer.style.display = 'none';
+                iframeContainer.style.display = 'none';
                 return;
             }
 
-            // Simpan daftar video
-            videoList = videoUrls;
-            currentVideoIndex = 0;
-            isVideoPlaylistMode = true;
-
-            // Fungsi untuk memutar video pada indeks tertentu
-            function playVideoAtIndex(index) {
-                if (index >= videoList.length) {
-                    // Jika sudah di akhir, loop ke awal
-                    index = 0;
-                }
-                currentVideoIndex = index;
-                const url = videoList[index];
-                if (!url) {
-                    // Jika URL kosong, lanjut ke berikutnya
-                    playVideoAtIndex(index + 1);
-                    return;
-                }
-
-                // Cek jenis konten
-                if (isYouTubeUrl(url)) {
-                    // YouTube
-                    const embedUrl = getYouTubeEmbedUrl(url);
-                    if (embedUrl) {
-                        iframe.src = embedUrl;
-                        iframeContainer.style.display = 'block';
-                        videoContainer.style.display = 'none';
-                        img.style.display = 'none';
-                        loading.style.display = 'none';
-                    } else {
-                        // Gagal, lanjut ke video berikutnya
-                        playVideoAtIndex(index + 1);
-                    }
-                } else if (isVideoUrl(url)) {
-                    // Video biasa
-                    videoSource.src = url;
-                    video.load();
-                    videoContainer.style.display = 'block';
-                    iframeContainer.style.display = 'none';
-                    img.style.display = 'none';
-                    loading.style.display = 'none';
-                    // Mainkan otomatis
-                    video.play().catch(() => {});
-                } else if (isImageUrl(url)) {
-                    // Gambar (tampilkan sebagai gambar, bukan video)
-                    img.src = url;
-                    img.onload = () => {
-                        loading.style.display = 'none';
-                        img.style.display = 'block';
-                        videoContainer.style.display = 'none';
-                        iframeContainer.style.display = 'none';
-                    };
-                    img.onerror = () => {
-                        // Jika gagal, lanjut ke video berikutnya
-                        playVideoAtIndex(index + 1);
-                    };
-                    if (img.complete && img.naturalHeight !== 0) {
-                        loading.style.display = 'none';
-                        img.style.display = 'block';
-                        videoContainer.style.display = 'none';
-                        iframeContainer.style.display = 'none';
-                    }
-                } else {
-                    // Tidak dikenali, coba sebagai gambar
-                    img.src = url;
-                    img.onload = () => {
-                        loading.style.display = 'none';
-                        img.style.display = 'block';
-                        videoContainer.style.display = 'none';
-                        iframeContainer.style.display = 'none';
-                    };
-                    img.onerror = () => {
-                        // Gagal, lanjut ke video berikutnya
-                        playVideoAtIndex(index + 1);
-                    };
-                    if (img.complete && img.naturalHeight !== 0) {
-                        loading.style.display = 'none';
-                        img.style.display = 'block';
-                        videoContainer.style.display = 'none';
-                        iframeContainer.style.display = 'none';
-                    }
-                }
-            }
-
-            // 🔥 Event listener untuk video ended (play next)
-            video.onended = function() {
-                if (isVideoPlaylistMode && videoList.length > 1) {
-                    // Pindah ke video berikutnya
-                    playVideoAtIndex(currentVideoIndex + 1);
-                } else {
-                    // Jika hanya satu video, loop (tetap play)
-                    video.currentTime = 0;
-                    video.play().catch(() => {});
-                }
-            };
-
-            // Mulai putar video pertama
-            playVideoAtIndex(0);
+            // Mulai putar
+            startPlaylist();
         });
+
+        // ============================================================
+        // MODAL BERITA, FAQ, FOOTER TOGGLE, DLL TETAP SAMA
+        // ============================================================
+        // (Kode modal dan lainnya tetap seperti semula)
 
         // Modal Berita
         function openNewsModal(item) {
@@ -2541,241 +2757,232 @@ LOADING SCREEN — KEREN & SMOOTH
 
         showToast('Selamat datang di NEV Market!', 'info');
 
-// ============================================================
-// LOADING SCREEN — PROGRESS BAR REAL + DETEKSI INTERNET
-// ============================================================
-(function() {
-    const loadingScreen = document.getElementById('loadingScreen');
-    const progressBar = document.getElementById('progressBar');
-    const progressPercent = document.getElementById('progressPercent');
-    const loadingStatus = document.getElementById('loadingStatus');
-    const noInternetOverlay = document.getElementById('noInternetOverlay');
+        // ============================================================
+        // LOADING SCREEN — PROGRESS BAR REAL + DETEKSI INTERNET
+        // ============================================================
+        (function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            const loadingStatus = document.getElementById('loadingStatus');
+            const noInternetOverlay = document.getElementById('noInternetOverlay');
 
-    let progress = 0;
-    let isLoadingComplete = false;
-    let isInternetConnected = navigator.onLine !== false;
+            let progress = 0;
+            let isLoadingComplete = false;
+            let isInternetConnected = navigator.onLine !== false;
 
-    // ===== STATUS TEKS =====
-    const statusMessages = [
-        { max: 10, text: 'Memulai...' },
-        { max: 25, text: 'Menghubungkan server...' },
-        { max: 40, text: 'Memuat data...' },
-        { max: 60, text: 'Menyiapkan konten...' },
-        { max: 75, text: 'Hampir selesai...' },
-        { max: 90, text: 'Finishing...' },
-        { max: 100, text: 'Siap!' }
-    ];
+            const statusMessages = [
+                { max: 10, text: 'Memulai...' },
+                { max: 25, text: 'Menghubungkan server...' },
+                { max: 40, text: 'Memuat data...' },
+                { max: 60, text: 'Menyiapkan konten...' },
+                { max: 75, text: 'Hampir selesai...' },
+                { max: 90, text: 'Finishing...' },
+                { max: 100, text: 'Siap!' }
+            ];
 
-    function updateStatus(prog) {
-        for (let i = statusMessages.length - 1; i >= 0; i--) {
-            if (prog >= statusMessages[i].max) {
-                loadingStatus.textContent = statusMessages[i].text;
-                break;
+            function updateStatus(prog) {
+                for (let i = statusMessages.length - 1; i >= 0; i--) {
+                    if (prog >= statusMessages[i].max) {
+                        loadingStatus.textContent = statusMessages[i].text;
+                        break;
+                    }
+                }
+                if (prog >= 100) loadingStatus.textContent = 'Siap!';
             }
-        }
-        if (prog >= 100) loadingStatus.textContent = 'Siap!';
-    }
 
-    // ===== UPDATE PROGRESS =====
-    function updateProgress(value) {
-        progress = Math.min(value, 100);
-        progressBar.style.width = progress + '%';
-        progressPercent.textContent = Math.round(progress);
-        updateStatus(progress);
-    }
-
-    // ===== CEK INTERNET =====
-    function checkInternet() {
-        isInternetConnected = navigator.onLine !== false;
-        if (!isInternetConnected && !isLoadingComplete) {
-            noInternetOverlay.style.display = 'flex';
-            loadingStatus.textContent = 'Tidak ada koneksi';
-            progressBar.style.animationPlayState = 'paused';
-        } else {
-            noInternetOverlay.style.display = 'none';
-            progressBar.style.animationPlayState = 'running';
-        }
-        return isInternetConnected;
-    }
-
-    // ===== EVENT INTERNET =====
-    window.addEventListener('online', () => {
-        isInternetConnected = true;
-        noInternetOverlay.style.display = 'none';
-        progressBar.style.animationPlayState = 'running';
-        if (!isLoadingComplete) {
-            loadingStatus.textContent = 'Koneksi pulih...';
-            setTimeout(() => { if (!isLoadingComplete) loadingStatus.textContent = 'Melanjutkan...'; }, 800);
-        }
-    });
-
-    window.addEventListener('offline', () => {
-        isInternetConnected = false;
-        if (!isLoadingComplete) {
-            noInternetOverlay.style.display = 'flex';
-            loadingStatus.textContent = 'Koneksi terputus';
-            progressBar.style.animationPlayState = 'paused';
-        }
-    });
-
-    // ===== PROGRESS BAR REAL =====
-    function startLoading() {
-        if (!checkInternet()) return;
-
-        let domProgress = 0;
-        const domInterval = setInterval(() => {
-            if (document.readyState === 'loading') {
-                domProgress += 0.8;
-            } else if (document.readyState === 'interactive') {
-                domProgress += 2;
-            } else if (document.readyState === 'complete') {
-                domProgress += 3;
+            function updateProgress(value) {
+                progress = Math.min(value, 100);
+                progressBar.style.width = progress + '%';
+                progressPercent.textContent = Math.round(progress);
+                updateStatus(progress);
             }
-            if (domProgress >= 30) {
-                clearInterval(domInterval);
-                updateProgress(30);
-                setTimeout(() => loadResources(), 200);
-            } else {
-                updateProgress(Math.min(30, domProgress));
+
+            function checkInternet() {
+                isInternetConnected = navigator.onLine !== false;
+                if (!isInternetConnected && !isLoadingComplete) {
+                    noInternetOverlay.style.display = 'flex';
+                    loadingStatus.textContent = 'Tidak ada koneksi';
+                    progressBar.style.animationPlayState = 'paused';
+                } else {
+                    noInternetOverlay.style.display = 'none';
+                    progressBar.style.animationPlayState = 'running';
+                }
+                return isInternetConnected;
             }
-        }, 50);
 
-        if (document.readyState === 'complete') {
-            clearInterval(domInterval);
-            updateProgress(30);
-            setTimeout(() => loadResources(), 200);
-        }
-    }
+            window.addEventListener('online', () => {
+                isInternetConnected = true;
+                noInternetOverlay.style.display = 'none';
+                progressBar.style.animationPlayState = 'running';
+                if (!isLoadingComplete) {
+                    loadingStatus.textContent = 'Koneksi pulih...';
+                    setTimeout(() => { if (!isLoadingComplete) loadingStatus.textContent = 'Melanjutkan...'; }, 800);
+                }
+            });
 
-    // ===== STAGE 2: LOAD RESOURCES (30-90%) =====
-    let resourceLoaded = false;
-    let resourceProgress = 30;
+            window.addEventListener('offline', () => {
+                isInternetConnected = false;
+                if (!isLoadingComplete) {
+                    noInternetOverlay.style.display = 'flex';
+                    loadingStatus.textContent = 'Koneksi terputus';
+                    progressBar.style.animationPlayState = 'paused';
+                }
+            });
 
-    function loadResources() {
-        if (resourceLoaded) return;
-        resourceLoaded = true;
+            function startLoading() {
+                if (!checkInternet()) return;
 
-        const resources = document.querySelectorAll('img, link[rel="stylesheet"], script[src]');
-        let loaded = 0;
-        const total = resources.length || 1;
-        let isComplete = false;
+                let domProgress = 0;
+                const domInterval = setInterval(() => {
+                    if (document.readyState === 'loading') {
+                        domProgress += 0.8;
+                    } else if (document.readyState === 'interactive') {
+                        domProgress += 2;
+                    } else if (document.readyState === 'complete') {
+                        domProgress += 3;
+                    }
+                    if (domProgress >= 30) {
+                        clearInterval(domInterval);
+                        updateProgress(30);
+                        setTimeout(() => loadResources(), 200);
+                    } else {
+                        updateProgress(Math.min(30, domProgress));
+                    }
+                }, 50);
 
-        function updateResourceProgress() {
-            if (isComplete) return;
-            loaded++;
-            const pct = 30 + Math.min((loaded / total) * 55, 55);
-            updateProgress(Math.min(90, pct));
-            if (loaded >= total) {
-                isComplete = true;
-                setTimeout(() => finishLoading(), 300);
-            }
-        }
-
-        if (total === 0) {
-            setTimeout(() => finishLoading(), 300);
-            return;
-        }
-
-        document.querySelectorAll('img').forEach(img => {
-            if (img.complete) {
-                updateResourceProgress();
-            } else {
-                img.addEventListener('load', updateResourceProgress);
-                img.addEventListener('error', updateResourceProgress);
-            }
-        });
-
-        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-            if (link.sheet) {
-                updateResourceProgress();
-            } else {
-                link.addEventListener('load', updateResourceProgress);
-                link.addEventListener('error', updateResourceProgress);
-            }
-        });
-
-        document.querySelectorAll('script[src]').forEach(script => {
-            if (script.readyState === 'complete' || script.readyState === 'loaded') {
-                updateResourceProgress();
-            } else {
-                script.addEventListener('load', updateResourceProgress);
-                script.addEventListener('error', updateResourceProgress);
-            }
-        });
-
-        setTimeout(() => {
-            if (!isComplete) {
-                const current = progress;
-                if (current < 85) {
-                    let fallbackPct = 85;
-                    const fallbackInterval = setInterval(() => {
-                        if (isComplete) { clearInterval(fallbackInterval); return; }
-                        fallbackPct += 1;
-                        if (fallbackPct >= 90) {
-                            clearInterval(fallbackInterval);
-                            if (!isComplete) {
-                                isComplete = true;
-                                finishLoading();
-                            }
-                        } else {
-                            updateProgress(fallbackPct);
-                        }
-                    }, 300);
+                if (document.readyState === 'complete') {
+                    clearInterval(domInterval);
+                    updateProgress(30);
+                    setTimeout(() => loadResources(), 200);
                 }
             }
-        }, 5000);
 
-        window.addEventListener('load', () => {
-            if (!isComplete) {
-                isComplete = true;
-                setTimeout(() => finishLoading(), 300);
-            }
-        });
-    }
+            let resourceLoaded = false;
 
-    // ===== FINISH LOADING (90-100%) =====
-    function finishLoading() {
-        if (isLoadingComplete) return;
-        isLoadingComplete = true;
+            function loadResources() {
+                if (resourceLoaded) return;
+                resourceLoaded = true;
 
-        let finalProgress = 90;
-        const finalInterval = setInterval(() => {
-            finalProgress += 2;
-            if (finalProgress >= 100) {
-                clearInterval(finalInterval);
-                updateProgress(100);
+                const resources = document.querySelectorAll('img, link[rel="stylesheet"], script[src]');
+                let loaded = 0;
+                const total = resources.length || 1;
+                let isComplete = false;
+
+                function updateResourceProgress() {
+                    if (isComplete) return;
+                    loaded++;
+                    const pct = 30 + Math.min((loaded / total) * 55, 55);
+                    updateProgress(Math.min(90, pct));
+                    if (loaded >= total) {
+                        isComplete = true;
+                        setTimeout(() => finishLoading(), 300);
+                    }
+                }
+
+                if (total === 0) {
+                    setTimeout(() => finishLoading(), 300);
+                    return;
+                }
+
+                document.querySelectorAll('img').forEach(img => {
+                    if (img.complete) {
+                        updateResourceProgress();
+                    } else {
+                        img.addEventListener('load', updateResourceProgress);
+                        img.addEventListener('error', updateResourceProgress);
+                    }
+                });
+
+                document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                    if (link.sheet) {
+                        updateResourceProgress();
+                    } else {
+                        link.addEventListener('load', updateResourceProgress);
+                        link.addEventListener('error', updateResourceProgress);
+                    }
+                });
+
+                document.querySelectorAll('script[src]').forEach(script => {
+                    if (script.readyState === 'complete' || script.readyState === 'loaded') {
+                        updateResourceProgress();
+                    } else {
+                        script.addEventListener('load', updateResourceProgress);
+                        script.addEventListener('error', updateResourceProgress);
+                    }
+                });
+
                 setTimeout(() => {
-                    loadingScreen.classList.add('hidden');
-                    setTimeout(() => {
-                        const toast = document.getElementById('toast');
-                        if (toast) {
-                            const msg = document.getElementById('toastMsg');
-                            if (msg) msg.textContent = 'Selamat datang di NEV Market!';
-                            toast.classList.add('show');
-                            setTimeout(() => toast.classList.remove('show'), 3500);
+                    if (!isComplete) {
+                        const current = progress;
+                        if (current < 85) {
+                            let fallbackPct = 85;
+                            const fallbackInterval = setInterval(() => {
+                                if (isComplete) { clearInterval(fallbackInterval); return; }
+                                fallbackPct += 1;
+                                if (fallbackPct >= 90) {
+                                    clearInterval(fallbackInterval);
+                                    if (!isComplete) {
+                                        isComplete = true;
+                                        finishLoading();
+                                    }
+                                } else {
+                                    updateProgress(fallbackPct);
+                                }
+                            }, 300);
                         }
-                    }, 300);
-                }, 400);
-            } else {
-                updateProgress(finalProgress);
+                    }
+                }, 5000);
+
+                window.addEventListener('load', () => {
+                    if (!isComplete) {
+                        isComplete = true;
+                        setTimeout(() => finishLoading(), 300);
+                    }
+                });
             }
-        }, 80);
-    }
 
-    setTimeout(startLoading, 300);
-    setInterval(checkInternet, 3000);
+            function finishLoading() {
+                if (isLoadingComplete) return;
+                isLoadingComplete = true;
 
-    if (!navigator.onLine) {
-        setTimeout(() => {
-            if (!isLoadingComplete) {
-                noInternetOverlay.style.display = 'flex';
-                loadingStatus.textContent = 'Tidak ada koneksi';
-                progressBar.style.animationPlayState = 'paused';
+                let finalProgress = 90;
+                const finalInterval = setInterval(() => {
+                    finalProgress += 2;
+                    if (finalProgress >= 100) {
+                        clearInterval(finalInterval);
+                        updateProgress(100);
+                        setTimeout(() => {
+                            loadingScreen.classList.add('hidden');
+                            setTimeout(() => {
+                                const toast = document.getElementById('toast');
+                                if (toast) {
+                                    const msg = document.getElementById('toastMsg');
+                                    if (msg) msg.textContent = 'Selamat datang di NEV Market!';
+                                    toast.classList.add('show');
+                                    setTimeout(() => toast.classList.remove('show'), 3500);
+                                }
+                            }, 300);
+                        }, 400);
+                    } else {
+                        updateProgress(finalProgress);
+                    }
+                }, 80);
             }
-        }, 500);
-    }
-})();
 
+            setTimeout(startLoading, 300);
+            setInterval(checkInternet, 3000);
+
+            if (!navigator.onLine) {
+                setTimeout(() => {
+                    if (!isLoadingComplete) {
+                        noInternetOverlay.style.display = 'flex';
+                        loadingStatus.textContent = 'Tidak ada koneksi';
+                        progressBar.style.animationPlayState = 'paused';
+                    }
+                }, 500);
+            }
+        })();
 
     </script>
 </body>
