@@ -246,7 +246,6 @@
             transform: scale(1.03);
         }
 
-        /* Tombol Kembali yang lebih bagus */
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -515,13 +514,20 @@
             border-radius: 40px;
             margin: 2px 0 4px;
         }
+
+        /* Area pengikut dengan latar belakang glassmorphism */
         .store-header-info .store-followers {
             font-size: 0.85rem;
             color: var(--text-secondary);
-            margin: 2px 0 4px;
-            display: flex;
+            margin: 4px 0 6px;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px 4px 10px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .store-header-info .store-followers i {
             color: var(--accent-gold);
@@ -531,32 +537,13 @@
             font-weight: 700;
             color: var(--text-primary);
         }
+
         .store-header-info .store-desc {
             color: var(--text-secondary);
             font-size: 0.92rem;
             margin-top: 4px;
             line-height: 1.6;
             max-width: 500px;
-        }
-        .store-header-info .store-contact {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            margin-top: 6px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        .store-header-info .store-contact i {
-            color: var(--accent-gold);
-            width: 16px;
-        }
-        .store-header-info .store-contact a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        .store-header-info .store-contact a:hover {
-            color: var(--accent-gold);
         }
 
         .store-header-actions {
@@ -827,6 +814,7 @@
             }
             .store-header-info .store-followers {
                 font-size: 0.75rem;
+                padding: 2px 10px 2px 8px;
             }
         }
     </style>
@@ -867,7 +855,7 @@
     <!-- ============ MAIN ============ -->
     <div class="container store-wrapper">
 
-        <!-- TOMBOL KEMBALI — lebih bagus -->
+        <!-- TOMBOL KEMBALI -->
         <button class="btn-back" id="btnBack">
             <i class="fas fa-arrow-left"></i> Kembali
         </button>
@@ -904,17 +892,13 @@
                 <div class="store-header-info">
                     <div class="store-name" id="storeName">Nama Toko</div>
                     <span class="store-label" id="storeLabel">Default</span>
-                    <!-- INFORMASI PENGIKUT DI BAWAH NAMA TOKO -->
+                    <!-- INFORMASI PENGIKUT DENGAN LATAR BELAKANG -->
                     <div class="store-followers">
                         <i class="fas fa-users"></i>
                         <span class="num" id="storeFollowersHeader">0</span> pengikut
                     </div>
                     <div class="store-desc" id="storeDesc">Deskripsi toko.</div>
-                    <div class="store-contact" id="storeContact">
-                        <span><i class="fas fa-whatsapp"></i> <a href="#" id="storeWhatsapp">-</a></span>
-                        <span><i class="fas fa-globe"></i> <a href="#" id="storeLink" target="_blank">-</a></span>
-                        <span><i class="fas fa-calendar-alt"></i> <span id="storeJoined">-</span></span>
-                    </div>
+                    <!-- STORE-CONTACT DIHAPUS -->
                 </div>
                 <div class="store-header-actions">
                     <button class="btn btn-follow" id="followBtn"><i class="fas fa-heart"></i> <span id="followText">Ikuti</span></button>
@@ -1085,16 +1069,11 @@
         // ============================================================
         function renderStore() {
             const storeName = sellerData.storeName || 'Toko Tidak Diketahui';
-            const label = sellerData.category || 'Default';
+            // Label: gunakan 'label' jika ada, fallback ke 'category'
+            const label = sellerData.label || sellerData.category || 'Default';
             const description = sellerData.description || 'Tidak ada deskripsi.';
             const image = sellerData.image || '';
             const whatsapp = sellerData.whatsapp || '';
-            const link = sellerData.link || '';
-            const joined = sellerData.createdAt ? new Date(sellerData.createdAt).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            }) : '-';
             const followers = sellerData.followers || 0;
 
             // Avatar
@@ -1109,37 +1088,18 @@
             document.getElementById('storeLabel').textContent = label;
             document.getElementById('storeDesc').textContent = description;
 
-            // Pengikut di bawah nama toko
+            // Pengikut
             document.getElementById('storeFollowersHeader').textContent = followers;
 
-            // Kontak
-            const waEl = document.getElementById('storeWhatsapp');
-            const linkEl = document.getElementById('storeLink');
+            // Tombol WhatsApp (Chat)
             const waBtn = document.getElementById('storeWhatsappBtn');
-
             if (whatsapp) {
                 const waNumber = whatsapp.replace(/[^0-9]/g, '');
-                waEl.textContent = whatsapp;
-                waEl.href = `https://wa.me/${waNumber}`;
                 waBtn.href = `https://wa.me/${waNumber}`;
                 waBtn.style.display = 'inline-flex';
             } else {
-                waEl.textContent = '-';
-                waEl.href = '#';
                 waBtn.style.display = 'none';
             }
-
-            if (link) {
-                linkEl.textContent = link;
-                linkEl.href = link;
-                linkEl.style.display = 'inline';
-            } else {
-                linkEl.textContent = '-';
-                linkEl.href = '#';
-                linkEl.style.display = 'none';
-            }
-
-            document.getElementById('storeJoined').textContent = joined;
 
             // Stats
             const rating = sellerData.rating || 0;
