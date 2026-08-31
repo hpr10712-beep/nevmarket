@@ -556,7 +556,7 @@
         <div class="form-group">
             <label for="withdrawAmount">Jumlah penarikan</label>
             <input type="number" id="withdrawAmount" placeholder="Minimal 20.000" min="20000" step="1000" />
-            <div class="hint"><i class="fas fa-info-circle"></i> Minimal penarikan Rp 20.000</div>
+            <div class="hint" id="minHint"><i class="fas fa-info-circle"></i> Minimal penarikan Rp 20.000</div>
         </div>
 
         <!-- Metode Penarikan (hanya 4) -->
@@ -669,6 +669,7 @@
         const btnConfirm = document.getElementById('btnConfirm');
         const historyList = document.getElementById('historyList');
         const historyCount = document.getElementById('historyCount');
+        const minHint = document.getElementById('minHint');
 
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toastMsg');
@@ -730,9 +731,28 @@
         let currentBalance = 0;
         let storeName = 'Toko Saya';
         let historyData = [];
+        let withdrawalCount = 0;   // <-- tambahan untuk menghitung penarikan
 
         // ============================================================
-        // LOAD DATA
+        // MINIMUM WITHDRAWAL (BERDASARKAN JUMLAH PENARIKAN)
+        // ============================================================
+        function getMinWithdrawal() {
+            return withdrawalCount === 0 ? 10000 : 20000;
+        }
+
+        function updateMinWithdrawalUI() {
+            const min = getMinWithdrawal();
+            if (minHint) {
+                minHint.innerHTML = `<i class="fas fa-info-circle"></i> Minimal penarikan Rp ${formatRupiah(min)}`;
+            }
+            withdrawInput.placeholder = `Minimal ${formatRupiah(min)}`;
+            withdrawInput.min = min;
+            // perbarui breakdown agar tombol aktif/nonaktif sesuai
+            updateFeeBreakdown();
+        }
+
+        // ============================================================
+        // LOAD DATA (storeName & history)
         // ============================================================
         async function loadData() {
             try {
@@ -740,14 +760,11 @@
                 const data = snap.val();
                 if (data && data.storeName) {
                     storeName = data.storeName;
-                    currentBalance = data.balance || 0;
                 } else {
                     storeName = 'Belum ada toko';
-                    currentBalance = 0;
                 }
                 storeNameDisplay.textContent = storeName;
-                balanceDisplay.textContent = formatRupiah(currentBalance);
-                updateFeeBreakdown();
+                // balance & withdrawalCount akan diupdate oleh onValue
             } catch (e) {
                 console.error('Gagal load data:', e);
             }
@@ -845,12 +862,13 @@
             const amount = Math.min(raw, currentBalance);
             const fee = calculateFee(amount);
             const net = amount - fee;
+            const minWithdrawal = getMinWithdrawal();
 
             fdGross.textContent = 'Rp ' + formatRupiah(amount);
             fdFee.textContent = 'Rp ' + formatRupiah(fee);
             fdNet.textContent = 'Rp ' + formatRupiah(net);
 
-            const isValid = amount >= 20000 && amount <= currentBalance && net > 0;
+            const isValid = amount >= minWithdrawal && amount <= currentBalance && net > 0;
             btnConfirm.disabled = !isValid;
             return { amount, fee, net, isValid };
         }
@@ -868,9 +886,10 @@
             const amount = Math.min(raw, currentBalance);
             const fee = calculateFee(amount);
             const net = amount - fee;
+            const minWithdrawal = getMinWithdrawal();
 
-            if (amount < 20000) {
-                showToast('Minimal penarikan Rp 20.000', 'error');
+            if (amount < minWithdrawal) {
+                showToast(`Minimal penarikan Rp ${formatRupiah(minWithdrawal)}`, 'error');
                 return;
             }
             if (amount > currentBalance) {
@@ -914,19 +933,27 @@
                 });
 
                 const newBalance = currentBalance - amount;
+                const newWithdrawalCount = (withdrawalCount || 0) + 1;
+
+                // update saldo & jumlah penarikan di seller
                 await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
-                    balance: newBalance
+                    balance: newBalance,
+                    withdrawalCount: newWithdrawalCount
                 });
 
+                // update state lokal (onValue akan segera sinkron)
                 currentBalance = newBalance;
+                withdrawalCount = newWithdrawalCount;
                 balanceDisplay.textContent = formatRupiah(currentBalance);
+                updateMinWithdrawalUI();   // memperbarui placeholder & hint
+                updateFeeBreakdown();
 
                 const methodName = paymentMethod.options[paymentMethod.selectedIndex].text;
                 showToast(`Tagihan penarikan Rp ${formatRupiah(amount)} via ${methodName} telah dikirim ke admin`, 'success');
 
                 withdrawInput.value = '';
                 destinationAccount.value = '';
-                updateFeeBreakdown();
+                // updateFeeBreakdown sudah dipanggil di updateMinWithdrawalUI
 
                 // Refresh history otomatis (listener akan update)
             } catch (err) {
@@ -938,14 +965,16 @@
         });
 
         // ============================================================
-        // REALTIME BALANCE
+        // REALTIME SELLER DATA (balance & withdrawalCount)
         // ============================================================
-        const balanceRef = ref(db, `logo-shop/sellers/${DEVICE_ID}/balance`);
-        onValue(balanceRef, (snap) => {
-            const val = snap.val();
-            if (val !== null && val !== undefined) {
-                currentBalance = val;
+        const sellerRef = ref(db, `logo-shop/sellers/${DEVICE_ID}`);
+        onValue(sellerRef, (snap) => {
+            const data = snap.val();
+            if (data) {
+                currentBalance = data.balance || 0;
+                withdrawalCount = data.withdrawalCount || 0;
                 balanceDisplay.textContent = formatRupiah(currentBalance);
+                updateMinWithdrawalUI();
                 updateFeeBreakdown();
             }
         });
