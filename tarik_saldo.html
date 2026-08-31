@@ -63,6 +63,46 @@
             padding: 20px;
         }
 
+        /* ===== LOADING OVERLAY ===== */
+        #loadingSpinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 46, 10, 0.92);
+            z-index: 99999;
+            gap: 20px;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.4s ease;
+        }
+        #loadingSpinner.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid rgba(239, 178, 44, 0.15);
+            border-top-color: var(--accent-gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        #loadingText {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
             max-width: 520px;
             width: 100%;
@@ -72,6 +112,12 @@
             border-radius: var(--radius-lg);
             padding: 32px 34px 28px;
             box-shadow: var(--shadow-lg);
+            display: none; /* disembunyikan awal, muncul setelah loading */
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
@@ -193,6 +239,13 @@
         }
         .hint i {
             margin-right: 4px;
+        }
+
+        .rule-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            opacity: 0.8;
         }
 
         .fee-breakdown {
@@ -537,6 +590,12 @@
 </head>
 <body>
 
+    <!-- LOADING OVERLAY -->
+    <div id="loadingSpinner">
+        <div class="spinner"></div>
+        <div id="loadingText">Memuat data...</div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -557,6 +616,7 @@
             <label for="withdrawAmount">Jumlah penarikan</label>
             <input type="number" id="withdrawAmount" placeholder="Minimal 20.000" min="20000" step="1000" />
             <div class="hint" id="minHint"><i class="fas fa-info-circle"></i> Minimal penarikan Rp 20.000</div>
+            <p class="rule-text">Penarikan pertama minimal Rp10.000, penarikan kedua dan seterusnya minimal Rp20.000.</p>
         </div>
 
         <!-- Metode Penarikan (hanya 4) -->
@@ -670,6 +730,8 @@
         const historyList = document.getElementById('historyList');
         const historyCount = document.getElementById('historyCount');
         const minHint = document.getElementById('minHint');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const container = document.querySelector('.container');
 
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toastMsg');
@@ -726,12 +788,26 @@
         }
 
         // ============================================================
-        // STATE
+        // STATE & LOADING FLAGS
         // ============================================================
         let currentBalance = 0;
         let storeName = 'Toko Saya';
         let historyData = [];
-        let withdrawalCount = 0;   // <-- tambahan untuk menghitung penarikan
+        let withdrawalCount = 0;
+
+        let isBalanceReady = false;
+        let isHistoryReady = false;
+
+        function hideLoading() {
+            if (isBalanceReady && isHistoryReady) {
+                loadingSpinner.classList.add('hidden');
+                container.style.display = 'block';
+                // sembunyikan sepenuhnya setelah transisi
+                setTimeout(() => {
+                    loadingSpinner.style.display = 'none';
+                }, 500);
+            }
+        }
 
         // ============================================================
         // MINIMUM WITHDRAWAL (BERDASARKAN JUMLAH PENARIKAN)
@@ -747,12 +823,11 @@
             }
             withdrawInput.placeholder = `Minimal ${formatRupiah(min)}`;
             withdrawInput.min = min;
-            // perbarui breakdown agar tombol aktif/nonaktif sesuai
             updateFeeBreakdown();
         }
 
         // ============================================================
-        // LOAD DATA (storeName & history)
+        // LOAD DATA (storeName)
         // ============================================================
         async function loadData() {
             try {
@@ -764,7 +839,6 @@
                     storeName = 'Belum ada toko';
                 }
                 storeNameDisplay.textContent = storeName;
-                // balance & withdrawalCount akan diupdate oleh onValue
             } catch (e) {
                 console.error('Gagal load data:', e);
             }
@@ -935,17 +1009,15 @@
                 const newBalance = currentBalance - amount;
                 const newWithdrawalCount = (withdrawalCount || 0) + 1;
 
-                // update saldo & jumlah penarikan di seller
                 await update(ref(db, `logo-shop/sellers/${DEVICE_ID}`), {
                     balance: newBalance,
                     withdrawalCount: newWithdrawalCount
                 });
 
-                // update state lokal (onValue akan segera sinkron)
                 currentBalance = newBalance;
                 withdrawalCount = newWithdrawalCount;
                 balanceDisplay.textContent = formatRupiah(currentBalance);
-                updateMinWithdrawalUI();   // memperbarui placeholder & hint
+                updateMinWithdrawalUI();
                 updateFeeBreakdown();
 
                 const methodName = paymentMethod.options[paymentMethod.selectedIndex].text;
@@ -953,9 +1025,7 @@
 
                 withdrawInput.value = '';
                 destinationAccount.value = '';
-                // updateFeeBreakdown sudah dipanggil di updateMinWithdrawalUI
 
-                // Refresh history otomatis (listener akan update)
             } catch (err) {
                 showToast('Gagal: ' + err.message, 'error');
             } finally {
@@ -977,6 +1047,10 @@
                 updateMinWithdrawalUI();
                 updateFeeBreakdown();
             }
+            if (!isBalanceReady) {
+                isBalanceReady = true;
+                hideLoading();
+            }
         });
 
         // ============================================================
@@ -985,13 +1059,17 @@
         const withdrawalsRef = ref(db, 'logo-shop/withdrawals');
         onValue(withdrawalsRef, async () => {
             await loadHistory();
+            if (!isHistoryReady) {
+                isHistoryReady = true;
+                hideLoading();
+            }
         });
 
         // ============================================================
         // INIT
         // ============================================================
-        loadData();
-        loadHistory();
+        loadData(); // untuk storeName (tapi onValue juga sudah handle)
+        // loadHistory() dipanggil otomatis oleh onValue
     </script>
 </body>
 </html>
