@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>AI Forge — Build Your Own AI</title>
+<meta name="theme-color" content="#0a0d14" />
+<meta name="color-scheme" content="dark light" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235b8cff'/%3E%3Cpath d='M9 22l7-13 7 13M12 18h8' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+<style>
+:root{
+  --bg:#070a10;--bg-2:#0b1018;--panel:#0f1521;--panel-2:#131a28;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+  --txt:#e8edf7;--txt-2:#98a5bd;--txt-3:#67748d;
+  --brand:#5b8cff;--brand-2:#8b5cf6;--ok:#2fbf71;--warn:#f0b429;--err:#f0564a;
+  --radius:14px;--radius-sm:10px;--radius-lg:20px;
+  --shadow:0 10px 30px rgba(0,0,0,.45);
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html[data-theme="light"]{
+  --bg:#f4f6fb;--bg-2:#eef1f8;--panel:#ffffff;--panel-2:#f7f9fd;
+  --line:rgba(15,23,42,.10);--line-2:rgba(15,23,42,.18);
+  --txt:#0d1524;--txt-2:#4b5872;--txt-3:#78859c;
+  --shadow:0 10px 30px rgba(15,23,42,.10);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+html[data-theme="dark"] body{background:radial-gradient(1100px 600px at 12% -10%,rgba(91,140,255,.16),transparent 60%),radial-gradient(900px 500px at 100% 0%,rgba(139,92,246,.13),transparent 55%),var(--bg)}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:rgba(140,155,185,.28);border-radius:20px;border:3px solid transparent;background-clip:content-box}
+[hidden]{display:none!important}
+.app-root{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 18px}
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--panel-2);color:var(--txt);cursor:pointer;font-weight:600;font-size:14px;transition:transform .12s,background .16s,border-color .16s,opacity .16s;white-space:nowrap;user-select:none}
+.btn:hover{background:rgba(255,255,255,.06)}
+html[data-theme="light"] .btn:hover{background:rgba(15,23,42,.05)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled],.btn.is-loading{opacity:.55;pointer-events:none}
+.btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));border-color:transparent;color:#fff}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;border-color:var(--line)}
+.btn-danger{background:rgba(240,86,74,.12);border-color:rgba(240,86,74,.4);color:#ff8f85}
+.btn-danger:hover{background:rgba(240,86,74,.2)}
+.btn-sm{padding:7px 12px;font-size:13px;border-radius:9px}
+.btn-lg{padding:13px 22px;font-size:15px;border-radius:12px}
+.btn-block{width:100%}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--txt-2)}
+.icon-btn:hover{background:rgba(255,255,255,.07);color:var(--txt)}
+html[data-theme="light"] .icon-btn:hover{background:rgba(15,23,42,.06)}
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+svg.i.sm{width:15px;height:15px}
+svg.i.lg{width:22px;height:22px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.label{font-size:13px;font-weight:600;color:var(--txt-2)}
+.hint{font-size:12px;color:var(--txt-3);line-height:1.45}
+.input,.select,.textarea{width:100%;padding:11px 13px;border-radius:var(--radius-sm);border:1px solid var(--line-2);background:var(--panel);color:var(--txt);outline:none;transition:border-color .15s,box-shadow .15s;font-size:14px}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(91,140,255,.18)}
+.textarea{resize:vertical;min-height:110px;line-height:1.6}
+.textarea.code{font-family:var(--mono);font-size:13px;min-height:190px}
+.select{appearance:none;padding-right:36px;background-image:linear-gradient(45deg,transparent 50%,var(--txt-2) 50%),linear-gradient(135deg,var(--txt-2) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 200px;min-width:0}
+.check{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--panel-2)}
+.check input{margin-top:3px;accent-color:var(--brand);width:16px;height:16px;flex:0 0 auto}
+.check-txt{font-size:14px;font-weight:600}
+.check-sub{font-size:12px;color:var(--txt-3);font-weight:400;margin-top:2px;display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-pad{padding:18px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.card-title{font-size:15px;font-weight:700;margin:0}
+.card-sub{font-size:12.5px;color:var(--txt-3);margin:2px 0 0}
+.nav{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--line);background:rgba(7,10,16,.72);backdrop-filter:blur(14px)}
+html[data-theme="light"] .nav{background:rgba(244,246,251,.8)}
+.nav-in{display:flex;align-items:center;gap:14px;height:62px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:16px;cursor:pointer}
+.logo-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:#fff}
+.nav-links{display:flex;gap:4px;margin-left:14px;flex:1}
+.nav-link{padding:8px 12px;border-radius:9px;font-size:14px;color:var(--txt-2);font-weight:600;cursor:pointer;border:none;background:none}
+.nav-link:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+html[data-theme="light"] .nav-link:hover{background:rgba(15,23,42,.05)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.menu-btn{display:none}
+@media (max-width:900px){
+  .nav-links{display:none;position:absolute;left:0;right:0;top:62px;flex-direction:column;padding:12px;gap:2px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .nav-links.open{display:flex}
+  .nav-link{text-align:left;width:100%}
+  .menu-btn{display:inline-flex}
+  .nav-actions .hide-sm{display:none}
+}
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+@media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:28px}.hero{padding:38px 0 24px}}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);background:rgba(91,140,255,.1);color:#adc4ff;font-size:12.5px;font-weight:600;margin-bottom:18px}
+html[data-theme="light"] .pill{color:#2c50b8}
+h1.hero-title{font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:-.035em;margin:0 0 16px;font-weight:800}
+.grad{background:linear-gradient(100deg,#6ea1ff,#a06bff 55%,#5b8cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(15px,2.1vw,18px);color:var(--txt-2);max-width:560px;margin:0 0 26px}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap}
+.hero-note{margin-top:14px;font-size:12.5px;color:var(--txt-3)}
+.mock{border-radius:var(--radius-lg);border:1px solid var(--line-2);background:linear-gradient(180deg,var(--panel-2),var(--panel));overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.mock-bar{display:flex;gap:6px;padding:11px 13px;border-bottom:1px solid var(--line)}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16)}
+.mock-body{display:grid;grid-template-columns:150px 1fr;min-height:290px}
+@media(max-width:520px){.mock-body{grid-template-columns:1fr}.mock-side{display:none}}
+.mock-side{border-right:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:7px}
+.mock-line{height:9px;border-radius:6px;background:rgba(255,255,255,.07)}
+.mock-main{padding:16px;display:flex;flex-direction:column;gap:12px}
+.bubble{max-width:88%;padding:10px 13px;border-radius:13px;font-size:13px;line-height:1.55}
+.bubble.user{align-self:flex-end;background:linear-gradient(135deg,rgba(91,140,255,.9),rgba(139,92,246,.85));color:#fff}
+.bubble.ai{align-self:flex-start;background:var(--panel-2);border:1px solid var(--line)}
+.section{padding:56px 0}
+.section-head{text-align:center;max-width:680px;margin:0 auto 34px}
+.section-head h2{font-size:clamp(24px,3.6vw,34px);letter-spacing:-.03em;margin:0 0 10px}
+.section-head p{color:var(--txt-2);margin:0;font-size:15px}
+.features{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.feature{padding:18px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel);transition:border-color .16s,transform .16s}
+.feature:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.feature-ico{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(91,140,255,.13);color:#8fb0ff;margin-bottom:12px}
+.feature h3{margin:0 0 6px;font-size:15px}
+.feature p{margin:0;font-size:13.5px;color:var(--txt-2);line-height:1.6}
+.price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.price{padding:24px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel)}
+.price.hl{border-color:rgba(91,140,255,.5);background:linear-gradient(180deg,rgba(91,140,255,.09),transparent)}
+.price h3{margin:0 0 4px;font-size:16px}
+.price .amt{font-size:30px;font-weight:800;letter-spacing:-.03em;margin:10px 0 4px}
+.price ul{list-style:none;padding:0;margin:16px 0 0;display:flex;flex-direction:column;gap:9px}
+.price li{display:flex;gap:9px;font-size:13.5px;color:var(--txt-2);align-items:flex-start}
+.price li svg{color:var(--ok);margin-top:2px}
+.footer{border-top:1px solid var(--line);padding:28px 0;margin-top:30px;color:var(--txt-3);font-size:13px}
+.footer-in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.auth-wrap{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:26px 16px}
+.auth-card{width:100%;max-width:420px;padding:26px;border-radius:var(--radius-lg);border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow)}
+.auth-card h1{font-size:23px;margin:14px 0 4px;letter-spacing:-.02em}
+.auth-card .sub{color:var(--txt-2);font-size:14px;margin:0 0 20px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--txt-3);font-size:12px;margin:18px 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
+.alert{padding:11px 13px;border-radius:var(--radius-sm);font-size:13.5px;margin-bottom:14px;border:1px solid;display:flex;gap:9px;align-items:flex-start}
+.alert.err{background:rgba(240,86,74,.1);border-color:rgba(240,86,74,.35);color:#ffa79f}
+.alert.ok{background:rgba(47,191,113,.1);border-color:rgba(47,191,113,.35);color:#8ee0b3}
+.alert.info{background:rgba(91,140,255,.1);border-color:rgba(91,140,255,.35);color:#a9c2ff}
+.shell{display:grid;grid-template-columns:246px 1fr;min-height:100vh;min-height:100dvh}
+@media (max-width:1024px){.shell{grid-template-columns:1fr}}
+.side{position:sticky;top:0;height:100vh;height:100dvh;border-right:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;overflow-y:auto;z-index:60}
+@media (max-width:1024px){
+  .side{position:fixed;left:0;top:0;width:270px;transform:translateX(-102%);transition:transform .22s ease;box-shadow:var(--shadow)}
+  .side.open{transform:translateX(0)}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:55;opacity:0;pointer-events:none;transition:opacity .2s}
+  .scrim.on{opacity:1;pointer-events:auto}
+}
+.side-head{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between}
+#sidebar-close{display:none}
+@media (max-width:1024px){#sidebar-close{display:inline-flex}}
+.side-nav{padding:6px 10px 20px;display:flex;flex-direction:column;gap:2px;flex:1}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-size:14px;font-weight:600;color:var(--txt-2);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .14s,color .14s}
+.nav-item:hover{background:rgba(255,255,255,.06);color:var(--txt)}
+html[data-theme="light"] .nav-item:hover{background:rgba(15,23,42,.05)}
+.nav-item.active{background:rgba(91,140,255,.14);color:#a8c0ff}
+html[data-theme="light"] .nav-item.active{color:#2c50b8}
+.nav-sep{margin:12px 12px 6px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--txt-3);font-weight:700}
+.side-foot{padding:12px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;border-radius:10px;object-fit:cover;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex:0 0 auto;overflow:hidden}
+.avatar.lg{width:52px;height:52px;border-radius:14px;font-size:18px}
+.avatar.xl{width:78px;height:78px;border-radius:20px;font-size:26px}
+.avatar.sm{width:26px;height:26px;border-radius:8px;font-size:11px}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;height:60px;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--line);background:rgba(11,16,24,.82);backdrop-filter:blur(12px)}
+html[data-theme="light"] .topbar{background:rgba(255,255,255,.85)}
+.topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.page{padding:20px 16px 96px;max-width:1180px;width:100%;margin:0 auto}
+@media(min-width:1025px){.page{padding-bottom:40px}}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:45;display:none;border-top:1px solid var(--line);background:rgba(11,16,24,.94);backdrop-filter:blur(12px);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+html[data-theme="light"] .bottom-nav{background:rgba(255,255,255,.95)}
+.bottom-nav .inner{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;border-radius:10px;border:none;background:none;color:var(--txt-3);font-size:10.5px;font-weight:600;cursor:pointer;min-width:0}
+.bn-item.active{color:#8fb0ff;background:rgba(91,140,255,.12)}
+.bn-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+@media(max-width:1024px){.bottom-nav{display:block}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.stat{padding:16px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel)}
+.stat .k{font-size:12px;color:var(--txt-3);font-weight:600;display:flex;align-items:center;gap:7px}
+.stat .v{font-size:27px;font-weight:800;letter-spacing:-.03em;margin-top:7px}
+.grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:14px}
+.ai-card{padding:16px;border-radius:var(--radius);border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;gap:12px;transition:border-color .16s,transform .16s}
+.ai-card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.ai-card-top{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.ai-card-top .meta{min-width:0;flex:1}
+.ai-name{font-weight:700;font-size:15px;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-desc{font-size:13px;color:var(--txt-2);margin:4px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.5}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;border:1px solid var(--line-2);color:var(--txt-2);background:var(--panel-2);cursor:pointer;font-family:inherit}
+.tag.b{color:#a8c0ff;border-color:rgba(91,140,255,.4);background:rgba(91,140,255,.1)}
+.tag.g{color:#8ee0b3;border-color:rgba(47,191,113,.4);background:rgba(47,191,113,.1)}
+.tag.y{color:#f5cd6a;border-color:rgba(240,180,41,.4);background:rgba(240,180,41,.1)}
+.tag.r{color:#ffa79f;border-color:rgba(240,86,74,.4);background:rgba(240,86,74,.1)}
+.ai-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:18px;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step-chip{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:13px;font-weight:600;color:var(--txt-3);cursor:pointer;white-space:nowrap;font-family:inherit}
+.step-chip .n{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--panel-2);font-size:11px;border:1px solid var(--line-2)}
+.step-chip.active{color:var(--txt);border-color:rgba(91,140,255,.5);background:rgba(91,140,255,.1)}
+.step-chip.active .n{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
+.step-chip.done .n{background:rgba(47,191,113,.2);color:#8ee0b3;border-color:rgba(47,191,113,.4)}
+.presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:9px}
+.preset{padding:12px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--panel-2);cursor:pointer;text-align:left;font-family:inherit;color:inherit}
+.preset:hover{border-color:var(--line-2)}
+.preset.on{border-color:var(--brand);background:rgba(91,140,255,.1)}
+.preset b{display:block;font-size:13.5px;margin-bottom:3px}
+.preset span{font-size:11.5px;color:var(--txt-3);line-height:1.4}
+.chat-layout{display:grid;grid-template-columns:262px 1fr;gap:14px;height:calc(100vh - 60px - 40px);height:calc(100dvh - 60px - 40px);min-height:420px}
+@media(max-width:1024px){.chat-layout{grid-template-columns:1fr;height:calc(100dvh - 60px - 62px)}}
+.chat-side{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden;min-height:0}
+@media(max-width:1024px){.chat-side{display:none}.chat-side.mobile-open{display:flex;position:fixed;inset:60px 0 62px 0;z-index:50;border-radius:0;margin:0}}
+.chat-side-head{padding:12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+.conv-list{overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:3px;flex:1;min-height:0}
+.conv-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer;border:none;background:none;width:100%;text-align:left;color:var(--txt-2);font-size:13.5px;font-family:inherit}
+.conv-item:hover{background:rgba(255,255,255,.06);color:var(--txt)}
+html[data-theme="light"] .conv-item:hover{background:rgba(15,23,42,.05)}
+.conv-item.active{background:rgba(91,140,255,.14);color:#a8c0ff}
+.conv-item .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-main{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);overflow:hidden;min-height:0}
+.chat-head{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+.chat-head .meta{flex:1;min-width:0}
+.chat-head .name{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-head .sub{font-size:11.5px;color:var(--txt-3)}
+.chat-body{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.msg{display:flex;gap:10px;max-width:100%}
+.msg.user{flex-direction:row-reverse}
+.msg .body{max-width:min(680px,82%);padding:10px 13px;border-radius:13px;font-size:14px;line-height:1.62;word-wrap:break-word;overflow-wrap:anywhere;white-space:pre-wrap}
+.msg.user .body{background:linear-gradient(135deg,rgba(91,140,255,.9),rgba(139,92,246,.85));color:#fff}
+.msg.ai .body{background:var(--panel-2);border:1px solid var(--line)}
+.msg .time{font-size:10.5px;color:var(--txt-3);margin-top:5px}
+.msg-actions{display:flex;gap:4px;margin-top:5px;opacity:.75;align-items:center}
+.msg-actions button{background:none;border:none;color:var(--txt-3);cursor:pointer;padding:3px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-family:inherit}
+.msg-actions button:hover{background:rgba(255,255,255,.08);color:var(--txt)}
+.chat-input{border-top:1px solid var(--line);padding:10px 12px;background:var(--panel-2)}
+.chat-input-row{display:flex;gap:8px;align-items:flex-end}
+.chat-input textarea{flex:1;min-height:44px;max-height:170px;resize:none;padding:10px 12px;border-radius:11px;border:1px solid var(--line-2);background:var(--panel);color:var(--txt);outline:none;font-size:14px;line-height:1.5;font-family:inherit}
+.chat-input textarea:focus{border-color:var(--brand)}
+.typing{display:inline-flex;gap:4px;align-items:center}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--txt-3);animation:tp 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.modal-host{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:16px}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)}
+.modal{position:relative;width:100%;max-width:480px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow);max-height:88vh;max-height:88dvh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.modal-title{margin:0;font-size:15px}
+.modal-body{padding:18px;overflow-y:auto}
+.modal-foot{padding:14px 18px;border-top:1px solid var(--line);display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.toast-host{position:fixed;bottom:80px;right:18px;z-index:200;display:flex;flex-direction:column;gap:9px;max-width:340px;pointer-events:none}
+@media(min-width:1025px){.toast-host{bottom:20px}}
+.toast{background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:11px 13px;font-size:13.5px;box-shadow:var(--shadow);animation:tin .22s ease;pointer-events:auto;display:flex;gap:9px;align-items:flex-start}
+.toast.ok{border-color:rgba(47,191,113,.45)}
+.toast.err{border-color:rgba(240,86,74,.45)}
+@keyframes tin{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sk{background:linear-gradient(90deg,var(--panel-2) 25%,rgba(255,255,255,.06) 50%,var(--panel-2) 75%);background-size:200% 100%;animation:sk 1.3s infinite;border-radius:8px;height:120px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty{text-align:center;padding:44px 20px;color:var(--txt-3)}
+.empty svg{width:44px;height:44px;stroke:var(--txt-3);margin:0 auto 12px;display:block;opacity:.7}
+.empty h3{color:var(--txt);margin:0 0 6px;font-size:15px}
+.empty p{margin:0 0 16px;font-size:13.5px}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.install-banner{position:fixed;left:12px;right:12px;bottom:80px;z-index:90;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--radius);padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);flex-wrap:wrap}
+@media(min-width:1025px){.install-banner{bottom:20px;max-width:520px;left:auto;right:20px}}
+.install-text{flex:1;min-width:180px}
+.install-text strong{display:block;font-size:13.5px}
+.install-text span{font-size:12px;color:var(--txt-3)}
+.install-actions{display:flex;gap:8px}
+.net-banner{position:fixed;top:0;left:0;right:0;z-index:210;background:var(--err);color:#fff;text-align:center;font-size:12.5px;padding:7px}
+.mono{font-family:var(--mono);font-size:12.5px}
+.code-block{background:#0a0e15;border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 13px;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#c9d6ef;overflow-x:auto;white-space:pre}
+html[data-theme="light"] .code-block{background:#0d1524;color:#d6e2f8}
+.list{display:flex;flex-direction:column;gap:8px}
+.list-item{display:flex;gap:11px;align-items:center;padding:11px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--panel-2);min-width:0}
+.list-item .meta{flex:1;min-width:0}
+.list-item .nm{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list-item .sub{font-size:11.5px;color:var(--txt-3);margin-top:2px}
+.toggle{position:relative;width:40px;height:22px;background:var(--line-2);border-radius:999px;cursor:pointer;transition:background .2s;flex:0 0 auto;border:none}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .2s}
+.toggle.on{background:var(--brand)}
+.toggle.on::after{transform:translateX(18px)}
+.global-error{position:fixed;inset:0;z-index:9999;background:#0a0d14;color:#e8edf7;padding:24px;overflow:auto;font-family:var(--mono);font-size:13px}
+.global-error h2{color:#ff8f85;font-family:var(--sans);margin:0 0 14px}
+.global-error pre{white-space:pre-wrap;word-break:break-word;background:#131a28;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,.1)}
+</style>
+</head>
+<body>
+  <div id="app" class="app-root"></div>
+  <div id="toast-host" class="toast-host" aria-live="polite"></div>
+
+  <div id="modal-host" class="modal-host" hidden>
+    <div class="modal-backdrop" data-close="1"></div>
+    <div class="modal">
+      <div class="modal-head">
+        <h3 class="modal-title" id="modal-title">Konfirmasi</h3>
+        <button class="icon-btn" data-close="1" aria-label="Tutup">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-foot" id="modal-foot"></div>
+    </div>
+  </div>
+
+  <div id="install-banner" class="install-banner" hidden>
+    <div class="install-text"><strong>Pasang AI Forge</strong><span>Jalankan sebagai aplikasi di perangkat Anda.</span></div>
+    <div class="install-actions">
+      <button class="btn btn-ghost btn-sm" id="install-dismiss" type="button">Nanti</button>
+      <button class="btn btn-primary btn-sm" id="install-accept" type="button">Pasang</button>
+    </div>
+  </div>
+
+  <div id="net-banner" class="net-banner" hidden>Anda sedang offline. Perubahan akan gagal disimpan sampai koneksi kembali.</div>
+
+<script type="module">
+/* Global error boundary — tampilkan error di layar */
+window.addEventListener('error', e => {
+  console.error(e.error || e.message);
+  showFatal(e.error?.stack || e.message || 'Unknown error');
+});
+window.addEventListener('unhandledrejection', e => {
+  console.error(e.reason);
+  showFatal(e.reason?.stack || String(e.reason));
+});
+function showFatal(msg){
+  let el = document.getElementById('__fatal');
+  if(!el){
+    el = document.createElement('div');
+    el.id = '__fatal';
+    el.className = 'global-error';
+    document.body.appendChild(el);
+  }
+  el.innerHTML = '<h2>Terjadi Kesalahan</h2><p style="margin:0 0 12px;color:#98a5bd">Periksa Console browser untuk detail. Jika masalah berlanjut, pastikan Firestore sudah diaktifkan di Firebase Console.</p><pre>'+String(msg).replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))+'</pre><button id="__fatal-reload" style="margin-top:14px;padding:10px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:#131a28;color:#fff;cursor:pointer;font-weight:600">Muat Ulang</button>';
+  document.getElementById('__fatal-reload').onclick = ()=>location.reload();
+}
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+  signInWithPopup, GoogleAuthProvider, signOut, sendPasswordResetEmail,
+  updateProfile as updateAuthProfile,
+  EmailAuthProvider, reauthenticateWithCredential, deleteUser
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
+  addDoc, getDocs, query, where, orderBy, limit, serverTimestamp, onSnapshot, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+/* ============================================================
+   FIREBASE INIT
+   ============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+  authDomain: "mybro-9ba5f.firebaseapp.com",
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+  projectId: "mybro-9ba5f",
+  storageBucket: "mybro-9ba5f.appspot.com"
+};
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+/* ============================================================
+   ICONS
+   ============================================================ */
+const I = {
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+  ai:'<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="10" r="1.2"/><circle cx="15" cy="10" r="1.2"/><path d="M9 15h6"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/>',
+  book:'<path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h6"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/>',
+  key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M17 3h4v4"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  trash:'<path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/>',
+  edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/>',
+  send:'<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>',
+  menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  bell:'<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon:'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  brain:'<path d="M9.5 3A3.5 3.5 0 0 0 6 6.5v.3A3.2 3.2 0 0 0 4 9.6a3.2 3.2 0 0 0 1 2.3A3.2 3.2 0 0 0 4 14.4a3.2 3.2 0 0 0 2 3v.1A3.5 3.5 0 0 0 9.5 21h5a3.5 3.5 0 0 0 3.5-3.5v-.1a3.2 3.2 0 0 0 2-3 3.2 3.2 0 0 0-1-2.5 3.2 3.2 0 0 0 1-2.3 3.2 3.2 0 0 0-2-3v-.1A3.5 3.5 0 0 0 14.5 3z"/>',
+  copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  refresh:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>',
+  stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',
+  external:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6M10 14 21 3"/>',
+  alert:'<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0z"/>',
+  star:'<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9L2 9.3l6.9-1z"/>',
+  play:'<path d="M6 4l14 8-14 8z"/>'
+};
+const svg = (name, cls='i') => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${I[name]||''}</svg>`;
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = (s='') => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const slugify = s => (s||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48) || 'ai-'+uid().slice(0,6);
+const initials = n => (n||'?').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
+function toast(msg, kind='info', ms=3200){
+  const host = $('#toast-host');
+  if(!host) return;
+  const el = document.createElement('div');
+  el.className = 'toast '+kind;
+  const ic = kind==='err' ? svg('alert','i sm') : kind==='ok' ? svg('check','i sm') : svg('bell','i sm');
+  el.innerHTML = `${ic}<div>${esc(msg)}</div>`;
+  host.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .25s'; setTimeout(()=>el.remove(),250); }, ms);
+}
+
+function modal({ title='Konfirmasi', body='', actions=[] }){
+  const host = $('#modal-host');
+  $('#modal-title').textContent = title;
+  $('#modal-body').innerHTML = body;
+  const foot = $('#modal-foot');
+  foot.innerHTML = '';
+  actions.forEach(a=>{
+    const b = document.createElement('button');
+    b.className = 'btn '+(a.className||'');
+    b.textContent = a.label;
+    if(a.primary) b.classList.add('btn-primary');
+    b.onclick = async ()=>{
+      try{ const r = a.onClick ? await a.onClick() : null; if(r!==false) closeModal(); }
+      catch(e){ toast(e.message||'Terjadi kesalahan','err'); }
+    };
+    foot.appendChild(b);
+  });
+  host.hidden = false;
+}
+function closeModal(){ const h = $('#modal-host'); if(h) h.hidden = true; }
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-close="1"]');
+  if(t) closeModal();
+});
+
+const fmtTime = ts => {
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+};
+const timeAgo = ts => {
+  if(!ts) return '';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  const s = Math.floor((Date.now()-d.getTime())/1000);
+  if(s<60) return 'baru saja';
+  if(s<3600) return Math.floor(s/60)+' mnt lalu';
+  if(s<86400) return Math.floor(s/3600)+' jam lalu';
+  if(s<604800) return Math.floor(s/86400)+' hari lalu';
+  return d.toLocaleDateString('id-ID');
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const State = {
+  user: null,
+  profile: null,
+  route: 'home',
+  params: {},
+  ais: [],
+  conversations: [],
+  currentConversation: null,
+  messages: [],
+  settings: { theme:'dark', defaultLanguage:'id', defaultStyle:'balanced' },
+  unsub: []
+};
+function clearSubs(){ State.unsub.forEach(u=>{ try{u();}catch(e){} }); State.unsub = []; }
+
+/* ============================================================
+   THEME
+   ============================================================ */
+function applyTheme(){
+  const saved = localStorage.getItem('aiforge.theme') || 'dark';
+  State.settings.theme = saved;
+  if(saved==='system'){
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+  } else {
+    document.documentElement.dataset.theme = saved;
+  }
+}
+function setTheme(t){ localStorage.setItem('aiforge.theme', t); State.settings.theme = t; applyTheme(); }
+applyTheme();
+
+/* ============================================================
+   FIRESTORE HELPERS
+   ============================================================ */
+async function saveUserProfileDoc(user, data={}){
+  const ref = doc(db,'users',user.uid);
+  const snap = await getDoc(ref);
+  const base = {
+    uid: user.uid,
+    email: user.email || '',
+    displayName: user.displayName || (user.email||'').split('@')[0],
+    photoURL: user.photoURL || '',
+    updatedAt: serverTimestamp()
+  };
+  if(!snap.exists()){
+    await setDoc(ref, { ...base, createdAt: serverTimestamp(), ...data });
+  } else {
+    await updateDoc(ref, { ...base, ...data });
+  }
+}
+async function loadProfile(user){
+  const ref = doc(db,'users',user.uid);
+  let snap = await getDoc(ref);
+  if(!snap.exists()){ await saveUserProfileDoc(user); snap = await getDoc(ref); }
+  State.profile = { id: snap.id, ...snap.data() };
+  if(State.profile.settings) State.settings = { ...State.settings, ...State.profile.settings };
+  return State.profile;
+}
+async function saveProfilePatch(patch){
+  if(!State.user) return;
+  const ref = doc(db,'users', State.user.uid);
+  await updateDoc(ref, { ...patch, updatedAt: serverTimestamp() });
+  State.profile = { ...State.profile, ...patch };
+}
+async function updateSettings(patch){
+  const s = { ...State.settings, ...patch };
+  State.settings = s;
+  await saveProfilePatch({ settings: s });
+}
+
+/* ============================================================
+   AI PROVIDER CALL
+   ============================================================ */
+async function getApiKey(provider){
+  if(!State.user) return null;
+  const ref = doc(db,'users',State.user.uid,'secrets','providers');
+  const snap = await getDoc(ref);
+  if(!snap.exists()) return null;
+  return snap.data()[provider] || null;
+}
+async function saveApiKey(provider, key){
+  const ref = doc(db,'users',State.user.uid,'secrets','providers');
+  const snap = await getDoc(ref);
+  const data = snap.exists() ? snap.data() : {};
+  data[provider] = key;
+  await setDoc(ref, data, { merge:true });
+}
+
+async function* callAI({ provider, model, apiKey, messages, system, temperature=0.7, maxTokens=1024, signal }){
+  if(!apiKey) throw new Error('API key belum dikonfigurasi. Buka Settings > API Providers.');
+  if(provider === 'gemini'){
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:streamGenerateContent?alt=sse&key=${apiKey}`;
+    const contents = messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] }));
+    const body = { contents, systemInstruction: system ? { parts:[{text: system}] } : undefined, generationConfig: { temperature, maxOutputTokens: maxTokens } };
+    const res = await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body), signal });
+    if(!res.ok){ const t = await res.text().catch(()=>''); throw new Error('Gemini '+res.status+': '+t.slice(0,200)); }
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+    while(true){
+      const { value, done } = await reader.read(); if(done) break;
+      buf += dec.decode(value, { stream:true });
+      const parts = buf.split('\n'); buf = parts.pop();
+      for(const line of parts){
+        if(!line.startsWith('data:')) continue;
+        const json = line.slice(5).trim();
+        if(!json || json === '[DONE]') continue;
+        try{ const obj = JSON.parse(json); const text = obj.candidates?.[0]?.content?.parts?.map(p=>p.text).join('') || ''; if(text) yield { delta: text, done:false }; }catch(e){}
+      }
+    }
+    yield { delta:'', done:true }; return;
+  }
+  const endpoints = {
+    openrouter:'https://openrouter.ai/api/v1/chat/completions',
+    openai:'https://api.openai.com/v1/chat/completions',
+    groq:'https://api.groq.com/openai/v1/chat/completions',
+    together:'https://api.together.xyz/v1/chat/completions',
+    deepseek:'https://api.deepseek.com/v1/chat/completions',
+    mistral:'https://api.mistral.ai/v1/chat/completions'
+  };
+  const url = endpoints[provider] || endpoints.openrouter;
+  const finalMessages = system ? [{role:'system',content:system}, ...messages] : messages;
+  const headers = { 'Content-Type':'application/json', 'Authorization': 'Bearer '+apiKey };
+  if(provider === 'openrouter'){ headers['HTTP-Referer'] = location.origin; headers['X-Title'] = 'AI Forge'; }
+  const res = await fetch(url, {
+    method:'POST', headers,
+    body: JSON.stringify({ model, messages: finalMessages, temperature, max_tokens: maxTokens, stream: true }),
+    signal
+  });
+  if(!res.ok){ let detail=''; try{ detail = await res.text(); }catch(e){} throw new Error(`${provider} ${res.status}: ${detail.slice(0,240)}`); }
+  const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = '';
+  while(true){
+    const { value, done } = await reader.read(); if(done) break;
+    buf += dec.decode(value, { stream:true });
+    const parts = buf.split('\n'); buf = parts.pop();
+    for(const line of parts){
+      const t = line.trim(); if(!t.startsWith('data:')) continue;
+      const json = t.slice(5).trim();
+      if(json === '[DONE]'){ yield { delta:'', done:true }; return; }
+      try{ const obj = JSON.parse(json); const d = obj.choices?.[0]?.delta?.content; if(d) yield { delta: d, done:false }; }catch(e){}
+    }
+  }
+  yield { delta:'', done:true };
+}
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function navigate(route, params={}){
+  State.route = route; State.params = params || {};
+  render();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+/* ============================================================
+   LAYOUT SHELL
+   ============================================================ */
+function renderSidebar(active){
+  const u = State.profile || {};
+  const items = [
+    { id:'dashboard', label:'Dashboard', icon:'home' },
+    { id:'my-ai', label:'My AI', icon:'ai' },
+    { id:'create-ai', label:'Create AI', icon:'plus' },
+    { id:'playground', label:'Playground', icon:'chat' },
+    { id:'knowledge', label:'Knowledge', icon:'book' },
+    { id:'conversations', label:'Conversations', icon:'file' },
+    { id:'explore', label:'Explore', icon:'compass' },
+    { id:'analytics', label:'Analytics', icon:'chart' },
+    { id:'api', label:'API', icon:'key' },
+    { id:'settings', label:'Settings', icon:'settings' }
+  ];
+  return `
+    <aside class="side" id="sidebar">
+      <div class="side-head">
+        <div class="logo" data-nav="dashboard"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+        <button class="icon-btn" id="sidebar-close" aria-label="Tutup menu">${svg('x','i')}</button>
+      </div>
+      <nav class="side-nav">
+        <div class="nav-sep">Utama</div>
+        ${items.slice(0,7).map(it=>`<button class="nav-item ${active===it.id?'active':''}" data-nav="${it.id}">${svg(it.icon,'i')}<span>${it.label}</span></button>`).join('')}
+        <div class="nav-sep">Akun</div>
+        ${items.slice(7).map(it=>`<button class="nav-item ${active===it.id?'active':''}" data-nav="${it.id}">${svg(it.icon,'i')}<span>${it.label}</span></button>`).join('')}
+      </nav>
+      <div class="side-foot">
+        <div class="avatar">${u.photoURL ? `<img src="${esc(u.photoURL)}" alt="">` : esc(initials(u.displayName))}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(u.displayName||'Pengguna')}</div>
+          <div style="font-size:11px;color:var(--txt-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(u.email||'')}</div>
+        </div>
+        <button class="icon-btn" id="btn-logout" title="Keluar" aria-label="Keluar">${svg('logout','i sm')}</button>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>`;
+}
+function renderBottomNav(active){
+  const items = [
+    { id:'dashboard', label:'Home', icon:'home' },
+    { id:'my-ai', label:'My AI', icon:'ai' },
+    { id:'playground', label:'Chat', icon:'chat' },
+    { id:'knowledge', label:'Knowledge', icon:'book' },
+    { id:'settings', label:'Akun', icon:'user' }
+  ];
+  return `<nav class="bottom-nav"><div class="inner">${items.map(it=>`<button class="bn-item ${active===it.id?'active':''}" data-nav="${it.id}">${svg(it.icon,'i sm')}<span>${it.label}</span></button>`).join('')}</div></nav>`;
+}
+function renderShell(active, title, content, actionsHTML=''){
+  return `
+    <div class="shell">
+      ${renderSidebar(active)}
+      <div class="main">
+        <header class="topbar">
+          <button class="icon-btn menu-btn" id="sidebar-open" aria-label="Buka menu">${svg('menu','i')}</button>
+          <h1>${esc(title)}</h1>
+          <div style="display:flex;gap:6px;align-items:center">${actionsHTML}</div>
+        </header>
+        <div class="page">${content}</div>
+      </div>
+    </div>
+    ${renderBottomNav(active)}`;
+}
+
+/* ============================================================
+   LANDING
+   ============================================================ */
+function renderLanding(){
+  const features = [
+    { i:'brain', t:'Custom Personality', d:'Atur kepribadian, nada, dan gaya bicara AI Anda.' },
+    { i:'book', t:'AI Knowledge', d:'Tambahkan pengetahuan dari file, URL, atau teks.' },
+    { i:'edit', t:'AI Instructions', d:'Tulis system prompt dengan variabel dinamis.' },
+    { i:'play', t:'AI Playground', d:'Uji AI Anda secara langsung sebelum dipublikasikan.' },
+    { i:'file', t:'File Knowledge', d:'Unggah dokumen TXT, MD, JSON sebagai basis pengetahuan.' },
+    { i:'refresh', t:'Conversation Memory', d:'AI mengingat konteks percakapan Anda.' },
+    { i:'globe', t:'AI Sharing', d:'Bagikan AI Anda ke publik atau simpan privat.' },
+    { i:'cpu', t:'Custom Model', d:'Pilih model AI yang sesuai kebutuhan Anda.' },
+    { i:'chart', t:'Analytics', d:'Pantau penggunaan dan performa AI Anda.' },
+    { i:'shield', t:'Security', d:'API key tersimpan aman di Firestore privat.' }
+  ];
+  return `
+    <div class="nav">
+      <div class="wrap nav-in">
+        <div class="logo" data-nav="home"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+        <div class="nav-links" id="nav-links">
+          <button class="nav-link" data-scroll="hero">Home</button>
+          <button class="nav-link" data-scroll="features">Features</button>
+          <button class="nav-link" data-scroll="pricing">Pricing</button>
+          <button class="nav-link" data-nav="docs">Documentation</button>
+        </div>
+        <div class="nav-actions">
+          <button class="btn btn-ghost btn-sm hide-sm" data-nav="login">Masuk</button>
+          <button class="btn btn-primary btn-sm" data-nav="signup">Mulai Gratis</button>
+          <button class="icon-btn menu-btn" id="nav-toggle" aria-label="Menu">${svg('menu','i')}</button>
+        </div>
+      </div>
+    </div>
+    <section class="hero wrap" id="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="pill">${svg('cpu','i sm')} Platform AI Generatif</div>
+          <h1 class="hero-title">Build Your <span class="grad">Own AI</span></h1>
+          <p class="hero-sub">Buat kecerdasan buatan sendiri sesuai kebutuhanmu tanpa harus membangun semuanya dari awal.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" data-nav="signup">Create Your AI</button>
+            <button class="btn btn-ghost btn-lg" data-nav="explore-public">Explore AI</button>
+          </div>
+          <div class="hero-note">Gratis untuk memulai. Hubungkan API key Anda sendiri (OpenRouter, OpenAI, Gemini, Groq).</div>
+        </div>
+        <div class="mock">
+          <div class="mock-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="mock-body">
+            <div class="mock-side"><div class="mock-line" style="width:70%"></div><div class="mock-line" style="width:55%"></div><div class="mock-line" style="width:80%"></div><div class="mock-line" style="width:60%"></div></div>
+            <div class="mock-main">
+              <div class="bubble user">Bantu saya menyusun rencana belajar Python.</div>
+              <div class="bubble ai">Tentu. Saya akan buatkan roadmap 4 minggu lengkap dengan latihan praktis.</div>
+              <div class="bubble user">Sertakan proyek akhir.</div>
+              <div class="bubble ai">Proyek akhir: REST API sederhana dengan Flask + SQLite.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section wrap" id="features">
+      <div class="section-head"><h2>Semua yang Anda butuhkan</h2><p>Bangun AI yang benar-benar sesuai kebutuhan.</p></div>
+      <div class="features">
+        ${features.map(f=>`<div class="feature"><div class="feature-ico">${svg(f.i,'i lg')}</div><h3>${f.t}</h3><p>${f.d}</p></div>`).join('')}
+      </div>
+    </section>
+    <section class="section wrap" id="pricing">
+      <div class="section-head"><h2>Harga Sederhana</h2><p>Bayar sesuai kebutuhan. API key Anda sendiri, biaya langsung ke provider.</p></div>
+      <div class="price-grid">
+        <div class="price"><h3>Free</h3><div class="amt">Rp 0</div><div style="color:var(--txt-3);font-size:13px">Selamanya</div>
+          <ul><li>${svg('check','i sm')} 3 AI kustom</li><li>${svg('check','i sm')} Playground tanpa batas</li><li>${svg('check','i sm')} Knowledge base dasar</li><li>${svg('check','i sm')} Riwayat percakapan</li></ul>
+          <button class="btn btn-ghost btn-block" style="margin-top:16px" data-nav="signup">Mulai</button>
+        </div>
+        <div class="price hl"><h3>Pro</h3><div class="amt">Rp 0</div><div style="color:var(--txt-3);font-size:13px">Gunakan API key Anda sendiri</div>
+          <ul><li>${svg('check','i sm')} AI tak terbatas</li><li>${svg('check','i sm')} Semua provider AI</li><li>${svg('check','i sm')} Analytics lengkap</li><li>${svg('check','i sm')} Publikasi AI</li><li>${svg('check','i sm')} Export percakapan</li></ul>
+          <button class="btn btn-primary btn-block" style="margin-top:16px" data-nav="signup">Mulai Sekarang</button>
+        </div>
+        <div class="price"><h3>Team</h3><div class="amt">Hubungi</div><div style="color:var(--txt-3);font-size:13px">Untuk organisasi</div>
+          <ul><li>${svg('check','i sm')} Kolaborasi tim</li><li>${svg('check','i sm')} Admin panel</li><li>${svg('check','i sm')} Audit log</li></ul>
+          <button class="btn btn-ghost btn-block" style="margin-top:16px" data-nav="docs">Pelajari</button>
+        </div>
+      </div>
+    </section>
+    <footer class="footer"><div class="wrap footer-in">
+      <div style="display:flex;align-items:center;gap:9px"><div class="logo-mark">${svg('cpu','i sm')}</div><span>AI Forge</span></div>
+      <div>Platform AI kustom. API key disimpan aman di akun Anda.</div>
+    </div></footer>`;
+}
+
+/* ============================================================
+   AUTH VIEWS
+   ============================================================ */
+function renderLogin(){
+  return `<div class="auth-wrap"><div class="auth-card">
+    <div class="logo" style="margin-bottom:10px"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+    <h1>Masuk ke akun</h1><p class="sub">Lanjutkan membangun AI Anda.</p>
+    <div id="auth-err"></div>
+    <form id="login-form">
+      <div class="field"><label class="label" for="li-email">Email</label><input class="input" id="li-email" type="email" required autocomplete="email" placeholder="nama@contoh.com" /></div>
+      <div class="field"><label class="label" for="li-pass">Password</label><input class="input" id="li-pass" type="password" required autocomplete="current-password" placeholder="Minimal 6 karakter" /></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button type="button" class="nav-link" style="padding:4px 6px;font-size:12.5px" id="btn-forgot">Lupa password?</button></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="li-submit">Masuk</button>
+    </form>
+    <div class="divider">atau</div>
+    <button class="btn btn-block" id="btn-google">${svg('globe','i sm')} Lanjutkan dengan Google</button>
+    <p style="margin:18px 0 0;text-align:center;font-size:13.5px;color:var(--txt-2)">Belum punya akun? <button class="nav-link" data-nav="signup" style="padding:2px 4px">Daftar</button></p>
+  </div></div>`;
+}
+function renderSignup(){
+  return `<div class="auth-wrap"><div class="auth-card">
+    <div class="logo" style="margin-bottom:10px"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+    <h1>Buat akun baru</h1><p class="sub">Gratis. Tanpa kartu kredit.</p>
+    <div id="auth-err"></div>
+    <form id="signup-form">
+      <div class="field"><label class="label" for="su-name">Nama</label><input class="input" id="su-name" type="text" required placeholder="Nama Anda" autocomplete="name" /></div>
+      <div class="field"><label class="label" for="su-email">Email</label><input class="input" id="su-email" type="email" required placeholder="nama@contoh.com" autocomplete="email" /></div>
+      <div class="field"><label class="label" for="su-pass">Password</label><input class="input" id="su-pass" type="password" required minlength="6" placeholder="Minimal 6 karakter" autocomplete="new-password" /></div>
+      <button class="btn btn-primary btn-block btn-lg" type="submit" id="su-submit">Daftar</button>
+    </form>
+    <div class="divider">atau</div>
+    <button class="btn btn-block" id="btn-google-su">${svg('globe','i sm')} Daftar dengan Google</button>
+    <p style="margin:18px 0 0;text-align:center;font-size:13.5px;color:var(--txt-2)">Sudah punya akun? <button class="nav-link" data-nav="login" style="padding:2px 4px">Masuk</button></p>
+  </div></div>`;
+}
+function renderDocs(){
+  return `<div class="nav"><div class="wrap nav-in">
+    <div class="logo" data-nav="home"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+    <div style="flex:1"></div>
+    <button class="btn btn-ghost btn-sm" data-nav="login">Masuk</button>
+  </div></div>
+  <section class="section wrap" style="max-width:820px">
+    <h1 style="font-size:32px;letter-spacing:-.03em;margin:0 0 10px">Documentation</h1>
+    <p style="color:var(--txt-2);margin-bottom:26px">Panduan singkat.</p>
+    <div class="card card-pad" style="margin-bottom:16px"><h2 style="font-size:17px;margin:0 0 10px">1. Buat akun</h2><p style="color:var(--txt-2);font-size:14px;margin:0">Daftar dengan email atau Google.</p></div>
+    <div class="card card-pad" style="margin-bottom:16px"><h2 style="font-size:17px;margin:0 0 10px">2. Hubungkan provider AI</h2><p style="color:var(--txt-2);font-size:14px;margin:0 0 12px">Buka Settings → API. Masukkan API key Anda.</p><div class="code-block">Provider: OpenRouter
+Model gratis: meta-llama/llama-3.1-8b-instruct:free
+Dapatkan key: https://openrouter.ai/keys</div></div>
+    <div class="card card-pad" style="margin-bottom:16px"><h2 style="font-size:17px;margin:0 0 10px">3. Buat AI</h2><p style="color:var(--txt-2);font-size:14px;margin:0">Gunakan wizard Create AI.</p></div>
+    <div class="card card-pad"><h2 style="font-size:17px;margin:0 0 10px">4. Uji di Playground</h2><p style="color:var(--txt-2);font-size:14px;margin:0">Chat langsung dengan AI Anda.</p></div>
+  </section>`;
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function renderAiCard(ai){
+  const vis = ai.visibility || 'private';
+  const visClass = vis==='public' ? 'g' : vis==='unlisted' ? 'y' : '';
+  return `<div class="ai-card">
+    <div class="ai-card-top">
+      <div class="avatar">${ai.avatar ? `<img src="${esc(ai.avatar)}" alt="">` : esc(initials(ai.name))}</div>
+      <div class="meta"><h3 class="ai-name">${esc(ai.name)}</h3><p class="ai-desc">${esc(ai.description||'Tidak ada deskripsi.')}</p></div>
+    </div>
+    <div class="tags">
+      <span class="tag b">${esc(ai.category||'General')}</span>
+      <span class="tag ${visClass}">${vis}</span>
+      <span class="tag">${esc((ai.model||'default').split('/').pop().slice(0,22))}</span>
+    </div>
+    <div class="ai-actions">
+      <button class="btn btn-primary btn-sm" data-chat-ai="${ai.id}">${svg('chat','i sm')} Chat</button>
+      <button class="btn btn-ghost btn-sm" data-edit-ai="${ai.id}">${svg('edit','i sm')} Edit</button>
+      <button class="btn btn-ghost btn-sm" data-share-ai="${ai.id}">${svg('external','i sm')}</button>
+      <button class="btn btn-danger btn-sm" data-del-ai="${ai.id}">${svg('trash','i sm')}</button>
+    </div>
+  </div>`;
+}
+function renderDashboard(){
+  const ais = State.ais, convs = State.conversations;
+  const active = ais.filter(a=>a.status==='published').length;
+  const totalMsgs = convs.reduce((s,c)=>s+(c.messageCount||0),0);
+  return renderShell('dashboard', 'Dashboard', `
+    <div class="stats">
+      <div class="stat"><div class="k">${svg('ai','i sm')} Total AI</div><div class="v">${ais.length}</div></div>
+      <div class="stat"><div class="k">${svg('chat','i sm')} Percakapan</div><div class="v">${convs.length}</div></div>
+      <div class="stat"><div class="k">${svg('file','i sm')} Total Pesan</div><div class="v">${totalMsgs}</div></div>
+      <div class="stat"><div class="k">${svg('globe','i sm')} AI Publik</div><div class="v">${active}</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:12px;flex-wrap:wrap">
+      <h2 style="font-size:17px;margin:0">AI Saya</h2>
+      <button class="btn btn-primary btn-sm" data-nav="create-ai">${svg('plus','i sm')} Buat AI Baru</button>
+    </div>
+    ${ais.length===0 ? `<div class="card empty">${svg('ai')}<h3>Belum ada AI</h3><p>Mulai buat AI pertama Anda.</p><button class="btn btn-primary" data-nav="create-ai">${svg('plus','i sm')} Create AI</button></div>`
+    : `<div class="grid-cards">${ais.slice(0,6).map(renderAiCard).join('')}</div>`}
+    <h2 style="font-size:17px;margin:26px 0 14px">Aktivitas Terbaru</h2>
+    ${convs.length===0 ? `<div class="card empty" style="padding:26px">${svg('chat')}<h3>Belum ada percakapan</h3><p>Mulai chat dengan salah satu AI Anda.</p><button class="btn btn-ghost" data-nav="playground">Buka Playground</button></div>`
+    : `<div class="list">${convs.slice(0,5).map(c=>`<div class="list-item" style="cursor:pointer" data-open-conv="${c.id}"><div class="avatar sm">${svg('chat','i sm')}</div><div class="meta"><div class="nm">${esc(c.title||'Percakapan')}</div><div class="sub">${esc(c.aiName||'AI')} • ${timeAgo(c.updatedAt)}</div></div></div>`).join('')}</div>`}
+  `);
+}
+function renderMyAI(){
+  return renderShell('my-ai', 'AI Saya', `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap">
+      <p style="color:var(--txt-2);font-size:14px;margin:0">Kelola semua AI kustom Anda.</p>
+      <button class="btn btn-primary" data-nav="create-ai">${svg('plus','i sm')} Buat AI Baru</button>
+    </div>
+    ${State.ais.length===0 ? `<div class="card empty">${svg('ai')}<h3>Belum ada AI</h3><p>Mulai buat AI pertama Anda.</p><button class="btn btn-primary" data-nav="create-ai">${svg('plus','i sm')} Create AI</button></div>`
+    : `<div class="grid-cards">${State.ais.map(renderAiCard).join('')}</div>`}
+  `);
+}
+
+/* ============================================================
+   WIZARD
+   ============================================================ */
+const Draft = {
+  step: 0,
+  data: {
+    name:'', slug:'', description:'', avatar:'', category:'General', visibility:'private',
+    personality:'Friendly', personalityDesc:'', tone:'friendly', speakingStyle:'conversational',
+    behavior:'', rules:'', avoid:'',
+    instructions:'', knowledge:[], capabilities:{ webSearch:false, fileReading:true, codeGeneration:true, memory:true },
+    model:'meta-llama/llama-3.1-8b-instruct:free', provider:'openrouter'
+  }
+};
+const WIZARD_STEPS = ['Basic','Personality','Instructions','Knowledge','Capabilities','Model','Preview'];
+
+function loadDraft(){
+  try{
+    const raw = localStorage.getItem('aiforge.draft');
+    if(raw){ const d = JSON.parse(raw); Draft.data = { ...Draft.data, ...d.data }; Draft.step = d.step || 0; }
+  }catch(e){}
+}
+function saveDraft(){ try{ localStorage.setItem('aiforge.draft', JSON.stringify(Draft)); }catch(e){} }
+function clearDraft(){ try{ localStorage.removeItem('aiforge.draft'); }catch(e){} }
+
+function renderCreateAI(){
+  if(State.params.id){
+    const ai = State.ais.find(a=>a.id===State.params.id);
+    if(ai){ Draft.data = { ...Draft.data, ...ai }; Draft.step = 0; }
+  } else {
+    loadDraft();
+  }
+  const step = Draft.step;
+  return renderShell('create-ai', State.params.id ? 'Edit AI' : 'Buat AI Baru', `
+    <div class="steps">
+      ${WIZARD_STEPS.map((s,i)=>`<div class="step-chip ${i===step?'active':''} ${i<step?'done':''}" data-step="${i}"><div class="n">${i<step?'✓':i+1}</div><span>${s}</span></div>`).join('')}
+    </div>
+    <div class="card card-pad" id="wizard-body">${renderStep(step)}</div>
+    <div style="display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn btn-ghost" id="wz-back" ${step===0?'disabled':''}>Back</button>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost" id="wz-save-draft">Save Draft</button>
+        ${step < WIZARD_STEPS.length-1
+          ? `<button class="btn btn-primary" id="wz-next">Lanjut →</button>`
+          : `<button class="btn btn-primary" id="wz-publish">${State.params.id?'Update AI':'Publish AI'}</button>`}
+      </div>
+    </div>
+  `);
+}
+function renderStep(step){
+  const d = Draft.data;
+  switch(step){
+    case 0: return `
+      <h2 style="font-size:17px;margin:0 0 4px">Basic Information</h2>
+      <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Identitas dasar AI Anda.</p>
+      <div class="field"><label class="label" for="wz-name">Nama AI *</label><input class="input" id="wz-name" value="${esc(d.name)}" placeholder="Contoh: Asisten Belajar" data-wz="name" /></div>
+      <div class="field"><label class="label" for="wz-slug">Username / Slug</label><input class="input" id="wz-slug" value="${esc(d.slug)}" placeholder="asisten-belajar" data-wz="slug" /><div class="hint">URL publik: /ai/&lt;slug&gt;</div></div>
+      <div class="field"><label class="label" for="wz-desc">Deskripsi</label><textarea class="textarea" id="wz-desc" data-wz="description" placeholder="Jelaskan singkat...">${esc(d.description)}</textarea></div>
+      <div class="field"><label class="label" for="wz-avatar">Avatar URL (opsional)</label><input class="input" id="wz-avatar" value="${esc(d.avatar)}" placeholder="https://..." data-wz="avatar" /></div>
+      <div class="row">
+        <div class="field"><label class="label" for="wz-cat">Kategori</label><select class="select" id="wz-cat" data-wz="category">${['Education','Programming','Business','Productivity','Writing','Gaming','Finance','Creative','General'].map(c=>`<option ${d.category===c?'selected':''}>${c}</option>`).join('')}</select></div>
+        <div class="field"><label class="label" for="wz-vis">Visibility</label><select class="select" id="wz-vis" data-wz="visibility">
+          <option value="private" ${d.visibility==='private'?'selected':''}>Private</option>
+          <option value="unlisted" ${d.visibility==='unlisted'?'selected':''}>Unlisted</option>
+          <option value="public" ${d.visibility==='public'?'selected':''}>Public</option>
+        </select></div>
+      </div>`;
+    case 1: {
+      const presets = [['Friendly','Hangat, akrab'],['Professional','Formal, ringkas'],['Teacher','Sabar, menjelaskan'],['Programmer','Teknis, contoh kode'],['Assistant','Serbaguna, efisien'],['Creative','Imajinatif'],['Researcher','Analitis'],['Custom','Atur sendiri']];
+      return `
+        <h2 style="font-size:17px;margin:0 0 4px">Personality</h2>
+        <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Karakter dan gaya AI.</p>
+        <div class="label" style="margin-bottom:9px">Preset</div>
+        <div class="presets" style="margin-bottom:18px">${presets.map(([n,dsc])=>`<button class="preset ${d.personality===n?'on':''}" data-preset="${n}"><b>${n}</b><span>${dsc}</span></button>`).join('')}</div>
+        <div class="field"><label class="label" for="wz-pd">Deskripsi Kepribadian</label><textarea class="textarea" id="wz-pd" data-wz="personalityDesc" placeholder="Ramah, sabar, praktis...">${esc(d.personalityDesc)}</textarea></div>
+        <div class="row">
+          <div class="field"><label class="label" for="wz-tone">Tone</label><select class="select" id="wz-tone" data-wz="tone">${['friendly','formal','casual','professional','enthusiastic','calm','direct'].map(t=>`<option ${d.tone===t?'selected':''}>${t}</option>`).join('')}</select></div>
+          <div class="field"><label class="label" for="wz-style">Gaya Bicara</label><select class="select" id="wz-style" data-wz="speakingStyle">${['conversational','structured','bullet-points','narrative','technical'].map(t=>`<option ${d.speakingStyle===t?'selected':''}>${t}</option>`).join('')}</select></div>
+        </div>
+        <div class="field"><label class="label" for="wz-beh">Behavior</label><textarea class="textarea" id="wz-beh" data-wz="behavior">${esc(d.behavior)}</textarea></div>
+        <div class="field"><label class="label" for="wz-rules">Rules</label><textarea class="textarea" id="wz-rules" data-wz="rules">${esc(d.rules)}</textarea></div>
+        <div class="field"><label class="label" for="wz-avoid">Yang Harus Dihindari</label><textarea class="textarea" id="wz-avoid" data-wz="avoid">${esc(d.avoid)}</textarea></div>`;
+    }
+    case 2: {
+      const tpl = d.instructions || `You are an AI assistant named {{ai_name}}. Your job is to help the user ({{user_name}}) with clear, accurate, and helpful responses. Today is {{date}}. Respond in {{language}}.`;
+      return `
+        <h2 style="font-size:17px;margin:0 0 4px">System Instructions</h2>
+        <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Instruksi utama ke model.</p>
+        <div class="field"><label class="label" for="wz-ins">Instructions</label><textarea class="textarea code" id="wz-ins" data-wz="instructions">${esc(tpl)}</textarea></div>
+        <div class="card-pad" style="border:1px solid var(--line);border-radius:10px;background:var(--panel-2)">
+          <div style="font-size:12px;font-weight:700;color:var(--txt-2);margin-bottom:8px">Variabel tersedia</div>
+          <div class="tags"><span class="tag b">{{user_name}}</span><span class="tag b">{{ai_name}}</span><span class="tag b">{{date}}</span><span class="tag b">{{language}}</span></div>
+        </div>`;
+    }
+    case 3: return `
+      <h2 style="font-size:17px;margin:0 0 4px">Knowledge</h2>
+      <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Konteks pengetahuan untuk AI.</p>
+      <div class="row">
+        <button class="btn btn-ghost" id="kn-text">${svg('edit','i sm')} Tambah Teks</button>
+        <button class="btn btn-ghost" id="kn-file">${svg('upload','i sm')} Upload File</button>
+        <button class="btn btn-ghost" id="kn-url">${svg('globe','i sm')} Website URL</button>
+      </div>
+      <div id="kn-list" style="margin-top:16px">
+        ${d.knowledge.length===0 ? `<div class="empty" style="padding:22px">${svg('book')}<h3>Belum ada knowledge</h3><p>Tambahkan teks, file, atau URL.</p></div>`
+        : d.knowledge.map((k,i)=>`<div class="list-item" style="margin-bottom:8px"><div class="avatar sm">${svg('file','i sm')}</div><div class="meta"><div class="nm">${esc(k.name)}</div><div class="sub">${esc(k.type)} • ${esc((k.size||0)+' chars')}</div></div><button class="icon-btn" data-rm-knowledge="${i}" title="Hapus">${svg('trash','i sm')}</button></div>`).join('')}
+      </div>`;
+    case 4: {
+      const caps = [['memory','Conversation Memory','AI mengingat konteks percakapan.'],['fileReading','File Reading','AI dapat membaca file yang diunggah.'],['codeGeneration','Code Generation','AI membantu menulis kode.'],['webSearch','Web Search','Butuh plugin (belum aktif).']];
+      return `
+        <h2 style="font-size:17px;margin:0 0 4px">Capabilities</h2>
+        <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Kemampuan AI.</p>
+        <div class="list">${caps.map(([k,t,s])=>`<label class="check"><input type="checkbox" data-cap="${k}" ${d.capabilities[k]?'checked':''} /><div><div class="check-txt">${t}</div><div class="check-sub">${s}</div></div></label>`).join('')}</div>`;
+    }
+    case 5: {
+      const models = {
+        openrouter: ['meta-llama/llama-3.1-8b-instruct:free','meta-llama/llama-3.3-70b-instruct','google/gemini-2.0-flash-exp:free','anthropic/claude-3.5-sonnet','openai/gpt-4o-mini','mistralai/mistral-7b-instruct'],
+        openai: ['gpt-4o-mini','gpt-4o','gpt-4-turbo'],
+        gemini: ['gemini-2.0-flash','gemini-1.5-pro','gemini-1.5-flash'],
+        groq: ['llama-3.3-70b-versatile','llama-3.1-8b-instant','mixtral-8x7b-32768']
+      };
+      const p = d.provider;
+      const list = models[p] || models.openrouter;
+      return `
+        <h2 style="font-size:17px;margin:0 0 4px">Model</h2>
+        <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Pilih provider dan model.</p>
+        <div class="row">
+          <div class="field"><label class="label" for="wz-prov">Provider</label><select class="select" id="wz-prov" data-wz="provider">
+            <option value="openrouter" ${p==='openrouter'?'selected':''}>OpenRouter</option>
+            <option value="openai" ${p==='openai'?'selected':''}>OpenAI</option>
+            <option value="gemini" ${p==='gemini'?'selected':''}>Google Gemini</option>
+            <option value="groq" ${p==='groq'?'selected':''}>Groq</option>
+          </select></div>
+          <div class="field"><label class="label" for="wz-model">Model</label><select class="select" id="wz-model" data-wz="model">${list.map(m=>`<option ${d.model===m?'selected':''}>${m}</option>`).join('')}</select></div>
+        </div>
+        <div class="alert info">${svg('alert','i sm')}<div>Konfigurasi API key provider di <b>Settings → API</b> sebelum AI bisa merespons.</div></div>`;
+    }
+    case 6: return `
+      <h2 style="font-size:17px;margin:0 0 4px">Preview</h2>
+      <p style="color:var(--txt-3);font-size:13px;margin:0 0 18px">Uji AI sebelum disimpan.</p>
+      <div class="ai-card" style="margin-bottom:16px">
+        <div class="ai-card-top">
+          <div class="avatar lg">${d.avatar ? `<img src="${esc(d.avatar)}" alt="">` : esc(initials(d.name||'AI'))}</div>
+          <div class="meta"><h3 class="ai-name" style="font-size:17px">${esc(d.name||'AI Tanpa Nama')}</h3><p class="ai-desc">${esc(d.description||'Tidak ada deskripsi.')}</p></div>
+        </div>
+        <div class="tags"><span class="tag b">${esc(d.category)}</span><span class="tag">${esc(d.personality)}</span><span class="tag">${esc(d.provider)}</span></div>
+      </div>
+      <div id="preview-chat" style="background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:14px;min-height:140px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px">
+        <div style="color:var(--txt-3);font-size:13px;text-align:center;padding:20px">Kirim pesan untuk menguji AI.</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input class="input" id="preview-input" placeholder="Tulis pesan..." />
+        <button class="btn btn-primary" id="preview-send">${svg('send','i sm')} Kirim</button>
+      </div>`;
+  }
+  return '';
+}
+
+function validateStep(step){
+  if(step===0){
+    if(!Draft.data.name.trim()){ toast('Nama AI wajib diisi','err'); return false; }
+    if(!Draft.data.slug.trim()) Draft.data.slug = slugify(Draft.data.name);
+  }
+  return true;
+}
+
+async function previewSend(){
+  const inp = $('#preview-input');
+  const text = inp.value.trim();
+  if(!text) return;
+  inp.value = '';
+  const container = $('#preview-chat');
+  const emptyMsg = container.querySelector('div[style*="text-align:center"]');
+  if(emptyMsg) emptyMsg.remove();
+  const userEl = document.createElement('div');
+  userEl.className = 'msg user';
+  userEl.innerHTML = `<div class="body">${esc(text)}</div>`;
+  container.appendChild(userEl);
+  const aiEl = document.createElement('div');
+  aiEl.className = 'msg ai';
+  aiEl.innerHTML = `<div class="body"><div class="typing"><i></i><i></i><i></i></div></div>`;
+  container.appendChild(aiEl);
+  container.scrollTop = container.scrollHeight;
+  try{
+    const key = await getApiKey(Draft.data.provider);
+    if(!key) throw new Error('API key '+Draft.data.provider+' belum dikonfigurasi di Settings → API.');
+    const sys = buildSystemPrompt(Draft.data, State.profile);
+    let out = '';
+    for await (const chunk of callAI({ provider: Draft.data.provider, model: Draft.data.model, apiKey: key, system: sys, messages: [{ role:'user', content: text }] })){
+      if(chunk.done) break;
+      out += chunk.delta;
+      aiEl.querySelector('.body').textContent = out;
+      container.scrollTop = container.scrollHeight;
+    }
+    if(!out) aiEl.querySelector('.body').textContent = '(tidak ada respons)';
+  }catch(err){
+    aiEl.querySelector('.body').innerHTML = `<span style="color:#ff8f85">${esc(err.message)}</span>`;
+  }
+}
+
+function buildSystemPrompt(ai, profile){
+  const now = new Date();
+  const lang = State.settings.defaultLanguage === 'id' ? 'Bahasa Indonesia' : State.settings.defaultLanguage;
+  let s = ai.instructions || `You are ${ai.name || 'an AI'}, a helpful assistant.`;
+  s = s.replace(/\{\{user_name\}\}/g, profile?.displayName || 'Pengguna').replace(/\{\{ai_name\}\}/g, ai.name || 'AI').replace(/\{\{date\}\}/g, now.toISOString().slice(0,10)).replace(/\{\{language\}\}/g, lang);
+  const parts = [s];
+  if(ai.personalityDesc) parts.push(`Kepribadian: ${ai.personalityDesc}`);
+  if(ai.tone) parts.push(`Tone: ${ai.tone}`);
+  if(ai.speakingStyle) parts.push(`Gaya bicara: ${ai.speakingStyle}`);
+  if(ai.behavior) parts.push(`Perilaku: ${ai.behavior}`);
+  if(ai.rules) parts.push(`Aturan: ${ai.rules}`);
+  if(ai.avoid) parts.push(`Hindari: ${ai.avoid}`);
+  if(ai.knowledge?.length){
+    const k = ai.knowledge.filter(x=>x.content).map(x=>`### ${x.name}\n${x.content.slice(0,4000)}`).join('\n\n');
+    if(k) parts.push(`\nKONTEKS PENGETAHUAN:\n${k}`);
+  }
+  return parts.join('\n\n');
+}
+
+async function publishAI(){
+  if(!Draft.data.name.trim()){ toast('Nama AI wajib','err'); Draft.step=0; render(); return; }
+  if(!Draft.data.slug.trim()) Draft.data.slug = slugify(Draft.data.name);
+  try{
+    const isEdit = !!State.params.id;
+    const aiId = isEdit ? State.params.id : uid();
+    const existing = State.ais.find(a=>a.id===aiId);
+    const docData = {
+      ownerId: State.user.uid,
+      name: Draft.data.name.trim(), slug: Draft.data.slug, description: Draft.data.description||'', avatar: Draft.data.avatar||'',
+      category: Draft.data.category, visibility: Draft.data.visibility,
+      personality: Draft.data.personality, personalityDesc: Draft.data.personalityDesc||'',
+      tone: Draft.data.tone||'', speakingStyle: Draft.data.speakingStyle||'', behavior: Draft.data.behavior||'', rules: Draft.data.rules||'', avoid: Draft.data.avoid||'',
+      instructions: Draft.data.instructions||'', knowledge: Draft.data.knowledge||[], capabilities: Draft.data.capabilities||{},
+      model: Draft.data.model, provider: Draft.data.provider, status: 'published',
+      usageCount: existing?.usageCount || 0,
+      updatedAt: serverTimestamp()
+    };
+    if(!isEdit) docData.createdAt = serverTimestamp();
+    await setDoc(doc(db,'ais',aiId), docData, { merge:true });
+    toast(isEdit ? 'AI diperbarui' : 'AI dipublikasikan','ok');
+    clearDraft();
+    Draft.step = 0;
+    Draft.data = { name:'',slug:'',description:'',avatar:'',category:'General',visibility:'private',personality:'Friendly',personalityDesc:'',tone:'friendly',speakingStyle:'conversational',behavior:'',rules:'',avoid:'',instructions:'',knowledge:[],capabilities:{webSearch:false,fileReading:true,codeGeneration:true,memory:true},model:'meta-llama/llama-3.1-8b-instruct:free',provider:'openrouter' };
+    State.params = {};
+    navigate('my-ai');
+  }catch(err){ toast('Gagal menyimpan: '+err.message,'err'); }
+}
+
+/* ============================================================
+   PLAYGROUND
+   ============================================================ */
+function renderPlayground(){
+  const aiId = State.params.aiId;
+  const activeAI = State.ais.find(a=>a.id===aiId) || State.ais[0];
+  const convs = State.conversations;
+  const currentConv = State.currentConversation;
+  return renderShell('playground', 'Playground', `
+    <div class="chat-layout">
+      <aside class="chat-side" id="chat-side">
+        <div class="chat-side-head">
+          <button class="btn btn-primary btn-block btn-sm" id="new-chat">${svg('plus','i sm')} New Chat</button>
+          <input class="input" id="conv-search" placeholder="Cari percakapan..." style="padding:8px 11px;font-size:13px" />
+          <select class="select" id="ai-select" style="padding:8px 11px;font-size:13px">
+            <option value="">Pilih AI...</option>
+            ${State.ais.map(a=>`<option value="${a.id}" ${a.id===activeAI?.id?'selected':''}>${esc(a.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="conv-list" id="conv-list">
+          ${convs.length===0 ? `<div style="padding:22px;text-align:center;color:var(--txt-3);font-size:12.5px">Belum ada percakapan</div>`
+          : convs.map(c=>`<button class="conv-item ${currentConv?.id===c.id?'active':''}" data-conv="${c.id}">${svg('chat','i sm')}<span class="t">${esc(c.title||'Percakapan')}</span><span class="icon-btn" data-del-conv="${c.id}" title="Hapus" style="width:26px;height:26px">${svg('trash','i sm')}</span></button>`).join('')}
+        </div>
+      </aside>
+      <section class="chat-main">
+        ${activeAI ? `
+          <div class="chat-head">
+            <button class="icon-btn" id="chat-side-toggle">${svg('menu','i')}</button>
+            <div class="avatar">${activeAI.avatar ? `<img src="${esc(activeAI.avatar)}" alt="">` : esc(initials(activeAI.name))}</div>
+            <div class="meta"><div class="name">${esc(activeAI.name)}</div><div class="sub">${esc(activeAI.provider)} • ${esc((activeAI.model||'').split('/').pop())}</div></div>
+            <button class="icon-btn" data-share-ai="${activeAI.id}" title="Bagikan">${svg('external','i sm')}</button>
+          </div>
+          <div class="chat-body" id="chat-body">
+            ${!currentConv || State.messages.length===0 ? `<div class="empty">${svg('chat')}<h3>Mulai percakapan</h3><p>Kirim pesan untuk memulai chat dengan ${esc(activeAI.name)}.</p></div>`
+            : State.messages.map(m=>renderMessage(m)).join('')}
+          </div>
+          <div class="chat-input">
+            <div class="chat-input-row">
+              <textarea id="chat-input" placeholder="Tulis pesan... (Enter untuk kirim, Shift+Enter baris baru)" rows="1"></textarea>
+              <button class="btn btn-primary" id="chat-send" aria-label="Kirim">${svg('send','i')}</button>
+              <button class="btn btn-danger hidden" id="chat-stop" aria-label="Stop">${svg('stop','i')}</button>
+            </div>
+            <div class="hint" style="margin-top:6px">${activeAI.capabilities?.memory ? 'Memory aktif' : 'Memory nonaktif'} • ${esc(activeAI.visibility)}</div>
+          </div>
+        ` : `<div class="empty" style="margin:auto">${svg('ai')}<h3>Belum ada AI</h3><p>Buat AI terlebih dahulu.</p><button class="btn btn-primary" data-nav="create-ai">Create AI</button></div>`}
+      </section>
+    </div>
+  `);
+}
+function renderMessage(m){
+  const isUser = m.role === 'user';
+  return `
+    <div class="msg ${isUser?'user':'ai'}" data-msg="${m.id}">
+      <div class="avatar sm">${isUser ? esc(initials(State.profile?.displayName||'U')) : svg('ai','i sm')}</div>
+      <div>
+        <div class="body">${esc(m.content)}</div>
+        <div class="msg-actions">
+          <span class="time">${fmtTime(m.createdAt)}</span>
+          ${!isUser ? `<button data-copy="${m.id}" title="Copy">${svg('copy','i sm')} Copy</button>` : ''}
+          ${!isUser ? `<button data-regen="${m.id}" title="Regenerate">${svg('refresh','i sm')} Regenerate</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function sendMessage(){
+  const input = $('#chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  const aiId = State.params.aiId || (State.ais[0]?.id);
+  const ai = State.ais.find(a=>a.id===aiId);
+  if(!ai){ toast('Pilih AI dulu','err'); return; }
+
+  let convId = State.currentConversation?.id;
+  if(!convId){
+    const ref = doc(collection(db,'conversations'));
+    convId = ref.id;
+    await setDoc(ref, {
+      ownerId: State.user.uid,
+      aiId: ai.id, aiName: ai.name, aiAvatar: ai.avatar||'',
+      title: text.slice(0,50), messageCount: 0,
+      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
+    });
+    State.currentConversation = { id: convId, aiId: ai.id, aiName: ai.name, title: text.slice(0,50), messageCount:0 };
+  }
+  const userMsg = { role:'user', content: text, createdAt: Date.now() };
+  const userRef = doc(collection(db,'conversations',convId,'messages'));
+  userMsg.id = userRef.id;
+  await setDoc(userRef, { role:'user', content:text, createdAt: serverTimestamp() });
+  State.messages.push(userMsg);
+  input.value = '';
+  input.style.height = 'auto';
+
+  const body = $('#chat-body');
+  const em = body.querySelector('.empty');
+  if(em) em.remove();
+  body.insertAdjacentHTML('beforeend', renderMessage({ ...userMsg, createdAt: new Date() }));
+
+  const aiMsgId = 'streaming-'+uid();
+  body.insertAdjacentHTML('beforeend', `
+    <div class="msg ai" data-msg="${aiMsgId}">
+      <div class="avatar sm">${svg('ai','i sm')}</div>
+      <div><div class="body"><div class="typing"><i></i><i></i><i></i></div></div></div>
+    </div>`);
+  body.scrollTop = body.scrollHeight;
+
+  const history = State.messages.filter(m=>m.content).slice(-16).map(m=>({ role:m.role, content:m.content }));
+  const sys = buildSystemPrompt(ai, State.profile);
+  const stopBtn = $('#chat-stop');
+  const sendBtn = $('#chat-send');
+  const controller = new AbortController();
+  State._abort = controller;
+  if(stopBtn) stopBtn.classList.remove('hidden');
+  if(sendBtn) sendBtn.classList.add('hidden');
+
+  let fullText = '';
+  try{
+    const key = await getApiKey(ai.provider);
+    if(!key) throw new Error(`API key ${ai.provider} belum dikonfigurasi. Buka Settings → API.`);
+    const el = document.querySelector(`[data-msg="${aiMsgId}"] .body`);
+    for await (const chunk of callAI({ provider: ai.provider, model: ai.model, apiKey: key, system: sys, messages: history, signal: controller.signal })){
+      if(chunk.done) break;
+      fullText += chunk.delta;
+      if(el) el.textContent = fullText;
+      body.scrollTop = body.scrollHeight;
+    }
+    if(!fullText) throw new Error('Model tidak mengembalikan teks. Coba lagi.');
+    const aiRef = doc(collection(db,'conversations',convId,'messages'));
+    await setDoc(aiRef, { role:'assistant', content: fullText, createdAt: serverTimestamp() });
+    await updateDoc(doc(db,'conversations',convId), { messageCount: (State.currentConversation.messageCount||0)+2, updatedAt: serverTimestamp() });
+    State.currentConversation.messageCount = (State.currentConversation.messageCount||0)+2;
+    State.messages.push({ id: aiRef.id, role:'assistant', content: fullText, createdAt: Date.now() });
+    const node = document.querySelector(`[data-msg="${aiMsgId}"]`);
+    if(node) node.outerHTML = renderMessage({ id: aiRef.id, role:'assistant', content: fullText, createdAt: new Date() });
+    await updateDoc(doc(db,'ais',ai.id), { usageCount: (ai.usageCount||0)+1 });
+  }catch(err){
+    const node = document.querySelector(`[data-msg="${aiMsgId}"]`);
+    if(node) node.querySelector('.body').innerHTML = `<span style="color:#ff8f85">${esc(err.message||'Gagal mendapatkan respons')}</span>`;
+    if(err.name === 'AbortError') toast('Dihentikan','info');
+    else toast(err.message||'AI error','err',5000);
+  }finally{
+    State._abort = null;
+    if(stopBtn) stopBtn.classList.add('hidden');
+    if(sendBtn) sendBtn.classList.remove('hidden');
+  }
+}
+
+/* ============================================================
+   KNOWLEDGE PAGE
+   ============================================================ */
+function renderKnowledge(){
+  return renderShell('knowledge', 'Knowledge Base', `
+    <p style="color:var(--txt-2);font-size:14px;margin:0 0 16px">Kelola pengetahuan untuk AI Anda.</p>
+    ${State.ais.length===0 ? `<div class="card empty">${svg('book')}<h3>Belum ada AI</h3><p>Buat AI dulu untuk menambahkan knowledge.</p><button class="btn btn-primary" data-nav="create-ai">Create AI</button></div>`
+    : State.ais.map(ai=>`
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-head">
+          <div style="display:flex;gap:11px;align-items:center;min-width:0">
+            <div class="avatar">${ai.avatar?`<img src="${esc(ai.avatar)}" alt="">`:esc(initials(ai.name))}</div>
+            <div style="min-width:0"><div class="card-title">${esc(ai.name)}</div><div class="card-sub">${(ai.knowledge?.length||0)} sumber pengetahuan</div></div>
+          </div>
+          <button class="btn btn-ghost btn-sm" data-edit-ai="${ai.id}">${svg('edit','i sm')} Kelola</button>
+        </div>
+        ${ai.knowledge?.length ? `<div class="card-pad list">${ai.knowledge.map(k=>`<div class="list-item"><div class="avatar sm">${svg('file','i sm')}</div><div class="meta"><div class="nm">${esc(k.name)}</div><div class="sub">${esc(k.type)} • ${k.size||0} chars</div></div><span class="tag g">ready</span></div>`).join('')}</div>`
+        : `<div class="card-pad" style="color:var(--txt-3);font-size:13px">Belum ada knowledge untuk AI ini.</div>`}
+      </div>`).join('')}
+  `);
+}
+
+/* ============================================================
+   CONVERSATIONS
+   ============================================================ */
+function renderConversations(){
+  const list = State.conversations;
+  return renderShell('conversations', 'Percakapan', `
+    <div class="row" style="margin-bottom:14px">
+      <input class="input" id="conv-search-2" placeholder="Cari percakapan..." style="flex:2" />
+      <button class="btn btn-ghost" id="export-all-conv">${svg('download','i sm')} Export Semua</button>
+    </div>
+    ${list.length===0 ? `<div class="card empty">${svg('chat')}<h3>Belum ada percakapan</h3><p>Mulai chat dengan AI Anda.</p><button class="btn btn-primary" data-nav="playground">Buka Playground</button></div>`
+    : `<div class="list" id="conv-list-page">${list.map(c=>`
+        <div class="list-item">
+          <div class="avatar sm">${svg('chat','i sm')}</div>
+          <div class="meta" style="cursor:pointer" data-open-conv="${c.id}">
+            <div class="nm">${esc(c.title||'Percakapan')}</div>
+            <div class="sub">${esc(c.aiName||'AI')} • ${c.messageCount||0} pesan • ${timeAgo(c.updatedAt)}</div>
+          </div>
+          <button class="icon-btn" data-rename-conv="${c.id}" title="Ubah nama">${svg('edit','i sm')}</button>
+          <button class="icon-btn" data-export-conv="${c.id}" title="Export">${svg('download','i sm')}</button>
+          <button class="icon-btn" data-del-conv="${c.id}" title="Hapus">${svg('trash','i sm')}</button>
+        </div>`).join('')}</div>`}
+  `);
+}
+
+/* ============================================================
+   EXPLORE
+   ============================================================ */
+function renderExplorePublic(){
+  return `<div class="nav"><div class="wrap nav-in">
+      <div class="logo" data-nav="home"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+      <div style="flex:1"></div>
+      <button class="btn btn-ghost btn-sm" data-nav="login">Masuk</button>
+      <button class="btn btn-primary btn-sm" data-nav="signup">Daftar</button>
+    </div></div>
+    <section class="section wrap">
+      <div class="section-head"><h2>Explore AI</h2><p>AI publik dari komunitas AI Forge.</p></div>
+      <div id="explore-grid"><div class="grid-cards">${[1,2,3].map(()=>`<div class="sk"></div>`).join('')}</div></div>
+    </section>`;
+}
+function renderExplore(){
+  return renderShell('explore', 'Explore AI', `
+    <div style="margin-bottom:16px"><input class="input" id="explore-search" placeholder="Cari AI publik..." /></div>
+    <div id="explore-grid"><div class="grid-cards">${[1,2,3,4].map(()=>`<div class="sk"></div>`).join('')}</div></div>
+  `);
+}
+async function loadPublicAIs(container, searchTerm=''){
+  if(!container) return;
+  try{
+    const snap = await getDocs(query(collection(db,'ais'), where('visibility','==','public'), limit(50)));
+    let ais = snap.docs.map(d=>({ id:d.id, ...d.data() }));
+    if(searchTerm){
+      const t = searchTerm.toLowerCase();
+      ais = ais.filter(a=> (a.name||'').toLowerCase().includes(t) || (a.description||'').toLowerCase().includes(t));
+    }
+    if(ais.length===0){
+      container.innerHTML = `<div class="card empty">${svg('compass')}<h3>Tidak ada AI publik</h3><p>${searchTerm?'Tidak ada hasil.':'Belum ada AI yang dipublikasikan.'}</p><button class="btn btn-primary" data-nav="signup">Buat AI Pertama</button></div>`;
+    } else {
+      container.innerHTML = `<div class="grid-cards">${ais.map(renderPublicAiCard).join('')}</div>`;
+      container.querySelectorAll('[data-nav]').forEach(el=>{ el.onclick = ()=>navigate(el.dataset.nav); });
+      container.querySelectorAll('[data-public-chat]').forEach(b=>{ b.onclick = ()=>{ if(!State.user){ navigate('signup'); return; } navigate('playground',{ aiId:b.dataset.publicChat }); }; });
+      container.querySelectorAll('[data-share-ai]').forEach(b=>{ b.onclick = ()=>shareAi(b.dataset.shareAi); });
+    }
+  }catch(err){
+    container.innerHTML = `<div class="alert err">${svg('alert','i sm')}<div>Gagal memuat: ${esc(err.message)}. Pastikan Firestore sudah diaktifkan di Firebase Console.</div></div>`;
+  }
+}
+function renderPublicAiCard(ai){
+  const isMine = State.user && ai.ownerId === State.user.uid;
+  return `<div class="ai-card">
+    <div class="ai-card-top">
+      <div class="avatar">${ai.avatar?`<img src="${esc(ai.avatar)}" alt="">`:esc(initials(ai.name))}</div>
+      <div class="meta"><h3 class="ai-name">${esc(ai.name)}</h3><p class="ai-desc">${esc(ai.description||'Tidak ada deskripsi.')}</p></div>
+    </div>
+    <div class="tags"><span class="tag b">${esc(ai.category||'General')}</span><span class="tag">${ai.usageCount||0} chats</span></div>
+    <div class="ai-actions">
+      ${isMine ? `<button class="btn btn-primary btn-sm" data-chat-ai="${ai.id}">${svg('chat','i sm')} Chat</button>`
+        : `<button class="btn btn-primary btn-sm" data-public-chat="${ai.id}">${svg('chat','i sm')} Buka</button>`}
+      <button class="btn btn-ghost btn-sm" data-share-ai="${ai.id}">${svg('external','i sm')} Bagikan</button>
+    </div>
+  </div>`;
+}
+function shareAi(aiId){
+  const ai = State.ais.find(a=>a.id===aiId);
+  const slug = ai?.slug || aiId;
+  const url = location.origin + location.pathname + '#/ai/' + slug;
+  if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=> toast('Link disalin','ok')).catch(()=> prompt('Salin link:', url));
+  else prompt('Salin link:', url);
+}
+
+/* ============================================================
+   ANALYTICS
+   ============================================================ */
+function renderAnalytics(){
+  const convs = State.conversations;
+  const ais = State.ais;
+  const totalMsgs = convs.reduce((s,c)=>s+(c.messageCount||0),0);
+  const totalUsage = ais.reduce((s,a)=>s+(a.usageCount||0),0);
+  const days = 7;
+  const buckets = Array(days).fill(0);
+  convs.forEach(c=>{
+    if(!c.createdAt) return;
+    const d = c.createdAt.toDate ? c.createdAt.toDate() : new Date(c.createdAt);
+    const diff = Math.floor((Date.now() - d.getTime())/86400000);
+    if(diff >= 0 && diff < days) buckets[days-1-diff]++;
+  });
+  const maxV = Math.max(1,...buckets);
+  return renderShell('analytics', 'Analytics', `
+    <div class="stats">
+      <div class="stat"><div class="k">${svg('chat','i sm')} Percakapan</div><div class="v">${convs.length}</div></div>
+      <div class="stat"><div class="k">${svg('file','i sm')} Total Pesan</div><div class="v">${totalMsgs}</div></div>
+      <div class="stat"><div class="k">${svg('ai','i sm')} Total AI</div><div class="v">${ais.length}</div></div>
+      <div class="stat"><div class="k">${svg('chart','i sm')} Total Interaksi</div><div class="v">${totalUsage}</div></div>
+    </div>
+    <div class="card card-pad">
+      <h3 class="card-title" style="margin-bottom:4px">Percakapan 7 Hari Terakhir</h3>
+      <p class="card-sub" style="margin-bottom:18px">Data aktual dari akun Anda.</p>
+      ${convs.length===0 ? `<div class="empty" style="padding:24px">${svg('chart')}<h3>Belum ada data</h3><p>Mulai chat untuk melihat analitik.</p></div>`
+      : `<div style="display:flex;gap:8px;align-items:flex-end;height:180px">
+          ${buckets.map((v,i)=>{
+            const d = new Date(); d.setDate(d.getDate()-(days-1-i));
+            const label = d.toLocaleDateString('id-ID',{weekday:'short'});
+            const h = (v/maxV)*100;
+            return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end">
+              <div style="font-size:11px;color:var(--txt-3)">${v}</div>
+              <div style="width:100%;background:linear-gradient(180deg,var(--brand),var(--brand-2));border-radius:6px;height:${Math.max(h,3)}%;min-height:4px"></div>
+              <div style="font-size:11px;color:var(--txt-3)">${label}</div>
+            </div>`;
+          }).join('')}
+        </div>`}
+    </div>
+  `);
+}
+
+/* ============================================================
+   API PAGE
+   ============================================================ */
+function renderApiPage(){
+  return renderShell('api', 'API', `
+    <div class="card card-pad" style="margin-bottom:16px">
+      <h3 class="card-title" style="margin-bottom:10px">API Providers</h3>
+      <p class="card-sub" style="margin-bottom:14px">API key disimpan privat di Firestore (hanya akun Anda yang bisa membaca).</p>
+      <div class="field"><label class="label">OpenRouter API Key</label><input class="input" type="password" id="key-openrouter" placeholder="sk-or-..." /><div class="hint">Dapatkan di <a href="https://openrouter.ai/keys" target="_blank" rel="noopener" style="color:var(--brand)">openrouter.ai/keys</a> — banyak model gratis.</div></div>
+      <div class="field"><label class="label">OpenAI API Key</label><input class="input" type="password" id="key-openai" placeholder="sk-..." /></div>
+      <div class="field"><label class="label">Google Gemini API Key</label><input class="input" type="password" id="key-gemini" placeholder="AIza..." /></div>
+      <div class="field"><label class="label">Groq API Key</label><input class="input" type="password" id="key-groq" placeholder="gsk_..." /></div>
+      <button class="btn btn-primary" id="save-keys">${svg('lock','i sm')} Simpan API Keys</button>
+    </div>
+    <div class="card card-pad">
+      <h3 class="card-title" style="margin-bottom:10px">Contoh Penggunaan</h3>
+      <div class="tags" style="margin-bottom:12px">
+        <button class="tag" data-lang-tab="js">JavaScript</button>
+        <button class="tag" data-lang-tab="py">Python</button>
+        <button class="tag" data-lang-tab="curl">cURL</button>
+      </div>
+      <div class="code-block" id="api-code"></div>
+    </div>
+  `);
+}
+const API_SNIPPETS = {
+  js:`import OpenAI from "openai";
+const client = new OpenAI({ apiKey: "YOUR_KEY", baseURL: "https://openrouter.ai/api/v1" });
+const res = await client.chat.completions.create({
+  model: "meta-llama/llama-3.1-8b-instruct:free",
+  messages: [{ role: "user", content: "Halo" }],
+});
+console.log(res.choices[0].message.content);`,
+  py:`from openai import OpenAI
+client = OpenAI(api_key="YOUR_KEY", base_url="https://openrouter.ai/api/v1")
+res = client.chat.completions.create(
+    model="meta-llama/llama-3.1-8b-instruct:free",
+    messages=[{"role": "user", "content": "Halo"}],
+)
+print(res.choices[0].message.content)`,
+  curl:`curl https://openrouter.ai/api/v1/chat/completions \\
+  -H "Authorization: Bearer YOUR_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"meta-llama/llama-3.1-8b-instruct:free","messages":[{"role":"user","content":"Halo"}]}'`
+};
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function renderSettings(){
+  const p = State.profile || {};
+  const s = State.settings;
+  return renderShell('settings', 'Settings', `
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head"><h3 class="card-title">Akun</h3></div>
+      <div class="card-pad">
+        <div class="field"><label class="label" for="st-name">Nama</label><input class="input" id="st-name" value="${esc(p.displayName||'')}" /></div>
+        <div class="field"><label class="label" for="st-photo">Foto Profil (URL)</label><input class="input" id="st-photo" value="${esc(p.photoURL||'')}" placeholder="https://..." /></div>
+        <div class="field"><label class="label">Email</label><input class="input" value="${esc(p.email||'')}" disabled /></div>
+        <button class="btn btn-primary" id="st-save-profile">Simpan Profil</button>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head"><h3 class="card-title">Preferensi AI</h3></div>
+      <div class="card-pad">
+        <div class="field"><label class="label">Bahasa Default</label><select class="select" id="st-lang">
+          <option value="id" ${s.defaultLanguage==='id'?'selected':''}>Bahasa Indonesia</option>
+          <option value="en" ${s.defaultLanguage==='en'?'selected':''}>English</option>
+        </select></div>
+        <div class="field"><label class="label">Gaya Respons Default</label><select class="select" id="st-style">
+          ${['balanced','concise','detailed','friendly'].map(x=>`<option ${s.defaultStyle===x?'selected':''}>${x}</option>`).join('')}
+        </select></div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head"><h3 class="card-title">Tampilan</h3></div>
+      <div class="card-pad">
+        <div class="field"><label class="label">Tema</label>
+          <div class="row">
+            <button class="btn ${s.theme==='dark'?'btn-primary':'btn-ghost'}" data-theme-set="dark">${svg('moon','i sm')} Dark</button>
+            <button class="btn ${s.theme==='light'?'btn-primary':'btn-ghost'}" data-theme-set="light">${svg('sun','i sm')} Light</button>
+            <button class="btn ${s.theme==='system'?'btn-primary':'btn-ghost'}" data-theme-set="system">${svg('cpu','i sm')} System</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head"><h3 class="card-title">Notifikasi</h3></div>
+      <div class="card-pad"><div class="list">
+        <div class="list-item">
+          <div class="meta"><div class="nm">Browser Notification</div><div class="sub">Izinkan notifikasi aktivitas AI</div></div>
+          <button class="toggle ${('Notification' in window && Notification.permission==='granted')?'on':''}" data-notif-toggle></button>
+        </div>
+      </div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-head"><h3 class="card-title">Keamanan</h3></div>
+      <div class="card-pad list">
+        <div class="list-item"><div class="meta"><div class="nm">Ubah Password</div><div class="sub">Kirim tautan reset ke email</div></div><button class="btn btn-ghost btn-sm" id="st-reset-pass">Kirim</button></div>
+        <div class="list-item"><div class="meta"><div class="nm">Keluar</div><div class="sub">Keluar dari akun saat ini</div></div><button class="btn btn-ghost btn-sm" id="st-signout-all">Keluar</button></div>
+        <div class="list-item"><div class="meta"><div class="nm" style="color:#ff8f85">Hapus Akun</div><div class="sub">Permanen, tidak bisa dibatalkan</div></div><button class="btn btn-danger btn-sm" id="st-delete-acc">Hapus</button></div>
+      </div>
+    </div>
+  `);
+}
+
+/* ============================================================
+   AI PROFILE PUBLIC
+   ============================================================ */
+async function renderAiProfile(slugOrId){
+  try{
+    let ai = null;
+    const snap = await getDocs(query(collection(db,'ais'), where('slug','==',slugOrId), limit(1)));
+    if(snap.docs[0]) ai = { id:snap.docs[0].id, ...snap.docs[0].data() };
+    if(!ai){
+      const d = await getDoc(doc(db,'ais', slugOrId));
+      if(d.exists()) ai = { id:d.id, ...d.data() };
+    }
+    if(!ai){
+      return `<div class="wrap" style="padding:60px 18px"><div class="card empty">${svg('ai')}<h3>AI tidak ditemukan</h3><p>Slug atau ID tidak valid.</p><button class="btn btn-primary" data-nav="home">Ke Beranda</button></div></div>`;
+    }
+    const mine = State.user && ai.ownerId === State.user.uid;
+    if(ai.visibility==='private' && !mine){
+      return `<div class="wrap" style="padding:60px 18px"><div class="card empty">${svg('lock')}<h3>AI bersifat privat</h3><p>Anda tidak memiliki akses.</p><button class="btn btn-primary" data-nav="home">Ke Beranda</button></div></div>`;
+    }
+    return `
+      <div class="nav"><div class="wrap nav-in">
+        <div class="logo" data-nav="${State.user?'dashboard':'home'}"><div class="logo-mark">${svg('cpu','i')}</div><span>AI Forge</span></div>
+        <div style="flex:1"></div>
+        ${State.user ? `<button class="btn btn-ghost btn-sm" data-nav="dashboard">Dashboard</button>` : `<button class="btn btn-primary btn-sm" data-nav="signup">Coba Gratis</button>`}
+      </div></div>
+      <section class="section wrap" style="max-width:760px">
+        <div class="card card-pad">
+          <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
+            <div class="avatar xl">${ai.avatar?`<img src="${esc(ai.avatar)}" alt="">`:esc(initials(ai.name))}</div>
+            <div style="flex:1;min-width:200px">
+              <h1 style="font-size:26px;letter-spacing:-.02em;margin:0 0 6px">${esc(ai.name)}</h1>
+              <p style="color:var(--txt-2);margin:0 0 14px">${esc(ai.description||'Tidak ada deskripsi.')}</p>
+              <div class="tags">
+                <span class="tag b">${esc(ai.category||'General')}</span>
+                <span class="tag">${esc(ai.personality||'Friendly')}</span>
+                <span class="tag">${ai.usageCount||0} chats</span>
+                <span class="tag ${ai.visibility==='public'?'g':'y'}">${esc(ai.visibility)}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:9px;margin-top:20px;flex-wrap:wrap">
+            ${State.user ? `<button class="btn btn-primary" data-chat-ai="${ai.id}">${svg('chat','i sm')} Mulai Chat</button>` : `<button class="btn btn-primary" data-nav="signup">${svg('chat','i sm')} Daftar untuk Chat</button>`}
+            <button class="btn btn-ghost" data-share-ai="${ai.id}">${svg('external','i sm')} Bagikan</button>
+          </div>
+        </div>
+      </section>`;
+  }catch(err){
+    return `<div class="wrap" style="padding:60px 18px"><div class="alert err">${esc(err.message)}</div></div>`;
+  }
+}
+
+/* ============================================================
+   MAIN RENDER
+   ============================================================ */
+function render(){
+  const app = $('#app');
+  if(!app) return;
+  const route = State.route;
+
+  if(!State.user){
+    if(route==='login'){ app.innerHTML = renderLogin(); afterRender(); return; }
+    if(route==='signup'){ app.innerHTML = renderSignup(); afterRender(); return; }
+    if(route==='docs'){ app.innerHTML = renderDocs(); afterRender(); return; }
+    if(route==='explore-public'){ app.innerHTML = renderExplorePublic(); afterRender(); loadPublicAIs($('#explore-grid')); return; }
+    if(route==='ai-profile'){ renderAiProfile(State.params.slug).then(h=>{ app.innerHTML = h; afterRender(); }); return; }
+    app.innerHTML = renderLanding(); afterRender(); return;
+  }
+
+  switch(route){
+    case 'login':
+    case 'signup':
+      navigate('dashboard'); return;
+    case 'dashboard': app.innerHTML = renderDashboard(); break;
+    case 'my-ai': app.innerHTML = renderMyAI(); break;
+    case 'create-ai': app.innerHTML = renderCreateAI(); break;
+    case 'playground': app.innerHTML = renderPlayground(); break;
+    case 'knowledge': app.innerHTML = renderKnowledge(); break;
+    case 'conversations': app.innerHTML = renderConversations(); break;
+    case 'explore': app.innerHTML = renderExplore(); break;
+    case 'analytics': app.innerHTML = renderAnalytics(); break;
+    case 'api': app.innerHTML = renderApiPage(); break;
+    case 'settings': app.innerHTML = renderSettings(); break;
+    case 'ai-profile':
+      renderAiProfile(State.params.slug).then(h=>{ app.innerHTML = h; afterRender(); });
+      return;
+    default:
+      app.innerHTML = renderDashboard();
+  }
+  afterRender();
+}
+
+/* ============================================================
+   POST-RENDER BINDINGS
+   ============================================================ */
+function afterRender(){
+  $$('[data-nav]').forEach(el=>{
+    el.onclick = ()=>{
+      const r = el.dataset.nav;
+      if(r==='home' && State.user) navigate('dashboard');
+      else navigate(r);
+    };
+  });
+  $$('[data-scroll]').forEach(el=>{
+    el.onclick = ()=>{ document.getElementById(el.dataset.scroll)?.scrollIntoView({behavior:'smooth'}); };
+  });
+  const openBtn = $('#sidebar-open');
+  const closeBtn = $('#sidebar-close');
+  const side = $('#sidebar');
+  const scrim = $('#scrim');
+  if(openBtn && side && scrim) openBtn.onclick = ()=>{ side.classList.add('open'); scrim.classList.add('on'); };
+  if(closeBtn && side && scrim) closeBtn.onclick = ()=>{ side.classList.remove('open'); scrim.classList.remove('on'); };
+  if(scrim && side) scrim.onclick = ()=>{ side.classList.remove('open'); scrim.classList.remove('on'); };
+  const logoutBtn = $('#btn-logout');
+  if(logoutBtn) logoutBtn.onclick = doLogout;
+  const navT = $('#nav-toggle');
+  if(navT) navT.onclick = ()=> $('#nav-links')?.classList.toggle('open');
+
+  $$('[data-chat-ai]').forEach(b=>{ b.onclick = ()=> navigate('playground', { aiId: b.dataset.chatAi }); });
+  $$('[data-public-chat]').forEach(b=>{ b.onclick = ()=>{ if(!State.user){ navigate('signup'); return; } navigate('playground', { aiId: b.dataset.publicChat }); }; });
+  $$('[data-edit-ai]').forEach(b=>{ b.onclick = ()=> navigate('create-ai', { id: b.dataset.editAi }); });
+  $$('[data-del-ai]').forEach(b=>{ b.onclick = ()=> confirmDeleteAI(b.dataset.delAi); });
+  $$('[data-share-ai]').forEach(b=>{ b.onclick = ()=> shareAi(b.dataset.shareAi); });
+  $$('[data-open-conv]').forEach(el=>{ el.onclick = ()=> openConversation(el.dataset.openConv); });
+  $$('[data-del-conv]').forEach(b=>{ b.onclick = (e)=>{ e.stopPropagation(); confirmDeleteConversation(b.dataset.delConv); }; });
+  $$('[data-rename-conv]').forEach(b=>{ b.onclick = ()=> renameConversation(b.dataset.renameConv); });
+  $$('[data-export-conv]').forEach(b=>{ b.onclick = ()=> exportConversation(b.dataset.exportConv); });
+  const expAll = $('#export-all-conv');
+  if(expAll) expAll.onclick = ()=> exportAllConversations();
+
+  bindPlayground();
+  bindAuth();
+  bindSettings();
+  bindApiPage();
+
+  const exploreSearch = $('#explore-search');
+  if(exploreSearch){
+    let timer;
+    exploreSearch.oninput = ()=>{ clearTimeout(timer); timer = setTimeout(()=> loadPublicAIs($('#explore-grid'), exploreSearch.value), 350); };
+    loadPublicAIs($('#explore-grid'));
+  }
+  const convSearch = $('#conv-search');
+  if(convSearch){
+    convSearch.oninput = ()=>{
+      const t = convSearch.value.toLowerCase();
+      $$('.conv-item').forEach(el=>{ el.style.display = el.textContent.toLowerCase().includes(t) ? '' : 'none'; });
+    };
+  }
+  const convSearch2 = $('#conv-search-2');
+  if(convSearch2){
+    convSearch2.oninput = ()=>{
+      const t = convSearch2.value.toLowerCase();
+      $$('#conv-list-page .list-item').forEach(el=>{ el.style.display = el.textContent.toLowerCase().includes(t) ? '' : 'none'; });
+    };
+  }
+  // Chat sidebar toggle on mobile
+  const chatSideToggle = $('#chat-side-toggle');
+  const chatSide = $('#chat-side');
+  if(chatSideToggle && chatSide){
+    if(window.innerWidth <= 1024) chatSideToggle.style.display = '';
+    else chatSideToggle.style.display = 'none';
+    chatSideToggle.onclick = ()=> chatSide.classList.toggle('mobile-open');
+  } else if(chatSideToggle){ chatSideToggle.style.display = 'none'; }
+}
+
+/* ============================================================
+   DELEGATED WIZARD EVENTS
+   ============================================================ */
+document.addEventListener('input', e=>{
+  const el = e.target.closest('[data-wz]');
+  if(!el) return;
+  const key = el.dataset.wz;
+  Draft.data[key] = el.value;
+  if(key==='name' && !Draft.data._slugEdited){
+    Draft.data.slug = slugify(el.value);
+    const s = $('#wz-slug'); if(s) s.value = Draft.data.slug;
+  }
+  if(key==='slug') Draft.data._slugEdited = true;
+  saveDraft();
+});
+document.addEventListener('change', e=>{
+  const el = e.target.closest('[data-cap]');
+  if(!el) return;
+  Draft.data.capabilities[el.dataset.cap] = el.checked;
+  saveDraft();
+});
+document.addEventListener('click', async e=>{
+  // Preset personality
+  const preset = e.target.closest('[data-preset]');
+  if(preset){
+    Draft.data.personality = preset.dataset.preset;
+    saveDraft();
+    const body = $('#wizard-body');
+    if(body){ body.innerHTML = renderStep(Draft.step); }
+    return;
+  }
+  // Step chip
+  const stepChip = e.target.closest('.step-chip');
+  if(stepChip && $('#wizard-body')){
+    Draft.step = +stepChip.dataset.step; saveDraft(); render(); return;
+  }
+  if(e.target.closest('#wz-next')){
+    if(!validateStep(Draft.step)) return;
+    Draft.step = Math.min(Draft.step+1, WIZARD_STEPS.length-1); saveDraft(); render(); return;
+  }
+  if(e.target.closest('#wz-back')){ Draft.step = Math.max(Draft.step-1, 0); saveDraft(); render(); return; }
+  if(e.target.closest('#wz-save-draft')){ saveDraft(); toast('Draft disimpan','ok'); return; }
+  if(e.target.closest('#wz-publish')){ await publishAI(); return; }
+
+  if(e.target.closest('#kn-text')){
+    modal({ title:'Tambah Teks', body:`<div class="field"><label class="label">Nama</label><input class="input" id="kn-t-name" placeholder="Nama knowledge" /></div><div class="field"><label class="label">Isi</label><textarea class="textarea" id="kn-t-body" placeholder="Tulis pengetahuan..."></textarea></div>`,
+      actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Tambah', primary:true, onClick: ()=>{
+        const n = $('#kn-t-name').value.trim(); const b = $('#kn-t-body').value.trim();
+        if(!n || !b){ toast('Nama dan isi wajib','err'); return false; }
+        Draft.data.knowledge.push({ id:uid(), name:n, type:'text', content:b, size:b.length, status:'ready', createdAt:Date.now() });
+        saveDraft(); render();
+      }}]});
+    return;
+  }
+  if(e.target.closest('#kn-file')){
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.txt,.md,.json,.csv';
+    inp.onchange = async ()=>{
+      const f = inp.files[0]; if(!f) return;
+      if(f.size > 512*1024){ toast('File terlalu besar (maks 512 KB)','err'); return; }
+      const text = await f.text();
+      Draft.data.knowledge.push({ id:uid(), name:f.name, type:'file', content:text, size:text.length, status:'ready', createdAt:Date.now() });
+      saveDraft(); render(); toast('File ditambahkan','ok');
+    };
+    inp.click(); return;
+  }
+  if(e.target.closest('#kn-url')){
+    modal({ title:'Tambah URL', body:`<div class="field"><label class="label">URL</label><input class="input" id="kn-u-url" placeholder="https://..." /></div><div class="field"><label class="label">Teks (opsional, disarankan)</label><textarea class="textarea" id="kn-u-body"></textarea></div>`,
+      actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Tambah', primary:true, onClick: ()=>{
+        const u = $('#kn-u-url').value.trim(); const b = $('#kn-u-body').value.trim();
+        if(!u){ toast('URL wajib','err'); return false; }
+        Draft.data.knowledge.push({ id:uid(), name:u, type:'url', content:b, url:u, size:b.length, status: b?'ready':'pending', createdAt:Date.now() });
+        saveDraft(); render();
+      }}]});
+    return;
+  }
+  const rmK = e.target.closest('[data-rm-knowledge]');
+  if(rmK){ Draft.data.knowledge.splice(+rmK.dataset.rmKnowledge,1); saveDraft(); render(); return; }
+  if(e.target.closest('#preview-send')){ await previewSend(); return; }
+});
+
+/* ============================================================
+   AI CRUD
+   ============================================================ */
+async function confirmDeleteAI(id){
+  const ai = State.ais.find(a=>a.id===id);
+  modal({ title:'Hapus AI', body:`Yakin ingin menghapus <b>${esc(ai?.name||'AI')}</b>?`,
+    actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Hapus', className:'btn-danger', onClick: async ()=>{
+      await deleteDoc(doc(db,'ais',id)); toast('AI dihapus','ok'); navigate('my-ai');
+    }}]});
+}
+async function confirmDeleteConversation(id){
+  modal({ title:'Hapus Percakapan', body:'Semua pesan akan ikut terhapus.',
+    actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Hapus', className:'btn-danger', onClick: async ()=>{
+      const msgsSnap = await getDocs(collection(db,'conversations',id,'messages'));
+      const batch = writeBatch(db);
+      msgsSnap.docs.forEach(d=> batch.delete(d.ref));
+      batch.delete(doc(db,'conversations',id));
+      await batch.commit();
+      if(State.currentConversation?.id === id){ State.currentConversation = null; State.messages = []; }
+      toast('Percakapan dihapus','ok'); navigate('conversations');
+    }}]});
+}
+async function renameConversation(id){
+  const c = State.conversations.find(x=>x.id===id);
+  modal({ title:'Ubah Nama', body:`<div class="field"><label class="label">Judul</label><input class="input" id="rn-title" value="${esc(c?.title||'')}" /></div>`,
+    actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Simpan', primary:true, onClick: async ()=>{
+      const t = $('#rn-title').value.trim();
+      if(!t){ toast('Judul wajib','err'); return false; }
+      await updateDoc(doc(db,'conversations',id), { title:t, updatedAt:serverTimestamp() });
+      toast('Tersimpan','ok'); navigate('conversations');
+    }}]});
+}
+async function openConversation(id){
+  const convSnap = await getDoc(doc(db,'conversations',id));
+  if(!convSnap.exists()){ toast('Percakapan tidak ditemukan','err'); return; }
+  State.currentConversation = { id, ...convSnap.data() };
+  const msgsSnap = await getDocs(query(collection(db,'conversations',id,'messages'), orderBy('createdAt','asc')));
+  State.messages = msgsSnap.docs.map(d=>({ id:d.id, ...d.data(), createdAt: d.data().createdAt?.toDate?.() || new Date() }));
+  navigate('playground', { aiId: State.currentConversation.aiId, convId:id });
+}
+async function exportConversation(id){
+  const convSnap = await getDoc(doc(db,'conversations',id)); if(!convSnap.exists()) return;
+  const msgsSnap = await getDocs(query(collection(db,'conversations',id,'messages'), orderBy('createdAt','asc')));
+  downloadJSON({ conversation:{ id, ...convSnap.data() }, messages: msgsSnap.docs.map(d=>({ id:d.id, ...d.data() })) }, `conversation-${id}.json`);
+}
+async function exportAllConversations(){
+  if(State.conversations.length===0){ toast('Belum ada percakapan','info'); return; }
+  const all = [];
+  for(const c of State.conversations){
+    const msgsSnap = await getDocs(query(collection(db,'conversations',c.id,'messages'), orderBy('createdAt','asc')));
+    all.push({ ...c, messages: msgsSnap.docs.map(d=>({ id:d.id, ...d.data() })) });
+  }
+  downloadJSON({ conversations: all }, 'aiforge-conversations.json');
+}
+function downloadJSON(obj, filename){
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1500);
+}
+
+/* ============================================================
+   PLAYGROUND BINDS
+   ============================================================ */
+function bindPlayground(){
+  const newChatBtn = $('#new-chat');
+  if(newChatBtn) newChatBtn.onclick = ()=>{
+    State.currentConversation = null; State.messages = [];
+    const aiSel = $('#ai-select');
+    if(aiSel && aiSel.value) State.params.aiId = aiSel.value;
+    render();
+  };
+  const aiSel = $('#ai-select');
+  if(aiSel) aiSel.onchange = ()=>{ State.params.aiId = aiSel.value; State.currentConversation = null; State.messages = []; render(); };
+  const chatSend = $('#chat-send');
+  const chatInput = $('#chat-input');
+  if(chatSend) chatSend.onclick = sendMessage;
+  if(chatInput){
+    chatInput.onkeydown = (e)=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } };
+    chatInput.oninput = ()=>{ chatInput.style.height = 'auto'; chatInput.style.height = Math.min(chatInput.scrollHeight, 170) + 'px'; };
+  }
+  const stopBtn = $('#chat-stop');
+  if(stopBtn) stopBtn.onclick = ()=>{ State._abort?.abort(); };
+  $$('[data-copy]').forEach(b=>{ b.onclick = ()=>{ const m = State.messages.find(x=>x.id===b.dataset.copy); if(m && navigator.clipboard) navigator.clipboard.writeText(m.content).then(()=>toast('Disalin','ok')); }; });
+  $$('[data-regen]').forEach(b=>{ b.onclick = async ()=>{
+    const idx = State.messages.findIndex(x=>x.id===b.dataset.regen); if(idx<0) return;
+    const lastUser = [...State.messages.slice(0,idx)].reverse().find(x=>x.role==='user'); if(!lastUser){ toast('Tidak ada pesan user','err'); return; }
+    try{ await deleteDoc(doc(db,'conversations',State.currentConversation.id,'messages',b.dataset.regen)); }catch(e){}
+    State.messages = State.messages.slice(0, idx);
+    render();
+    const inp = $('#chat-input'); inp.value = lastUser.content;
+    State.messages.pop();
+    await sendMessage();
+  }; });
+  const convList = $('#conv-list');
+  if(convList) convList.querySelectorAll('[data-conv]').forEach(el=>{ el.onclick = ()=> openConversation(el.dataset.conv); });
+}
+
+/* ============================================================
+   API BINDS
+   ============================================================ */
+function bindApiPage(){
+  const saveBtn = $('#save-keys');
+  if(saveBtn){
+    saveBtn.onclick = async ()=>{
+      saveBtn.disabled = true; saveBtn.innerHTML = '<span class="spinner"></span> Menyimpan...';
+      try{
+        const map = { openrouter:'#key-openrouter', openai:'#key-openai', gemini:'#key-gemini', groq:'#key-groq' };
+        for(const [k, sel] of Object.entries(map)){
+          const v = $(sel)?.value.trim();
+          if(v) await saveApiKey(k, v);
+        }
+        toast('API keys tersimpan','ok');
+      }catch(e){ toast(e.message,'err'); }
+      finally{ saveBtn.disabled = false; saveBtn.innerHTML = svg('lock','i sm')+' Simpan API Keys'; }
+    };
+  }
+  (async ()=>{
+    if(!State.user) return;
+    try{
+      const ref = doc(db,'users',State.user.uid,'secrets','providers');
+      const snap = await getDoc(ref);
+      if(!snap.exists()) return;
+      const d = snap.data();
+      const map = { openrouter:'#key-openrouter', openai:'#key-openai', gemini:'#key-gemini', groq:'#key-groq' };
+      for(const [k, sel] of Object.entries(map)){ const el = $(sel); if(el && d[k]) el.placeholder = '(tersimpan)'; }
+    }catch(e){}
+  })();
+  $$('[data-lang-tab]').forEach(b=>{
+    b.onclick = ()=>{
+      $$('[data-lang-tab]').forEach(x=> x.classList.remove('b'));
+      b.classList.add('b');
+      const el = $('#api-code'); if(el) el.textContent = API_SNIPPETS[b.dataset.langTab] || API_SNIPPETS.js;
+    };
+  });
+  const codeEl = $('#api-code');
+  if(codeEl) codeEl.textContent = API_SNIPPETS.js;
+}
+
+/* ============================================================
+   SETTINGS BINDS
+   ============================================================ */
+function bindSettings(){
+  const saveP = $('#st-save-profile');
+  if(saveP) saveP.onclick = async ()=>{
+    saveP.disabled = true;
+    try{
+      const name = $('#st-name').value.trim();
+      const photo = $('#st-photo').value.trim();
+      await saveProfilePatch({ displayName: name, photoURL: photo });
+      if(auth.currentUser) await updateAuthProfile(auth.currentUser, { displayName: name, photoURL: photo });
+      toast('Profil disimpan','ok'); render();
+    }catch(e){ toast(e.message,'err'); }
+    finally{ saveP.disabled = false; }
+  };
+  const lang = $('#st-lang'); if(lang) lang.onchange = ()=> updateSettings({ defaultLanguage: lang.value });
+  const style = $('#st-style'); if(style) style.onchange = ()=> updateSettings({ defaultStyle: style.value });
+  $$('[data-theme-set]').forEach(b=>{ b.onclick = ()=>{ setTheme(b.dataset.themeSet); render(); }; });
+  const notifT = $('[data-notif-toggle]');
+  if(notifT) notifT.onclick = async ()=>{
+    if(!('Notification' in window)){ toast('Browser tidak mendukung notifikasi','err'); return; }
+    if(Notification.permission === 'granted'){ notifT.classList.remove('on'); toast('Notifikasi browser sudah aktif','info'); return; }
+    const p = await Notification.requestPermission();
+    if(p === 'granted'){ notifT.classList.add('on'); toast('Notifikasi diaktifkan','ok'); }
+    else toast('Izin ditolak','err');
+  };
+  const resetP = $('#st-reset-pass');
+  if(resetP) resetP.onclick = async ()=>{
+    if(!State.profile.email){ toast('Email tidak tersedia','err'); return; }
+    try{ await sendPasswordResetEmail(auth, State.profile.email); toast('Email reset dikirim','ok'); }
+    catch(e){ toast(e.message,'err'); }
+  };
+  const signoutAll = $('#st-signout-all');
+  if(signoutAll) signoutAll.onclick = ()=> doLogout();
+  const delAcc = $('#st-delete-acc');
+  if(delAcc) delAcc.onclick = ()=> confirmDeleteAccount();
+}
+
+async function confirmDeleteAccount(){
+  modal({ title:'Hapus Akun', body:`
+    <p style="margin:0 0 12px;color:var(--txt-2);font-size:13.5px">Tindakan ini permanen. Semua data Anda akan dihapus.</p>
+    <div class="field"><label class="label">Ketik "HAPUS" untuk konfirmasi</label><input class="input" id="del-confirm" /></div>
+    <div class="field"><label class="label">Password (untuk akun email)</label><input class="input" type="password" id="del-pass" /></div>`,
+    actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Hapus Akun', className:'btn-danger', onClick: async ()=>{
+      const c = $('#del-confirm').value.trim();
+      if(c !== 'HAPUS'){ toast('Konfirmasi salah','err'); return false; }
+      try{
+        const u = auth.currentUser;
+        if(u.providerData.some(p=>p.providerId === 'password')){
+          const pass = $('#del-pass').value;
+          if(!pass){ toast('Password diperlukan','err'); return false; }
+          await reauthenticateWithCredential(u, EmailAuthProvider.credential(u.email, pass));
+        }
+        const aisSnap = await getDocs(query(collection(db,'ais'), where('ownerId','==',u.uid)));
+        const convsSnap = await getDocs(query(collection(db,'conversations'), where('ownerId','==',u.uid)));
+        const batch = writeBatch(db);
+        for(const d of aisSnap.docs) batch.delete(d.ref);
+        for(const d of convsSnap.docs){
+          const msgs = await getDocs(collection(db,'conversations', d.id, 'messages'));
+          msgs.docs.forEach(m=> batch.delete(m.ref));
+          batch.delete(d.ref);
+        }
+        batch.delete(doc(db,'users', u.uid));
+        await batch.commit();
+        await deleteUser(u);
+        toast('Akun dihapus','ok'); navigate('home');
+      }catch(e){ toast(e.message||'Gagal menghapus','err'); return false; }
+    }}]});
+}
+
+/* ============================================================
+   AUTH BINDS
+   ============================================================ */
+function bindAuth(){
+  const loginForm = $('#login-form');
+  if(loginForm){
+    loginForm.onsubmit = async e=>{
+      e.preventDefault();
+      const btn = $('#li-submit');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Masuk...';
+      try{ await signInWithEmailAndPassword(auth, $('#li-email').value.trim(), $('#li-pass').value); }
+      catch(err){ $('#auth-err').innerHTML = `<div class="alert err">${svg('alert','i sm')}<div>${esc(authErr(err.code))}</div></div>`; }
+      finally{ btn.disabled = false; btn.textContent = 'Masuk'; }
+    };
+  }
+  const suForm = $('#signup-form');
+  if(suForm){
+    suForm.onsubmit = async e=>{
+      e.preventDefault();
+      const btn = $('#su-submit');
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Mendaftar...';
+      try{
+        const cred = await createUserWithEmailAndPassword(auth, $('#su-email').value.trim(), $('#su-pass').value);
+        await updateAuthProfile(cred.user, { displayName: $('#su-name').value.trim() });
+        await saveUserProfileDoc(cred.user);
+      }catch(err){ $('#auth-err').innerHTML = `<div class="alert err">${svg('alert','i sm')}<div>${esc(authErr(err.code))}</div></div>`; }
+      finally{ btn.disabled = false; btn.textContent = 'Daftar'; }
+    };
+  }
+  [ '#btn-google', '#btn-google-su' ].forEach(sel=>{
+    const b = $(sel); if(!b) return;
+    b.onclick = async ()=>{
+      try{ const cred = await signInWithPopup(auth, googleProvider); await saveUserProfileDoc(cred.user); }
+      catch(err){ const host = $('#auth-err'); if(host) host.innerHTML = `<div class="alert err">${svg('alert','i sm')}<div>${esc(authErr(err.code))}</div></div>`; }
+    };
+  });
+  const forgot = $('#btn-forgot');
+  if(forgot) forgot.onclick = async ()=>{
+    const email = $('#li-email').value.trim();
+    if(!email){ toast('Masukkan email dulu','err'); return; }
+    try{ await sendPasswordResetEmail(auth, email); toast('Email reset dikirim','ok'); }
+    catch(err){ toast(authErr(err.code),'err'); }
+  };
+}
+function authErr(code){
+  const map = {
+    'auth/invalid-email':'Email tidak valid.','auth/user-not-found':'Akun tidak ditemukan.','auth/wrong-password':'Password salah.',
+    'auth/invalid-credential':'Email atau password salah.','auth/email-already-in-use':'Email sudah terdaftar.',
+    'auth/weak-password':'Password terlalu lemah (min 6 karakter).','auth/too-many-requests':'Terlalu banyak percobaan.',
+    'auth/network-request-failed':'Kesalahan jaringan.','auth/popup-closed-by-user':'Popup ditutup.','auth/popup-blocked':'Popup diblokir.',
+    'auth/operation-not-allowed':'Metode login belum diaktifkan di Firebase Console.'
+  };
+  return map[code] || ('Terjadi kesalahan: '+code);
+}
+async function doLogout(){
+  modal({ title:'Keluar', body:'Yakin ingin keluar dari akun?',
+    actions:[{ label:'Batal', className:'btn-ghost' }, { label:'Keluar', primary:true, onClick: async ()=>{
+      await signOut(auth);
+      State.user = null; State.profile = null;
+      State.ais = []; State.conversations = []; State.messages = [];
+      State.currentConversation = null;
+      clearSubs();
+      navigate('home');
+    }}]});
+}
+
+/* ============================================================
+   USER DATA SUBSCRIPTIONS
+   ============================================================ */
+function subscribeUserData(uid){
+  clearSubs();
+  const aisQ = query(collection(db,'ais'), where('ownerId','==', uid));
+  State.unsub.push(onSnapshot(aisQ, snap=>{
+    State.ais = snap.docs.map(d=>({ id:d.id, ...d.data() })).sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));
+    if(State.user && State.route!=='login' && State.route!=='signup') render();
+  }, err=> toast('Gagal memuat AI: '+err.message,'err', 6000)));
+  const convQ = query(collection(db,'conversations'), where('ownerId','==', uid));
+  State.unsub.push(onSnapshot(convQ, snap=>{
+    State.conversations = snap.docs.map(d=>({ id:d.id, ...d.data() })).sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));
+    if(State.user && ['conversations','dashboard','playground'].includes(State.route)) render();
+  }, err=> toast('Gagal memuat percakapan: '+err.message,'err', 6000)));
+}
+
+/* ============================================================
+   AUTH STATE
+   ============================================================ */
+onAuthStateChanged(auth, async user=>{
+  if(user){
+    State.user = user;
+    try{
+      await loadProfile(user);
+      subscribeUserData(user.uid);
+      const hash = location.hash.replace(/^#\/?/, '');
+      if(hash.startsWith('ai/')){
+        State.route = 'ai-profile'; State.params = { slug: hash.slice(3) };
+      } else if(hash){
+        const [r] = hash.split('/');
+        if(['dashboard','my-ai','create-ai','playground','knowledge','conversations','explore','analytics','api','settings'].includes(r)){
+          State.route = r; State.params = {};
+        } else if(!['dashboard','my-ai','create-ai','playground','knowledge','conversations','explore','analytics','api','settings','ai-profile'].includes(State.route)){
+          State.route = 'dashboard';
+        }
+      } else if(!['dashboard','my-ai','create-ai','playground','knowledge','conversations','explore','analytics','api','settings','ai-profile'].includes(State.route)){
+        State.route = 'dashboard';
+      }
+      render();
+    }catch(e){
+      console.error(e);
+      toast('Gagal memuat profil: '+e.message,'err');
+      render();
+    }
+  } else {
+    State.user = null; State.profile = null;
+    clearSubs();
+    State.ais = []; State.conversations = [];
+    State.currentConversation = null; State.messages = [];
+    const hash = location.hash.replace(/^#\/?/, '');
+    if(hash.startsWith('ai/')){ State.route = 'ai-profile'; State.params = { slug: hash.slice(3) }; }
+    else if(hash === 'explore' || hash === 'explore-public'){ State.route = 'explore-public'; }
+    else if(hash === 'docs'){ State.route = 'docs'; }
+    else if(hash === 'login'){ State.route = 'login'; }
+    else if(hash === 'signup'){ State.route = 'signup'; }
+    else { State.route = 'home'; }
+    render();
+  }
+});
+
+/* ============================================================
+   HASH ROUTING
+   ============================================================ */
+window.addEventListener('hashchange', ()=>{
+  const hash = location.hash.replace(/^#\/?/, '');
+  if(hash.startsWith('ai/')){ navigate('ai-profile', { slug: hash.slice(3) }); return; }
+  if(!hash) return;
+  const [r, ...rest] = hash.split('/');
+  if(['home','login','signup','docs','explore-public'].includes(r)){ navigate(r); return; }
+  if(State.user && ['dashboard','my-ai','create-ai','playground','knowledge','conversations','explore','analytics','api','settings'].includes(r)){
+    navigate(r, rest[0]?{ aiId:rest[0] }:{});
+  }
+});
+
+/* ============================================================
+   ONLINE/OFFLINE
+   ============================================================ */
+window.addEventListener('online', ()=>{ const el = $('#net-banner'); if(el) el.hidden = true; });
+window.addEventListener('offline', ()=>{ const el = $('#net-banner'); if(el) el.hidden = false; });
+if(!navigator.onLine){ const el = $('#net-banner'); if(el) el.hidden = false; }
+
+/* ============================================================
+   PWA INSTALL PROMPT
+   ============================================================ */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  const dismissed = localStorage.getItem('aiforge.installDismissed');
+  if(!dismissed){ const el = $('#install-banner'); if(el) el.hidden = false; }
+});
+const installDismiss = $('#install-dismiss');
+if(installDismiss) installDismiss.onclick = ()=>{ const el = $('#install-banner'); if(el) el.hidden = true; localStorage.setItem('aiforge.installDismissed','1'); };
+const installAccept = $('#install-accept');
+if(installAccept) installAccept.onclick = async ()=>{
+  const el = $('#install-banner'); if(el) el.hidden = true;
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const res = await deferredPrompt.userChoice;
+  if(res.outcome === 'accepted') toast('Aplikasi dipasang','ok');
+  deferredPrompt = null;
+};
+
+/* ============================================================
+   KEYBOARD
+   ============================================================ */
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
+
+/* ============================================================
+   SERVICE WORKER (inline)
+   ============================================================ */
+if('serviceWorker' in navigator){
+  const swCode = `
+    const CACHE = 'aiforge-v1';
+    self.addEventListener('install', e => self.skipWaiting());
+    self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+    self.addEventListener('fetch', e => {
+      if(e.request.method !== 'GET') return;
+      const url = new URL(e.request.url);
+      if(url.origin !== location.origin) return;
+      e.respondWith(caches.open(CACHE).then(c => c.match(e.request).then(r => r || fetch(e.request).then(res => { if(res.ok) c.put(e.request, res.clone()); return res; }).catch(()=>c.match(e.request)))));
+    });
+  `;
+  try{
+    const blob = new Blob([swCode], { type:'application/javascript' });
+    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  }catch(e){}
+}
+
+/* ============================================================
+   KICKOFF
+   ============================================================ */
+render();
+</script>
+</body>
+</html>
