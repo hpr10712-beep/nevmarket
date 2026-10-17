@@ -2,76 +2,222 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KodinganKita — Marketplace Produk Digital</title>
 <meta name="description" content="Marketplace produk digital eksklusif. Setiap produk hanya dijual sekali.">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --primary:#4f46e5; --primary-600:#4338ca; --primary-50:#eef2ff;
-  --text:#0f172a; --muted:#64748b; --border:#e2e8f0;
-  --bg:#ffffff; --bg-soft:#f8fafc; --danger:#dc2626; --success:#16a34a;
-  --radius:14px; --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
-  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --primary:#4f46e5; --primary-hover:#4338ca; --primary-light:#eef2ff;
+  --bg-body:#ffffff; --bg-soft:#f8fafc;
+  --text-main:#0f172a; --text-muted:#64748b;
+  --border:#e2e8f0;
+  --danger:#ef4444; --success:#10b981;
+  --radius-sm:8px; --radius-md:12px; --radius-lg:20px; --radius-full:999px;
+  --shadow-sm:0 1px 2px 0 rgba(0,0,0,.05);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -1px rgba(0,0,0,.03);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.05),0 4px 6px -2px rgba(0,0,0,.025);
+  --font:'Inter',system-ui,-apple-system,sans-serif;
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
-a{color:var(--primary);text-decoration:none}
-img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0;font-family:var(--font);background:var(--bg-body);color:var(--text-main);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block;object-fit:cover}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-/* HEADER (Sesuai Sketsa) */
-header.site{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:800px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text)}
-.brand img{width:32px;height:32px;border-radius:8px;object-fit:cover}
-.hamburger{background:none;border:0;width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;padding:0}
-.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px}
+/* ================= HEADER ================= */
+header.site{
+  position:sticky; top:0; z-index:40;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px; max-width:800px; margin:0 auto;
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; color:var(--text-main)}
+.brand img{width:32px; height:32px; border-radius:var(--radius-sm); object-fit:cover}
+.hamburger{
+  width:42px; height:42px; border-radius:var(--radius-full);
+  display:flex; flex-direction:column; justify-content:center; align-items:center; gap:5px;
+  background:var(--bg-soft); transition:background .2s;
+}
+.hamburger:active{background:var(--border)}
+.hamburger span{display:block; width:20px; height:2px; background:var(--text-main); border-radius:2px; transition:0.3s}
 
-/* HERO SKETSA */
-.hero{text-align:center;padding:30px 20px 10px;max-width:600px;margin:0 auto}
-.hero-title{font-size:28px;font-weight:800;margin:0 0 4px;letter-spacing:-.02em}
-.hero-desc{color:var(--muted);font-size:13px;margin:0 0 24px}
+/* ================= HERO SECTION ================= */
+.hero{
+  text-align:center; padding:32px 20px 20px;
+  max-width:700px; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center;
+}
+.hero-title{
+  font-size:clamp(24px, 6vw, 32px); font-weight:800; margin:0 0 6px;
+  letter-spacing:-0.02em; color:var(--text-main);
+}
+.hero-desc{
+  color:var(--text-muted); font-size:14px; margin:0 0 24px;
+  max-width:500px; line-height:1.6;
+}
 
-/* MASCOT BOX */
-.mascot-container{width:100%;height:220px;background:var(--bg-soft);border-radius:40px;margin-bottom:24px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);box-shadow:inset 0 2px 10px rgba(0,0,0,.02)}
-.mascot-container iframe, .mascot-container canvas {width:100%;height:100%;object-fit:cover;border:0}
-.mascot-container .mascot-empty{font-size:14px;color:var(--muted);font-weight:500}
+/* MASCOT CONTAINER */
+.mascot-container{
+  width:100%; height:240px;
+  background:linear-gradient(135deg, var(--bg-soft) 0%, var(--primary-light) 100%);
+  border-radius:var(--radius-lg);
+  margin-bottom:28px;
+  overflow:hidden; position:relative;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  display:flex; align-items:center; justify-content:center;
+}
+.mascot-container iframe{
+  width:100%; height:100%; border:0; pointer-events:auto;
+}
+.mascot-container .mascot-empty{
+  font-size:14px; color:var(--text-muted); font-weight:500;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+}
 
-/* MENU ROW (4 Lingkaran) */
-.menu-row{display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;margin-bottom:30px}
-.menu-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
-.menu-icon-wrap{width:65px;height:65px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .15s}
-.menu-item:active .menu-icon-wrap{transform:scale(.95)}
-.menu-icon-wrap svg, .menu-icon-wrap img, .menu-icon-wrap canvas {width:100%;height:100%;object-fit:cover}
-.menu-label{font-size:11px;font-weight:600;text-align:center;line-height:1.2}
+/* MENU ROW (4 ICONS) */
+.menu-row{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;
+  width:100%; max-width:440px; margin-bottom:10px;
+}
+.menu-item{
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  transition:transform .15s;
+}
+.menu-item:active{transform:scale(0.95)}
+.menu-icon-wrap{
+  width:66px; height:66px;
+  border-radius:var(--radius-full);
+  background:#fff;
+  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  position:relative;
+}
+.menu-icon-wrap iframe{
+  width:100%; height:100%; border:0; border-radius:var(--radius-full);
+}
+.menu-label{
+  font-size:12px; font-weight:600; color:var(--text-main); text-align:center;
+}
 
-/* PRODUK GRID (2 Kolom Sesuai Sketsa) */
-.section{padding:20px;max-width:800px;margin:0 auto}
-.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-@media(min-width:640px){.product-grid{grid-template-columns:repeat(3,1fr)}}
+/* ================= PRODUCTS SECTION ================= */
+.section{padding:30px 20px; max-width:800px; margin:0 auto}
+.section-header{
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:20px;
+}
+.section-title{margin:0; font-size:20px; font-weight:800; letter-spacing:-0.01em}
+.link-see-all{font-size:13px; font-weight:600; color:var(--primary); display:flex; align-items:center; gap:4px}
+.link-see-all:hover{text-decoration:underline}
 
-/* KARTU PRODUK */
-.pcard{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;text-decoration:none;color:inherit}
-.pcard-thumb{aspect-ratio:1;background:var(--bg-soft);overflow:hidden;position:relative}
-.pcard-thumb img{width:100%;height:100%;object-fit:cover}
-.pcard-body{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
-.pcard-title{font-size:13px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pcard-price{font-size:14px;font-weight:800;color:var(--primary);margin-top:auto;padding-top:6px}
+/* GRID & CARDS */
+.product-grid{
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;
+}
+@media(min-width:640px){
+  .product-grid{grid-template-columns:repeat(3, 1fr)}
+}
 
-/* DRAWER MENU */
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s}
-.drawer-overlay.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:280px;background:#fff;z-index:100;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}
+.pcard{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  display:flex; flex-direction:column;
+  transition:transform .2s, box-shadow .2s;
+  position:relative;
+}
+.pcard:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg)}
+.pcard-thumb{
+  aspect-ratio:1; background:var(--bg-soft); position:relative; overflow:hidden;
+}
+.pcard-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .3s}
+.pcard:hover .pcard-thumb img{transform:scale(1.05)}
+.pcard-badge{
+  position:absolute; top:10px; left:10px;
+  background:rgba(255,255,255,0.9); backdrop-filter:blur(4px);
+  color:var(--primary); font-size:10px; font-weight:800;
+  padding:4px 8px; border-radius:var(--radius-sm);
+  text-transform:uppercase; letter-spacing:0.5px;
+  box-shadow:var(--shadow-sm);
+}
+.pcard-body{padding:14px; display:flex; flex-direction:column; flex:1}
+.pcard-category{font-size:11px; font-weight:600; color:var(--text-muted); margin-bottom:4px}
+.pcard-title{
+  font-size:14px; font-weight:700; line-height:1.3; margin-bottom:8px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.pcard-price{
+  font-size:15px; font-weight:800; color:var(--primary);
+  margin-top:auto; display:flex; align-items:center; justify-content:space-between;
+}
+
+/* ================= DRAWER MENU ================= */
+.drawer-overlay{
+  position:fixed; inset:0; background:rgba(15,23,42,0.4);
+  backdrop-filter:blur(2px);
+  z-index:90; opacity:0; pointer-events:none; transition:opacity .3s;
+}
+.drawer-overlay.open{opacity:1; pointer-events:auto}
+.drawer{
+  position:fixed; top:0; right:0; bottom:0; width:300px;
+  background:#fff; z-index:100;
+  transform:translateX(100%); transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+  display:flex; flex-direction:column;
+  box-shadow:-10px 0 30px rgba(0,0,0,0.1);
+}
 .drawer.open{transform:translateX(0)}
-.drawer-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-weight:800}
-.drawer-body{padding:16px;display:flex;flex-direction:column}
-.drawer-body a{padding:14px;color:var(--text);font-size:14px;font-weight:600;border-bottom:1px solid var(--bg-soft);text-decoration:none}
-.drawer-body a:hover{background:var(--bg-soft);color:var(--primary)}
+.drawer-head{
+  padding:20px; border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.drawer-title{font-weight:800; font-size:16px}
+.drawer-close{
+  width:32px; height:32px; border-radius:var(--radius-full);
+  background:var(--bg-soft); display:flex; align-items:center; justify-content:center;
+  color:var(--text-muted); font-size:14px; font-weight:bold;
+}
+.drawer-body{padding:16px; display:flex; flex-direction:column; gap:4px}
+.drawer-item{
+  padding:14px 16px; border-radius:var(--radius-sm);
+  color:var(--text-main); font-size:14px; font-weight:600;
+  display:flex; align-items:center; gap:12px; transition:background .2s;
+}
+.drawer-item:hover{background:var(--primary-light); color:var(--primary)}
+.drawer-item svg{width:18px; height:18px; stroke-width:2; color:var(--text-muted)}
+.drawer-item:hover svg{color:var(--primary)}
+.drawer-footer{
+  margin-top:auto; padding:20px; border-top:1px solid var(--border);
+}
 
-/* UTILS */
-.empty{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px}
-.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px}
+/* ================= UTILS ================= */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:12px 20px; border-radius:var(--radius-sm); font-weight:600; font-size:14px;
+  transition:all .2s;
+}
+.btn-primary{background:var(--primary); color:#fff;}
+.btn-primary:active{background:var(--primary-hover)}
+.empty-state{
+  text-align:center; padding:40px 20px; color:var(--text-muted); font-size:14px;
+  grid-column:1/-1;
+  background:var(--bg-soft); border-radius:var(--radius-md); border:1px dashed var(--border);
+}
+/* Skeleton Loading */
+.skeleton{
+  background:linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size:200% 100%; animation:sk 1.5s infinite; border-radius:var(--radius-sm);
+}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
@@ -90,31 +236,52 @@ header.site{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.95);ba
   </div>
 </header>
 
-<!-- DRAWER -->
+<!-- DRAWER (MENU SAMPING) -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <aside class="drawer" id="drawer">
   <div class="drawer-head">
-    <span>Menu</span>
-    <button id="drawerClose" style="background:none;border:0;font-size:20px;cursor:pointer;color:var(--muted)">Tutup</button>
+    <span class="drawer-title">Menu Navigasi</span>
+    <button class="drawer-close" id="drawerClose">&times;</button>
   </div>
   <div class="drawer-body">
-    <a href="#" data-nav>Beranda</a>
-    <a href="#catalog" data-nav>Katalog Produk</a>
-    <a href="#purchases" data-nav>Pembelian Saya</a>
-    <a href="#seller" data-nav>Jadi Penjual</a>
-    <div style="flex:1"></div>
-    <button id="authBtn" style="margin-top:20px;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--primary);color:#fff;font-weight:600;cursor:pointer;font-family:inherit">Masuk</button>
+    <a href="#" data-nav class="drawer-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      Beranda
+    </a>
+    <a href="#catalog" data-nav class="drawer-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      Katalog Produk
+    </a>
+    <a href="#purchases" data-nav class="drawer-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 01-8 0"></path></svg>
+      Pembelian Saya
+    </a>
+    <a href="#seller" data-nav class="drawer-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4v16m8-8H4"></path></svg>
+      Jadi Penjual
+    </a>
+  </div>
+  <div class="drawer-footer">
+    <button id="authBtn" class="btn btn-primary" style="width:100%">Masuk dengan Google</button>
   </div>
 </aside>
 
 <!-- MAIN CONTENT -->
-<main id="app"></main>
+<main id="app">
+  <!-- Konten akan dirender oleh JavaScript -->
+  <div class="section" style="text-align:center; padding-top:100px;">
+    <div class="skeleton" style="width:60%; height:40px; margin:0 auto 20px;"></div>
+    <div class="skeleton" style="width:80%; height:20px; margin:0 auto 40px;"></div>
+    <div class="skeleton" style="width:100%; height:240px; border-radius:20px;"></div>
+  </div>
+</main>
 
-<div id="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px"></div>
+<!-- TOAST -->
+<div id="toast-container" style="position:fixed; bottom:24px; right:24px; z-index:200; display:flex; flex-direction:column; gap:8px;"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, get, onValue, set, push, runTransaction, update, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -134,162 +301,175 @@ const provider = new GoogleAuthProvider();
 
 const $ = (s,r=document)=>r.querySelector(s);
 const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const rupiah = n => "Rp"+Number(n||0).toLocaleString("id-ID");
+const rupiah = n => "Rp" + Number(n||0).toLocaleString("id-ID");
 
-const state = {
-  user: null,
-  settings: null,
-  products: null,
-  pendingProductId: null
-};
+const state = { user: null, settings: null, products: null };
 
-/* --- FUNGSI EKSEKUSI KODE DARI ADMIN --- */
-function executeCustomCode(container) {
-  // Cari semua tag <script> yang di-inject, lalu buat ulang agar dieksekusi oleh browser
-  const scripts = container.querySelectorAll("script");
-  scripts.forEach(oldScript => {
-    const newScript = document.createElement("script");
-    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
+// --- UTILS: ISOLASI IFRAME ---
+function createIframe(code, isRound = false) {
+  const iframe = document.createElement("iframe");
+  if (isRound) iframe.style.borderRadius = "50%";
+  
+  iframe.srcdoc = `
+    <html>
+    <head>
+      <style>
+        body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; background: transparent; }
+        * { box-sizing: border-box; }
+      </style>
+    </head>
+    <body>${code}</body>
+    </html>
+  `;
+  return iframe;
 }
 
-/* --- LOAD SETTINGS --- */
+// --- LOAD DATA ---
 async function loadSettings() {
   const snap = await get(ref(db, "settings/marketplace"));
   state.settings = snap.val() || {};
   if(state.settings.name) $("#brandName").textContent = state.settings.name;
-  render();
+  renderHome();
 }
 
 onValue(ref(db, "products"), snap => {
   state.products = snap.val() || {};
-  render();
+  renderHome();
 });
 
 onAuthStateChanged(auth, user => {
   state.user = user;
-  $("#authBtn").textContent = user ? "Keluar" : "Masuk";
-  $("#authBtn").onclick = () => user ? signOut(auth) : signInWithPopup(auth, provider);
-  if(user && state.pendingProductId) {
-    const pid = state.pendingProductId;
-    state.pendingProductId = null;
-    buyFlow(pid);
+  const btn = $("#authBtn");
+  if(user) {
+    btn.textContent = "Keluar (" + user.displayName + ")";
+    btn.style.background = "var(--danger)";
+    btn.onclick = () => signOut(auth);
+  } else {
+    btn.textContent = "Masuk dengan Google";
+    btn.style.background = "var(--primary)";
+    btn.onclick = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
   }
 });
 
-/* --- ROUTER --- */
-function parseHash() {
-  const h = location.hash.replace(/^#/, "");
-  const [path, qs] = h.split("?");
-  return { path, params: new URLSearchParams(qs || "") };
-}
-
-function render() {
-  const { path } = parseHash();
-  if (path.startsWith("product=")) return renderProduct(path.split("=")[1]);
-  return renderHome();
-}
-
-/* --- HOME SKETSA --- */
+// --- RENDER FUNCTIONS ---
 function renderHome() {
-  const s = state.settings || {};
-  
-  // Ambil data produk
-  let products = [];
-  if (state.products) {
-    products = Object.entries(state.products)
-      .map(([id, p]) => ({id, ...p}))
-      .filter(p => p.status === "available" && p.availability === "available")
-      .slice(0, 4);
+  if(!state.settings) return; // Tunggu settings dimuat
+
+  const s = state.settings;
+  const products = Object.entries(state.products || {})
+    .map(([id, p]) => ({id, ...p}))
+    .filter(p => p.status === "available" && p.availability === "available")
+    .slice(0, 6); // Tampilkan maksimal 6 di beranda
+
+  // Render Mascot
+  let mascotHTML = "";
+  if (s.mascot?.code) {
+    // Akan di-inject via iframe di bawah
+    mascotHTML = `<div class="mascot-container" id="mascotContainer"></div>`;
+  } else {
+    mascotHTML = `
+      <div class="mascot-container">
+        <div class="mascot-empty">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          Mascot belum diatur
+        </div>
+      </div>`;
   }
 
-  // Render Mascot (Kode HTML dari admin)
-  let mascotHTML = s.mascot?.code || `<div class="mascot-empty">Mascot belum diatur oleh Admin</div>`;
-
-  // Render Menu (Kode HTML dari admin)
-  let menuHTML = "";
+  // Render Menu Default jika kosong
   const defaultMenus = [
-    { label: "Katalog", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`, action: "#catalog" },
-    { label: "Cari", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`, action: "#catalog" },
-    { label: "Jual", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>`, action: "#seller" },
-    { label: "Beli", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg>`, action: "#purchases" }
+    { label: "Katalog", code: `<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`, action: "#catalog" },
+    { label: "Cari", code: `<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`, action: "#catalog" },
+    { label: "Jual", code: `<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>`, action: "#seller" },
+    { label: "Beli", code: `<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg>`, action: "#purchases" }
   ];
-
   const menus = (s.menuItems && s.menuItems.length > 0) ? s.menuItems : defaultMenus;
 
-  menuHTML = menus.map(m => `
-    <a href="${esc(m.action)}" class="menu-item" data-nav>
-      <div class="menu-icon-wrap">
-        ${m.code}
-      </div>
-      <span class="menu-label">${esc(m.label)}</span>
-    </a>
-  `).join("");
-
+  // Render HTML Utama
   $("#app").innerHTML = `
     <section class="hero">
       <h1 class="hero-title">${esc(s.name || "KodinganKita")}</h1>
-      <p class="hero-desc">${esc(s.description || "Marketplace Produk Digital Eksklusif")}</p>
+      <p class="hero-desc">${esc(s.description || "Marketplace Produk Digital Eksklusif. Setiap produk hanya dijual satu kali.")}</p>
       
-      <div class="mascot-container" id="mascotContainer">
-        ${mascotHTML}
-      </div>
+      ${mascotHTML}
 
       <div class="menu-row">
-        ${menuHTML}
+        ${menus.slice(0,4).map((m, i) => `
+          <a href="${esc(m.action)}" class="menu-item" data-nav>
+            <div class="menu-icon-wrap" id="menu-icon-${i}"></div>
+            <span class="menu-label">${esc(m.label)}</span>
+          </a>
+        `).join("")}
       </div>
     </section>
 
     <section class="section">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
-        <h2 style="font-size:18px;margin:0">Produk</h2>
-        <a href="#catalog" style="font-size:12px;font-weight:600" data-nav>Lihat Semua</a>
+      <div class="section-header">
+        <h2 class="section-title">Produk Eksklusif</h2>
+        <a href="#catalog" class="link-see-all" data-nav>
+          Lihat Semua 
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
+      
       <div class="product-grid">
         ${products.length ? products.map(p => `
           <a href="#product=${p.id}" class="pcard" data-nav>
             <div class="pcard-thumb">
-              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/eef2ff/4f46e5?text=Produk'}" alt="">
+              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/f8fafc/64748b?text=No+Image'}" alt="${esc(p.title)}">
+              <div class="pcard-badge">Eksklusif</div>
             </div>
             <div class="pcard-body">
+              <div class="pcard-category">${esc(p.category)}</div>
               <div class="pcard-title">${esc(p.title)}</div>
               <div class="pcard-price">${rupiah(p.price)}</div>
             </div>
           </a>
-        `).join("") : '<div class="empty" style="grid-column:1/-1">Belum ada produk</div>'}
+        `).join("") : `
+          <div class="empty-state">
+            Belum ada produk eksklusif yang tersedia saat ini.
+          </div>
+        `}
       </div>
     </section>
   `;
 
-  // Jalankan script kustom (jika ada) dari admin
-  executeCustomCode($("#mascotContainer"));
-  document.querySelectorAll('.menu-icon-wrap').forEach(wrap => executeCustomCode(wrap));
+  // INJEKSI IFRAME MASKOT
+  if (s.mascot?.code && $("#mascotContainer")) {
+    $("#mascotContainer").appendChild(createIframe(s.mascot.code, false));
+  }
+
+  // INJEKSI IFRAME IKON MENU
+  menus.slice(0,4).forEach((m, i) => {
+    const wrap = $(`#menu-icon-${i}`);
+    if(wrap) wrap.appendChild(createIframe(m.code, true));
+  });
 }
 
-function renderProduct(id) {
-  // Simplified view for product details
-  $("#app").innerHTML = `<section class="section"><a href="#" data-nav style="font-size:13px">&larr; Kembali</a><h1>Detail Produk</h1><p>ID: ${id}</p></section>`;
+// --- DRAWER LOGIC ---
+const drawer = $("#drawer");
+const overlay = $("#drawerOverlay");
+
+function openDrawer() {
+  drawer.classList.add("open");
+  overlay.classList.add("open");
+}
+function closeDrawer() {
+  drawer.classList.remove("open");
+  overlay.classList.remove("open");
 }
 
-/* --- DRAWER LOGIC --- */
-$("#hamburgerBtn").addEventListener("click", () => {
-  $("#drawer").classList.add("open");
-  $("#drawerOverlay").classList.add("open");
-});
-$("#drawerClose").addEventListener("click", () => {
-  $("#drawer").classList.remove("open");
-  $("#drawerOverlay").classList.remove("open");
-});
-$("#drawerOverlay").addEventListener("click", () => {
-  $("#drawer").classList.remove("open");
-  $("#drawerOverlay").classList.remove("open");
+$("#hamburgerBtn").addEventListener("click", openDrawer);
+$("#drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+
+// Tutup drawer saat link diklik
+document.addEventListener("click", (e) => {
+  if (e.target.closest("[data-nav]")) closeDrawer();
 });
 
-window.addEventListener("hashchange", render);
+// --- INIT ---
 await loadSettings();
-render();
 </script>
 </body>
 </html>
