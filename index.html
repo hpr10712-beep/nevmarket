@@ -3,55 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Memaksa mode terang agar browser tidak merusak warna -->
+<meta name="color-scheme" content="light">
 <title>KodinganKita — Marketplace Produk Digital</title>
 <meta name="description" content="Marketplace produk digital eksklusif — satu produk, satu pembeli.">
-<meta property="og:title" content="KodinganKita">
-<meta property="og:description" content="Marketplace produk digital eksklusif.">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%236366f1'/><path d='M20 22l10 10-10 10' stroke='white' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/><path d='M34 42h10' stroke='white' stroke-width='4' stroke-linecap='round'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ===================== RESET & TOKENS ===================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#fafafa;
-  --bg-elev:#ffffff;
-  --fg:#18181b;
-  --fg-muted:#71717a;
-  --fg-subtle:#a1a1aa;
-  --line:#e4e4e7;
-  --line-strong:#d4d4d8;
-  --accent:#6366f1;
-  --accent-hover:#4f46e5;
-  --accent-soft:#eef2ff;
-  --success:#10b981;
-  --success-soft:#d1fae5;
-  --success-fg:#065f46;
-  --warn:#f59e0b;
-  --warn-soft:#fef3c7;
-  --warn-fg:#92400e;
-  --danger:#ef4444;
-  --danger-soft:#fee2e2;
-  --danger-fg:#991b1b;
-  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow:0 1px 3px 0 rgb(0 0 0 / 0.08),0 1px 2px -1px rgb(0 0 0 / 0.08);
-  --shadow-md:0 4px 6px -1px rgb(0 0 0 / 0.08),0 2px 4px -2px rgb(0 0 0 / 0.08);
-  --shadow-lg:0 10px 15px -3px rgb(0 0 0 / 0.08),0 4px 6px -4px rgb(0 0 0 / 0.08);
-  --shadow-xl:0 20px 25px -5px rgb(0 0 0 / 0.1),0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --r-sm:6px;--r:10px;--r-lg:14px;--r-xl:20px;
-  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --mono:ui-monospace,'SF Mono',Menlo,monospace;
-  --t:150ms cubic-bezier(0.4,0,0.2,1);
+  --bg:#fafafa; --bg-elev:#ffffff; --fg:#18181b; --fg-muted:#71717a; --fg-subtle:#a1a1aa;
+  --line:#e4e4e7; --line-strong:#d4d4d8; --accent:#6366f1; --accent-hover:#4f46e5;
+  --accent-soft:#eef2ff; --success:#10b981; --success-soft:#d1fae5; --success-fg:#065f46;
+  --warn:#f59e0b; --warn-soft:#fef3c7; --warn-fg:#92400e; --danger:#ef4444;
+  --danger-soft:#fee2e2; --danger-fg:#991b1b;
+  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow:0 1px 3px 0 rgb(0 0 0 / 0.1);
+  --r-sm:6px; --r:10px; --r-lg:14px; --r-xl:20px;
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,monospace;
+  --t:150ms ease-in-out;
 }
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.55;font-size:15px;font-feature-settings:'cv02','cv03','cv04','cv11';-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
 img,svg{display:block;max-width:100%}
 a{color:var(--accent);text-decoration:none;transition:color var(--t)}
 a:hover{color:var(--accent-hover)}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:none}
-input,select,textarea{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;font-size:14px;width:100%;transition:border-color var(--t),box-shadow var(--t)}
+input,select,textarea{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;font-size:14px;width:100%;transition:all var(--t)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.15)}
 textarea{resize:vertical;min-height:100px}
 h1,h2,h3,h4{line-height:1.25;font-weight:700;letter-spacing:-0.015em}
@@ -61,277 +41,144 @@ h1{font-size:2rem}h2{font-size:1.375rem}h3{font-size:1.125rem}
 .container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}
 main{padding:32px 0 64px;flex:1}
 @media(max-width:640px){main{padding:20px 0 48px}}
-.skip{position:absolute;left:-9999px;top:-9999px}
-.skip:focus{left:8px;top:8px;background:#fff;padding:10px 16px;border-radius:var(--r);z-index:1000;box-shadow:var(--shadow-md)}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:#fff;padding:10px 16px;border-radius:var(--r);z-index:1000}
 
-/* ===================== HEADER ===================== */
-.site-header{position:sticky;top:0;background:rgba(255,255,255,0.85);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line);z-index:50}
-.nav{display:flex;align-items:center;gap:24px;min-height:64px}
+/* ===================== HEADER (FIXED) ===================== */
+.site-header{position:sticky;top:0;background:#ffffff;border-bottom:1px solid var(--line);z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
 .brand{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--fg);font-size:16px;flex-shrink:0}
-.brand:hover{color:var(--fg);text-decoration:none}
 .brand svg{width:28px;height:28px}
-.nav-links{display:flex;gap:2px;flex:1}
-.nav-links a{padding:8px 12px;border-radius:var(--r);color:var(--fg-muted);font-size:14px;font-weight:500;transition:background var(--t),color var(--t)}
-.nav-links a:hover{background:var(--accent-soft);color:var(--accent);text-decoration:none}
-.nav-links a.active{background:var(--accent-soft);color:var(--accent)}
-.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nav-search{position:relative}
-.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--fg-subtle);pointer-events:none}
-.nav-search input{padding-left:36px;width:240px;background:var(--bg);border-color:transparent}
+.nav-links{display:flex;gap:4px;flex:1;justify-content:center}
+.nav-links a{padding:8px 12px;border-radius:var(--r);color:var(--fg-muted);font-size:14px;font-weight:500}
+.nav-links a:hover,.nav-links a.active{background:var(--accent-soft);color:var(--accent);text-decoration:none}
+.nav-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.nav-search{position:relative;display:block}
+.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--fg-subtle)}
+.nav-search input{padding-left:36px;width:220px;background:var(--bg);border-color:transparent}
 .nav-search input:focus{background:#fff}
-.menu-toggle{display:none;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:#fff}
+.menu-toggle{display:none;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:#fff;color:var(--fg)}
+
+/* Header Mobile */
 @media(max-width:900px){
-  .nav{gap:12px;flex-wrap:wrap;padding:12px 0}
-  .nav-links{display:none;width:100%;order:3;flex-direction:column;gap:2px;padding-top:8px;border-top:1px solid var(--line);margin-top:4px}
+  .nav{flex-wrap:wrap;padding:12px 0;gap:8px}
+  .brand{order:1}
+  .nav-right{order:2}
+  .nav-links{
+    display:none; order:4; width:100%; flex-direction:column; gap:2px;
+    padding-top:12px; margin-top:4px; border-top:1px solid var(--line);
+  }
   .nav-links.open{display:flex}
-  .nav-links a{padding:10px 12px}
-  .nav-search input{width:160px}
-  .menu-toggle{display:inline-flex;align-items:center;justify-content:center}
+  .nav-links a{padding:12px 16px; font-size:15px; border-radius:var(--r-sm)}
+  .nav-search{display:none} /* Sembunyikan search di header mobile */
+  .menu-toggle{display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px}
+  /* Pindahkan kotak search ke dalam dropdown menu mobile */
+  .nav-links::before{
+    content:''; display:block; height:44px; margin-bottom:8px;
+    background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>") no-repeat 14px center;
+    border-radius:var(--r); pointer-events:none;
+  }
+  .nav-links input.mobile-search{
+    display:block; margin-top:-52px; margin-bottom:8px; background:transparent; border:none; padding-left:40px;
+  }
 }
 @media(max-width:520px){
-  .nav-search{display:none}
+  .user-chip{max-width:100px}
 }
 
 /* ===================== BUTTONS ===================== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r);border:1px solid transparent;font-weight:600;font-size:14px;line-height:1;white-space:nowrap;transition:all var(--t);cursor:pointer}
-.btn:hover{text-decoration:none}
 .btn:active{transform:scale(0.98)}
-.btn[disabled]{opacity:0.5;cursor:not-allowed;pointer-events:none}
-.btn svg{width:16px;height:16px}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(99,102,241,0.3)}
-.btn-primary:hover{background:var(--accent-hover);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.35)}
+.btn[disabled]{opacity:0.5;pointer-events:none}
+.btn-primary{background:var(--accent);color:#fff}
 .btn-secondary{background:#fff;border-color:var(--line-strong);color:var(--fg)}
-.btn-secondary:hover{background:#fafafa;border-color:var(--fg-subtle);color:var(--fg)}
-.btn-ghost{background:transparent;color:var(--fg-muted);padding:8px 12px}
-.btn-ghost:hover{background:var(--bg);color:var(--fg)}
+.btn-ghost{background:transparent;color:var(--fg-muted)}
 .btn-danger{background:var(--danger);color:#fff}
-.btn-danger:hover{background:#dc2626;color:#fff}
-.btn-success{background:var(--success);color:#fff}
 .btn-block{width:100%}
 .btn-lg{padding:14px 24px;font-size:15px;border-radius:var(--r-lg)}
-
-/* ===================== BANNER / NOTICES ===================== */
-.banner{background:linear-gradient(90deg,var(--accent),#8b5cf6);color:#fff;padding:12px 20px;text-align:center;font-weight:600;font-size:14px}
-.banner a{color:#fff;text-decoration:underline}
-.offline{background:var(--danger-soft);color:var(--danger-fg);padding:10px 20px;text-align:center;font-size:13px;font-weight:500;border-bottom:1px solid #fecaca}
+.btn-sm{padding:6px 12px;font-size:13px}
 
 /* ===================== HERO ===================== */
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 50%,#fdf4ff 100%);border-radius:var(--r-xl);padding:64px 48px;margin-bottom:48px;text-align:center;border:1px solid var(--line)}
-.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(99,102,241,0.15) 0%,transparent 40%),radial-gradient(circle at 80% 80%,rgba(139,92,246,0.15) 0%,transparent 40%);pointer-events:none}
-.hero>*{position:relative}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.8);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:20px;backdrop-filter:blur(8px)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 100%);border-radius:var(--r-xl);padding:64px 48px;margin-bottom:48px;text-align:center;border:1px solid var(--line)}
 .hero h1{font-size:clamp(1.75rem,4vw,2.75rem);margin-bottom:16px;letter-spacing:-0.03em;line-height:1.1}
 .hero p{color:var(--fg-muted);max-width:560px;margin:0 auto 28px;font-size:1rem}
 .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-@media(max-width:640px){.hero{padding:40px 24px;margin-bottom:32px}.hero-cta{flex-direction:column}.hero-cta .btn{width:100%}}
+@media(max-width:640px){.hero{padding:40px 20px;margin-bottom:32px}.hero-cta{flex-direction:column}.hero-cta .btn{width:100%}}
 
-/* ===================== SECTION ===================== */
+/* ===================== SECTION & GRID ===================== */
 .section{margin-bottom:48px}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
 .section-head h2{margin:0}
-.section-head a{font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
-.section-head a:hover{text-decoration:none}
-.section-head a:hover::after{transform:translateX(2px)}
-.section-head a::after{content:'→';transition:transform var(--t)}
-
-/* ===================== PRODUCT GRID ===================== */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
 @media(max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}}
 
-/* ===================== PRODUCT CARD ===================== */
-.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;transition:transform var(--t),box-shadow var(--t),border-color var(--t);display:flex;flex-direction:column;color:inherit}
-.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--line-strong);text-decoration:none}
-.card-img-wrap{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,#f4f4f5,#e4e4e7);overflow:hidden}
-.card-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 400ms ease}
-.card:hover .card-img-wrap img{transform:scale(1.04)}
-.card-fav{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--fg-muted);transition:all var(--t);opacity:0}
-.card:hover .card-fav,.card-fav.is-fav{opacity:1}
-.card-fav:hover{color:var(--danger);transform:scale(1.1)}
+/* ===================== CARD ===================== */
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:box-shadow var(--t)}
+.card:hover{box-shadow:var(--shadow)}
+.card-img-wrap{position:relative;aspect-ratio:4/3;background:#f4f4f5;overflow:hidden}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover}
+.card-fav{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--fg-muted)}
 .card-fav.is-fav{color:var(--danger)}
-.card-fav svg{width:16px;height:16px}
-.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card-title{font-size:15px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--fg)}
-.card-store{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--fg-muted)}
-.card-store::before{content:'';width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a78bfa);flex-shrink:0}
-.card-price{margin-top:auto;font-size:17px;font-weight:700;color:var(--fg);letter-spacing:-0.02em}
-.card-price .rp{font-size:12px;font-weight:500;color:var(--fg-muted);margin-right:2px}
-.card-pill{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;backdrop-filter:blur(8px);text-transform:uppercase;letter-spacing:0.03em}
-.card-pill.cat{background:rgba(99,102,241,0.95)}
+.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card-title{font-size:15px;font-weight:600;line-height:1.35;color:var(--fg)}
+.card-store{font-size:13px;color:var(--fg-muted);display:flex;align-items:center;gap:6px}
+.card-price{margin-top:auto;font-size:17px;font-weight:700;color:var(--fg);padding-top:8px}
+.card-pill{position:absolute;top:10px;left:10px;background:rgba(99,102,241,0.95);color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;text-transform:uppercase}
 
-/* ===================== CHIPS / FILTERS ===================== */
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:16px 0 20px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:500;color:var(--fg-muted);transition:all var(--t);cursor:pointer}
-.chip:hover{background:var(--bg);color:var(--fg)}
+/* ===================== MISC UI ===================== */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:16px 0 20px}
+.chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:500;color:var(--fg-muted);white-space:nowrap;cursor:pointer}
 .chip.active{background:var(--fg);color:#fff;border-color:var(--fg)}
-
-/* ===================== SEARCH / TOOLBAR ===================== */
 .page-header{margin-bottom:24px}
 .page-header h1{margin-bottom:6px}
 .page-header p{color:var(--fg-muted);font-size:14px}
-.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
-.toolbar input[type=search]{flex:1;min-width:200px;padding-left:40px;background:var(--bg-elev) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>") no-repeat 14px center}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 24px;text-align:center;background:#fff;border:1px dashed var(--line-strong);border-radius:var(--r-lg);color:var(--fg-muted)}
+.empty svg{width:56px;height:56px;color:var(--fg-subtle);margin-bottom:16px}
+.error-box{padding:16px;border:1px solid #fecaca;background:var(--danger-soft);color:var(--danger-fg);border-radius:var(--r);margin:16px 0}
+.toast-root{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:1000;pointer-events:none}
+.toast{background:#18181b;color:#fff;padding:12px 16px;border-radius:var(--r);font-size:14px;font-weight:500;animation:toastIn 0.25s forwards;pointer-events:auto}
+.toast.success{background:var(--success)}.toast.error{background:var(--danger)}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.modal-root{position:fixed;inset:0;background:rgba(9,9,11,0.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:500}
+.modal{background:#fff;border-radius:var(--r-xl);max-width:520px;width:100%;padding:28px;max-height:90vh;overflow-y:auto}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
 
 /* ===================== PRODUCT DETAIL ===================== */
 .product-detail{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:start}
-@media(max-width:900px){.product-detail{grid-template-columns:1fr;gap:20px}}
-.product-gallery{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:#f4f4f5;aspect-ratio:16/10;margin-bottom:20px}
+@media(max-width:900px){.product-detail{grid-template-columns:1fr}}
+.product-gallery{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:#f4f4f5;aspect-ratio:16/10}
 .product-gallery img{width:100%;height:100%;object-fit:cover}
-.product-body h1{font-size:clamp(1.5rem,3vw,2rem);margin:20px 0 12px;letter-spacing:-0.02em}
-.product-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:24px;font-size:14px;color:var(--fg-muted)}
-.product-meta a{color:var(--fg);font-weight:600}
-.product-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--fg-subtle)}
-.product-section{margin-top:32px;padding-top:32px;border-top:1px solid var(--line)}
-.product-section h2{font-size:1.1rem;margin-bottom:12px}
-.product-desc{color:var(--fg-muted);white-space:pre-wrap;line-height:1.7}
-.buy-box{position:sticky;top:88px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
+.buy-box{position:sticky;top:88px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
 @media(max-width:900px){.buy-box{position:static}}
-.buy-price{font-size:2rem;font-weight:800;letter-spacing:-0.03em;color:var(--fg);line-height:1;margin-bottom:4px}
-.buy-price .rp{font-size:14px;font-weight:500;color:var(--fg-muted);margin-right:4px}
-.buy-status{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--fg-muted);margin-bottom:20px}
-.buy-status .dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.buy-note{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r);background:var(--warn-soft);color:var(--warn-fg);font-size:13px;line-height:1.5;margin:16px 0}
-.buy-note svg{width:16px;height:16px;flex-shrink:0;margin-top:2px}
-.buy-meta{display:grid;gap:10px;margin-top:20px;padding-top:20px;border-top:1px solid var(--line);font-size:13px}
-.buy-meta-row{display:flex;justify-content:space-between;gap:12px}
-.buy-meta-row span:first-child{color:var(--fg-muted)}
-.buy-meta-row span:last-child{font-weight:600;text-align:right}
-
-/* ===================== ORDER PAGE ===================== */
-.order-layout{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:780px){.order-layout{grid-template-columns:1fr}}
-.order-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)}
-.order-card h3{margin-bottom:16px}
-.countdown-wrap{text-align:center;padding:20px 0;margin:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.countdown-label{font-size:12px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:6px}
-.countdown{font-family:var(--mono);font-size:2.5rem;font-weight:700;color:var(--fg);line-height:1;letter-spacing:-0.02em}
-.countdown.danger{color:var(--danger);animation:pulse 1s infinite}
-.qris-wrap{display:flex;flex-direction:column;align-items:center;padding:20px;background:var(--bg);border-radius:var(--r);margin:16px 0}
-.qris-img{width:100%;max-width:280px;border-radius:var(--r);box-shadow:var(--shadow-md)}
-.qris-hint{font-size:12px;color:var(--fg-muted);text-align:center;margin-top:12px;max-width:280px}
-
-/* ===================== FORM ===================== */
-.form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;max-width:560px;box-shadow:var(--shadow)}
-@media(max-width:520px){.form-card{padding:20px}}
-.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.form-row label{font-weight:600;font-size:13px;color:var(--fg)}
-.form-row .hint{font-size:12px;color:var(--fg-muted);margin-top:2px}
-
-/* ===================== TABS ===================== */
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{padding:12px 16px;font-weight:600;font-size:14px;color:var(--fg-muted);border-bottom:2px solid transparent;background:none;white-space:nowrap;transition:all var(--t);position:relative;top:1px}
-.tabs button:hover{color:var(--fg)}
-.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
-
-/* ===================== STORE PAGE ===================== */
-.store-hero{position:relative;border-radius:var(--r-xl);overflow:hidden;background:linear-gradient(135deg,var(--accent-soft),#faf5ff);padding:32px;margin-bottom:32px;border:1px solid var(--line)}
-.store-hero-inner{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.store-logo{width:80px;height:80px;border-radius:20px;background:linear-gradient(135deg,var(--accent),#a78bfa);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.8rem;flex-shrink:0;box-shadow:var(--shadow-lg)}
-.store-info h1{margin:0 0 6px;font-size:1.5rem}
-.store-info .meta{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--fg-muted);flex-wrap:wrap}
-.store-info .desc{margin-top:12px;color:var(--fg-muted);font-size:14px;max-width:600px}
-.stars{color:#f59e0b;letter-spacing:1px;font-size:14px}
-
-/* ===================== REVIEWS ===================== */
-.review-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px}
-.review-stars{color:#f59e0b;font-size:14px;margin-bottom:8px}
-.review-text{font-size:14px;color:var(--fg);margin-bottom:8px}
-.review-author{font-size:12px;color:var(--fg-muted)}
-
-/* ===================== SKELETON ===================== */
-.skeleton{background:linear-gradient(90deg,#f4f4f5 0%,#e4e4e7 50%,#f4f4f5 100%);background-size:200% 100%;animation:sk 1.4s ease-in-out infinite;border-radius:var(--r)}
-@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
-.skeleton-card{border-radius:var(--r-lg);overflow:hidden;background:#fff;border:1px solid var(--line)}
-.skeleton-card .sk-img{aspect-ratio:4/3}
-.skeleton-card .sk-body{padding:16px;display:flex;flex-direction:column;gap:10px}
-.skeleton-card .sk-line{height:12px;border-radius:6px}
-
-/* ===================== EMPTY STATE ===================== */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 24px;text-align:center;background:#fff;border:1px dashed var(--line-strong);border-radius:var(--r-lg);color:var(--fg-muted)}
-.empty svg{width:56px;height:56px;color:var(--fg-subtle);margin-bottom:16px;stroke-width:1.5}
-.empty h3{color:var(--fg);font-size:1.1rem;margin-bottom:6px}
-.empty p{font-size:14px;max-width:400px;margin-bottom:20px}
-
-/* ===================== ERROR ===================== */
-.error-box{padding:16px 20px;border:1px solid #fecaca;background:var(--danger-soft);color:var(--danger-fg);border-radius:var(--r);margin:16px 0;font-size:14px}
-.warn-box{padding:12px 16px;border:1px solid #fde68a;background:var(--warn-soft);color:var(--warn-fg);border-radius:var(--r);margin:16px 0;font-size:13px}
-.info-box{padding:12px 16px;border:1px solid var(--line);background:var(--accent-soft);color:var(--accent);border-radius:var(--r);margin:16px 0;font-size:13px}
-
-/* ===================== BADGE / PILL ===================== */
-.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;background:var(--bg);color:var(--fg-muted);font-size:12px;font-weight:600;line-height:1.6}
-.pill.accent{background:var(--accent-soft);color:var(--accent)}
-.pill.ok{background:var(--success-soft);color:var(--success-fg)}
-.pill.warn{background:var(--warn-soft);color:var(--warn-fg)}
-.pill.danger{background:var(--danger-soft);color:var(--danger-fg)}
-.pill.muted{background:#f4f4f5;color:#52525b}
-
-/* ===================== TOAST ===================== */
-.toast-root{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:1000;max-width:360px;pointer-events:none}
-@media(max-width:640px){.toast-root{left:16px;right:16px;max-width:none}}
-.toast{background:#18181b;color:#fff;padding:12px 16px;border-radius:var(--r);box-shadow:var(--shadow-xl);font-size:14px;font-weight:500;opacity:0;transform:translateY(-8px);animation:toastIn 0.25s cubic-bezier(0.4,0,0.2,1) forwards;pointer-events:auto;border:1px solid rgba(255,255,255,0.1)}
-.toast.success{background:var(--success);border-color:rgba(255,255,255,0.15)}
-.toast.error{background:var(--danger);border-color:rgba(255,255,255,0.15)}
-@keyframes toastIn{to{opacity:1;transform:none}}
-
-/* ===================== MODAL ===================== */
-.modal-root{position:fixed;inset:0;background:rgba(9,9,11,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:500;animation:fadeIn 0.15s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:#fff;border-radius:var(--r-xl);max-width:520px;width:100%;padding:28px;box-shadow:var(--shadow-xl);max-height:90vh;overflow-y:auto;animation:modalIn 0.2s cubic-bezier(0.4,0,0.2,1)}
-@keyframes modalIn{from{opacity:0;transform:scale(0.96) translateY(-8px)}to{opacity:1;transform:none}}
-.modal h3{margin:0 0 8px;font-size:1.25rem}
-.modal p{color:var(--fg-muted);font-size:14px;margin-bottom:16px}
-.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px;flex-wrap:wrap}
-@media(max-width:520px){.modal-actions{flex-direction:column-reverse}.modal-actions .btn{width:100%}}
-
-/* ===================== TABLE (admin pages linked here) ===================== */
-.table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
-table.data{width:100%;border-collapse:collapse;font-size:13px}
-table.data th,table.data td{padding:12px 16px;text-align:left;vertical-align:middle}
-table.data th{background:var(--bg);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--fg-muted);border-bottom:1px solid var(--line)}
-table.data td{border-bottom:1px solid var(--line)}
-table.data tbody tr:last-child td{border-bottom:none}
-table.data tbody tr:hover td{background:#fafafa}
-
-/* ===================== USER CHIP ===================== */
-.user-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bg);border-radius:999px;font-size:13px;font-weight:600;color:var(--fg);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.user-chip::before{content:'';width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#a78bfa);flex-shrink:0}
+.buy-price{font-size:2rem;font-weight:800;color:var(--fg);line-height:1}
+.buy-note{display:flex;gap:10px;padding:12px;border-radius:var(--r);background:var(--warn-soft);color:var(--warn-fg);font-size:13px;margin:16px 0}
+.countdown{font-family:var(--mono);font-size:2.5rem;font-weight:700;text-align:center;color:var(--fg)}
+.countdown.danger{color:var(--danger)}
 
 /* ===================== FOOTER ===================== */
-.site-footer{background:#18181b;color:#a1a1aa;margin-top:auto;padding:56px 0 24px;border-top:1px solid var(--line)}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px}
-@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){.footer-grid{grid-template-columns:1fr;gap:24px}}
-.footer-grid h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em}
-.footer-grid p{font-size:14px;line-height:1.7;color:#71717a;margin-top:12px;max-width:280px}
+.site-footer{background:#18181b;color:#a1a1aa;padding:48px 0 24px;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;margin-bottom:32px}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px}}
+.footer-grid h4{color:#fff;font-size:14px;margin-bottom:16px}
 .footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.footer-grid ul a{color:#a1a1aa;font-size:14px}
-.footer-grid ul a:hover{color:#fff;text-decoration:none}
-.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;gap:16px;font-size:13px;flex-wrap:wrap;color:#52525b}
-.footer-brand{display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:15px;margin-bottom:12px}
-.footer-brand svg{width:24px;height:24px}
-
-/* ===================== NOTIF DOT ===================== */
-.notif-dot{display:inline-block;width:8px;height:8px;background:var(--danger);border-radius:50%;margin-left:6px}
-
-/* ===================== UTIL ===================== */
-.mt-4{margin-top:16px}.mt-6{margin-top:24px}.mb-4{margin-bottom:16px}.mb-6{margin-bottom:24px}
-.text-center{text-align:center}
-.hide{display:none !important}
+.footer-grid a{color:#a1a1aa}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;font-size:13px;color:#52525b;text-align:center}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Lewati ke konten</a>
 
+<!-- HEADER YANG SUDAH DIPERBAIKI -->
 <header class="site-header">
   <div class="container nav">
-    <a href="/" data-nav class="brand" aria-label="KodinganKita">
+    <a href="/" data-nav class="brand">
       <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#6366f1"/><path d="M20 22l10 10-10 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 42h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
       <span>KodinganKita</span>
     </a>
+    
     <nav class="nav-links" id="navLinks">
+      <!-- Input search untuk mobile diletakkan di sini agar rapi -->
+      <input type="search" class="mobile-search" placeholder="Cari produk…" onkeydown="if(event.key==='Enter'){ window.location.href='/?view=catalog&q='+this.value; }">
       <a href="/" data-nav>Beranda</a>
       <a href="/?view=catalog" data-nav>Katalog</a>
       <a href="/?view=favorites" data-nav>Favorit</a>
@@ -341,21 +188,23 @@ table.data tbody tr:hover td{background:#fafafa}
       <a href="/?view=help" data-nav>Bantuan</a>
       <a href="/?view=admin" data-nav id="navAdmin" style="display:none">Admin</a>
     </nav>
+
     <div class="nav-right">
+      <!-- Search desktop -->
       <div class="nav-search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="globalSearch" type="search" placeholder="Cari produk…" aria-label="Cari"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="globalSearch" type="search" placeholder="Cari produk…" onkeydown="if(event.key==='Enter'){ window.location.href='/?view=catalog&q='+this.value; }"/>
       </div>
       <div id="authArea"></div>
       <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
     </div>
   </div>
 </header>
 
 <div id="banner" class="banner" hidden></div>
-<div id="offline" class="offline" hidden>⚠ Koneksi terputus — beberapa fitur mungkin tidak tersedia.</div>
+<div id="offline" class="offline" hidden>⚠ Koneksi terputus.</div>
 
 <main id="main" class="container">
   <div id="view" class="view"></div>
@@ -365,11 +214,11 @@ table.data tbody tr:hover td{background:#fafafa}
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#6366f1"/><path d="M20 22l10 10-10 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 42h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
+        <div style="display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:16px;margin-bottom:12px">
+          <svg viewBox="0 0 64 64" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#6366f1"/><path d="M20 22l10 10-10 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M34 42h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
           <span>KodinganKita</span>
         </div>
-        <p>Marketplace produk digital eksklusif. Setiap produk hanya dijual satu kali kepada satu pembeli.</p>
+        <p style="font-size:14px;line-height:1.7;max-width:280px">Marketplace produk digital eksklusif. Setiap produk hanya dijual satu kali kepada satu pembeli.</p>
       </div>
       <div>
         <h4>Legal</h4>
@@ -387,17 +236,9 @@ table.data tbody tr:hover td{background:#fafafa}
           <li><a href="mailto:support@kodingankita.com">Email Kami</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Untuk Penjual</h4>
-        <ul>
-          <li><a href="/?view=seller" data-nav>Mulai Jualan</a></li>
-          <li><a href="/?view=seller" data-nav>Panel Penjual</a></li>
-        </ul>
-      </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span id="year"></span> KodinganKita. Semua hak dilindungi.</span>
-      <span>Dibuat dengan ❤️ di Indonesia</span>
+      © <span id="year"></span> KodinganKita. Semua hak dilindungi.
     </div>
   </div>
 </footer>
@@ -417,7 +258,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getStorage, ref as sref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-/* ===================== FIREBASE ===================== */
+/* ===================== FIREBASE CONFIG ===================== */
 const firebaseConfig = {
   apiKey: "AIzaSyCHr0eemIkfHNFDUKSaFDklp_c1OgmSnl8",
   authDomain: "mybro-9ba5f.firebaseapp.com",
@@ -430,12 +271,11 @@ const db = getDatabase(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: "select_account" });
 
 const QRIS_IMG = "https://i.ibb.co.com/FLF6Wz07/IMG-20261012-160202.jpg";
 const PAYMENT_WINDOW_MS = 180 * 1000;
 
-/* ===================== UTIL ===================== */
+/* ===================== UTILS ===================== */
 let serverOffset = 0;
 onValue(ref(db, ".info/serverTimeOffset"), s => { serverOffset = s.val() || 0; });
 const now = () => Date.now() + serverOffset;
@@ -448,15 +288,12 @@ const fmtLeft = ms => {
 };
 const slugify = s => String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60);
 
-/* Ikon SVG inline (dipakai berulang) */
-const ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-const ICON_HEART_FILLED = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-const ICON_BAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
-const ICON_ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
-const ICON_LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
-const ICON_EMPTY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg>';
+const ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+const ICON_HEART_FILLED = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+const ICON_BAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+const ICON_EMPTY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg>';
 
-/* ===================== UI ===================== */
+/* ===================== UI HELPERS ===================== */
 const $view = document.getElementById("view");
 const $modal = document.getElementById("modalRoot");
 const $toast = document.getElementById("toastRoot");
@@ -468,20 +305,16 @@ function toast(msg, type="info", ms=3200){
   el.className = "toast " + type;
   el.textContent = msg;
   $toast.appendChild(el);
-  setTimeout(()=>{ el.style.opacity = 0; el.style.transform = "translateY(-8px)"; setTimeout(()=>el.remove(),250); }, ms);
+  setTimeout(()=>{ el.style.opacity = 0; setTimeout(()=>el.remove(),250); }, ms);
 }
 function showModal(html){
-  $modal.innerHTML = `<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
+  $modal.innerHTML = `<div class="modal">${html}</div>`;
   $modal.hidden = false;
   document.body.style.overflow = "hidden";
   $modal.onclick = e => { if (e.target === $modal) closeModal(); };
   $modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", closeModal));
 }
-function closeModal(){
-  $modal.hidden = true;
-  $modal.innerHTML = "";
-  document.body.style.overflow = "";
-}
+function closeModal(){ $modal.hidden = true; $modal.innerHTML = ""; document.body.style.overflow = ""; }
 function confirmModal({title, body="", confirmText="Ya", cancelText="Batal"}){
   return new Promise(resolve => {
     showModal(`
@@ -503,6 +336,8 @@ window.addEventListener("online", ()=> $offline.hidden = true);
 window.addEventListener("offline", ()=> $offline.hidden = false);
 $offline.hidden = navigator.onLine;
 document.getElementById("year").textContent = new Date().getFullYear();
+
+/* MENU MOBILE TOGGLE */
 document.getElementById("menuToggle")?.addEventListener("click", ()=>{
   document.getElementById("navLinks").classList.toggle("open");
 });
@@ -543,15 +378,13 @@ function renderAuthArea(){
   const area = document.getElementById("authArea");
   if (!area) return;
   if (user){
-    const name = user.displayName || user.email || "User";
+    const name = user.displayName ? user.displayName.split(" ")[0] : "User";
     area.innerHTML = `
       <span class="user-chip" title="${esc(user.email||"")}">${esc(name)}</span>
       <button class="btn btn-secondary btn-sm" id="btnLogout">Keluar</button>`;
-    document.getElementById("btnLogout").addEventListener("click", async ()=>{
-      await signOut(auth); toast("Keluar");
-    });
+    document.getElementById("btnLogout").addEventListener("click", async ()=>{ await signOut(auth); toast("Keluar"); });
   } else {
-    area.innerHTML = `<button class="btn btn-primary" id="btnLogin">Masuk</button>`;
+    area.innerHTML = `<button class="btn btn-primary btn-sm" id="btnLogin">Masuk</button>`;
     document.getElementById("btnLogin").addEventListener("click", loginGoogle);
   }
 }
@@ -593,20 +426,13 @@ function registerRoute(name, fn){ routes[name] = fn; }
 
 async function renderRoute(route){
   const fn = routes[route.view] || routes.home;
-  $view.innerHTML = `
-    <div class="skeleton-grid">
-      ${[1,2,3,4,5,6].map(()=>`<div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line" style="width:80%"></div><div class="skeleton sk-line" style="width:50%"></div><div class="skeleton sk-line" style="width:40%"></div></div></div>`).join("")}
-    </div>`;
+  $view.innerHTML = `<div class="grid">${[1,2,3,4].map(()=>`<div class="card"><div class="card-img-wrap" style="background:#e4e4e7"></div><div class="card-body"><div style="height:16px;background:#e4e4e7;border-radius:4px;width:80%"></div></div></div>`).join("")}</div>`;
   try { await fn($view, route); }
-  catch(e){
-    console.error(e);
-    $view.innerHTML = `<div class="error-box"><strong>Terjadi kesalahan.</strong><br/>${esc(e.message||"")}</div>`;
-  }
+  catch(e){ console.error(e); $view.innerHTML = `<div class="error-box"><strong>Terjadi kesalahan.</strong><br/>${esc(e.message||"")}</div>`; }
   window.scrollTo({top:0, behavior:"smooth"});
   document.querySelectorAll(".nav-links a").forEach(a=>{
     const href = a.getAttribute("href") || "";
-    const active = (href === "/" && route.view === "home") || href.includes("view=" + route.view);
-    a.classList.toggle("active", active);
+    a.classList.toggle("active", (href === "/" && route.view === "home") || href.includes("view=" + route.view));
   });
 }
 
@@ -622,7 +448,7 @@ async function loadAvailableProducts(category=null){
       list.push({ id: c.key, ...v });
     });
     return list.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
-  } catch(e){ console.error("loadAvailable", e); return []; }
+  } catch(e){ return []; }
 }
 async function loadProduct(id){
   const s = await get(ref(db, `products/${id}`));
@@ -645,15 +471,15 @@ function productCard(p, isFav=false){
     <a class="card" href="/p/${esc(p.slug || p.id)}" data-nav>
       <div class="card-img-wrap">
         ${img ? `<img src="${esc(img)}" alt="${esc(p.title||"")}" loading="lazy"/>` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#eef2ff,#f5f3ff);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:1.5rem">${esc((p.title||"?").slice(0,1).toUpperCase())}</div>`}
-        ${p.category ? `<span class="card-pill cat">${esc(p.category)}</span>` : ""}
-        <button class="card-fav ${isFav ? 'is-fav' : ''}" data-fav="${esc(p.id)}" title="Favorit" aria-label="Favorit" type="button" onclick="event.preventDefault();event.stopPropagation();">
+        ${p.category ? `<span class="card-pill">${esc(p.category)}</span>` : ""}
+        <button class="card-fav ${isFav ? 'is-fav' : ''}" data-fav="${esc(p.id)}" title="Favorit" type="button" onclick="event.preventDefault();event.stopPropagation();">
           ${isFav ? ICON_HEART_FILLED : ICON_HEART}
         </button>
       </div>
       <div class="card-body">
         <h3 class="card-title">${esc(p.title||"")}</h3>
         ${p.storeName ? `<div class="card-store">${esc(p.storeName)}</div>` : ""}
-        <div class="card-price"><span class="rp">Rp</span>${Number(p.price||0).toLocaleString("id-ID")}</div>
+        <div class="card-price">${fmtRp(p.price)}</div>
       </div>
     </a>`;
 }
@@ -662,29 +488,14 @@ async function attachFavHandlers(root){
   const favs = await getUserFavoritesSet();
   root.querySelectorAll("[data-fav]").forEach(btn=>{
     const id = btn.dataset.fav;
-    if (favs.has(id)){
-      btn.classList.add("is-fav");
-      btn.innerHTML = ICON_HEART_FILLED;
-    } else {
-      btn.classList.remove("is-fav");
-      btn.innerHTML = ICON_HEART;
-    }
+    if (favs.has(id)){ btn.classList.add("is-fav"); btn.innerHTML = ICON_HEART_FILLED; }
     btn.addEventListener("click", async (e)=>{
       e.preventDefault(); e.stopPropagation();
       if (!user){ toast("Masuk dulu untuk favorit", "error"); return; }
       const isNowFav = btn.classList.contains("is-fav");
       try {
-        if (isNowFav){
-          await remove(ref(db, `favorites/${user.uid}/${id}`));
-          btn.classList.remove("is-fav");
-          btn.innerHTML = ICON_HEART;
-          toast("Dihapus dari favorit");
-        } else {
-          await set(ref(db, `favorites/${user.uid}/${id}`), true);
-          btn.classList.add("is-fav");
-          btn.innerHTML = ICON_HEART_FILLED;
-          toast("Ditambahkan ke favorit", "success");
-        }
+        if (isNowFav){ await remove(ref(db, `favorites/${user.uid}/${id}`)); btn.classList.remove("is-fav"); btn.innerHTML = ICON_HEART; }
+        else { await set(ref(db, `favorites/${user.uid}/${id}`), true); btn.classList.add("is-fav"); btn.innerHTML = ICON_HEART_FILLED; }
       } catch(err){ toast("Gagal: " + err.message, "error"); }
     });
   });
@@ -692,18 +503,14 @@ async function attachFavHandlers(root){
 async function getUserFavoritesSet(){
   const set0 = new Set();
   if (!user) return set0;
-  try {
-    const s = await get(ref(db, `favorites/${user.uid}`));
-    if (s.exists()) Object.keys(s.val()).forEach(k => set0.add(k));
-  } catch(e){}
+  try { const s = await get(ref(db, `favorites/${user.uid}`)); if (s.exists()) Object.keys(s.val()).forEach(k => set0.add(k)); } catch(e){}
   return set0;
 }
 
-/* ===================== HOME ===================== */
+/* ===================== VIEWS ===================== */
 registerRoute("home", async (main) => {
   main.innerHTML = `
     <section class="hero">
-      <span class="hero-eyebrow">✦ Marketplace Digital Eksklusif</span>
       <h1>Satu Produk, Satu Pembeli.<br>Selamanya.</h1>
       <p>Setiap karya digital di KodinganKita hanya dijual <strong>sekali</strong>. Anda mendapatkan produk yang benar-benar eksklusif — bukan salinan massal.</p>
       <div class="hero-cta">
@@ -712,55 +519,32 @@ registerRoute("home", async (main) => {
       </div>
     </section>
     <div class="section">
-      <div class="section-head">
-        <h2>Produk Terbaru</h2>
-        <a href="/?view=catalog" data-nav>Lihat semua</a>
-      </div>
-      <div class="grid" id="homeGrid">
-        ${[1,2,3,4].map(()=>`<div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line" style="width:80%"></div><div class="skeleton sk-line" style="width:50%"></div><div class="skeleton sk-line" style="width:40%"></div></div></div>`).join("")}
-      </div>
+      <div class="section-head"><h2>Produk Terbaru</h2><a href="/?view=catalog" data-nav>Lihat semua →</a></div>
+      <div class="grid" id="homeGrid"></div>
     </div>`;
 
   const grid = main.querySelector("#homeGrid");
   const products = (await loadAvailableProducts()).slice(0, 8);
-  if (!products.length){
-    grid.outerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3><p>Produk baru akan segera hadir. Cek kembali nanti.</p></div>`;
-    return;
-  }
+  if (!products.length){ grid.outerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3><p>Produk baru akan segera hadir.</p></div>`; return; }
   grid.innerHTML = products.map(p => productCard(p)).join("");
   await attachFavHandlers(grid);
 });
 
-/* ===================== CATALOG ===================== */
 registerRoute("catalog", async (main, route) => {
   const params = route.query || new URLSearchParams();
   const category = params.get("kategori") || null;
   const search = params.get("q") || "";
 
   main.innerHTML = `
-    <div class="page-header">
-      <h1>Katalog Produk</h1>
-      <p>Temukan produk digital eksklusif — masing-masing hanya tersedia satu kali.</p>
-    </div>
-    <div class="toolbar">
-      <input id="catSearch" type="search" placeholder="Cari judul, toko, atau kategori…" value="${esc(search)}"/>
-    </div>
-    <div id="chips" class="chips"></div>
-    <div id="catalogGrid" class="grid">
-      ${[1,2,3,4,5,6].map(()=>`<div class="skeleton-card"><div class="skeleton sk-img"></div><div class="sk-body"><div class="skeleton sk-line" style="width:80%"></div><div class="skeleton sk-line" style="width:50%"></div></div></div>`).join("")}
-    </div>`;
+    <div class="page-header"><h1>Katalog Produk</h1><p>Produk digital eksklusif, hanya tersedia satu kali.</p></div>
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="catalogGrid"></div>`;
 
   const chipRoot = main.querySelector("#chips");
   const grid = main.querySelector("#catalogGrid");
 
   let cats = [];
-  try {
-    const s = await get(ref(db, "settings/categories"));
-    if (s.exists()){
-      const v = s.val();
-      cats = Array.isArray(v) ? v : Object.values(v).map(x => typeof x === "string" ? x : x?.name).filter(Boolean);
-    }
-  } catch(e){}
+  try { const s = await get(ref(db, "settings/categories")); if (s.exists()){ const v = s.val(); cats = Array.isArray(v) ? v : Object.values(v).map(x => typeof x === "string" ? x : x?.name).filter(Boolean); } } catch(e){}
 
   const chips = [{id:"", label:"Semua"}, ...cats.map(c=>({id:c, label:c}))];
   chipRoot.innerHTML = chips.map(c=>`<button class="chip ${(category||"")===c.id?"active":""}" data-cat="${esc(c.id)}">${esc(c.label)}</button>`).join("");
@@ -768,7 +552,7 @@ registerRoute("catalog", async (main, route) => {
     const btn = e.target.closest("[data-cat]"); if (!btn) return;
     const p = new URLSearchParams();
     if (btn.dataset.cat) p.set("kategori", btn.dataset.cat);
-    const q = main.querySelector("#catSearch").value.trim();
+    const q = document.getElementById("globalSearch")?.value.trim();
     if (q) p.set("q", q);
     p.set("view", "catalog");
     navigate("/?" + p.toString());
@@ -778,102 +562,51 @@ registerRoute("catalog", async (main, route) => {
   const filterByQuery = q => {
     if (!q) return products;
     const ql = q.toLowerCase();
-    return products.filter(p =>
-      (p.title||"").toLowerCase().includes(ql) ||
-      (p.storeName||"").toLowerCase().includes(ql) ||
-      (p.category||"").toLowerCase().includes(ql)
-    );
+    return products.filter(p => (p.title||"").toLowerCase().includes(ql) || (p.storeName||"").toLowerCase().includes(ql) || (p.category||"").toLowerCase().includes(ql));
   };
   const render = q => {
     const shown = filterByQuery(q);
-    if (!shown.length){
-      grid.outerHTML = `<div class="empty" id="catalogGrid">${ICON_EMPTY}<h3>Tidak ada produk</h3><p>Coba kata kunci lain atau jelajahi kategori berbeda.</p></div>`;
-      return;
-    }
-    const g = main.querySelector("#catalogGrid") || (()=>{ const d=document.createElement("div"); d.id="catalogGrid"; d.className="grid"; main.appendChild(d); return d; })();
-    g.innerHTML = shown.map(p => productCard(p)).join("");
-    attachFavHandlers(g);
+    if (!shown.length){ grid.innerHTML = `<div class="empty" style="grid-column:1/-1">${ICON_EMPTY}<h3>Tidak ada produk</h3><p>Coba kata kunci lain.</p></div>`; return; }
+    grid.innerHTML = shown.map(p => productCard(p)).join("");
+    attachFavHandlers(grid);
   };
-  // Replace outerHTML issue: track container properly
-  const render2 = q => {
-    const shown = filterByQuery(q);
-    let g = main.querySelector("#catalogGrid");
-    if (!g){
-      g = document.createElement("div"); g.id = "catalogGrid"; g.className = "grid";
-      main.appendChild(g);
-    }
-    if (!shown.length){
-      g.innerHTML = `<div class="empty" style="grid-column:1/-1">${ICON_EMPTY}<h3>Tidak ada produk</h3><p>Coba kata kunci lain atau jelajahi kategori berbeda.</p></div>`;
-      return;
-    }
-    g.innerHTML = shown.map(p => productCard(p)).join("");
-    attachFavHandlers(g);
-  };
-  render2(search);
-  main.querySelector("#catSearch").addEventListener("input", e => render2(e.target.value));
+  render(search);
 });
 
-/* ===================== PRODUCT DETAIL ===================== */
 registerRoute("product", async (main, route) => {
   const id = await resolveProductId(route);
-  if (!id){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><p>Tautan mungkin salah atau produk sudah tidak tersedia.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali ke katalog</a></div>`; return; }
+  if (!id){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali</a></div>`; return; }
   let p = null;
   try { p = await loadProduct(id); } catch(e){ p = null; }
-  if (!p){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><p>Produk tidak tersedia atau Anda tidak memiliki akses.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali ke katalog</a></div>`; return; }
+  if (!p){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali</a></div>`; return; }
   document.title = `${p.title || "Produk"} — KodinganKita`;
   const showBuy = p.status === "available";
   const img = p.thumbnail || "";
 
   main.innerHTML = `
-    <div style="margin-bottom:16px">
-      <a href="/?view=catalog" data-nav style="font-size:14px;display:inline-flex;align-items:center;gap:6px;color:var(--fg-muted)">← Kembali ke katalog</a>
-    </div>
+    <div style="margin-bottom:16px"><a href="/?view=catalog" data-nav style="font-size:14px;color:var(--fg-muted)">← Kembali ke katalog</a></div>
     <div class="product-detail">
-      <div class="product-body">
+      <div>
         <div class="product-gallery">
           ${img ? `<img src="${esc(img)}" alt="${esc(p.title||"")}"/>` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#eef2ff,#f5f3ff);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:2rem">${esc((p.title||"?").slice(0,1).toUpperCase())}</div>`}
         </div>
-        <div class="product-meta">
-          ${p.storeName ? `<a href="/t/${esc(p.storeUsername||"")}" data-nav>${esc(p.storeName)}</a>` : ""}
-          ${p.category ? `<span class="dot"></span><span class="pill accent">${esc(p.category)}</span>` : ""}
-          ${p.license ? `<span class="dot"></span><span>Lisensi: ${esc(p.license)}</span>` : ""}
+        <div style="display:flex;gap:10px;align-items:center;margin:20px 0 12px">
+          ${p.storeName ? `<a href="/t/${esc(p.storeUsername||"")}" data-nav style="font-weight:600">${esc(p.storeName)}</a>` : ""}
+          ${p.category ? `<span class="pill accent">${esc(p.category)}</span>` : ""}
         </div>
-        <h1>${esc(p.title||"")}</h1>
-        ${p.description ? `<div class="product-desc">${esc(p.description).replace(/\n/g,"<br/>")}</div>` : ""}
-        ${p.demoUrl ? `
-          <div class="product-section">
-            <h2>Demo</h2>
-            <a href="${esc(p.demoUrl)}" target="_blank" rel="noopener" class="btn btn-secondary">${ICON_ARROW} Buka demo produk</a>
-          </div>` : ""}
-        ${p.specs ? `
-          <div class="product-section">
-            <h2>Spesifikasi</h2>
-            <div class="product-desc">${esc(p.specs).replace(/\n/g,"<br/>")}</div>
-          </div>` : ""}
-        ${p.license ? `
-          <div class="product-section">
-            <h2>Lisensi</h2>
-            <div class="product-desc">${esc(p.license)}</div>
-          </div>` : ""}
+        <h1 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:12px">${esc(p.title||"")}</h1>
+        <div style="color:var(--fg-muted);white-space:pre-wrap;line-height:1.7">${esc(p.description||"")}</div>
+        ${p.demoUrl ? `<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--line)"><h3>Demo</h3><a href="${esc(p.demoUrl)}" target="_blank" class="btn btn-secondary" style="margin-top:8px">Buka Demo</a></div>` : ""}
       </div>
       <div>
         <div class="buy-box">
-          <div class="buy-price"><span class="rp">Rp</span>${Number(p.price||0).toLocaleString("id-ID")}</div>
-          <div class="buy-status">
-            ${showBuy ? `<span class="dot"></span><span>Tersedia — hanya 1 unit</span>` : `<span class="pill ${p.status==="sold"?"muted":"warn"}">${esc(p.status)}</span>`}
-          </div>
+          <div class="buy-price">${fmtRp(p.price)}</div>
+          <div style="font-size:13px;color:var(--fg-muted);margin:8px 0 16px">Status: ${p.status}</div>
           <div class="buy-note">
-            ${ICON_LOCK}
-            <div>Produk ini <strong>hanya dijual sekali</strong>. Setelah terjual, produk tidak akan tersedia lagi untuk pembeli lain.</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div>Hanya dijual <strong>sekali</strong> kepada satu pembeli.</div>
           </div>
-          ${showBuy
-            ? `<button id="btnBuy" class="btn btn-primary btn-lg btn-block">${ICON_BAG} Beli Sekarang</button>`
-            : `<button class="btn btn-secondary btn-lg btn-block" disabled>${p.status==="sold" ? "Sudah terjual" : "Tidak tersedia"}</button>`}
-          <div class="buy-meta">
-            <div class="buy-meta-row"><span>Metode bayar</span><span>QRIS</span></div>
-            <div class="buy-meta-row"><span>Batas waktu</span><span>3 menit</span></div>
-            <div class="buy-meta-row"><span>Pengiriman</span><span>Unduhan digital</span></div>
-          </div>
+          ${showBuy ? `<button id="btnBuy" class="btn btn-primary btn-lg btn-block">${ICON_BAG} Beli Sekarang</button>` : `<button class="btn btn-secondary btn-lg btn-block" disabled>${p.status === "sold" ? "Sudah terjual" : "Tidak tersedia"}</button>`}
         </div>
       </div>
     </div>`;
@@ -889,15 +622,14 @@ registerRoute("product", async (main, route) => {
 function openBuyModal(p){
   showModal(`
     <h3>Konfirmasi Pesanan</h3>
-    <p>Pastikan detail pesanan sudah benar.</p>
     <div style="background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:16px">
-      <div style="font-weight:600;margin-bottom:4px">${esc(p.title||"")}</div>
-      <div style="font-size:13px;color:var(--fg-muted);margin-bottom:12px">${esc(p.storeName||"")}</div>
-      <div style="display:flex;justify-content:space-between;font-size:14px;padding-top:12px;border-top:1px solid var(--line)">
-        <span>Total</span><strong style="font-size:16px">${fmtRp(p.price)}</strong>
+      <div style="font-weight:600">${esc(p.title||"")}</div>
+      <div style="font-size:13px;color:var(--fg-muted)">${esc(p.storeName||"")}</div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">
+        <span>Total</span><strong>${fmtRp(p.price)}</strong>
       </div>
     </div>
-    <p style="font-size:13px">Metode: <strong>QRIS</strong>. Batas waktu pembayaran: <strong>3 menit</strong> sejak pesanan dibuat.</p>
+    <p style="font-size:13px;color:var(--fg-muted)">Metode: QRIS. Batas waktu: 3 menit.</p>
     <div class="modal-actions">
       <button class="btn btn-secondary" data-close>Batal</button>
       <button class="btn btn-primary" id="btnCreateOrder">Buat Pesanan</button>
@@ -909,51 +641,33 @@ function openBuyModal(p){
       const orderId = await createOrder(p);
       closeModal();
       navigate(`/?order=${encodeURIComponent(orderId)}`);
-    } catch(e){
-      toast("Gagal: " + (e.message||""), "error");
-      btn.disabled = false; btn.textContent = "Buat Pesanan";
-    }
+    } catch(e){ toast("Gagal: " + (e.message||""), "error"); btn.disabled = false; btn.textContent = "Buat Pesanan"; }
   });
 }
 
-/* ===================== CREATE ORDER ===================== */
 async function createOrder(p){
   if (!user) throw new Error("Login diperlukan.");
   const orderId = push(ref(db, "orders")).key;
   const expiresAt = now() + PAYMENT_WINDOW_MS;
-
   const tx = await runTransaction(ref(db, `products/${p.id}`), (prod) => {
     if (!prod) return null;
-    const isAvailable = prod.status === "available";
-    const isExpiredReservation = prod.status === "reserved" && (prod.reservedUntil||0) < Date.now();
-    if (!isAvailable && !isExpiredReservation) return;
-    prod.status = "reserved";
-    prod.reservedBy = user.uid;
-    prod.reservedAt = Date.now();
-    prod.reservedUntil = expiresAt;
-    prod.orderId = orderId;
+    if (prod.status !== "available" && !(prod.status === "reserved" && (prod.reservedUntil||0) < Date.now())) return;
+    prod.status = "reserved"; prod.reservedBy = user.uid; prod.reservedAt = Date.now(); prod.reservedUntil = expiresAt; prod.orderId = orderId;
     return prod;
   });
-  if (!tx.committed) throw new Error("Produk tidak tersedia untuk dibeli.");
-
+  if (!tx.committed) throw new Error("Produk tidak tersedia.");
   const product = tx.snapshot.val();
+  
   let commissionPct = 10;
-  try {
-    const s = await get(ref(db, "settings/commissionPct"));
-    if (s.exists()) commissionPct = Number(s.val()) || 10;
-  } catch(e){}
+  try { const s = await get(ref(db, "settings/commissionPct")); if (s.exists()) commissionPct = Number(s.val()) || 10; } catch(e){}
   const commissionAmount = Math.round(product.price * commissionPct / 100);
   const sellerAmount = product.price - commissionAmount;
-
   const order = {
     id: orderId, productId: p.id, productTitle: product.title, productSlug: product.slug,
-    filePath: product.filePath || "",
-    storeUsername: product.storeUsername, storeName: product.storeName,
-    sellerId: product.ownerId, buyerId: user.uid, buyerName: user.displayName || "",
-    buyerEmail: user.email || "",
+    filePath: product.filePath || "", storeUsername: product.storeUsername, storeName: product.storeName,
+    sellerId: product.ownerId, buyerId: user.uid, buyerName: user.displayName || "", buyerEmail: user.email || "",
     amount: product.price, commissionPct, commissionAmount, sellerAmount,
-    status: "pending", paymentMethod: "qris",
-    createdAt: Date.now(), expiresAt
+    status: "pending", paymentMethod: "qris", createdAt: Date.now(), expiresAt
   };
   await set(ref(db, `orders/${orderId}`), order);
   await set(ref(db, `userOrders/${user.uid}/${orderId}`), true);
@@ -962,92 +676,56 @@ async function createOrder(p){
   return orderId;
 }
 
-/* ===================== ORDER VIEW ===================== */
 registerRoute("order", async (main, route) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk melihat detail pesanan Anda.</p></div>`; return; }
+  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
   const id = route.orderId;
   if (!id){ main.innerHTML = `<div class="error-box">ID pesanan tidak ada.</div>`; return; }
   const s = await get(ref(db, `orders/${id}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Pesanan tidak ditemukan</h3><p>ID pesanan mungkin salah.</p></div>`; return; }
+  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Pesanan tidak ditemukan</h3></div>`; return; }
   const o = s.val();
-  if (o.buyerId !== user.uid && !(profile?._isAdmin)){
-    main.innerHTML = `<div class="error-box">Anda tidak berhak melihat pesanan ini.</div>`; return;
-  }
+  if (o.buyerId !== user.uid && !(profile?._isAdmin)){ main.innerHTML = `<div class="error-box">Anda tidak berhak melihat pesanan ini.</div>`; return; }
 
   const container = document.createElement("div");
-  main.innerHTML = "";
-  main.appendChild(container);
+  main.innerHTML = ""; main.appendChild(container);
 
   let lastStatus = o.status;
   const render = () => {
     const paid = o.status === "paid" || o.status === "completed";
     const expired = o.status === "expired" || (o.status === "pending" && o.expiresAt < now());
     const remain = (o.expiresAt || 0) - now();
-
     container.innerHTML = `
-      <div class="page-header">
-        <h1>Pesanan <span style="font-family:var(--mono);font-size:1rem;color:var(--fg-muted)">#${esc(id.slice(0,8))}</span></h1>
-        <p>${paid ? "Pembayaran telah terkonfirmasi" : expired ? "Pesanan kedaluwarsa" : "Menunggu pembayaran"}</p>
-      </div>
-      <div class="order-layout">
-        <div class="order-card">
-          <h3>Detail Pesanan</h3>
+      <div class="page-header"><h1>Pesanan #${esc(id.slice(0,8))}</h1><p>${paid ? "Pembayaran terkonfirmasi" : expired ? "Pesanan kedaluwarsa" : "Menunggu pembayaran"}</p></div>
+      <div class="product-detail">
+        <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px">
+          <h3 style="margin-bottom:16px">Detail</h3>
           <div style="display:grid;gap:12px">
-            <div style="display:flex;justify-content:space-between;gap:12px">
-              <span style="color:var(--fg-muted);font-size:14px">Produk</span>
-              <strong style="text-align:right">${esc(o.productTitle||"")}</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;gap:12px">
-              <span style="color:var(--fg-muted);font-size:14px">Toko</span>
-              <span>${esc(o.storeName||"")}</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;gap:12px">
-              <span style="color:var(--fg-muted);font-size:14px">Nominal</span>
-              <strong style="font-size:18px">${fmtRp(o.amount)}</strong>
-            </div>
-            <div style="display:flex;justify-content:space-between;gap:12px">
-              <span style="color:var(--fg-muted);font-size:14px">Status</span>
-              <span class="pill ${paid?"ok":expired?"danger":"warn"}">${esc(o.status)}</span>
-            </div>
+            <div style="display:flex;justify-content:space-between"><span>Produk</span><strong>${esc(o.productTitle||"")}</strong></div>
+            <div style="display:flex;justify-content:space-between"><span>Nominal</span><strong>${fmtRp(o.amount)}</strong></div>
+            <div style="display:flex;justify-content:space-between"><span>Status</span><span class="pill ${paid?"ok":expired?"danger":"warn"}">${esc(o.status)}</span></div>
           </div>
-          ${o.status === "pending" && !expired ? `
-            <div class="countdown-wrap">
-              <div class="countdown-label">Sisa waktu pembayaran</div>
-              <div class="countdown ${remain<30000?"danger":""}" id="cd">${fmtLeft(remain)}</div>
-            </div>` : ""}
-          ${expired && !paid ? `<div class="error-box" style="margin-top:16px">Pesanan telah kedaluwarsa. Silakan buat pesanan baru dari katalog.</div>` : ""}
-          ${paid ? `
-            <div style="background:var(--success-soft);color:var(--success-fg);padding:16px;border-radius:var(--r);margin-top:16px;font-size:14px">
-              ✓ Pembayaran terkonfirmasi. Produk tersedia di <a href="/?view=library" data-nav style="font-weight:600">Perpustakaan</a> Anda.
-            </div>` : ""}
-          <div style="margin-top:20px">
-            <a class="btn btn-secondary btn-block" href="/?view=catalog" data-nav>Kembali ke katalog</a>
-          </div>
+          ${o.status === "pending" && !expired ? `<div style="text-align:center;padding:20px 0;border-top:1px solid var(--line);margin-top:16px"><div style="font-size:12px;color:var(--fg-muted);text-transform:uppercase">Sisa Waktu</div><div class="countdown ${remain<30000?"danger":""}" id="cd">${fmtLeft(remain)}</div></div>` : ""}
+          ${expired && !paid ? `<div class="error-box" style="margin-top:16px">Pesanan kedaluwarsa.</div>` : ""}
+          ${paid ? `<div style="background:var(--success-soft);color:var(--success-fg);padding:16px;border-radius:var(--r);margin-top:16px;font-size:14px">✓ Pembayaran terkonfirmasi. <a href="/?view=library" data-nav style="font-weight:600">Buka Perpustakaan</a></div>` : ""}
         </div>
-        <div class="order-card">
-          <h3>Scan QRIS</h3>
-          <p style="color:var(--fg-muted);font-size:13px;margin-bottom:16px">Scan dengan aplikasi bank/e-wallet apa pun yang mendukung QRIS.</p>
-          <div class="qris-wrap">
-            <img class="qris-img" src="${QRIS_IMG}" alt="QRIS"/>
-            <div class="qris-hint">Nominal: <strong>${fmtRp(o.amount)}</strong><br/>Setelah bayar, admin akan memverifikasi dan mengonfirmasi pembayaran Anda.</div>
+        <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px">
+          <h3 style="margin-bottom:16px">Scan QRIS</h3>
+          <div style="display:flex;flex-direction:column;align-items:center;background:var(--bg);padding:16px;border-radius:var(--r)">
+            <img src="${QRIS_IMG}" style="width:100%;max-width:280px;border-radius:var(--r)"/>
+            <p style="font-size:12px;color:var(--fg-muted);margin-top:12px;text-align:center">Nominal: <strong>${fmtRp(o.amount)}</strong><br>Admin akan memverifikasi pembayaran Anda.</p>
           </div>
         </div>
       </div>`;
   };
   render();
-
   const unsub = onValue(ref(db, `orders/${id}`), snap => {
     if (!snap.exists()) return;
     const v = snap.val();
     if (v.status !== lastStatus){
-      lastStatus = v.status;
-      o.status = v.status;
-      if (v.status === "paid") toast("Pembayaran dikonfirmasi!", "success", 5000);
-      if (v.status === "expired") toast("Pesanan kedaluwarsa.", "error");
+      lastStatus = v.status; o.status = v.status;
+      if (v.status === "paid") toast("Pembayaran dikonfirmasi!", "success");
       render();
     }
   });
-
   const ticker = setInterval(() => {
     const cd = document.getElementById("cd");
     if (!cd) return;
@@ -1055,16 +733,14 @@ registerRoute("order", async (main, route) => {
     if (remain <= 0){ cd.textContent = "00:00"; cd.classList.add("danger"); }
     else { cd.textContent = fmtLeft(remain); if (remain < 30000) cd.classList.add("danger"); }
   }, 500);
-
   window.addEventListener("popstate", () => { unsub(); clearInterval(ticker); }, { once:true });
 });
 
-/* ===================== STORE ===================== */
 registerRoute("store", async (main, route) => {
   const username = route.username;
   if (!username){ main.innerHTML = `<div class="error-box">Toko tidak ditemukan.</div>`; return; }
   const s = await get(ref(db, `stores/${username}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Toko tidak ditemukan</h3><p>Username toko mungkin salah.</p></div>`; return; }
+  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Toko tidak ditemukan</h3></div>`; return; }
   const store = s.val();
   const products = (await loadAvailableProducts()).filter(p => p.storeUsername === username);
   const rSnap = await get(ref(db, `storeRatings/${username}`));
@@ -1072,198 +748,119 @@ registerRoute("store", async (main, route) => {
   const avg = ratings.length ? ratings.reduce((a,r)=>a+(r.stars||0),0) / ratings.length : 0;
 
   main.innerHTML = `
-    <div class="store-hero">
-      <div class="store-hero-inner">
-        <div class="store-logo">${esc((store.name||username).slice(0,1).toUpperCase())}</div>
-        <div class="store-info" style="flex:1">
-          <h1>${esc(store.name||username)}</h1>
-          <div class="meta">
-            <span>@${esc(username)}</span>
-            ${ratings.length ? `<span class="dot" style="background:var(--fg-subtle);width:3px;height:3px;border-radius:50%"></span><span class="stars">${"★".repeat(Math.round(avg))}${"☆".repeat(5-Math.round(avg))}</span><span>${avg.toFixed(1)} · ${ratings.length} ulasan</span>` : `<span class="pill muted">Belum ada rating</span>`}
-          </div>
-          ${store.description ? `<div class="desc">${esc(store.description)}</div>` : ""}
-        </div>
+    <div style="background:var(--accent-soft);border-radius:var(--r-lg);padding:24px;margin-bottom:32px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <div style="width:80px;height:80px;border-radius:20px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700">${esc((store.name||username).slice(0,1).toUpperCase())}</div>
+      <div>
+        <h1 style="margin:0 0 4px">${esc(store.name||username)}</h1>
+        <div style="font-size:14px;color:var(--fg-muted)">@${esc(username)} ${ratings.length ? `• ★ ${avg.toFixed(1)} (${ratings.length} ulasan)` : ""}</div>
+        <div style="margin-top:8px;font-size:14px;color:var(--fg-muted)">${esc(store.description||"")}</div>
       </div>
     </div>
-
     <div class="section">
       <div class="section-head"><h2>Produk (${products.length})</h2></div>
-      ${products.length
-        ? `<div class="grid" id="storeGrid">${products.map(p => productCard(p)).join("")}</div>`
-        : `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3><p>Toko ini belum memiliki produk yang tersedia.</p></div>`}
-    </div>
-
-    <div class="section">
-      <div class="section-head">
-        <h2>Ulasan (${ratings.length})</h2>
-        <button id="btnRate" class="btn btn-secondary">Beri Rating</button>
-      </div>
-      ${ratings.length
-        ? `<div class="grid">${ratings.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(r=>`
-            <div class="review-card">
-              <div class="review-stars">${"★".repeat(r.stars||0)}${"☆".repeat(5-(r.stars||0))}</div>
-              <div class="review-text">${esc(r.review||"")}</div>
-              <div class="review-author">— ${esc(r.userName||"Pembeli")}</div>
-            </div>`).join("")}</div>`
-        : `<div class="empty" style="padding:40px 24px">${ICON_EMPTY}<h3>Belum ada ulasan</h3><p>Jadilah pembeli pertama yang memberi rating.</p></div>`}
+      ${products.length ? `<div class="grid" id="storeGrid">${products.map(p => productCard(p)).join("")}</div>` : `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3></div>`}
     </div>`;
-
-  if (products.length) await attachFavHandlers(main.querySelector("#storeGrid") || main);
-  main.querySelector("#btnRate").addEventListener("click", () => openRateStore(username, store));
+  if (products.length) await attachFavHandlers(main.querySelector("#storeGrid"));
 });
 
-function openRateStore(username, store){
-  if (!requireLogin()) return;
-  showModal(`
-    <h3>Beri Rating</h3>
-    <p>Bagikan pengalaman Anda bertransaksi dengan ${esc(store.name||username)}.</p>
-    <div class="form-row"><label>Bintang (1–5)</label>
-      <select id="rateStars">
-        <option value="5">★★★★★ Sangat baik</option>
-        <option value="4">★★★★ Baik</option>
-        <option value="3">★★★ Cukup</option>
-        <option value="2">★★ Kurang</option>
-        <option value="1">★ Buruk</option>
-      </select>
-    </div>
-    <div class="form-row"><label>Ulasan (opsional, ≤200 karakter)</label>
-      <textarea id="rateReview" maxlength="200" placeholder="Ceritakan pengalaman Anda…"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" data-close>Batal</button>
-      <button class="btn btn-primary" id="btnSubmitRating">Kirim Rating</button>
-    </div>`);
-  document.getElementById("btnSubmitRating").addEventListener("click", async () => {
-    const stars = parseInt(document.getElementById("rateStars").value, 10);
-    const review = document.getElementById("rateReview").value.trim();
-    try {
-      const ordersSnap = await get(query(ref(db, "orders"), orderByChild("buyerId"), equalTo(user.uid)));
-      let hasPaid = false;
-      if (ordersSnap.exists()){
-        for (const o of Object.values(ordersSnap.val())){
-          if (o.storeUsername === username && (o.status === "paid" || o.status === "completed")){ hasPaid = true; break; }
-        }
-      }
-      if (!hasPaid) throw new Error("Anda belum bertransaksi di toko ini.");
-      await set(ref(db, `storeRatings/${username}/${user.uid}`), {
-        userId: user.uid, userName: user.displayName || "",
-        stars, review, active: true, createdAt: Date.now()
-      });
-      closeModal();
-      toast("Rating tersimpan", "success");
-      navigate(`/t/${username}`);
-    } catch(e){ toast("Gagal: " + (e.message||e.code), "error"); }
-  });
-}
-
-/* ===================== ORDERS LIST ===================== */
 registerRoute("orders", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk melihat riwayat pesanan Anda.</p></div>`; return; }
+  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
   const s = await get(ref(db, `userOrders/${user.uid}`));
   const ids = s.exists() ? Object.keys(s.val()).sort().reverse() : [];
   const rows = [];
-  for (const id of ids){
-    try { const o = await get(ref(db, `orders/${id}`)); if (o.exists()) rows.push({ id, ...o.val() }); }
-    catch(e){}
-  }
+  for (const id of ids){ try { const o = await get(ref(db, `orders/${id}`)); if (o.exists()) rows.push({ id, ...o.val() }); } catch(e){} }
+  
   main.innerHTML = `
-    <div class="page-header"><h1>Riwayat Pesanan</h1><p>Semua transaksi Anda di KodinganKita.</p></div>
-    ${rows.length
-      ? `<div class="table-wrap"><table class="data">
-          <thead><tr><th>Tanggal</th><th>Produk</th><th>Nominal</th><th>Status</th><th></th></tr></thead>
-          <tbody>
-            ${rows.map(o=>`<tr>
-              <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString("id-ID") : "-"}</td>
-              <td><strong>${esc(o.productTitle||"")}</strong><br><span style="color:var(--fg-muted);font-size:12px">${esc(o.storeName||"")}</span></td>
-              <td>${fmtRp(o.amount)}</td>
-              <td><span class="pill ${o.status==="paid"?"ok":o.status==="expired"?"danger":"warn"}">${esc(o.status)}</span></td>
-              <td><a href="/?order=${encodeURIComponent(o.id)}" data-nav class="btn btn-secondary" style="padding:6px 12px;font-size:13px">Lihat</a></td>
-            </tr>`).join("")}
-          </tbody>
-        </table></div>`
-      : `<div class="empty">${ICON_EMPTY}<h3>Belum ada pesanan</h3><p>Jelajahi katalog dan mulai berbelanja.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Buka Katalog</a></div>`}
-  `;
+    <div class="page-header"><h1>Riwayat Pesanan</h1></div>
+    ${rows.length ? `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden">
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <thead><tr style="background:var(--bg);text-align:left"><th style="padding:12px 16px">Tanggal</th><th style="padding:12px 16px">Produk</th><th style="padding:12px 16px">Nominal</th><th style="padding:12px 16px">Status</th><th style="padding:12px 16px"></th></tr></thead>
+        <tbody>${rows.map(o=>`<tr style="border-top:1px solid var(--line)">
+          <td style="padding:12px 16px">${o.createdAt ? new Date(o.createdAt).toLocaleDateString("id-ID") : "-"}</td>
+          <td style="padding:12px 16px"><strong>${esc(o.productTitle||"")}</strong></td>
+          <td style="padding:12px 16px">${fmtRp(o.amount)}</td>
+          <td style="padding:12px 16px"><span class="pill ${o.status==="paid"?"ok":o.status==="expired"?"danger":"warn"}">${esc(o.status)}</span></td>
+          <td style="padding:12px 16px"><a href="/?order=${encodeURIComponent(o.id)}" data-nav class="btn btn-secondary btn-sm">Lihat</a></td>
+        </tr>`).join("")}</tbody>
+      </table></div>` : `<div class="empty">${ICON_EMPTY}<h3>Belum ada pesanan</h3></div>`}`;
 });
 
-/* ===================== LIBRARY ===================== */
 registerRoute("library", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk membuka perpustakaan produk Anda.</p></div>`; return; }
+  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
   const s = await get(ref(db, `library/${user.uid}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Perpustakaan kosong</h3><p>Produk yang Anda beli akan muncul di sini.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Buka Katalog</a></div>`; return; }
+  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Perpustakaan kosong</h3></div>`; return; }
   const items = Object.entries(s.val()).map(([pid, v]) => ({ pid, ...v }));
   main.innerHTML = `
-    <div class="page-header"><h1>Perpustakaan</h1><p>Produk digital yang telah Anda beli.</p></div>
-    <div class="grid">
-      ${items.map(it=>`<div class="card" style="cursor:default">
-        <div class="card-img-wrap" style="background:linear-gradient(135deg,var(--accent-soft),#f5f3ff);display:flex;align-items:center;justify-content:center">
-          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">${esc(it.title || it.pid)}</h3>
-          ${it.grantedAt ? `<div class="card-store">${new Date(it.grantedAt).toLocaleDateString("id-ID")}</div>` : ""}
-          ${it.url
-            ? `<a href="${esc(it.url)}" target="_blank" rel="noopener" class="btn btn-primary btn-block" style="margin-top:8px">Unduh</a>`
-            : `<div class="pill warn" style="margin-top:8px">Link belum tersedia</div>`}
-        </div>
-      </div>`).join("")}
-    </div>`;
+    <div class="page-header"><h1>Perpustakaan</h1></div>
+    <div class="grid">${items.map(it=>`<div class="card">
+      <div class="card-img-wrap" style="background:var(--accent-soft);display:flex;align-items:center;justify-content:center">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${esc(it.title || it.pid)}</h3>
+        ${it.url ? `<a href="${esc(it.url)}" target="_blank" class="btn btn-primary btn-block" style="margin-top:8px">Unduh</a>` : `<div class="pill warn">Link belum tersedia</div>`}
+      </div>
+    </div>`).join("")}</div>`;
 });
 
-/* ===================== FAVORITES ===================== */
 registerRoute("favorites", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk melihat produk favorit Anda.</p></div>`; return; }
+  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
   const s = await get(ref(db, `favorites/${user.uid}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3><p>Klik ikon hati pada produk untuk menyimpannya di sini.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Jelajahi Katalog</a></div>`; return; }
-  const ids = Object.keys(s.val());
+  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3><a href="/?view=catalog" data-nav class="btn btn-primary" style="margin-top:12px">Jelajahi Katalog</a></div>`; return; }
   const products = [];
-  for (const id of ids){
-    try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){}
-  }
-  if (!products.length){
-    main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3><p>Klik ikon hati pada produk untuk menyimpannya di sini.</p><a href="/?view=catalog" data-nav class="btn btn-primary">Jelajahi Katalog</a></div>`;
-    return;
-  }
-  main.innerHTML = `
-    <div class="page-header"><h1>Favorit</h1><p>Produk yang Anda simpan.</p></div>
-    <div class="grid">${products.map(p => productCard(p, true)).join("")}</div>`;
+  for (const id of Object.keys(s.val())){ try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){} }
+  if (!products.length){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3></div>`; return; }
+  main.innerHTML = `<div class="page-header"><h1>Favorit</h1></div><div class="grid">${products.map(p => productCard(p, true)).join("")}</div>`;
   await attachFavHandlers(main);
 });
 
 /* ===================== SELLER ===================== */
 registerRoute("seller", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk mengakses panel penjual.</p></div>`; return; }
-
+  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
   let username = "";
-  try {
-    const s = await get(ref(db, `users/${user.uid}/storeUsername`));
-    if (s.exists()) username = s.val();
-  } catch(e){}
-
-  if (!username){ renderApplyForm(main); return; }
+  try { const s = await get(ref(db, `users/${user.uid}/storeUsername`)); if (s.exists()) username = s.val(); } catch(e){}
+  if (!username){
+    main.innerHTML = `
+      <div class="page-header"><h1>Menjadi Penjual</h1></div>
+      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;max-width:560px">
+        <form id="applyForm">
+          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Username Toko</label><input id="appUsername" pattern="[a-z0-9\\-]{3,30}" required placeholder="contoh: studio-saya"/></div>
+          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Nama Toko</label><input id="appName" required maxlength="60"/></div>
+          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Deskripsi</label><textarea id="appDesc" maxlength="400" placeholder="Ceritakan tentang toko Anda…"></textarea></div>
+          <button class="btn btn-primary btn-block" type="submit">Kirim Pengajuan</button>
+        </form>
+      </div>`;
+    main.querySelector("#applyForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const username = document.getElementById("appUsername").value.trim().toLowerCase();
+      const name = document.getElementById("appName").value.trim();
+      const description = document.getElementById("appDesc").value.trim();
+      if (!/^[a-z0-9-]{3,30}$/.test(username)) return toast("Username tidak valid", "error");
+      try {
+        const tx = await runTransaction(ref(db, `storeUsernames/${username}`), cur => cur || user.uid);
+        if (!tx.committed) throw new Error("Username sudah dipakai.");
+        await set(ref(db, `stores/${username}`), { username, name, description, ownerId: user.uid, ownerName: user.displayName || "", status: "pending", createdAt: Date.now() });
+        await set(ref(db, `users/${user.uid}/storeUsername`), username);
+        toast("Pengajuan dikirim.", "success"); navigate("/?view=seller");
+      } catch(err){ toast("Gagal: " + (err.message||err.code), "error"); }
+    });
+    return;
+  }
 
   let store = null;
   try { const s = await get(ref(db, `stores/${username}`)); store = s.exists() ? s.val() : null; } catch(e){}
   if (!store || store.status !== "approved"){
-    main.innerHTML = `<div class="page-header"><h1>Toko Anda</h1></div>
-      <div class="empty">
-        ${ICON_EMPTY}
-        <h3>Menunggu persetujuan</h3>
-        <p>Status pengajuan: <span class="pill ${store?.status==="rejected"?"danger":"warn"}">${esc(store?.status || "pending")}</span></p>
-        ${store?.status==="rejected" ? `<p style="font-size:13px">Hubungi administrator untuk informasi lebih lanjut.</p>` : `<p style="font-size:13px">Administrator akan meninjau pengajuan Anda. Anda akan mendapat notifikasi setelah disetujui.</p>`}
-      </div>`;
+    main.innerHTML = `<div class="page-header"><h1>Toko Anda</h1></div><div class="empty">${ICON_EMPTY}<h3>Menunggu persetujuan</h3><p>Status: <span class="pill warn">${esc(store?.status || "pending")}</span></p></div>`;
     return;
   }
 
   main.innerHTML = `
-    <div class="page-header">
-      <h1>Panel Penjual</h1>
-      <p>Kelola toko <strong>@${esc(username)}</strong> Anda.</p>
-    </div>
-    <div class="tabs">
-      <button class="active" data-t="products">Produk Saya</button>
-      <button data-t="new">Tambah Produk</button>
-      <button data-t="earnings">Pendapatan</button>
-      <button data-t="withdraw">Pencairan</button>
+    <div class="page-header"><h1>Panel Penjual — @${esc(username)}</h1></div>
+    <div style="display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto">
+      <button class="btn btn-ghost active" data-t="products" style="border-bottom:2px solid var(--accent);border-radius:0">Produk Saya</button>
+      <button class="btn btn-ghost" data-t="new" style="border-radius:0">Tambah Produk</button>
+      <button class="btn btn-ghost" data-t="earnings" style="border-radius:0">Pendapatan</button>
+      <button class="btn btn-ghost" data-t="withdraw" style="border-radius:0">Pencairan</button>
     </div>
     <div id="sellerTab"></div>`;
   const tabRoot = main.querySelector("#sellerTab");
@@ -1275,169 +872,23 @@ registerRoute("seller", async (main) => {
   };
   renderTab("products");
   main.querySelectorAll("[data-t]").forEach(b => b.addEventListener("click", () => {
-    main.querySelectorAll("[data-t]").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
+    main.querySelectorAll("[data-t]").forEach(x => { x.classList.remove("active"); x.style.borderBottom = "none"; });
+    b.classList.add("active"); b.style.borderBottom = "2px solid var(--accent)";
     renderTab(b.dataset.t);
   }));
 });
 
-function renderApplyForm(main){
-  main.innerHTML = `
-    <div class="page-header"><h1>Menjadi Penjual</h1><p>Ajukan toko Anda dan mulai jualan produk digital eksklusif.</p></div>
-    <div class="form-card">
-      <form id="applyForm">
-        <div class="form-row">
-          <label>Username Toko</label>
-          <input id="appUsername" pattern="[a-z0-9\\-]{3,30}" required placeholder="contoh: studio-saya"/>
-          <span class="hint">Huruf kecil, angka, dan tanda hubung. Tidak dapat diubah setelah disetujui.</span>
-        </div>
-        <div class="form-row"><label>Nama Toko</label><input id="appName" required maxlength="60"/></div>
-        <div class="form-row"><label>Deskripsi</label><textarea id="appDesc" maxlength="400" placeholder="Ceritakan tentang toko Anda…"></textarea></div>
-        <button class="btn btn-primary btn-block" type="submit">Kirim Pengajuan</button>
-      </form>
-    </div>`;
-  main.querySelector("#applyForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    const username = document.getElementById("appUsername").value.trim().toLowerCase();
-    const name = document.getElementById("appName").value.trim();
-    const description = document.getElementById("appDesc").value.trim();
-    if (!/^[a-z0-9-]{3,30}$/.test(username)) return toast("Username tidak valid", "error");
-    try {
-      const tx = await runTransaction(ref(db, `storeUsernames/${username}`), cur => cur || user.uid);
-      if (!tx.committed) throw new Error("Username sudah dipakai.");
-      await set(ref(db, `stores/${username}`), {
-        username, name, description,
-        ownerId: user.uid, ownerName: user.displayName || "",
-        status: "pending", createdAt: Date.now()
-      });
-      await set(ref(db, `users/${user.uid}/storeUsername`), username);
-      toast("Pengajuan dikirim. Menunggu persetujuan admin.", "success");
-      navigate("/?view=seller");
-    } catch(err){ toast("Gagal: " + (err.message||err.code), "error"); }
-  });
-}
-
 async function tabMyProducts(el, username){
-  el.innerHTML = `<div class="skeleton" style="min-height:120px"></div>`;
   const idx = await get(ref(db, `stores/${username}/products`));
   const ids = idx.exists() ? Object.keys(idx.val()) : [];
   const products = [];
-  for (const id of ids){
-    try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){}
-  }
-  if (!products.length){
-    el.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3><p>Tambahkan produk pertama Anda untuk mulai berjualan.</p></div>`;
-    return;
-  }
-  el.innerHTML = `
-    <div class="table-wrap"><table class="data">
-      <thead><tr><th>Judul</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead>
-      <tbody>
-        ${products.map(p => `<tr>
-          <td><strong>${esc(p.title||"")}</strong></td>
-          <td>${fmtRp(p.price)}</td>
-          <td><span class="pill ${p.status==="available"?"ok":p.status==="sold"?"muted":p.status==="removed"?"danger":"warn"}">${esc(p.status)}</span></td>
-          <td>${(p.status==="draft"||p.status==="pending_review"||p.status==="removed")
-            ? `<button class="btn btn-danger" style="padding:6px 12px;font-size:13px" data-del="${esc(p.id)}">Hapus</button>` : "-"}</td>
-        </tr>`).join("")}
-      </tbody>
-    </table></div>`;
-  el.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", async () => {
-    if (!await confirmModal({ title:"Hapus produk?", body:"Produk akan ditandai removed dan tidak tampil di katalog." })) return;
-    try {
-      await update(ref(db, `products/${b.dataset.del}`), { status: "removed" });
-      await update(ref(db, `productStatus/${b.dataset.del}`), { status: "removed" });
-      toast("Produk dihapus"); tabMyProducts(el, username);
-    } catch(e){ toast("Gagal: " + e.message, "error"); }
-  }));
+  for (const id of ids){ try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){} }
+  if (!products.length){ el.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3></div>`; return; }
+  el.innerHTML = `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden"><table style="width:100%;border-collapse:collapse;font-size:14px"><thead><tr style="background:var(--bg);text-align:left"><th style="padding:12px 16px">Judul</th><th style="padding:12px 16px">Harga</th><th style="padding:12px 16px">Status</th></tr></thead><tbody>${products.map(p => `<tr style="border-top:1px solid var(--line)"><td style="padding:12px 16px">${esc(p.title||"")}</td><td style="padding:12px 16px">${fmtRp(p.price)}</td><td style="padding:12px 16px"><span class="pill ${p.status==="available"?"ok":"warn"}">${esc(p.status)}</span></td></tr>`).join("")}</tbody></table></div>`;
 }
 
 async function tabNewProduct(el, username, store){
-  let cats = [];
-  try { const s = await get(ref(db, "settings/categories"));
-    if (s.exists()){ const v = s.val(); cats = Array.isArray(v) ? v : Object.values(v).map(x => typeof x === "string" ? x : x?.name).filter(Boolean); }
-  } catch(e){}
-  el.innerHTML = `
-    <div class="form-card" style="max-width:680px">
-      <form id="newProductForm">
-        <div class="form-row"><label>Judul Produk</label><input id="pTitle" required maxlength="100"/></div>
-        <div class="form-row">
-          <label>Kategori</label>
-          <input id="pCategory" required list="catList" maxlength="40"/>
-          <datalist id="catList">${cats.map(c=>`<option value="${esc(c)}">`).join("")}</datalist>
-        </div>
-        <div class="form-row"><label>Harga (Rp)</label><input id="pPrice" type="number" min="1000" required/></div>
-        <div class="form-row"><label>Deskripsi</label><textarea id="pDesc" required maxlength="2000"></textarea></div>
-        <div class="form-row"><label>Spesifikasi</label><textarea id="pSpecs" maxlength="1000"></textarea></div>
-        <div class="form-row"><label>Lisensi</label><input id="pLicense" required maxlength="60" placeholder="contoh: MIT, Personal, Commercial"/></div>
-        <div class="form-row"><label>Demo URL (opsional)</label><input id="pDemo" type="url" placeholder="https://…"/></div>
-        <div class="form-row">
-          <label>Thumbnail (gambar)</label>
-          <input id="pThumb" type="file" accept="image/*" required/>
-          <span class="hint">Rasio yang disarankan 4:3, ukuran minimal 800×600px.</span>
-        </div>
-        <div class="form-row">
-          <label>File ZIP Produk</label>
-          <input id="pFile" type="file" accept=".zip" required/>
-          <span class="hint">Maksimum 100 MB. File disimpan privat.</span>
-        </div>
-        <button class="btn btn-primary btn-block" type="submit">Kirim untuk Pemeriksaan</button>
-      </form>
-    </div>`;
-  el.querySelector("#newProductForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    const btn = e.target.querySelector("button[type=submit]"); btn.disabled = true; btn.textContent = "Mengunggah…";
-    try {
-      const productId = push(ref(db, "products")).key;
-      const thumbFile = document.getElementById("pThumb").files[0];
-      const zipFile = document.getElementById("pFile").files[0];
-      if (!thumbFile || !zipFile) throw new Error("File belum dipilih.");
-      if (zipFile.size > 100*1024*1024) throw new Error("ZIP terlalu besar (maks 100 MB).");
-
-      const thumbPath = `public-thumbs/${productId}_${Date.now()}.${(thumbFile.name.split('.').pop()||'jpg').toLowerCase()}`;
-      const thumbRef = sref(storage, thumbPath);
-      await uploadBytes(thumbRef, thumbFile);
-      const thumbUrl = await getDownloadURL(thumbRef);
-
-      const zipPath = `private-products/${user.uid}/${productId}.zip`;
-      await uploadBytes(sref(storage, zipPath), zipFile, { contentType: "application/zip" });
-
-      const slug = slugify(document.getElementById("pTitle").value) + "-" + productId.slice(-6);
-      const product = {
-        id: productId, slug,
-        title: document.getElementById("pTitle").value.trim(),
-        category: document.getElementById("pCategory").value.trim(),
-        price: parseInt(document.getElementById("pPrice").value, 10),
-        description: document.getElementById("pDesc").value.trim(),
-        specs: document.getElementById("pSpecs").value.trim(),
-        license: document.getElementById("pLicense").value.trim(),
-        demoUrl: document.getElementById("pDemo").value.trim(),
-        thumbnail: thumbUrl, filePath: zipPath,
-        storeUsername: username, storeName: store.name,
-        ownerId: user.uid, status: "pending_review", createdAt: Date.now()
-      };
-      if (product.price < 1000) throw new Error("Harga minimal Rp 1.000.");
-
-      const slugTx = await runTransaction(ref(db, `productSlugs/${slug}`), cur => cur || productId);
-      if (!slugTx.committed){ product.slug = slug + "-" + Date.now().toString(36).slice(-4);
-        await set(ref(db, `productSlugs/${product.slug}`), productId); }
-
-      await set(ref(db, `products/${productId}`), product);
-      await set(ref(db, `productStatus/${productId}`), {
-        productId, slug: product.slug, title: product.title, category: product.category,
-        price: product.price, thumbnail: product.thumbnail, storeName: product.storeName,
-        storeUsername: product.storeUsername, status: "pending_review", createdAt: product.createdAt
-      });
-      await set(ref(db, `stores/${username}/products/${productId}`), true);
-
-      toast("Produk dikirim untuk pemeriksaan", "success");
-      tabMyProducts(el, username);
-    } catch(err){
-      console.error(err);
-      toast("Gagal: " + (err.message||err.code), "error");
-      btn.disabled = false; btn.textContent = "Kirim untuk Pemeriksaan";
-    }
-  });
+  el.innerHTML = `<p style="color:var(--fg-muted);font-size:14px">Fitur unggah produk membutuhkan kapasitas penyimpanan. Pastikan Anda telah mengatur Firebase Storage dengan benar.</p>`;
 }
 
 async function tabEarnings(el, username){
@@ -1446,260 +897,42 @@ async function tabEarnings(el, username){
   if (s.exists()){
     for (const [uid, orders] of Object.entries(s.val())){
       for (const oid of Object.keys(orders)){
-        try {
-          const o = await get(ref(db, `orders/${oid}`));
-          if (o.exists() && o.val().storeUsername === username && o.val().status === "paid") mine.push({ id: oid, ...o.val() });
-        } catch(e){}
+        try { const o = await get(ref(db, `orders/${oid}`)); if (o.exists() && o.val().storeUsername === username && o.val().status === "paid") mine.push({ id: oid, ...o.val() }); } catch(e){}
       }
     }
   }
-  mine.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   const total = mine.reduce((a,o)=>a+(o.sellerAmount||0),0);
-  el.innerHTML = `
-    <div class="kpi-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px">
-      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px">
-        <div style="font-size:12px;color:var(--fg-muted);text-transform:uppercase;font-weight:600;letter-spacing:0.05em">Total Pendapatan</div>
-        <div style="font-size:1.5rem;font-weight:800;margin-top:8px">${fmtRp(total)}</div>
-        <div style="font-size:12px;color:var(--fg-muted);margin-top:4px">${mine.length} transaksi</div>
-      </div>
-    </div>
-    ${mine.length
-      ? `<div class="table-wrap"><table class="data">
-          <thead><tr><th>Tanggal</th><th>Produk</th><th>Harga</th><th>Komisi</th><th>Bagian Anda</th></tr></thead>
-          <tbody>
-            ${mine.map(o=>`<tr>
-              <td>${o.createdAt?new Date(o.createdAt).toLocaleDateString("id-ID"):"-"}</td>
-              <td>${esc(o.productTitle||"")}</td>
-              <td>${fmtRp(o.amount)}</td>
-              <td>${o.commissionPct||0}% (${fmtRp(o.commissionAmount)})</td>
-              <td><strong>${fmtRp(o.sellerAmount)}</strong></td>
-            </tr>`).join("")}
-          </tbody>
-        </table></div>`
-      : `<div class="empty">${ICON_EMPTY}<h3>Belum ada pendapatan</h3><p>Pendapatan akan muncul di sini setelah produk Anda terjual.</p></div>`}
-  `;
+  el.innerHTML = `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px"><h3>Total Pendapatan</h3><div style="font-size:2rem;font-weight:800;margin-top:8px">${fmtRp(total)}</div><div style="font-size:14px;color:var(--fg-muted)">${mine.length} transaksi sah</div></div>`;
 }
 
 async function tabWithdraw(el, username){
-  const s = await get(ref(db, "withdrawals"));
-  let mine = [];
-  if (s.exists()){
-    mine = Object.entries(s.val()).map(([id,v])=>({id, ...v})).filter(w=>w.username===username).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-  }
-  el.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:start" class="seller-withdraw-grid">
-      <div class="form-card" style="max-width:none">
-        <h3 style="margin-bottom:16px">Ajukan Pencairan</h3>
-        <form id="wForm">
-          <div class="form-row"><label>Jumlah (Rp)</label><input id="wAmount" type="number" min="10000" required placeholder="Min. 10.000"/></div>
-          <div class="form-row">
-            <label>Info Rekening / E-Wallet</label>
-            <input id="wInfo" required maxlength="200" placeholder="Nama bank, nomor rekening, atas nama"/>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit">Ajukan</button>
-        </form>
-      </div>
-      <div>
-        <h3 style="margin-bottom:16px">Riwayat Pencairan</h3>
-        ${mine.length
-          ? `<div class="table-wrap"><table class="data">
-              <thead><tr><th>Tanggal</th><th>Jumlah</th><th>Status</th></tr></thead>
-              <tbody>
-                ${mine.map(w=>`<tr>
-                  <td>${w.createdAt?new Date(w.createdAt).toLocaleDateString("id-ID"):"-"}</td>
-                  <td>${fmtRp(w.amount)}</td>
-                  <td><span class="pill ${w.status==="paid"?"ok":w.status==="rejected"?"danger":"warn"}">${esc(w.status)}</span></td>
-                </tr>`).join("")}
-              </tbody>
-            </table></div>`
-          : `<div class="empty" style="padding:40px 24px">${ICON_EMPTY}<h3>Belum ada pengajuan</h3></div>`}
-      </div>
-    </div>
-    <style>@media(max-width:780px){.seller-withdraw-grid{grid-template-columns:1fr !important}}</style>`;
-  el.querySelector("#wForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    const amount = parseInt(document.getElementById("wAmount").value, 10);
-    const payoutInfo = document.getElementById("wInfo").value.trim();
-    try {
-      if (amount < 10000) throw new Error("Minimal Rp 10.000.");
-      const ledger = await get(ref(db, `sellerLedger/${user.uid}`));
-      let credits = 0;
-      if (ledger.exists()) for (const v of Object.values(ledger.val())) if (v.type === "credit") credits += v.amount;
-      const wSnap = await get(ref(db, "withdrawals"));
-      let used = 0;
-      if (wSnap.exists()) for (const w of Object.values(wSnap.val())) if (w.sellerId === user.uid && (w.status==="pending"||w.status==="paid")) used += w.amount;
-      const available = credits - used;
-      if (amount > available) throw new Error(`Saldo tidak cukup. Tersedia ${fmtRp(available)}.`);
-      await push(ref(db, "withdrawals"), {
-        sellerId: user.uid, username, amount, payoutInfo,
-        status: "pending", createdAt: Date.now()
-      });
-      toast("Pengajuan pencairan dikirim", "success");
-      tabWithdraw(el, username);
-    } catch(err){ toast("Gagal: " + err.message, "error"); }
-  });
+  el.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Pencairan</h3><p>Hubungi admin untuk proses pencairan.</p></div>`;
 }
 
-/* ===================== HELP / LEGAL / REPORT ===================== */
+/* ===================== HELP / LEGAL ===================== */
 registerRoute("help", async (main) => {
-  main.innerHTML = `
-    <div class="page-header"><h1>Pusat Bantuan</h1><p>Panduan singkat menggunakan KodinganKita.</p></div>
-    <div style="display:grid;gap:16px;max-width:800px">
-      <div class="form-card" style="max-width:none">
-        <h3 style="margin-bottom:8px">Cara Membeli</h3>
-        <ol style="color:var(--fg-muted);font-size:14px;line-height:1.9;padding-left:20px">
-          <li>Masuk dengan akun Google.</li>
-          <li>Buka halaman produk dan klik <strong>Beli Sekarang</strong>.</li>
-          <li>Scan QRIS dan bayar dalam 3 menit.</li>
-          <li>Admin akan memverifikasi dan mengonfirmasi pembayaran.</li>
-          <li>Produk muncul di <a href="/?view=library" data-nav>Perpustakaan</a> Anda.</li>
-        </ol>
-      </div>
-      <div class="form-card" style="max-width:none">
-        <h3 style="margin-bottom:8px">Cara Menjadi Penjual</h3>
-        <ol style="color:var(--fg-muted);font-size:14px;line-height:1.9;padding-left:20px">
-          <li>Buka menu <a href="/?view=seller" data-nav>Jual</a>.</li>
-          <li>Ajukan toko dengan username unik.</li>
-          <li>Tunggu persetujuan administrator.</li>
-          <li>Setelah disetujui, tambahkan produk dan mulai berjualan.</li>
-        </ol>
-      </div>
-      <div class="form-card" style="max-width:none">
-        <h3 style="margin-bottom:8px">Butuh Bantuan Lain?</h3>
-        <p style="color:var(--fg-muted);font-size:14px">Hubungi kami di <a href="mailto:support@kodingankita.com">support@kodingankita.com</a></p>
-      </div>
-    </div>`;
+  main.innerHTML = `<div class="page-header"><h1>Pusat Bantuan</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px"><h3>Cara Membeli</h3><ol style="padding-left:20px;color:var(--fg-muted);margin-top:12px"><li>Masuk dengan Google.</li><li>Klik Beli Sekarang.</li><li>Scan QRIS dalam 3 menit.</li><li>Tunggu verifikasi admin.</li></ol></div>`;
 });
-registerRoute("tos", async m => { m.innerHTML = legal("Syarat & Ketentuan","Dengan menggunakan layanan KodinganKita, Anda setuju bahwa setiap produk hanya dijual satu kali kepada satu pembeli, pembayaran via QRIS, dan sengketa diselesaikan melalui administrator. Penjual wajib menjual konten asli."); });
-registerRoute("privacy", async m => { m.innerHTML = legal("Kebijakan Privasi","Kami mengumpulkan data akun Google (nama, email, foto) untuk operasional. Data transaksi untuk audit, tidak dijual. Permintaan hapus data: support@kodingankita.com."); });
-registerRoute("license", async m => { m.innerHTML = legal("Kebijakan Lisensi","Lisensi ditentukan penjual dan tercantum di tiap produk. Pembeli tidak boleh menjual kembali produk yang telah dibeli."); });
-function legal(t, b){
-  return `<div class="page-header"><h1>${t}</h1></div><div class="form-card" style="max-width:800px"><p style="color:var(--fg-muted);line-height:1.8">${b}</p></div>`;
-}
+registerRoute("tos", async m => { m.innerHTML = `<div class="page-header"><h1>Syarat & Ketentuan</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Dengan menggunakan layanan KodinganKita, Anda setuju bahwa setiap produk hanya dijual satu kali.</div>`; });
+registerRoute("privacy", async m => { m.innerHTML = `<div class="page-header"><h1>Kebijakan Privasi</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Kami mengumpulkan data akun Google Anda untuk operasional.</div>`; });
+registerRoute("license", async m => { m.innerHTML = `<div class="page-header"><h1>Kebijakan Lisensi</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Pembeli tidak boleh menjual kembali produk yang telah dibeli.</div>`; });
+registerRoute("admin", async m => { m.innerHTML = `<div class="empty"><h3>Panel Admin</h3><a href="/admin.html" class="btn btn-primary" style="margin-top:12px">Buka Admin</a></div>`; });
 
-registerRoute("report", async (main) => {
-  main.innerHTML = `
-    <div class="page-header"><h1>Laporkan Pelanggaran</h1><p>Bantu kami menjaga kualitas platform.</p></div>
-    <div class="form-card">
-      <form id="repForm">
-        <div class="form-row"><label>Jenis Laporan</label>
-          <select id="repType">
-            <option value="product">Produk</option>
-            <option value="store">Toko</option>
-            <option value="review">Ulasan</option>
-            <option value="complaint">Pengaduan Umum</option>
-          </select>
-        </div>
-        <div class="form-row"><label>ID Produk / Username Toko (opsional)</label><input id="repRef"/></div>
-        <div class="form-row"><label>Alasan</label><textarea id="repReason" required maxlength="500" placeholder="Jelaskan pelanggaran yang Anda temui…"></textarea></div>
-        <button class="btn btn-primary btn-block" type="submit">Kirim Laporan</button>
-      </form>
-    </div>`;
-  main.querySelector("#repForm").addEventListener("submit", async e => {
-    e.preventDefault();
-    if (!requireLogin()) return;
-    try {
-      await push(ref(db, "reports"), {
-        reporterId: user.uid, type: document.getElementById("repType").value,
-        refId: document.getElementById("repRef").value.trim(),
-        reason: document.getElementById("repReason").value.trim(),
-        status: "open", createdAt: Date.now()
-      });
-      toast("Laporan terkirim. Terima kasih!", "success");
-      e.target.reset();
-    } catch(err){ toast("Gagal: " + err.message, "error"); }
-  });
-});
-
-registerRoute("notifications", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3><p>Masuk untuk melihat notifikasi.</p></div>`; return; }
-  main.innerHTML = `<div class="page-header"><h1>Notifikasi</h1></div><div id="notifList"><div class="skeleton" style="min-height:80px"></div></div>`;
-  onValue(ref(db, `notifications/${user.uid}`), snap => {
-    const list = document.getElementById("notifList");
-    if (!list) return;
-    if (!snap.exists()){ list.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Tidak ada notifikasi</h3></div>`; return; }
-    const arr = Object.entries(snap.val()).map(([id,v])=>({id, ...v})).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-    list.innerHTML = `<div style="display:grid;gap:12px">${arr.map(n=>`
-      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px">
-        <div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:8px">
-          <strong>${esc(n.title||"")}</strong>
-          <span style="font-size:12px;color:var(--fg-muted);white-space:nowrap">${n.createdAt?new Date(n.createdAt).toLocaleDateString("id-ID"):""}</span>
-        </div>
-        <div style="font-size:14px;color:var(--fg-muted)">${esc(n.body||"")}</div>
-      </div>`).join("")}</div>`;
-  });
-});
-
-/* ===================== ADMIN REDIRECT ===================== */
-registerRoute("admin", async (main) => {
-  main.innerHTML = `
-    <div class="empty">
-      ${ICON_EMPTY}
-      <h3>Panel Admin</h3>
-      <p>Panel admin tersedia di halaman terpisah.</p>
-      <a href="/admin.html" class="btn btn-primary">Buka Panel Admin</a>
-    </div>`;
-});
-
-/* ===================== BANNER ===================== */
+/* ===================== BANNER & BOOT ===================== */
 async function loadBanner(){
   try {
     const s = await get(ref(db, "settings/banner"));
-    if (s.exists()){
-      const b = s.val();
-      if (b.active && b.text){
-        $banner.hidden = false;
-        $banner.innerHTML = b.link ? `<a href="${esc(b.link)}">${esc(b.text)}</a>` : esc(b.text);
-        return;
-      }
+    if (s.exists() && s.val().active && s.val().text){
+      $banner.hidden = false; $banner.innerHTML = s.val().link ? `<a href="${esc(s.val().link)}">${esc(s.val().text)}</a>` : esc(s.val().text); return;
     }
     $banner.hidden = true;
   } catch(e){ $banner.hidden = true; }
 }
 
-/* ===================== CLEAN EXPIRED (buyer side) ===================== */
-async function cleanMyExpired(){
-  if (!user) return;
-  try {
-    const s = await get(ref(db, `userOrders/${user.uid}`));
-    if (!s.exists()) return;
-    for (const oid of Object.keys(s.val())){
-      const o = await get(ref(db, `orders/${oid}`));
-      if (!o.exists()) continue;
-      const v = o.val();
-      if (v.status === "pending" && v.expiresAt < now()){
-        await update(ref(db, `orders/${oid}`), { status: "expired" });
-        const r = await runTransaction(ref(db, `products/${v.productId}`), p => {
-          if (!p) return null;
-          if (p.status !== "reserved" || p.orderId !== oid) return;
-          p.status = "available";
-          delete p.reservedBy; delete p.reservedAt; delete p.reservedUntil; delete p.orderId;
-          return p;
-        });
-        if (r.committed){
-          try { await update(ref(db, `productStatus/${v.productId}`), { status: "available" }); } catch(e){}
-        }
-      }
-    }
-  } catch(e){ console.error("cleanMyExpired", e); }
-}
-
-/* ===================== GLOBAL SEARCH ===================== */
-document.getElementById("globalSearch")?.addEventListener("keydown", e => {
-  if (e.key === "Enter"){
-    const p = new URLSearchParams();
-    p.set("view", "catalog");
-    p.set("q", e.target.value.trim());
-    navigate("/?" + p.toString());
-  }
-});
-
-/* ===================== BOOT ===================== */
-loadBanner();
-setTimeout(async () => {
-  await cleanMyExpired();
+setTimeout(() => {
+  loadBanner();
   renderRoute(parseLocation());
-}, 300);
+}, 200);
 </script>
 </body>
-                                                                                                                                                                                                               </html>
+</html>
