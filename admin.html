@@ -69,7 +69,6 @@ tr:hover td{background:#f8fafc}
 .input,.select,.textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;transition:border .15s;background:#fff}
 .input:focus,.select:focus,.textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
 
-/* PERBAIKAN TEXTAREA UNTUK KODE PANJANG */
 .textarea{
   min-height:120px;
   resize:vertical;
@@ -118,10 +117,9 @@ tr:hover td{background:#f8fafc}
 .toast.success{border-left-color:var(--success)}
 @keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* PREVIEW BOX */
-.preview-box{background:#f8fafc;border:1px dashed var(--border);border-radius:8px;padding:16px;display:flex;align-items:center;justify-content:center;min-height:120px;margin-top:8px;overflow:hidden}
-.preview-box.round{border-radius:50%;width:64px;height:64px;min-height:64px;padding:0}
-.preview-box svg,.preview-box img,.preview-box canvas{max-width:100%;max-height:100%;object-fit:cover}
+/* PREVIEW BOX (IFRAME) */
+.preview-box{background:#f8fafc;border:1px dashed var(--border);border-radius:8px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.preview-box iframe{width:100%;height:100%;border:0;display:block}
 </style>
 </head>
 <body>
@@ -194,7 +192,6 @@ tr:hover td{background:#f8fafc}
   </main>
 </div>
 
-<!-- MODAL CONTAINER -->
 <div id="modal-container"></div>
 <div id="toast-container"></div>
 
@@ -436,7 +433,6 @@ window.toggleShop = async (id, status) => {
   toast("Status toko diperbarui.","success"); route();
 };
 
-/* --- MANAJEMEN PRODUK (TAMBAH/EDIT/HAPUS) --- */
 async function viewProducts() {
   const snap = await get(ref(db,"products"));
   const list = Object.entries(snap.val() || {}).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
@@ -500,7 +496,7 @@ async function viewProducts() {
 
       const shopId = fd.get("shopId");
       const shopOwnerSnap = await get(ref(db, `shops/${shopId}/ownerId`));
-      const sellerId = shopOwnerSnap.val() || adminUser.uid; // Jika toko tidak punya owner, pakai admin
+      const sellerId = shopOwnerSnap.val() || adminUser.uid; 
 
       const prRef = push(ref(db,"products"));
       await set(prRef, {
@@ -648,7 +644,7 @@ window.toggleReview = async (id, status) => {
   toast("Status ulasan diperbarui.","success"); route();
 };
 
-/* --- SETTINGS (EDITOR MASCOT & MENU) --- */
+/* --- SETTINGS (EDITOR MASCOT & MENU DENGAN ISOLASI) --- */
 async function viewSettings() {
   const snap = await get(ref(db,"settings/marketplace"));
   const s = snap.val() || {};
@@ -681,7 +677,7 @@ async function viewSettings() {
 
     <div class="card">
       <h3 class="card-title">Editor Mascot Utama</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Masukkan kode HTML, SVG, atau JS. Mendukung tag &lt;script&gt;, &lt;canvas&gt;, dll.</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Masukkan kode HTML, SVG, atau JS (boleh kode 1 halaman penuh). Sistem akan mengisolasi kode di dalam iframe agar tidak merusak halaman admin.</p>
       
       <div class="row">
         <div class="field">
@@ -706,17 +702,35 @@ async function viewSettings() {
     </div>
   `;
 
+  // Fungsi Isolasi Iframe
+  const createIframe = (code, isRound = false) => {
+    const iframe = document.createElement("iframe");
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    if (isRound) iframe.style.borderRadius = "50%";
+    
+    // Gunakan srcdoc untuk merender HTML user secara terisolasi
+    iframe.srcdoc = `
+      <html>
+      <head>
+        <style>
+          body { margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+          * { box-sizing: border-box; }
+        </style>
+      </head>
+      <body>${code}</body>
+      </html>
+    `;
+    return iframe;
+  };
+
   // Mascot Preview
   window.previewMascot = () => {
     const code = $("#mascotCode").value;
-    $("#mascotPreview").innerHTML = code;
-    // Eksekusi script
-    $("#mascotPreview").querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-      oldScript.parentNode.replaceChild(newScript, oldScript);
-    });
+    const box = $("#mascotPreview");
+    box.innerHTML = ""; 
+    box.appendChild(createIframe(code, false));
   };
   window.previewMascot();
 
@@ -750,17 +764,28 @@ async function viewSettings() {
           </div>
           <div class="field" style="margin:0">
             <label>Preview Ikon</label>
-            <div class="preview-box round" id="menu-preview-${i}">${m.code}</div>
+            <div class="preview-box round" id="menu-preview-${i}" style="width:64px;height:64px;border-radius:50%"></div>
           </div>
         </div>
       </div>`).join("");
+      
+    menuItems.forEach((m, i) => {
+       const el = $(`#menu-preview-${i}`);
+       if(el) {
+         el.innerHTML = "";
+         el.appendChild(createIframe(m.code, true));
+       }
+    });
   };
 
   window.updateMenuData = (idx, field, val) => {
     menuItems[idx][field] = val;
     if(field === 'code') {
       const el = $(`#menu-preview-${idx}`);
-      if(el) el.innerHTML = val;
+      if(el) {
+        el.innerHTML = "";
+        el.appendChild(createIframe(val, true));
+      }
     }
   };
 
