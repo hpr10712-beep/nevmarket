@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — KodinganKita</title>
+<link rel="icon" href="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<style>
+:root{
+  --primary:#4f46e5; --primary-600:#4338ca; --primary-50:#eef2ff;
+  --text:#0f172a; --muted:#64748b; --border:#e2e8f0;
+  --bg:#ffffff; --bg-soft:#f8fafc; --danger:#dc2626; --success:#16a34a;
+  --warn:#d97706; --radius:12px; --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg-soft);color:var(--text);line-height:1.55}
+a{color:var(--primary);text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:30}
+.nav{display:flex;align-items:center;gap:16px;padding:14px 0}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;color:var(--text)}
+.brand img{width:32px;height:32px;border-radius:8px;object-fit:cover}
+.nav .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:8px;border:1px solid transparent;font-weight:600;font-size:13px;text-decoration:none;color:inherit;transition:background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-600)}
+.btn-ghost{background:#fff;border-color:var(--border)}
+.btn-ghost:hover{background:var(--bg-soft)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-sm{padding:6px 10px;font-size:12px;border-radius:6px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.layout{display:grid;grid-template-columns:240px 1fr;gap:24px;padding:24px 0;min-height:calc(100vh - 70px)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow-x:auto;padding:8px}.sidebar a{white-space:nowrap;margin:0 4px 0 0}}
+.sidebar{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:12px;align-self:start;position:sticky;top:80px;box-shadow:var(--shadow)}
+.sidebar a{display:block;padding:10px 14px;border-radius:8px;color:var(--muted);font-size:14px;margin-bottom:4px;font-weight:500;transition:all .15s}
+.sidebar a.active,.sidebar a:hover{background:var(--primary-50);color:var(--primary);font-weight:600;text-decoration:none}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;box-shadow:var(--shadow)}
+.card h1{margin:0 0 16px;font-size:22px}
+.card h3{margin:0 0 16px;font-size:16px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.stat{background:var(--bg-soft);padding:16px;border-radius:10px;border:1px solid var(--border)}
+.stat .v{font-size:24px;font-weight:800;color:var(--text);margin:4px 0}
+.stat .l{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+.table-wrap{overflow-x:auto}
+th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:middle}
+th{font-weight:600;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.02em;background:var(--bg-soft)}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-yellow{background:#fef3c7;color:#92400e}
+.badge-red{background:#fee2e2;color:#991b1b}
+.badge-blue{background:var(--primary-50);color:var(--primary)}
+.badge-gray{background:#f1f5f9;color:#475569}
+.field{margin-bottom:16px}
+.field label{font-size:13px;font-weight:600;display:block;margin-bottom:6px;color:var(--text)}
+.input,.textarea,.select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;outline:none;background:#fff;transition:border-color .15s}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--primary)}
+.textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.row{grid-template-columns:1fr}}
+.denied{max-width:560px;margin:60px auto;text-align:center;padding:40px;background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.denied h1{color:var(--danger);margin:0 0 12px;font-size:24px}
+.notice{padding:12px 16px;border-radius:8px;font-size:13px;margin:16px 0;border:1px solid;line-height:1.5}
+.notice-warn{background:#fffbeb;border-color:#fde68a;color:#92400e}
+.notice-info{background:var(--primary-50);border-color:#c7d2fe;color:var(--primary-600)}
+.notice-error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.notice-ok{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap}
+#toast-container{position:fixed;bottom:24px;right:24px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast{background:#fff;border-left:4px solid var(--primary);padding:12px 16px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.15);font-size:13px;max-width:340px}
+.toast.error{border-left-color:var(--danger)}
+.toast.success{border-left-color:var(--success)}
+.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px;height:120px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Boot loading screen */
+.boot-wrap{padding:80px 20px;text-align:center;max-width:520px;margin:0 auto}
+.boot-spinner{width:44px;height:44px;border:4px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite}
+.boot-title{font-weight:700;font-size:15px;margin:0 0 6px}
+.boot-msg{color:var(--muted);font-size:13px;margin:0}
+.boot-error{padding:24px;background:#fef2f2;border:1px solid #fecaca;border-radius:12px;text-align:left;margin-top:24px}
+.boot-error h3{color:var(--danger);margin:0 0 8px;font-size:15px}
+.boot-error pre{background:#fff;padding:12px;border-radius:6px;font-size:11px;overflow:auto;max-height:200px;border:1px solid #fecaca}
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <div class="brand">
+      <img src="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg" alt="Logo">
+      <span>KodinganKita Admin</span>
+    </div>
+    <div class="spacer"></div>
+    <a href="/" class="btn btn-ghost" target="_blank">Lihat Situs</a>
+    <span id="adminEmail" style="font-size:13px;color:var(--muted);font-weight:500"></span>
+    <button id="signOutBtn" class="btn btn-ghost" style="display:none">Keluar</button>
+  </div>
+</header>
+
+<!-- PENTING: root TIDAK kosong — selalu ada boot loading -->
+<main id="root">
+  <div class="boot-wrap" id="bootScreen">
+    <div class="boot-spinner"></div>
+    <p class="boot-title" id="bootTitle">Memuat panel admin…</p>
+    <p class="boot-msg" id="bootMsg">Menyiapkan…</p>
+  </div>
+</main>
+<div id="toast-container"></div>
+
+<!-- Global error handler — tangkap error apapun sebelum modul jalan -->
+<script>
+(function(){
+  function showFatal(title, detail){
+    var root = document.getElementById("root");
+    if(!root) return;
+    root.innerHTML =
+      '<div class="boot-wrap">' +
+        '<div style="font-size:52px;margin-bottom:12px">⚠️</div>' +
+        '<p class="boot-title">' + title + '</p>' +
+        '<p class="boot-msg">Buka konsol browser (F12 → Console) untuk detail lengkap.</p>' +
+        (detail ? '<div class="boot-error"><h3>Detail Error</h3><pre>' +
+          String(detail).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}) +
+          '</pre></div>' : '') +
+      '</div>';
+  }
+  window.addEventListener("error", function(e){
+    if(e.message && !/ResizeObserver/.test(e.message)){
+      console.error("[FATAL]", e.error || e.message);
+      showFatal("Terjadi Kesalahan Saat Memuat", e.error && e.error.stack ? e.error.stack : (e.message || String(e.error)));
+    }
+  });
+  window.addEventListener("unhandledrejection", function(e){
+    console.error("[UNHANDLED PROMISE]", e.reason);
+  });
+  // Tandai di konsol bahwa halaman berhasil load HTML
+  console.log("[BOOT] admin.html HTML parsed");
+})();
+</script>
+
+<script type="module">
+/* =========================================================
+   KodinganKita Admin v2 (with diagnostics)
+   ========================================================= */
+const bootTitle = document.getElementById("bootTitle");
+const bootMsg = document.getElementById("bootMsg");
+const boot = (msg) => { if(bootMsg) bootMsg.textContent = msg; console.log("[BOOT]", msg); };
+
+boot("Mengimpor modul Firebase…");
+
+let initializeApp, getDatabase, ref, get, set, update, push, serverTimestamp;
+let getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged;
+let db, auth, provider;
+
+try {
+  const fbApp = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+  initializeApp = fbApp.initializeApp;
+  boot("Modul firebase-app.js dimuat");
+
+  const fbDb = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js");
+  ({ getDatabase, ref, get, set, update, push, serverTimestamp } = fbDb);
+  boot("Modul firebase-database.js dimuat");
+
+  const fbAuth = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js");
+  ({ getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } = fbAuth);
+  boot("Modul firebase-auth.js dimuat");
+} catch(importErr) {
+  console.error("[IMPORT FAILED]", importErr);
+  document.getElementById("root").innerHTML =
+    '<div class="boot-wrap">' +
+      '<div style="font-size:52px">🌐</div>' +
+      '<p class="boot-title">Gagal Memuat Modul Firebase</p>' +
+      '<p class="boot-msg">Pastikan Anda terhubung internet & tidak ada ad-blocker yang memblokir <code>gstatic.com</code> / <code>googleapis.com</code>.</p>' +
+      '<div class="boot-error"><h3>Detail</h3><pre>' + String(importErr.stack || importErr.message || importErr).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])) + '</pre></div>' +
+    '</div>';
+  throw importErr;
+}
+
+/* ---------- Firebase init ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCHr0eemIkfHNFDUKSaFDklp_c1OgmSnl8",
+  authDomain: "mybro-9ba5f.firebaseapp.com",
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+  projectId: "mybro-9ba5f"
+};
+
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getDatabase(app);
+  auth = getAuth(app);
+  provider = new GoogleAuthProvider();
+  boot("Firebase terinisialisasi");
+  console.log("[BOOT] Firebase initialized OK");
+} catch(e) {
+  console.error("[FIREBASE INIT FAILED]", e);
+  document.getElementById("root").innerHTML =
+    '<div class="boot-wrap"><div style="font-size:52px">🔥</div><p class="boot-title">Firebase Init Gagal</p>' +
+    '<div class="boot-error"><h3>Detail</h3><pre>' + String(e.stack || e.message).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])) + '</pre></div></div>';
+  throw e;
+}
+
+/* ---------- Utils ---------- */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rupiah = n => "Rp"+Number(n||0).toLocaleString("id-ID");
+const fmtDate = ts => ts ? new Date(ts).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}) : "-";
+
+function toast(msg,type="info"){
+  const el=document.createElement("div");
+  el.className=`toast ${type}`;
+  el.textContent=msg;
+  $("#toast-container").appendChild(el);
+  setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>el.remove(),300);},4000);
+}
+
+function statusBadge(s) {
+  const map = {
+    pending:"badge-yellow", approved:"badge-green", rejected:"badge-red",
+    suspended:"badge-red", available:"badge-green", sold:"badge-gray",
+    paid:"badge-green", expired:"badge-red", cancelled:"badge-gray",
+    awaiting_verification:"badge-yellow", pending_review:"badge-yellow",
+    archived:"badge-gray", completed:"badge-green"
+  };
+  return `<span class="badge ${map[s]||"badge-blue"}">${esc(s||"-")}</span>`;
+}
+
+/* ---------- State & Auth ---------- */
+let adminUser = null;
+
+async function isAdmin(uid) {
+  try {
+    const snap = await get(ref(db, `admins/${uid}`));
+    const val = snap.val();
+    console.log("[ADMIN CHECK]", uid, "→", val, "exists:", snap.exists());
+    return val === true;
+  } catch(e) {
+    console.error("[ADMIN CHECK ERROR]", e);
+    return false;
+  }
+}
+
+async function auditLog(action, targetType, targetId, reason="") {
+  if(!adminUser) return;
+  try {
+    await push(ref(db,"auditLogs"), {
+      actorId: adminUser.uid,
+      actorEmail: adminUser.email || "",
+      action, targetType, targetId, reason,
+      createdAt: serverTimestamp()
+    });
+  } catch(e){ console.warn("auditLog error", e); }
+}
+
+function renderDenied(msg) {
+  console.log("[RENDER DENIED]", msg);
+  $("#root").innerHTML = `
+    <div class="denied">
+      <div style="font-size:52px;margin-bottom:8px">🔒</div>
+      <h1>Akses Ditolak</h1>
+      <p style="color:var(--muted);margin-bottom:20px">${esc(msg)}</p>
+      <button class="btn btn-primary" id="loginAdminBtn">Masuk dengan Google</button>
+      <div class="notice notice-info" style="margin-top:20px;text-align:left;font-size:12px">
+        <strong>Cara setup administrator:</strong><br>
+        1. Login sekali di situs utama (index.html)<br>
+        2. Buka Firebase Console → Realtime Database → <code>users</code><br>
+        3. Salin UID Anda<br>
+        4. Buat node <code>admins/{UID_ANDA} = true</code> (boolean, bukan string)<br>
+        5. Refresh halaman ini
+      </div>
+    </div>`;
+  $("#loginAdminBtn")?.addEventListener("click", async () => {
+    try {
+      boot("Membuka popup Google Sign-In…");
+      await signInWithPopup(auth, provider);
+    } catch(e){
+      console.error("[LOGIN FAILED]", e);
+      toast("Login gagal: "+(e.message||e.code), "error");
+    }
+  });
+}
+
+boot("Menunggu status autentikasi…");
+
+onAuthStateChanged(auth, async user => {
+  console.log("[AUTH STATE]", user ? "logged in as "+user.email : "not logged in");
+  boot(user ? "Terverifikasi login: " + (user.email||user.uid) : "Belum login");
+
+  if (!user) {
+    renderDenied("Silakan masuk dengan akun administrator.");
+    return;
+  }
+
+  const ok = await isAdmin(user.uid);
+  if (!ok) {
+    renderDenied("Akun " + (user.email||user.uid) + " tidak memiliki akses administrator. Pastikan node admins/" + user.uid + " = true di Firebase.");
+    return;
+  }
+
+  adminUser = user;
+  $("#adminEmail").textContent = user.email || "";
+  $("#signOutBtn").style.display = "inline-flex";
+  $("#signOutBtn").onclick = () => signOut(auth);
+
+  await auditLog("admin_login","session",user.uid,"Login to dashboard");
+  boot("Membangun dashboard…");
+  renderAppShell();
+});
+
+/* ---------- App Shell ---------- */
+function renderAppShell() {
+  $("#root").innerHTML = `
+    <div class="container">
+      <div class="layout">
+        <nav class="sidebar">
+          <a href="#dashboard" data-route="dashboard">📊 Dashboard</a>
+          <a href="#sellers" data-route="sellers">🏪 Pengajuan Toko</a>
+          <a href="#shops" data-route="shops">✅ Manajemen Toko</a>
+          <a href="#products" data-route="products">📦 Produk</a>
+          <a href="#orders" data-route="orders">🧾 Pesanan</a>
+          <a href="#reviews" data-route="reviews">⭐ Ulasan</a>
+          <a href="#settings" data-route="settings">⚙️ Pengaturan</a>
+          <a href="#audit" data-route="audit">📜 Audit Log</a>
+        </nav>
+        <div id="view"><div class="card"><div class="skeleton"></div></div></div>
+      </div>
+    </div>`;
+  $$(".sidebar a").forEach(a => a.addEventListener("click", e => {
+    e.preventDefault();
+    location.hash = a.dataset.route;
+  }));
+  window.addEventListener("hashchange", route);
+  route();
+}
+
+async function route() {
+  if (!adminUser) return;
+  const r = location.hash.replace(/^#/,"") || "dashboard";
+  $$(".sidebar a").forEach(a => a.classList.toggle("active", a.dataset.route === r));
+  try {
+    if (r === "dashboard") await viewDashboard();
+    else if (r === "sellers") await viewSellers();
+    else if (r === "shops") await viewShops();
+    else if (r === "products") await viewProducts();
+    else if (r === "orders") await viewOrders();
+    else if (r === "reviews") await viewReviews();
+    else if (r === "settings") await viewSettings();
+    else if (r === "audit") await viewAudit();
+  } catch(e) {
+    console.error("[VIEW ERROR]", r, e);
+    $("#view").innerHTML = `
+      <div class="card">
+        <h1 style="color:var(--danger)">Gagal Memuat Halaman</h1>
+        <div class="notice notice-error">
+          <strong>${esc(e.code||"error")}</strong>: ${esc(e.message||"Terjadi kesalahan")}
+        </div>
+        <p style="font-size:13px;color:var(--muted)">Kemungkinan penyebab: Firebase Rules menolak akses. Pastikan rules sudah sesuai dengan <code>database.rules.json</code> yang disediakan.</p>
+        <pre style="background:#f8fafc;padding:12px;border-radius:6px;font-size:11px;overflow:auto">${esc(e.stack||"")}</pre>
+      </div>`;
+  }
+}
+
+/* =========================================================
+   VIEWS
+   ========================================================= */
+
+async function viewDashboard() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const [users, shops, apps, products, orders] = await Promise.all([
+    get(ref(db,"users")).then(s=>s.val()||{}),
+    get(ref(db,"shops")).then(s=>s.val()||{}),
+    get(ref(db,"sellerApplications")).then(s=>s.val()||{}),
+    get(ref(db,"products")).then(s=>s.val()||{}),
+    get(ref(db,"orders")).then(s=>s.val()||{})
+  ]);
+  const pendingOrders = Object.values(orders).filter(o => o.paymentStatus==="pending" || o.paymentStatus==="awaiting_verification").length;
+  const paidOrders = Object.values(orders).filter(o => o.paymentStatus==="paid");
+  const totalSales = paidOrders.reduce((s,o)=>s+Number(o.priceSnapshot||0),0);
+  const totalCommission = paidOrders.reduce((s,o)=>s+Number(o.commissionSnapshot||0),0);
+  const pendingApps = Object.values(apps).filter(a=>a.status==="pending").length;
+
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Dashboard Ringkasan</h1>
+      <div class="stat-grid">
+        <div class="stat"><div class="l">Total Pengguna</div><div class="v">${Object.keys(users).length}</div></div>
+        <div class="stat"><div class="l">Toko Aktif</div><div class="v">${Object.values(shops).filter(s=>s.status==="approved").length}</div></div>
+        <div class="stat"><div class="l">Pengajuan Pending</div><div class="v" style="color:${pendingApps?'var(--warn)':'var(--text)'}">${pendingApps}</div></div>
+        <div class="stat"><div class="l">Produk Tersedia</div><div class="v">${Object.values(products).filter(p=>p.status==="available").length}</div></div>
+        <div class="stat"><div class="l">Produk Terjual</div><div class="v">${Object.values(products).filter(p=>p.status==="sold").length}</div></div>
+        <div class="stat"><div class="l">Perlu Verifikasi</div><div class="v" style="color:${pendingOrders?'var(--warn)':'var(--text)'}">${pendingOrders}</div></div>
+        <div class="stat"><div class="l">Transaksi Sukses</div><div class="v">${paidOrders.length}</div></div>
+        <div class="stat"><div class="l">Total Penjualan</div><div class="v">${rupiah(totalSales)}</div></div>
+        <div class="stat"><div class="l">Pendapatan Komisi</div><div class="v" style="color:var(--success)">${rupiah(totalCommission)}</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Informasi Penting</h3>
+      <p style="font-size:13px;color:var(--muted);margin:0">Selalu verifikasi bukti transfer QRIS secara manual sebelum menekan tombol "Konfirmasi Lunas" pada menu Pesanan. Tindakan tersebut permanen.</p>
+    </div>`;
+}
+
+async function viewSellers() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"sellerApplications"));
+  const apps = snap.val() || {};
+  const list = Object.entries(apps).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Pengajuan Penjual</h1>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nama Toko / Slug</th><th>Pemilik</th><th>Kontak</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+        <tbody>${list.map(([id,a])=>`
+          <tr>
+            <td><strong>${esc(a.shopName)}</strong><br><span style="font-size:11px;color:var(--muted)">/${esc(a.slug)}</span></td>
+            <td>${esc(a.ownerName)}<br><span style="font-size:11px;color:var(--muted)">${esc(a.email)}</span></td>
+            <td>${esc(a.contact||"-")}</td>
+            <td>${statusBadge(a.status)}</td>
+            <td>${fmtDate(a.createdAt)}</td>
+            <td class="row-actions">
+              ${a.status === "pending" ? `
+                <button class="btn btn-success btn-sm" data-approve="${id}">Setujui</button>
+                <button class="btn btn-danger btn-sm" data-reject="${id}">Tolak</button>` : ""}
+            </td>
+          </tr>`).join("") || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Tidak ada pengajuan.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+  $$("[data-approve]").forEach(b => b.addEventListener("click", () => approveSeller(b.dataset.approve, list)));
+  $$("[data-reject]").forEach(b => b.addEventListener("click", () => rejectSeller(b.dataset.reject)));
+}
+
+async function approveSeller(id, list) {
+  const app = list.find(([k]) => k === id)?.[1];
+  if (!app) return;
+  if(!confirm(`Setujui toko "${app.shopName}"?`)) return;
+  try {
+    const shopRef = push(ref(db,"shops"));
+    await set(shopRef, {
+      ownerId: app.userId, name: app.shopName, slug: app.slug,
+      description: app.description, logoURL: app.logoURL || "",
+      verificationStatus: "approved", status: "approved",
+      ratingAverage: 0, ratingCount: 0, transactionCount: 0,
+      createdAt: Date.now()
+    });
+    await update(ref(db,`sellerApplications/${id}`), { status: "approved", reviewedAt: Date.now(), reviewedBy: adminUser.uid });
+    await auditLog("approve_seller", "sellerApplication", id, `Created shop ${shopRef.key}`);
+    toast("Toko disetujui.","success");
+    viewSellers();
+  } catch(e) { toast("Gagal: "+e.message, "error"); }
+}
+
+async function rejectSeller(id) {
+  const reason = prompt("Alasan penolakan (wajib):");
+  if (!reason || !reason.trim()) { toast("Alasan wajib diisi.","error"); return; }
+  try {
+    await update(ref(db,`sellerApplications/${id}`), { status: "rejected", rejectionReason: reason.trim(), reviewedAt: Date.now(), reviewedBy: adminUser.uid });
+    await auditLog("reject_seller", "sellerApplication", id, reason.trim());
+    toast("Pengajuan ditolak.","success");
+    viewSellers();
+  } catch(e) { toast("Gagal: "+e.message, "error"); }
+}
+
+async function viewShops() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"shops"));
+  const shops = snap.val() || {};
+  const list = Object.entries(shops);
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Manajemen Toko</h1>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nama Toko</th><th>Slug</th><th>Status</th><th>Rating</th><th>Aksi</th></tr></thead>
+        <tbody>${list.map(([id,s])=>`
+          <tr>
+            <td><strong>${esc(s.name)}</strong></td>
+            <td>${esc(s.slug)}</td>
+            <td>${statusBadge(s.status||s.verificationStatus)}</td>
+            <td>⭐ ${(s.ratingAverage||0).toFixed(1)} (${s.ratingCount||0})</td>
+            <td class="row-actions">
+              ${s.status !== "suspended" ? `<button class="btn btn-danger btn-sm" data-suspend="${id}">Suspend</button>` : `<button class="btn btn-success btn-sm" data-activate="${id}">Aktifkan</button>`}
+            </td>
+          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">Belum ada toko.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+  $$("[data-suspend]").forEach(b => b.addEventListener("click", async () => {
+    if (!confirm("Tangguhkan toko ini?")) return;
+    await update(ref(db,`shops/${b.dataset.suspend}`), { status: "suspended" });
+    await auditLog("suspend_shop","shop",b.dataset.suspend,"");
+    toast("Toko ditangguhkan.","success"); viewShops();
+  }));
+  $$("[data-activate]").forEach(b => b.addEventListener("click", async () => {
+    await update(ref(db,`shops/${b.dataset.activate}`), { status: "approved", verificationStatus: "approved" });
+    await auditLog("activate_shop","shop",b.dataset.activate,"");
+    toast("Toko diaktifkan.","success"); viewShops();
+  }));
+}
+
+async function viewProducts() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"products"));
+  const products = snap.val() || {};
+  const list = Object.entries(products).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Manajemen Produk</h1>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Nama Produk</th><th>Kategori</th><th>Harga</th><th>Status</th><th>Ketersediaan</th><th>Aksi</th></tr></thead>
+        <tbody>${list.map(([id,p])=>`
+          <tr>
+            <td><strong>${esc(p.title)}</strong></td>
+            <td>${esc(p.category)}</td>
+            <td>${rupiah(p.price)}</td>
+            <td>${statusBadge(p.status)}</td>
+            <td>${statusBadge(p.availability)}</td>
+            <td class="row-actions">
+              ${p.status === "pending_review" ? `<button class="btn btn-success btn-sm" data-approve-product="${id}">Setujui</button><button class="btn btn-danger btn-sm" data-reject-product="${id}">Tolak</button>` : ""}
+              ${p.status === "available" ? `<button class="btn btn-danger btn-sm" data-suspend-product="${id}">Suspend</button>` : ""}
+              ${p.status === "suspended" ? `<button class="btn btn-success btn-sm" data-restore-product="${id}">Pulihkan</button>` : ""}
+            </td>
+          </tr>`).join("") || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Belum ada produk.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+  $$("[data-approve-product]").forEach(b => b.addEventListener("click", async () => {
+    await update(ref(db,`products/${b.dataset.approveProduct}`), { status: "available", availability: "available", updatedAt: Date.now() });
+    await auditLog("approve_product","product",b.dataset.approveProduct,"");
+    toast("Produk disetujui.","success"); viewProducts();
+  }));
+  $$("[data-reject-product]").forEach(b => b.addEventListener("click", async () => {
+    const reason = prompt("Alasan penolakan produk:") || "";
+    await update(ref(db,`products/${b.dataset.rejectProduct}`), { status: "rejected", availability: "unavailable", updatedAt: Date.now() });
+    await auditLog("reject_product","product",b.dataset.rejectProduct,reason);
+    toast("Produk ditolak.","success"); viewProducts();
+  }));
+  $$("[data-suspend-product]").forEach(b => b.addEventListener("click", async () => {
+    await update(ref(db,`products/${b.dataset.suspendProduct}`), { status: "suspended", availability: "suspended" });
+    await auditLog("suspend_product","product",b.dataset.suspendProduct,"");
+    toast("Produk ditangguhkan.","success"); viewProducts();
+  }));
+  $$("[data-restore-product]").forEach(b => b.addEventListener("click", async () => {
+    await update(ref(db,`products/${b.dataset.restoreProduct}`), { status: "available", availability: "available" });
+    await auditLog("restore_product","product",b.dataset.restoreProduct,"");
+    toast("Produk dipulihkan.","success"); viewProducts();
+  }));
+}
+
+async function viewOrders() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"orders"));
+  const orders = snap.val() || {};
+  const list = Object.entries(orders).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Manajemen Pesanan</h1>
+      <div class="notice notice-warn">
+        ⚠️ <strong>PENTING:</strong> Tombol "Konfirmasi Lunas" hanya boleh diklik setelah Anda memverifikasi bukti transfer QRIS secara manual. Tindakan ini permanen.
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>ID Pesanan</th><th>Pembeli</th><th>Produk</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody>${list.map(([id,o])=>`
+          <tr>
+            <td><code style="font-size:11px;background:#f1f5f9;padding:2px 4px;border-radius:4px">${esc(id)}</code></td>
+            <td>${esc(o.buyerName||o.buyerId)}</td>
+            <td><div style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${esc(o.productTitleSnapshot)}</div></td>
+            <td><strong>${rupiah(o.priceSnapshot)}</strong></td>
+            <td>${statusBadge(o.paymentStatus)}</td>
+            <td class="row-actions">
+              ${(o.paymentStatus === "awaiting_verification" || o.paymentStatus === "pending") ? `<button class="btn btn-success btn-sm" data-confirm-payment="${id}">Konfirmasi Lunas</button>` : ""}
+              ${o.paymentStatus === "paid" ? `<span class="badge badge-green">Selesai</span>` : ""}
+            </td>
+          </tr>`).join("") || `<tr><td colspan="6" style="text-align:center;color:var(--muted)">Belum ada pesanan.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+  $$("[data-confirm-payment]").forEach(b => b.addEventListener("click", async () => {
+    const id = b.dataset.confirmPayment;
+    if (!confirm(`Konfirmasi pesanan ${id} sebagai LUNAS?\n\nProduk akan ditandai TERJUAL secara permanen.`)) return;
+    await confirmPayment(id);
+  }));
+}
+
+async function confirmPayment(orderId) {
+  try {
+    const orderSnap = await get(ref(db,`orders/${orderId}`));
+    const order = orderSnap.val();
+    if (!order) throw new Error("Order not found");
+    if (order.paymentStatus === "paid") { toast("Pesanan sudah lunas.","error"); return; }
+    const now = Date.now();
+    await update(ref(db,`products/${order.productId}`), {
+      status: "sold", availability: "sold", soldAt: now,
+      soldTo: order.buyerId, soldOrderId: orderId,
+      reservedBy: null, reservedUntil: null, reservationOrderId: null, updatedAt: now
+    });
+    await update(ref(db,`orders/${orderId}`), { paymentStatus: "paid", orderStatus: "completed", paidAt: now, completedAt: now });
+    const txRef = push(ref(db,"transactions"));
+    await set(txRef, {
+      orderId, buyerId: order.buyerId, sellerId: order.sellerId, shopId: order.shopId,
+      productId: order.productId, amount: order.priceSnapshot,
+      commission: order.commissionSnapshot, sellerAmount: order.sellerAmountSnapshot,
+      status: "completed", createdAt: now
+    });
+    const shopSnap = await get(ref(db,`shops/${order.shopId}`));
+    if (shopSnap.exists()) {
+      const s = shopSnap.val();
+      await update(ref(db,`shops/${order.shopId}`), { transactionCount: (s.transactionCount||0) + 1 });
+    }
+    await auditLog("confirm_payment","order",orderId,`Manual verification. Amount: ${order.priceSnapshot}`);
+    toast("Pesanan lunas. Produk ditandai terjual.","success");
+    viewOrders();
+  } catch(e) {
+    console.error(e);
+    toast("Gagal: "+e.message, "error");
+  }
+}
+
+async function viewReviews() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"reviews"));
+  const reviews = snap.val() || {};
+  const list = Object.entries(reviews).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Moderasi Ulasan</h1>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Pembeli</th><th>Rating</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody>${list.map(([id,r])=>`
+          <tr>
+            <td>${esc(r.buyerName||r.buyerId)}</td>
+            <td style="color:#d97706">${"★".repeat(Number(r.rating||0))}${"☆".repeat(5-Number(r.rating||0))}</td>
+            <td style="white-space:normal;max-width:300px">${esc(r.comment||"-")}</td>
+            <td>${statusBadge(r.status)}</td>
+            <td class="row-actions">
+              ${r.status === "visible" ? `<button class="btn btn-danger btn-sm" data-hide-review="${id}">Sembunyikan</button>` : `<button class="btn btn-success btn-sm" data-show-review="${id}">Tampilkan</button>`}
+            </td>
+          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">Belum ada ulasan.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+  $$("[data-hide-review]").forEach(b => b.addEventListener("click", async () => {
+    const reason = prompt("Alasan menyembunyikan ulasan (wajib):") || "";
+    if(!reason.trim()) return toast("Alasan wajib diisi","error");
+    await update(ref(db,`reviews/${b.dataset.hideReview}`), { status: "hidden" });
+    await auditLog("hide_review","review",b.dataset.hideReview,reason);
+    toast("Ulasan disembunyikan.","success"); viewReviews();
+  }));
+  $$("[data-show-review]").forEach(b => b.addEventListener("click", async () => {
+    await update(ref(db,`reviews/${b.dataset.showReview}`), { status: "visible" });
+    await auditLog("show_review","review",b.dataset.showReview,"");
+    toast("Ulasan ditampilkan kembali.","success"); viewReviews();
+  }));
+}
+
+async function viewSettings() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"settings/marketplace"));
+  const s = snap.val() || {};
+  const mascot = s.mascot || { type:"image", url:"", alt:"Maskot KodinganKita", backgroundColor:"#eef2ff", clickAction:"" };
+  const menuItems = s.menuItems || [];
+
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Informasi Umum</h1>
+      <form id="generalForm">
+        <div class="row">
+          <div class="field"><label>Nama Website</label><input class="input" name="name" value="${esc(s.name||'KodinganKita')}"></div>
+          <div class="field"><label>Logo URL</label><input class="input" name="logoURL" value="${esc(s.logoURL||'')}"></div>
+        </div>
+        <div class="field"><label>Deskripsi / Tagline</label><textarea class="textarea" name="description">${esc(s.description||'')}</textarea></div>
+        <div class="row">
+          <div class="field"><label>Tarif Komisi (0.10 = 10%)</label><input class="input" name="commissionRate" type="number" step="0.01" min="0" max="0.5" value="${s.commissionRate ?? 0.10}"></div>
+          <div class="field"><label>Durasi Reservasi (detik)</label><input class="input" name="reservationDurationSeconds" type="number" min="60" max="600" value="${s.reservationDurationSeconds ?? 180}"></div>
+        </div>
+        <div class="field"><label>Kategori (pisahkan dengan koma)</label><textarea class="textarea" name="allowedCategories">${esc((s.allowedCategories||[]).join(", "))}</textarea></div>
+        <button class="btn btn-primary" type="submit">Simpan Informasi Umum</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>🎭 Maskot Beranda</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Mendukung Gambar/GIF, Video (MP4/WebM), dan Model 3D (GLB/GLTF).</p>
+      <form id="mascotForm">
+        <div class="row">
+          <div class="field"><label>Tipe Maskot</label>
+            <select class="select" name="type" id="mascotType">
+              <option value="image" ${mascot.type==="image"?"selected":""}>Gambar / GIF</option>
+              <option value="video" ${mascot.type==="video"?"selected":""}>Video (MP4/WebM)</option>
+              <option value="3d" ${mascot.type==="3d"?"selected":""}>Model 3D (GLB/GLTF)</option>
+            </select>
+          </div>
+          <div class="field"><label>Warna Latar (CSS)</label><input class="input" name="backgroundColor" value="${esc(mascot.backgroundColor||'#eef2ff')}"></div>
+        </div>
+        <div class="field"><label>URL Maskot</label><input class="input" name="url" id="mascotURL" value="${esc(mascot.url||'')}" placeholder="https://... / .glb / .mp4"></div>
+        <div class="row">
+          <div class="field"><label>Alt Text</label><input class="input" name="alt" value="${esc(mascot.alt||'Maskot KodinganKita')}"></div>
+          <div class="field"><label>Action Klik (Opsional)</label><input class="input" name="clickAction" value="${esc(mascot.clickAction||'')}" placeholder="#catalog atau https://..."></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Simpan Maskot</button>
+        <div style="margin-top:16px">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px">Pratinjau:</label>
+          <div id="mascotPreview" style="border:1px solid var(--border);border-radius:12px;overflow:hidden;height:220px;background:#f8fafc;display:flex;align-items:center;justify-content:center;">
+            <span style="color:var(--muted);font-size:13px">Belum ada URL</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>📱 Menu Cepat (Beranda)</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Hingga 8 item. Tipe: Emoji, Image URL, atau 3D Model URL (GLB).</p>
+      <div id="menuEditor"></div>
+      <div style="margin-top:16px;display:flex;gap:10px">
+        <button class="btn btn-ghost" id="addMenuBtn" type="button">+ Tambah Item</button>
+        <button class="btn btn-primary" id="saveMenuBtn" type="button">Simpan Menu</button>
+      </div>
+    </div>
+  `;
+
+  const renderPreview = ()=>{
+    const type = $("#mascotType").value;
+    const url = $("#mascotURL").value.trim();
+    const el = $("#mascotPreview");
+    if(!url){ el.innerHTML = `<span style="color:var(--muted);font-size:13px">Belum ada URL</span>`; return; }
+    if(type==="3d"){
+      el.innerHTML=`<model-viewer src="${esc(url)}" auto-rotate camera-controls shadow-intensity="1" interaction-prompt="none" style="width:100%;height:100%;--poster-color:transparent"></model-viewer>`;
+    } else if(type==="video"){
+      el.innerHTML=`<video src="${esc(url)}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover"></video>`;
+    } else {
+      el.innerHTML=`<img src="${esc(url)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.innerHTML='<div style=&quot;padding:20px;color:#dc2626;font-size:13px&quot;>Gagal memuat gambar</div>'">`;
+    }
+  };
+  $("#mascotType").addEventListener("change", renderPreview);
+  $("#mascotURL").addEventListener("input", renderPreview);
+  renderPreview();
+
+  $("#generalForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const payload = {
+      ...s,
+      name: fd.get("name"), logoURL: fd.get("logoURL"), description: fd.get("description"),
+      commissionRate: Number(fd.get("commissionRate")),
+      reservationDurationSeconds: Number(fd.get("reservationDurationSeconds")),
+      allowedCategories: (fd.get("allowedCategories")||"").split(",").map(x=>x.trim()).filter(Boolean)
+    };
+    await set(ref(db,"settings/marketplace"), payload);
+    await auditLog("update_settings","settings","marketplace","General info updated");
+    toast("Informasi umum tersimpan.","success");
+  });
+
+  $("#mascotForm").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const m = { type: fd.get("type"), url: fd.get("url").trim(), alt: fd.get("alt").trim(), backgroundColor: fd.get("backgroundColor").trim(), clickAction: fd.get("clickAction").trim() };
+    await update(ref(db,"settings/marketplace"), { mascot: m });
+    await auditLog("update_mascot","settings","marketplace", `Type: ${m.type}`);
+    toast("Maskot tersimpan.","success");
+  });
+
+  let menu = menuItems.length ? JSON.parse(JSON.stringify(menuItems)) : [
+    { id:"1", label:"Katalog", type:"emoji", value:"🛍️", action:"#catalog" },
+    { id:"2", label:"Cari AI", type:"emoji", value:"🤖", action:"#catalog?ai=1" },
+    { id:"3", label:"Jadi Penjual", type:"emoji", value:"➕", action:"#seller" },
+    { id:"4", label:"Pembelian", type:"emoji", value:"📦", action:"#purchases" }
+  ];
+
+  function renderMenuEditor(){
+    $("#menuEditor").innerHTML = menu.map((m,i)=>`
+      <div style="border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;background:#fff">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <strong style="font-size:13px">Item ${i+1}</strong>
+          <button class="btn btn-danger btn-sm" type="button" data-remove="${i}">Hapus</button>
+        </div>
+        <div class="row">
+          <div class="field" style="margin:0"><label>Label</label><input class="input" data-field="label" data-idx="${i}" value="${esc(m.label)}"></div>
+          <div class="field" style="margin:0"><label>Tipe</label>
+            <select class="select" data-field="type" data-idx="${i}">
+              <option value="emoji" ${m.type==="emoji"?"selected":""}>Emoji</option>
+              <option value="image" ${m.type==="image"?"selected":""}>Image URL</option>
+              <option value="3d" ${m.type==="3d"?"selected":""}>3D Model (GLB)</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0"><label>Value (Emoji / URL)</label><input class="input" data-field="value" data-idx="${i}" value="${esc(m.value)}"></div>
+          <div class="field" style="margin:0"><label>Action</label><input class="input" data-field="action" data-idx="${i}" value="${esc(m.action)}"></div>
+        </div>
+      </div>`).join("");
+    $$("#menuEditor [data-remove]").forEach(b=>b.addEventListener("click",()=>{ menu.splice(+b.dataset.remove,1); renderMenuEditor(); }));
+    $$("#menuEditor [data-field]").forEach(inp=>inp.addEventListener("input", ()=>{ menu[+inp.dataset.idx][inp.dataset.field] = inp.value; }));
+  }
+  renderMenuEditor();
+
+  $("#addMenuBtn").addEventListener("click", ()=>{
+    if(menu.length>=8){toast("Maksimal 8 item.","error");return;}
+    menu.push({ id:String(Date.now()), label:"Item Baru", type:"emoji", value:"⭐", action:"#" });
+    renderMenuEditor();
+  });
+  $("#saveMenuBtn").addEventListener("click", async ()=>{
+    menu.forEach((m,i)=>{ if(!m.id) m.id = String(Date.now()+i); });
+    await update(ref(db,"settings/marketplace"), { menuItems: menu });
+    await auditLog("update_menu","settings","marketplace", `${menu.length} items saved`);
+    toast("Menu beranda tersimpan.","success");
+  });
+}
+
+async function viewAudit() {
+  $("#view").innerHTML = `<div class="card"><div class="skeleton"></div></div>`;
+  const snap = await get(ref(db,"auditLogs"));
+  const logs = Object.entries(snap.val() || {}).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0)).slice(0,100);
+  $("#view").innerHTML = `
+    <div class="card">
+      <h1>Audit Log (100 Terakhir)</h1>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Waktu</th><th>Aktor</th><th>Aksi</th><th>Target</th><th>Alasan / Detail</th></tr></thead>
+        <tbody>${logs.map(([,l])=>`
+          <tr>
+            <td style="font-size:12px">${fmtDate(l.createdAt)}</td>
+            <td style="font-size:12px">${esc(l.actorEmail||l.actorId)}</td>
+            <td><span class="badge badge-blue">${esc(l.action)}</span></td>
+            <td style="font-size:12px">${esc(l.targetType||"")} <br><span style="color:var(--muted)">${esc(l.targetId||"")}</span></td>
+            <td style="font-size:12px;white-space:normal;max-width:300px">${esc(l.reason||"-")}</td>
+          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--muted)">Belum ada aktivitas.</td></tr>`}
+        </tbody>
+      </table></div>
+    </div>`;
+}
+
+console.log("[BOOT] Admin module ready");
+</script>
+</body>
+  </html>
