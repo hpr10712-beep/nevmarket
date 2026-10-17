@@ -4,14 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KodinganKita — Marketplace Produk Digital</title>
-<meta name="description" content="Marketplace produk digital eksklusif. Setiap produk hanya dijual sekali.">
-<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --primary:#4f46e5; --primary-hover:#4338ca; --primary-light:#eef2ff;
-  --bg-body:#ffffff; --bg-soft:#f8fafc;
+  --bg-body:#f8fafc; --bg-card:#ffffff;
   --text-main:#0f172a; --text-muted:#64748b;
   --border:#e2e8f0;
   --danger:#ef4444; --success:#10b981; --warning:#f59e0b;
@@ -22,131 +20,171 @@
   --font:'Inter',system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-body{margin:0;font-family:var(--font);background:var(--bg-body);color:var(--text-main);line-height:1.5;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:var(--font);background:var(--bg-body);color:var(--text-main);line-height:1.5;-webkit-font-smoothing:antialiased; padding-bottom: 70px;}
 a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block;object-fit:cover}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 
-/* HEADER & NAV */
-header.site{position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:800px;margin:0 auto}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--text-main)}
-.brand img{width:32px;height:32px;border-radius:var(--radius-sm);object-fit:cover}
-.hamburger{width:42px;height:42px;border-radius:var(--radius-full);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;background:var(--bg-soft)}
-.hamburger span{display:block;width:20px;height:2px;background:var(--text-main);border-radius:2px}
-.header-actions { display: flex; gap: 12px; align-items: center; }
-.icon-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bg-soft); color: var(--text-main); cursor: pointer; }
+/* HEADER DESKTOP & MOBILE */
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;max-width:1000px;margin:0 auto;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text-main)}
+.brand img{width:32px;height:32px;border-radius:var(--radius-sm)}
+.search-bar{flex:1;max-width:400px;position:relative;display:none}
+@media(min-width:768px){.search-bar{display:block}}
+.search-bar input{width:100%;padding:10px 16px 10px 40px;border:1px solid var(--border);border-radius:var(--radius-full);font-size:14px;background:var(--bg-body);outline:none}
+.search-bar input:focus{border-color:var(--primary);background:#fff}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);width:16px;height:16px}
+.header-actions{display:flex;gap:12px;align-items:center}
+.desktop-nav{display:none;gap:20px;align-items:center;font-weight:500;font-size:14px}
+@media(min-width:768px){.desktop-nav{display:flex}}
+.desktop-nav a:hover{color:var(--primary)}
+.btn-login{padding:8px 16px;background:var(--primary);color:#fff;border-radius:var(--radius-full);font-weight:600;font-size:14px}
 
-/* DRAWER */
-.drawer-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.4);backdrop-filter:blur(2px);z-index:90;opacity:0;pointer-events:none;transition:opacity .3s}
-.drawer-overlay.open{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:300px;background:#fff;z-index:100;transform:translateX(100%);transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1);display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,0.1)}
-.drawer.open{transform:translateX(0)}
-.drawer-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.drawer-title{font-weight:800;font-size:16px}
-.drawer-close{width:32px;height:32px;border-radius:50%;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-weight:bold}
-.drawer-body{padding:16px;display:flex;flex-direction:column;gap:4px}
-.drawer-item{padding:14px 16px;border-radius:var(--radius-sm);color:var(--text-main);font-size:14px;font-weight:600;display:flex;align-items:center;gap:12px}
-.drawer-item:hover{background:var(--primary-light);color:var(--primary)}
-.drawer-footer{margin-top:auto;padding:20px;border-top:1px solid var(--border)}
+/* BOTTOM NAVIGATION (MOBILE) */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;z-index:50}
+@media(min-width:768px){.bottom-nav{display:none}}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--text-muted);font-size:10px;font-weight:600}
+.nav-item.active{color:var(--primary)}
+.nav-item svg{width:22px;height:22px}
 
-/* HOME HERO */
-.hero{text-align:center;padding:32px 20px 20px;max-width:700px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
-.hero-title{font-size:clamp(24px, 6vw, 32px);font-weight:800;margin:0 0 6px;letter-spacing:-0.02em}
-.hero-desc{color:var(--text-muted);font-size:14px;margin:0 0 24px;max-width:500px;line-height:1.6}
-.mascot-container{width:100%;height:240px;background:linear-gradient(135deg, var(--bg-soft) 0%, var(--primary-light) 100%);border-radius:var(--radius-lg);margin-bottom:28px;overflow:hidden;position:relative;border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center}
+/* CONTAINER */
+.container{max-width:1000px;margin:0 auto;padding:20px}
+
+/* HOME PAGE */
+.hero{text-align:center;padding:30px 20px;background:linear-gradient(180deg, var(--primary-light) 0%, var(--bg-body) 100%);border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-bottom:20px}
+.hero-title{font-size:clamp(24px, 5vw, 36px);font-weight:800;margin:0 0 10px;letter-spacing:-0.02em}
+.hero-desc{color:var(--text-muted);font-size:15px;margin:0 auto 30px;max-width:600px}
+.mascot-container{width:100%;max-width:700px;height:220px;margin:0 auto 30px;background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden;position:relative;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center}
 .mascot-container iframe{width:100%;height:100%;border:0}
-.menu-row{display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;width:100%;max-width:440px}
-.menu-item{display:flex;flex-direction:column;align-items:center;gap:10px;transition:transform .15s}
-.menu-item:active{transform:scale(0.95)}
-.menu-icon-wrap{width:66px;height:66px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:var(--shadow-md)}
-.menu-icon-wrap iframe{width:100%;height:100%;border:0;border-radius:50%}
-.menu-label{font-size:12px;font-weight:600;color:var(--text-main);text-align:center}
+.menu-row{display:grid;grid-template-columns:repeat(4, 1fr);gap:15px;max-width:500px;margin:0 auto}
+.menu-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.menu-icon{width:64px;height:64px;border-radius:50%;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:transform 0.2s}
+.menu-item:active .menu-icon{transform:scale(0.95)}
+.menu-icon iframe{width:100%;height:100%;border:0;border-radius:50%}
+.menu-label{font-size:12px;font-weight:600}
 
-/* SECTION & GRID */
-.section{padding:30px 20px;max-width:800px;margin:0 auto}
-.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
-.section-title{margin:0;font-size:20px;font-weight:800}
-.link-see-all{font-size:13px;font-weight:600;color:var(--primary)}
+/* SECTION TITLES */
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;margin-top:30px}
+.section-title{font-size:20px;font-weight:800;margin:0}
+.link-more{font-size:14px;font-weight:600;color:var(--primary)}
+
+/* PRODUCT GRID & CARDS */
 .product-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:16px}
 @media(min-width:640px){.product-grid{grid-template-columns:repeat(3, 1fr)}}
-.pcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .2s;cursor:pointer}
-.pcard:active{transform:scale(0.98)}
-.pcard-thumb{aspect-ratio:1;background:var(--bg-soft);position:relative}
-.pcard-thumb img{width:100%;height:100%;object-fit:cover}
-.pcard-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.9);color:var(--primary);font-size:10px;font-weight:800;padding:4px 8px;border-radius:var(--radius-sm);text-transform:uppercase}
-.pcard-body{padding:14px;display:flex;flex-direction:column;flex:1}
-.pcard-category{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px}
+@media(min-width:900px){.product-grid{grid-template-columns:repeat(4, 1fr)}}
+.pcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow 0.2s}
+.pcard:hover{box-shadow:var(--shadow-md)}
+.pcard-img{aspect-ratio:1;background:var(--bg-soft);position:relative}
+.pcard-img img{width:100%;height:100%;object-fit:cover}
+.pcard-badge{position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase}
+.pcard-body{padding:12px;display:flex;flex-direction:column;flex:1}
+.pcard-cat{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px}
 .pcard-title{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.pcard-price{font-size:15px;font-weight:800;color:var(--primary);margin-top:auto}
+.pcard-price{font-size:16px;font-weight:800;color:var(--primary);margin-top:auto}
 
-/* FORMS & UTILS */
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;transition:all .2s}
+/* DETAIL PAGE */
+.detail-img{width:100%;aspect-ratio:16/9;background:var(--bg-soft);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px}
+.detail-img img{width:100%;height:100%;object-fit:cover}
+.detail-price{font-size:28px;font-weight:800;color:var(--primary);margin:10px 0 20px}
+.detail-desc{font-size:14px;line-height:1.6;color:var(--text-main);white-space:pre-wrap;margin-bottom:30px}
+.shop-info{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:20px;background:#fff}
+.shop-logo{width:48px;height:48px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
+
+/* FORMS & INPUTS */
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.form-input{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;outline:none}
+.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
+textarea.form-input{min-height:100px;resize:vertical}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:var(--radius-sm);font-weight:600;font-size:14px;cursor:pointer;transition:background 0.2s;width:100%}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-primary:active{background:var(--primary-hover)}
 .btn-outline{background:#fff;border:1px solid var(--border);color:var(--text-main)}
 .btn-danger{background:var(--danger);color:#fff}
-.btn-block{width:100%}
-.input,.textarea,.select{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;outline:none}
-.input:focus,.textarea:focus{border-color:var(--primary)}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px;grid-column:1/-1;background:var(--bg-soft);border-radius:var(--radius-md);border:1px dashed var(--border)}
+.btn-disabled{background:var(--border);color:var(--text-muted);cursor:not-allowed}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:#fff;border-radius:var(--radius-lg);width:100%;max-width:400px;padding:24px;text-align:center;box-shadow:var(--shadow-lg)}
-.modal h3{margin:0 0 12px;font-size:18px}
-.modal p{color:var(--text-muted);font-size:14px;margin-bottom:20px}
+/* PAYMENT PAGE */
+.timer-box{text-align:center;background:var(--primary-light);border:1px solid #c7d2fe;border-radius:var(--radius-md);padding:20px;margin-bottom:20px}
+.timer-text{font-size:32px;font-weight:800;color:var(--danger);font-variant-numeric:tabular-nums}
+.qris-container{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;text-align:center;margin-bottom:20px}
+.qris-img{width:100%;max-width:300px;margin:0 auto;border-radius:var(--radius-sm)}
 
-/* TOAST */
-#toast-container{position:fixed;bottom:24px;right:24px;z-index:1001;display:flex;flex-direction:column;gap:8px}
-.toast{background:#fff;border-left:4px solid var(--primary);padding:12px 16px;border-radius:8px;box-shadow:var(--shadow-md);font-size:13px;font-weight:500;animation:slideIn .2s ease}
+/* UTILS */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-muted);background:#fff;border:1px dashed var(--border);border-radius:var(--radius-md);grid-column:1/-1;font-size:14px}
+.loading-spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 1s linear infinite;margin:40px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge{display:inline-block;padding:4px 10px;border-radius:var(--radius-full);font-size:11px;font-weight:700}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-yellow{background:#fef3c7;color:#92400e}
+.badge-red{background:#fee2e2;color:#991b1b}
+
+/* MODAL & TOAST */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.6);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-content{background:#fff;border-radius:var(--radius-lg);width:100%;max-width:400px;padding:24px;text-align:center}
+.modal-title{font-size:18px;font-weight:700;margin:0 0 10px}
+.modal-desc{font-size:14px;color:var(--text-muted);margin-bottom:20px}
+#toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;flex-direction:column;gap:10px;width:90%;max-width:400px}
+.toast{background:#fff;border-left:4px solid var(--primary);padding:12px 16px;border-radius:8px;box-shadow:var(--shadow-md);font-size:13px;font-weight:500;animation:slideDown 0.3s ease}
 .toast.error{border-left-color:var(--danger)}
 .toast.success{border-left-color:var(--success)}
-@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
-
-/* TIMER */
-.timer-box { background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; text-align: center; margin-bottom: 20px; }
-.timer-display { font-size: 32px; font-weight: 800; color: var(--danger); font-variant-numeric: tabular-nums; }
-.qris-img { width: 100%; max-width: 300px; margin: 0 auto; border-radius: var(--radius-md); border: 1px solid var(--border); }
+@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
 
+<!-- HEADER DESKTOP -->
 <header class="site">
   <div class="header-inner">
-    <a href="#" class="brand" data-nav>
+    <a href="#home" class="brand">
       <img src="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg" alt="Logo">
-      <span id="brandName">KodinganKita</span>
+      <span>KodinganKita</span>
     </a>
+    
+    <div class="search-bar">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="desktopSearch" placeholder="Cari produk digital..." onkeydown="if(event.key==='Enter') window.searchProducts(this.value)">
+    </div>
+
+    <nav class="desktop-nav">
+      <a href="#catalog">Katalog</a>
+      <a href="#purchases">Pembelian</a>
+      <a href="#seller">Jadi Penjual</a>
+    </nav>
+
     <div class="header-actions">
-      <div class="icon-btn" id="navSearchBtn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      </div>
-      <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+      <button id="authBtn" class="btn-login" onclick="handleAuth()">Masuk</button>
     </div>
   </div>
 </header>
 
-<div class="drawer-overlay" id="drawerOverlay"></div>
-<aside class="drawer" id="drawer">
-  <div class="drawer-head">
-    <span class="drawer-title">Menu Navigasi</span>
-    <button class="drawer-close" id="drawerClose">&times;</button>
-  </div>
-  <div class="drawer-body">
-    <a href="#" data-nav class="drawer-item">Beranda</a>
-    <a href="#catalog" data-nav class="drawer-item">Katalog Produk</a>
-    <a href="#purchases" data-nav class="drawer-item">Pembelian Saya</a>
-    <a href="#seller" data-nav class="drawer-item">Jadi Penjual</a>
-  </div>
-  <div class="drawer-footer">
-    <button id="authBtn" class="btn btn-primary btn-block">Masuk dengan Google</button>
-  </div>
-</aside>
+<!-- MAIN APP -->
+<main id="app">
+  <div class="loading-spinner"></div>
+</main>
 
-<main id="app"></main>
+<!-- BOTTOM NAVIGATION (MOBILE) -->
+<div class="bottom-nav">
+  <a href="#home" class="nav-item" data-nav="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+    Beranda
+  </a>
+  <a href="#catalog" class="nav-item" data-nav="catalog">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+    Katalog
+  </a>
+  <a href="#purchases" class="nav-item" data-nav="purchases">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 01-8 0"></path></svg>
+    Pembelian
+  </a>
+  <a href="#seller" class="nav-item" data-nav="seller">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"></path></svg>
+    Toko
+  </a>
+</div>
+
 <div id="modal-root"></div>
 <div id="toast-container"></div>
 
@@ -171,14 +209,14 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
-const $ = (s,r=document)=>r.querySelector(s);
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
 const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const rupiah = n => "Rp" + Number(n||0).toLocaleString("id-ID");
 const QRIS_IMG = "https://i.ibb.co.com/FLF6Wz07/IMG-20261012-160202.jpg";
 
 const state = {
   user: null,
-  profile: null,
   settings: {},
   products: {},
   shops: {},
@@ -186,13 +224,16 @@ const state = {
   orderTimer: null
 };
 
+// --- UTILS ---
 function toast(msg, type="info") {
   const el = document.createElement("div");
   el.className = `toast ${type}`;
   el.textContent = msg;
   $("#toast-container").appendChild(el);
-  setTimeout(() => { el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(()=>el.remove(),300); }, 4000);
+  setTimeout(() => { el.style.opacity="0"; setTimeout(()=>el.remove(),300); }, 3000);
 }
+
+function closeModal() { $("#modal-root").innerHTML = ""; }
 
 function createIframe(code, isRound = false) {
   const iframe = document.createElement("iframe");
@@ -201,28 +242,38 @@ function createIframe(code, isRound = false) {
   return iframe;
 }
 
-/* --- AUTH --- */
+// --- AUTHENTICATION ---
+window.handleAuth = async () => {
+  if (state.user) {
+    if(confirm("Keluar dari akun?")) await signOut(auth);
+  } else {
+    try {
+      await signInWithPopup(auth, provider);
+      toast("Berhasil masuk!", "success");
+    } catch(e) { toast("Gagal login: " + e.message, "error"); }
+  }
+};
+
 onAuthStateChanged(auth, async user => {
   state.user = user;
   const btn = $("#authBtn");
   if(user) {
-    btn.textContent = "Keluar (" + user.displayName + ")";
-    btn.style.background = "var(--danger)";
-    btn.onclick = () => signOut(auth);
-    // Create user profile if not exists
+    btn.textContent = "Keluar (" + user.displayName.split(' ')[0] + ")";
+    btn.style.background = "var(--border)";
+    btn.style.color = "var(--text-main)";
+    // Create user doc if missing
     const userRef = ref(db, `users/${user.uid}`);
     const snap = await get(userRef);
     if(!snap.exists()) {
       await set(userRef, { displayName: user.displayName, email: user.email, photoURL: user.photoURL, createdAt: serverTimestamp() });
     }
-    state.profile = (await get(userRef)).val();
   } else {
-    btn.textContent = "Masuk dengan Google";
+    btn.textContent = "Masuk";
     btn.style.background = "var(--primary)";
-    btn.onclick = () => signInWithPopup(auth, provider).catch(e => toast(e.message, 'error'));
-    state.profile = null;
+    btn.style.color = "#fff";
   }
   
+  // Lanjutkan pembelian jika sebelumnya terputus karena login
   if(user && state.pendingProductId) {
     const pid = state.pendingProductId;
     state.pendingProductId = null;
@@ -233,47 +284,65 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-/* --- DATA --- */
-async function loadSettings() {
-  const snap = await get(ref(db, "settings/marketplace"));
+// --- DATA LOADING ---
+onValue(ref(db, "settings/marketplace"), snap => {
   state.settings = snap.val() || {};
-  if(state.settings.name) $("#brandName").textContent = state.settings.name;
   render();
-}
-onValue(ref(db, "products"), snap => { state.products = snap.val() || {}; render(); });
-onValue(ref(db, "shops"), snap => { state.shops = snap.val() || {}; render(); });
+});
+onValue(ref(db, "products"), snap => {
+  state.products = snap.val() || {};
+  render();
+});
+onValue(ref(db, "shops"), snap => {
+  state.shops = snap.val() || {};
+  render();
+});
 
-/* --- ROUTER --- */
-function parseHash() {
-  const h = location.hash.replace(/^#/, "");
-  const [path, qs] = h.split("?");
-  return { path, params: new URLSearchParams(qs || "") };
+// --- ROUTER ---
+window.searchProducts = (q) => {
+  location.hash = `#catalog?q=${encodeURIComponent(q)}`;
+};
+
+function getRoute() {
+  const hash = location.hash || '#home';
+  const path = hash.split('?')[0].replace('#', '');
+  const params = new URLSearchParams(hash.split('?')[1] || '');
+  return { path, params };
 }
 
 window.addEventListener("hashchange", () => {
   if(state.orderTimer) clearInterval(state.orderTimer);
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
   render();
 });
 
 function render() {
-  if(!state.settings) return;
-  const { path, params } = parseHash();
+  const { path, params } = getRoute();
   
-  if (path.startsWith("product=")) return renderProduct(path.split("=")[1]);
-  if (path.startsWith("order=")) return renderOrder(path.split("=")[1]);
-  if (path.startsWith("shop=")) return renderShop(path.split("=")[1]);
-  if (path === "catalog") return renderCatalog(params);
-  if (path === "purchases") return renderPurchases();
-  if (path === "seller") return renderSeller();
-  return renderHome();
+  // Update active bottom nav
+  $$(".bottom-nav .nav-item").forEach(el => {
+    el.classList.toggle("active", el.dataset.nav === path || (path === 'home' && el.dataset.nav === 'home'));
+  });
+
+  if (path === 'home') renderHome();
+  else if (path === 'catalog') renderCatalog(params);
+  else if (path === 'product') renderProduct(params.get('id'));
+  else if (path === 'order') renderOrder(params.get('id'));
+  else if (path === 'purchases') renderPurchases();
+  else if (path === 'seller') renderSeller();
+  else if (path === 'shop') renderShop(params.get('slug'));
+  else renderHome();
 }
 
-/* --- VIEWS --- */
+// --- VIEW: HOME ---
 function renderHome() {
   const s = state.settings;
-  const products = Object.entries(state.products || {}).map(([id, p]) => ({id, ...p}))
-    .filter(p => p.status === "available" && p.availability === "available").slice(0, 6);
+  // Tampilkan maksimal 8 produk terbaru, JANGAN pedulikan status aneh, asalkan bukan 'sold'
+  const latest = Object.entries(state.products)
+    .map(([id, p]) => ({id, ...p}))
+    .filter(p => p.status !== 'sold' && p.status !== 'suspended')
+    .sort((a,b) => (b.createdAt||0) - (a.createdAt||0))
+    .slice(0, 8);
 
   const defaultMenus = [
     { label: "Katalog", code: `<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`, action: "#catalog" },
@@ -284,142 +353,154 @@ function renderHome() {
   const menus = (s.menuItems && s.menuItems.length > 0) ? s.menuItems : defaultMenus;
 
   $("#app").innerHTML = `
-    <section class="hero">
+    <div class="hero">
       <h1 class="hero-title">${esc(s.name || "KodinganKita")}</h1>
       <p class="hero-desc">${esc(s.description || "Marketplace Produk Digital Eksklusif. Setiap produk hanya dijual satu kali.")}</p>
+      
       <div class="mascot-container" id="mascotBox">
-        ${!s.mascot?.code ? `<span style="color:var(--text-muted);font-size:14px">Mascot belum diatur</span>` : ''}
+        ${!s.mascot?.code ? `<span style="color:var(--text-muted);font-size:14px">Maskot belum diatur oleh Admin</span>` : ''}
       </div>
+      
       <div class="menu-row">
         ${menus.slice(0,4).map((m, i) => `
-          <a href="${esc(m.action)}" class="menu-item" data-nav>
-            <div class="menu-icon-wrap" id="menu-icon-${i}"></div>
+          <a href="${esc(m.action)}" class="menu-item">
+            <div class="menu-icon" id="menu-icon-${i}"></div>
             <span class="menu-label">${esc(m.label)}</span>
           </a>
         `).join("")}
       </div>
-    </section>
-    <section class="section">
+    </div>
+
+    <div class="container">
       <div class="section-header">
         <h2 class="section-title">Produk Eksklusif</h2>
-        <a href="#catalog" class="link-see-all" data-nav>Lihat Semua &rarr;</a>
+        <a href="#catalog" class="link-more">Lihat Semua &rarr;</a>
       </div>
+      
       <div class="product-grid">
-        ${products.length ? products.map(p => `
-          <a href="#product=${p.id}" class="pcard" data-nav>
-            <div class="pcard-thumb">
-              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/f8fafc/64748b?text=No+Image'}">
+        ${latest.length ? latest.map(p => `
+          <a href="#product?id=${p.id}" class="pcard">
+            <div class="pcard-img">
+              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/f1f5f9/64748b?text=No+Image'}">
               <div class="pcard-badge">Eksklusif</div>
             </div>
             <div class="pcard-body">
-              <div class="pcard-category">${esc(p.category)}</div>
+              <div class="pcard-cat">${esc(p.category)}</div>
               <div class="pcard-title">${esc(p.title)}</div>
               <div class="pcard-price">${rupiah(p.price)}</div>
             </div>
           </a>
-        `).join("") : `<div class="empty-state">Belum ada produk tersedia.</div>`}
+        `).join("") : `<div class="empty-state">Belum ada produk yang ditambahkan.</div>`}
       </div>
-    </section>
+    </div>
   `;
 
   if(s.mascot?.code) $("#mascotBox").appendChild(createIframe(s.mascot.code));
   menus.slice(0,4).forEach((m, i) => { if(m.code) $(`#menu-icon-${i}`).appendChild(createIframe(m.code, true)); });
 }
 
+// --- VIEW: CATALOG ---
 function renderCatalog(params) {
-  const q = params.get("q") || "";
-  let products = Object.entries(state.products || {}).map(([id, p]) => ({id, ...p}))
-    .filter(p => p.status === "available" && p.availability === "available");
+  const q = (params.get("q") || "").toLowerCase();
+  let products = Object.entries(state.products).map(([id, p]) => ({id, ...p}));
 
   if(q) {
-    const query = q.toLowerCase();
     products = products.filter(p => 
-      (p.title||"").toLowerCase().includes(query) || 
-      (p.category||"").toLowerCase().includes(query) || 
-      (p.description||"").toLowerCase().includes(query)
+      (p.title||"").toLowerCase().includes(q) || 
+      (p.category||"").toLowerCase().includes(q) || 
+      (p.description||"").toLowerCase().includes(q)
     );
   }
 
+  // Sort & Filter Out Sold
+  products = products.filter(p => p.status !== 'sold').sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+
   $("#app").innerHTML = `
-    <section class="section">
-      <form class="field" onsubmit="event.preventDefault(); location.hash='#catalog?q='+this.q.value">
-        <input name="q" class="input" placeholder="Cari produk (misal: toko online, landing page)..." value="${esc(q)}">
-      </form>
+    <div class="container">
+      <div class="section-header" style="margin-top:0">
+        <h2 class="section-title">Katalog Produk</h2>
+      </div>
+      
+      <div class="form-group" style="margin-bottom:24px">
+        <input type="text" class="form-input" placeholder="Cari produk..." value="${esc(q)}" onkeydown="if(event.key==='Enter') window.searchProducts(this.value)">
+      </div>
+
       <div class="product-grid">
         ${products.length ? products.map(p => `
-          <a href="#product=${p.id}" class="pcard" data-nav>
-            <div class="pcard-thumb"><img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400'}"></div>
+          <a href="#product?id=${p.id}" class="pcard">
+            <div class="pcard-img">
+              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/f1f5f9/64748b?text=No+Image'}">
+              ${p.status === 'available' ? `<div class="pcard-badge">Tersedia</div>` : ''}
+            </div>
             <div class="pcard-body">
-              <div class="pcard-category">${esc(p.category)}</div>
+              <div class="pcard-cat">${esc(p.category)}</div>
               <div class="pcard-title">${esc(p.title)}</div>
               <div class="pcard-price">${rupiah(p.price)}</div>
             </div>
           </a>
         `).join("") : `<div class="empty-state">Produk tidak ditemukan.</div>`}
       </div>
-    </section>
+    </div>
   `;
 }
 
+// --- VIEW: PRODUCT DETAIL ---
 function renderProduct(id) {
   const p = state.products[id];
-  if(!p) return $("#app").innerHTML = `<div class="empty-state">Produk tidak ditemukan</div>`;
+  if(!p) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Produk tidak ditemukan.</div></div>`;
   
-  const isSold = p.status === "sold" || p.availability === "sold";
-  const isAvail = p.status === "available" && p.availability === "available";
+  const isSold = p.status === 'sold' || p.availability === 'sold';
   const shop = state.shops[p.shopId] || {};
 
   $("#app").innerHTML = `
-    <section class="section">
-      <a href="#catalog" data-nav style="font-size:13px;font-weight:600;color:var(--text-muted)">&larr; Kembali</a>
-      <div style="margin-top:20px; border-radius:var(--radius-md); overflow:hidden; aspect-ratio:16/9; background:var(--bg-soft); border:1px solid var(--border); margin-bottom:20px;">
-        <img src="${p.imageURLs?.[0] || 'https://placehold.co/800x450'}" style="width:100%;height:100%;object-fit:cover">
-      </div>
-      <div class="pcard-category">${esc(p.category)}</div>
-      <h1 style="margin:8px 0 12px; font-size:24px;">${esc(p.title)}</h1>
-      <div style="font-size:24px; font-weight:800; color:var(--primary); margin-bottom:20px;">${rupiah(p.price)}</div>
+    <div class="container">
+      <a href="#catalog" style="display:inline-block;margin-bottom:16px;font-size:14px;font-weight:600;color:var(--text-muted)">&larr; Kembali ke Katalog</a>
       
-      <div style="background:var(--bg-soft); padding:16px; border-radius:var(--radius-md); margin-bottom:24px;">
-        <h3 style="margin:0 0 8px; font-size:15px;">Deskripsi</h3>
-        <p style="margin:0; font-size:14px; line-height:1.6; white-space:pre-wrap;">${esc(p.description)}</p>
+      <div class="detail-img">
+        <img src="${p.imageURLs?.[0] || 'https://placehold.co/800x450/f1f5f9/64748b?text=No+Image'}">
       </div>
-
-      <div style="display:flex; gap:12px; align-items:center; padding:16px; border:1px solid var(--border); border-radius:var(--radius-md); margin-bottom:24px;">
-        <img src="${shop.logoURL || 'https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg'}" style="width:40px;height:40px;border-radius:50%;object-fit:cover">
+      
+      <div class="pcard-cat">${esc(p.category)}</div>
+      <h1 style="margin:8px 0;font-size:24px;line-height:1.3">${esc(p.title)}</h1>
+      <div class="detail-price">${rupiah(p.price)}</div>
+      
+      <div class="shop-info">
+        <img src="${shop.logoURL || 'https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg'}" class="shop-logo">
         <div>
-          <div style="font-weight:700; font-size:14px;">${esc(shop.name || "Toko")}</div>
-          <div style="font-size:12px; color:var(--text-muted);">${shop.ratingAverage ? shop.ratingAverage.toFixed(1) : 0} Bintang</div>
+          <div style="font-weight:700;font-size:14px">${esc(shop.name || "Toko Tidak Diketahui")}</div>
+          <div style="font-size:12px;color:var(--text-muted)">${shop.ratingAverage ? shop.ratingAverage.toFixed(1) : '0'} Bintang</div>
         </div>
       </div>
 
-      ${isSold 
-        ? `<div class="btn btn-danger btn-block" style="opacity:0.7; cursor:not-allowed;">Maaf, Produk Sudah Terjual</div>`
-        : `<button id="btnBuy" class="btn btn-primary btn-block" style="padding:16px; font-size:16px;">Beli Sekarang (Eksklusif)</button>`
-      }
-    </section>
-  `;
+      <h3 style="font-size:16px;margin:0 0 10px">Deskripsi Produk</h3>
+      <div class="detail-desc">${esc(p.description || "Tidak ada deskripsi.")}</div>
 
-  if(isAvail) {
-    $("#btnBuy").onclick = () => buyFlow(id);
-  }
+      ${isSold 
+        ? `<button class="btn btn-disabled" disabled>Maaf, Produk Sudah Terjual</button>`
+        : `<button class="btn btn-primary" onclick="buyFlow('${p.id}')">Beli Sekarang</button>`
+      }
+    </div>
+  `;
 }
 
-async function buyFlow(productId) {
+// --- LOGIC: BUY FLOW ---
+window.buyFlow = async (productId) => {
   if(!state.user) {
     state.pendingProductId = productId;
     $("#modal-root").innerHTML = `
-      <div class="modal-overlay" onclick="if(event.target===this)document.getElementById('modal-root').innerHTML=''">
-        <div class="modal">
-          <h3>Masuk Diperlukan</h3>
-          <p>Silakan masuk dengan Google untuk melanjutkan pembelian produk eksklusif ini.</p>
-          <button class="btn btn-primary btn-block" onclick="document.getElementById('authBtn').click(); document.getElementById('modal-root').innerHTML=''">Masuk Sekarang</button>
+      <div class="modal-overlay" onclick="if(event.target===this)closeModal()">
+        <div class="modal-content">
+          <h3 class="modal-title">Masuk Diperlukan</h3>
+          <p class="modal-desc">Silakan masuk dengan Google untuk membeli produk eksklusif ini.</p>
+          <button class="btn btn-primary" onclick="handleAuth(); closeModal();">Masuk Google</button>
+          <button class="btn btn-outline" style="margin-top:10px" onclick="closeModal()">Batal</button>
         </div>
       </div>`;
     return;
   }
 
   const product = state.products[productId];
-  if(!product || product.status !== 'available') return toast("Produk sudah tidak tersedia", "error");
+  if(!product || product.status === 'sold') return toast("Produk sudah terjual", "error");
 
   try {
     const orderRef = push(ref(db, 'orders'));
@@ -427,259 +508,260 @@ async function buyFlow(productId) {
     const now = Date.now();
     const expiresAt = now + (3 * 60 * 1000); // 3 Menit
 
-    // TRANSACTION: Mengunci produk
+    // Kunci Produk (Transaction)
     const result = await runTransaction(ref(db, `products/${productId}`), (p) => {
       if (!p) return null;
-      if (p.status !== 'available' || p.availability !== 'available') return null;
+      if (p.status === 'sold' || p.availability === 'sold') return null;
       return { ...p, status: 'reserved', availability: 'reserved', reservedBy: state.user.uid, reservedUntil: expiresAt, reservationOrderId: orderId };
     });
 
     if (!result.committed) return toast("Maaf, produk baru saja dibeli orang lain.", "error");
 
-    // CREATE ORDER
+    // Buat Pesanan
     const commRate = state.settings.commissionRate || 0.10;
     const price = Number(product.price);
-    const comm = price * commRate;
-
+    
     await set(orderRef, {
       buyerId: state.user.uid, buyerName: state.user.displayName,
-      sellerId: product.sellerId, shopId: product.shopId, productId: product.id,
+      sellerId: product.sellerId || 'admin', shopId: product.shopId || 'admin', productId: productId,
       productTitleSnapshot: product.title, priceSnapshot: price,
-      commissionSnapshot: comm, sellerAmountSnapshot: price - comm,
+      commissionSnapshot: price * commRate, sellerAmountSnapshot: price - (price * commRate),
       paymentStatus: 'pending', orderStatus: 'reserved',
       createdAt: now, expiresAt: expiresAt
     });
 
-    location.hash = `#order=${orderId}`;
+    location.hash = `#order?id=${orderId}`;
   } catch(e) { toast("Gagal membuat pesanan: " + e.message, "error"); }
-}
+};
 
-async function renderOrder(orderId) {
-  $("#app").innerHTML = `<div class="section">Memuat pesanan...</div>`;
-  const snap = await get(ref(db, `orders/${orderId}`));
-  const order = snap.val();
-  if(!order) return $("#app").innerHTML = `<div class="empty-state">Pesanan tidak ditemukan</div>`;
-  if(order.buyerId !== state.user?.uid) return $("#app").innerHTML = `<div class="empty-state">Akses ditolak</div>`;
-
-  if(order.paymentStatus === 'paid') {
-    return $("#app").innerHTML = `<div class="section" style="text-align:center; padding-top:60px;"><h2 style="color:var(--success)">Pembayaran Terkonfirmasi</h2><p>Pesanan ini sudah lunas dan produk menjadi milik Anda.</p><a href="#purchases" class="btn btn-primary" data-nav>Buka Pembelian Saya</a></div>`;
-  }
-
-  if(order.paymentStatus === 'expired' || order.paymentStatus === 'cancelled') {
-    return $("#app").innerHTML = `<div class="section" style="text-align:center; padding-top:60px;"><h2 style="color:var(--danger)">Pesanan Kedaluwarsa</h2><p>Batas waktu pembayaran 3 menit telah habis.</p><a href="#catalog" class="btn btn-outline" data-nav>Kembali ke Katalog</a></div>`;
-  }
-
-  const remain = order.expiresAt - Date.now();
-  if(remain <= 0) { expireOrder(orderId, order); return renderOrder(orderId); }
-
-  $("#app").innerHTML = `
-    <section class="section" style="max-width:500px; text-align:center;">
-      <h2>Selesaikan Pembayaran</h2>
-      <p style="color:var(--text-muted); font-size:13px;">ID: ${orderId}</p>
-      
-      <div class="timer-box">
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Sisa Waktu</div>
-        <div class="timer-display" id="timerDisplay">03:00</div>
-      </div>
-
-      <div style="font-size:28px; font-weight:800; color:var(--primary); margin-bottom:20px;">${rupiah(order.priceSnapshot)}</div>
-
-      <img src="${QRIS_IMG}" class="qris-img" alt="QRIS">
-      <p style="font-size:12px; color:var(--text-muted); margin-top:12px; margin-bottom:24px;">Scan menggunakan aplikasi bank atau e-wallet (GoPay, OVO, Dana, dll).</p>
-
-      <button id="btnConfirm" class="btn btn-primary btn-block" style="padding:16px;">Saya Sudah Bayar</button>
-      <button id="btnCancel" class="btn btn-outline btn-block" style="margin-top:12px;">Batalkan Pesanan</button>
-    </section>
-  `;
-
-  if(state.orderTimer) clearInterval(state.orderTimer);
-  const tick = () => {
-    const r = order.expiresAt - Date.now();
-    if(r <= 0) {
-      clearInterval(state.orderTimer);
-      expireOrder(orderId, order);
-      return;
-    }
-    const m = Math.floor(r / 60000), s = Math.floor((r % 60000) / 1000);
-    $("#timerDisplay").textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  };
-  tick();
-  state.orderTimer = setInterval(tick, 1000);
-
-  $("#btnConfirm").onclick = async () => {
-    if(!confirm("Anda yakin sudah membayar? Admin akan memverifikasi secara manual.")) return;
-    await update(ref(db, `orders/${orderId}`), { paymentStatus: 'awaiting_verification' });
-    clearInterval(state.orderTimer);
-    toast("Konfirmasi terkirim. Menunggu verifikasi admin.", "success");
-    location.hash = "#purchases";
-  };
-
-  $("#btnCancel").onclick = async () => {
-    if(!confirm("Batalkan pesanan?")) return;
-    await expireOrder(orderId, order, true);
-    location.hash = "#catalog";
-  };
-}
-
-async function expireOrder(orderId, order, isCancel = false) {
-  try {
-    await runTransaction(ref(db, `products/${order.productId}`), (p) => {
-      if(!p || p.reservationOrderId !== orderId) return p;
-      return { ...p, status: 'available', availability: 'available', reservedBy: null, reservedUntil: null, reservationOrderId: null };
-    });
-    await update(ref(db, `orders/${orderId}`), { paymentStatus: isCancel ? 'cancelled' : 'expired', orderStatus: 'expired' });
-    if(!isCancel) toast("Waktu habis. Pesanan dibatalkan.", "error");
-    if(state.orderTimer) clearInterval(state.orderTimer);
-    render();
-  } catch(e) { console.error(e); }
-}
-
-async function renderPurchases() {
-  if(!state.user) return $("#app").innerHTML = `<div class="empty-state">Silakan login terlebih dahulu.</div>`;
-  $("#app").innerHTML = `<div class="section">Memuat pembelian...</div>`;
+// --- VIEW: PAYMENT / ORDER ---
+function renderOrder(orderId) {
+  $("#app").innerHTML = `<div class="loading-spinner"></div>`;
   
+  get(ref(db, `orders/${orderId}`)).then(snap => {
+    const order = snap.val();
+    if(!order) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Pesanan tidak ditemukan.</div></div>`;
+    if(order.buyerId !== state.user?.uid) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Akses ditolak.</div></div>`;
+
+    if(order.paymentStatus === 'paid') {
+      return $("#app").innerHTML = `<div class="container" style="text-align:center;padding-top:40px"><h2 style="color:var(--success)">Pembayaran Berhasil</h2><p>Pesanan ini sudah lunas.</p><a href="#purchases" class="btn btn-primary" style="margin-top:20px">Lihat Pembelian</a></div>`;
+    }
+
+    if(order.paymentStatus === 'expired' || order.paymentStatus === 'cancelled') {
+      return $("#app").innerHTML = `<div class="container" style="text-align:center;padding-top:40px"><h2 style="color:var(--danger)">Pesanan Kedaluwarsa</h2><p>Waktu pembayaran 3 menit telah habis.</p><a href="#catalog" class="btn btn-outline" style="margin-top:20px">Kembali ke Katalog</a></div>`;
+    }
+
+    const remain = order.expiresAt - Date.now();
+    if(remain <= 0) { expireOrder(orderId, order); return renderOrder(orderId); }
+
+    $("#app").innerHTML = `
+      <div class="container" style="max-width:480px">
+        <h2 style="text-align:center;margin-bottom:4px">Selesaikan Pembayaran</h2>
+        <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:20px">ID: ${orderId}</p>
+        
+        <div class="timer-box">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px">Sisa Waktu</div>
+          <div class="timer-text" id="timerDisplay">03:00</div>
+        </div>
+
+        <div style="text-align:center;font-size:28px;font-weight:800;color:var(--primary);margin-bottom:20px">${rupiah(order.priceSnapshot)}</div>
+
+        <div class="qris-container">
+          <img src="${QRIS_IMG}" class="qris-img">
+          <p style="font-size:12px;color:var(--text-muted);margin-top:12px;margin-bottom:0">Scan menggunakan aplikasi bank atau e-wallet Anda.</p>
+        </div>
+
+        <button class="btn btn-primary" style="margin-bottom:10px" onclick="confirmPayment('${orderId}', this)">Saya Sudah Bayar</button>
+        <button class="btn btn-outline" onclick="cancelOrder('${orderId}', '${order.productId}')">Batalkan Pesanan</button>
+      </div>
+    `;
+
+    if(state.orderTimer) clearInterval(state.orderTimer);
+    const tick = () => {
+      const r = order.expiresAt - Date.now();
+      if(r <= 0) {
+        clearInterval(state.orderTimer);
+        expireOrder(orderId, order);
+        return;
+      }
+      const m = Math.floor(r / 60000), s = Math.floor((r % 60000) / 1000);
+      const el = $("#timerDisplay");
+      if(el) el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    };
+    tick();
+    state.orderTimer = setInterval(tick, 1000);
+  });
+}
+
+window.confirmPayment = async (orderId, btn) => {
+  if(!confirm("Pastikan Anda sudah mentransfer dana sesuai nominal. Lanjutkan?")) return;
+  btn.textContent = "Memproses..."; btn.disabled = true;
+  await update(ref(db, `orders/${orderId}`), { paymentStatus: 'awaiting_verification' });
+  clearInterval(state.orderTimer);
+  toast("Konfirmasi terkirim. Menunggu verifikasi Admin.", "success");
+  location.hash = "#purchases";
+};
+
+window.cancelOrder = async (orderId, productId) => {
+  if(!confirm("Batalkan pesanan ini?")) return;
+  await runTransaction(ref(db, `products/${productId}`), (p) => {
+    if(!p || p.reservationOrderId !== orderId) return p;
+    return { ...p, status: 'available', availability: 'available', reservedBy: null, reservationOrderId: null };
+  });
+  await update(ref(db, `orders/${orderId}`), { paymentStatus: 'cancelled', orderStatus: 'cancelled' });
+  clearInterval(state.orderTimer);
+  location.hash = "#catalog";
+};
+
+async function expireOrder(orderId, order) {
+  await runTransaction(ref(db, `products/${order.productId}`), (p) => {
+    if(!p || p.reservationOrderId !== orderId) return p;
+    return { ...p, status: 'available', availability: 'available', reservedBy: null, reservationOrderId: null };
+  });
+  await update(ref(db, `orders/${orderId}`), { paymentStatus: 'expired', orderStatus: 'expired' });
+  if(state.orderTimer) clearInterval(state.orderTimer);
+  toast("Waktu pembayaran habis. Pesanan dibatalkan.", "error");
+  renderOrder(orderId); 
+}
+
+// --- VIEW: PURCHASES ---
+async function renderPurchases() {
+  if(!state.user) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Silakan login terlebih dahulu.</div></div>`;
+  
+  $("#app").innerHTML = `<div class="loading-spinner"></div>`;
   const snap = await get(ref(db, 'orders'));
   const all = snap.val() || {};
-  const myOrders = Object.entries(all).map(([id, o]) => ({id, ...o})).filter(o => o.buyerId === state.user.uid).sort((a,b)=>b.createdAt - a.createdAt);
+  const myOrders = Object.entries(all).map(([id, o]) => ({id, ...o}))
+    .filter(o => o.buyerId === state.user.uid)
+    .sort((a,b) => b.createdAt - a.createdAt);
 
   $("#app").innerHTML = `
-    <section class="section">
-      <h2 style="margin-bottom:20px;">Pembelian Saya</h2>
+    <div class="container">
+      <h2 style="font-size:20px;margin-bottom:20px">Pembelian Saya</h2>
       ${myOrders.length ? myOrders.map(o => `
-        <div style="border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:12px; display:flex; gap:16px; align-items:center;">
-          <div style="flex:1;">
-            <div style="font-weight:700; font-size:14px;">${esc(o.productTitleSnapshot)}</div>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">${new Date(o.createdAt).toLocaleDateString('id-ID')}</div>
-            <div style="margin-top:8px; font-weight:600; color:${o.paymentStatus==='paid'?'var(--success)':'var(--warning)'}; text-transform:capitalize;">${o.paymentStatus}</div>
+        <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;margin-bottom:12px;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="font-weight:700;font-size:14px">${esc(o.productTitleSnapshot)}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px">${new Date(o.createdAt).toLocaleDateString('id-ID')}</div>
+            <div style="margin-top:8px">
+              ${o.paymentStatus === 'paid' ? `<span class="badge badge-green">Lunas</span>` : 
+                o.paymentStatus === 'awaiting_verification' ? `<span class="badge badge-yellow">Menunggu Verifikasi</span>` :
+                o.paymentStatus === 'pending' ? `<span class="badge badge-yellow">Belum Dibayar</span>` :
+                `<span class="badge badge-red">Dibatalkan</span>`}
+            </div>
           </div>
-          <div style="text-align:right;">
-            <div style="font-weight:800; color:var(--primary); margin-bottom:8px;">${rupiah(o.priceSnapshot)}</div>
+          <div style="text-align:right">
+            <div style="font-weight:800;color:var(--primary);margin-bottom:10px">${rupiah(o.priceSnapshot)}</div>
             ${o.paymentStatus === 'paid' 
               ? `<button class="btn btn-primary btn-sm" onclick="downloadFile('${o.id}')">Unduh File</button>`
-              : `<a href="#order=${o.id}" class="btn btn-outline btn-sm" data-nav>Lihat</a>`}
+              : o.paymentStatus === 'pending' 
+              ? `<a href="#order?id=${o.id}" class="btn btn-outline btn-sm">Bayar</a>`
+              : ''}
           </div>
         </div>
       `).join('') : `<div class="empty-state">Belum ada pembelian.</div>`}
-    </section>
+    </div>
   `;
 }
 
 window.downloadFile = async (orderId) => {
-  toast("Memeriksa hak akses...");
-  const snap = await get(ref(db, `orders/${orderId}`));
-  const o = snap.val();
-  if(o.paymentStatus !== 'paid') return toast("Pembayaran belum lunas.", "error");
+  toast("Memeriksa akses...");
+  const oSnap = await get(ref(db, `orders/${orderId}`));
+  const o = oSnap.val();
+  if(o.paymentStatus !== 'paid') return toast("Pembayaran belum lunas", "error");
   
   const pSnap = await get(ref(db, `products/${o.productId}`));
   const fileUrl = pSnap.val()?.fileDownloadURL;
-  
   if(fileUrl) {
     window.open(fileUrl, '_blank');
   } else {
-    alert("File produk belum diunggah ke server oleh Penjual/Admin. Hubungi admin untuk pengiriman file.");
+    alert("File produk belum diunggah oleh Admin/Penjual.");
   }
 };
 
+// --- VIEW: SELLER REGISTRATION ---
 async function renderSeller() {
-  if(!state.user) return $("#app").innerHTML = `<div class="empty-state">Silakan login untuk menjadi penjual.</div>`;
+  if(!state.user) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Login untuk mendaftar sebagai penjual.</div></div>`;
   
   const shopsSnap = await get(ref(db, 'shops'));
   const myShop = Object.entries(shopsSnap.val() || {}).find(([id, s]) => s.ownerId === state.user.uid);
 
   if(myShop) {
     return $("#app").innerHTML = `
-      <section class="section">
-        <h2>Dashboard Toko</h2>
-        <p>Selamat datang di toko <b>${esc(myShop[1].name)}</b>.</p>
-        <a href="#shop=${myShop[1].slug}" data-nav class="btn btn-primary btn-block">Lihat Toko Publik</a>
-      </section>`;
+      <div class="container" style="text-align:center;padding-top:40px">
+        <h2>Toko Anda: ${esc(myShop[1].name)}</h2>
+        <p style="color:var(--text-muted)">Anda sudah terdaftar sebagai penjual.</p>
+      </div>`;
   }
 
   const appsSnap = await get(ref(db, 'sellerApplications'));
   const myApp = Object.entries(appsSnap.val() || {}).find(([id, a]) => a.userId === state.user.uid);
 
   if(myApp) {
-    return $("#app").innerHTML = `<div class="section"><div class="empty-state">Pengajuan toko Anda sedang ditinjau (Status: ${myApp[1].status}).</div></div>`;
+    return $("#app").innerHTML = `<div class="container"><div class="empty-state">Pengajuan toko sedang ditinjau (Status: ${myApp[1].status}).</div></div>`;
   }
 
   $("#app").innerHTML = `
-    <section class="section">
-      <h2>Buka Toko Baru</h2>
-      <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Isi data toko Anda. Admin akan meninjau pengajuan ini.</p>
-      <form id="formSeller">
-        <div class="field"><label>Nama Toko</label><input class="input" name="shopName" required></div>
-        <div class="field"><label>Slug Toko (huruf kecil, tanpa spasi)</label><input class="input" name="slug" pattern="[a-z0-9-]+" required></div>
-        <div class="field"><label>Deskripsi Singkat</label><textarea class="textarea" name="description" required></textarea></div>
-        <div class="field"><label>Nama Pemilik</label><input class="input" name="ownerName" required></div>
-        <div class="field"><label>Kontak (WA/Email)</label><input class="input" name="contact" required></div>
-        <button type="submit" class="btn btn-primary btn-block">Ajukan Toko</button>
+    <div class="container" style="max-width:500px">
+      <h2 style="text-align:center;margin-bottom:20px">Buka Toko Baru</h2>
+      <form id="formSeller" style="background:#fff;padding:20px;border-radius:var(--radius-md);border:1px solid var(--border)">
+        <div class="form-group"><label class="form-label">Nama Toko</label><input class="form-input" name="shopName" required></div>
+        <div class="form-group"><label class="form-label">Slug (huruf kecil, tanpa spasi)</label><input class="form-input" name="slug" pattern="[a-z0-9-]+" required></div>
+        <div class="form-group"><label class="form-label">Deskripsi</label><textarea class="form-input" name="description" required></textarea></div>
+        <div class="form-group"><label class="form-label">Nama Pemilik</label><input class="form-input" name="ownerName" required></div>
+        <div class="form-group"><label class="form-label">Kontak</label><input class="form-input" name="contact" required></div>
+        <button type="submit" class="btn btn-primary">Ajukan Toko</button>
       </form>
-    </section>
+    </div>
   `;
 
   $("#formSeller").onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    try {
-      const appRef = push(ref(db, 'sellerApplications'));
-      await set(appRef, {
-        userId: state.user.uid,
-        shopName: fd.get('shopName'),
-        slug: fd.get('slug').toLowerCase(),
-        description: fd.get('description'),
-        ownerName: fd.get('ownerName'),
-        contact: fd.get('contact'),
-        email: state.user.email,
-        status: 'pending',
-        createdAt: serverTimestamp()
-      });
-      toast("Pengajuan berhasil dikirim!", "success");
-      renderSeller();
-    } catch (err) { toast(err.message, "error"); }
+    const appRef = push(ref(db, 'sellerApplications'));
+    await set(appRef, {
+      userId: state.user.uid, shopName: fd.get('shopName'), slug: fd.get('slug').toLowerCase(),
+      description: fd.get('description'), ownerName: fd.get('ownerName'), contact: fd.get('contact'),
+      email: state.user.email, status: 'pending', createdAt: Date.now()
+    });
+    toast("Pengajuan terkirim!", "success"); renderSeller();
   };
 }
 
+// --- VIEW: SHOP ---
 function renderShop(slug) {
   const shopEntry = Object.entries(state.shops).find(([id, s]) => s.slug === slug);
-  if(!shopEntry) return $("#app").innerHTML = `<div class="empty-state">Toko tidak ditemukan.</div>`;
+  if(!shopEntry) return $("#app").innerHTML = `<div class="container"><div class="empty-state">Toko tidak ditemukan.</div></div>`;
   const [shopId, shop] = shopEntry;
   
   const products = Object.entries(state.products).map(([id, p]) => ({id, ...p}))
-    .filter(p => p.shopId === shopId && p.status === "available" && p.availability === "available");
+    .filter(p => p.shopId === shopId && p.status !== 'sold');
 
   $("#app").innerHTML = `
-    <section class="section">
-      <div style="text-align:center; margin-bottom:30px;">
-        <img src="${shop.logoURL || 'https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg'}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 16px;">
-        <h2 style="margin:0 0 8px;">${esc(shop.name)}</h2>
-        <p style="color:var(--text-muted); font-size:14px; margin:0;">${esc(shop.description)}</p>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:30px">
+        <img src="${shop.logoURL || 'https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg'}" style="width:80px;height:80px;border-radius:50%;margin:0 auto 16px;border:2px solid var(--border)">
+        <h2 style="margin:0 0 8px">${esc(shop.name)}</h2>
+        <p style="color:var(--text-muted);font-size:14px">${esc(shop.description)}</p>
       </div>
       <h3>Produk Toko (${products.length})</h3>
-      <div class="product-grid" style="margin-top:16px;">
+      <div class="product-grid" style="margin-top:16px">
         ${products.length ? products.map(p => `
-          <a href="#product=${p.id}" class="pcard" data-nav>
-            <div class="pcard-thumb"><img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400'}"></div>
+          <a href="#product?id=${p.id}" class="pcard">
+            <div class="pcard-img"><img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400'}"></div>
             <div class="pcard-body">
               <div class="pcard-title">${esc(p.title)}</div>
               <div class="pcard-price">${rupiah(p.price)}</div>
             </div>
           </a>
-        `).join("") : `<div class="empty-state">Belum ada produk tersedia.</div>`}
+        `).join("") : `<div class="empty-state">Belum ada produk.</div>`}
       </div>
-    </section>
+    </div>
   `;
 }
 
-/* --- UI LOGIC --- */
-function closeModal() { $("#modal-root").innerHTML = ""; }
-const drawer = $("#drawer"), overlay = $("#drawerOverlay");
-$("#hamburgerBtn").onclick = () => { drawer.classList.add("open"); overlay.classList.add("open"); };
-$("#drawerClose").onclick = () => { drawer.classList.remove("open"); overlay.classList.remove("open"); };
-overlay.onclick = () => { drawer.classList.remove("open"); overlay.classList.remove("open"); };
-document.addEventListener("click", (e) => { if (e.target.closest("[data-nav]")) { drawer.classList.remove("open"); overlay.classList.remove("open"); } });
-$("#navSearchBtn").onclick = () => { location.hash = "#catalog"; };
-
-await loadSettings();
+// --- INIT ---
+render();
 </script>
 </body>
 </html>
