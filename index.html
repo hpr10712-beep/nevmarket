@@ -2,937 +2,294 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- Memaksa mode terang agar browser tidak merusak warna -->
-<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KodinganKita — Marketplace Produk Digital</title>
-<meta name="description" content="Marketplace produk digital eksklusif — satu produk, satu pembeli.">
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%236366f1'/><path d='M20 22l10 10-10 10' stroke='white' stroke-width='4' fill='none' stroke-linecap='round' stroke-linejoin='round'/><path d='M34 42h10' stroke='white' stroke-width='4' stroke-linecap='round'/></svg>">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="Marketplace produk digital eksklusif. Setiap produk hanya dijual sekali.">
+<link rel="icon" href="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg">
 <style>
-/* ===================== RESET & TOKENS ===================== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#fafafa; --bg-elev:#ffffff; --fg:#18181b; --fg-muted:#71717a; --fg-subtle:#a1a1aa;
-  --line:#e4e4e7; --line-strong:#d4d4d8; --accent:#6366f1; --accent-hover:#4f46e5;
-  --accent-soft:#eef2ff; --success:#10b981; --success-soft:#d1fae5; --success-fg:#065f46;
-  --warn:#f59e0b; --warn-soft:#fef3c7; --warn-fg:#92400e; --danger:#ef4444;
-  --danger-soft:#fee2e2; --danger-fg:#991b1b;
-  --shadow-sm:0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow:0 1px 3px 0 rgb(0 0 0 / 0.1);
-  --r-sm:6px; --r:10px; --r-lg:14px; --r-xl:20px;
-  --font:'Inter',system-ui,-apple-system,sans-serif;
-  --mono:ui-monospace,monospace;
-  --t:150ms ease-in-out;
+  --primary:#4f46e5; --primary-600:#4338ca; --primary-50:#eef2ff;
+  --text:#0f172a; --muted:#64748b; --border:#e2e8f0;
+  --bg:#ffffff; --bg-soft:#f8fafc; --danger:#dc2626; --success:#16a34a;
+  --radius:14px; --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
-html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--fg);font-family:var(--font);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
-img,svg{display:block;max-width:100%}
-a{color:var(--accent);text-decoration:none;transition:color var(--t)}
-a:hover{color:var(--accent-hover)}
-button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer;background:none;border:none}
-input,select,textarea{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;font-size:14px;width:100%;transition:all var(--t)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.15)}
-textarea{resize:vertical;min-height:100px}
-h1,h2,h3,h4{line-height:1.25;font-weight:700;letter-spacing:-0.015em}
-h1{font-size:2rem}h2{font-size:1.375rem}h3{font-size:1.125rem}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--primary);text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
 
-/* ===================== LAYOUT ===================== */
-.container{width:100%;max-width:1200px;margin:0 auto;padding:0 20px}
-main{padding:32px 0 64px;flex:1}
-@media(max-width:640px){main{padding:20px 0 48px}}
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:8px;top:8px;background:#fff;padding:10px 16px;border-radius:var(--r);z-index:1000}
+/* HEADER (Sesuai Sketsa) */
+header.site{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:800px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--text)}
+.brand img{width:32px;height:32px;border-radius:8px;object-fit:cover}
+.hamburger{background:none;border:0;width:40px;height:40px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;padding:0}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px}
 
-/* ===================== HEADER (FIXED) ===================== */
-.site-header{position:sticky;top:0;background:#ffffff;border-bottom:1px solid var(--line);z-index:50}
-.nav{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px}
-.brand{display:inline-flex;align-items:center;gap:10px;font-weight:700;color:var(--fg);font-size:16px;flex-shrink:0}
-.brand svg{width:28px;height:28px}
-.nav-links{display:flex;gap:4px;flex:1;justify-content:center}
-.nav-links a{padding:8px 12px;border-radius:var(--r);color:var(--fg-muted);font-size:14px;font-weight:500}
-.nav-links a:hover,.nav-links a.active{background:var(--accent-soft);color:var(--accent);text-decoration:none}
-.nav-right{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.nav-search{position:relative;display:block}
-.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--fg-subtle)}
-.nav-search input{padding-left:36px;width:220px;background:var(--bg);border-color:transparent}
-.nav-search input:focus{background:#fff}
-.menu-toggle{display:none;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:#fff;color:var(--fg)}
+/* HERO SKETSA */
+.hero{text-align:center;padding:30px 20px 10px;max-width:600px;margin:0 auto}
+.hero-title{font-size:28px;font-weight:800;margin:0 0 4px;letter-spacing:-.02em}
+.hero-desc{color:var(--muted);font-size:13px;margin:0 0 24px}
 
-/* Header Mobile */
-@media(max-width:900px){
-  .nav{flex-wrap:wrap;padding:12px 0;gap:8px}
-  .brand{order:1}
-  .nav-right{order:2}
-  .nav-links{
-    display:none; order:4; width:100%; flex-direction:column; gap:2px;
-    padding-top:12px; margin-top:4px; border-top:1px solid var(--line);
-  }
-  .nav-links.open{display:flex}
-  .nav-links a{padding:12px 16px; font-size:15px; border-radius:var(--r-sm)}
-  .nav-search{display:none} /* Sembunyikan search di header mobile */
-  .menu-toggle{display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px}
-  /* Pindahkan kotak search ke dalam dropdown menu mobile */
-  .nav-links::before{
-    content:''; display:block; height:44px; margin-bottom:8px;
-    background:var(--bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>") no-repeat 14px center;
-    border-radius:var(--r); pointer-events:none;
-  }
-  .nav-links input.mobile-search{
-    display:block; margin-top:-52px; margin-bottom:8px; background:transparent; border:none; padding-left:40px;
-  }
-}
-@media(max-width:520px){
-  .user-chip{max-width:100px}
-}
+/* MASCOT BOX */
+.mascot-container{width:100%;height:220px;background:var(--bg-soft);border-radius:40px;margin-bottom:24px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);box-shadow:inset 0 2px 10px rgba(0,0,0,.02)}
+.mascot-container iframe, .mascot-container canvas {width:100%;height:100%;object-fit:cover;border:0}
+.mascot-container .mascot-empty{font-size:14px;color:var(--muted);font-weight:500}
 
-/* ===================== BUTTONS ===================== */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r);border:1px solid transparent;font-weight:600;font-size:14px;line-height:1;white-space:nowrap;transition:all var(--t);cursor:pointer}
-.btn:active{transform:scale(0.98)}
-.btn[disabled]{opacity:0.5;pointer-events:none}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-secondary{background:#fff;border-color:var(--line-strong);color:var(--fg)}
-.btn-ghost{background:transparent;color:var(--fg-muted)}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-block{width:100%}
-.btn-lg{padding:14px 24px;font-size:15px;border-radius:var(--r-lg)}
-.btn-sm{padding:6px 12px;font-size:13px}
+/* MENU ROW (4 Lingkaran) */
+.menu-row{display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;margin-bottom:30px}
+.menu-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
+.menu-icon-wrap{width:65px;height:65px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .15s}
+.menu-item:active .menu-icon-wrap{transform:scale(.95)}
+.menu-icon-wrap svg, .menu-icon-wrap img, .menu-icon-wrap canvas {width:100%;height:100%;object-fit:cover}
+.menu-label{font-size:11px;font-weight:600;text-align:center;line-height:1.2}
 
-/* ===================== HERO ===================== */
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#eef2ff 0%,#f5f3ff 100%);border-radius:var(--r-xl);padding:64px 48px;margin-bottom:48px;text-align:center;border:1px solid var(--line)}
-.hero h1{font-size:clamp(1.75rem,4vw,2.75rem);margin-bottom:16px;letter-spacing:-0.03em;line-height:1.1}
-.hero p{color:var(--fg-muted);max-width:560px;margin:0 auto 28px;font-size:1rem}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-@media(max-width:640px){.hero{padding:40px 20px;margin-bottom:32px}.hero-cta{flex-direction:column}.hero-cta .btn{width:100%}}
+/* PRODUK GRID (2 Kolom Sesuai Sketsa) */
+.section{padding:20px;max-width:800px;margin:0 auto}
+.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(min-width:640px){.product-grid{grid-template-columns:repeat(3,1fr)}}
 
-/* ===================== SECTION & GRID ===================== */
-.section{margin-bottom:48px}
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px}
-.section-head h2{margin:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
-@media(max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}}
+/* KARTU PRODUK */
+.pcard{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;text-decoration:none;color:inherit}
+.pcard-thumb{aspect-ratio:1;background:var(--bg-soft);overflow:hidden;position:relative}
+.pcard-thumb img{width:100%;height:100%;object-fit:cover}
+.pcard-body{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pcard-title{font-size:13px;font-weight:600;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard-price{font-size:14px;font-weight:800;color:var(--primary);margin-top:auto;padding-top:6px}
 
-/* ===================== CARD ===================== */
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:box-shadow var(--t)}
-.card:hover{box-shadow:var(--shadow)}
-.card-img-wrap{position:relative;aspect-ratio:4/3;background:#f4f4f5;overflow:hidden}
-.card-img-wrap img{width:100%;height:100%;object-fit:cover}
-.card-fav{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--fg-muted)}
-.card-fav.is-fav{color:var(--danger)}
-.card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.card-title{font-size:15px;font-weight:600;line-height:1.35;color:var(--fg)}
-.card-store{font-size:13px;color:var(--fg-muted);display:flex;align-items:center;gap:6px}
-.card-price{margin-top:auto;font-size:17px;font-weight:700;color:var(--fg);padding-top:8px}
-.card-pill{position:absolute;top:10px;left:10px;background:rgba(99,102,241,0.95);color:#fff;font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;text-transform:uppercase}
+/* DRAWER MENU */
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s}
+.drawer-overlay.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:280px;background:#fff;z-index:100;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}
+.drawer.open{transform:translateX(0)}
+.drawer-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.drawer-body{padding:16px;display:flex;flex-direction:column}
+.drawer-body a{padding:14px;color:var(--text);font-size:14px;font-weight:600;border-bottom:1px solid var(--bg-soft);text-decoration:none}
+.drawer-body a:hover{background:var(--bg-soft);color:var(--primary)}
 
-/* ===================== MISC UI ===================== */
-.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:16px 0 20px}
-.chip{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:500;color:var(--fg-muted);white-space:nowrap;cursor:pointer}
-.chip.active{background:var(--fg);color:#fff;border-color:var(--fg)}
-.page-header{margin-bottom:24px}
-.page-header h1{margin-bottom:6px}
-.page-header p{color:var(--fg-muted);font-size:14px}
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:72px 24px;text-align:center;background:#fff;border:1px dashed var(--line-strong);border-radius:var(--r-lg);color:var(--fg-muted)}
-.empty svg{width:56px;height:56px;color:var(--fg-subtle);margin-bottom:16px}
-.error-box{padding:16px;border:1px solid #fecaca;background:var(--danger-soft);color:var(--danger-fg);border-radius:var(--r);margin:16px 0}
-.toast-root{position:fixed;top:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:1000;pointer-events:none}
-.toast{background:#18181b;color:#fff;padding:12px 16px;border-radius:var(--r);font-size:14px;font-weight:500;animation:toastIn 0.25s forwards;pointer-events:auto}
-.toast.success{background:var(--success)}.toast.error{background:var(--danger)}
-@keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.modal-root{position:fixed;inset:0;background:rgba(9,9,11,0.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:500}
-.modal{background:#fff;border-radius:var(--r-xl);max-width:520px;width:100%;padding:28px;max-height:90vh;overflow-y:auto}
-.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
-
-/* ===================== PRODUCT DETAIL ===================== */
-.product-detail{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:start}
-@media(max-width:900px){.product-detail{grid-template-columns:1fr}}
-.product-gallery{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:#f4f4f5;aspect-ratio:16/10}
-.product-gallery img{width:100%;height:100%;object-fit:cover}
-.buy-box{position:sticky;top:88px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
-@media(max-width:900px){.buy-box{position:static}}
-.buy-price{font-size:2rem;font-weight:800;color:var(--fg);line-height:1}
-.buy-note{display:flex;gap:10px;padding:12px;border-radius:var(--r);background:var(--warn-soft);color:var(--warn-fg);font-size:13px;margin:16px 0}
-.countdown{font-family:var(--mono);font-size:2.5rem;font-weight:700;text-align:center;color:var(--fg)}
-.countdown.danger{color:var(--danger)}
-
-/* ===================== FOOTER ===================== */
-.site-footer{background:#18181b;color:#a1a1aa;padding:48px 0 24px;margin-top:auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;margin-bottom:32px}
-@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:24px}}
-.footer-grid h4{color:#fff;font-size:14px;margin-bottom:16px}
-.footer-grid ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.footer-grid a{color:#a1a1aa}
-.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;font-size:13px;color:#52525b;text-align:center}
+/* UTILS */
+.empty{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px}
+.skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Lewati ke konten</a>
 
-<!-- HEADER YANG SUDAH DIPERBAIKI -->
-<header class="site-header">
-  <div class="container nav">
-    <a href="/" data-nav class="brand">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#6366f1"/><path d="M20 22l10 10-10 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M34 42h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
-      <span>KodinganKita</span>
+<!-- HEADER -->
+<header class="site">
+  <div class="header-inner">
+    <a href="#" class="brand" data-nav>
+      <img src="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg" alt="Logo">
+      <span id="brandName">KodinganKita</span>
     </a>
-    
-    <nav class="nav-links" id="navLinks">
-      <!-- Input search untuk mobile diletakkan di sini agar rapi -->
-      <input type="search" class="mobile-search" placeholder="Cari produk…" onkeydown="if(event.key==='Enter'){ window.location.href='/?view=catalog&q='+this.value; }">
-      <a href="/" data-nav>Beranda</a>
-      <a href="/?view=catalog" data-nav>Katalog</a>
-      <a href="/?view=favorites" data-nav>Favorit</a>
-      <a href="/?view=library" data-nav>Perpustakaan</a>
-      <a href="/?view=orders" data-nav>Pesanan</a>
-      <a href="/?view=seller" data-nav>Jual</a>
-      <a href="/?view=help" data-nav>Bantuan</a>
-      <a href="/?view=admin" data-nav id="navAdmin" style="display:none">Admin</a>
-    </nav>
-
-    <div class="nav-right">
-      <!-- Search desktop -->
-      <div class="nav-search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="globalSearch" type="search" placeholder="Cari produk…" onkeydown="if(event.key==='Enter'){ window.location.href='/?view=catalog&q='+this.value; }"/>
-      </div>
-      <div id="authArea"></div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-      </button>
-    </div>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
-<div id="banner" class="banner" hidden></div>
-<div id="offline" class="offline" hidden>⚠ Koneksi terputus.</div>
-
-<main id="main" class="container">
-  <div id="view" class="view"></div>
-</main>
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div style="display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:16px;margin-bottom:12px">
-          <svg viewBox="0 0 64 64" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#6366f1"/><path d="M20 22l10 10-10 10" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M34 42h10" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
-          <span>KodinganKita</span>
-        </div>
-        <p style="font-size:14px;line-height:1.7;max-width:280px">Marketplace produk digital eksklusif. Setiap produk hanya dijual satu kali kepada satu pembeli.</p>
-      </div>
-      <div>
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="/?view=tos" data-nav>Syarat & Ketentuan</a></li>
-          <li><a href="/?view=privacy" data-nav>Kebijakan Privasi</a></li>
-          <li><a href="/?view=license" data-nav>Kebijakan Lisensi</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Bantuan</h4>
-        <ul>
-          <li><a href="/?view=help" data-nav>Pusat Bantuan</a></li>
-          <li><a href="/?view=report" data-nav>Laporkan Pelanggaran</a></li>
-          <li><a href="mailto:support@kodingankita.com">Email Kami</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      © <span id="year"></span> KodinganKita. Semua hak dilindungi.
-    </div>
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <span>Menu</span>
+    <button id="drawerClose" style="background:none;border:0;font-size:20px;cursor:pointer;color:var(--muted)">Tutup</button>
   </div>
-</footer>
+  <div class="drawer-body">
+    <a href="#" data-nav>Beranda</a>
+    <a href="#catalog" data-nav>Katalog Produk</a>
+    <a href="#purchases" data-nav>Pembelian Saya</a>
+    <a href="#seller" data-nav>Jadi Penjual</a>
+    <div style="flex:1"></div>
+    <button id="authBtn" style="margin-top:20px;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--primary);color:#fff;font-weight:600;cursor:pointer;font-family:inherit">Masuk</button>
+  </div>
+</aside>
 
-<div id="modalRoot" class="modal-root" hidden></div>
-<div id="toastRoot" class="toast-root"></div>
+<!-- MAIN CONTENT -->
+<main id="app"></main>
+
+<div id="toast-container" style="position:fixed;bottom:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px"></div>
 
 <script type="module">
-/* ===================== IMPORTS ===================== */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getDatabase, ref, get, set, update, remove, push,
-  runTransaction, query, orderByChild, equalTo, onValue, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getStorage, ref as sref, uploadBytes, getDownloadURL }
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { getDatabase, ref, get, onValue, set, push, runTransaction, update, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* ===================== FIREBASE CONFIG ===================== */
 const firebaseConfig = {
-  apiKey: "AIzaSyCHr0eemIkfHNFDUKSaFDklp_c1OgmSnl8",
+  apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
   authDomain: "mybro-9ba5f.firebaseapp.com",
-  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
   projectId: "mybro-9ba5f",
-  storageBucket: "mybro-9ba5f.appspot.com"
+  storageBucket: "mybro-9ba5f.firebasestorage.app",
+  messagingSenderId: "820948893264",
+  appId: "1:820948893264:web:e564509a8fdc4c56335b55"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
-const storage = getStorage(app);
-const googleProvider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
-const QRIS_IMG = "https://i.ibb.co.com/FLF6Wz07/IMG-20261012-160202.jpg";
-const PAYMENT_WINDOW_MS = 180 * 1000;
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rupiah = n => "Rp"+Number(n||0).toLocaleString("id-ID");
 
-/* ===================== UTILS ===================== */
-let serverOffset = 0;
-onValue(ref(db, ".info/serverTimeOffset"), s => { serverOffset = s.val() || 0; });
-const now = () => Date.now() + serverOffset;
-const fmtRp = n => "Rp " + (Number(n||0)).toLocaleString("id-ID");
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
-const fmtLeft = ms => {
-  if (ms <= 0) return "00:00";
-  const s = Math.floor(ms/1000), m = Math.floor(s/60), sec = s % 60;
-  return String(m).padStart(2,"0") + ":" + String(sec).padStart(2,"0");
+const state = {
+  user: null,
+  settings: null,
+  products: null,
+  pendingProductId: null
 };
-const slugify = s => String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60);
 
-const ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-const ICON_HEART_FILLED = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-const ICON_BAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
-const ICON_EMPTY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" x2="12" y1="22" y2="12"/></svg>';
-
-/* ===================== UI HELPERS ===================== */
-const $view = document.getElementById("view");
-const $modal = document.getElementById("modalRoot");
-const $toast = document.getElementById("toastRoot");
-const $banner = document.getElementById("banner");
-const $offline = document.getElementById("offline");
-
-function toast(msg, type="info", ms=3200){
-  const el = document.createElement("div");
-  el.className = "toast " + type;
-  el.textContent = msg;
-  $toast.appendChild(el);
-  setTimeout(()=>{ el.style.opacity = 0; setTimeout(()=>el.remove(),250); }, ms);
-}
-function showModal(html){
-  $modal.innerHTML = `<div class="modal">${html}</div>`;
-  $modal.hidden = false;
-  document.body.style.overflow = "hidden";
-  $modal.onclick = e => { if (e.target === $modal) closeModal(); };
-  $modal.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", closeModal));
-}
-function closeModal(){ $modal.hidden = true; $modal.innerHTML = ""; document.body.style.overflow = ""; }
-function confirmModal({title, body="", confirmText="Ya", cancelText="Batal"}){
-  return new Promise(resolve => {
-    showModal(`
-      <h3>${esc(title)}</h3>
-      ${body ? `<p>${body}</p>` : ""}
-      <div class="modal-actions">
-        <button class="btn btn-secondary" data-act="cancel">${esc(cancelText)}</button>
-        <button class="btn btn-primary" data-act="ok">${esc(confirmText)}</button>
-      </div>`);
-    $modal.onclick = e => {
-      const act = e.target.getAttribute("data-act");
-      if (act){ closeModal(); resolve(act === "ok"); }
-      else if (e.target === $modal){ closeModal(); resolve(false); }
-    };
+/* --- FUNGSI EKSEKUSI KODE DARI ADMIN --- */
+function executeCustomCode(container) {
+  // Cari semua tag <script> yang di-inject, lalu buat ulang agar dieksekusi oleh browser
+  const scripts = container.querySelectorAll("script");
+  scripts.forEach(oldScript => {
+    const newScript = document.createElement("script");
+    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+    oldScript.parentNode.replaceChild(newScript, oldScript);
   });
 }
 
-window.addEventListener("online", ()=> $offline.hidden = true);
-window.addEventListener("offline", ()=> $offline.hidden = false);
-$offline.hidden = navigator.onLine;
-document.getElementById("year").textContent = new Date().getFullYear();
+/* --- LOAD SETTINGS --- */
+async function loadSettings() {
+  const snap = await get(ref(db, "settings/marketplace"));
+  state.settings = snap.val() || {};
+  if(state.settings.name) $("#brandName").textContent = state.settings.name;
+  render();
+}
 
-/* MENU MOBILE TOGGLE */
-document.getElementById("menuToggle")?.addEventListener("click", ()=>{
-  document.getElementById("navLinks").classList.toggle("open");
+onValue(ref(db, "products"), snap => {
+  state.products = snap.val() || {};
+  render();
 });
 
-/* ===================== AUTH ===================== */
-let user = null, profile = null;
-
-onAuthStateChanged(auth, async u => {
-  user = u || null;
-  profile = null;
-  if (u){
-    try {
-      const idTok = await u.getIdTokenResult();
-      const snap = await get(ref(db, `users/${u.uid}`));
-      if (!snap.exists()){
-        await set(ref(db, `users/${u.uid}`), {
-          uid: u.uid, name: u.displayName || "", email: u.email || "",
-          photo: u.photoURL || "", createdAt: serverTimestamp()
-        });
-        profile = { uid: u.uid, name: u.displayName || "", email: u.email || "" };
-      } else {
-        profile = snap.val();
-      }
-      const isAdmin = idTok.claims?.admin === true;
-      const navAdmin = document.getElementById("navAdmin");
-      if (navAdmin) navAdmin.style.display = isAdmin ? "" : "none";
-      profile._isAdmin = isAdmin;
-    } catch(e){ console.error("auth profile", e); }
-  } else {
-    const navAdmin = document.getElementById("navAdmin");
-    if (navAdmin) navAdmin.style.display = "none";
+onAuthStateChanged(auth, user => {
+  state.user = user;
+  $("#authBtn").textContent = user ? "Keluar" : "Masuk";
+  $("#authBtn").onclick = () => user ? signOut(auth) : signInWithPopup(auth, provider);
+  if(user && state.pendingProductId) {
+    const pid = state.pendingProductId;
+    state.pendingProductId = null;
+    buyFlow(pid);
   }
-  renderAuthArea();
-  renderRoute(parseLocation());
 });
 
-function renderAuthArea(){
-  const area = document.getElementById("authArea");
-  if (!area) return;
-  if (user){
-    const name = user.displayName ? user.displayName.split(" ")[0] : "User";
-    area.innerHTML = `
-      <span class="user-chip" title="${esc(user.email||"")}">${esc(name)}</span>
-      <button class="btn btn-secondary btn-sm" id="btnLogout">Keluar</button>`;
-    document.getElementById("btnLogout").addEventListener("click", async ()=>{ await signOut(auth); toast("Keluar"); });
-  } else {
-    area.innerHTML = `<button class="btn btn-primary btn-sm" id="btnLogin">Masuk</button>`;
-    document.getElementById("btnLogin").addEventListener("click", loginGoogle);
+/* --- ROUTER --- */
+function parseHash() {
+  const h = location.hash.replace(/^#/, "");
+  const [path, qs] = h.split("?");
+  return { path, params: new URLSearchParams(qs || "") };
+}
+
+function render() {
+  const { path } = parseHash();
+  if (path.startsWith("product=")) return renderProduct(path.split("=")[1]);
+  return renderHome();
+}
+
+/* --- HOME SKETSA --- */
+function renderHome() {
+  const s = state.settings || {};
+  
+  // Ambil data produk
+  let products = [];
+  if (state.products) {
+    products = Object.entries(state.products)
+      .map(([id, p]) => ({id, ...p}))
+      .filter(p => p.status === "available" && p.availability === "available")
+      .slice(0, 4);
   }
-}
-async function loginGoogle(){
-  try { await signInWithPopup(auth, googleProvider); toast("Berhasil masuk", "success"); }
-  catch(e){ toast("Gagal masuk: " + (e.code||e.message), "error"); }
-}
-function requireLogin(){ if (!user){ loginGoogle(); return false; } return true; }
 
-/* ===================== ROUTER ===================== */
-function parseLocation(){
-  const url = new URL(window.location.href);
-  const path = url.pathname, p = url.searchParams;
-  if (path.startsWith("/p/")) return { view:"product", slug: decodeURIComponent(path.slice(3).split("/")[0]) };
-  if (path.startsWith("/t/")) return { view:"store", username: decodeURIComponent(path.slice(3).split("/")[0]) };
-  if (p.get("produk")) return { view:"product", id: p.get("produk") };
-  if (p.get("toko")) return { view:"store", username: p.get("toko") };
-  if (p.get("order")) return { view:"order", orderId: p.get("order") };
-  if (p.get("view")) return { view: p.get("view"), query: p };
-  return { view:"home" };
-}
-async function navigate(path){
-  window.history.pushState({}, "", path);
-  await renderRoute(parseLocation());
-  document.getElementById("navLinks").classList.remove("open");
-}
-window.addEventListener("popstate", ()=> renderRoute(parseLocation()));
-document.body.addEventListener("click", e => {
-  const a = e.target.closest("a[data-nav]");
-  if (!a) return;
-  const href = a.getAttribute("href");
-  if (!href || href.startsWith("http") || href.startsWith("mailto:")) return;
-  e.preventDefault();
-  navigate(href);
-});
+  // Render Mascot (Kode HTML dari admin)
+  let mascotHTML = s.mascot?.code || `<div class="mascot-empty">Mascot belum diatur oleh Admin</div>`;
 
-const routes = {};
-function registerRoute(name, fn){ routes[name] = fn; }
+  // Render Menu (Kode HTML dari admin)
+  let menuHTML = "";
+  const defaultMenus = [
+    { label: "Katalog", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>`, action: "#catalog" },
+    { label: "Cari", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>`, action: "#catalog" },
+    { label: "Jual", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16m8-8H4"/></svg>`, action: "#seller" },
+    { label: "Beli", code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg>`, action: "#purchases" }
+  ];
 
-async function renderRoute(route){
-  const fn = routes[route.view] || routes.home;
-  $view.innerHTML = `<div class="grid">${[1,2,3,4].map(()=>`<div class="card"><div class="card-img-wrap" style="background:#e4e4e7"></div><div class="card-body"><div style="height:16px;background:#e4e4e7;border-radius:4px;width:80%"></div></div></div>`).join("")}</div>`;
-  try { await fn($view, route); }
-  catch(e){ console.error(e); $view.innerHTML = `<div class="error-box"><strong>Terjadi kesalahan.</strong><br/>${esc(e.message||"")}</div>`; }
-  window.scrollTo({top:0, behavior:"smooth"});
-  document.querySelectorAll(".nav-links a").forEach(a=>{
-    const href = a.getAttribute("href") || "";
-    a.classList.toggle("active", (href === "/" && route.view === "home") || href.includes("view=" + route.view));
-  });
-}
+  const menus = (s.menuItems && s.menuItems.length > 0) ? s.menuItems : defaultMenus;
 
-/* ===================== DATA ===================== */
-async function loadAvailableProducts(category=null){
-  try {
-    const snap = await get(query(ref(db, "productStatus"), orderByChild("status"), equalTo("available")));
-    if (!snap.exists()) return [];
-    const list = [];
-    snap.forEach(c => {
-      const v = c.val();
-      if (category && v.category !== category) return;
-      list.push({ id: c.key, ...v });
-    });
-    return list.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
-  } catch(e){ return []; }
-}
-async function loadProduct(id){
-  const s = await get(ref(db, `products/${id}`));
-  if (!s.exists()) return null;
-  return { id, ...s.val() };
-}
-async function resolveProductId(route){
-  if (route.id) return route.id;
-  if (route.slug){
-    const s = await get(ref(db, `productSlugs/${route.slug}`));
-    return s.exists() ? s.val() : null;
-  }
-  return null;
-}
-
-/* ===================== PRODUCT CARD ===================== */
-function productCard(p, isFav=false){
-  const img = p.thumbnail || "";
-  return `
-    <a class="card" href="/p/${esc(p.slug || p.id)}" data-nav>
-      <div class="card-img-wrap">
-        ${img ? `<img src="${esc(img)}" alt="${esc(p.title||"")}" loading="lazy"/>` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#eef2ff,#f5f3ff);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:1.5rem">${esc((p.title||"?").slice(0,1).toUpperCase())}</div>`}
-        ${p.category ? `<span class="card-pill">${esc(p.category)}</span>` : ""}
-        <button class="card-fav ${isFav ? 'is-fav' : ''}" data-fav="${esc(p.id)}" title="Favorit" type="button" onclick="event.preventDefault();event.stopPropagation();">
-          ${isFav ? ICON_HEART_FILLED : ICON_HEART}
-        </button>
+  menuHTML = menus.map(m => `
+    <a href="${esc(m.action)}" class="menu-item" data-nav>
+      <div class="menu-icon-wrap">
+        ${m.code}
       </div>
-      <div class="card-body">
-        <h3 class="card-title">${esc(p.title||"")}</h3>
-        ${p.storeName ? `<div class="card-store">${esc(p.storeName)}</div>` : ""}
-        <div class="card-price">${fmtRp(p.price)}</div>
-      </div>
-    </a>`;
-}
+      <span class="menu-label">${esc(m.label)}</span>
+    </a>
+  `).join("");
 
-async function attachFavHandlers(root){
-  const favs = await getUserFavoritesSet();
-  root.querySelectorAll("[data-fav]").forEach(btn=>{
-    const id = btn.dataset.fav;
-    if (favs.has(id)){ btn.classList.add("is-fav"); btn.innerHTML = ICON_HEART_FILLED; }
-    btn.addEventListener("click", async (e)=>{
-      e.preventDefault(); e.stopPropagation();
-      if (!user){ toast("Masuk dulu untuk favorit", "error"); return; }
-      const isNowFav = btn.classList.contains("is-fav");
-      try {
-        if (isNowFav){ await remove(ref(db, `favorites/${user.uid}/${id}`)); btn.classList.remove("is-fav"); btn.innerHTML = ICON_HEART; }
-        else { await set(ref(db, `favorites/${user.uid}/${id}`), true); btn.classList.add("is-fav"); btn.innerHTML = ICON_HEART_FILLED; }
-      } catch(err){ toast("Gagal: " + err.message, "error"); }
-    });
-  });
-}
-async function getUserFavoritesSet(){
-  const set0 = new Set();
-  if (!user) return set0;
-  try { const s = await get(ref(db, `favorites/${user.uid}`)); if (s.exists()) Object.keys(s.val()).forEach(k => set0.add(k)); } catch(e){}
-  return set0;
-}
-
-/* ===================== VIEWS ===================== */
-registerRoute("home", async (main) => {
-  main.innerHTML = `
+  $("#app").innerHTML = `
     <section class="hero">
-      <h1>Satu Produk, Satu Pembeli.<br>Selamanya.</h1>
-      <p>Setiap karya digital di KodinganKita hanya dijual <strong>sekali</strong>. Anda mendapatkan produk yang benar-benar eksklusif — bukan salinan massal.</p>
-      <div class="hero-cta">
-        <a href="/?view=catalog" data-nav class="btn btn-primary btn-lg">${ICON_BAG} Jelajahi Katalog</a>
-        <a href="/?view=seller" data-nav class="btn btn-secondary btn-lg">Mulai Jualan</a>
+      <h1 class="hero-title">${esc(s.name || "KodinganKita")}</h1>
+      <p class="hero-desc">${esc(s.description || "Marketplace Produk Digital Eksklusif")}</p>
+      
+      <div class="mascot-container" id="mascotContainer">
+        ${mascotHTML}
+      </div>
+
+      <div class="menu-row">
+        ${menuHTML}
       </div>
     </section>
-    <div class="section">
-      <div class="section-head"><h2>Produk Terbaru</h2><a href="/?view=catalog" data-nav>Lihat semua →</a></div>
-      <div class="grid" id="homeGrid"></div>
-    </div>`;
 
-  const grid = main.querySelector("#homeGrid");
-  const products = (await loadAvailableProducts()).slice(0, 8);
-  if (!products.length){ grid.outerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3><p>Produk baru akan segera hadir.</p></div>`; return; }
-  grid.innerHTML = products.map(p => productCard(p)).join("");
-  await attachFavHandlers(grid);
-});
-
-registerRoute("catalog", async (main, route) => {
-  const params = route.query || new URLSearchParams();
-  const category = params.get("kategori") || null;
-  const search = params.get("q") || "";
-
-  main.innerHTML = `
-    <div class="page-header"><h1>Katalog Produk</h1><p>Produk digital eksklusif, hanya tersedia satu kali.</p></div>
-    <div class="chips" id="chips"></div>
-    <div class="grid" id="catalogGrid"></div>`;
-
-  const chipRoot = main.querySelector("#chips");
-  const grid = main.querySelector("#catalogGrid");
-
-  let cats = [];
-  try { const s = await get(ref(db, "settings/categories")); if (s.exists()){ const v = s.val(); cats = Array.isArray(v) ? v : Object.values(v).map(x => typeof x === "string" ? x : x?.name).filter(Boolean); } } catch(e){}
-
-  const chips = [{id:"", label:"Semua"}, ...cats.map(c=>({id:c, label:c}))];
-  chipRoot.innerHTML = chips.map(c=>`<button class="chip ${(category||"")===c.id?"active":""}" data-cat="${esc(c.id)}">${esc(c.label)}</button>`).join("");
-  chipRoot.addEventListener("click", e => {
-    const btn = e.target.closest("[data-cat]"); if (!btn) return;
-    const p = new URLSearchParams();
-    if (btn.dataset.cat) p.set("kategori", btn.dataset.cat);
-    const q = document.getElementById("globalSearch")?.value.trim();
-    if (q) p.set("q", q);
-    p.set("view", "catalog");
-    navigate("/?" + p.toString());
-  });
-
-  const products = await loadAvailableProducts(category);
-  const filterByQuery = q => {
-    if (!q) return products;
-    const ql = q.toLowerCase();
-    return products.filter(p => (p.title||"").toLowerCase().includes(ql) || (p.storeName||"").toLowerCase().includes(ql) || (p.category||"").toLowerCase().includes(ql));
-  };
-  const render = q => {
-    const shown = filterByQuery(q);
-    if (!shown.length){ grid.innerHTML = `<div class="empty" style="grid-column:1/-1">${ICON_EMPTY}<h3>Tidak ada produk</h3><p>Coba kata kunci lain.</p></div>`; return; }
-    grid.innerHTML = shown.map(p => productCard(p)).join("");
-    attachFavHandlers(grid);
-  };
-  render(search);
-});
-
-registerRoute("product", async (main, route) => {
-  const id = await resolveProductId(route);
-  if (!id){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali</a></div>`; return; }
-  let p = null;
-  try { p = await loadProduct(id); } catch(e){ p = null; }
-  if (!p){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Produk tidak ditemukan</h3><a href="/?view=catalog" data-nav class="btn btn-primary">Kembali</a></div>`; return; }
-  document.title = `${p.title || "Produk"} — KodinganKita`;
-  const showBuy = p.status === "available";
-  const img = p.thumbnail || "";
-
-  main.innerHTML = `
-    <div style="margin-bottom:16px"><a href="/?view=catalog" data-nav style="font-size:14px;color:var(--fg-muted)">← Kembali ke katalog</a></div>
-    <div class="product-detail">
-      <div>
-        <div class="product-gallery">
-          ${img ? `<img src="${esc(img)}" alt="${esc(p.title||"")}"/>` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#eef2ff,#f5f3ff);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:700;font-size:2rem">${esc((p.title||"?").slice(0,1).toUpperCase())}</div>`}
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;margin:20px 0 12px">
-          ${p.storeName ? `<a href="/t/${esc(p.storeUsername||"")}" data-nav style="font-weight:600">${esc(p.storeName)}</a>` : ""}
-          ${p.category ? `<span class="pill accent">${esc(p.category)}</span>` : ""}
-        </div>
-        <h1 style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:12px">${esc(p.title||"")}</h1>
-        <div style="color:var(--fg-muted);white-space:pre-wrap;line-height:1.7">${esc(p.description||"")}</div>
-        ${p.demoUrl ? `<div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--line)"><h3>Demo</h3><a href="${esc(p.demoUrl)}" target="_blank" class="btn btn-secondary" style="margin-top:8px">Buka Demo</a></div>` : ""}
+    <section class="section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
+        <h2 style="font-size:18px;margin:0">Produk</h2>
+        <a href="#catalog" style="font-size:12px;font-weight:600" data-nav>Lihat Semua</a>
       </div>
-      <div>
-        <div class="buy-box">
-          <div class="buy-price">${fmtRp(p.price)}</div>
-          <div style="font-size:13px;color:var(--fg-muted);margin:8px 0 16px">Status: ${p.status}</div>
-          <div class="buy-note">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <div>Hanya dijual <strong>sekali</strong> kepada satu pembeli.</div>
-          </div>
-          ${showBuy ? `<button id="btnBuy" class="btn btn-primary btn-lg btn-block">${ICON_BAG} Beli Sekarang</button>` : `<button class="btn btn-secondary btn-lg btn-block" disabled>${p.status === "sold" ? "Sudah terjual" : "Tidak tersedia"}</button>`}
-        </div>
+      <div class="product-grid">
+        ${products.length ? products.map(p => `
+          <a href="#product=${p.id}" class="pcard" data-nav>
+            <div class="pcard-thumb">
+              <img src="${p.imageURLs?.[0] || 'https://placehold.co/400x400/eef2ff/4f46e5?text=Produk'}" alt="">
+            </div>
+            <div class="pcard-body">
+              <div class="pcard-title">${esc(p.title)}</div>
+              <div class="pcard-price">${rupiah(p.price)}</div>
+            </div>
+          </a>
+        `).join("") : '<div class="empty" style="grid-column:1/-1">Belum ada produk</div>'}
       </div>
-    </div>`;
+    </section>
+  `;
 
-  if (showBuy){
-    main.querySelector("#btnBuy").addEventListener("click", async () => {
-      if (!requireLogin()) return;
-      openBuyModal(p);
-    });
-  }
-});
-
-function openBuyModal(p){
-  showModal(`
-    <h3>Konfirmasi Pesanan</h3>
-    <div style="background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:16px">
-      <div style="font-weight:600">${esc(p.title||"")}</div>
-      <div style="font-size:13px;color:var(--fg-muted)">${esc(p.storeName||"")}</div>
-      <div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">
-        <span>Total</span><strong>${fmtRp(p.price)}</strong>
-      </div>
-    </div>
-    <p style="font-size:13px;color:var(--fg-muted)">Metode: QRIS. Batas waktu: 3 menit.</p>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" data-close>Batal</button>
-      <button class="btn btn-primary" id="btnCreateOrder">Buat Pesanan</button>
-    </div>`);
-  document.getElementById("btnCreateOrder").addEventListener("click", async () => {
-    const btn = document.getElementById("btnCreateOrder");
-    btn.disabled = true; btn.textContent = "Memproses…";
-    try {
-      const orderId = await createOrder(p);
-      closeModal();
-      navigate(`/?order=${encodeURIComponent(orderId)}`);
-    } catch(e){ toast("Gagal: " + (e.message||""), "error"); btn.disabled = false; btn.textContent = "Buat Pesanan"; }
-  });
+  // Jalankan script kustom (jika ada) dari admin
+  executeCustomCode($("#mascotContainer"));
+  document.querySelectorAll('.menu-icon-wrap').forEach(wrap => executeCustomCode(wrap));
 }
 
-async function createOrder(p){
-  if (!user) throw new Error("Login diperlukan.");
-  const orderId = push(ref(db, "orders")).key;
-  const expiresAt = now() + PAYMENT_WINDOW_MS;
-  const tx = await runTransaction(ref(db, `products/${p.id}`), (prod) => {
-    if (!prod) return null;
-    if (prod.status !== "available" && !(prod.status === "reserved" && (prod.reservedUntil||0) < Date.now())) return;
-    prod.status = "reserved"; prod.reservedBy = user.uid; prod.reservedAt = Date.now(); prod.reservedUntil = expiresAt; prod.orderId = orderId;
-    return prod;
-  });
-  if (!tx.committed) throw new Error("Produk tidak tersedia.");
-  const product = tx.snapshot.val();
-  
-  let commissionPct = 10;
-  try { const s = await get(ref(db, "settings/commissionPct")); if (s.exists()) commissionPct = Number(s.val()) || 10; } catch(e){}
-  const commissionAmount = Math.round(product.price * commissionPct / 100);
-  const sellerAmount = product.price - commissionAmount;
-  const order = {
-    id: orderId, productId: p.id, productTitle: product.title, productSlug: product.slug,
-    filePath: product.filePath || "", storeUsername: product.storeUsername, storeName: product.storeName,
-    sellerId: product.ownerId, buyerId: user.uid, buyerName: user.displayName || "", buyerEmail: user.email || "",
-    amount: product.price, commissionPct, commissionAmount, sellerAmount,
-    status: "pending", paymentMethod: "qris", createdAt: Date.now(), expiresAt
-  };
-  await set(ref(db, `orders/${orderId}`), order);
-  await set(ref(db, `userOrders/${user.uid}/${orderId}`), true);
-  await set(ref(db, `sellerOrders/${product.ownerId}/${orderId}`), true);
-  await update(ref(db, `productStatus/${p.id}`), { status: "reserved" });
-  return orderId;
+function renderProduct(id) {
+  // Simplified view for product details
+  $("#app").innerHTML = `<section class="section"><a href="#" data-nav style="font-size:13px">&larr; Kembali</a><h1>Detail Produk</h1><p>ID: ${id}</p></section>`;
 }
 
-registerRoute("order", async (main, route) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
-  const id = route.orderId;
-  if (!id){ main.innerHTML = `<div class="error-box">ID pesanan tidak ada.</div>`; return; }
-  const s = await get(ref(db, `orders/${id}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Pesanan tidak ditemukan</h3></div>`; return; }
-  const o = s.val();
-  if (o.buyerId !== user.uid && !(profile?._isAdmin)){ main.innerHTML = `<div class="error-box">Anda tidak berhak melihat pesanan ini.</div>`; return; }
-
-  const container = document.createElement("div");
-  main.innerHTML = ""; main.appendChild(container);
-
-  let lastStatus = o.status;
-  const render = () => {
-    const paid = o.status === "paid" || o.status === "completed";
-    const expired = o.status === "expired" || (o.status === "pending" && o.expiresAt < now());
-    const remain = (o.expiresAt || 0) - now();
-    container.innerHTML = `
-      <div class="page-header"><h1>Pesanan #${esc(id.slice(0,8))}</h1><p>${paid ? "Pembayaran terkonfirmasi" : expired ? "Pesanan kedaluwarsa" : "Menunggu pembayaran"}</p></div>
-      <div class="product-detail">
-        <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px">
-          <h3 style="margin-bottom:16px">Detail</h3>
-          <div style="display:grid;gap:12px">
-            <div style="display:flex;justify-content:space-between"><span>Produk</span><strong>${esc(o.productTitle||"")}</strong></div>
-            <div style="display:flex;justify-content:space-between"><span>Nominal</span><strong>${fmtRp(o.amount)}</strong></div>
-            <div style="display:flex;justify-content:space-between"><span>Status</span><span class="pill ${paid?"ok":expired?"danger":"warn"}">${esc(o.status)}</span></div>
-          </div>
-          ${o.status === "pending" && !expired ? `<div style="text-align:center;padding:20px 0;border-top:1px solid var(--line);margin-top:16px"><div style="font-size:12px;color:var(--fg-muted);text-transform:uppercase">Sisa Waktu</div><div class="countdown ${remain<30000?"danger":""}" id="cd">${fmtLeft(remain)}</div></div>` : ""}
-          ${expired && !paid ? `<div class="error-box" style="margin-top:16px">Pesanan kedaluwarsa.</div>` : ""}
-          ${paid ? `<div style="background:var(--success-soft);color:var(--success-fg);padding:16px;border-radius:var(--r);margin-top:16px;font-size:14px">✓ Pembayaran terkonfirmasi. <a href="/?view=library" data-nav style="font-weight:600">Buka Perpustakaan</a></div>` : ""}
-        </div>
-        <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px">
-          <h3 style="margin-bottom:16px">Scan QRIS</h3>
-          <div style="display:flex;flex-direction:column;align-items:center;background:var(--bg);padding:16px;border-radius:var(--r)">
-            <img src="${QRIS_IMG}" style="width:100%;max-width:280px;border-radius:var(--r)"/>
-            <p style="font-size:12px;color:var(--fg-muted);margin-top:12px;text-align:center">Nominal: <strong>${fmtRp(o.amount)}</strong><br>Admin akan memverifikasi pembayaran Anda.</p>
-          </div>
-        </div>
-      </div>`;
-  };
-  render();
-  const unsub = onValue(ref(db, `orders/${id}`), snap => {
-    if (!snap.exists()) return;
-    const v = snap.val();
-    if (v.status !== lastStatus){
-      lastStatus = v.status; o.status = v.status;
-      if (v.status === "paid") toast("Pembayaran dikonfirmasi!", "success");
-      render();
-    }
-  });
-  const ticker = setInterval(() => {
-    const cd = document.getElementById("cd");
-    if (!cd) return;
-    const remain = (o.expiresAt || 0) - now();
-    if (remain <= 0){ cd.textContent = "00:00"; cd.classList.add("danger"); }
-    else { cd.textContent = fmtLeft(remain); if (remain < 30000) cd.classList.add("danger"); }
-  }, 500);
-  window.addEventListener("popstate", () => { unsub(); clearInterval(ticker); }, { once:true });
+/* --- DRAWER LOGIC --- */
+$("#hamburgerBtn").addEventListener("click", () => {
+  $("#drawer").classList.add("open");
+  $("#drawerOverlay").classList.add("open");
+});
+$("#drawerClose").addEventListener("click", () => {
+  $("#drawer").classList.remove("open");
+  $("#drawerOverlay").classList.remove("open");
+});
+$("#drawerOverlay").addEventListener("click", () => {
+  $("#drawer").classList.remove("open");
+  $("#drawerOverlay").classList.remove("open");
 });
 
-registerRoute("store", async (main, route) => {
-  const username = route.username;
-  if (!username){ main.innerHTML = `<div class="error-box">Toko tidak ditemukan.</div>`; return; }
-  const s = await get(ref(db, `stores/${username}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Toko tidak ditemukan</h3></div>`; return; }
-  const store = s.val();
-  const products = (await loadAvailableProducts()).filter(p => p.storeUsername === username);
-  const rSnap = await get(ref(db, `storeRatings/${username}`));
-  const ratings = rSnap.exists() ? Object.values(rSnap.val()).filter(r=>r.active!==false) : [];
-  const avg = ratings.length ? ratings.reduce((a,r)=>a+(r.stars||0),0) / ratings.length : 0;
-
-  main.innerHTML = `
-    <div style="background:var(--accent-soft);border-radius:var(--r-lg);padding:24px;margin-bottom:32px;display:flex;gap:20px;align-items:center;flex-wrap:wrap">
-      <div style="width:80px;height:80px;border-radius:20px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700">${esc((store.name||username).slice(0,1).toUpperCase())}</div>
-      <div>
-        <h1 style="margin:0 0 4px">${esc(store.name||username)}</h1>
-        <div style="font-size:14px;color:var(--fg-muted)">@${esc(username)} ${ratings.length ? `• ★ ${avg.toFixed(1)} (${ratings.length} ulasan)` : ""}</div>
-        <div style="margin-top:8px;font-size:14px;color:var(--fg-muted)">${esc(store.description||"")}</div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-head"><h2>Produk (${products.length})</h2></div>
-      ${products.length ? `<div class="grid" id="storeGrid">${products.map(p => productCard(p)).join("")}</div>` : `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3></div>`}
-    </div>`;
-  if (products.length) await attachFavHandlers(main.querySelector("#storeGrid"));
-});
-
-registerRoute("orders", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
-  const s = await get(ref(db, `userOrders/${user.uid}`));
-  const ids = s.exists() ? Object.keys(s.val()).sort().reverse() : [];
-  const rows = [];
-  for (const id of ids){ try { const o = await get(ref(db, `orders/${id}`)); if (o.exists()) rows.push({ id, ...o.val() }); } catch(e){} }
-  
-  main.innerHTML = `
-    <div class="page-header"><h1>Riwayat Pesanan</h1></div>
-    ${rows.length ? `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden">
-      <table style="width:100%;border-collapse:collapse;font-size:14px">
-        <thead><tr style="background:var(--bg);text-align:left"><th style="padding:12px 16px">Tanggal</th><th style="padding:12px 16px">Produk</th><th style="padding:12px 16px">Nominal</th><th style="padding:12px 16px">Status</th><th style="padding:12px 16px"></th></tr></thead>
-        <tbody>${rows.map(o=>`<tr style="border-top:1px solid var(--line)">
-          <td style="padding:12px 16px">${o.createdAt ? new Date(o.createdAt).toLocaleDateString("id-ID") : "-"}</td>
-          <td style="padding:12px 16px"><strong>${esc(o.productTitle||"")}</strong></td>
-          <td style="padding:12px 16px">${fmtRp(o.amount)}</td>
-          <td style="padding:12px 16px"><span class="pill ${o.status==="paid"?"ok":o.status==="expired"?"danger":"warn"}">${esc(o.status)}</span></td>
-          <td style="padding:12px 16px"><a href="/?order=${encodeURIComponent(o.id)}" data-nav class="btn btn-secondary btn-sm">Lihat</a></td>
-        </tr>`).join("")}</tbody>
-      </table></div>` : `<div class="empty">${ICON_EMPTY}<h3>Belum ada pesanan</h3></div>`}`;
-});
-
-registerRoute("library", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
-  const s = await get(ref(db, `library/${user.uid}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Perpustakaan kosong</h3></div>`; return; }
-  const items = Object.entries(s.val()).map(([pid, v]) => ({ pid, ...v }));
-  main.innerHTML = `
-    <div class="page-header"><h1>Perpustakaan</h1></div>
-    <div class="grid">${items.map(it=>`<div class="card">
-      <div class="card-img-wrap" style="background:var(--accent-soft);display:flex;align-items:center;justify-content:center">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-      </div>
-      <div class="card-body">
-        <h3 class="card-title">${esc(it.title || it.pid)}</h3>
-        ${it.url ? `<a href="${esc(it.url)}" target="_blank" class="btn btn-primary btn-block" style="margin-top:8px">Unduh</a>` : `<div class="pill warn">Link belum tersedia</div>`}
-      </div>
-    </div>`).join("")}</div>`;
-});
-
-registerRoute("favorites", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
-  const s = await get(ref(db, `favorites/${user.uid}`));
-  if (!s.exists()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3><a href="/?view=catalog" data-nav class="btn btn-primary" style="margin-top:12px">Jelajahi Katalog</a></div>`; return; }
-  const products = [];
-  for (const id of Object.keys(s.val())){ try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){} }
-  if (!products.length){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada favorit</h3></div>`; return; }
-  main.innerHTML = `<div class="page-header"><h1>Favorit</h1></div><div class="grid">${products.map(p => productCard(p, true)).join("")}</div>`;
-  await attachFavHandlers(main);
-});
-
-/* ===================== SELLER ===================== */
-registerRoute("seller", async (main) => {
-  if (!requireLogin()){ main.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Login diperlukan</h3></div>`; return; }
-  let username = "";
-  try { const s = await get(ref(db, `users/${user.uid}/storeUsername`)); if (s.exists()) username = s.val(); } catch(e){}
-  if (!username){
-    main.innerHTML = `
-      <div class="page-header"><h1>Menjadi Penjual</h1></div>
-      <div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;max-width:560px">
-        <form id="applyForm">
-          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Username Toko</label><input id="appUsername" pattern="[a-z0-9\\-]{3,30}" required placeholder="contoh: studio-saya"/></div>
-          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Nama Toko</label><input id="appName" required maxlength="60"/></div>
-          <div class="form-row" style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px"><label>Deskripsi</label><textarea id="appDesc" maxlength="400" placeholder="Ceritakan tentang toko Anda…"></textarea></div>
-          <button class="btn btn-primary btn-block" type="submit">Kirim Pengajuan</button>
-        </form>
-      </div>`;
-    main.querySelector("#applyForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const username = document.getElementById("appUsername").value.trim().toLowerCase();
-      const name = document.getElementById("appName").value.trim();
-      const description = document.getElementById("appDesc").value.trim();
-      if (!/^[a-z0-9-]{3,30}$/.test(username)) return toast("Username tidak valid", "error");
-      try {
-        const tx = await runTransaction(ref(db, `storeUsernames/${username}`), cur => cur || user.uid);
-        if (!tx.committed) throw new Error("Username sudah dipakai.");
-        await set(ref(db, `stores/${username}`), { username, name, description, ownerId: user.uid, ownerName: user.displayName || "", status: "pending", createdAt: Date.now() });
-        await set(ref(db, `users/${user.uid}/storeUsername`), username);
-        toast("Pengajuan dikirim.", "success"); navigate("/?view=seller");
-      } catch(err){ toast("Gagal: " + (err.message||err.code), "error"); }
-    });
-    return;
-  }
-
-  let store = null;
-  try { const s = await get(ref(db, `stores/${username}`)); store = s.exists() ? s.val() : null; } catch(e){}
-  if (!store || store.status !== "approved"){
-    main.innerHTML = `<div class="page-header"><h1>Toko Anda</h1></div><div class="empty">${ICON_EMPTY}<h3>Menunggu persetujuan</h3><p>Status: <span class="pill warn">${esc(store?.status || "pending")}</span></p></div>`;
-    return;
-  }
-
-  main.innerHTML = `
-    <div class="page-header"><h1>Panel Penjual — @${esc(username)}</h1></div>
-    <div style="display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto">
-      <button class="btn btn-ghost active" data-t="products" style="border-bottom:2px solid var(--accent);border-radius:0">Produk Saya</button>
-      <button class="btn btn-ghost" data-t="new" style="border-radius:0">Tambah Produk</button>
-      <button class="btn btn-ghost" data-t="earnings" style="border-radius:0">Pendapatan</button>
-      <button class="btn btn-ghost" data-t="withdraw" style="border-radius:0">Pencairan</button>
-    </div>
-    <div id="sellerTab"></div>`;
-  const tabRoot = main.querySelector("#sellerTab");
-  const renderTab = t => {
-    if (t === "products") return tabMyProducts(tabRoot, username);
-    if (t === "new") return tabNewProduct(tabRoot, username, store);
-    if (t === "earnings") return tabEarnings(tabRoot, username);
-    if (t === "withdraw") return tabWithdraw(tabRoot, username);
-  };
-  renderTab("products");
-  main.querySelectorAll("[data-t]").forEach(b => b.addEventListener("click", () => {
-    main.querySelectorAll("[data-t]").forEach(x => { x.classList.remove("active"); x.style.borderBottom = "none"; });
-    b.classList.add("active"); b.style.borderBottom = "2px solid var(--accent)";
-    renderTab(b.dataset.t);
-  }));
-});
-
-async function tabMyProducts(el, username){
-  const idx = await get(ref(db, `stores/${username}/products`));
-  const ids = idx.exists() ? Object.keys(idx.val()) : [];
-  const products = [];
-  for (const id of ids){ try { const p = await loadProduct(id); if (p) products.push(p); } catch(e){} }
-  if (!products.length){ el.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Belum ada produk</h3></div>`; return; }
-  el.innerHTML = `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden"><table style="width:100%;border-collapse:collapse;font-size:14px"><thead><tr style="background:var(--bg);text-align:left"><th style="padding:12px 16px">Judul</th><th style="padding:12px 16px">Harga</th><th style="padding:12px 16px">Status</th></tr></thead><tbody>${products.map(p => `<tr style="border-top:1px solid var(--line)"><td style="padding:12px 16px">${esc(p.title||"")}</td><td style="padding:12px 16px">${fmtRp(p.price)}</td><td style="padding:12px 16px"><span class="pill ${p.status==="available"?"ok":"warn"}">${esc(p.status)}</span></td></tr>`).join("")}</tbody></table></div>`;
-}
-
-async function tabNewProduct(el, username, store){
-  el.innerHTML = `<p style="color:var(--fg-muted);font-size:14px">Fitur unggah produk membutuhkan kapasitas penyimpanan. Pastikan Anda telah mengatur Firebase Storage dengan benar.</p>`;
-}
-
-async function tabEarnings(el, username){
-  const s = await get(ref(db, "sellerOrders"));
-  let mine = [];
-  if (s.exists()){
-    for (const [uid, orders] of Object.entries(s.val())){
-      for (const oid of Object.keys(orders)){
-        try { const o = await get(ref(db, `orders/${oid}`)); if (o.exists() && o.val().storeUsername === username && o.val().status === "paid") mine.push({ id: oid, ...o.val() }); } catch(e){}
-      }
-    }
-  }
-  const total = mine.reduce((a,o)=>a+(o.sellerAmount||0),0);
-  el.innerHTML = `<div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px"><h3>Total Pendapatan</h3><div style="font-size:2rem;font-weight:800;margin-top:8px">${fmtRp(total)}</div><div style="font-size:14px;color:var(--fg-muted)">${mine.length} transaksi sah</div></div>`;
-}
-
-async function tabWithdraw(el, username){
-  el.innerHTML = `<div class="empty">${ICON_EMPTY}<h3>Pencairan</h3><p>Hubungi admin untuk proses pencairan.</p></div>`;
-}
-
-/* ===================== HELP / LEGAL ===================== */
-registerRoute("help", async (main) => {
-  main.innerHTML = `<div class="page-header"><h1>Pusat Bantuan</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px"><h3>Cara Membeli</h3><ol style="padding-left:20px;color:var(--fg-muted);margin-top:12px"><li>Masuk dengan Google.</li><li>Klik Beli Sekarang.</li><li>Scan QRIS dalam 3 menit.</li><li>Tunggu verifikasi admin.</li></ol></div>`;
-});
-registerRoute("tos", async m => { m.innerHTML = `<div class="page-header"><h1>Syarat & Ketentuan</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Dengan menggunakan layanan KodinganKita, Anda setuju bahwa setiap produk hanya dijual satu kali.</div>`; });
-registerRoute("privacy", async m => { m.innerHTML = `<div class="page-header"><h1>Kebijakan Privasi</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Kami mengumpulkan data akun Google Anda untuk operasional.</div>`; });
-registerRoute("license", async m => { m.innerHTML = `<div class="page-header"><h1>Kebijakan Lisensi</h1></div><div style="background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;color:var(--fg-muted)">Pembeli tidak boleh menjual kembali produk yang telah dibeli.</div>`; });
-registerRoute("admin", async m => { m.innerHTML = `<div class="empty"><h3>Panel Admin</h3><a href="/admin.html" class="btn btn-primary" style="margin-top:12px">Buka Admin</a></div>`; });
-
-/* ===================== BANNER & BOOT ===================== */
-async function loadBanner(){
-  try {
-    const s = await get(ref(db, "settings/banner"));
-    if (s.exists() && s.val().active && s.val().text){
-      $banner.hidden = false; $banner.innerHTML = s.val().link ? `<a href="${esc(s.val().link)}">${esc(s.val().text)}</a>` : esc(s.val().text); return;
-    }
-    $banner.hidden = true;
-  } catch(e){ $banner.hidden = true; }
-}
-
-setTimeout(() => {
-  loadBanner();
-  renderRoute(parseLocation());
-}, 200);
+window.addEventListener("hashchange", render);
+await loadSettings();
+render();
 </script>
 </body>
 </html>
