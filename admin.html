@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel — KodinganKita</title>
+<title>Admin — KodinganKita</title>
 <link rel="icon" href="https://i.ibb.co.com/gLGhDr3Y/kodingankita-logo.jpg">
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 <style>
@@ -79,7 +79,6 @@ tr:hover td{background:#f8fafc}
 .skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:sk 1.2s infinite;border-radius:8px;height:120px}
 @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* Boot loading screen */
 .boot-wrap{padding:80px 20px;text-align:center;max-width:520px;margin:0 auto}
 .boot-spinner{width:44px;height:44px;border:4px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite}
 .boot-title{font-weight:700;font-size:15px;margin:0 0 6px}
@@ -103,7 +102,6 @@ tr:hover td{background:#f8fafc}
   </div>
 </header>
 
-<!-- PENTING: root TIDAK kosong — selalu ada boot loading -->
 <main id="root">
   <div class="boot-wrap" id="bootScreen">
     <div class="boot-spinner"></div>
@@ -113,7 +111,6 @@ tr:hover td{background:#f8fafc}
 </main>
 <div id="toast-container"></div>
 
-<!-- Global error handler — tangkap error apapun sebelum modul jalan -->
 <script>
 (function(){
   function showFatal(title, detail){
@@ -123,7 +120,7 @@ tr:hover td{background:#f8fafc}
       '<div class="boot-wrap">' +
         '<div style="font-size:52px;margin-bottom:12px">⚠️</div>' +
         '<p class="boot-title">' + title + '</p>' +
-        '<p class="boot-msg">Buka konsol browser (F12 → Console) untuk detail lengkap.</p>' +
+        '<p class="boot-msg">Buka konsol browser untuk detail.</p>' +
         (detail ? '<div class="boot-error"><h3>Detail Error</h3><pre>' +
           String(detail).replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c];}) +
           '</pre></div>' : '') +
@@ -138,20 +135,13 @@ tr:hover td{background:#f8fafc}
   window.addEventListener("unhandledrejection", function(e){
     console.error("[UNHANDLED PROMISE]", e.reason);
   });
-  // Tandai di konsol bahwa halaman berhasil load HTML
-  console.log("[BOOT] admin.html HTML parsed");
 })();
 </script>
 
 <script type="module">
-/* =========================================================
-   KodinganKita Admin v2 (with diagnostics)
-   ========================================================= */
 const bootTitle = document.getElementById("bootTitle");
 const bootMsg = document.getElementById("bootMsg");
 const boot = (msg) => { if(bootMsg) bootMsg.textContent = msg; console.log("[BOOT]", msg); };
-
-boot("Mengimpor modul Firebase…");
 
 let initializeApp, getDatabase, ref, get, set, update, push, serverTimestamp;
 let getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged;
@@ -175,18 +165,22 @@ try {
     '<div class="boot-wrap">' +
       '<div style="font-size:52px">🌐</div>' +
       '<p class="boot-title">Gagal Memuat Modul Firebase</p>' +
-      '<p class="boot-msg">Pastikan Anda terhubung internet & tidak ada ad-blocker yang memblokir <code>gstatic.com</code> / <code>googleapis.com</code>.</p>' +
+      '<p class="boot-msg">Pastikan internet stabil & tidak ada ad-blocker.</p>' +
       '<div class="boot-error"><h3>Detail</h3><pre>' + String(importErr.stack || importErr.message || importErr).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])) + '</pre></div>' +
     '</div>';
   throw importErr;
 }
 
-/* ---------- Firebase init ---------- */
+/* --- KONFIGURASI FIREBASE ASLI DARI ANDA --- */
 const firebaseConfig = {
-  apiKey: "AIzaSyCHr0eemIkfHNFDUKSaFDklp_c1OgmSnl8",
+  apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
   authDomain: "mybro-9ba5f.firebaseapp.com",
-  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
-  projectId: "mybro-9ba5f"
+  databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com",
+  projectId: "mybro-9ba5f",
+  storageBucket: "mybro-9ba5f.firebasestorage.app",
+  messagingSenderId: "820948893264",
+  appId: "1:820948893264:web:e564509a8fdc4c56335b55",
+  measurementId: "G-X3C33NEXS9"
 };
 
 try {
@@ -833,4 +827,4 @@ async function viewAudit() {
 console.log("[BOOT] Admin module ready");
 </script>
 </body>
-  </html>
+</html>
