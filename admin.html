@@ -53,6 +53,7 @@ button,input,select,textarea{font-family:inherit}
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:6px}
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-sm);margin-bottom:24px}
 .card-title{margin:0 0 16px 0;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 
 /* TABLES */
 .table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
@@ -67,7 +68,17 @@ tr:hover td{background:#f8fafc}
 .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--text-main)}
 .input,.select,.textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;transition:border .15s;background:#fff}
 .input:focus,.select:focus,.textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light)}
-.textarea{min-height:100px;resize:vertical}
+
+/* PERBAIKAN TEXTAREA UNTUK KODE PANJANG */
+.textarea{
+  min-height:120px;
+  resize:vertical;
+  font-family:monospace;
+  white-space:pre-wrap; 
+  word-wrap:break-word; 
+  overflow-wrap:break-word;
+  overflow-x:hidden;
+}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:768px){.row{grid-template-columns:1fr}}
 
@@ -91,8 +102,17 @@ tr:hover td{background:#f8fafc}
 .auth-card h1{color:var(--danger);font-size:24px;margin:16px 0 8px}
 .auth-card p{color:var(--text-muted);font-size:14px;margin-bottom:24px}
 
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-content{background:#fff;border-radius:12px;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-md)}
+.modal-header{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:18px;font-weight:700;margin:0}
+.modal-close{background:none;border:0;font-size:24px;cursor:pointer;color:var(--text-muted);line-height:1}
+.modal-body{padding:20px;overflow-y:auto}
+.modal-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:12px;background:var(--bg-body);border-radius:0 0 12px 12px}
+
 /* TOAST */
-#toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px}
+#toast-container{position:fixed;bottom:24px;right:24px;z-index:1001;display:flex;flex-direction:column;gap:8px}
 .toast{background:#fff;border-left:4px solid var(--primary);padding:12px 16px;border-radius:8px;box-shadow:var(--shadow-md);font-size:13px;font-weight:500;animation:slideIn .2s ease}
 .toast.error{border-left-color:var(--danger)}
 .toast.success{border-left-color:var(--success)}
@@ -116,7 +136,7 @@ tr:hover td{background:#f8fafc}
   </div>
 </div>
 
-<!-- MAIN APP (Hidden initially) -->
+<!-- MAIN APP -->
 <div id="app-container" style="display:none;width:100%;height:100%">
   <aside class="sidebar">
     <div class="brand">
@@ -174,11 +194,13 @@ tr:hover td{background:#f8fafc}
   </main>
 </div>
 
+<!-- MODAL CONTAINER -->
+<div id="modal-container"></div>
 <div id="toast-container"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, get, set, update, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, get, set, update, push, remove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -215,14 +237,44 @@ function statusBadge(s) {
   return `<span class="badge ${map[s]||"badge-blue"}">${esc(s||"-")}</span>`;
 }
 
+/* --- MODAL HELPER --- */
+function openModal(title, contentHTML, onSubmit) {
+  $("#modal-container").innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">${title}</h2>
+          <button class="modal-close" onclick="document.getElementById('modal-container').innerHTML=''">&times;</button>
+        </div>
+        <div class="modal-body">${contentHTML}</div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="document.getElementById('modal-container').innerHTML=''">Batal</button>
+          <button class="btn btn-primary" id="modalSubmitBtn">Simpan</button>
+        </div>
+      </div>
+    </div>
+  `;
+  if(onSubmit) {
+    $("#modalSubmitBtn").onclick = async () => {
+      $("#modalSubmitBtn").disabled = true;
+      $("#modalSubmitBtn").textContent = "Menyimpan...";
+      try {
+        await onSubmit();
+        $("#modal-container").innerHTML = '';
+      } catch(e) {
+        toast(e.message, "error");
+        $("#modalSubmitBtn").disabled = false;
+        $("#modalSubmitBtn").textContent = "Simpan";
+      }
+    };
+  }
+}
+
 /* --- AUTH & ROUTING --- */
 let adminUser = null;
 
 async function isAdmin(uid) {
-  try {
-    const snap = await get(ref(db, `admins/${uid}`));
-    return snap.val() === true;
-  } catch { return false; }
+  try { const snap = await get(ref(db, `admins/${uid}`)); return snap.val() === true; } catch { return false; }
 }
 
 onAuthStateChanged(auth, async user => {
@@ -309,10 +361,6 @@ async function viewDashboard() {
       <div class="stat-box" style="border-left:4px solid var(--success)"><div class="label">Total Pendapatan</div><div class="value">${rupiah(totalSales)}</div></div>
       <div class="stat-box" style="border-left:4px solid var(--primary)"><div class="label">Komisi Platform</div><div class="value">${rupiah(totalComm)}</div></div>
     </div>
-    <div class="card">
-      <h3 class="card-title">Perhatian</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin:0">Selalu verifikasi bukti transfer QRIS secara manual sebelum menekan tombol "Konfirmasi Lunas" pada menu Pesanan.</p>
-    </div>
   `;
 }
 
@@ -322,12 +370,11 @@ async function viewSellers() {
   $("#view").innerHTML = `
     <div class="card">
       <div class="table-wrap"><table>
-        <thead><tr><th>Nama Toko</th><th>Pemilik</th><th>Kontak</th><th>Status</th><th>Aksi</th></tr></thead>
+        <thead><tr><th>Nama Toko</th><th>Pemilik</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody>${list.map(([id,a])=>`
           <tr>
             <td><b>${esc(a.shopName)}</b><br><span style="color:var(--text-muted);font-size:11px">/${esc(a.slug)}</span></td>
             <td>${esc(a.ownerName)}<br><span style="color:var(--text-muted);font-size:11px">${esc(a.email)}</span></td>
-            <td>${esc(a.contact||"-")}</td>
             <td>${statusBadge(a.status)}</td>
             <td>
               ${a.status === "pending" ? `
@@ -335,7 +382,7 @@ async function viewSellers() {
                 <button class="btn btn-danger btn-sm" onclick="rejectSeller('${id}')">Tolak</button>
               ` : ""}
             </td>
-          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">Tidak ada data.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center">Tidak ada data.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
@@ -378,7 +425,7 @@ async function viewShops() {
                 ? `<button class="btn btn-danger btn-sm" onclick="toggleShop('${id}','suspended')">Suspend</button>` 
                 : `<button class="btn btn-success btn-sm" onclick="toggleShop('${id}','approved')">Aktifkan</button>`}
             </td>
-          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Tidak ada data.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center">Tidak ada data.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
@@ -389,11 +436,17 @@ window.toggleShop = async (id, status) => {
   toast("Status toko diperbarui.","success"); route();
 };
 
+/* --- MANAJEMEN PRODUK (TAMBAH/EDIT/HAPUS) --- */
 async function viewProducts() {
   const snap = await get(ref(db,"products"));
   const list = Object.entries(snap.val() || {}).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  
   $("#view").innerHTML = `
     <div class="card">
+      <div class="card-header">
+        <h3 class="card-title" style="margin:0">Daftar Produk</h3>
+        <button class="btn btn-primary" onclick="openAddProduct()">+ Tambah Produk</button>
+      </div>
       <div class="table-wrap"><table>
         <thead><tr><th>Produk</th><th>Harga</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody>${list.map(([id,p])=>`
@@ -408,16 +461,113 @@ async function viewProducts() {
               ` : ""}
               ${p.status === "available" ? `<button class="btn btn-danger btn-sm" onclick="toggleProduct('${id}','suspended','suspended')">Suspend</button>` : ""}
               ${p.status === "suspended" ? `<button class="btn btn-success btn-sm" onclick="toggleProduct('${id}','available','available')">Pulihkan</button>` : ""}
+              
+              <button class="btn btn-outline btn-sm" onclick="openEditProduct('${id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteProduct('${id}')">Hapus</button>
             </td>
-          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Tidak ada data.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center">Tidak ada data.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
+
+  window.openAddProduct = async () => {
+    const shopsSnap = await get(ref(db,"shops"));
+    const shops = shopsSnap.val() || {};
+    const shopOpts = Object.entries(shops).map(([id, s]) => `<option value="${id}">${esc(s.name)}</option>`).join("");
+    
+    openModal("Tambah Produk Baru", `
+      <form id="addProductForm">
+        <div class="field"><label>Nama Produk</label><input class="input" name="title" required></div>
+        <div class="row">
+          <div class="field"><label>Kategori</label><input class="input" name="category" required placeholder="Cth: Template HTML"></div>
+          <div class="field"><label>Harga (Rp)</label><input class="input" name="price" type="number" required></div>
+        </div>
+        <div class="field"><label>Toko Penjual</label><select class="select" name="shopId" required><option value="">-- Pilih Toko --</option>${shopOpts}</select></div>
+        <div class="field"><label>Deskripsi</label><textarea class="textarea" name="description" required></textarea></div>
+        <div class="field"><label>URL Gambar/Screenshot</label><input class="input" name="imageURL" type="url" required></div>
+        <div class="field"><label>Status Awal</label>
+          <select class="select" name="status">
+            <option value="available">Langsung Tersedia (Available)</option>
+            <option value="pending_review">Butuh Peninjauan (Pending Review)</option>
+          </select>
+        </div>
+      </form>
+    `, async () => {
+      const form = $("#addProductForm");
+      const fd = new FormData(form);
+      const price = Number(fd.get("price"));
+      if(!price || price < 1000) throw new Error("Harga minimal Rp 1.000");
+
+      const shopId = fd.get("shopId");
+      const shopOwnerSnap = await get(ref(db, `shops/${shopId}/ownerId`));
+      const sellerId = shopOwnerSnap.val() || adminUser.uid; // Jika toko tidak punya owner, pakai admin
+
+      const prRef = push(ref(db,"products"));
+      await set(prRef, {
+        title: fd.get("title"),
+        category: fd.get("category"),
+        price: price,
+        shopId: shopId,
+        sellerId: sellerId,
+        description: fd.get("description"),
+        imageURLs: [fd.get("imageURL")],
+        status: fd.get("status"),
+        availability: fd.get("status") === "available" ? "available" : "unavailable",
+        createdAt: Date.now(),
+        updatedAt: Date.now()
+      });
+      toast("Produk berhasil ditambahkan.", "success");
+      route();
+    });
+  };
+
+  window.openEditProduct = async (id) => {
+    const pSnap = await get(ref(db, `products/${id}`));
+    const p = pSnap.val();
+    if(!p) return toast("Produk tidak ditemukan", "error");
+    
+    const shopsSnap = await get(ref(db,"shops"));
+    const shops = shopsSnap.val() || {};
+    const shopOpts = Object.entries(shops).map(([sId, s]) => `<option value="${sId}" ${sId === p.shopId ? "selected" : ""}>${esc(s.name)}</option>`).join("");
+
+    openModal("Edit Produk", `
+      <form id="editProductForm">
+        <div class="field"><label>Nama Produk</label><input class="input" name="title" value="${esc(p.title)}" required></div>
+        <div class="row">
+          <div class="field"><label>Kategori</label><input class="input" name="category" value="${esc(p.category)}" required></div>
+          <div class="field"><label>Harga (Rp)</label><input class="input" name="price" type="number" value="${p.price}" required></div>
+        </div>
+        <div class="field"><label>Toko Penjual</label><select class="select" name="shopId" required>${shopOpts}</select></div>
+        <div class="field"><label>Deskripsi</label><textarea class="textarea" name="description" required>${esc(p.description)}</textarea></div>
+        <div class="field"><label>URL Gambar</label><input class="input" name="imageURL" value="${esc(p.imageURLs?.[0] || "")}" required></div>
+      </form>
+    `, async () => {
+      const fd = new FormData($("#editProductForm"));
+      await update(ref(db, `products/${id}`), {
+        title: fd.get("title"),
+        category: fd.get("category"),
+        price: Number(fd.get("price")),
+        shopId: fd.get("shopId"),
+        description: fd.get("description"),
+        imageURLs: [fd.get("imageURL")],
+        updatedAt: Date.now()
+      });
+      toast("Produk diperbarui.", "success");
+      route();
+    });
+  };
+
+  window.deleteProduct = async (id) => {
+    if(!confirm("Hapus produk ini secara permanen? Tindakan ini tidak dapat dibatalkan.")) return;
+    await remove(ref(db, `products/${id}`));
+    toast("Produk dihapus.", "success");
+    route();
+  };
 }
 
 window.toggleProduct = async (id, status, availability) => {
   await update(ref(db,`products/${id}`), { status, availability, updatedAt: Date.now() });
-  toast("Status produk diperbarui.","success"); route();
+  toast("Status diperbarui.","success"); route();
 };
 
 async function viewOrders() {
@@ -439,14 +589,14 @@ async function viewOrders() {
                 <button class="btn btn-success btn-sm" onclick="confirmPayment('${id}', '${o.productId}', '${o.buyerId}', '${o.sellerId}', '${o.shopId}', ${o.priceSnapshot}, ${o.commissionSnapshot}, ${o.sellerAmountSnapshot})">Konfirmasi Lunas</button>
               ` : ""}
             </td>
-          </tr>`).join("") || `<tr><td colspan="6" style="text-align:center;color:var(--text-muted)">Tidak ada data.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="6" style="text-align:center">Tidak ada data.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
 }
 
 window.confirmPayment = async (orderId, productId, buyerId, sellerId, shopId, price, comm, sellerAmt) => {
-  if (!confirm(`Konfirmasi pesanan ${orderId} sebagai LUNAS?\n\nProduk akan ditandai TERJUAL permanen.`)) return;
+  if (!confirm(`Konfirmasi pesanan ${orderId} sebagai LUNAS?`)) return;
   const now = Date.now();
   try {
     await update(ref(db,`products/${productId}`), {
@@ -487,7 +637,7 @@ async function viewReviews() {
                 ? `<button class="btn btn-danger btn-sm" onclick="toggleReview('${id}','hidden')">Sembunyikan</button>`
                 : `<button class="btn btn-success btn-sm" onclick="toggleReview('${id}','visible')">Tampilkan</button>`}
             </td>
-          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">Tidak ada data.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="5" style="text-align:center">Tidak ada data.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
@@ -498,12 +648,11 @@ window.toggleReview = async (id, status) => {
   toast("Status ulasan diperbarui.","success"); route();
 };
 
-/* --- SETTINGS (DENGAN EDITOR KODE MASCOT & MENU) --- */
+/* --- SETTINGS (EDITOR MASCOT & MENU) --- */
 async function viewSettings() {
   const snap = await get(ref(db,"settings/marketplace"));
   const s = snap.val() || {};
   
-  // Kode Default
   const defaultMascot = `<svg viewBox="0 0 100 100" style="width:80px;height:80px;color:#4f46e5">
   <circle cx="50" cy="50" r="45" fill="currentColor" opacity="0.1"/>
   <path d="M30 50 Q50 20 70 50 Q50 80 30 50" fill="currentColor"/>
@@ -523,7 +672,7 @@ async function viewSettings() {
       <h3 class="card-title">Informasi Dasar</h3>
       <form id="generalForm">
         <div class="row">
-          <div class="field"><label>Nama Toko (Tampil di Header)</label><input class="input" name="name" value="${esc(s.name||'KodinganKita')}"></div>
+          <div class="field"><label>Nama Toko</label><input class="input" name="name" value="${esc(s.name||'KodinganKita')}"></div>
           <div class="field"><label>Deskripsi Singkat</label><input class="input" name="description" value="${esc(s.description||'Marketplace Produk Digital Eksklusif')}"></div>
         </div>
         <button class="btn btn-primary" type="submit">Simpan Info</button>
@@ -532,35 +681,37 @@ async function viewSettings() {
 
     <div class="card">
       <h3 class="card-title">Editor Mascot Utama</h3>
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Masukkan kode HTML, SVG, atau JS. Mendukung tag &lt;script&gt;, &lt;canvas&gt;, &lt;model-viewer&gt;, dll.</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Masukkan kode HTML, SVG, atau JS. Mendukung tag &lt;script&gt;, &lt;canvas&gt;, dll.</p>
       
       <div class="row">
         <div class="field">
           <label>Kode Mascot</label>
-          <textarea id="mascotCode" class="textarea" style="font-family:monospace;height:180px;font-size:12px" oninput="previewMascot()">${esc(mascotCode)}</textarea>
+          <textarea id="mascotCode" class="textarea" style="height:200px" oninput="previewMascot()">${esc(mascotCode)}</textarea>
         </div>
         <div class="field">
           <label>Live Preview</label>
-          <div class="preview-box" id="mascotPreview" style="height:180px;border-radius:12px"></div>
+          <div class="preview-box" id="mascotPreview" style="height:200px;border-radius:12px"></div>
         </div>
       </div>
       <button class="btn btn-primary" onclick="saveMascot()">Simpan Mascot</button>
     </div>
 
     <div class="card">
-      <h3 class="card-title">Editor Ikon Menu (4 Bulatan)</h3>
+      <div class="card-header">
+        <h3 class="card-title" style="margin:0">Editor Ikon Menu (4 Bulatan)</h3>
+        <button class="btn btn-outline btn-sm" onclick="addMenuItem()">+ Tambah Item</button>
+      </div>
       <div id="menuEditor"></div>
-      <button class="btn btn-primary" onclick="saveMenu()" style="margin-top:12px">Simpan Menu</button>
+      <button class="btn btn-primary" onclick="saveMenu()" style="margin-top:16px">Simpan Semua Menu</button>
     </div>
   `;
 
-  // Init Mascot Preview
+  // Mascot Preview
   window.previewMascot = () => {
     const code = $("#mascotCode").value;
     $("#mascotPreview").innerHTML = code;
-    // Eksekusi script di dalam preview (jika ada)
-    const scripts = $("#mascotPreview").querySelectorAll("script");
-    scripts.forEach(oldScript => {
+    // Eksekusi script
+    $("#mascotPreview").querySelectorAll("script").forEach(oldScript => {
       const newScript = document.createElement("script");
       Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
       newScript.appendChild(document.createTextNode(oldScript.innerHTML));
@@ -569,7 +720,7 @@ async function viewSettings() {
   };
   window.previewMascot();
 
-  // General Form
+  // Save Info
   $("#generalForm").addEventListener("submit", async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -579,53 +730,57 @@ async function viewSettings() {
 
   // Save Mascot
   window.saveMascot = async () => {
-    const code = $("#mascotCode").value;
-    await update(ref(db,"settings/marketplace"), { mascot: { code } });
-    toast("Kode Mascot tersimpan.","success");
+    await update(ref(db,"settings/marketplace"), { mascot: { code: $("#mascotCode").value } });
+    toast("Mascot tersimpan.","success");
   };
 
   // Menu Editor
-  function renderMenuEditor() {
+  window.renderMenuEditor = () => {
     $("#menuEditor").innerHTML = menuItems.map((m,i)=>`
-      <div style="border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;background:var(--bg-body)">
+      <div style="border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px;background:var(--bg-body);position:relative">
+        <button class="btn btn-danger btn-sm" style="position:absolute;top:12px;right:12px" onclick="removeMenuItem(${i})">Hapus</button>
         <div class="row" style="margin-bottom:12px">
-          <div class="field" style="margin:0"><label>Label Teks</label><input class="input" data-field="label" data-idx="${i}" value="${esc(m.label)}"></div>
-          <div class="field" style="margin:0"><label>Link Aksi</label><input class="input" data-field="action" data-idx="${i}" value="${esc(m.action)}"></div>
+          <div class="field" style="margin:0"><label>Label Teks</label><input class="input" data-field="label" data-idx="${i}" value="${esc(m.label)}" oninput="updateMenuData(${i}, 'label', this.value)"></div>
+          <div class="field" style="margin:0"><label>Link Aksi</label><input class="input" data-field="action" data-idx="${i}" value="${esc(m.action)}" oninput="updateMenuData(${i}, 'action', this.value)"></div>
         </div>
         <div class="row">
           <div class="field" style="margin:0">
             <label>Kode Ikon (SVG/HTML)</label>
-            <textarea class="textarea" data-field="code" data-idx="${i}" style="font-family:monospace;height:80px;font-size:12px" oninput="updateMenuPreview(${i})">${esc(m.code)}</textarea>
+            <textarea class="textarea" data-field="code" data-idx="${i}" style="height:100px" oninput="updateMenuData(${i}, 'code', this.value)">${esc(m.code)}</textarea>
           </div>
           <div class="field" style="margin:0">
-            <label>Preview</label>
-            <div class="preview-box round" id="menu-preview-${i}"></div>
+            <label>Preview Ikon</label>
+            <div class="preview-box round" id="menu-preview-${i}">${m.code}</div>
           </div>
         </div>
       </div>`).join("");
-    
-    // Bind input
-    $$("#menuEditor [data-field]").forEach(inp => {
-      inp.addEventListener("input", ()=>{ 
-        menuItems[+inp.dataset.idx][inp.dataset.field] = inp.value; 
-      });
-    });
-    
-    // Init previews
-    menuItems.forEach((_, i) => window.updateMenuPreview(i));
-  }
-
-  window.updateMenuPreview = (idx) => {
-    const el = $(`#menu-preview-${idx}`);
-    if(el) el.innerHTML = menuItems[idx].code;
   };
 
-  renderMenuEditor();
+  window.updateMenuData = (idx, field, val) => {
+    menuItems[idx][field] = val;
+    if(field === 'code') {
+      const el = $(`#menu-preview-${idx}`);
+      if(el) el.innerHTML = val;
+    }
+  };
+
+  window.addMenuItem = () => {
+    if(menuItems.length >= 8) return toast("Maksimal 8 item menu", "error");
+    menuItems.push({ label: "Baru", code: "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/></svg>", action: "#" });
+    renderMenuEditor();
+  };
+
+  window.removeMenuItem = (idx) => {
+    menuItems.splice(idx, 1);
+    renderMenuEditor();
+  };
 
   window.saveMenu = async () => {
     await update(ref(db,"settings/marketplace"), { menuItems: menuItems });
     toast("Menu berhasil disimpan.","success");
   };
+
+  renderMenuEditor();
 }
 
 async function viewAudit() {
@@ -641,7 +796,7 @@ async function viewAudit() {
             <td style="font-size:12px">${esc(l.actorEmail||l.actorId)}</td>
             <td><span class="badge badge-blue">${esc(l.action)}</span></td>
             <td style="font-size:12px">${esc(l.reason||"-")}</td>
-          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center;color:var(--text-muted)">Belum ada aktivitas.</td></tr>`}
+          </tr>`).join("") || `<tr><td colspan="4" style="text-align:center">Belum ada aktivitas.</td></tr>`}
         </tbody>
       </table></div>
     </div>`;
