@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cazo Wallet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&family=Unbounded:wght@400..900&display=swap">
+<style>
+:root{--bg:#F3F8F7;--surface:#FFF;--surface-2:#E6F1EF;--fg:#0C2A2E;--muted:#496569;--line:#D3E3E0;--brand:#087F62;--gold:#FFC72C;--gold-deep:#C98200;--tint-gold:#FFF1C2;--balance-bg:#0C2A2E;--pos:#087F62;--bad:#B3261E;--bezel:#0C2A2E;--fd:'Unbounded','Arial Rounded MT Bold',system-ui,sans-serif;--fb:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#081C1F;--surface:#0F2A2E;--surface-2:#143338;--fg:#E8F5F2;--muted:#9FBFBA;--line:#1F4448;--brand:#3DDBAA;--tint-gold:#3A3010;--balance-bg:#0E4A44;--pos:#3DDBAA;--bad:#FF8F85;--bezel:#02100F;color-scheme:dark}}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:400 1rem/1.6 var(--fb);-webkit-font-smoothing:antialiased}
+h1,h3,p,ul{margin:0}ul{padding:0;list-style:none}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:8px}
+.ic{display:block;width:var(--s,64px);height:var(--s,64px);flex:none;overflow:visible}
+.screen{position:relative;max-width:440px;height:100%;height:100dvh;margin:auto;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);isolation:isolate}
+@media(min-width:600px){body{display:grid;place-items:center;height:100dvh}.screen{width:390px;height:min(calc(100dvh - 40px),780px);border:10px solid var(--bezel);border-radius:48px;box-shadow:0 36px 60px -28px rgba(12,42,46,.55)}}
+.scroll{flex:1;min-height:0;overflow-y:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 16px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px;overscroll-behavior:contain}
+.scroll>*{flex:none}
+.app-top{display:flex;align-items:center;gap:10px}
+.av{width:42px;height:42px;border-radius:50%;border:0;background:var(--tint-gold);display:grid;place-items:center;font:700 1rem/1 var(--fd);flex:none;cursor:pointer}
+.hi{flex:1;min-width:0}.hi small{display:block;color:var(--muted);font-size:.75rem}.hi b{font-size:.98rem}
+.bellbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}.bellbtn .ic{--s:30px}
+.bal{position:relative;overflow:hidden;border-radius:24px;padding:18px;background:var(--balance-bg);color:#fff}
+.bal .rg{position:absolute;right:-34px;top:-34px;width:170px;height:170px;fill:none;stroke:rgba(255,255,255,.16);stroke-width:1}
+.bal small{display:block;color:#BFE3DB;font-size:.78rem;font-weight:600}
+.bal .amt{position:relative;font:650 1.75rem/1.2 var(--fd);letter-spacing:-.03em;margin:6px 0 12px;font-variant-numeric:tabular-nums}
+.bal .tag{position:relative;display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.16);font-size:.7rem;font-weight:700;letter-spacing:.04em}
+.acts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.act{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:84px;padding:10px 2px 8px;border-radius:18px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700;font-size:.72rem}
+.act:hover{background:var(--surface-2)}.act .ic{--s:40px}
+.goal{display:flex;align-items:center;gap:12px;padding:12px;border-radius:20px;background:var(--surface)}.goal .ic{--s:50px}
+.gt{flex:1;min-width:0}.gt b{display:block;font-size:.88rem}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--gold);transition:width .5s ease}
+.gt small{color:var(--muted);font-size:.74rem;font-variant-numeric:tabular-nums}
+.tx-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9rem;min-height:36px}
+.lnk{background:none;border:0;color:var(--brand);font-weight:700;font-size:.78rem;cursor:pointer;padding:8px 0}
+.tx li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tx li:last-child{border-bottom:0}.tx .ic{--s:42px}
+.tt{flex:1;min-width:0}.tt b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt small{color:var(--muted);font-size:.74rem}
+.am{font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums;white-space:nowrap}.am.in{color:var(--pos)}
+.hint{color:var(--muted);font-size:.85rem;text-align:center}
+.auth{display:flex;flex-direction:column;gap:14px;padding-top:12px}
+.brandrow{display:flex;align-items:center;gap:10px;font:700 1.3rem/1 var(--fd);letter-spacing:-.03em}.brandrow .ic{--s:42px}.brandrow i{font-style:normal;font-weight:400;color:var(--muted)}
+.auth h1{font:650 1.55rem/1.15 var(--fd);letter-spacing:-.035em}
+.auth .fld{margin:0}.auth .opt{flex:1;justify-content:center}.auth .hero-ic .ic{--s:120px}
+.sheet{position:absolute;inset:0;display:flex;align-items:flex-end;background:rgba(4,22,20,.55);z-index:5}
+.panel{position:relative;width:100%;max-height:94%;overflow-y:auto;padding:20px 18px calc(22px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:var(--surface);animation:rise .28s ease-out}
+.panel h3{font:650 1.1rem/1.25 var(--fd);letter-spacing:-.02em;padding-right:46px}
+.x{position:absolute;right:10px;top:10px;width:44px;height:44px;border-radius:50%;border:0;background:var(--surface-2);cursor:pointer;font-size:1.4rem;line-height:1}
+.fld{margin-top:16px}
+.fld>b,.fld>label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.fld input{width:100%;min-height:48px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg)}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.fld .opts{margin-top:0}
+.opt{min-height:44px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700;font-size:.88rem;display:inline-flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--surface-2)}
+.opt span{color:var(--muted);font-weight:600}
+.msg{min-height:1.4em;margin:12px 0 10px;font-size:.85rem;font-weight:600;color:var(--bad)}
+.hero-ic{display:grid;place-items:center;margin-top:10px}.hero-ic .ic{--s:88px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:8px;border-radius:999px;border:2px solid transparent;font-weight:700;cursor:pointer}
+.btn-gold{background:var(--gold);color:#0C2A2E;box-shadow:0 4px 0 var(--gold-deep)}
+.btn-gold:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-deep)}
+.btn-line{background:transparent;border-color:var(--fg)}
+.btn:disabled{opacity:.55}
+.toast{position:absolute;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:6;padding:12px 14px;border-radius:14px;background:#0C2A2E;color:#fff;border:1px solid var(--line);font-weight:600;font-size:.85rem;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.on{opacity:1;transform:none}
+@keyframes rise{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<linearGradient id="g-teal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7BF5D0"/><stop offset=".5" stop-color="#18C195"/><stop offset="1" stop-color="#0A8467"/></linearGradient>
+<linearGradient id="g-teal-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0A7A62"/><stop offset="1" stop-color="#054A41"/></linearGradient>
+<linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF0A8"/><stop offset=".5" stop-color="#FFC72C"/><stop offset="1" stop-color="#E39200"/></linearGradient>
+<linearGradient id="g-gold-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98200"/><stop offset="1" stop-color="#8A5200"/></linearGradient>
+<linearGradient id="g-coral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC0A8"/><stop offset=".5" stop-color="#FF6A45"/><stop offset="1" stop-color="#DE3F1B"/></linearGradient>
+<linearGradient id="g-coral-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9361A"/><stop offset="1" stop-color="#8A2008"/></linearGradient>
+<linearGradient id="g-sky" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B4F0FF"/><stop offset=".5" stop-color="#38B9F6"/><stop offset="1" stop-color="#1B78D4"/></linearGradient>
+<linearGradient id="g-sky-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1763B8"/><stop offset="1" stop-color="#0C3F80"/></linearGradient>
+<linearGradient id="g-white" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#E9F6F3"/><stop offset="1" stop-color="#C9E3DD"/></linearGradient>
+<linearGradient id="g-white-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8CBC4"/><stop offset="1" stop-color="#7FA7A0"/></linearGradient>
+<linearGradient id="g-pink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD0DA"/><stop offset=".5" stop-color="#FF86A3"/><stop offset="1" stop-color="#E24A74"/></linearGradient>
+<linearGradient id="g-pink-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C93A62"/><stop offset="1" stop-color="#8A1F40"/></linearGradient>
+<linearGradient id="g-ceramic" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E9F6F3"/><stop offset="1" stop-color="#B3D3CC"/></linearGradient>
+<linearGradient id="g-coffee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A6038"/><stop offset="1" stop-color="#5E3520"/></linearGradient>
+<filter id="f-soft" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="3.5"/></filter>
+</defs>
+<symbol id="i-coin" viewBox="0 0 128 128">
+<ellipse cx="64" cy="119" rx="36" ry="6" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<ellipse cx="72" cy="64" rx="40" ry="46" fill="url(#g-gold-s)"/>
+<ellipse cx="64" cy="62" rx="40" ry="46" fill="url(#g-gold)"/>
+<ellipse cx="64" cy="62" rx="31" ry="36" fill="none" stroke="#B87300" stroke-opacity=".55" stroke-width="3"/>
+<ellipse cx="62.8" cy="60.8" rx="31" ry="36" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M77 48 A17 20 0 1 0 77 80" fill="none" stroke="#B87300" stroke-width="9" stroke-linecap="round"/>
+<path d="M77 46 A17 20 0 1 0 77 78" fill="none" stroke="#FFF6C8" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+<path d="M30 40 Q38 22 58 18" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+</symbol>
+<symbol id="i-plane" viewBox="0 0 128 128">
+<ellipse cx="72" cy="121" rx="30" ry="4.5" fill="#06231F" opacity=".25" filter="url(#f-soft)"/>
+<path d="M8 80 H32 M2 96 H24 M14 112 H30" fill="none" stroke="#38B9F6" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+<polygon points="113,19 62,71 80,113" fill="url(#g-sky-s)"/>
+<polygon points="113,19 19,52 62,71" fill="url(#g-sky)"/>
+<polygon points="62,71 80,113 46,90" fill="#0F4FA0"/>
+<polygon points="113,19 19,52 42,60" fill="#fff" opacity=".35"/>
+<polygon points="113,19 62,71 78,60" fill="#fff" opacity=".14"/>
+</symbol>
+<symbol id="i-qr" viewBox="0 0 128 128">
+<ellipse cx="64" cy="119" rx="38" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<rect x="24" y="27" width="80" height="80" rx="14" fill="url(#g-white-s)"/>
+<rect x="24" y="20" width="80" height="80" rx="14" fill="url(#g-white)"/>
+<g fill="none" stroke="#12303A" stroke-width="4"><rect x="38" y="34" width="20" height="20" rx="3"/><rect x="70" y="34" width="20" height="20" rx="3"/><rect x="38" y="66" width="20" height="20" rx="3"/></g>
+<g fill="#12303A"><rect x="44" y="40" width="8" height="8" rx="2"/><rect x="76" y="40" width="8" height="8" rx="2"/><rect x="44" y="72" width="8" height="8" rx="2"/><rect x="60" y="40" width="8" height="8" rx="2"/><rect x="60" y="56" width="8" height="8" rx="2"/><rect x="60" y="72" width="8" height="8" rx="2"/><rect x="44" y="56" width="8" height="8" rx="2"/><rect x="76" y="56" width="8" height="8" rx="2"/><rect x="68" y="64" width="8" height="8" rx="2"/><rect x="84" y="64" width="8" height="8" rx="2"/><rect x="76" y="72" width="8" height="8" rx="2"/><rect x="68" y="80" width="8" height="8" rx="2"/><rect x="84" y="80" width="8" height="8" rx="2"/></g>
+<g fill="none" stroke="#14B88C" stroke-width="7" stroke-linecap="round"><path d="M12 36 V24 Q12 8 28 8 H40"/><path d="M88 8 H100 Q116 8 116 24 V36"/><path d="M12 84 V96 Q12 112 28 112 H40"/><path d="M88 112 H100 Q116 112 116 96 V84"/></g>
+</symbol>
+<symbol id="i-bolt" viewBox="0 0 128 128">
+<ellipse cx="64" cy="119" rx="38" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<circle cx="64" cy="67" r="48" fill="url(#g-teal-s)"/>
+<circle cx="64" cy="60" r="48" fill="url(#g-teal)"/>
+<circle cx="64" cy="60" r="38" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/>
+<path d="M30 36 A42 42 0 0 1 58 18" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+<path d="M72 22 L42 64 H60 L54 98 L86 54 H67 Z" fill="url(#g-gold-s)" transform="translate(3 5)"/>
+<path d="M72 22 L42 64 H60 L54 98 L86 54 H67 Z" fill="url(#g-gold)"/>
+<path d="M72 22 L42 64 H52 L68 34 Z" fill="#fff" opacity=".45"/>
+</symbol>
+<symbol id="i-piggy" viewBox="0 0 128 128">
+<ellipse cx="62" cy="119" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<ellipse cx="68" cy="24" rx="10" ry="11" fill="url(#g-gold-s)"/>
+<ellipse cx="66" cy="22" rx="10" ry="11" fill="url(#g-gold)"/>
+<ellipse cx="66" cy="22" rx="5.5" ry="6.5" fill="none" stroke="#B87300" stroke-opacity=".5" stroke-width="2"/>
+<rect x="32" y="88" width="20" height="24" rx="8" fill="url(#g-pink-s)"/>
+<rect x="76" y="88" width="20" height="24" rx="8" fill="url(#g-pink-s)"/>
+<path d="M20 64 C8 58 6 70 14 70 C8 74 14 80 20 74" fill="none" stroke="#E24A74" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="62" cy="74" rx="44" ry="34" fill="url(#g-pink-s)"/>
+<ellipse cx="62" cy="68" rx="44" ry="34" fill="url(#g-pink)"/>
+<path d="M78 40 L92 20 L102 46 Z" fill="url(#g-pink-s)"/>
+<path d="M82 40 L91 28 L97 44 Z" fill="#FF9DB5"/>
+<ellipse cx="108" cy="75" rx="12" ry="11" fill="url(#g-pink-s)"/>
+<ellipse cx="108" cy="72" rx="12" ry="11" fill="#FF9DB5"/>
+<ellipse cx="104.5" cy="72" rx="2" ry="3.4" fill="#8A1F40"/>
+<ellipse cx="111.5" cy="72" rx="2" ry="3.4" fill="#8A1F40"/>
+<circle cx="88" cy="58" r="4" fill="#2A0F18"/>
+<circle cx="87" cy="57" r="1.3" fill="#fff"/>
+<rect x="46" y="38" width="30" height="6" rx="3" fill="#8A1F40"/>
+<path d="M26 58 Q34 42 52 36" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-bag" viewBox="0 0 128 128">
+<ellipse cx="64" cy="119" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<path d="M46 46 V32 a18 18 0 0 1 36 0 V46" fill="none" stroke="url(#g-gold)" stroke-width="7" stroke-linecap="round"/>
+<path d="M24 38 H104 L110 100 Q110.5 106 104 106 H24 Q17.5 106 18 100 Z" transform="translate(0 6)" fill="url(#g-sky-s)"/>
+<path d="M24 38 H104 L110 100 Q110.5 106 104 106 H24 Q17.5 106 18 100 Z" fill="url(#g-sky)"/>
+<path d="M24 38 H58 L52 106 H24 Q17.5 106 18 100 Z" fill="#fff" opacity=".18"/>
+<rect x="44" y="60" width="40" height="28" rx="8" fill="url(#g-white)"/>
+<circle cx="64" cy="74" r="8.5" fill="url(#g-gold)"/>
+<circle cx="64" cy="74" r="4.5" fill="none" stroke="#B87300" stroke-opacity=".55" stroke-width="2"/>
+<circle cx="46" cy="44" r="3.2" fill="#8A5200"/>
+<circle cx="82" cy="44" r="3.2" fill="#8A5200"/>
+</symbol>
+<symbol id="i-coffee" viewBox="0 0 128 128">
+<ellipse cx="62" cy="120" rx="50" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<path d="M50 34 q-8 -8 0 -16 M66 36 q-8 -10 0 -20 M82 34 q-8 -8 0 -16" fill="none" stroke="#18C195" stroke-opacity=".6" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="62" cy="111" rx="50" ry="9" fill="url(#g-white-s)"/>
+<ellipse cx="62" cy="107" rx="50" ry="9" fill="url(#g-white)"/>
+<path d="M96 58 H104 a12 12 0 0 1 0 24 H94" fill="none" stroke="#C9E3DD" stroke-width="9" stroke-linecap="round"/>
+<path d="M26 44 H98 V76 Q98 106 62 106 Q26 106 26 76 Z" fill="url(#g-ceramic)"/>
+<rect x="26" y="60" width="72" height="10" fill="#18C195"/>
+<rect x="26" y="60" width="72" height="3" fill="#fff" opacity=".35"/>
+<ellipse cx="62" cy="44" rx="36" ry="9" fill="url(#g-white)"/>
+<ellipse cx="62" cy="45" rx="31" ry="6.5" fill="url(#g-coffee)"/>
+<path d="M44 44 Q56 41 70 43" fill="none" stroke="#D9A978" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+</symbol>
+<symbol id="i-bell" viewBox="0 0 128 128">
+<ellipse cx="62" cy="120" rx="36" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<circle cx="64" cy="108" r="10" fill="url(#g-gold-s)"/>
+<circle cx="63" cy="106" r="9" fill="url(#g-gold)"/>
+<circle cx="64" cy="17" r="7" fill="url(#g-gold-s)"/>
+<path d="M64 22 C42 22 34 40 34 60 V78 L22 94 V100 H106 V94 L94 78 V60 C94 40 86 22 64 22 Z" transform="translate(0 5)" fill="url(#g-gold-s)"/>
+<path d="M64 22 C42 22 34 40 34 60 V78 L22 94 V100 H106 V94 L94 78 V60 C94 40 86 22 64 22 Z" fill="url(#g-gold)"/>
+<path d="M44 48 Q48 34 58 30" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="5" stroke-linecap="round"/>
+<circle cx="94" cy="32" r="15" fill="url(#g-coral-s)"/>
+<circle cx="93" cy="30" r="14" fill="url(#g-coral)"/>
+<circle cx="93" cy="30" r="4.5" fill="#fff"/>
+</symbol>
+</svg>
+
+<div class="screen">
+  <div class="scroll" id="main"></div>
+  <div class="sheet" id="sheet" hidden><section class="panel" id="panel" role="dialog" aria-modal="true"></section></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, set, push, onValue, get, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+// 1. Inisialisasi Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyCHr0eemIkfHNFDUkSaFDklp_c1OgmSnl8",
+    authDomain: "mybro-9ba5f.firebaseapp.com",
+    databaseURL: "https://mybro-9ba5f-default-rtdb.firebaseio.com/",
+    projectId: "mybro-9ba5f"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// ---------- Helper ----------
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const rp = n => 'Rp ' + Math.round(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + ';');
+const norm = p => { p = String(p).replace(/\D/g, ''); return p.startsWith('62') ? '0' + p.slice(2) : p; };
+const LS = { g: k => { try { return localStorage.getItem(k); } catch { return null; } }, s: (k, v) => { try { localStorage.setItem(k, v); } catch {} }, d: k => { try { localStorage.removeItem(k); } catch {} } };
+const hash = async s => {
+  s = 'cazo:' + s;
+  if (crypto.subtle) return [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))].map(b => b.toString(16).padStart(2, '0')).join('');
+  let h = 7; for (const c of s) h = Math.imul(h, 31) + c.charCodeAt(0) | 0; return 'x' + h;
+};
+const sv = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const fd = t => {
+  const d = new Date(t), n = new Date(), k = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
+  const h = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.');
+  return (k < 1 ? 'Hari ini' : k == 1 ? 'Kemarin' : k < 7 ? d.toLocaleDateString('id-ID', { weekday: 'long' }) : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })) + ', ' + h;
+};
+// lonceng tanpa titik merah (saat tidak ada notifikasi baru)
+{ const b = $('#i-bell').cloneNode(true); b.id = 'i-bell0'; b.querySelectorAll('circle').forEach(c => c.getAttribute('cx') > 90 && c.remove()); $('#i-bell').after(b); }
+
+let tt; const say = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 3200); };
+const fld = (id, l, a = '') => `<div class="fld"><label for="${id}">${l}</label><input id="${id}" ${a}></div>`;
+const pinF = (id = 'k', l = 'PIN kamu') => fld(id, l, 'type="password" inputmode="numeric" maxlength="6" autocomplete="off"');
+const amtF = arr => fld('a', 'Nominal', 'type="number" inputmode="numeric" placeholder="0"') + `<div class="opts">${arr.map(v => `<button class="opt" data-a="amt" data-v="${v}" aria-pressed="false">${rp(v)}</button>`).join('')}</div>`;
+const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup">&times;</button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; $('#main').inert = true; $('.x').focus(); };
+const close = () => { $('#sheet').hidden = true; $('#main').inert = false; };
+const msg = t => { const m = $('.msg'); if (m) m.textContent = t || ''; };
+
+// ---------- State ----------
+let me = LS.g('cazo_me'), user = null, txs = [], all = false, mode = 'login', unsub = [], shop = null;
+const IC = { topup: 'bolt', in: 'coin', out: 'plane', pay: 'qr', save: 'piggy' };
+const plus = t => t == 'topup' || t == 'in';
+const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.peer;
+const row = t => `<li>${sv(t.ic || IC[t.type] || 'coin')}<div class="tt"><b>${esc(title(t))}</b><small>${fd(t.ts)}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="am${plus(t.type) ? ' in' : ''}">${plus(t.type) ? '+' : '−'}${rp(t.amount)}</span></li>`;
+const none = t => `<li class="hint" style="display:block;padding:24px 0">${t}</li>`;
+const goalOf = () => user.goal || { name: 'Liburan Bali', target: 5000000 };
+
+function start() {
+  unsub.forEach(f => f()); unsub = []; user = null; txs = [];
+  if (me) unsub = [
+    onValue(ref(db, 'users/' + me), s => { user = s.val(); if (!user) return logout(); render(); }),
+    onValue(ref(db, 'transactions/' + me), s => { txs = Object.values(s.val() || {}).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); })
+  ];
+  render();
+}
+function logout() { LS.d('cazo_me'); me = null; close(); start(); }
+
+// ---------- Tampilan ----------
+function render() {
+  const m = $('#main');
+  if (!me) {
+    m.innerHTML = `<div class="auth"><div class="brandrow">${sv('coin')}<span>Cazo <i>Wallet</i></span></div><div class="hero-ic">${sv('piggy')}</div>
+      <h1>Semua urusan duit, satu dompet.</h1>
+      <div class="opts">${[['login', 'Masuk'], ['reg', 'Daftar']].map(([v, l]) => `<button class="opt" data-a="mode" data-v="${v}" aria-pressed="${mode == v}">${l}</button>`).join('')}</div>
+      ${mode == 'reg' ? fld('n', 'Nama lengkap', 'autocomplete="name"') : ''}
+      ${fld('p', 'Nomor HP', 'type="tel" inputmode="numeric" placeholder="08123456789" autocomplete="tel"')}${pinF('k', 'PIN 6 angka')}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="auth">${mode == 'reg' ? 'Buat akun Cazo' : 'Masuk'}</button></div>`;
+    return;
+  }
+  if (!user) { m.innerHTML = '<p class="hint" style="margin:auto">Memuat dompetmu…</p>'; return; }
+  const hr = new Date().getHours(), g = goalOf(), sa = user.saved || 0, pct = Math.min(100, Math.round(sa / g.target * 100) || 0);
+  const unread = txs.some(t => t.type == 'in' && t.ts > (+LS.g('cazo_seen_' + me) || 0));
+  m.innerHTML = `<div class="app-top"><button class="av" data-a="acc" aria-label="Akun saya">${esc((user.name.trim()[0] || 'C').toUpperCase())}</button>
+      <div class="hi"><small>Selamat ${hr < 11 ? 'pagi' : hr < 15 ? 'siang' : hr < 18 ? 'sore' : 'malam'}</small><b>${esc(user.name)}</b></div>
+      <button class="bellbtn" data-a="bell" aria-label="Notifikasi${unread ? ', ada yang baru' : ''}">${sv(unread ? 'bell' : 'bell0')}</button></div>
+    <div class="bal"><svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>
+      <small>Saldo Cazo</small><div class="amt">${rp(user.balance)}</div><span class="tag">Dompet aktif</span></div>
+    <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'bolt', 'Isi saldo'], ['pay', 'qr', 'QRIS'], ['save', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}">${sv(i)}${l}</button>`).join('')}</div>
+    <div class="goal">${sv('piggy')}<div class="gt"><b>${esc(g.name)}</b><div class="bar" role="progressbar" aria-label="Progres tabungan ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${rp(sa)} dari ${rp(g.target)}</small></div></div>
+    <div><div class="tx-head"><span>Riwayat</span>${txs.length > 5 ? `<button class="lnk" data-a="more">${all ? 'Ringkas' : 'Lihat semua'}</button>` : ''}</div>
+      <ul class="tx">${txs.length ? txs.slice(0, all ? 60 : 5).map(row).join('') : none('Belum ada transaksi. Isi saldo untuk memulai.')}</ul></div>`;
+}
+
+// ---------- Logika ----------
+async function pinOk(p) { if (await hash(p) !== user.pin) throw 'PIN salah'; }
+async function debit(amt) {
+  const r = await runTransaction(ref(db, 'users/' + me + '/balance'), v => v === null ? 0 : (v >= amt ? v - amt : undefined));
+  if (!r.committed) throw 'Saldo tidak cukup';
+}
+const log = (uid, o) => push(ref(db, 'transactions/' + uid), { ...o, ts: serverTimestamp() });
+async function run(b, fn) {
+  b.disabled = true;
+  try { const m = await fn(); close(); say(m); }
+  catch (e) { msg(typeof e == 'string' ? e : 'Gagal. Periksa koneksi lalu coba lagi.'); b.disabled = false; }
+}
+
+const acts = {
+  mode: b => { mode = b.dataset.v; render(); },
+  more: () => { all = !all; render(); },
+  close,
+  logout,
+  amt: b => { $('#a').value = b.dataset.v; $$('[data-a=amt]').forEach(x => x.setAttribute('aria-pressed', x === b)); },
+  pick: b => { $('#t').value = b.dataset.v; },
+  shop: b => { shop = b; $$('[data-a=shop]').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#a').value = b.dataset.p; },
+  copy: () => navigator.clipboard.writeText(me).then(() => say('Nomor HP disalin')).catch(() => say('Nomor kamu: ' + me)),
+
+  send: () => {
+    const rec = [...new Map(txs.filter(t => t.type == 'out' && t.phone).map(t => [t.phone, t.peer])).entries()].slice(0, 3);
+    sheet('Kirim uang', `${fld('t', 'Nomor HP penerima', 'type="tel" inputmode="numeric" placeholder="08123456789"')}
+      ${rec.length ? `<div class="fld"><b>Terakhir dikirim</b><div class="opts">${rec.map(([p, n]) => `<button class="opt" data-a="pick" data-v="${esc(p)}">${esc(n)}</button>`).join('')}</div></div>` : ''}
+      ${amtF([25000, 50000, 100000, 250000])}${fld('c', 'Catatan (opsional)', 'maxlength="40"')}${pinF()}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosend">Kirim sekarang</button>`, 'plane');
+  },
+  topup: () => sheet('Isi saldo', `<p class="hint">Lewat transfer bank dari rekeningmu (simulasi untuk uji coba).</p>${amtF([50000, 100000, 250000, 500000])}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotopup">Isi saldo sekarang</button>`, 'bolt'),
+  pay: () => {
+    shop = null;
+    sheet('Bayar pakai QRIS', `<p class="hint">Di aplikasi, kamera memindai kodenya. Di sini, pilih tokonya.</p>
+      <div class="fld"><b>Toko</b><div class="opts">${[['Kopi Senja', 28000, 'coffee'], ['Toko Sinar', 64000, 'bag']].map(([n, p, i]) => `<button class="opt" data-a="shop" data-v="${n}" data-p="${p}" data-ic="${i}" aria-pressed="false">${n} <span>${rp(p)}</span></button>`).join('')}</div></div>
+      ${fld('a', 'Nominal', 'type="number" inputmode="numeric"')}${pinF()}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopay">Bayar sekarang</button>`, 'qr');
+  },
+  save: () => {
+    const g = goalOf();
+    sheet('Tabung', `${fld('gn', 'Nama tujuan', 'maxlength="24" value="' + esc(g.name) + '"')}${fld('gt', 'Target (Rp)', 'type="number" inputmode="numeric" value="' + g.target + '"')}
+      ${amtF([10000, 25000, 50000, 100000])}${pinF('k', 'PIN (jika menabung)')}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosave">Simpan</button>`, 'piggy');
+  },
+  bell: () => {
+    const n = txs.filter(t => plus(t.type)).slice(0, 6); LS.s('cazo_seen_' + me, Date.now());
+    sheet('Notifikasi', `<ul class="tx">${n.length ? n.map(row).join('') : none('Belum ada uang masuk.')}</ul>`, 'bell0'); render();
+  },
+  acc: () => sheet('Akun saya', `<div class="fld"><b>${esc(user.name)}</b><p class="hint" style="text-align:left">${esc(me)}</p></div>
+      <button class="btn btn-line" data-a="copy">Salin nomor HP</button>${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Ganti PIN</button><button class="btn btn-line" data-a="logout">Keluar</button>`),
+
+  async auth(b) {
+    const phone = norm($('#p').value), pin = $('#k').value;
+    if (phone.length < 9) return msg('Nomor HP tidak valid');
+    if (!/^\d{6}$/.test(pin)) return msg('PIN harus 6 angka');
+    b.disabled = true;
+    try {
+      const snap = await get(ref(db, 'users/' + phone)), h = await hash(pin);
+      if (mode == 'reg') {
+        const name = $('#n').value.trim();
+        if (!name) throw 'Nama wajib diisi';
+        if (snap.exists()) throw 'Nomor sudah terdaftar. Silakan masuk';
+        await set(ref(db, 'users/' + phone), { name, pin: h, balance: 0, saved: 0, goal: { name: 'Liburan Bali', target: 5000000 }, createdAt: serverTimestamp() });
+      } else if (!snap.exists() || snap.val().pin !== h) throw 'Nomor HP atau PIN salah';
+      me = phone; LS.s('cazo_me', me); start();
+    } catch (e) { msg(typeof e == 'string' ? e : 'Gagal terhubung. Coba lagi.'); b.disabled = false; }
+  },
+  dotopup: b => run(b, async () => {
+    const amt = Math.floor(+$('#a').value);
+    if (!(amt >= 10000)) throw 'Minimal isi saldo Rp 10.000';
+    await runTransaction(ref(db, 'users/' + me + '/balance'), v => (v || 0) + amt);
+    await log(me, { type: 'topup', amount: amt });
+    return 'Saldo bertambah ' + rp(amt);
+  }),
+  dosend: b => run(b, async () => {
+    const to = norm($('#t').value), amt = Math.floor(+$('#a').value), note = $('#c').value.trim();
+    if (!to || to == me) throw 'Nomor tujuan tidak valid';
+    if (!(amt >= 1000)) throw 'Minimal kirim Rp 1.000';
+    await pinOk($('#k').value);
+    const rs = await get(ref(db, 'users/' + to));
+    if (!rs.exists()) throw 'Nomor tujuan belum terdaftar di Cazo';
+    await debit(amt);
+    await runTransaction(ref(db, 'users/' + to + '/balance'), v => (v || 0) + amt);
+    await Promise.all([log(me, { type: 'out', amount: amt, peer: rs.val().name, phone: to, note }), log(to, { type: 'in', amount: amt, peer: user.name, phone: me, note })]);
+    return 'Terkirim ke ' + rs.val().name + ': ' + rp(amt);
+  }),
+  dopay: b => run(b, async () => {
+    const amt = Math.floor(+$('#a').value);
+    if (!shop) throw 'Pilih toko yang mau dibayar';
+    if (!(amt >= 1000)) throw 'Isi nominal pembayaran';
+    await pinOk($('#k').value); await debit(amt);
+    await log(me, { type: 'pay', amount: amt, peer: shop.dataset.v, ic: shop.dataset.ic });
+    return 'Pembayaran ke ' + shop.dataset.v + ' berhasil: ' + rp(amt);
+  }),
+  dosave: b => run(b, async () => {
+    const g = goalOf(), a = Math.floor(+$('#a').value) || 0, name = $('#gn').value.trim() || g.name, target = Math.floor(+$('#gt').value) || g.target;
+    if (a && a < 1000) throw 'Minimal menabung Rp 1.000';
+    if (a) await pinOk($('#k').value);
+    const r = await runTransaction(ref(db, 'users/' + me), u => {
+      if (!u) return u;
+      if (a) { if ((u.balance || 0) < a) return; u.balance -= a; u.saved = (u.saved || 0) + a; }
+      u.goal = { name, target }; return u;
+    });
+    if (!r.committed) throw 'Saldo tidak cukup';
+    if (a) await log(me, { type: 'save', amount: a, peer: name });
+    return a ? rp(a) + ' masuk ke tabungan ' + name : 'Tujuan tabungan diperbarui';
+  }),
+  dopin: b => run(b, async () => {
+    const nw = $('#n').value;
+    if (!/^\d{6}$/.test(nw)) throw 'PIN baru harus 6 angka';
+    await pinOk($('#o').value);
+    await set(ref(db, 'users/' + me + '/pin'), await hash(nw));
+    return 'PIN berhasil diganti';
+  })
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-a]');
+  if (b) acts[b.dataset.a]?.(b);
+  else if (e.target.id == 'sheet') close();
+});
+document.addEventListener('keydown', e => { if (e.key == 'Escape') close(); });
+start();
+</script>
+</body>
+</html>
