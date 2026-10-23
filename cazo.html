@@ -71,6 +71,26 @@ button,input{font:inherit;color:inherit}
 .toast.on{opacity:1;transform:none}
 @keyframes rise{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);flex:none;padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;padding:6px 0 4px;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
+.nav .pill{display:grid;place-items:center;width:58px;height:30px;border-radius:999px;transition:background .2s}
+.fi{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav button[aria-current="page"]{color:var(--fg);font-weight:700}
+.nav button[aria-current="page"] .pill{background:var(--gold);color:#0C2A2E}
+.nav-on .scroll{padding-bottom:20px}.nav-on .toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.pg{font:650 1.3rem/1.2 var(--fd);letter-spacing:-.03em}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stats div{background:var(--surface);border-radius:18px;padding:12px 14px}
+.stats small{display:block;color:var(--muted);font-size:.74rem}
+.stats b{font-size:.95rem;font-variant-numeric:tabular-nums}.stats .in{color:var(--pos)}.stats .out{color:var(--bad)}
+.prof{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;padding:6px 0 4px}
+.prof b{font-size:1.05rem}.prof small{color:var(--muted);font-size:.8rem}
+.av.big{width:76px;height:76px;font-size:1.8rem;margin-bottom:8px;cursor:default}
+.list{background:var(--surface);border-radius:20px;padding:2px 14px}
+.mi{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 0;font-weight:600;text-align:left;cursor:pointer}
+.mi:last-child{border-bottom:0}
+.mi .ti{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--surface-2);flex:none}
+.mi.red{color:var(--bad)}
 </style>
 </head>
 <body>
@@ -190,6 +210,7 @@ button,input{font:inherit;color:inherit}
 
 <div class="screen">
   <div class="scroll" id="main"></div>
+  <nav class="nav" id="nav" aria-label="Menu utama" hidden></nav>
   <div class="sheet" id="sheet" hidden><section class="panel" id="panel" role="dialog" aria-modal="true"></section></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
@@ -220,6 +241,9 @@ const hash = async s => {
   let h = 7; for (const c of s) h = Math.imul(h, 31) + c.charCodeAt(0) | 0; return 'x' + h;
 };
 const sv = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const FI = { home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>', copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>', lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>', out: '<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>' };
+const fi = n => `<svg class="fi" viewBox="0 0 24 24" aria-hidden="true">${FI[n]}</svg>`;
+$('#nav').innerHTML = [['home', 'home', 'Beranda'], ['hist', 'clock', 'Riwayat'], ['prof', 'user', 'Profil']].map(([t, i, l]) => `<button data-a="go" data-t="${t}"><span class="pill">${fi(i)}</span>${l}</button>`).join('');
 const fd = t => {
   const d = new Date(t), n = new Date(), k = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
   const h = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.');
@@ -232,18 +256,32 @@ let tt; const say = m => { const t = $('#toast'); t.textContent = m; t.classList
 const fld = (id, l, a = '') => `<div class="fld"><label for="${id}">${l}</label><input id="${id}" ${a}></div>`;
 const pinF = (id = 'k', l = 'PIN kamu') => fld(id, l, 'type="password" inputmode="numeric" maxlength="6" autocomplete="off"');
 const amtF = arr => fld('a', 'Nominal', 'type="number" inputmode="numeric" placeholder="0"') + `<div class="opts">${arr.map(v => `<button class="opt" data-a="amt" data-v="${v}" aria-pressed="false">${rp(v)}</button>`).join('')}</div>`;
-const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup">&times;</button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; $('#main').inert = true; $('.x').focus(); };
-const close = () => { $('#sheet').hidden = true; $('#main').inert = false; };
+const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup">&times;</button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; lock(true); $('.x').focus(); };
+const lock = v => { $('#main').inert = v; $('#nav').inert = v; };
+const close = () => { $('#sheet').hidden = true; lock(false); };
 const msg = t => { const m = $('.msg'); if (m) m.textContent = t || ''; };
 
 // ---------- State ----------
-let me = LS.g('cazo_me'), user = null, txs = [], all = false, mode = 'login', unsub = [], shop = null;
+let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], shop = null;
 const IC = { topup: 'bolt', in: 'coin', out: 'plane', pay: 'qr', save: 'piggy' };
 const plus = t => t == 'topup' || t == 'in';
 const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.peer;
 const row = t => `<li>${sv(t.ic || IC[t.type] || 'coin')}<div class="tt"><b>${esc(title(t))}</b><small>${fd(t.ts)}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="am${plus(t.type) ? ' in' : ''}">${plus(t.type) ? '+' : '−'}${rp(t.amount)}</span></li>`;
 const none = t => `<li class="hint" style="display:block;padding:24px 0">${t}</li>`;
 const goalOf = () => user.goal || { name: 'Liburan Bali', target: 5000000 };
+
+const histHTML = () => {
+  const n = new Date(), mo = txs.filter(t => { const d = new Date(t.ts); return d.getMonth() == n.getMonth() && d.getFullYear() == n.getFullYear(); });
+  const s = p => mo.filter(t => plus(t.type) == p).reduce((a, t) => a + (t.amount || 0), 0);
+  const f = txs.filter(t => flt == 'all' || (flt == 'in') == plus(t.type));
+  return `<h1 class="pg">Riwayat</h1>
+    <div class="stats"><div><small>Masuk bulan ini</small><b class="in">+${rp(s(true))}</b></div><div><small>Keluar bulan ini</small><b class="out">−${rp(s(false))}</b></div></div>
+    <div class="opts" style="margin:0">${[['all', 'Semua'], ['in', 'Masuk'], ['out', 'Keluar']].map(([v, l]) => `<button class="opt" data-a="flt" data-v="${v}" aria-pressed="${flt == v}">${l}</button>`).join('')}</div>
+    <ul class="tx">${f.length ? f.map(row).join('') : none('Belum ada transaksi.')}</ul>`;
+};
+const profHTML = () => `<h1 class="pg">Profil</h1>
+  <div class="prof"><span class="av big">${esc((user.name.trim()[0] || 'C').toUpperCase())}</span><b>${esc(user.name)}</b><small>${esc(me)}</small>${user.createdAt ? `<small>Anggota sejak ${new Date(user.createdAt).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</small>` : ''}</div>
+  <div class="list">${[['copy', 'copy', 'Salin nomor HP'], ['chpin', 'lock', 'Ganti PIN'], ['logout', 'out', 'Keluar', 'red']].map(([a, i, l, c = '']) => `<button class="mi ${c}" data-a="${a}"><span class="ti">${fi(i)}</span>${l}</button>`).join('')}</div>`;
 
 function start() {
   unsub.forEach(f => f()); unsub = []; user = null; txs = [];
@@ -253,11 +291,13 @@ function start() {
   ];
   render();
 }
-function logout() { LS.d('cazo_me'); me = null; close(); start(); }
+function logout() { LS.d('cazo_me'); me = null; tab = 'home'; close(); start(); }
 
 // ---------- Tampilan ----------
 function render() {
   const m = $('#main');
+  $('#nav').hidden = !me; $('.screen').classList.toggle('nav-on', !!me);
+  $$('#nav button').forEach(b => b.setAttribute('aria-current', b.dataset.t == tab ? 'page' : 'false'));
   if (!me) {
     m.innerHTML = `<div class="auth"><div class="brandrow">${sv('coin')}<span>Cazo <i>Wallet</i></span></div><div class="hero-ic">${sv('piggy')}</div>
       <h1>Semua urusan duit, satu dompet.</h1>
@@ -270,15 +310,16 @@ function render() {
   if (!user) { m.innerHTML = '<p class="hint" style="margin:auto">Memuat dompetmu…</p>'; return; }
   const hr = new Date().getHours(), g = goalOf(), sa = user.saved || 0, pct = Math.min(100, Math.round(sa / g.target * 100) || 0);
   const unread = txs.some(t => t.type == 'in' && t.ts > (+LS.g('cazo_seen_' + me) || 0));
-  m.innerHTML = `<div class="app-top"><button class="av" data-a="acc" aria-label="Akun saya">${esc((user.name.trim()[0] || 'C').toUpperCase())}</button>
+  const home = `<div class="app-top"><button class="av" data-a="go" data-t="prof" aria-label="Profil saya">${esc((user.name.trim()[0] || 'C').toUpperCase())}</button>
       <div class="hi"><small>Selamat ${hr < 11 ? 'pagi' : hr < 15 ? 'siang' : hr < 18 ? 'sore' : 'malam'}</small><b>${esc(user.name)}</b></div>
       <button class="bellbtn" data-a="bell" aria-label="Notifikasi${unread ? ', ada yang baru' : ''}">${sv(unread ? 'bell' : 'bell0')}</button></div>
     <div class="bal"><svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>
       <small>Saldo Cazo</small><div class="amt">${rp(user.balance)}</div><span class="tag">Dompet aktif</span></div>
     <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'bolt', 'Isi saldo'], ['pay', 'qr', 'QRIS'], ['save', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}">${sv(i)}${l}</button>`).join('')}</div>
     <div class="goal">${sv('piggy')}<div class="gt"><b>${esc(g.name)}</b><div class="bar" role="progressbar" aria-label="Progres tabungan ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${rp(sa)} dari ${rp(g.target)}</small></div></div>
-    <div><div class="tx-head"><span>Riwayat</span>${txs.length > 5 ? `<button class="lnk" data-a="more">${all ? 'Ringkas' : 'Lihat semua'}</button>` : ''}</div>
-      <ul class="tx">${txs.length ? txs.slice(0, all ? 60 : 5).map(row).join('') : none('Belum ada transaksi. Isi saldo untuk memulai.')}</ul></div>`;
+    <div><div class="tx-head"><span>Riwayat</span>${txs.length > 5 ? '<button class="lnk" data-a="go" data-t="hist">Lihat semua</button>' : ''}</div>
+      <ul class="tx">${txs.length ? txs.slice(0, 5).map(row).join('') : none('Belum ada transaksi. Isi saldo untuk memulai.')}</ul></div>`;
+  m.innerHTML = tab == 'hist' ? histHTML() : tab == 'prof' ? profHTML() : home;
 }
 
 // ---------- Logika ----------
@@ -296,7 +337,8 @@ async function run(b, fn) {
 
 const acts = {
   mode: b => { mode = b.dataset.v; render(); },
-  more: () => { all = !all; render(); },
+  go: b => { tab = b.dataset.t; render(); $('#main').scrollTop = 0; },
+  flt: b => { flt = b.dataset.v; render(); },
   close,
   logout,
   amt: b => { $('#a').value = b.dataset.v; $$('[data-a=amt]').forEach(x => x.setAttribute('aria-pressed', x === b)); },
@@ -330,9 +372,8 @@ const acts = {
     const n = txs.filter(t => plus(t.type)).slice(0, 6); LS.s('cazo_seen_' + me, Date.now());
     sheet('Notifikasi', `<ul class="tx">${n.length ? n.map(row).join('') : none('Belum ada uang masuk.')}</ul>`, 'bell0'); render();
   },
-  acc: () => sheet('Akun saya', `<div class="fld"><b>${esc(user.name)}</b><p class="hint" style="text-align:left">${esc(me)}</p></div>
-      <button class="btn btn-line" data-a="copy">Salin nomor HP</button>${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Ganti PIN</button><button class="btn btn-line" data-a="logout">Keluar</button>`),
+  chpin: () => sheet('Ganti PIN', `${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Simpan PIN baru</button>`),
 
   async auth(b) {
     const phone = norm($('#p').value), pin = $('#k').value;
