@@ -40,7 +40,7 @@ button,input{font:inherit;color:inherit}
 .gt small{color:var(--muted);font-size:.74rem;font-variant-numeric:tabular-nums}
 .tx-head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:.9rem;min-height:36px}
 .lnk{background:none;border:0;color:var(--brand);font-weight:700;font-size:.78rem;cursor:pointer;padding:8px 0}
-.tx li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.tx li{border-bottom:1px solid var(--line)}
 .tx li:last-child{border-bottom:0}.tx .ic{--s:42px}
 .tt{flex:1;min-width:0}.tt b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt small{color:var(--muted);font-size:.74rem}
 .am{font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums;white-space:nowrap}.am.in{color:var(--pos)}
@@ -72,12 +72,12 @@ button,input{font:inherit;color:inherit}
 @keyframes rise{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .nav{display:grid;grid-template-columns:repeat(3,1fr);flex:none;padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
-.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:56px;padding:6px 0 4px;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
-.nav .pill{display:grid;place-items:center;width:58px;height:30px;border-radius:999px;transition:background .2s}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:62px;padding:4px 0;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
+.nav .pill{display:grid;place-items:center;width:60px;height:38px;border-radius:999px;transition:background .2s}
 .fi{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav button[aria-current="page"]{color:var(--fg);font-weight:700}
-.nav button[aria-current="page"] .pill{background:var(--gold);color:#0C2A2E}
-.nav-on .scroll{padding-bottom:20px}.nav-on .toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.nav button[aria-current="page"] .pill{background:var(--surface-2)}
+.nav-on .scroll{padding-bottom:20px}.nav-on .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 .pg{font:650 1.3rem/1.2 var(--fd);letter-spacing:-.03em}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stats div{background:var(--surface);border-radius:18px;padding:12px 14px}
@@ -91,6 +91,16 @@ button,input{font:inherit;color:inherit}
 .mi:last-child{border-bottom:0}
 .mi .ti{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--surface-2);flex:none}
 .mi.red{color:var(--bad)}
+.nav .ic,.mi .ic{--s:30px}.nav button:not([aria-current="page"]) .ic{opacity:.6;filter:saturate(.55)}
+.opt .ic{--s:28px}.provs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.provs .opt{justify-content:flex-start;padding:0 10px}
+.trow{display:flex;align-items:center;gap:12px;width:100%;padding:10px 0;background:none;border:0;text-align:left;cursor:pointer}
+.am.wait{color:var(--muted)}.am.no{color:var(--bad);text-decoration:line-through}
+.sum{font-size:.8rem;color:var(--muted);margin-top:10px}.sum b{color:var(--fg)}
+.qris{display:block;width:min(100%,240px);margin:14px auto 0;border-radius:16px;background:#fff;padding:8px}
+.big{font:650 1.6rem/1.2 var(--fd);letter-spacing:-.03em;text-align:center;margin-top:10px}
+.chip{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.74rem;font-weight:700;background:var(--surface-2)}
+.dl{margin:14px 0 0}.dl div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.88rem}.dl dt{color:var(--muted)}.dl dd{margin:0;font-weight:600;text-align:right;word-break:break-word}
+.req{padding:12px 0;border-bottom:1px solid var(--line);font-size:.85rem}.req .btn{min-height:40px;margin:0;flex:1}
 </style>
 </head>
 <body>
@@ -107,8 +117,7 @@ button,input{font:inherit;color:inherit}
 <linearGradient id="g-white-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A8CBC4"/><stop offset="1" stop-color="#7FA7A0"/></linearGradient>
 <linearGradient id="g-pink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD0DA"/><stop offset=".5" stop-color="#FF86A3"/><stop offset="1" stop-color="#E24A74"/></linearGradient>
 <linearGradient id="g-pink-s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C93A62"/><stop offset="1" stop-color="#8A1F40"/></linearGradient>
-<linearGradient id="g-ceramic" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E9F6F3"/><stop offset="1" stop-color="#B3D3CC"/></linearGradient>
-<linearGradient id="g-coffee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A6038"/><stop offset="1" stop-color="#5E3520"/></linearGradient>
+<linearGradient id="g-skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE3C8"/><stop offset=".6" stop-color="#FFC08F"/><stop offset="1" stop-color="#EE9A63"/></linearGradient>
 <filter id="f-soft" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation="3.5"/></filter>
 </defs>
 <symbol id="i-coin" viewBox="0 0 128 128">
@@ -169,31 +178,6 @@ button,input{font:inherit;color:inherit}
 <rect x="46" y="38" width="30" height="6" rx="3" fill="#8A1F40"/>
 <path d="M26 58 Q34 42 52 36" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
 </symbol>
-<symbol id="i-bag" viewBox="0 0 128 128">
-<ellipse cx="64" cy="119" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
-<path d="M46 46 V32 a18 18 0 0 1 36 0 V46" fill="none" stroke="url(#g-gold)" stroke-width="7" stroke-linecap="round"/>
-<path d="M24 38 H104 L110 100 Q110.5 106 104 106 H24 Q17.5 106 18 100 Z" transform="translate(0 6)" fill="url(#g-sky-s)"/>
-<path d="M24 38 H104 L110 100 Q110.5 106 104 106 H24 Q17.5 106 18 100 Z" fill="url(#g-sky)"/>
-<path d="M24 38 H58 L52 106 H24 Q17.5 106 18 100 Z" fill="#fff" opacity=".18"/>
-<rect x="44" y="60" width="40" height="28" rx="8" fill="url(#g-white)"/>
-<circle cx="64" cy="74" r="8.5" fill="url(#g-gold)"/>
-<circle cx="64" cy="74" r="4.5" fill="none" stroke="#B87300" stroke-opacity=".55" stroke-width="2"/>
-<circle cx="46" cy="44" r="3.2" fill="#8A5200"/>
-<circle cx="82" cy="44" r="3.2" fill="#8A5200"/>
-</symbol>
-<symbol id="i-coffee" viewBox="0 0 128 128">
-<ellipse cx="62" cy="120" rx="50" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
-<path d="M50 34 q-8 -8 0 -16 M66 36 q-8 -10 0 -20 M82 34 q-8 -8 0 -16" fill="none" stroke="#18C195" stroke-opacity=".6" stroke-width="5" stroke-linecap="round"/>
-<ellipse cx="62" cy="111" rx="50" ry="9" fill="url(#g-white-s)"/>
-<ellipse cx="62" cy="107" rx="50" ry="9" fill="url(#g-white)"/>
-<path d="M96 58 H104 a12 12 0 0 1 0 24 H94" fill="none" stroke="#C9E3DD" stroke-width="9" stroke-linecap="round"/>
-<path d="M26 44 H98 V76 Q98 106 62 106 Q26 106 26 76 Z" fill="url(#g-ceramic)"/>
-<rect x="26" y="60" width="72" height="10" fill="#18C195"/>
-<rect x="26" y="60" width="72" height="3" fill="#fff" opacity=".35"/>
-<ellipse cx="62" cy="44" rx="36" ry="9" fill="url(#g-white)"/>
-<ellipse cx="62" cy="45" rx="31" ry="6.5" fill="url(#g-coffee)"/>
-<path d="M44 44 Q56 41 70 43" fill="none" stroke="#D9A978" stroke-width="2" stroke-linecap="round" opacity=".8"/>
-</symbol>
 <symbol id="i-bell" viewBox="0 0 128 128">
 <ellipse cx="62" cy="120" rx="36" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
 <circle cx="64" cy="108" r="10" fill="url(#g-gold-s)"/>
@@ -206,6 +190,80 @@ button,input{font:inherit;color:inherit}
 <circle cx="93" cy="30" r="14" fill="url(#g-coral)"/>
 <circle cx="93" cy="30" r="4.5" fill="#fff"/>
 </symbol>
+<symbol id="i-home" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<rect x="88" y="26" width="13" height="26" rx="3" fill="url(#g-coral-s)"/>
+<rect x="24" y="64" width="80" height="50" rx="9" fill="url(#g-white-s)"/>
+<rect x="24" y="58" width="80" height="50" rx="9" fill="url(#g-white)"/>
+<path d="M10 64 64 14l54 50z" transform="translate(0 6)" fill="url(#g-coral-s)"/>
+<path d="M10 64 64 14l54 50z" fill="url(#g-coral)"/>
+<path d="M10 64 64 14v50z" fill="#fff" opacity=".18"/>
+<rect x="52" y="76" width="24" height="34" rx="6" fill="url(#g-teal)"/>
+<circle cx="70" cy="93" r="2.6" fill="url(#g-gold)"/>
+<rect x="31" y="72" width="14" height="14" rx="3" fill="url(#g-sky)"/>
+<rect x="83" y="72" width="14" height="14" rx="3" fill="url(#g-sky)"/>
+</symbol>
+<symbol id="i-clock" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<circle cx="64" cy="70" r="48" fill="url(#g-gold-s)"/>
+<circle cx="64" cy="62" r="48" fill="url(#g-gold)"/>
+<circle cx="64" cy="62" r="38" fill="url(#g-white)"/>
+<circle cx="64" cy="62" r="38" fill="none" stroke="#B87300" stroke-opacity=".35" stroke-width="2"/>
+<path d="M64 28v6M64 90v6M30 62h6M92 62h6" stroke="#12303A" stroke-width="4" stroke-linecap="round"/>
+<path d="M64 62V40" stroke="#12303A" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M64 62l16 10" stroke="#FF6A45" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="64" cy="62" r="5" fill="url(#g-teal)"/>
+<path d="M28 40Q36 20 58 15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".55"/>
+</symbol>
+<symbol id="i-user" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<path d="M14 116C14 90 34 78 64 78s50 12 50 38z" transform="translate(0 4)" fill="url(#g-sky-s)"/>
+<path d="M14 116C14 90 34 78 64 78s50 12 50 38z" fill="url(#g-sky)"/>
+<path d="M14 116C14 90 34 78 64 78v38z" fill="#fff" opacity=".18"/>
+<circle cx="64" cy="49" r="27" fill="#C98F5E"/>
+<circle cx="64" cy="44" r="27" fill="url(#g-skin)"/>
+<path d="M38 40C38 14 90 14 90 40 80 30 48 30 38 40z" fill="#2A1A14"/>
+<path d="M42 34Q48 22 62 18" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".45"/>
+</symbol>
+<symbol id="i-copy" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<rect x="44" y="20" width="66" height="80" rx="11" transform="translate(0 6)" fill="url(#g-teal-s)"/>
+<rect x="44" y="20" width="66" height="80" rx="11" fill="url(#g-teal)"/>
+<rect x="18" y="38" width="66" height="80" rx="11" fill="url(#g-white-s)"/>
+<rect x="18" y="32" width="66" height="80" rx="11" fill="url(#g-white)"/>
+<path d="M32 56h38M32 72h38M32 88h24" fill="none" stroke="#18C195" stroke-width="7" stroke-linecap="round"/>
+</symbol>
+<symbol id="i-lock" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<path d="M40 58V42a24 24 0 0 1 48 0v16" fill="none" stroke="url(#g-white-s)" stroke-width="11" stroke-linecap="round"/>
+<rect x="24" y="60" width="80" height="54" rx="14" fill="url(#g-gold-s)"/>
+<rect x="24" y="54" width="80" height="54" rx="14" fill="url(#g-gold)"/>
+<rect x="30" y="58" width="68" height="6" rx="3" fill="#fff" opacity=".4"/>
+<circle cx="64" cy="76" r="8" fill="#12303A"/>
+<path d="M60 78h8l2 16H58z" fill="#12303A"/>
+</symbol>
+<symbol id="i-exit" viewBox="0 0 128 128">
+<ellipse cx="64" cy="120" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<rect x="18" y="20" width="58" height="94" rx="9" fill="url(#g-coral-s)"/>
+<rect x="18" y="14" width="58" height="94" rx="9" fill="url(#g-coral)"/>
+<rect x="26" y="22" width="42" height="78" rx="5" fill="#fff" opacity=".16"/>
+<circle cx="58" cy="62" r="3.6" fill="url(#g-gold)"/>
+<path d="M72 66h40M98 50l16 16-16 16" fill="none" stroke="url(#g-gold-s)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M72 62h40M98 46l16 16-16 16" fill="none" stroke="url(#g-gold)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+<symbol id="i-bank" viewBox="0 0 128 128">
+<ellipse cx="64" cy="121" rx="52" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<rect x="12" y="104" width="104" height="12" rx="5" fill="url(#g-white-s)"/>
+<rect x="12" y="98" width="104" height="12" rx="5" fill="url(#g-white)"/>
+<rect x="24" y="58" width="14" height="40" rx="3" fill="url(#g-white)"/><rect x="33" y="58" width="5" height="40" rx="2" fill="url(#g-white-s)" opacity=".5"/>
+<rect x="46" y="58" width="14" height="40" rx="3" fill="url(#g-white)"/><rect x="55" y="58" width="5" height="40" rx="2" fill="url(#g-white-s)" opacity=".5"/>
+<rect x="68" y="58" width="14" height="40" rx="3" fill="url(#g-white)"/><rect x="77" y="58" width="5" height="40" rx="2" fill="url(#g-white-s)" opacity=".5"/>
+<rect x="90" y="58" width="14" height="40" rx="3" fill="url(#g-white)"/><rect x="99" y="58" width="5" height="40" rx="2" fill="url(#g-white-s)" opacity=".5"/>
+<path d="M8 54 64 12l56 42z" transform="translate(0 6)" fill="url(#g-teal-s)"/>
+<path d="M8 54 64 12l56 42z" fill="url(#g-teal)"/>
+<path d="M8 54 64 12v42z" fill="#fff" opacity=".16"/>
+<circle cx="64" cy="38" r="9" fill="url(#g-gold)"/>
+</symbol>
 </svg>
 
 <div class="screen">
@@ -217,7 +275,7 @@ button,input{font:inherit;color:inherit}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, set, push, onValue, get, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, set, push, update, onValue, get, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // 1. Inisialisasi Firebase
 const firebaseConfig = {
@@ -228,6 +286,9 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const QRIS_URL = 'https://i.ibb.co.com/9k3THjq7/IMG-20261012-160202.jpg';
+// Nomor HP admin (boleh lebih dari satu). Admin memverifikasi isi saldo & transfer, serta mengunggah QRIS.
+const ADMINS = ['081234567890'];
 
 // ---------- Helper ----------
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -241,9 +302,7 @@ const hash = async s => {
   let h = 7; for (const c of s) h = Math.imul(h, 31) + c.charCodeAt(0) | 0; return 'x' + h;
 };
 const sv = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-const FI = { home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>', clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>', copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>', lock: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>', out: '<path d="M9 21H5V3h4M16 17l5-5-5-5M21 12H9"/>' };
-const fi = n => `<svg class="fi" viewBox="0 0 24 24" aria-hidden="true">${FI[n]}</svg>`;
-$('#nav').innerHTML = [['home', 'home', 'Beranda'], ['hist', 'clock', 'Riwayat'], ['prof', 'user', 'Profil']].map(([t, i, l]) => `<button data-a="go" data-t="${t}"><span class="pill">${fi(i)}</span>${l}</button>`).join('');
+$('#nav').innerHTML = [['home', 'home', 'Beranda'], ['hist', 'clock', 'Riwayat'], ['prof', 'user', 'Profil']].map(([t, i, l]) => `<button data-a="go" data-t="${t}"><span class="pill">${sv(i)}</span>${l}</button>`).join('');
 const fd = t => {
   const d = new Date(t), n = new Date(), k = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
   const h = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.');
@@ -258,21 +317,44 @@ const pinF = (id = 'k', l = 'PIN kamu') => fld(id, l, 'type="password" inputmode
 const amtF = arr => fld('a', 'Nominal', 'type="number" inputmode="numeric" placeholder="0"') + `<div class="opts">${arr.map(v => `<button class="opt" data-a="amt" data-v="${v}" aria-pressed="false">${rp(v)}</button>`).join('')}</div>`;
 const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup">&times;</button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; lock(true); $('.x').focus(); };
 const lock = v => { $('#main').inert = v; $('#nav').inert = v; };
-const close = () => { $('#sheet').hidden = true; lock(false); };
+const close = () => { $('#sheet').hidden = true; adminOpen = false; lock(false); };
 const msg = t => { const m = $('.msg'); if (m) m.textContent = t || ''; };
 
 // ---------- State ----------
-let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], shop = null;
-const IC = { topup: 'bolt', in: 'coin', out: 'plane', pay: 'qr', save: 'piggy' };
+let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], reqs = [], qris = QRIS_URL, adminOpen = false, tp = null, prov = null;
+const IC = { topup: 'bolt', in: 'coin', out: 'plane', tf: 'bank', pay: 'qr', save: 'piggy' };
 const plus = t => t == 'topup' || t == 'in';
-const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.peer;
-const row = t => `<li>${sv(t.ic || IC[t.type] || 'coin')}<div class="tt"><b>${esc(title(t))}</b><small>${fd(t.ts)}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="am${plus(t.type) ? ' in' : ''}">${plus(t.type) ? '+' : '−'}${rp(t.amount)}</span></li>`;
+const LG = (c, x) => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="${c}"/>${x}</svg>`;
+const TXT = (y, z, t, f = '#fff') => `<text x="24" y="${y}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="${z}" fill="${f}">${t}</text>`;
+// Logo wallet digambar ulang sebagai SVG datar (bukan 3D). Ganti isi `logo` dengan file resmi dari brand kit bila perlu.
+const PROV = {
+  dana: { n: 'DANA', k: 'ew', lbl: 'Nomor HP DANA', logo: LG('#118EEA', TXT(29, 13, 'DANA')) },
+  gopay: { n: 'GoPay', k: 'ew', lbl: 'Nomor HP GoPay', logo: LG('#00AED6', TXT(29, 12.5, 'gopay')) },
+  shopeepay: { n: 'ShopeePay', k: 'ew', lbl: 'Nomor HP ShopeePay', logo: LG('#EE4D2D', '<path d="M14 19h20l-1.6 17a2 2 0 0 1-2 1.8H17.6a2 2 0 0 1-2-1.8z" fill="#fff"/><path d="M19 19v-2a5 5 0 0 1 10 0v2" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>' + TXT(34, 14, 'S', '#EE4D2D')) },
+  seabank: { n: 'SeaBank', k: 'bank', lbl: 'Nomor rekening SeaBank', logo: LG('#FF6A13', TXT(28, 10, 'SeaBank')) }
+};
+const IMG = { dana: '', gopay: '', shopeepay: '', seabank: '' }; // isi URL logo resmi
+const lg = k => IMG[k] ? `<img class="ic" src="${IMG[k]}" alt="" style="border-radius:12px;object-fit:contain">` : PROV[k].logo;
+const fee = n => n <= 100000 ? 500 : n <= 500000 ? 2000 : n <= 1000000 ? 5000 : 10000;
+const ST = t => !t.status || t.status == 'success' ? 'Berhasil' : t.status == 'rejected' ? 'Ditolak' : t.type == 'tf' ? 'Diproses' : 'Menunggu verifikasi';
+const amtOf = t => t.type == 'tf' ? t.total : t.amount;
+const ico = t => t.type == 'tf' && PROV[t.provider] ? lg(t.provider) : sv(IC[t.type] || 'coin');
+const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'tf' ? 'Transfer ke ' + (PROV[t.provider]?.n || '') : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.peer;
+const row = t => {
+  const p = plus(t.type), w = t.status == 'pending', x = t.status == 'rejected';
+  return `<li><button class="trow" data-a="tx" data-id="${t.id}">${ico(t)}<div class="tt"><b>${esc(title(t))}</b><small>${fd(t.ts)}${w || x ? ' · ' + ST(t) : ''}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="am${p && !w && !x ? ' in' : ''}${w ? ' wait' : ''}${x ? ' no' : ''}">${p ? '+' : '−'}${rp(amtOf(t))}</span></button></li>`;
+};
+const upd = () => { const e = $('#sum'); if (!e) return; const a = Math.floor(+$('#a').value) || 0; e.innerHTML = a >= 10000 ? `Biaya admin <b>${rp(fee(a))}</b> · Total dipotong <b>${rp(a + fee(a))}</b>` : 'Biaya admin dihitung dari nominal'; };
+function request(rec) {
+  const id = push(ref(db, 'requests')).key, r = { ...rec, status: 'pending', ts: serverTimestamp() };
+  return update(ref(db), { ['requests/' + id]: { ...r, uid: me, uname: user.name }, ['transactions/' + me + '/' + id]: r });
+}
 const none = t => `<li class="hint" style="display:block;padding:24px 0">${t}</li>`;
 const goalOf = () => user.goal || { name: 'Liburan Bali', target: 5000000 };
 
 const histHTML = () => {
   const n = new Date(), mo = txs.filter(t => { const d = new Date(t.ts); return d.getMonth() == n.getMonth() && d.getFullYear() == n.getFullYear(); });
-  const s = p => mo.filter(t => plus(t.type) == p).reduce((a, t) => a + (t.amount || 0), 0);
+  const ok = t => !t.status || t.status == 'success' || (t.type == 'tf' && t.status == 'pending'), s = p => mo.filter(t => ok(t) && plus(t.type) == p).reduce((a, t) => a + amtOf(t), 0);
   const f = txs.filter(t => flt == 'all' || (flt == 'in') == plus(t.type));
   return `<h1 class="pg">Riwayat</h1>
     <div class="stats"><div><small>Masuk bulan ini</small><b class="in">+${rp(s(true))}</b></div><div><small>Keluar bulan ini</small><b class="out">−${rp(s(false))}</b></div></div>
@@ -281,13 +363,15 @@ const histHTML = () => {
 };
 const profHTML = () => `<h1 class="pg">Profil</h1>
   <div class="prof"><span class="av big">${esc((user.name.trim()[0] || 'C').toUpperCase())}</span><b>${esc(user.name)}</b><small>${esc(me)}</small>${user.createdAt ? `<small>Anggota sejak ${new Date(user.createdAt).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</small>` : ''}</div>
-  <div class="list">${[['copy', 'copy', 'Salin nomor HP'], ['chpin', 'lock', 'Ganti PIN'], ['logout', 'out', 'Keluar', 'red']].map(([a, i, l, c = '']) => `<button class="mi ${c}" data-a="${a}"><span class="ti">${fi(i)}</span>${l}</button>`).join('')}</div>`;
+  <div class="list">${[...(ADMINS.includes(me) ? [['admin', 'qr', 'Panel admin' + (reqs.length ? ' (' + reqs.length + ')' : '')]] : []), ['copy', 'copy', 'Salin nomor HP'], ['chpin', 'lock', 'Ganti PIN'], ['logout', 'exit', 'Keluar', 'red']].map(([a, i, l, c = '']) => `<button class="mi ${c}" data-a="${a}"><span class="ti">${sv(i)}</span>${l}</button>`).join('')}</div>`;
 
 function start() {
   unsub.forEach(f => f()); unsub = []; user = null; txs = [];
   if (me) unsub = [
+    onValue(ref(db, 'config/qris'), s => { qris = s.val() || QRIS_URL; }),
+    ...(ADMINS.includes(me) ? [onValue(ref(db, 'requests'), s => { reqs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).filter(r => r.status == 'pending').sort((a, b) => a.ts - b.ts); if (adminOpen) acts.admin(); else render(); })] : []),
     onValue(ref(db, 'users/' + me), s => { user = s.val(); if (!user) return logout(); render(); }),
-    onValue(ref(db, 'transactions/' + me), s => { txs = Object.values(s.val() || {}).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); })
+    onValue(ref(db, 'transactions/' + me), s => { txs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); })
   ];
   render();
 }
@@ -315,7 +399,7 @@ function render() {
       <button class="bellbtn" data-a="bell" aria-label="Notifikasi${unread ? ', ada yang baru' : ''}">${sv(unread ? 'bell' : 'bell0')}</button></div>
     <div class="bal"><svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>
       <small>Saldo Cazo</small><div class="amt">${rp(user.balance)}</div><span class="tag">Dompet aktif</span></div>
-    <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'bolt', 'Isi saldo'], ['pay', 'qr', 'QRIS'], ['save', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}">${sv(i)}${l}</button>`).join('')}</div>
+    <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'bolt', 'Isi saldo'], ['tf', 'bank', 'Transfer'], ['save', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}">${sv(i)}${l}</button>`).join('')}</div>
     <div class="goal">${sv('piggy')}<div class="gt"><b>${esc(g.name)}</b><div class="bar" role="progressbar" aria-label="Progres tabungan ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${rp(sa)} dari ${rp(g.target)}</small></div></div>
     <div><div class="tx-head"><span>Riwayat</span>${txs.length > 5 ? '<button class="lnk" data-a="go" data-t="hist">Lihat semua</button>' : ''}</div>
       <ul class="tx">${txs.length ? txs.slice(0, 5).map(row).join('') : none('Belum ada transaksi. Isi saldo untuk memulai.')}</ul></div>`;
@@ -341,9 +425,9 @@ const acts = {
   flt: b => { flt = b.dataset.v; render(); },
   close,
   logout,
-  amt: b => { $('#a').value = b.dataset.v; $$('[data-a=amt]').forEach(x => x.setAttribute('aria-pressed', x === b)); },
+  amt: b => { $('#a').value = b.dataset.v; $$('[data-a=amt]').forEach(x => x.setAttribute('aria-pressed', x === b)); upd(); },
   pick: b => { $('#t').value = b.dataset.v; },
-  shop: b => { shop = b; $$('[data-a=shop]').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#a').value = b.dataset.p; },
+  prov: b => { prov = b.dataset.v; $$('[data-a=prov]').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#dl').textContent = PROV[prov].lbl; },
   copy: () => navigator.clipboard.writeText(me).then(() => say('Nomor HP disalin')).catch(() => say('Nomor kamu: ' + me)),
 
   send: () => {
@@ -353,14 +437,27 @@ const acts = {
       ${amtF([25000, 50000, 100000, 250000])}${fld('c', 'Catatan (opsional)', 'maxlength="40"')}${pinF()}
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosend">Kirim sekarang</button>`, 'plane');
   },
-  topup: () => sheet('Isi saldo', `<p class="hint">Lewat transfer bank dari rekeningmu (simulasi untuk uji coba).</p>${amtF([50000, 100000, 250000, 500000])}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotopup">Isi saldo sekarang</button>`, 'bolt'),
-  pay: () => {
-    shop = null;
-    sheet('Bayar pakai QRIS', `<p class="hint">Di aplikasi, kamera memindai kodenya. Di sini, pilih tokonya.</p>
-      <div class="fld"><b>Toko</b><div class="opts">${[['Kopi Senja', 28000, 'coffee'], ['Toko Sinar', 64000, 'bag']].map(([n, p, i]) => `<button class="opt" data-a="shop" data-v="${n}" data-p="${p}" data-ic="${i}" aria-pressed="false">${n} <span>${rp(p)}</span></button>`).join('')}</div></div>
-      ${fld('a', 'Nominal', 'type="number" inputmode="numeric"')}${pinF()}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopay">Bayar sekarang</button>`, 'qr');
+  topup: () => sheet('Isi saldo', `<p class="hint">Bayar lewat QRIS admin sesuai nominal. Minimal Rp 5.000.</p>${amtF([10000, 50000, 100000, 250000])}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="tonext">Lanjut</button>`, 'bolt'),
+  tonext: () => {
+    const a = Math.floor(+$('#a').value);
+    if (!(a >= 5000)) return msg('Minimal isi saldo Rp 5.000');
+    tp = { amt: a, code: Math.floor(Math.random() * 100) + 1 };
+    sheet('Bayar lewat QRIS', `<p class="hint">Transfer <b>tepat</b> sesuai total ini, termasuk kode unik ${tp.code}, supaya mudah diverifikasi.</p>
+      <div class="big">${rp(tp.amt + tp.code)}</div>
+      ${qris ? `<img class="qris" src="${qris}" alt="QRIS admin">` : `<div class="hero-ic">${sv('qr')}</div><p class="hint">QRIS admin belum diunggah.</p>`}
+      <dl class="dl"><div><dt>Saldo masuk</dt><dd>${rp(tp.amt)}</dd></div><div><dt>Kode unik</dt><dd>${rp(tp.code)}</dd></div></dl>
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotopup">Saya sudah transfer</button>`);
+  },
+  tf: () => {
+    prov = null;
+    const pc = ([k, v]) => `<button class="opt" data-a="prov" data-v="${k}" aria-pressed="false">${lg(k)}${v.n}</button>`, grp = k => Object.entries(PROV).filter(([, v]) => v.k == k).map(pc).join('');
+    sheet('Transfer ke e-wallet & bank', `<p class="hint">Minimal Rp 10.000. Biaya admin mengikuti nominal.</p>
+      <div class="fld"><b>E-wallet</b><div class="provs">${grp('ew')}</div></div><div class="fld"><b>Bank</b><div class="provs">${grp('bank')}</div></div>
+      <div class="fld"><label for="d" id="dl">Nomor tujuan</label><input id="d" type="tel" inputmode="numeric"></div>${fld('nm', 'Nama penerima', 'maxlength="30"')}
+      ${amtF([50000, 100000, 250000, 500000])}<p class="sum" id="sum"></p>${pinF()}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotf">Transfer sekarang</button>`, 'bank');
+    upd();
   },
   save: () => {
     const g = goalOf();
@@ -369,12 +466,48 @@ const acts = {
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosave">Simpan</button>`, 'piggy');
   },
   bell: () => {
-    const n = txs.filter(t => plus(t.type)).slice(0, 6); LS.s('cazo_seen_' + me, Date.now());
+    const n = txs.filter(t => plus(t.type) && (!t.status || t.status == 'success')).slice(0, 6); LS.s('cazo_seen_' + me, Date.now());
     sheet('Notifikasi', `<ul class="tx">${n.length ? n.map(row).join('') : none('Belum ada uang masuk.')}</ul>`, 'bell0'); render();
   },
   chpin: () => sheet('Ganti PIN', `${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Simpan PIN baru</button>`),
 
+  tx: b => {
+    const t = txs.find(x => x.id == b.dataset.id); if (!t) return;
+    const P = PROV[t.provider], p = plus(t.type), w = t.status == 'pending', x = t.status == 'rejected';
+    const D = ({ topup: [['Saldo masuk', rp(t.amount)], ['Kode unik', rp(t.code)], ['Total transfer', rp(t.total)]], tf: [['Tujuan', P?.n], ['Nomor tujuan', t.dest], ['Nama penerima', t.name], ['Nominal', rp(t.amount)], ['Biaya admin', rp(t.fee)], ['Total dipotong', rp(t.total)]], out: [['Penerima', t.peer], ['Nomor HP', t.phone]], in: [['Pengirim', t.peer], ['Nomor HP', t.phone]], save: [['Tujuan tabungan', t.peer]], pay: [['Toko', t.peer]] }[t.type] || []);
+    if (t.note) D.push(['Catatan', t.note]);
+    const rs = [['Status', ST(t)], ['Waktu', new Date(t.ts).toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' })], ...D, ['ID transaksi', 'CZ-' + t.id.slice(-8).toUpperCase()]];
+    sheet('Detail transaksi', `<div class="hero-ic">${ico(t)}</div><div class="big" style="color:${p && !w && !x ? 'var(--pos)' : 'inherit'}">${p ? '+' : '−'}${rp(amtOf(t))}</div>
+      <p class="hint"><span class="chip">${ST(t)}</span></p>${w && t.type == 'topup' ? `<p class="hint">Transfer tepat ${rp(t.total)} ke QRIS admin. Saldo masuk setelah diverifikasi.</p>` : ''}
+      <dl class="dl">${rs.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`);
+  },
+  admin: () => {
+    adminOpen = true;
+    sheet('Panel admin', `<div class="fld"><label for="qf">QRIS admin${qris ? ' (sudah diunggah)' : ''}</label><input id="qf" type="file" accept="image/*"></div>
+      <div class="fld"><b>Menunggu verifikasi (${reqs.length})</b>${reqs.length ? reqs.map(r => `<div class="req"><b>${r.type == 'topup' ? 'Isi saldo' : 'Transfer ke ' + (PROV[r.provider]?.n || '')}</b> · ${esc(r.uname)} (${esc(r.uid)})<br>${r.type == 'topup' ? 'Cek dana masuk ' + rp(r.total) + ' (saldo ' + rp(r.amount) + ')' : esc(r.dest) + ' a.n. ' + esc(r.name) + ' · kirim ' + rp(r.amount) + ' (biaya ' + rp(r.fee) + ')'}<div class="opts"><button class="btn btn-gold" data-a="decide" data-id="${r.id}" data-ok="1">Setujui</button><button class="btn btn-line" data-a="decide" data-id="${r.id}" data-ok="0">Tolak</button></div></div>`).join('') : '<p class="hint" style="padding:16px 0">Tidak ada permintaan.</p>'}</div>`);
+  },
+  async decide(b) {
+    const r = reqs.find(x => x.id == b.dataset.id), ok = b.dataset.ok == '1', st = ok ? 'success' : 'rejected';
+    if (!r || !ADMINS.includes(me)) return;
+    b.disabled = true;
+    try {
+      const l = await runTransaction(ref(db, 'requests/' + r.id + '/status'), v => v == 'pending' ? st : undefined);
+      if (!l.committed) throw 'Sudah diproses';
+      const back = r.type == 'topup' ? (ok ? r.amount : 0) : (ok ? 0 : r.total);
+      if (back) await runTransaction(ref(db, 'users/' + r.uid + '/balance'), v => (v || 0) + back);
+      await update(ref(db), { ['transactions/' + r.uid + '/' + r.id + '/status']: st });
+      say(ok ? 'Disetujui' : 'Ditolak');
+    } catch (e) { say(typeof e == 'string' ? e : 'Gagal. Coba lagi'); b.disabled = false; }
+  },
+  async qrisup(i) {
+    const f = i.files[0]; if (!f) return;
+    try {
+      const im = await createImageBitmap(f), k = Math.min(1, 640 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+      c.width = im.width * k; c.height = im.height * k; c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      await set(ref(db, 'config/qris'), c.toDataURL('image/jpeg', .9)); say('QRIS admin disimpan');
+    } catch { say('Gagal mengunggah gambar'); }
+  },
   async auth(b) {
     const phone = norm($('#p').value), pin = $('#k').value;
     if (phone.length < 9) return msg('Nomor HP tidak valid');
@@ -392,11 +525,8 @@ const acts = {
     } catch (e) { msg(typeof e == 'string' ? e : 'Gagal terhubung. Coba lagi.'); b.disabled = false; }
   },
   dotopup: b => run(b, async () => {
-    const amt = Math.floor(+$('#a').value);
-    if (!(amt >= 10000)) throw 'Minimal isi saldo Rp 10.000';
-    await runTransaction(ref(db, 'users/' + me + '/balance'), v => (v || 0) + amt);
-    await log(me, { type: 'topup', amount: amt });
-    return 'Saldo bertambah ' + rp(amt);
+    await request({ type: 'topup', amount: tp.amt, code: tp.code, total: tp.amt + tp.code });
+    return 'Permintaan isi saldo terkirim. Menunggu verifikasi admin';
   }),
   dosend: b => run(b, async () => {
     const to = norm($('#t').value), amt = Math.floor(+$('#a').value), note = $('#c').value.trim();
@@ -410,13 +540,16 @@ const acts = {
     await Promise.all([log(me, { type: 'out', amount: amt, peer: rs.val().name, phone: to, note }), log(to, { type: 'in', amount: amt, peer: user.name, phone: me, note })]);
     return 'Terkirim ke ' + rs.val().name + ': ' + rp(amt);
   }),
-  dopay: b => run(b, async () => {
-    const amt = Math.floor(+$('#a').value);
-    if (!shop) throw 'Pilih toko yang mau dibayar';
-    if (!(amt >= 1000)) throw 'Isi nominal pembayaran';
-    await pinOk($('#k').value); await debit(amt);
-    await log(me, { type: 'pay', amount: amt, peer: shop.dataset.v, ic: shop.dataset.ic });
-    return 'Pembayaran ke ' + shop.dataset.v + ' berhasil: ' + rp(amt);
+  dotf: b => run(b, async () => {
+    const P = PROV[prov], dest = $('#d').value.replace(/\D/g, ''), nm = $('#nm').value.trim(), amt = Math.floor(+$('#a').value), f = fee(amt);
+    if (!P) throw 'Pilih tujuan transfer';
+    if (dest.length < 8) throw 'Nomor tujuan tidak valid';
+    if (!nm) throw 'Isi nama penerima';
+    if (!(amt >= 10000)) throw 'Minimal transfer Rp 10.000';
+    await pinOk($('#k').value); await debit(amt + f);
+    try { await request({ type: 'tf', provider: prov, dest, name: nm, amount: amt, fee: f, total: amt + f }); }
+    catch (e) { await runTransaction(ref(db, 'users/' + me + '/balance'), v => (v || 0) + amt + f); throw e; }
+    return 'Transfer ke ' + P.n + ' diproses: ' + rp(amt);
   }),
   dosave: b => run(b, async () => {
     const g = goalOf(), a = Math.floor(+$('#a').value) || 0, name = $('#gn').value.trim() || g.name, target = Math.floor(+$('#gt').value) || g.target;
@@ -445,6 +578,8 @@ document.addEventListener('click', e => {
   else if (e.target.id == 'sheet') close();
 });
 document.addEventListener('keydown', e => { if (e.key == 'Escape') close(); });
+document.addEventListener('input', e => { if (e.target.id == 'a') upd(); });
+document.addEventListener('change', e => { if (e.target.id == 'qf') acts.qrisup(e.target); });
 start();
 </script>
 </body>
