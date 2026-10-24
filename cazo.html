@@ -26,7 +26,7 @@ button,input{font:inherit;color:inherit}
 .hi{flex:1;min-width:0}.hi small{display:block;color:var(--muted);font-size:.75rem}.hi b{font-size:.98rem}
 .bellbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}.bellbtn .ic{--s:30px}
 .bal{position:relative;overflow:hidden;border-radius:24px;padding:18px;background:var(--balance-bg);color:#fff}
-.bal .rg{position:absolute;right:-34px;top:-34px;width:170px;height:170px;fill:none;stroke:rgba(255,255,255,.16);stroke-width:1}
+.bal .rg,.hero .rg{position:absolute;right:-34px;top:-34px;width:170px;height:170px;fill:none;stroke:rgba(255,255,255,.16);stroke-width:1}
 .bal small{display:block;color:#BFE3DB;font-size:.78rem;font-weight:600}
 .bal .amt{position:relative;font:650 1.75rem/1.2 var(--fd);letter-spacing:-.03em;margin:6px 0 12px;font-variant-numeric:tabular-nums}
 .bal .tag{position:relative;display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.16);font-size:.7rem;font-weight:700;letter-spacing:.04em}
@@ -40,9 +40,10 @@ button,input{font:inherit;color:inherit}
 .acts .act:nth-child(4){--t1:#FFE7ED;--t2:#FFCBD8;--t3:#C93A62}
 @media(prefers-color-scheme:dark){.acts .act:nth-child(1){--t1:#16405A;--t2:#0F2E44}.acts .act:nth-child(2){--t1:#11524A;--t2:#0B3A36}.acts .act:nth-child(3){--t1:#4A3D12;--t2:#2E2608}.acts .act:nth-child(4){--t1:#55243A;--t2:#3A1824}.acts .act{box-shadow:0 8px 16px -10px var(--t3),inset 0 1px 0 rgba(255,255,255,.12)}}.act .ic{--s:40px}
 .goal{display:flex;align-items:center;gap:12px;padding:12px;border-radius:20px;background:var(--surface)}.goal .ic{--s:50px}
-.goal{width:100%;border:0;text-align:left;cursor:pointer}.goal.empty .bar{display:none}
+.goal{width:100%;border:0;text-align:left;cursor:pointer;transition:transform .15s}.goal:active{transform:scale(.98)}
+.gl{display:flex;flex-direction:column;gap:8px}
 .edt{flex:none;padding:6px 12px;border-radius:999px;background:var(--surface-2);color:var(--brand);font-size:.75rem;font-weight:700}
-.gt{flex:1;min-width:0}.gt b{display:block;font-size:.88rem}
+.gt{flex:1;min-width:0}.gt b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin:6px 0 4px}
 .bar i{display:block;height:100%;border-radius:99px;background:var(--gold);transition:width .5s ease}
 .gt small{color:var(--muted);font-size:.74rem;font-variant-numeric:tabular-nums}
@@ -53,13 +54,37 @@ button,input{font:inherit;color:inherit}
 .tt{flex:1;min-width:0}.tt b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tt small{color:var(--muted);font-size:.74rem}
 .am{font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums;white-space:nowrap}.am.in{color:var(--pos)}
 .hint{color:var(--muted);font-size:.85rem;text-align:center}
-.auth{display:flex;flex-direction:column;gap:14px;padding-top:12px}
+/* loading */
+.load{margin:auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.coinw{position:relative;display:grid;place-items:center;width:150px;height:150px}
+.coinw::before,.coinw::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--brand);opacity:0;animation:ping 2.2s ease-out infinite}
+.coinw::after{animation-delay:1.1s}
+.coinw .ic{--s:92px;animation:bob 1.8s ease-in-out infinite}
+.dots{display:flex;gap:7px}.dots i{width:9px;height:9px;border-radius:50%;background:var(--gold);animation:dot 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes ping{from{transform:scale(.5);opacity:.5}to{transform:scale(1.1);opacity:0}}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+@keyframes dot{0%,80%,100%{transform:scale(.6);opacity:.45}40%{transform:scale(1);opacity:1}}
+/* masuk / daftar */
+.auth{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .brandrow{display:flex;align-items:center;gap:10px;font:700 1.3rem/1 var(--fd);letter-spacing:-.03em}.brandrow .ic{--s:42px}.brandrow i{font-style:normal;font-weight:400;color:var(--muted)}
-.auth h1{font:650 1.55rem/1.15 var(--fd);letter-spacing:-.035em}
-.auth .fld{margin:0}.auth .opt{flex:1;justify-content:center}.auth .hero-ic .ic{--s:120px}
+.hero{position:relative;overflow:hidden;border-radius:28px;padding:20px;min-height:200px;background:linear-gradient(150deg,#0F6354,var(--balance-bg) 72%);color:#fff}
+.hero .brandrow{position:relative;font-size:1.05rem}.hero .brandrow .ic{--s:34px}.hero .brandrow i{color:#BFE3DB}
+.hero h1{position:relative;font:650 1.2rem/1.25 var(--fd);letter-spacing:-.03em;margin-top:22px;max-width:64%}
+.hero p{position:relative;color:#BFE3DB;font-size:.8rem;margin-top:8px;max-width:62%}
+.hero .pig{--s:112px;position:absolute;right:4px;bottom:4px;animation:bob 3.2s ease-in-out infinite}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:var(--surface-2)}
+.seg button{min-height:44px;border:0;border-radius:999px;background:none;font-weight:700;cursor:pointer;color:var(--muted);transition:background .2s}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 2px 8px -2px rgba(12,42,46,.25)}
+.perks{display:flex;flex-wrap:wrap;gap:6px}.perks span{padding:5px 10px;border-radius:999px;background:var(--tint-gold);font-size:.72rem;font-weight:700}
+.auth .fld,.auth .msg{margin:0}.auth .btn{margin-top:0}.auth .sum{margin:0}
+.pw{position:relative}.pw input{padding-right:52px}
+.eye{position:absolute;right:2px;top:2px;width:44px;height:44px;border:0;border-radius:50%;background:none;color:var(--muted);cursor:pointer;display:grid;place-items:center}
+.eye[aria-pressed="true"]{color:var(--brand)}
 .sheet{position:absolute;inset:0;display:flex;align-items:flex-end;background:rgba(4,22,20,.55);z-index:5}
 .panel{position:relative;width:100%;max-height:94%;overflow-y:auto;padding:20px 18px calc(22px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:var(--surface);animation:rise .28s ease-out}
 .panel h3{font:650 1.1rem/1.25 var(--fd);letter-spacing:-.02em;min-height:44px;display:flex;align-items:center;padding-right:58px}
+.panel .bar{height:10px;margin:14px 0 8px}
 .x{position:absolute;right:14px;top:20px;width:44px;height:44px;padding:0;border-radius:50%;border:0;background:var(--surface-2);color:var(--fg);cursor:pointer;display:grid;place-items:center}.x svg{width:18px;height:18px}
 .fld{margin-top:16px}
 .fld>b,.fld>label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:8px}
@@ -70,16 +95,22 @@ button,input{font:inherit;color:inherit}
 .opt span{color:var(--muted);font-weight:600}
 .msg{min-height:1.4em;margin:12px 0 10px;font-size:.85rem;font-weight:600;color:var(--bad)}
 .hero-ic{display:grid;place-items:center;margin-top:10px}.hero-ic .ic{--s:88px}
-.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:8px;border-radius:999px;border:2px solid transparent;font-weight:700;cursor:pointer}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:8px;border-radius:999px;border:2px solid transparent;font-weight:700;cursor:pointer;text-decoration:none}
 .btn-gold{background:var(--gold);color:#0C2A2E;box-shadow:0 4px 0 var(--gold-deep)}
 .btn-gold:active{transform:translateY(3px);box-shadow:0 1px 0 var(--gold-deep)}
 .btn-line{background:transparent;border-color:var(--fg)}
+.btn-line.red{color:var(--bad);border-color:var(--bad)}
+.btn-bad{background:var(--bad);color:var(--surface)}
 .btn:disabled{opacity:.55}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.bgrid .btn{margin:0}
+.ab{font-size:.88rem;margin-top:12px}
+.fl{margin-top:4px}.fl li{position:relative;padding:9px 0 9px 22px;border-bottom:1px solid var(--line);font-size:.85rem}
+.fl li::before{content:"";position:absolute;left:2px;top:17px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
 .toast{position:absolute;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:6;padding:12px 14px;border-radius:14px;background:#0C2A2E;color:#fff;border:1px solid var(--line);font-weight:600;font-size:.85rem;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none}
 .toast.on{opacity:1;transform:none}
 @keyframes rise{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-.nav{display:grid;grid-template-columns:repeat(3,1fr);flex:none;padding:6px 12px calc(6px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);flex:none;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--surface);border-top:1px solid var(--line)}
 .nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;min-height:62px;padding:4px 0;font-size:.72rem;font-weight:600;color:var(--muted);cursor:pointer}
 .nav .pill{display:grid;place-items:center;width:60px;height:38px;border-radius:999px;transition:background .2s}
 .fi{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -95,7 +126,8 @@ button,input{font:inherit;color:inherit}
 .prof b{font-size:1.05rem}.prof small{color:var(--muted);font-size:.8rem}
 .av.big{width:76px;height:76px;font-size:1.8rem;margin-bottom:8px;cursor:default}
 .list{background:var(--surface);border-radius:20px;padding:2px 14px}
-.mi{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 0;font-weight:600;text-align:left;cursor:pointer}
+.mi{display:flex;align-items:center;gap:14px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:12px 0;font-weight:600;text-align:left;cursor:pointer;text-decoration:none}
+a.mi{color:var(--fg)}
 .mi:last-child{border-bottom:0}
 .mi .ti{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--surface-2);flex:none}
 .mi.red{color:var(--bad)}
@@ -164,16 +196,6 @@ button,input{font:inherit;color:inherit}
 <path d="M64 36V84M40 60H88" transform="translate(2 5)" fill="none" stroke="url(#g-gold-s)" stroke-width="16" stroke-linecap="round"/>
 <path d="M64 36V84M40 60H88" fill="none" stroke="url(#g-gold)" stroke-width="16" stroke-linecap="round"/>
 <path d="M64 40V50M44 56H54" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
-</symbol>
-<symbol id="i-bolt" viewBox="0 0 128 128">
-<ellipse cx="64" cy="119" rx="38" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
-<circle cx="64" cy="67" r="48" fill="url(#g-teal-s)"/>
-<circle cx="64" cy="60" r="48" fill="url(#g-teal)"/>
-<circle cx="64" cy="60" r="38" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/>
-<path d="M30 36 A42 42 0 0 1 58 18" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
-<path d="M72 22 L42 64 H60 L54 98 L86 54 H67 Z" fill="url(#g-gold-s)" transform="translate(3 5)"/>
-<path d="M72 22 L42 64 H60 L54 98 L86 54 H67 Z" fill="url(#g-gold)"/>
-<path d="M72 22 L42 64 H52 L68 34 Z" fill="#fff" opacity=".45"/>
 </symbol>
 <symbol id="i-piggy" viewBox="0 0 128 128">
 <ellipse cx="62" cy="119" rx="42" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
@@ -282,10 +304,30 @@ button,input{font:inherit;color:inherit}
 <path d="M8 54 64 12v42z" fill="#fff" opacity=".16"/>
 <circle cx="64" cy="38" r="9" fill="url(#g-gold)"/>
 </symbol>
+<symbol id="i-help" viewBox="0 0 128 128">
+<ellipse cx="64" cy="121" rx="38" ry="5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<path d="M26 28H102a14 14 0 0 1 14 14V80a14 14 0 0 1-14 14H66L40 114V94H26a14 14 0 0 1-14-14V42a14 14 0 0 1 14-14z" transform="translate(0 6)" fill="url(#g-sky-s)"/>
+<path d="M26 28H102a14 14 0 0 1 14 14V80a14 14 0 0 1-14 14H66L40 114V94H26a14 14 0 0 1-14-14V42a14 14 0 0 1 14-14z" fill="url(#g-sky)"/>
+<path d="M26 44Q32 36 50 35" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+<path d="M50 52a14 14 0 1 1 20 12q-6 4-6 10" transform="translate(2 4)" fill="none" stroke="url(#g-gold-s)" stroke-width="10" stroke-linecap="round"/>
+<path d="M50 52a14 14 0 1 1 20 12q-6 4-6 10" fill="none" stroke="url(#g-gold)" stroke-width="10" stroke-linecap="round"/>
+<circle cx="64" cy="84" r="6" fill="url(#g-gold)"/>
+</symbol>
+<symbol id="i-info" viewBox="0 0 128 128">
+<ellipse cx="64" cy="121" rx="38" ry="5.5" fill="#06231F" opacity=".28" filter="url(#f-soft)"/>
+<circle cx="64" cy="67" r="48" fill="url(#g-sky-s)"/>
+<circle cx="64" cy="60" r="48" fill="url(#g-sky)"/>
+<circle cx="64" cy="60" r="38" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2"/>
+<path d="M30 36 A42 42 0 0 1 58 18" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+<circle cx="64" cy="38" r="8" transform="translate(2 4)" fill="url(#g-gold-s)"/>
+<rect x="57" y="52" width="14" height="38" rx="7" transform="translate(2 4)" fill="url(#g-gold-s)"/>
+<circle cx="64" cy="38" r="8" fill="url(#g-gold)"/>
+<rect x="57" y="52" width="14" height="38" rx="7" fill="url(#g-gold)"/>
+</symbol>
 </svg>
 
 <div class="screen">
-  <div class="scroll" id="main"></div>
+  <div class="scroll" id="main"><div class="load" role="status"><div class="coinw"><svg class="ic" aria-hidden="true"><use href="#i-coin"/></svg></div><div class="brandrow">Cazo <i>Wallet</i></div><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><p class="hint">Menyiapkan Cazo Wallet…</p></div></div>
   <nav class="nav" id="nav" aria-label="Menu utama" hidden></nav>
   <div class="sheet" id="sheet" hidden><section class="panel" id="panel" role="dialog" aria-modal="true"></section></div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -307,6 +349,8 @@ const db = getDatabase(app);
 const QRIS_URL = 'https://i.ibb.co.com/9k3THjq7/IMG-20261012-160202.jpg';
 // Nomor HP admin (boleh lebih dari satu). Admin memverifikasi isi saldo & transfer, serta mengunggah QRIS.
 const ADMINS = ['081234567890'];
+const CS_URL = 'cs.html';
+const MAX_GOALS = 10;
 
 // ---------- Helper ----------
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -320,7 +364,7 @@ const hash = async s => {
   let h = 7; for (const c of s) h = Math.imul(h, 31) + c.charCodeAt(0) | 0; return 'x' + h;
 };
 const sv = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
-$('#nav').innerHTML = [['home', 'home', 'Beranda'], ['hist', 'clock', 'Riwayat'], ['prof', 'user', 'Profil']].map(([t, i, l]) => `<button data-a="go" data-t="${t}"><span class="pill">${sv(i)}</span>${l}</button>`).join('');
+$('#nav').innerHTML = [['home', 'home', 'Beranda'], ['hist', 'clock', 'Riwayat'], ['save', 'piggy', 'Tabungan'], ['prof', 'user', 'Profil']].map(([t, i, l]) => `<button data-a="go" data-t="${t}"><span class="pill">${sv(i)}</span>${l}</button>`).join('');
 const fd = t => {
   const d = new Date(t), n = new Date(), k = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5);
   const h = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.');
@@ -332,16 +376,20 @@ const fd = t => {
 let tt; const say = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 3200); };
 const fld = (id, l, a = '') => `<div class="fld"><label for="${id}">${l}</label><input id="${id}" ${a}></div>`;
 const pinF = (id = 'k', l = 'PIN kamu') => fld(id, l, 'type="password" inputmode="numeric" maxlength="6" autocomplete="off"');
+const EYE = '<svg class="fi" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+const pwF = (id, l) => `<div class="fld"><label for="${id}">${l}</label><div class="pw"><input id="${id}" type="password" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="••••••"><button type="button" class="eye" data-a="eye" aria-label="Tampilkan PIN" aria-pressed="false">${EYE}</button></div></div>`;
 const amtF = arr => fld('a', 'Nominal', 'type="number" inputmode="numeric" placeholder="0"') + `<div class="opts">${arr.map(v => `<button class="opt" data-a="amt" data-v="${v}" aria-pressed="false">${rp(v)}</button>`).join('')}</div>`;
 const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; lock(true); $('.x').focus(); };
 const lock = v => { $('#main').inert = v; $('#nav').inert = v; };
 const close = () => { $('#sheet').hidden = true; adminOpen = false; lock(false); };
 const msg = t => { const m = $('.msg'); if (m) m.textContent = t || ''; };
+const loader = t => `<div class="load" role="status"><div class="coinw">${sv('coin')}</div><div class="brandrow">Cazo <i>Wallet</i></div><div class="dots" aria-hidden="true"><i></i><i></i><i></i></div><p class="hint">${t}</p></div>`;
+const RG = '<svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>';
 
 // ---------- State ----------
-let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], reqs = [], qris = QRIS_URL, adminOpen = false, tp = null, prov = null;
-const IC = { topup: 'plus', in: 'coin', out: 'plane', tf: 'bank', pay: 'qr', save: 'piggy' };
-const plus = t => t == 'topup' || t == 'in';
+let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], reqs = [], qris = QRIS_URL, adminOpen = false, tp = null, prov = null, gid = null, av = { n: '', p: '' };
+const IC = { topup: 'plus', in: 'coin', out: 'plane', tf: 'bank', pay: 'qr', save: 'piggy', wd: 'piggy' };
+const plus = t => t == 'topup' || t == 'in' || t == 'wd';
 const LG = (c, x) => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="${c}"/>${x}</svg>`;
 const TXT = (y, z, t, f = '#fff') => `<text x="24" y="${y}" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="${z}" fill="${f}">${t}</text>`;
 // Logo wallet digambar ulang sebagai SVG datar (bukan 3D). Ganti isi `logo` dengan file resmi dari brand kit bila perlu.
@@ -357,7 +405,7 @@ const fee = n => n <= 100000 ? 500 : n <= 500000 ? 2000 : n <= 1000000 ? 5000 : 
 const ST = t => !t.status || t.status == 'success' ? 'Berhasil' : t.status == 'rejected' ? 'Ditolak' : t.type == 'tf' ? 'Diproses' : 'Menunggu verifikasi';
 const amtOf = t => t.type == 'tf' ? t.total : t.amount;
 const ico = t => t.type == 'tf' && PROV[t.provider] ? lg(t.provider) : sv(IC[t.type] || 'coin');
-const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'tf' ? 'Transfer ke ' + (PROV[t.provider]?.n || '') : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.peer;
+const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'tf' ? 'Transfer ke ' + (PROV[t.provider]?.n || '') : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.type == 'wd' ? 'Tarik dari ' + t.peer : t.peer;
 const row = t => {
   const p = plus(t.type), w = t.status == 'pending', x = t.status == 'rejected';
   return `<li><button class="trow" data-a="tx" data-id="${t.id}">${ico(t)}<div class="tt"><b>${esc(title(t))}</b><small>${fd(t.ts)}${w || x ? ' · ' + ST(t) : ''}${t.note ? ' · ' + esc(t.note) : ''}</small></div><span class="am${p && !w && !x ? ' in' : ''}${w ? ' wait' : ''}${x ? ' no' : ''}">${p ? '+' : '−'}${rp(amtOf(t))}</span></button></li>`;
@@ -368,7 +416,13 @@ function request(rec) {
   return update(ref(db), { ['requests/' + id]: { ...r, uid: me, uname: user.name }, ['transactions/' + me + '/' + id]: r });
 }
 const none = t => `<li class="hint" style="display:block;padding:24px 0">${t}</li>`;
-const goalOf = () => user.goal || { name: '', target: 0 };
+
+// Tabungan (banyak tujuan): users/{hp}/goals/{id} = {name, target, saved, createdAt}
+const gl = () => Object.entries(user.goals || {}).map(([id, v]) => ({ id, ...v })).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+const gobj = () => gl().find(g => g.id == gid);
+const gp = g => Math.min(100, Math.round((g.saved || 0) / g.target * 100) || 0);
+const gcard = g => `<button class="goal" data-a="gdetail" data-id="${g.id}" aria-label="Tabungan ${esc(g.name)}">${sv('piggy')}<div class="gt"><b>${esc(g.name)}</b><div class="bar" role="progressbar" aria-label="Progres ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${gp(g)}"><i style="width:${gp(g)}%"></i></div><small>${rp(g.saved)} dari ${rp(g.target)}</small></div><span class="edt">${gp(g) >= 100 ? 'Tercapai' : gp(g) + '%'}</span></button>`;
+const dupName = n => gl().some(g => g.id != gid && g.name.toLowerCase() == n.toLowerCase());
 
 const histHTML = () => {
   const n = new Date(), mo = txs.filter(t => { const d = new Date(t.ts); return d.getMonth() == n.getMonth() && d.getFullYear() == n.getFullYear(); });
@@ -379,21 +433,41 @@ const histHTML = () => {
     <div class="opts" style="margin:0">${[['all', 'Semua'], ['in', 'Masuk'], ['out', 'Keluar']].map(([v, l]) => `<button class="opt" data-a="flt" data-v="${v}" aria-pressed="${flt == v}">${l}</button>`).join('')}</div>
     <ul class="tx">${f.length ? f.map(row).join('') : none('Belum ada transaksi.')}</ul>`;
 };
-const profHTML = () => `<h1 class="pg">Profil</h1>
+const savHTML = () => {
+  const gs = gl(), tot = gs.reduce((a, g) => a + (g.saved || 0), 0);
+  return `<h1 class="pg">Tabungan</h1>
+    <div class="bal">${RG}<small>Total tabungan</small><div class="amt">${rp(tot)}</div><span class="tag">${gs.length} tujuan</span></div>
+    <button class="btn btn-gold" style="margin:0" data-a="gadd">+ Tambah tabungan</button>
+    <div class="gl">${gs.length ? gs.map(gcard).join('') : `<div class="hero-ic">${sv('piggy')}</div><p class="hint">Belum ada tabungan. Buat tujuan pertamamu, misalnya liburan atau dana darurat.</p>`}</div>`;
+};
+const profHTML = () => {
+  const M = ([a, i, l, c = '']) => `<button class="mi ${c}" data-a="${a}"><span class="ti">${sv(i)}</span>${l}</button>`;
+  return `<h1 class="pg">Profil</h1>
   <div class="prof"><span class="av big">${esc((user.name.trim()[0] || 'C').toUpperCase())}</span><b>${esc(user.name)}</b><small>${esc(me)}</small>${user.createdAt ? `<small>Anggota sejak ${new Date(user.createdAt).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</small>` : ''}</div>
-  <div class="list">${[...(ADMINS.includes(me) ? [['admin', 'qr', 'Panel admin' + (reqs.length ? ' (' + reqs.length + ')' : '')]] : []), ['copy', 'copy', 'Salin nomor HP'], ['chpin', 'lock', 'Ganti PIN'], ['logout', 'exit', 'Keluar', 'red']].map(([a, i, l, c = '']) => `<button class="mi ${c}" data-a="${a}"><span class="ti">${sv(i)}</span>${l}</button>`).join('')}</div>`;
+  <div class="list">${[...(ADMINS.includes(me) ? [['admin', 'qr', 'Panel admin' + (reqs.length ? ' (' + reqs.length + ')' : '')]] : []), ['copy', 'copy', 'Salin nomor HP'], ['chpin', 'lock', 'Ganti PIN']].map(M).join('')}</div>
+  <div class="list"><a class="mi" href="${CS_URL}"><span class="ti">${sv('help')}</span>Bantuan / Customer service</a>${M(['about', 'info', 'Tentang Cazo Wallet'])}</div>
+  <div class="list">${M(['logout', 'exit', 'Keluar', 'red'])}</div>`;
+};
 
 function start() {
   unsub.forEach(f => f()); unsub = []; user = null; txs = [];
   if (me) unsub = [
     onValue(ref(db, 'config/qris'), s => { qris = s.val() || QRIS_URL; }),
     ...(ADMINS.includes(me) ? [onValue(ref(db, 'requests'), s => { reqs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).filter(r => r.status == 'pending').sort((a, b) => a.ts - b.ts); if (adminOpen) acts.admin(); else render(); })] : []),
-    onValue(ref(db, 'users/' + me), s => { user = s.val(); if (!user) return logout(); render(); }),
+    onValue(ref(db, 'users/' + me), s => {
+      user = s.val(); if (!user) return logout();
+      // migrasi tabungan lama (satu tujuan) ke format baru (banyak tujuan)
+      if (user.goal && !user.goals) {
+        const id = push(ref(db, 'users/' + me + '/goals')).key;
+        update(ref(db, 'users/' + me), { ['goals/' + id]: { name: user.goal.name, target: user.goal.target, saved: user.saved || 0, createdAt: Date.now() }, goal: null, saved: null });
+      }
+      render();
+    }),
     onValue(ref(db, 'transactions/' + me), s => { txs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); })
   ];
   render();
 }
-function logout() { LS.d('cazo_me'); me = null; tab = 'home'; close(); start(); }
+function logout() { LS.d('cazo_me'); me = null; tab = 'home'; mode = 'login'; av = { n: '', p: '' }; close(); start(); }
 
 // ---------- Tampilan ----------
 function render() {
@@ -401,27 +475,36 @@ function render() {
   $('#nav').hidden = !me; $('.screen').classList.toggle('nav-on', !!me);
   $$('#nav button').forEach(b => b.setAttribute('aria-current', b.dataset.t == tab ? 'page' : 'false'));
   if (!me) {
-    m.innerHTML = `<div class="auth"><div class="brandrow">${sv('coin')}<span>Cazo <i>Wallet</i></span></div><div class="hero-ic">${sv('piggy')}</div>
-      <h1>Semua urusan duit, satu dompet.</h1>
-      <div class="opts">${[['login', 'Masuk'], ['reg', 'Daftar']].map(([v, l]) => `<button class="opt" data-a="mode" data-v="${v}" aria-pressed="${mode == v}">${l}</button>`).join('')}</div>
-      ${mode == 'reg' ? fld('n', 'Nama lengkap', 'autocomplete="name"') : ''}
-      ${fld('p', 'Nomor HP', 'type="tel" inputmode="numeric" placeholder="08123456789" autocomplete="tel"')}${pinF('k', 'PIN 6 angka')}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="auth">${mode == 'reg' ? 'Buat akun Cazo' : 'Masuk'}</button></div>`;
+    const r = mode == 'reg';
+    m.innerHTML = `<div class="auth">
+      <div class="hero">${RG}<div class="brandrow">${sv('coin')}<span>Cazo <i>Wallet</i></span></div>
+        <h1>${r ? 'Buka dompet digitalmu' : 'Semua urusan duit, satu dompet.'}</h1>
+        <p>${r ? 'Daftar gratis dan langsung siap dipakai.' : 'Masuk untuk kirim uang, isi saldo, dan menabung.'}</p>
+        <span class="pig">${sv('piggy')}</span></div>
+      <div class="seg" role="group" aria-label="Pilih Masuk atau Daftar">${[['login', 'Masuk'], ['reg', 'Daftar']].map(([v, l]) => `<button data-a="mode" data-v="${v}" aria-pressed="${mode == v}">${l}</button>`).join('')}</div>
+      ${r ? '<div class="perks"><span>Kirim gratis sesama Cazo</span><span>Isi saldo via QRIS</span><span>Tabungan bertarget</span></div>' : ''}
+      ${r ? fld('n', 'Nama lengkap', 'autocomplete="name" placeholder="Nama kamu" value="' + esc(av.n) + '"') : ''}
+      ${fld('p', 'Nomor HP', 'type="tel" inputmode="numeric" placeholder="08123456789" autocomplete="tel" value="' + esc(av.p) + '"')}
+      ${pwF('k', r ? 'Buat PIN (6 angka)' : 'PIN (6 angka)')}
+      ${r ? pwF('k2', 'Ulangi PIN') + '<p class="sum">PIN dipakai di setiap transaksi. Jangan bagikan ke siapa pun, termasuk admin.</p>' : ''}
+      <p class="msg" role="status"></p>
+      <button class="btn btn-gold" data-a="auth">${r ? 'Buat akun Cazo' : 'Masuk'}</button>
+      <button class="lnk" style="align-self:center" data-a="mode" data-v="${r ? 'login' : 'reg'}">${r ? 'Sudah punya akun? Masuk' : 'Belum punya akun? Daftar'}</button></div>`;
     return;
   }
-  if (!user) { m.innerHTML = '<p class="hint" style="margin:auto">Memuat dompetmu…</p>'; return; }
-  const hr = new Date().getHours(), g = goalOf(), g0 = !user.goal, sa = user.saved || 0, pct = g0 ? 0 : Math.min(100, Math.round(sa / g.target * 100) || 0);
+  if (!user) { m.innerHTML = loader('Memuat dompetmu…'); return; }
+  const hr = new Date().getHours(), gs = gl();
   const unread = txs.some(t => t.type == 'in' && t.ts > (+LS.g('cazo_seen_' + me) || 0));
   const home = `<div class="app-top"><button class="av" data-a="go" data-t="prof" aria-label="Profil saya">${esc((user.name.trim()[0] || 'C').toUpperCase())}</button>
       <div class="hi"><small>Selamat ${hr < 11 ? 'pagi' : hr < 15 ? 'siang' : hr < 18 ? 'sore' : 'malam'}</small><b>${esc(user.name)}</b></div>
       <button class="bellbtn" data-a="bell" aria-label="Notifikasi${unread ? ', ada yang baru' : ''}">${sv(unread ? 'bell' : 'bell0')}</button></div>
-    <div class="bal"><svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>
-      <small>Saldo Cazo</small><div class="amt">${rp(user.balance)}</div><span class="tag">Dompet aktif</span></div>
-    <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'plus', 'Isi saldo'], ['tf', 'bank', 'Transfer'], ['save', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}">${sv(i)}${l}</button>`).join('')}</div>
-    <button class="goal${g0 ? ' empty' : ''}" data-a="goal" aria-label="${g0 ? 'Buat tabungan' : 'Ubah tabungan'}">${sv('piggy')}<div class="gt"><b>${g0 ? 'Belum ada tabungan' : esc(g.name)}</b><div class="bar" role="progressbar" aria-label="Progres tabungan ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${g0 ? 'Ketuk untuk membuat tujuan tabungan' : rp(sa) + ' dari ' + rp(g.target)}</small></div><span class="edt">${g0 ? 'Buat' : 'Ubah'}</span></button>
+    <div class="bal">${RG}<small>Saldo Cazo</small><div class="amt">${rp(user.balance)}</div><span class="tag">Dompet aktif</span></div>
+    <div class="acts">${[['send', 'plane', 'Kirim'], ['topup', 'plus', 'Isi saldo'], ['tf', 'bank', 'Transfer'], ['go', 'piggy', 'Tabung']].map(([a, i, l]) => `<button class="act" data-a="${a}"${a == 'go' ? ' data-t="save"' : ''}>${sv(i)}${l}</button>`).join('')}</div>
+    <div><div class="tx-head"><span>Tabungan</span>${gs.length ? '<button class="lnk" data-a="go" data-t="save">Kelola</button>' : ''}</div>
+      <div class="gl">${gs.length ? gs.slice(0, 2).map(gcard).join('') : `<button class="goal" data-a="gadd">${sv('piggy')}<div class="gt"><b>Belum ada tabungan</b><small>Ketuk untuk membuat tujuan tabungan</small></div><span class="edt">Buat</span></button>`}</div></div>
     <div><div class="tx-head"><span>Riwayat</span>${txs.length > 5 ? '<button class="lnk" data-a="go" data-t="hist">Lihat semua</button>' : ''}</div>
       <ul class="tx">${txs.length ? txs.slice(0, 5).map(row).join('') : none('Belum ada transaksi. Isi saldo untuk memulai.')}</ul></div>`;
-  m.innerHTML = tab == 'hist' ? histHTML() : tab == 'prof' ? profHTML() : home;
+  m.innerHTML = tab == 'hist' ? histHTML() : tab == 'prof' ? profHTML() : tab == 'save' ? savHTML() : home;
 }
 
 // ---------- Logika ----------
@@ -438,13 +521,13 @@ async function run(b, fn) {
 }
 
 const acts = {
-  mode: b => { mode = b.dataset.v; render(); },
+  mode: b => { av = { n: $('#n')?.value ?? av.n, p: $('#p').value }; mode = b.dataset.v; render(); },
   go: b => { tab = b.dataset.t; render(); $('#main').scrollTop = 0; },
   flt: b => { flt = b.dataset.v; render(); },
   close,
-  logout,
+  eye: b => { const i = b.previousElementSibling, h = i.type == 'password'; i.type = h ? 'text' : 'password'; b.setAttribute('aria-pressed', h); b.setAttribute('aria-label', h ? 'Sembunyikan PIN' : 'Tampilkan PIN'); },
   amt: b => { $('#a').value = b.dataset.v; $$('[data-a=amt]').forEach(x => x.setAttribute('aria-pressed', x === b)); upd(); },
-  pick: b => { $('#t').value = b.dataset.v; },
+  pick: b => { $('#' + (b.dataset.to || 't')).value = b.dataset.v; },
   prov: b => { prov = b.dataset.v; $$('[data-a=prov]').forEach(x => x.setAttribute('aria-pressed', x === b)); $('#dl').textContent = PROV[prov].lbl; },
   copy: () => navigator.clipboard.writeText(me).then(() => say('Nomor HP disalin')).catch(() => say('Nomor kamu: ' + me)),
 
@@ -477,35 +560,136 @@ const acts = {
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotf">Transfer sekarang</button>`, 'bank');
     upd();
   },
-  save: () => {
-    const g = goalOf();
-    if (!user.goal) return acts.goal(); sheet('Tabung', `${fld('gn', 'Nama tujuan', 'maxlength="24" value="' + esc(g.name) + '"')}${fld('gt', 'Target (Rp)', 'type="number" inputmode="numeric" value="' + g.target + '"')}
-      ${amtF([10000, 25000, 50000, 100000])}${pinF('k', 'PIN (jika menabung)')}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosave">Simpan</button>`, 'piggy');
-  },
   bell: () => {
     const n = txs.filter(t => plus(t.type) && (!t.status || t.status == 'success')).slice(0, 6); LS.s('cazo_seen_' + me, Date.now());
     sheet('Notifikasi', `<ul class="tx">${n.length ? n.map(row).join('') : none('Belum ada uang masuk.')}</ul>`, 'bell0'); render();
   },
-  goal: () => {
-    const g = goalOf(), n = !user.goal;
-    sheet(n ? 'Buat tabungan' : 'Ubah tabungan', `${fld('gn', 'Nama tujuan', 'maxlength="24" placeholder="Contoh: Liburan Bali" value="' + esc(g.name) + '"')}${fld('gt', 'Target (Rp)', 'type="number" inputmode="numeric" placeholder="5000000" value="' + (g.target || '') + '"')}${n ? '' : '<p class="sum">Terkumpul <b>' + rp(user.saved) + '</b></p>'}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dogoal">Simpan</button>`, 'piggy');
+  chpin: () => sheet('Ganti PIN', `${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Simpan PIN baru</button>`),
+
+  // ----- Tabungan -----
+  gadd: () => {
+    if (gl().length >= MAX_GOALS) return say('Maksimal ' + MAX_GOALS + ' tabungan');
+    gid = null;
+    sheet('Tambah tabungan', `${fld('gn', 'Nama tujuan', 'maxlength="24" placeholder="Contoh: Liburan Bali"')}
+      <div class="opts">${['Liburan', 'Gadget', 'Dana darurat', 'Pendidikan'].map(v => `<button class="opt" data-a="pick" data-to="gn" data-v="${v}">${v}</button>`).join('')}</div>
+      ${fld('gt', 'Target (Rp)', 'type="number" inputmode="numeric" placeholder="5000000"')}
+      <div class="opts">${[1e6, 5e6, 10e6].map(v => `<button class="opt" data-a="pick" data-to="gt" data-v="${v}">${rp(v)}</button>`).join('')}</div>
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dogadd">Buat tabungan</button>`, 'piggy');
   },
-  dogoal: b => run(b, async () => {
+  gdetail: b => {
+    gid = b.dataset.id; const g = gobj(); if (!g) return;
+    const p = gp(g), sisa = Math.max(0, g.target - (g.saved || 0));
+    sheet(esc(g.name), `<div class="hero-ic">${sv('piggy')}</div><div class="big">${rp(g.saved)}</div>
+      <div class="bar" role="progressbar" aria-label="Progres ${esc(g.name)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}"><i style="width:${p}%"></i></div>
+      <p class="hint">${p >= 100 ? 'Target tercapai!' : 'Sisa ' + rp(sisa) + ' lagi · ' + p + '%'} dari ${rp(g.target)}</p>
+      <div class="bgrid"><button class="btn btn-gold" data-a="gdep">Nabung</button><button class="btn btn-line" data-a="gwd"${g.saved ? '' : ' disabled'}>Tarik</button><button class="btn btn-line" data-a="gedit">Ubah</button><button class="btn btn-line red" data-a="gdel">Hapus</button></div>`);
+  },
+  gedit: () => {
+    const g = gobj(); if (!g) return;
+    sheet('Ubah tabungan', `${fld('gn', 'Nama tujuan', 'maxlength="24" value="' + esc(g.name) + '"')}${fld('gt', 'Target (Rp)', 'type="number" inputmode="numeric" value="' + g.target + '"')}
+      <p class="sum">Terkumpul <b>${rp(g.saved)}</b></p>
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dogedit">Simpan perubahan</button>`, 'piggy');
+  },
+  gdep: () => {
+    const g = gobj(); if (!g) return;
+    sheet('Nabung: ' + esc(g.name), `<p class="hint">Saldo Cazo: <b>${rp(user.balance)}</b></p>${amtF([10000, 25000, 50000, 100000])}${pinF()}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dogdep">Nabung sekarang</button>`, 'piggy');
+  },
+  gwd: () => {
+    const g = gobj(); if (!g || !g.saved) return;
+    sheet('Tarik: ' + esc(g.name), `<p class="hint">Dana tabungan: <b>${rp(g.saved)}</b>. Penarikan masuk ke saldo Cazo.</p>${amtF([10000, 50000, 100000].filter(v => v < g.saved).concat(g.saved))}${pinF()}
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dogwd">Tarik ke saldo</button>`, 'piggy');
+  },
+  gdel: () => {
+    const g = gobj(); if (!g) return; const s = g.saved || 0;
+    sheet('Hapus tabungan?', `<p class="ab" style="text-align:center">Tabungan <b>${esc(g.name)}</b> akan dihapus.${s ? ' Dana <b>' + rp(s) + '</b> dikembalikan ke saldo Cazo.' : ''}</p>${s ? pinF() : ''}
+      <p class="msg" role="status"></p><button class="btn btn-bad" data-a="dogdel">Ya, hapus</button><button class="btn btn-line" data-a="close">Batal</button>`, 'piggy');
+  },
+  dogadd: b => run(b, async () => {
     const name = $('#gn').value.trim(), target = Math.floor(+$('#gt').value) || 0;
     if (!name) throw 'Isi nama tujuan';
     if (target < 10000) throw 'Target minimal Rp 10.000';
-    await update(ref(db, 'users/' + me), { goal: { name, target } });
-    return 'Tabungan disimpan';
+    if (dupName(name)) throw 'Nama tabungan sudah dipakai';
+    if (gl().length >= MAX_GOALS) throw 'Maksimal ' + MAX_GOALS + ' tabungan';
+    await set(push(ref(db, 'users/' + me + '/goals')), { name, target, saved: 0, createdAt: serverTimestamp() });
+    return 'Tabungan "' + name + '" dibuat';
   }),
-  chpin: () => sheet('Ganti PIN', `${pinF('o', 'PIN lama')}${pinF('n', 'PIN baru (6 angka)')}
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dopin">Simpan PIN baru</button>`),
+  dogedit: b => run(b, async () => {
+    const name = $('#gn').value.trim(), target = Math.floor(+$('#gt').value) || 0;
+    if (!gobj()) throw 'Tabungan tidak ditemukan';
+    if (!name) throw 'Isi nama tujuan';
+    if (target < 10000) throw 'Target minimal Rp 10.000';
+    if (dupName(name)) throw 'Nama tabungan sudah dipakai';
+    await update(ref(db, 'users/' + me + '/goals/' + gid), { name, target });
+    return 'Tabungan diperbarui';
+  }),
+  dogdep: b => run(b, async () => {
+    const g = gobj(), a = Math.floor(+$('#a').value) || 0;
+    if (!g) throw 'Tabungan tidak ditemukan';
+    if (a < 1000) throw 'Minimal menabung Rp 1.000';
+    await pinOk($('#k').value);
+    const r = await runTransaction(ref(db, 'users/' + me), u => {
+      if (!u) return u;
+      const x = u.goals && u.goals[gid];
+      if (!x || (u.balance || 0) < a) return;
+      u.balance -= a; x.saved = (x.saved || 0) + a; return u;
+    });
+    if (!r.committed) throw 'Saldo tidak cukup';
+    await log(me, { type: 'save', amount: a, peer: g.name });
+    return rp(a) + ' masuk ke tabungan ' + g.name;
+  }),
+  dogwd: b => run(b, async () => {
+    const g = gobj(), a = Math.floor(+$('#a').value) || 0;
+    if (!g) throw 'Tabungan tidak ditemukan';
+    if (a < 1) throw 'Isi nominal penarikan';
+    await pinOk($('#k').value);
+    const r = await runTransaction(ref(db, 'users/' + me), u => {
+      if (!u) return u;
+      const x = u.goals && u.goals[gid];
+      if (!x || (x.saved || 0) < a) return;
+      x.saved -= a; u.balance = (u.balance || 0) + a; return u;
+    });
+    if (!r.committed) throw 'Dana tabungan tidak cukup';
+    await log(me, { type: 'wd', amount: a, peer: g.name });
+    return rp(a) + ' kembali ke saldo Cazo';
+  }),
+  dogdel: b => run(b, async () => {
+    const g = gobj(); let back = 0;
+    if (!g) throw 'Tabungan tidak ditemukan';
+    if (g.saved) await pinOk($('#k').value);
+    const r = await runTransaction(ref(db, 'users/' + me), u => {
+      if (!u) return u;
+      const x = u.goals && u.goals[gid];
+      if (!x) return;
+      back = x.saved || 0; u.balance = (u.balance || 0) + back; delete u.goals[gid]; return u;
+    });
+    if (!r.committed) throw 'Gagal menghapus. Coba lagi';
+    if (back) await log(me, { type: 'wd', amount: back, peer: g.name, note: 'Tabungan dihapus' });
+    return 'Tabungan dihapus' + (back ? ', ' + rp(back) + ' kembali ke saldo' : '');
+  }),
+
+  // ----- Profil -----
+  about: () => sheet('Tentang Cazo Wallet', `<div class="hero-ic">${sv('coin')}</div>
+    <p class="ab">Cazo Wallet adalah dompet digital berbasis web untuk menyimpan saldo, mengirim uang, transfer ke e-wallet dan bank, serta menabung untuk tujuan tertentu, semuanya dalam satu aplikasi.</p>
+    <div class="fld"><b>Yang bisa kamu lakukan</b></div>
+    <ul class="fl">
+      <li><b>Isi saldo</b> lewat QRIS admin. Saldo masuk setelah admin memverifikasi pembayaranmu.</li>
+      <li><b>Kirim uang</b> ke sesama pengguna Cazo memakai nomor HP. Gratis dan langsung masuk.</li>
+      <li><b>Transfer</b> ke DANA, GoPay, ShopeePay, dan SeaBank. Diproses admin dengan biaya admin sesuai nominal.</li>
+      <li><b>Tabungan</b>: buat beberapa tujuan, atur target, lalu nabung atau tarik kapan saja.</li>
+    </ul>
+    <dl class="dl"><div><dt>Cara masuk</dt><dd>Nomor HP + PIN 6 angka</dd></div><div><dt>Biaya transfer</dt><dd>Mulai Rp 500</dd></div><div><dt>Versi</dt><dd>2.0</dd></div></dl>
+    <p class="hint" style="margin-top:14px">PIN disimpan sebagai kode hash, bukan teks asli. Jangan bagikan PIN ke siapa pun, termasuk admin dan customer service.</p>
+    <a class="btn btn-gold" style="margin-top:14px" href="${CS_URL}">Butuh bantuan? Hubungi kami</a>`),
+  logout: () => sheet('Keluar dari akun?', `<p class="ab" style="text-align:center">Kamu perlu masuk lagi dengan nomor HP dan PIN. Saldo dan tabunganmu tetap aman di akun ini.</p>
+    <button class="btn btn-gold" style="margin-top:18px" data-a="close">Tetap di sini</button><button class="btn btn-bad" data-a="dologout">Ya, keluar</button>`, 'exit'),
+  dologout: () => logout(),
 
   tx: b => {
     const t = txs.find(x => x.id == b.dataset.id); if (!t) return;
     const P = PROV[t.provider], p = plus(t.type), w = t.status == 'pending', x = t.status == 'rejected';
-    const D = ({ topup: [['Saldo masuk', rp(t.amount)], ['Kode unik', rp(t.code)], ['Total transfer', rp(t.total)]], tf: [['Tujuan', P?.n], ['Nomor tujuan', t.dest], ['Nama penerima', t.name], ['Nominal', rp(t.amount)], ['Biaya admin', rp(t.fee)], ['Total dipotong', rp(t.total)]], out: [['Penerima', t.peer], ['Nomor HP', t.phone]], in: [['Pengirim', t.peer], ['Nomor HP', t.phone]], save: [['Tujuan tabungan', t.peer]], pay: [['Toko', t.peer]] }[t.type] || []);
+    const D = ({ topup: [['Saldo masuk', rp(t.amount)], ['Kode unik', rp(t.code)], ['Total transfer', rp(t.total)]], tf: [['Tujuan', P?.n], ['Nomor tujuan', t.dest], ['Nama penerima', t.name], ['Nominal', rp(t.amount)], ['Biaya admin', rp(t.fee)], ['Total dipotong', rp(t.total)]], out: [['Penerima', t.peer], ['Nomor HP', t.phone]], in: [['Pengirim', t.peer], ['Nomor HP', t.phone]], save: [['Tujuan tabungan', t.peer]], wd: [['Dari tabungan', t.peer]], pay: [['Toko', t.peer]] }[t.type] || []);
     if (t.note) D.push(['Catatan', t.note]);
     const rs = [['Status', ST(t)], ['Waktu', new Date(t.ts).toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' })], ...D, ['ID transaksi', 'CZ-' + t.id.slice(-8).toUpperCase()]];
     sheet('Detail transaksi', `<div class="hero-ic">${ico(t)}</div><div class="big" style="color:${p && !w && !x ? 'var(--pos)' : 'inherit'}">${p ? '+' : '−'}${rp(amtOf(t))}</div>
@@ -539,20 +723,24 @@ const acts = {
     } catch { say('Gagal mengunggah gambar'); }
   },
   async auth(b) {
-    const phone = norm($('#p').value), pin = $('#k').value;
+    const phone = norm($('#p').value), pin = $('#k').value, reg = mode == 'reg';
+    if (reg && !$('#n').value.trim()) return msg('Nama wajib diisi');
     if (phone.length < 9) return msg('Nomor HP tidak valid');
     if (!/^\d{6}$/.test(pin)) return msg('PIN harus 6 angka');
-    b.disabled = true;
+    if (reg) {
+      if (/^(\d)\1{5}$/.test(pin) || '0123456789'.includes(pin) || '9876543210'.includes(pin)) return msg('PIN terlalu mudah ditebak. Pakai angka lain');
+      if (pin !== $('#k2').value) return msg('Ulangi PIN tidak sama');
+    }
+    const label = b.textContent; b.disabled = true; b.textContent = 'Memproses…'; msg('');
     try {
       const snap = await get(ref(db, 'users/' + phone)), h = await hash(pin);
-      if (mode == 'reg') {
-        const name = $('#n').value.trim();
-        if (!name) throw 'Nama wajib diisi';
+      if (reg) {
         if (snap.exists()) throw 'Nomor sudah terdaftar. Silakan masuk';
-        await set(ref(db, 'users/' + phone), { name, pin: h, balance: 0, saved: 0, createdAt: serverTimestamp() });
+        await set(ref(db, 'users/' + phone), { name: $('#n').value.trim(), pin: h, balance: 0, createdAt: serverTimestamp() });
       } else if (!snap.exists() || snap.val().pin !== h) throw 'Nomor HP atau PIN salah';
       me = phone; LS.s('cazo_me', me); start();
-    } catch (e) { msg(typeof e == 'string' ? e : 'Gagal terhubung. Coba lagi.'); b.disabled = false; }
+      if (reg) say('Akun dibuat. Selamat datang di Cazo!');
+    } catch (e) { msg(typeof e == 'string' ? e : 'Gagal terhubung. Coba lagi.'); b.disabled = false; b.textContent = label; }
   },
   dotopup: b => run(b, async () => {
     await request({ type: 'topup', amount: tp.amt, code: tp.code, total: tp.amt + tp.code });
@@ -581,19 +769,6 @@ const acts = {
     catch (e) { await runTransaction(ref(db, 'users/' + me + '/balance'), v => (v || 0) + amt + f); throw e; }
     return 'Transfer ke ' + P.n + ' diproses: ' + rp(amt);
   }),
-  dosave: b => run(b, async () => {
-    const g = goalOf(), a = Math.floor(+$('#a').value) || 0, name = $('#gn').value.trim() || g.name, target = Math.floor(+$('#gt').value) || g.target;
-    if (a && a < 1000) throw 'Minimal menabung Rp 1.000';
-    if (a) await pinOk($('#k').value);
-    const r = await runTransaction(ref(db, 'users/' + me), u => {
-      if (!u) return u;
-      if (a) { if ((u.balance || 0) < a) return; u.balance -= a; u.saved = (u.saved || 0) + a; }
-      u.goal = { name, target }; return u;
-    });
-    if (!r.committed) throw 'Saldo tidak cukup';
-    if (a) await log(me, { type: 'save', amount: a, peer: name });
-    return a ? rp(a) + ' masuk ke tabungan ' + name : 'Tujuan tabungan diperbarui';
-  }),
   dopin: b => run(b, async () => {
     const nw = $('#n').value;
     if (!/^\d{6}$/.test(nw)) throw 'PIN baru harus 6 angka';
@@ -607,7 +782,10 @@ document.addEventListener('click', e => {
   if (b) acts[b.dataset.a]?.(b);
   else if (e.target.id == 'sheet') close();
 });
-document.addEventListener('keydown', e => { if (e.key == 'Escape') close(); });
+document.addEventListener('keydown', e => {
+  if (e.key == 'Escape') close();
+  else if (e.key == 'Enter' && e.target.tagName == 'INPUT' && e.target.closest('.auth')) $('[data-a=auth]').click();
+});
 document.addEventListener('input', e => { if (e.target.id == 'a') upd(); });
 document.addEventListener('change', e => { if (e.target.id == 'qf') acts.qrisup(e.target); });
 start();
