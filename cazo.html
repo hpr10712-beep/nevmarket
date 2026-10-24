@@ -59,9 +59,8 @@ button,input{font:inherit;color:inherit}
 .stage{position:relative;display:grid;place-items:center;width:164px;height:164px}
 .stage::before{content:"";position:absolute;inset:0;border-radius:50%;border:4px solid var(--surface-2);border-top-color:var(--gold);animation:spin 1.2s linear infinite}
 .disc{display:grid;place-items:center;width:136px;height:136px;border-radius:50%;background:radial-gradient(circle at 50% 30%,#14695A,var(--balance-bg) 75%)}
-.disc .ic{--s:108px;animation:bob 1.8s ease-in-out infinite}
+.disc .ic{--s:108px}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
 /* masuk / daftar */
 .auth{display:flex;flex-direction:column;gap:14px;padding-top:6px}
 .brandrow{display:flex;align-items:center;gap:10px;font:700 1.3rem/1 var(--fd);letter-spacing:-.03em}.brandrow .ic{--s:42px}.brandrow i{font-style:normal;font-weight:400;color:var(--muted)}
@@ -69,7 +68,7 @@ button,input{font:inherit;color:inherit}
 .hero .brandrow{position:relative;font-size:1.05rem}.hero .brandrow .ic{--s:34px}.hero .brandrow i{color:#BFE3DB}
 .hero h1{position:relative;font:650 1.2rem/1.25 var(--fd);letter-spacing:-.03em;margin-top:22px;max-width:64%}
 .hero p{position:relative;color:#BFE3DB;font-size:.8rem;margin-top:8px;max-width:62%}
-.hero .pig{--s:124px;position:absolute;right:2px;bottom:0;animation:bob 3.2s ease-in-out infinite}
+.hero .pig{--s:124px;position:absolute;right:2px;bottom:0}
 .seg{display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:var(--surface-2)}
 .seg button{min-height:44px;border:0;border-radius:999px;background:none;font-weight:700;cursor:pointer;color:var(--muted);transition:background .2s}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 2px 8px -2px rgba(12,42,46,.25)}
@@ -377,7 +376,7 @@ a.mi{color:var(--fg)}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, set, push, update, onValue, get, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getDatabase, ref, set, push, update, onValue, get, runTransaction, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 // 1. Inisialisasi Firebase
 const firebaseConfig = {
@@ -393,6 +392,9 @@ const QRIS_URL = 'https://i.ibb.co.com/9k3THjq7/IMG-20261012-160202.jpg';
 const ADMINS = ['081234567890'];
 const CS_URL = 'cs.html';
 const MAX_GOALS = 10;
+// URL Web app Google Apps Script (file pembayaran-otomatis.gs, Deploy > Web app). Wajib diisi agar isi saldo otomatis jalan.
+const PAY_API = '';
+const PAY_GRACE = 10 * 60000; // samakan dengan GRACE_MIN di skrip
 
 // ---------- Helper ----------
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -423,13 +425,14 @@ const pwF = (id, l) => `<div class="fld"><label for="${id}">${l}</label><div cla
 const amtF = arr => fld('a', 'Nominal', 'type="number" inputmode="numeric" placeholder="0"') + `<div class="opts">${arr.map(v => `<button class="opt" data-a="amt" data-v="${v}" aria-pressed="false">${rp(v)}</button>`).join('')}</div>`;
 const sheet = (t, h, hero) => { $('#panel').innerHTML = `<button class="x" data-a="close" aria-label="Tutup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button><h3>${t}</h3>${hero ? `<div class="hero-ic">${sv(hero)}</div>` : ''}${h}`; $('#sheet').hidden = false; lock(true); $('.x').focus(); };
 const lock = v => { $('#main').inert = v; $('#nav').inert = v; };
-const close = () => { $('#sheet').hidden = true; adminOpen = false; lock(false); };
+const close = () => { $('#sheet').hidden = true; adminOpen = false; payOrder = null; lock(false); };
 const msg = t => { const m = $('.msg'); if (m) m.textContent = t || ''; };
 const loader = t => `<div class="load" role="status"><div class="stage"><span class="disc">${sv('mascot')}</span></div><div class="brandrow">${sv('coin')}<span>Cazo <i>Wallet</i></span></div><p class="hint">${t}</p></div>`;
 const RG = '<svg class="rg" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="18"/></svg>';
 
 // ---------- State ----------
 let me = LS.g('cazo_me'), user = null, txs = [], tab = 'home', flt = 'all', mode = 'login', unsub = [], reqs = [], qris = QRIS_URL, adminOpen = false, tp = null, prov = null, gid = null, av = { n: '', p: '' };
+let payOrder = null, polling = false;
 const IC = { topup: 'plus', in: 'coin', out: 'plane', tf: 'bank', pay: 'qr', save: 'piggy', wd: 'piggy' };
 const plus = t => t == 'topup' || t == 'in' || t == 'wd';
 const LG = (c, x) => `<svg class="ic" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" fill="${c}"/>${x}</svg>`;
@@ -444,7 +447,7 @@ const PROV = {
 const IMG = { dana: '', gopay: '', shopeepay: '', seabank: '' }; // isi URL logo resmi
 const lg = k => IMG[k] ? `<img class="ic" src="${IMG[k]}" alt="" style="border-radius:12px;object-fit:contain">` : PROV[k].logo;
 const fee = n => n <= 100000 ? 500 : n <= 500000 ? 2000 : n <= 1000000 ? 5000 : 10000;
-const ST = t => !t.status || t.status == 'success' ? 'Berhasil' : t.status == 'rejected' ? 'Ditolak' : t.type == 'tf' ? 'Diproses' : 'Menunggu verifikasi';
+const ST = t => !t.status || t.status == 'success' ? 'Berhasil' : t.status == 'rejected' ? 'Ditolak' : t.type == 'tf' ? 'Diproses' : t.type == 'topup' && t.order ? 'Menunggu pembayaran' : 'Menunggu verifikasi';
 const amtOf = t => t.type == 'tf' ? t.total : t.amount;
 const ico = t => t.type == 'tf' && PROV[t.provider] ? lg(t.provider) : sv(IC[t.type] || 'coin');
 const title = t => t.type == 'topup' ? 'Isi saldo' : t.type == 'tf' ? 'Transfer ke ' + (PROV[t.provider]?.n || '') : t.type == 'in' ? 'Dari ' + t.peer : t.type == 'out' ? 'Kirim ke ' + t.peer : t.type == 'save' ? 'Tabungan ' + t.peer : t.type == 'wd' ? 'Tarik dari ' + t.peer : t.peer;
@@ -505,7 +508,7 @@ function start() {
       }
       render();
     }),
-    onValue(ref(db, 'transactions/' + me), s => { txs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); })
+    onValue(ref(db, 'transactions/' + me), s => { txs = Object.entries(s.val() || {}).map(([id, v]) => ({ id, ...v })).sort((a, b) => b.ts - a.ts).slice(0, 60); render(); pollTopups(); })
   ];
   render();
 }
@@ -562,6 +565,30 @@ async function run(b, fn) {
   catch (e) { msg(typeof e == 'string' ? e : 'Gagal. Periksa koneksi lalu coba lagi.'); b.disabled = false; }
 }
 
+// ----- Isi saldo otomatis (Google Apps Script) -----
+const pay = async q => (await fetch(PAY_API + '?' + new URLSearchParams(q), { cache: 'no-store' })).json();
+async function creditTopup(t, o) {
+  const sref = ref(db, 'transactions/' + me + '/' + t.id + '/status');
+  const c = await runTransaction(sref, v => v == 'pending' ? 'crediting' : undefined);
+  if (!c.committed) return;
+  try {
+    await update(ref(db), { ['users/' + me + '/balance']: increment(o.base), ['transactions/' + me + '/' + t.id + '/status']: 'success', ['transactions/' + me + '/' + t.id + '/amount']: o.base });
+  } catch { await set(sref, 'pending'); return; }
+  if (payOrder == t.order) close();
+  say('Saldo masuk ' + rp(o.base));
+}
+async function pollTopups() {
+  if (polling || !me || !user || !PAY_API) return;
+  polling = true;
+  try {
+    for (const t of txs.filter(x => x.type == 'topup' && x.status == 'pending' && x.order)) {
+      let o; try { o = await pay({ id: t.order }); } catch { continue; }
+      if (o.status == 'paid' && o.base && o.contact == 'cz_' + me) await creditTopup(t, o);
+      else if (o.error == 'Order tidak ditemukan' || (o.status == 'expired' && Date.now() > Date.parse(o.expires_at) + PAY_GRACE)) await update(ref(db, 'transactions/' + me + '/' + t.id), { status: 'rejected', note: 'Kedaluwarsa' });
+    }
+  } catch {} finally { polling = false; }
+}
+
 const acts = {
   mode: b => { av = { n: $('#n')?.value ?? av.n, p: $('#p').value }; mode = b.dataset.v; render(); },
   go: b => { tab = b.dataset.t; render(); $('#main').scrollTop = 0; },
@@ -580,18 +607,28 @@ const acts = {
       ${amtF([25000, 50000, 100000, 250000])}${fld('c', 'Catatan (opsional)', 'maxlength="40"')}${pinF()}
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dosend">Kirim sekarang</button>`, 'plane');
   },
-  topup: () => sheet('Isi saldo', `<p class="hint">Bayar lewat QRIS admin sesuai nominal. Minimal Rp 5.000.</p>${amtF([10000, 50000, 100000, 250000])}
+  topup: () => sheet('Isi saldo', `<p class="hint">Bayar lewat QRIS admin sesuai nominal. Minimal Rp 5.000, maksimal Rp 5.000.000. Saldo masuk otomatis.</p>${amtF([10000, 50000, 100000, 250000])}
       <p class="msg" role="status"></p><button class="btn btn-gold" data-a="tonext">Lanjut</button>`, 'plus'),
-  tonext: () => {
+  tonext: async b => {
     const a = Math.floor(+$('#a').value);
     if (!(a >= 5000)) return msg('Minimal isi saldo Rp 5.000');
-    tp = { amt: a, code: Math.floor(Math.random() * 100) + 1 };
-    sheet('Bayar lewat QRIS', `<p class="hint">Transfer <b>tepat</b> sesuai total ini, termasuk kode unik ${tp.code}, supaya mudah diverifikasi.</p>
-      <div class="big">${rp(tp.amt + tp.code)}</div>
-      ${qris ? `<img class="qris" src="${qris}" alt="QRIS admin">` : `<div class="hero-ic">${sv('qr')}</div><p class="hint">QRIS admin belum diunggah.</p>`}
-      <dl class="dl"><div><dt>Saldo masuk</dt><dd>${rp(tp.amt)}</dd></div><div><dt>Kode unik</dt><dd>${rp(tp.code)}</dd></div></dl>
-      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="dotopup">Saya sudah transfer</button>`);
+    if (a > 5000000) return msg('Maksimal isi saldo Rp 5.000.000');
+    if (!PAY_API) return msg('Pembayaran otomatis belum diatur');
+    const label = b.textContent; b.disabled = true; b.textContent = 'Membuat tagihan…'; msg('');
+    try {
+      const o = await pay({ action: 'create', product: 'topup', amount: a, contact: 'cz_' + me });
+      if (o.error) throw o.error;
+      const code = o.amount - a, exp = Date.parse(o.expires_at);
+      await log(me, { type: 'topup', amount: a, code, total: o.amount, order: o.id, exp, status: 'pending' });
+      payOrder = o.id;
+      sheet('Bayar lewat QRIS', `<p class="hint">Transfer <b>tepat</b> sesuai total ini, termasuk kode unik ${code}. Saldo masuk otomatis setelah pembayaran terdeteksi.</p>
+      <div class="big">${rp(o.amount)}</div>
+      ${qris ? `<img class="qris" src="${qris}" alt="QRIS admin"><a class="btn btn-line" href="${qris}" download="qris-cazo.jpg">Simpan gambar QRIS</a>` : `<div class="hero-ic">${sv('qr')}</div><p class="hint">QRIS admin belum diunggah.</p>`}
+      <dl class="dl"><div><dt>Saldo masuk</dt><dd>${rp(a)}</dd></div><div><dt>Kode unik</dt><dd>${rp(code)}</dd></div><div><dt>Bayar sebelum</dt><dd>${new Date(exp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace(':', '.')}</dd></div></dl>
+      <p class="msg" role="status"></p><button class="btn btn-gold" data-a="chk">Cek pembayaran</button>`);
+    } catch (e) { msg(typeof e == 'string' ? e : 'Gagal membuat tagihan. Periksa koneksi lalu coba lagi.'); b.disabled = false; b.textContent = label; }
   },
+  chk: async b => { b.disabled = true; await pollTopups(); b.disabled = false; if (payOrder) msg('Belum terdeteksi. Pastikan nominal tepat, tunggu sebentar lalu cek lagi.'); },
   tf: () => {
     prov = null;
     const pc = ([k, v]) => `<button class="opt" data-a="prov" data-v="${k}" aria-pressed="false">${lg(k)}${v.n}</button>`, grp = k => Object.entries(PROV).filter(([, v]) => v.k == k).map(pc).join('');
@@ -735,7 +772,7 @@ const acts = {
     if (t.note) D.push(['Catatan', t.note]);
     const rs = [['Status', ST(t)], ['Waktu', new Date(t.ts).toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' })], ...D, ['ID transaksi', 'CZ-' + t.id.slice(-8).toUpperCase()]];
     sheet('Detail transaksi', `<div class="hero-ic">${ico(t)}</div><div class="big" style="color:${p && !w && !x ? 'var(--pos)' : 'inherit'}">${p ? '+' : '−'}${rp(amtOf(t))}</div>
-      <p class="hint"><span class="chip">${ST(t)}</span></p>${w && t.type == 'topup' ? `<p class="hint">Transfer tepat ${rp(t.total)} ke QRIS admin. Saldo masuk setelah diverifikasi.</p>` : ''}
+      <p class="hint"><span class="chip">${ST(t)}</span></p>${w && t.type == 'topup' ? `<p class="hint">Transfer tepat ${rp(t.total)} ke QRIS admin. Saldo masuk ${t.order ? 'otomatis setelah pembayaran terdeteksi' : 'setelah diverifikasi admin'}.</p>${t.order && qris ? `<img class="qris" src="${qris}" alt="QRIS admin">` : ''}` : ''}
       <dl class="dl">${rs.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`);
   },
   admin: () => {
@@ -784,10 +821,6 @@ const acts = {
       if (reg) say('Akun dibuat. Selamat datang di Cazo!');
     } catch (e) { msg(typeof e == 'string' ? e : 'Gagal terhubung. Coba lagi.'); b.disabled = false; b.textContent = label; }
   },
-  dotopup: b => run(b, async () => {
-    await request({ type: 'topup', amount: tp.amt, code: tp.code, total: tp.amt + tp.code });
-    return 'Permintaan isi saldo terkirim. Menunggu verifikasi admin';
-  }),
   dosend: b => run(b, async () => {
     const to = norm($('#t').value), amt = Math.floor(+$('#a').value), note = $('#c').value.trim();
     if (!to || to == me) throw 'Nomor tujuan tidak valid';
@@ -830,6 +863,7 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('input', e => { if (e.target.id == 'a') upd(); });
 document.addEventListener('change', e => { if (e.target.id == 'qf') acts.qrisup(e.target); });
+setInterval(pollTopups, 5000);
 start();
 </script>
 </body>
