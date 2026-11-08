@@ -15,7 +15,7 @@ body{font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;backgrou
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;transition:transform .18s var(--ease),opacity .25s,filter .2s}
 button:active{transform:scale(.94)}
-.i{width:26px;height:26px;flex:none;filter:drop-shadow(0 2px 2px rgba(20,40,90,.28))}
+.i{width:26px;height:26px;flex:none;filter:drop-shadow(0 2px 2px rgba(20,40,90,.28));transition:transform .3s var(--ease)}
 .i.big{width:110px;height:110px;filter:drop-shadow(0 8px 8px rgba(20,40,90,.3))}
 #auth{height:100%;display:grid;place-items:center;padding:20px;overflow:auto;background:radial-gradient(circle at 15% 12%,#6cc3ff 0,transparent 45%),radial-gradient(circle at 88% 92%,#a07bff 0,transparent 50%),linear-gradient(160deg,#2f7ff0,#3f4fd8)}
 .card{width:100%;max-width:350px;background:var(--card);color:var(--tx);border-radius:28px;padding:26px 22px 18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 24px 60px rgba(10,20,80,.35);animation:rise .7s var(--ease) both}
@@ -108,6 +108,49 @@ small{color:var(--sub);font-size:13px}
 .sw.on::after{transform:translateX(20px)}
 #toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:rgba(20,30,45,.92);color:#fff;padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .3s,transform .4s var(--ease);z-index:9;max-width:80%;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+#splash{position:fixed;inset:0;z-index:20;display:grid;place-content:center;justify-items:center;gap:14px;color:#fff;background:radial-gradient(circle at 15% 12%,#6cc3ff 0,transparent 45%),radial-gradient(circle at 88% 92%,#a07bff 0,transparent 50%),linear-gradient(160deg,#2f7ff0,#3f4fd8);transition:opacity .6s var(--ease),transform .6s var(--ease),visibility 0s .6s}
+#splash.off{opacity:0;visibility:hidden;transform:scale(1.06);pointer-events:none}
+#splash b{font-size:26px;letter-spacing:-.3px}
+.ldr{position:relative;width:150px;height:150px;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin 1s linear infinite}
+.ldr .i{width:92px;height:92px;filter:drop-shadow(0 10px 10px rgba(10,20,80,.4));animation:bob 2.4s ease-in-out infinite}
+.dts circle{transform-box:fill-box;transform-origin:center;animation:dot 1.2s ease-in-out infinite}
+.dts circle:nth-child(2){animation-delay:.15s}
+.dts circle:nth-child(3){animation-delay:.3s}
+.dots{display:flex;gap:7px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#fff;animation:pulse 1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s}
+.dots i:nth-child(3){animation-delay:.3s}
+.ld{pointer-events:none;position:relative}
+.ld>*{opacity:0}
+.ld::after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;border:3px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.gbtn.ld::after{border-color:rgba(47,127,240,.25);border-top-color:var(--pr)}
+.btn.ld{color:transparent}
+.sk{display:flex;gap:12px;padding:10px 14px;align-items:center}
+.sk div{flex:1;display:grid;gap:8px}
+.sk u{display:block;height:12px;border-radius:6px;width:70%}
+.sk u+u{width:45%}
+.sk .av,.sk u,.sb{background:linear-gradient(90deg,var(--bg2) 25%,rgba(127,145,170,.25) 50%,var(--bg2) 75%) 0 0/200% 100%;animation:shim 1.3s linear infinite;box-shadow:none}
+.sb{height:38px;width:55%;border-radius:18px}
+.sb.l{align-self:flex-start}
+.sb.r{align-self:flex-end;width:45%}
+.sb.s{width:30%}
+.card>*{animation:slide .6s var(--ease) both}
+.card>:nth-child(n+2){animation-delay:.12s}
+.card>:nth-child(n+5){animation-delay:.22s}
+.card>:nth-child(n+7){animation-delay:.32s}
+#cav .av,#pv .av{animation:pop .5s var(--ease)}
+.tabs .on .i{animation:tap .6s var(--ease)}
+.tabs button:active .i{transform:scale(.85)}
+#sd.fly .i{animation:fly .5s var(--ease)}
+@media(hover:hover){.ic:hover .i{transform:translateY(-2px) rotate(-6deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shim{to{background-position:-200% 0}}
+@keyframes slide{from{opacity:0;transform:translateX(-16px)}}
+@keyframes dot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-3px)}}
+@keyframes pulse{0%,80%,100%{opacity:.35;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
+@keyframes tap{0%{transform:scale(.75)}45%{transform:translateY(-7px) scale(1.28) rotate(-6deg)}100%{transform:translateY(-2px) scale(1.15)}}
+@keyframes fly{40%{transform:translate(10px,-10px) rotate(-14deg) scale(1.15)}60%{opacity:0}61%{transform:translate(-10px,10px)}100%{transform:none}}
 @keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}}
@@ -132,7 +175,8 @@ small{color:var(--sub);font-size:13px}
 <g id="pu"><circle cx="24" cy="14" r="9"/><path d="M6 43a18 14 0 0 1 36 0z"/></g>
 <circle id="pc" cx="24" cy="23" r="19"/>
 </defs>
-<symbol id="i-chat" viewBox="0 0 48 48"><use href="#pb" y="4" fill="#1b46a8"/><use href="#pb" fill="url(#gB)"/><path d="M8 10a7 7 0 0 1 7-7h18a7 7 0 0 1 7 7v5H8z" fill="url(#gH)" opacity=".7"/><g fill="#fff"><circle cx="17" cy="17" r="2.6"/><circle cx="24" cy="17" r="2.6"/><circle cx="31" cy="17" r="2.6"/></g></symbol>
+<symbol id="i-cb" viewBox="0 0 48 48"><g transform="translate(15 9) scale(.74)"><use href="#pb" y="4" fill="#3b1d93"/><use href="#pb" fill="url(#gP)"/><path d="M8 10a7 7 0 0 1 7-7h18a7 7 0 0 1 7 7v3c-9 5-23 5-32 0z" fill="url(#gH)" opacity=".6"/></g><g transform="translate(-3 -1) scale(.92)"><use href="#pb" y="4" fill="#1b46a8"/><use href="#pb" fill="url(#gB)"/><use href="#pb" fill="none" stroke="#cdeaff" stroke-opacity=".55" stroke-width="1.2"/><path d="M8 10a7 7 0 0 1 7-7h18a7 7 0 0 1 7 7v3c-9 5-23 5-32 0z" fill="url(#gH)" opacity=".85"/></g></symbol>
+<symbol id="i-chat" viewBox="0 0 48 48"><use href="#i-cb" width="48" height="48"/><g fill="#fff"><circle cx="12.6" cy="14.6" r="2.4"/><circle cx="19.1" cy="14.6" r="2.4"/><circle cx="25.6" cy="14.6" r="2.4"/></g></symbol>
 <symbol id="i-send" viewBox="0 0 48 48"><use href="#ps" y="3" fill="#1b46a8"/><use href="#ps" fill="url(#gB)"/><path d="M43 6L22 29L25 38Z" fill="#000" opacity=".18"/><path d="M5 22L43 6L24 20Z" fill="#fff" opacity=".4"/></symbol>
 <symbol id="i-back" viewBox="0 0 48 48"><use href="#pa" y="3" stroke="#1b46a8"/><use href="#pa" stroke="url(#gB)"/></symbol>
 <symbol id="i-search" viewBox="0 0 48 48"><use href="#pm" y="3" stroke="#b8480f"/><use href="#pm" stroke="url(#gO)"/></symbol>
@@ -159,6 +203,8 @@ small{color:var(--sub);font-size:13px}
 <symbol id="i-x" viewBox="0 0 48 48"><use href="#pX" y="3" stroke="#a21f2f"/><use href="#pX" stroke="url(#gR)"/></symbol>
 <symbol id="i-info" viewBox="0 0 48 48"><use href="#pc" y="4" fill="#1b46a8"/><use href="#pc" fill="url(#gB)"/><text x="24" y="32" text-anchor="middle" font-size="24" font-weight="800" fill="#fff" font-family="Georgia,serif">i</text></symbol>
 </svg>
+
+<div id="splash"><div class="ldr"><i class="ring"></i><svg viewBox="0 0 48 48" class="i"><use href="#i-cb" width="48" height="48"/><g class="dts" fill="#fff"><circle cx="12.6" cy="14.6" r="2.4"/><circle cx="19.1" cy="14.6" r="2.4"/><circle cx="25.6" cy="14.6" r="2.4"/></g></svg></div><b>HaloKita</b><div class="dots"><i></i><i></i><i></i></div></div>
 
 <div id="auth"><div class="card">
   <svg class="i big"><use href="#i-chat"/></svg>
@@ -286,7 +332,7 @@ const pesan = x => ({
   'auth/network-request-failed': 'Tidak ada koneksi internet'
 }[x.code] || x.message || 'Terjadi kesalahan');
 
-$('#gg').onclick = async () => {
+const ggRun = async () => {
   $('#err').textContent = '';
   const pv = new GoogleAuthProvider();
   try {
@@ -300,6 +346,8 @@ $('#gg').onclick = async () => {
     else if (!['auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(x.code)) $('#err').textContent = pesan(x);
   }
 };
+
+$('#gg').onclick = async () => { const b = $('#gg'); b.classList.add('ld'); try { await ggRun(); } finally { b.classList.remove('ld'); } };
 
 // Pengguna baru (Google atau email tanpa profil): pilih nama & username dulu
 function setup() {
@@ -316,7 +364,7 @@ function setup() {
   $('#auth').hidden = false; $('#app').hidden = true;
 }
 
-$('#go').onclick = async () => {
+const goRun = async () => {
   const e = $('#em').value.trim(), p = $('#pw').value, u = norm($('#un').value), n = $('#nm').value.trim();
   $('#err').textContent = '';
   try {
@@ -340,7 +388,10 @@ $('#go').onclick = async () => {
     reg = false; start(uid);
   } catch (x) { reg = false; $('#err').textContent = pesan(x); }
 };
-onAuthStateChanged(auth, u => { if (!reg && u) start(u.uid); });
+$('#go').onclick = async () => { const b = $('#go'); b.classList.add('ld'); try { await goRun(); } finally { b.classList.remove('ld'); } };
+function hideSplash() { const e = $('#splash'); e.classList.add('off'); setTimeout(() => e.hidden = true, 800); }
+setTimeout(hideSplash, 7000);
+onAuthStateChanged(auth, u => { if (!reg && u) start(u.uid).finally(hideSplash); else hideSplash(); });
 
 $('#out').onclick = async () => {
   await update(ref(db, 'users/' + me.uid), {online: false, lastSeen: serverTimestamp()});
@@ -365,7 +416,7 @@ async function start(uid) {
     chats = nw; list(); clr();
   });
   onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); });
-  fillProf(); ui();
+  $('#list').innerHTML = SK; fillProf(); ui();
 }
 
 /* ---------- Daftar obrolan & pencarian ---------- */
@@ -388,6 +439,7 @@ function list(res) {
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
     .forEach(c => box.append(row({uid: c.with, name: c.name, username: c.username}, c.last, c.ts, c.unread)));
   if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg><br>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
+  else if (!list.d && !res) { list.d = 1; stag(box); }
 }
 let tmr;
 $('#q').oninput = () => {
@@ -406,6 +458,8 @@ $('#q').oninput = () => {
 
 /* ---------- Menu utama, kontak, profil, pengaturan ---------- */
 let S = {}, kon = {};
+const SK = '<div class="sk"><i class="av"></i><div><u></u><u></u></div></div>'.repeat(6);
+const stag = b => [...b.children].forEach((r, k) => r.style.animation = `slide .45s var(--ease) ${Math.min(k, 8) * 45}ms both`);
 try { S = JSON.parse(localStorage.getItem('hk') || '{}'); } catch {}
 const saveS = () => { try { localStorage.setItem('hk', JSON.stringify(S)); } catch {} };
 const sum = o => Object.values(o).reduce((a, c) => a + (c.unread || 0), 0);
@@ -459,6 +513,7 @@ function klist() {
     r.append(x); b.append(r);
   });
   if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg><br>Belum ada kontak.<br>Tambahkan teman lewat @username.'; b.append(e); }
+  else if (!klist.d) { klist.d = 1; stag(b); }
 }
 async function tambah() {
   const q = norm($('#ci').value);
@@ -486,14 +541,14 @@ function open(u) {
   cur = u;
   $('#app').classList.add('chat'); $('#ph').hidden = true; $('#cv').hidden = false;
   $('#cv').classList.remove('in'); void $('#cv').offsetWidth; $('#cv').classList.add('in');
-  $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid)); $('#msgs').replaceChildren();
+  $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid)); $('#msgs').innerHTML = '<div class="sb l"></div><div class="sb r"></div><div class="sb l s"></div>';
   unS = onValue(ref(db, 'users/' + u.uid), s => {
     const v = s.val() || {};
     $('#cs').textContent = v.online ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : '@' + u.username;
   });
   const seen = new Set(); let first = true;
   unM = onValue(query(ref(db, `chats/${cid(me.uid, u.uid)}/messages`), limitToLast(150)), s => {
-    const b = $('#msgs');
+    const b = $('#msgs'); if (first) b.replaceChildren();
     s.forEach(m => {
       if (seen.has(m.key)) return; seen.add(m.key);
       const v = m.val(), d = el('div', 'm ' + (v.from == me.uid ? 'me' : 'ot') + (first ? '' : ' new'));
@@ -510,6 +565,7 @@ async function kirim() {
   const t = $('#mi').value.trim();
   if (!t || !cur) return;
   $('#mi').value = '';
+  $('#sd').classList.remove('fly'); void $('#sd').offsetWidth; $('#sd').classList.add('fly');
   const id = cid(me.uid, cur.uid), k = push(ref(db, `chats/${id}/messages`)).key, ts = serverTimestamp();
   const a = `userChats/${me.uid}/${id}/`, b = `userChats/${cur.uid}/${id}/`;
   await update(ref(db), {
