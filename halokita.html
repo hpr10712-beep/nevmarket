@@ -403,6 +403,32 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 .pbar{height:10px;border-radius:6px;background:var(--s2);overflow:hidden;margin-top:12px}
 .pbar i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--hl),var(--lime));transition:width .9s var(--ease)}
 #pbt{display:block;margin:8px 0 4px}
+
+/* ---------- v1.3: banner galaxy, nama teman, batas ubah ---------- */
+#ush .sheet>*:not(.gx){position:relative;z-index:1}
+.gx{position:absolute;left:0;right:0;top:0;height:140px;overflow:hidden;pointer-events:none;border-radius:27px 27px 0 0;isolation:isolate;background:linear-gradient(160deg,#04061a 0%,#0c0a2e 50%,#170a38 100%)}
+.gx::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(4,6,26,.5))}
+.gx-n{position:absolute;inset:-35% -25%;background:radial-gradient(38% 48% at 24% 62%,rgba(168,85,247,.5),transparent 70%),radial-gradient(34% 44% at 76% 32%,rgba(56,189,248,.4),transparent 70%),radial-gradient(30% 40% at 56% 88%,rgba(244,114,182,.34),transparent 70%);animation:gxn 18s ease-in-out infinite alternate}
+.gx-g{position:absolute;left:50%;top:52%;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 6%,rgba(176,128,255,.6) 14%,transparent 28%,rgba(90,190,255,.55) 50%,transparent 64%,rgba(255,130,210,.5) 82%,transparent 95%);-webkit-mask:radial-gradient(circle,#000 0,rgba(0,0,0,.6) 38%,transparent 68%);mask:radial-gradient(circle,#000 0,rgba(0,0,0,.6) 38%,transparent 68%);filter:blur(10px);animation:gxr 48s linear infinite}
+.gx-c{position:absolute;left:50%;top:52%;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.85) 0,rgba(214,190,255,.5) 22%,transparent 62%);animation:gxp 5s ease-in-out infinite}
+.gx .st{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.7);animation:gxt 3s ease-in-out infinite}
+.gx-m{position:absolute;top:8%;right:6%;width:84px;height:1.6px;border-radius:2px;background:linear-gradient(90deg,#fff,rgba(255,255,255,0));box-shadow:0 0 6px 1px rgba(255,255,255,.5);opacity:0;transform:rotate(-35deg);animation:gxm 7s linear infinite}
+.gx-m.m2{top:-4%;right:48%;width:64px;animation-duration:9s;animation-delay:3.7s}
+@keyframes gxn{to{transform:translate(7%,-5%) scale(1.14) rotate(5deg)}}
+@keyframes gxr{to{transform:rotate(360deg)}}
+@keyframes gxp{50%{transform:scale(1.25);opacity:.75}}
+@keyframes gxt{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+@keyframes gxm{0%{opacity:0;transform:translate(0,0) rotate(-35deg)}3%{opacity:1}14%{opacity:0;transform:translate(-210px,147px) rotate(-35deg)}100%{opacity:0;transform:translate(-210px,147px) rotate(-35deg)}}
+#ush .grab{background:rgba(255,255,255,.4)}
+#ush .sh-h .ic{background:rgba(5,8,22,.5);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+#unr{display:block;color:var(--sub);font-size:12.5px;font-weight:600}
+.uv-an{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:13px;font-size:15px}
+.uv-an .i{width:18px;height:18px}
+.uv-al{margin-top:14px;animation:in .35s var(--ease)}
+.uv-al .fi{margin-bottom:6px}
+.uv-al .uv-a{margin-top:12px}
+.hn{display:block;font-size:12.5px;font-weight:600;color:var(--sub);line-height:1.4}
+.fi.lk input{opacity:.55}
 </style>
 </head>
 <body>
@@ -425,7 +451,7 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
 <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
 <symbol id="i-google" viewBox="0 0 48 48"><g stroke="none"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
-<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></symbol><symbol id="i-ck1" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 7"/></symbol><symbol id="i-ck2" viewBox="0 0 24 24"><path d="M1.5 12.5 7 18 17.5 7"/><path d="M10 16.5l1.5 1.5L22 7"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></symbol><symbol id="i-ck1" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 7"/></symbol><symbol id="i-ck2" viewBox="0 0 24 24"><path d="M1.5 12.5 7 18 17.5 7"/><path d="M10 16.5l1.5 1.5L22 7"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></symbol><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
 </svg>
 
 <div id="splash"><div class="aur"><span class="o o1"></span><span class="o o2"></span><span class="o o3"></span></div><div class="mas" id="mSplash"><svg viewBox="0 0 200 220" aria-hidden="true"><defs><radialGradient id="m-b" cx=".42" cy=".36" r=".72" fx=".3" fy=".24"><stop offset="0" stop-color="#f6ffb8"/><stop offset=".3" stop-color="#d6ff4d"/><stop offset=".72" stop-color="#8fcf0a"/><stop offset="1" stop-color="#3f7a05"/></radialGradient><radialGradient id="m-e" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#2b4a3a"/><stop offset="1" stop-color="#050f0a"/></radialGradient><filter id="m-g" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7"/></filter></defs><circle cx="100" cy="100" r="82" fill="#c9f73a" opacity=".3" filter="url(#m-g)"/><ellipse class="msd" cx="100" cy="209" rx="50" ry="7" fill="#000" opacity=".45" filter="url(#m-g)"/><g class="mf"><path class="mt" d="M56 150 22 196 92 172Z" fill="url(#m-b)"/><circle cx="26" cy="116" r="14" fill="url(#m-b)"/><circle cx="100" cy="98" r="76" fill="url(#m-b)"/><path d="M44 128a62 62 0 0 0 112 0" fill="none" stroke="#2f6a00" stroke-opacity=".35" stroke-width="8" stroke-linecap="round"/><ellipse cx="70" cy="50" rx="26" ry="13" transform="rotate(-32 70 50)" fill="#fff" opacity=".5"/><circle cx="106" cy="33" r="4" fill="#fff" opacity=".6"/><ellipse cx="55" cy="118" rx="12" ry="8" fill="#ff6b57" opacity=".5"/><ellipse cx="145" cy="118" rx="12" ry="8" fill="#ff6b57" opacity=".5"/><g class="ey"><ellipse cx="76" cy="94" rx="12" ry="15" fill="url(#m-e)"/><circle cx="80" cy="88" r="4.5" fill="#fff"/><circle cx="72" cy="100" r="2" fill="#fff" opacity=".8"/><ellipse cx="124" cy="94" rx="12" ry="15" fill="url(#m-e)"/><circle cx="128" cy="88" r="4.5" fill="#fff"/><circle cx="120" cy="100" r="2" fill="#fff" opacity=".8"/></g><path d="M76 118Q100 150 124 118Z" fill="#06140f"/><path d="M88 134Q100 126 112 134Q100 146 88 134Z" fill="#ff6b57"/><g class="hd"><circle cx="76" cy="96" r="19" fill="url(#m-b)"/><circle cx="124" cy="96" r="19" fill="url(#m-b)"/></g><g class="wv"><circle cx="176" cy="112" r="14" fill="url(#m-b)"/></g></g><g fill="#f6ffb8"><g transform="translate(16 46)"><path class="sp" d="M0-9 2.5-2.5 9 0 2.5 2.5 0 9-2.5 2.5-9 0-2.5-2.5Z"/></g><g transform="translate(186 52)"><path class="sp" style="animation-delay:.7s" d="M0-9 2.5-2.5 9 0 2.5 2.5 0 9-2.5 2.5-9 0-2.5-2.5Z"/></g><g transform="translate(178 170)"><path class="sp" style="animation-delay:1.4s" d="M0-9 2.5-2.5 9 0 2.5 2.5 0 9-2.5 2.5-9 0-2.5-2.5Z"/></g></g></svg></div><b class="wm">HaloKita</b><div class="bar"></div><p class="lt">Menyiapkan obrolan…</p></div>
@@ -524,13 +550,15 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <input id="imf" type="file" accept="application/json,.json" hidden>
         <div class="gl">Akun</div>
         <div class="grp">
-          <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small>Kirim tautan reset ke email</small></span></button>
+          <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small id="prs">Kirim tautan reset ke email (maks. 1× per hari)</small></span></button>
           <button id="dc" class="sr ch"><svg class="i"><use href="#i-x"/></svg><span class="mid"><b>Kosongkan daftar obrolan</b></span></button>
           <button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button>
         </div>
+        <div class="gl">Bantuan</div>
+        <div class="grp"><button id="hp" class="sr ch"><svg class="i"><use href="#i-help"/></svg><span class="mid"><b>Kirim bantuan lewat email</b><small>Laporkan masalah atau tanya tim HaloKita</small></span></button></div>
         <div class="gl">Lainnya</div>
         <div class="grp"><button id="rs" class="sr ch"><svg class="i"><use href="#i-set"/></svg><span class="mid"><b>Setel ulang pengaturan</b><small>Kembalikan tema, suara, dan privasi ke awal</small></span></button>
-        <div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.2, dibuat dengan Firebase</small></span></div></div>
+        <div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.3, dibuat dengan Firebase</small></span></div></div>
       </section>
     </div>
     <nav class="tabs">
@@ -562,8 +590,8 @@ small{color:var(--sub);font-size:13px;font-weight:600}
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="eshT">
     <div class="grab"></div>
     <div class="sh-h"><b id="eshT">Edit profil</b><button class="ic" data-close="esh" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <label class="fi"><span>Nama</span><input id="en" maxlength="30" autocomplete="name"></label>
-    <label class="fi"><span>Username</span><input id="eu" maxlength="20" autocapitalize="none" autocomplete="username"></label>
+    <label class="fi"><span>Nama</span><input id="en" maxlength="30" autocomplete="name"><small class="hn" id="enh"></small></label>
+    <label class="fi"><span>Username</span><input id="eu" maxlength="20" autocapitalize="none" autocomplete="username"><small class="hn" id="euh"></small></label>
     <label class="fi"><span>Bio</span><textarea id="eb" rows="3" maxlength="120"></textarea></label>
     <small id="eh"></small>
     <button id="esv" class="btn">Simpan</button>
@@ -572,10 +600,17 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 
 <div class="wrap" id="ush"><div class="scrim"></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-label="Profil">
+    <div class="gx" aria-hidden="true"><i class="gx-n"></i><i class="gx-g"></i><i class="gx-c"></i><i class="gx-m"></i><i class="gx-m m2"></i></div>
     <div class="grab"></div>
     <div class="sh-h"><span></span><button class="ic" data-close="ush" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <div class="uv-av"><div id="uav"></div><b id="unm"></b><span id="uun"></span><p id="ubo"></p><small id="ust"></small></div>
+    <div class="uv-av"><div id="uav"></div><b id="unm"></b><small id="unr" hidden></small><span id="uun"></span><p id="ubo"></p><small id="ust"></small></div>
     <div class="uv-a"><button id="ucm" class="btn">Kirim pesan</button><button id="uck" class="btn ghost">Tambah kontak</button></div>
+    <button id="uan" class="btn ghost uv-an"><svg class="i"><use href="#i-edit"/></svg>Simpan nama berbeda</button>
+    <div id="ual" class="uv-al" hidden>
+      <label class="fi"><span>Nama untuk teman ini</span><input id="uai" maxlength="30" autocomplete="off" placeholder="Contoh: Bestie, Kak Dina"></label>
+      <small class="hn">Hanya terlihat olehmu. Kosongkan untuk memakai nama asli.</small>
+      <div class="uv-a"><button id="uas" class="btn">Simpan nama</button><button id="uac" class="btn ghost">Batal</button></div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -722,7 +757,7 @@ async function start(uid) {
     }
     ucF = false; chats = nw; list(); clr();
   });
-  onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); });
+  onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); namesSync(); });
   $('#list').innerHTML = SK; fillProf(); ui();
 }
 
@@ -742,12 +777,12 @@ const busy = (b, on) => b.classList.toggle('ld', on);
 function row(u, sub, ts, unread) {
   const r = el('div', 'row' + (unread ? ' un' : ''));
   const a = av(u.name, u.uid);
-  a.onclick = e => { e.stopPropagation(); openU(u.uid, u.name, u.username); };
+  a.onclick = e => { e.stopPropagation(); openU(u.uid, u.rname || u.name, u.username); };
   const mid = el('div', 'mid'); mid.append(el('b', '', u.name || '?'), el('small', '', sub || ''));
   const rt = el('div', 'rt', tm(ts));
   if (unread) rt.append(document.createElement('br'), el('span', 'bd', unread));
   r.append(a, mid, rt);
-  r.onclick = () => open({uid: u.uid, name: u.name, username: u.username});
+  r.onclick = () => open({uid: u.uid, name: u.name, rname: u.rname, username: u.username});
   return r;
 }
 function list(res) {
@@ -756,9 +791,9 @@ function list(res) {
   box.replaceChildren();
   if (res) box.append(el('div', 'sec', 'Hasil pencarian'), row(res, '@' + res.username));
   Object.values(chats)
-    .filter(c => c.with && (chatF == 'all' || c.unread) && (!q || (c.name + c.username).toLowerCase().includes(q)))
+    .filter(c => c.with && (chatF == 'all' || c.unread) && (!q || (c.name + c.username + alias(c.with)).toLowerCase().includes(q)))
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
-    .forEach(c => box.append(row({uid: c.with, name: c.name, username: c.username}, c.last, c.ts, c.unread)));
+    .forEach(c => box.append(row({uid: c.with, name: nmK(c.with, c.name), rname: c.name, username: c.username}, c.last, c.ts, c.unread)));
   if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
   else if (!list.d && !res) { list.d = 1; stag(box); }
 }
@@ -816,7 +851,7 @@ function fillProf() {
   $('#pnn').textContent = $('#an').textContent = me.name;
   $('#pun').textContent = $('#au').textContent = '@' + me.username;
   $('#pbo').textContent = me.bio || 'Belum ada bio';
-  $('#pem').textContent = auth.currentUser?.email || '-'; info();
+  $('#pem').textContent = auth.currentUser?.email || '-'; info(); limUI();
   stats();
 }
 
@@ -831,12 +866,16 @@ document.addEventListener('keydown', e => { if (e.key == 'Escape') document.quer
 
 $('#ep').onclick = () => {
   $('#en').value = me.name || ''; $('#eu').value = me.username || ''; $('#eb').value = me.bio || ''; $('#eh').textContent = '';
+  limEdit();
   openSheet('esh');
 };
 $('#esv').onclick = async () => {
   const b = $('#esv'), n = $('#en').value.trim().slice(0, 30), nu = norm($('#eu').value), bio = $('#eb').value.trim().slice(0, 120);
   if (!n) { $('#eh').textContent = 'Nama tidak boleh kosong'; return; }
   if (!USER_RE.test(nu)) { $('#eh').textContent = 'Username 4–20 karakter: huruf, angka, atau _'; return; }
+  const chN = n != me.name, chU = nu != me.username;
+  if (chN && limLeft('nm')) { $('#eh').textContent = 'Nama baru bisa diganti lagi dalam ' + sisa(limLeft('nm')); return; }
+  if (chU && limLeft('un')) { $('#eh').textContent = 'Username baru bisa diganti lagi dalam ' + sisa(limLeft('un')); return; }
   busy(b, true);
   try {
     const up = {[`users/${me.uid}/name`]: n, [`users/${me.uid}/bio`]: bio, [`users/${me.uid}/username`]: nu};
@@ -845,7 +884,10 @@ $('#esv').onclick = async () => {
       up['usernames/' + nu] = me.uid; up['usernames/' + me.username] = null;
     }
     await update(ref(db), up);
-    me = {...me, name: n, username: nu, bio}; fillProf(); closeSheet('esh'); toast('Profil disimpan');
+    me = {...me, name: n, username: nu, bio};
+    if (chN) await limMark('nm');
+    if (chU) await limMark('un');
+    fillProf(); closeSheet('esh'); toast('Profil disimpan');
   } catch { $('#eh').textContent = 'Gagal menyimpan, coba lagi'; }
   finally { busy(b, false); }
 };
@@ -854,20 +896,20 @@ function paintU() {
   if (!uCur) return;
   const isMe = uCur.uid == me.uid, has = !!kon[uCur.uid];
   $('#ucm').hidden = isMe; $('#uck').hidden = isMe;
+  $('#uan').hidden = isMe || !$('#ual').hidden; if (isMe) $('#ual').hidden = true;
   $('#uck').textContent = has ? 'Hapus kontak' : 'Tambah kontak';
   $('#uck').classList.toggle('ghost', has);
 }
 async function openU(uid, name, username) {
   uCur = {uid, name, username};
-  $('#uav').replaceChildren(av(name, uid));
-  $('#unm').textContent = name || username || '?';
+  $('#ual').hidden = true; paintNames();
   $('#uun').textContent = '@' + (username || '');
   $('#ubo').textContent = ''; $('#ust').textContent = ''; $('#ust').classList.remove('on');
   paintU(); openSheet('ush');
   try {
     const v = (await get(ref(db, 'users/' + uid))).val() || {};
     if (uCur?.uid != uid) return;
-    $('#unm').textContent = v.name || name || '?';
+    uCur.name = v.name || name || uCur.name; uCur.username = v.username || username; paintNames();
     $('#uun').textContent = '@' + (v.username || username || '');
     $('#ubo').textContent = v.bio || 'Belum ada bio';
     $('#ust').textContent = v.online ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : 'offline';
@@ -896,14 +938,14 @@ function paint(id) {
 function klist() {
   const b = $('#clist'), q = norm($('#cq').value); b.replaceChildren();
   const a = Object.entries(kon)
-    .filter(([, c]) => !q || ((c.name || '') + (c.username || '')).toLowerCase().includes(q))
-    .sort((x, y) => (x[1].name || '').localeCompare(y[1].name || ''));
+    .filter(([id, c]) => !q || ((c.name || '') + (c.username || '') + alias(id)).toLowerCase().includes(q))
+    .sort((x, y) => dn(x[0], x[1]).localeCompare(dn(y[0], y[1])));
   let L = '';
   a.forEach(([id, c]) => {
-    const nm = c.name || c.username || '?', l = nm[0].toUpperCase();
+    const rn = c.name || c.username || '?', nm = alias(id) || rn, l = nm[0].toUpperCase();
     if (l != L) { L = l; b.append(el('div', 'sec', l)); }
-    const r = row({uid: id, name: nm, username: c.username}, '@' + (c.username || ''));
-    r.onclick = () => openU(id, nm, c.username);
+    const r = row({uid: id, name: nm, rname: rn, username: c.username}, '@' + (c.username || ''));
+    r.onclick = () => openU(id, rn, c.username);
     r.dataset.u = id;
     const a0 = r.firstChild, w = el('div', 'avw'); a0.replaceWith(w); w.append(a0, el('i', 'dot'));
     const x = el('button', 'ic'); x.title = 'Hapus kontak'; x.setAttribute('aria-label', 'Hapus kontak');
@@ -954,7 +996,11 @@ const bagi = async () => {
   try { if (navigator.share) await navigator.share({title: 'HaloKita', text: t}); else { await navigator.clipboard.writeText(t); toast('Ajakan disalin'); } } catch {}
 };
 $('#sb2').onclick = bagi; $('#iv').onclick = bagi;
-$('#pr').onclick = async () => { try { await sendPasswordResetEmail(auth, auth.currentUser.email); toast('Tautan reset dikirim ke email'); } catch { toast('Gagal mengirim email reset'); } };
+$('#pr').onclick = async () => {
+  const w = limLeft('pw');
+  if (w) return toast('Ubah kata sandi hanya 1× per hari. Coba lagi dalam ' + sisa(w));
+  try { await sendPasswordResetEmail(auth, auth.currentUser.email); await limMark('pw'); limUI(); toast('Tautan reset dikirim ke email'); } catch { toast('Gagal mengirim email reset'); }
+};
 $('#dc').onclick = async () => {
   const k = Object.keys(chats); if (!k.length) return toast('Daftar obrolan sudah kosong');
   if (!confirm('Kosongkan semua daftar obrolan?')) return;
@@ -1030,6 +1076,7 @@ function clr() {
   }
 }
 function open(u) {
+  u = {...u, rname: u.rname || u.name, name: nmK(u.uid, u.rname || u.name)};
   unM && unM(); unS && unS();
   unR && unR(); unD && unD();
   cur = u;
@@ -1077,7 +1124,7 @@ async function kirim() {
   const a = `userChats/${me.uid}/${id}/`, b = `userChats/${cur.uid}/${id}/`;
   await update(ref(db), {
     [`chats/${id}/messages/${k}`]: {from: me.uid, text: t, ts, ...(rp ? {rk: rp.k, rf: rp.f, rt: rp.t} : {})},
-    [a + 'with']: cur.uid, [a + 'name']: cur.name, [a + 'username']: cur.username, [a + 'last']: t, [a + 'ts']: ts, [a + 'unread']: 0,
+    [a + 'with']: cur.uid, [a + 'name']: cur.rname || cur.name, [a + 'username']: cur.username, [a + 'last']: t, [a + 'ts']: ts, [a + 'unread']: 0,
     [b + 'with']: me.uid, [b + 'name']: me.name, [b + 'username']: me.username, [b + 'last']: t, [b + 'ts']: ts, [b + 'unread']: increment(1)
   }).then(() => { pend.delete(k); paintTk(); }).catch(() => { pend.delete(k); if (tkm[k]) tkm[k].f = 1; paintTk(); toast('Pesan gagal terkirim'); });
 }
@@ -1124,7 +1171,10 @@ $('#vb').addEventListener('click', () => { if (S.vib !== false) navigator.vibrat
 $('#fg').onclick = async () => {
   const e = $('#em').value.trim();
   if (!e) { $('#err').textContent = 'Isi email dulu, lalu tekan "Lupa kata sandi?" lagi'; return; }
-  try { await sendPasswordResetEmail(auth, e); $('#err').textContent = ''; toast('Tautan reset dikirim ke ' + e); } catch (x) { $('#err').textContent = pesan(x); }
+  const kk = 'hk_pwf_' + e.toLowerCase(); let last = 0;
+  try { last = +localStorage.getItem(kk) || 0; } catch {}
+  if (last && Date.now() - last < LIM.pw) { $('#err').textContent = 'Reset kata sandi hanya 1× per hari. Coba lagi dalam ' + sisa(last + LIM.pw - Date.now()); return; }
+  try { await sendPasswordResetEmail(auth, e); try { localStorage.setItem(kk, Date.now()); } catch {} $('#err').textContent = ''; toast('Tautan reset dikirim ke ' + e); } catch (x) { $('#err').textContent = pesan(x); }
 };
 ['#em', '#pw', '#nm', '#un'].forEach(q => $(q).onkeydown = e => { if (e.key == 'Enter') $('#go').click(); });
 document.addEventListener('visibilitychange', () => { if (!document.hidden && me) clr(); });
@@ -1176,6 +1226,93 @@ $('#pcu').onclick = async () => { try { await navigator.clipboard.writeText(me.u
 $('#pvf').onclick = async () => { try { await sendEmailVerification(auth.currentUser); toast('Email verifikasi dikirim'); } catch { toast('Gagal mengirim email verifikasi'); } };
 $('#pv').onclick = () => $('#ep').click();
 $('#pw').onfocus = () => $('#auth').classList.add('pw'); $('#pw').onblur = () => $('#auth').classList.remove('pw');
+
+/* ---------- v1.3: batas ubah, bantuan email, nama teman, galaxy ---------- */
+const HELP_EMAIL = 'hpr10712@gmail.com';
+const LIM = {pw: 864e5, un: 30 * 864e5, nm: 7 * 864e5}; // sandi 1×/hari, username 1×/bulan, nama 1×/minggu
+const sisa = ms => { const m = Math.ceil(ms / 6e4); if (m < 60) return m + ' menit'; const h = Math.ceil(m / 60); return h < 24 ? h + ' jam' : Math.ceil(h / 24) + ' hari'; };
+const limKey = k => `hk_lim_${me?.uid || ''}_${k}`;
+function limLast(k) { let b = 0; try { b = +localStorage.getItem(limKey(k)) || 0; } catch {} return Math.max(me?.lim?.[k] || 0, b); }
+const limLeft = k => Math.max(0, limLast(k) + LIM[k] - Date.now());
+async function limMark(k) {
+  const t = Date.now();
+  try { localStorage.setItem(limKey(k), t); } catch {}
+  me.lim = {...(me.lim || {}), [k]: t};
+  try { await update(ref(db, `users/${me.uid}/lim`), {[k]: t}); } catch {}
+}
+function limUI() {
+  if (!me) return;
+  const w = limLeft('pw');
+  $('#prs').textContent = w ? 'Bisa diubah lagi dalam ' + sisa(w) : 'Kirim tautan reset ke email (maks. 1× per hari)';
+}
+function limEdit() {
+  [['en', 'nm', 'Nama', 'minggu'], ['eu', 'un', 'Username', 'bulan']].forEach(([id, k, lb, per]) => {
+    const w = limLeft(k), i = $('#' + id);
+    i.readOnly = !!w; i.parentElement.classList.toggle('lk', !!w);
+    $('#' + id + 'h').textContent = w ? `${lb} terkunci, bisa diganti lagi dalam ${sisa(w)}` : `Bisa diganti 1× per ${per}`;
+  });
+}
+
+$('#hp').onclick = () => {
+  const sub = `Bantuan HaloKita - @${me.username}`;
+  const body = `Halo tim HaloKita,\n\nSaya butuh bantuan terkait:\n(tulis masalah atau pertanyaanmu di sini)\n\n----- Info akun (jangan dihapus) -----\nUsername: @${me.username}\nNama: ${me.name}\nID akun: ${me.uid}\nVersi: HaloKita 1.3\nPerangkat: ${navigator.userAgent}`;
+  location.href = `mailto:${HELP_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+  setTimeout(async () => {
+    if (document.hidden) return;
+    try { await navigator.clipboard.writeText(HELP_EMAIL); toast('Alamat email disalin: ' + HELP_EMAIL); } catch { toast('Kirim email ke ' + HELP_EMAIL); }
+  }, 1500);
+};
+
+/* nama teman (alias): hanya terlihat oleh pemilik kontak */
+const alias = id => kon[id]?.alias || S.al?.[id] || '';
+const nmK = (id, f) => alias(id) || f;
+const dn = (id, c) => alias(id) || c.name || c.username || '';
+function paintNames() {
+  if (!uCur) return;
+  const al = alias(uCur.uid), rn = uCur.name || uCur.username || '?';
+  $('#unm').textContent = al || rn; $('#unr').hidden = !al; $('#unr').textContent = 'Nama asli: ' + rn;
+  $('#uav').replaceChildren(av(al || rn, uCur.uid));
+}
+function namesSync() {
+  if (Object.keys(chats).length) list();
+  paintU(); paintNames();
+  if (cur) { const n = nmK(cur.uid, cur.rname || cur.name); if (n != cur.name) { cur.name = n; $('#cn').textContent = n; $('#cav').replaceChildren(av(n, cur.uid)); } }
+}
+$('#uan').onclick = () => {
+  if (!uCur) return;
+  $('#uai').value = alias(uCur.uid); $('#uai').placeholder = uCur.name || uCur.username || 'Nama teman';
+  $('#ual').hidden = false; $('#uan').hidden = true;
+  setTimeout(() => { $('#uai').focus(); $('#ual').scrollIntoView({behavior: 'smooth', block: 'nearest'}); }, 60);
+};
+$('#uac').onclick = () => { $('#ual').hidden = true; paintU(); };
+async function simpanNama() {
+  if (!uCur) return;
+  const {uid, username} = uCur, rn = uCur.name || username || '?', b = $('#uas');
+  let v = $('#uai').value.trim().replace(/\s+/g, ' ').slice(0, 30), lokal = false;
+  if (v == rn) v = '';
+  busy(b, true);
+  try {
+    if (kon[uid]) await update(ref(db, `contacts/${me.uid}/${uid}`), {alias: v || null});
+    else if (v) await update(ref(db, `contacts/${me.uid}/${uid}`), {name: rn, username: username || '', alias: v});
+    if (S.al?.[uid]) { delete S.al[uid]; saveS(); }
+  } catch {
+    S.al = S.al || {}; if (v) S.al[uid] = v; else delete S.al[uid]; saveS(); lokal = true;
+  } finally { busy(b, false); }
+  $('#ual').hidden = true; namesSync();
+  toast(!v ? 'Nama asli dipakai kembali' : lokal ? 'Nama disimpan di perangkat ini' : 'Nama teman disimpan');
+}
+$('#uas').onclick = simpanNama;
+$('#uai').onkeydown = e => { if (e.key == 'Enter') simpanNama(); };
+
+/* banner galaxy: bintang berkelip */
+document.querySelectorAll('.gx').forEach(g => {
+  for (let i = 0; i < 48; i++) {
+    const t = document.createElement('i'), r = Math.random(), z = r < .12 ? 2.6 : r < .45 ? 1.7 : 1.1;
+    t.className = 'st';
+    t.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${z}px;height:${z}px;animation-duration:${2 + Math.random() * 4}s;animation-delay:-${Math.random() * 6}s`;
+    g.append(t);
+  }
+});
 
 ui();
 </script>
