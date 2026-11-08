@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06140f">
+<meta name="robots" content="noindex,nofollow">
+<title>HaloKita Admin</title>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&family=Unbounded:wght@500..800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06140f;--s1:#0b1f17;--s2:#12301f;--s3:#1c4230;--ln:rgba(214,255,190,.12);--tx:#eef5e1;--sub:#86a392;--lime:#c9f73a;--ink:#06140f;--co:#ff6b57;--bl:#1d9bf0;--ease:cubic-bezier(.22,.8,.24,1);--fd:"Unbounded","Arial Rounded MT Bold",system-ui,sans-serif;--fb:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent;scrollbar-width:thin;scrollbar-color:var(--s3) transparent}
+[hidden]{display:none!important}
+body{min-height:100vh;font:500 15px/1.45 var(--fb);background:radial-gradient(70% 40% at 12% 0,rgba(201,247,58,.12),transparent 70%),var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;transition:transform .18s var(--ease),background .25s,opacity .25s}
+button:active{transform:scale(.96)}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+small{color:var(--sub);font-size:13px;font-weight:600}
+.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--lime);color:var(--ink);border-radius:14px;padding:11px 18px;font-weight:800;font-size:14px}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:var(--s2);color:var(--tx)}
+.btn.red{background:var(--co);color:var(--ink)}
+.btn.sm{padding:8px 14px;font-size:13px;border-radius:12px}
+.btn.ld{pointer-events:none;opacity:.6}
+.fld{display:grid;gap:6px;margin-bottom:12px}
+.fld>span{font-size:13px;font-weight:700;color:var(--lime)}
+input,textarea{width:100%;border:1.5px solid transparent;background:var(--s2);border-radius:14px;padding:12px 14px;outline:none;resize:vertical;transition:border-color .25s,box-shadow .25s}
+input:focus,textarea:focus{border-color:var(--lime);box-shadow:0 0 0 4px rgba(201,247,58,.14)}
+input::placeholder,textarea::placeholder{color:var(--sub)}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--ink);font:800 17px var(--fd)}
+.vb{display:inline-block;width:17px;height:17px;margin-left:5px;vertical-align:-3px;line-height:0}
+.vb .i{width:100%;height:100%}
+
+/* masuk */
+.center{min-height:100vh;display:grid;place-items:center;padding:24px 20px}
+.box{width:100%;max-width:380px;display:flex;flex-direction:column;gap:12px;animation:in .6s var(--ease) both}
+.box h1{font:800 30px/1.05 var(--fd);letter-spacing:-.05em}
+.box .lg{width:72px;height:72px}
+.panel{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--s1);border:1px solid var(--ln);border-radius:24px}
+.panel .fld{margin:0}
+#err,#derr{color:var(--co);font-size:13px;font-weight:600;min-height:0}
+#err:empty,#derr:empty{display:none}
+.uid{display:flex;gap:8px;align-items:center;padding:10px 12px;background:var(--s2);border-radius:14px;font:600 12px ui-monospace,monospace;word-break:break-all}
+
+/* kerangka */
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:12px 20px;background:rgba(6,20,15,.86);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--ln)}
+.top .lg{width:34px;height:34px}
+.top b{font:800 16px var(--fd);letter-spacing:-.04em}
+.top .sp{flex:1}
+.top small{max-width:34vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb{display:flex;gap:6px;max-width:900px;margin:14px auto 0;padding:0 20px;overflow-x:auto;scrollbar-width:none}
+.tb button{position:relative;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--ln);color:var(--sub);font-weight:800;font-size:14px;white-space:nowrap}
+.tb button.on{background:var(--lime);color:var(--ink);border-color:transparent}
+.tb .i{width:18px;height:18px}
+.tb em{font-style:normal;background:var(--co);color:var(--ink);border-radius:999px;min-width:20px;padding:0 6px;font:800 11.5px/20px var(--fb);text-align:center}
+main{max-width:900px;margin:0 auto;padding:16px 20px 60px}
+.fl{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.fl button{padding:7px 14px;border-radius:999px;border:1.5px solid var(--ln);color:var(--sub);font-weight:700;font-size:13px}
+.fl .on{background:var(--s3);color:var(--tx);border-color:transparent}
+h2{font:700 14px var(--fd);letter-spacing:-.03em;margin:22px 0 10px;color:var(--lime)}
+.warn{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px;padding:12px 14px;border-radius:16px;background:rgba(255,107,87,.13);border:1px solid rgba(255,107,87,.4);font-weight:600;font-size:13.5px;line-height:1.45}
+.warn .i{color:var(--co);width:20px;height:20px}
+.card{background:var(--s1);border:1px solid var(--ln);border-radius:22px;padding:14px 16px;margin-bottom:10px;display:grid;gap:10px;animation:in .35s var(--ease) both}
+.ch{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ch .sp{flex:1}
+.chip{display:inline-block;padding:2px 10px;border-radius:999px;font:800 11.5px/20px var(--fb);background:var(--s3);color:var(--tx)}
+.chip.new{background:var(--co);color:var(--ink)}
+.chip.ok{background:var(--lime);color:var(--ink)}
+.chip.bn{background:rgba(255,107,87,.2);color:var(--co)}
+.who{font-weight:700;line-height:1.5}
+.who i{font-style:normal;color:var(--sub);font-weight:600}
+.rs{background:var(--s2);border-radius:14px;padding:10px 12px;white-space:pre-wrap;word-break:break-word;font-weight:500}
+.act{display:flex;gap:8px;flex-wrap:wrap}
+.row{display:flex;align-items:center;gap:12px}
+.row .mid{flex:1;min-width:0}
+.row .mid b,.row .mid small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srch{display:flex;gap:8px;margin-bottom:12px}
+.srch input{flex:1}
+.emp{padding:34px 20px;text-align:center;color:var(--sub);border:1.5px dashed var(--s3);border-radius:22px;font-weight:600}
+.pv{width:100%;max-height:220px;object-fit:cover;border-radius:16px;display:block;background:var(--s2)}
+.nrow{display:grid;grid-template-columns:96px 1fr auto;gap:12px;align-items:center}
+.nrow img{width:96px;height:64px;object-fit:cover;border-radius:12px;background:var(--s2)}
+.nrow p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:600;word-break:break-word}
+
+/* dialog + toast */
+#dlg{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:20px;background:rgba(3,10,7,.62)}
+#dlg .m{width:100%;max-width:420px;background:var(--s1);border:1px solid var(--ln);border-radius:26px;padding:18px;display:grid;gap:12px;animation:in .3s var(--ease) both}
+#dlg h3{font:700 18px var(--fd);letter-spacing:-.04em}
+#dlg .fld{margin:0}
+#dlg .act{justify-content:flex-end}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--lime);color:var(--ink);font-weight:800;padding:11px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s,transform .4s var(--ease);z-index:30;max-width:90%;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+@media(max-width:560px){.nrow{grid-template-columns:72px 1fr;}.nrow img{width:72px;height:56px}.nrow .btn{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-logo" viewBox="0 0 48 48"><circle cx="24" cy="22" r="19" fill="#c9f73a" stroke="none"/><path d="M9 32.5 5.5 44.5l12-5.5z" fill="#c9f73a" stroke="none"/><circle cx="17.5" cy="19.5" r="2.6" fill="#06140f" stroke="none"/><circle cx="30.5" cy="19.5" r="2.6" fill="#06140f" stroke="none"/><path d="M16 27c2 3.2 4.6 4.8 8 4.8s6-1.6 8-4.8" fill="none" stroke="#06140f" stroke-width="3.2"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+<symbol id="i-appeal" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></symbol>
+<symbol id="i-news" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></symbol>
+<symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+<symbol id="i-warn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></symbol>
+<symbol id="i-google" viewBox="0 0 48 48"><g stroke="none"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
+<symbol id="i-verif" viewBox="0 0 24 24"><path d="M22.50 12.00 L22.40 12.47 L22.12 12.91 L21.71 13.32 L21.25 13.68 L20.81 14.01 L20.47 14.34 L20.27 14.69 L20.23 15.09 L20.31 15.55 L20.47 16.08 L20.63 16.64 L20.72 17.21 L20.69 17.74 L20.49 18.17 L20.14 18.49 L19.65 18.69 L19.08 18.77 L18.50 18.79 L17.95 18.81 L17.48 18.87 L17.11 19.04 L16.84 19.34 L16.64 19.76 L16.45 20.28 L16.25 20.83 L15.99 21.34 L15.66 21.75 L15.24 21.99 L14.77 22.04 L14.26 21.91 L13.75 21.64 L13.26 21.31 L12.81 21.00 L12.39 20.78 L12.00 20.70 L11.61 20.78 L11.19 21.00 L10.74 21.31 L10.25 21.64 L9.74 21.91 L9.23 22.04 L8.76 21.99 L8.34 21.75 L8.01 21.34 L7.75 20.83 L7.55 20.28 L7.36 19.76 L7.16 19.34 L6.89 19.04 L6.52 18.87 L6.05 18.81 L5.50 18.79 L4.92 18.77 L4.35 18.69 L3.86 18.49 L3.51 18.17 L3.31 17.74 L3.28 17.21 L3.37 16.64 L3.53 16.08 L3.69 15.55 L3.77 15.09 L3.73 14.69 L3.53 14.34 L3.19 14.01 L2.75 13.68 L2.29 13.32 L1.88 12.91 L1.60 12.47 L1.50 12.00 L1.60 11.53 L1.88 11.09 L2.29 10.68 L2.75 10.32 L3.19 9.99 L3.53 9.66 L3.73 9.31 L3.77 8.91 L3.69 8.45 L3.53 7.92 L3.37 7.36 L3.28 6.79 L3.31 6.26 L3.51 5.83 L3.86 5.51 L4.35 5.31 L4.92 5.23 L5.50 5.21 L6.05 5.19 L6.52 5.13 L6.89 4.96 L7.16 4.66 L7.36 4.24 L7.55 3.72 L7.75 3.17 L8.01 2.66 L8.34 2.25 L8.76 2.01 L9.23 1.96 L9.74 2.09 L10.25 2.36 L10.74 2.69 L11.19 3.00 L11.61 3.22 L12.00 3.30 L12.39 3.22 L12.81 3.00 L13.26 2.69 L13.75 2.36 L14.26 2.09 L14.77 1.96 L15.24 2.01 L15.66 2.25 L15.99 2.66 L16.25 3.17 L16.45 3.72 L16.64 4.24 L16.84 4.66 L17.11 4.96 L17.48 5.13 L17.95 5.19 L18.50 5.21 L19.08 5.23 L19.65 5.31 L20.14 5.51 L20.49 5.83 L20.69 6.26 L20.72 6.79 L20.63 7.36 L20.47 7.92 L20.31 8.45 L20.23 8.91 L20.27 9.31 L20.47 9.66 L20.81 9.99 L21.25 10.32 L21.71 10.68 L22.12 11.09 L22.40 11.53Z" fill="#1d9bf0" stroke="none"/><path d="m7.8 12.4 3 3 5.6-6.2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- Masuk -->
+<div id="login" class="center"><div class="box">
+  <svg class="lg i"><use href="#i-logo"/></svg>
+  <h1>HaloKita Admin</h1>
+  <small>Khusus admin. Masuk dengan akun yang sudah didaftarkan sebagai admin.</small>
+  <div class="panel">
+    <label class="fld"><span>Email</span><input id="em" type="email" autocomplete="email" placeholder="email@admin.com"></label>
+    <label class="fld"><span>Kata sandi</span><input id="pw" type="password" autocomplete="current-password" placeholder="Kata sandi"></label>
+    <div id="err"></div>
+    <button id="go" class="btn">Masuk</button>
+  </div>
+  <button id="gg" class="btn ghost"><svg class="i" style="width:20px;height:20px"><use href="#i-google"/></svg>Masuk dengan Google</button>
+</div></div>
+
+<!-- Bukan admin -->
+<div id="deny" class="center" hidden><div class="box">
+  <svg class="lg i" style="color:var(--co)"><use href="#i-warn"/></svg>
+  <h1>Bukan admin</h1>
+  <small>Akun <b id="dem" style="color:var(--tx)"></b> belum terdaftar sebagai admin. Untuk menjadikannya admin, buka Firebase Console → Realtime Database, lalu tambahkan node berikut secara manual:</small>
+  <div class="uid"><span id="dpath" style="flex:1"></span><button id="dcp" class="btn sm ghost">Salin</button></div>
+  <small>Nilainya harus <b style="color:var(--tx)">true</b> (boolean). Setelah itu muat ulang halaman ini.</small>
+  <button id="dout" class="btn ghost">Keluar</button>
+</div></div>
+
+<!-- Panel -->
+<div id="app" hidden>
+  <header class="top"><svg class="lg i"><use href="#i-logo"/></svg><b>HaloKita Admin</b><span class="sp"></span><small id="me"></small><button id="out" class="btn sm ghost" aria-label="Keluar"><svg class="i" style="width:18px;height:18px"><use href="#i-out"/></svg>Keluar</button></header>
+  <nav class="tb" id="tb">
+    <button data-t="rp" class="on"><svg class="i"><use href="#i-flag"/></svg>Laporan<em id="nrp" hidden></em></button>
+    <button data-t="us"><svg class="i"><use href="#i-user"/></svg>Pengguna</button>
+    <button data-t="ap"><svg class="i"><use href="#i-appeal"/></svg>Banding<em id="nap" hidden></em></button>
+    <button data-t="nw"><svg class="i"><use href="#i-news"/></svg>Berita</button>
+  </nav>
+  <main>
+    <div id="warn" class="warn" hidden><svg class="i"><use href="#i-warn"/></svg><span id="warnt"></span></div>
+
+    <section id="t-rp">
+      <div class="fl" id="rf"><button data-f="open" class="on">Baru</button><button data-f="done">Selesai</button><button data-f="all">Semua</button></div>
+      <div id="rl"></div>
+    </section>
+
+    <section id="t-us" hidden>
+      <div class="srch"><input id="uq" placeholder="Cari @username pengguna" autocapitalize="none" autocomplete="off"><button id="ugo" class="btn">Cari</button></div>
+      <div id="ur"></div>
+      <h2>Diban</h2><div id="ubn"></div>
+      <h2>Terverifikasi (centang biru)</h2><div id="uvf"></div>
+    </section>
+
+    <section id="t-ap" hidden><div id="al"></div></section>
+
+    <section id="t-nw" hidden>
+      <div class="card">
+        <div class="ch"><b>Tambah berita</b></div>
+        <label class="fld" style="margin:0"><span>Gambar (pilih file)</span><input id="nf" type="file" accept="image/*"></label>
+        <label class="fld" style="margin:0"><span>atau tempel link gambar (https)</span><input id="nu" type="url" placeholder="https://contoh.com/gambar.jpg"></label>
+        <img id="npv" class="pv" alt="" hidden>
+        <label class="fld" style="margin:0"><span>Penjelasan singkat</span><textarea id="nt" rows="3" maxlength="220" placeholder="Tulis penjelasan singkat berita (maks. 220 karakter)"></textarea></label>
+        <small id="nh" style="color:var(--co)"></small>
+        <div class="act"><button id="npub" class="btn">Terbitkan</button></div>
+      </div>
+      <h2>Berita yang tayang</h2><div id="nl"></div>
+    </section>
+  </main>
+</div>
+
+<div id="dlg" hidden><div class="m" role="dialog" aria-modal="true" aria-labelledby="dt">
+  <h3 id="dt"></h3><label class="fld"><span id="dl"></span><textarea id="dx" rows="4" maxlength="500"></textarea></label>
+  <small id="dh" style="color:var(--co)"></small>
+  <div class="act"><button id="dn" class="btn ghost">Batal</button><button id="dy" class="btn">OK</button></div>
+</div></div>
+<div id="toast"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getDatabase,ref,get,update,push,remove,onValue,query,limitToLast,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBEPzUM9EresZ-yvphzDusVs7AUqdLuCNQ",
+  authDomain: "mygame-68b24.firebaseapp.com",
+  databaseURL: "https://mygame-68b24-default-rtdb.firebaseio.com",
+  projectId: "mygame-68b24",
+  storageBucket: "mygame-68b24.firebasestorage.app",
+  messagingSenderId: "1003182873390",
+  appId: "1:1003182873390:web:aabf3248f759cbc9d678bf"
+};
+const fb = initializeApp(firebaseConfig), auth = getAuth(fb), db = getDatabase(fb);
+const $ = s => document.querySelector(s);
+const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const PAL = ['#ffb36b', '#7fd1ff', '#c8a9ff', '#ffd84a', '#5fe3b3', '#ff9fcf', '#f1eddc', '#9ee86f'];
+const col = s => PAL[Math.abs([...String(s)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)) % PAL.length];
+const av = (n, id) => { const d = el('div', 'av', (n || '?')[0].toUpperCase()); d.style.background = col(id); return d; };
+const norm = s => s.trim().toLowerCase().replace(/^@/, '');
+const when = t => t ? new Date(t).toLocaleString('id-ID', {day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'}) : '';
+const busy = (b, on) => b.classList.toggle('ld', on);
+let me, tt, rp = {}, bn = {}, vf = {}, ap = {}, nw = [], rflt = 'open', uCur = null;
+const uc = {};
+
+function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => e.classList.remove('on'), 2600); }
+function fu(uid) { return uc[uid] || (uc[uid] = get(ref(db, 'users/' + uid)).then(s => s.val() || {}).catch(() => ({}))); }
+const badge = id => { if (!vf[id]) return null; const s = el('span', 'vb'); s.innerHTML = '<svg class="i"><use href="#i-verif"/></svg>'; return s; };
+function nameB(t, id) { const b = el('b', '', t), x = badge(id); if (x) b.append(x); return b; }
+function warn(node) {
+  $('#warnt').textContent = `Akses ke "${node}" ditolak. Pasang dulu aturan Firebase tambahan (file aturan-firebase-tambahan.json) dan pastikan akun ini ada di admins/${me?.uid}.`;
+  $('#warn').hidden = false;
+}
+const lis = (path, fn) => onValue(ref(db, path), fn, () => warn(path));
+
+/* ---------- Masuk ---------- */
+const pesan = x => ({
+  'auth/invalid-credential': 'Email atau kata sandi salah',
+  'auth/invalid-email': 'Format email tidak valid',
+  'auth/network-request-failed': 'Tidak ada koneksi internet',
+  'auth/unauthorized-domain': 'Domain belum diizinkan di Firebase (Authentication → Settings → Authorized domains)',
+  'auth/too-many-requests': 'Terlalu banyak percobaan, coba lagi nanti'
+}[x.code] || x.message || 'Terjadi kesalahan');
+$('#go').onclick = async () => {
+  const b = $('#go'); $('#err').textContent = ''; busy(b, true);
+  try { await signInWithEmailAndPassword(auth, $('#em').value.trim(), $('#pw').value); }
+  catch (x) { $('#err').textContent = pesan(x); }
+  finally { busy(b, false); }
+};
+['#em', '#pw'].forEach(q => $(q).onkeydown = e => { if (e.key == 'Enter') $('#go').click(); });
+$('#gg').onclick = async () => {
+  const pv = new GoogleAuthProvider(); $('#err').textContent = '';
+  try { await signInWithPopup(auth, pv); }
+  catch (x) {
+    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(x.code)) signInWithRedirect(auth, pv);
+    else if (!['auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(x.code)) $('#err').textContent = pesan(x);
+  }
+};
+const keluar = async () => { try { await signOut(auth); } catch {} location.reload(); };
+$('#out').onclick = keluar; $('#dout').onclick = keluar;
+
+let started = false;
+onAuthStateChanged(auth, async u => {
+  if (!u) { $('#login').hidden = false; $('#deny').hidden = $('#app').hidden = true; return; }
+  me = u; $('#login').hidden = true;
+  let ok = false;
+  try { ok = (await get(ref(db, 'admins/' + u.uid))).val() === true; } catch {}
+  if (!ok) {
+    $('#dem').textContent = u.email || u.uid; $('#dpath').textContent = 'admins/' + u.uid + ' = true';
+    $('#dcp').onclick = async () => { try { await navigator.clipboard.writeText('admins/' + u.uid); toast('Path disalin'); } catch { toast('Gagal menyalin'); } };
+    $('#deny').hidden = false; $('#app').hidden = true; return;
+  }
+  $('#deny').hidden = true; $('#app').hidden = false; $('#me').textContent = u.email || '';
+  if (!started) { started = true; mulai(); }
+});
+
+/* ---------- Tab ---------- */
+document.querySelectorAll('#tb button').forEach(b => b.onclick = () => tab(b.dataset.t));
+function tab(t) {
+  document.querySelectorAll('#tb button').forEach(b => b.classList.toggle('on', b.dataset.t == t));
+  ['rp', 'us', 'ap', 'nw'].forEach(k => $('#t-' + k).hidden = k != t);
+}
+document.querySelectorAll('#rf button').forEach(b => b.onclick = () => { rflt = b.dataset.f; document.querySelectorAll('#rf button').forEach(x => x.classList.toggle('on', x == b)); rRep(); });
+
+/* ---------- Dialog ---------- */
+function dlg({title, label, ok = 'OK', danger = false, required = true, value = ''}) {
+  return new Promise(res => {
+    $('#dt').textContent = title; $('#dl').textContent = label; $('#dx').value = value; $('#dh').textContent = '';
+    const y = $('#dy'); y.textContent = ok; y.className = 'btn' + (danger ? ' red' : '');
+    $('#dlg').hidden = false; setTimeout(() => $('#dx').focus(), 50);
+    const end = v => { $('#dlg').hidden = true; y.onclick = $('#dn').onclick = null; res(v); };
+    $('#dn').onclick = () => end(null);
+    y.onclick = () => { const t = $('#dx').value.trim(); if (required && t.length < 3) { $('#dh').textContent = 'Wajib diisi'; return; } end(t); };
+  });
+}
+
+/* ---------- Aksi ---------- */
+const banUser = (uid, reason, username) => update(ref(db), {['bans/' + uid]: {reason, ts: serverTimestamp(), by: me.uid, user: username || ''}});
+const unbanUser = uid => update(ref(db), {['bans/' + uid]: null, ['appeals/' + uid]: null});
+const setVf = (uid, on) => update(ref(db), {['verified/' + uid]: on ? true : null});
+async function doBan(uid, username, name, def) {
+  const r = await dlg({title: 'Ban ' + (username ? '@' + username : name), label: 'Alasan ban (akan ditampilkan ke pengguna)', ok: 'Ban pengguna', danger: true, value: def || ''});
+  if (r == null) return false;
+  try { await banUser(uid, r, username); toast('Pengguna diban'); return true; } catch { toast('Gagal memban, cek aturan Firebase'); return false; }
+}
+async function doUnban(uid) {
+  if (!confirm('Buka ban pengguna ini?')) return;
+  try { await unbanUser(uid); toast('Ban dibuka'); } catch { toast('Gagal membuka ban'); }
+}
+async function doVf(uid, on) {
+  try { await setVf(uid, on); toast(on ? 'Centang biru diberikan' : 'Centang biru dicabut'); } catch { toast('Gagal mengubah centang biru'); }
+}
+
+/* ---------- Laporan ---------- */
+function rRep() {
+  const L = $('#rl'); L.replaceChildren();
+  const all = Object.entries(rp).map(([k, v]) => ({k, ...v})).sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  const n = all.filter(r => r.st != 'done').length;
+  $('#nrp').textContent = n; $('#nrp').hidden = !n;
+  const rows = all.filter(r => rflt == 'all' || (rflt == 'open' ? r.st != 'done' : r.st == 'done'));
+  if (!rows.length) { L.append(el('div', 'emp', rflt == 'open' ? 'Tidak ada laporan baru.' : 'Belum ada laporan.')); return; }
+  rows.forEach(r => {
+    const c = el('div', 'card'), h = el('div', 'ch');
+    const done = r.st == 'done';
+    h.append(el('span', 'chip ' + (done ? 'ok' : 'new'), done ? 'Selesai' : 'Baru'));
+    if (bn[r.target]) h.append(el('span', 'chip bn', 'Sudah diban'));
+    h.append(el('span', 'sp'), el('small', '', when(r.ts)));
+    const w = el('div', 'who');
+    w.append(document.createTextNode('@' + (r.byUser || '?')), el('i', '', ' (' + (r.byName || '-') + ') melaporkan '));
+    const t = el('span'); t.append(nameB('@' + (r.targetUser || '?'), r.target)); w.append(t, el('i', '', ' (' + (r.targetName || '-') + ')'));
+    const a = el('div', 'act');
+    const lihat = el('button', 'btn sm ghost', 'Lihat pengguna'); lihat.onclick = () => { tab('us'); $('#uq').value = r.targetUser || ''; cari(); };
+    a.append(lihat);
+    if (!bn[r.target]) {
+      const b = el('button', 'btn sm red', 'Ban pengguna');
+      b.onclick = async () => { const ok = await doBan(r.target, r.targetUser, r.targetName, 'Laporan pengguna: ' + (r.reason || '').slice(0, 120)); if (ok) update(ref(db, 'reports/' + r.k), {st: 'done', act: 'ban', ts2: serverTimestamp()}).catch(() => {}); };
+      a.append(b);
+    }
+    const s = el('button', 'btn sm ghost', done ? 'Buka lagi' : 'Tandai selesai');
+    s.onclick = () => update(ref(db, 'reports/' + r.k), {st: done ? 'open' : 'done'}).catch(() => toast('Gagal mengubah status'));
+    const d = el('button', 'btn sm ghost', 'Hapus');
+    d.onclick = () => { if (confirm('Hapus laporan ini?')) remove(ref(db, 'reports/' + r.k)).catch(() => toast('Gagal menghapus')); };
+    a.append(s, d);
+    c.append(h, w, el('div', 'rs', r.reason || '-'), a); L.append(c);
+  });
+}
+
+/* ---------- Pengguna ---------- */
+async function cari() {
+  const q = norm($('#uq').value), box = $('#ur'); box.replaceChildren(); uCur = null;
+  if (!/^[a-z0-9_]{4,20}$/.test(q)) { box.append(el('div', 'emp', 'Username 4–20 karakter: huruf, angka, atau _')); return; }
+  const b = $('#ugo'); busy(b, true);
+  try {
+    const s = await get(ref(db, 'usernames/' + q));
+    if (!s.exists()) { box.append(el('div', 'emp', 'Username tidak ditemukan.')); return; }
+    uCur = s.val(); delete uc[uCur]; rUser();
+  } catch { box.append(el('div', 'emp', 'Gagal mencari pengguna.')); }
+  finally { busy(b, false); }
+}
+async function rUser() {
+  const box = $('#ur'); if (!uCur) return;
+  const uid = uCur, u = await fu(uid); if (uCur != uid) return;
+  box.replaceChildren();
+  const c = el('div', 'card'), r = el('div', 'row'), m = el('div', 'mid');
+  m.append(nameB(u.name || '?', uid), el('small', '', '@' + (u.username || '')));
+  r.append(av(u.name, uid), m);
+  const ch = el('div', 'ch');
+  if (vf[uid]) ch.append(el('span', 'chip ok', 'Terverifikasi'));
+  if (bn[uid]) ch.append(el('span', 'chip bn', 'Diban'));
+  if (u.online) ch.append(el('span', 'chip', 'online'));
+  c.append(r); if (ch.children.length) c.append(ch);
+  if (u.bio) c.append(el('div', 'rs', u.bio));
+  if (bn[uid]) c.append(el('small', '', 'Alasan ban: ' + (bn[uid].reason || '-') + ' · ' + when(bn[uid].ts)));
+  c.append(el('small', '', 'ID: ' + uid));
+  const a = el('div', 'act');
+  const v = el('button', 'btn sm ' + (vf[uid] ? 'ghost' : ''), vf[uid] ? 'Cabut centang biru' : 'Beri centang biru'); v.onclick = () => doVf(uid, !vf[uid]);
+  const k = el('button', 'btn sm ' + (bn[uid] ? '' : 'red'), bn[uid] ? 'Buka ban' : 'Ban pengguna');
+  k.onclick = () => bn[uid] ? doUnban(uid) : doBan(uid, u.username, u.name);
+  a.append(v, k); c.append(a); box.append(c);
+}
+function rLists() {
+  const fill = async (box, ids, empty) => {
+    const tok = box._t = (box._t || 0) + 1;
+    box.replaceChildren();
+    if (!ids.length) { box.append(el('div', 'emp', empty)); return; }
+    for (const id of ids) {
+      const u = await fu(id); if (box._t != tok) return;
+      const c = el('div', 'card'), r = el('div', 'row'), m = el('div', 'mid');
+      m.append(nameB(u.name || 'Pengguna', id), el('small', '', u.username ? '@' + u.username : id));
+      const b = el('button', 'btn sm ghost', 'Kelola'); b.onclick = () => { $('#uq').value = u.username || ''; if (u.username) cari(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+      r.append(av(u.name, id), m, b); c.append(r); box.append(c);
+    }
+  };
+  fill($('#ubn'), Object.keys(bn), 'Tidak ada pengguna yang diban.');
+  fill($('#uvf'), Object.keys(vf), 'Belum ada pengguna terverifikasi.');
+  rUser();
+}
+$('#ugo').onclick = cari;
+$('#uq').onkeydown = e => { if (e.key == 'Enter') cari(); };
+
+/* ---------- Banding ---------- */
+async function rApp() {
+  const L = $('#al'), ids = Object.keys(ap).sort((a, b) => (ap[b].ts || 0) - (ap[a].ts || 0));
+  $('#nap').textContent = ids.length; $('#nap').hidden = !ids.length;
+  const tok = L._t = (L._t || 0) + 1;
+  L.replaceChildren();
+  if (!ids.length) { L.append(el('div', 'emp', 'Tidak ada banding masuk.')); return; }
+  for (const id of ids) {
+    const u = await fu(id); if (L._t != tok) return;
+    const a = ap[id], b = bn[id];
+    const c = el('div', 'card'), h = el('div', 'ch');
+    h.append(av(u.name || a.name, id)); const w = el('div', 'who'); w.append(nameB(u.name || a.name || 'Pengguna', id), el('i', '', ' @' + (u.username || a.user || '?')));
+    h.append(w, el('span', 'sp'), el('small', '', when(a.ts))); c.append(h);
+    c.append(el('small', '', b ? 'Alasan ban: ' + (b.reason || '-') : 'Pengguna ini sedang tidak diban.'));
+    c.append(el('div', 'rs', a.text || '-'));
+    const x = el('div', 'act');
+    if (b) {
+      const y = el('button', 'btn sm', 'Terima (buka ban)'); y.onclick = () => doUnban(id);
+      const n = el('button', 'btn sm red', 'Tolak');
+      n.onclick = async () => {
+        const note = await dlg({title: 'Tolak banding', label: 'Catatan untuk pengguna (opsional)', ok: 'Tolak banding', danger: true, required: false});
+        if (note == null) return;
+        try { await update(ref(db), {['bans/' + id + '/rej']: {note, ts: serverTimestamp()}, ['appeals/' + id]: null}); toast('Banding ditolak'); } catch { toast('Gagal menolak banding'); }
+      };
+      x.append(y, n);
+    }
+    const d = el('button', 'btn sm ghost', 'Hapus banding'); d.onclick = () => remove(ref(db, 'appeals/' + id)).catch(() => toast('Gagal menghapus'));
+    x.append(d); c.append(x); L.append(c);
+  }
+}
+
+/* ---------- Berita ---------- */
+let nImg = '';
+function compress(file, max = 960) {
+  return new Promise((res, rej) => {
+    const im = new Image(), u = URL.createObjectURL(file);
+    im.onload = () => {
+      const s = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement('canvas');
+      c.width = Math.round(im.width * s); c.height = Math.round(im.height * s);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      let q = .8, d = c.toDataURL('image/jpeg', q);
+      while (d.length > 280000 && q > .4) { q -= .1; d = c.toDataURL('image/jpeg', q); }
+      URL.revokeObjectURL(u); res(d);
+    };
+    im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('gambar')); };
+    im.src = u;
+  });
+}
+const pv = src => { const i = $('#npv'); i.hidden = !src; if (src) i.src = src; };
+$('#nf').onchange = async e => {
+  const f = e.target.files[0]; if (!f) { nImg = ''; pv(''); return; }
+  try { nImg = await compress(f); $('#nu').value = ''; pv(nImg); $('#nh').textContent = ''; } catch { nImg = ''; pv(''); $('#nh').textContent = 'File ini bukan gambar yang valid'; }
+};
+$('#nu').oninput = () => { const v = $('#nu').value.trim(); if (v) { nImg = ''; $('#nf').value = ''; pv(/^https:\/\//.test(v) ? v : ''); } else pv(''); };
+$('#npub').onclick = async () => {
+  const text = $('#nt').value.trim().slice(0, 220), url = $('#nu').value.trim(), b = $('#npub');
+  const img = nImg || url;
+  if (!img) { $('#nh').textContent = 'Pilih gambar atau tempel link gambar'; return; }
+  if (!nImg && !/^https:\/\//.test(url)) { $('#nh').textContent = 'Link gambar harus diawali https://'; return; }
+  if (text.length < 5) { $('#nh').textContent = 'Penjelasan singkat wajib diisi'; return; }
+  busy(b, true); $('#nh').textContent = '';
+  try {
+    await update(ref(db), {['news/' + push(ref(db, 'news')).key]: {img, text, ts: serverTimestamp(), by: me.uid}});
+    nImg = ''; $('#nf').value = ''; $('#nu').value = ''; $('#nt').value = ''; pv(''); toast('Berita terbit');
+  } catch { $('#nh').textContent = 'Gagal menerbitkan, cek aturan Firebase'; }
+  finally { busy(b, false); }
+};
+function rNews() {
+  const L = $('#nl'); L.replaceChildren();
+  if (!nw.length) { L.append(el('div', 'emp', 'Belum ada berita.')); return; }
+  nw.forEach(n => {
+    const c = el('div', 'card'), r = el('div', 'nrow'), i = document.createElement('img');
+    i.alt = ''; if (/^(https:\/\/|data:image\/)/.test(n.img || '')) i.src = n.img;
+    const m = el('div'); m.append(el('p', '', n.text || ''), el('small', '', when(n.ts)));
+    const d = el('button', 'btn sm ghost', 'Hapus');
+    d.onclick = () => { if (confirm('Hapus berita ini?')) remove(ref(db, 'news/' + n.k)).then(() => toast('Berita dihapus')).catch(() => toast('Gagal menghapus')); };
+    r.append(i, m, d); c.append(r); L.append(c);
+  });
+}
+
+/* ---------- Mulai ---------- */
+function mulai() {
+  lis('reports', s => { rp = s.val() || {}; rRep(); });
+  lis('bans', s => { bn = s.val() || {}; rRep(); rLists(); rApp(); });
+  lis('verified', s => { vf = s.val() || {}; rRep(); rLists(); rApp(); });
+  lis('appeals', s => { ap = s.val() || {}; rApp(); });
+  onValue(query(ref(db, 'news'), limitToLast(50)), s => { const a = []; s.forEach(c => { a.push({k: c.key, ...c.val()}); }); nw = a.reverse(); rNews(); }, () => warn('news'));
+}
+</script>
+</body>
+</html>
