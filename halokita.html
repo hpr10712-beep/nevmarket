@@ -229,6 +229,76 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 @keyframes inL{from{opacity:0;transform:translateX(-22px) scale(.92)}}
 @media(max-width:700px){#side,#main{position:absolute;inset:0;width:100%;transition:transform .45s var(--ease)}#main{transform:translateX(100%);z-index:2}#app.chat #main{transform:none}#app.chat #side{transform:translateX(-24%)}#bk{display:grid}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Navigasi: satu pil yang meluncur ---------- */
+.tabs{display:flex;gap:0;padding:6px;overflow:hidden}
+.tabs .pill{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px) / 4);border-radius:999px;background:var(--acc);box-shadow:var(--edge);transform:translateX(calc(var(--t,0) * 100%));transition:transform .55s cubic-bezier(.3,1.2,.5,1),background .3s;pointer-events:none}
+.tabs button{position:relative;z-index:1;flex:1;height:50px;display:grid;place-items:center;border-radius:999px;color:var(--sub);background:none;box-shadow:none;transition:color .35s var(--ease)}
+.tabs button.on{color:var(--on-acc);background:none;box-shadow:none;flex:1}
+.tabs button .i,.tabs .on .i{width:24px;height:24px;animation:none;transition:transform .45s var(--ease)}
+.tabs button.on .i{transform:scale(1.08)}
+.tabs button:active .i{transform:scale(.85)}
+.tabs #ub{top:4px;left:calc(50% + 4px)}
+
+/* ---------- Balon chat ---------- */
+#msgs{gap:0;padding:14px 12px 12px;background:radial-gradient(70% 30% at 100% 0,var(--glow),transparent 70%),var(--bg)}
+.m{max-width:80%;padding:9px 14px 8px;font-size:15.5px;line-height:1.42;box-shadow:none;border-radius:20px 20px 20px 20px}
+.m+.m{margin-top:2px}
+.me{background:var(--lime);color:var(--ink);border-radius:20px 20px 4px 20px;box-shadow:0 10px 20px -14px rgba(201,247,58,.9)}
+.ot{background:var(--bub);color:var(--tx);border-radius:20px 20px 20px 4px;box-shadow:inset 0 0 0 1px var(--ln)}
+.me+.me{border-top-right-radius:6px}
+.me:has(+.me){border-bottom-right-radius:6px}
+.ot+.ot{border-top-left-radius:6px}
+.ot:has(+.ot){border-bottom-left-radius:6px}
+.ot+.me,.me+.ot{margin-top:10px}
+.m i{font:600 11px var(--fb);opacity:.6;float:right;margin:9px 0 0 12px;font-style:normal}
+.new.me{animation:inR .4s var(--ease)}
+.new.ot{animation:inL .4s var(--ease)}
+
+/* header obrolan bisa diklik untuk profil */
+.chd{display:flex;align-items:center;gap:12px;flex:1;min-width:0;text-align:left;padding:4px 8px 4px 2px;border-radius:18px;transition:background .25s}
+.chd:hover{background:var(--s1)}
+.chd .mid{min-width:0}
+
+/* ---------- Lembar bawah ---------- */
+.wrap{position:fixed;inset:0;z-index:15;pointer-events:none;display:grid;align-items:end;justify-items:center}
+.wrap.open{pointer-events:auto}
+.scrim{position:absolute;inset:0;background:rgba(3,10,7,.55);opacity:0;transition:opacity .35s var(--ease)}
+.wrap.open .scrim{opacity:1}
+.sheet{position:relative;width:100%;max-width:520px;max-height:88%;overflow:auto;background:var(--s1);border:1px solid var(--ln);border-radius:28px 28px 0 0;padding:10px 20px calc(22px + env(safe-area-inset-bottom,0px));transform:translateY(104%);transition:transform .5s var(--ease)}
+.wrap.open .sheet{transform:none}
+.grab{width:42px;height:5px;border-radius:3px;background:var(--s3);margin:0 auto 14px}
+.sh-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;min-height:40px}
+.sh-h b{font:700 22px var(--fd);letter-spacing:-.04em}
+.sh-h .ic{background:var(--s2);color:var(--tx);width:40px;height:40px}
+.fi{display:grid;gap:6px;margin-bottom:12px}
+.fi span{font-size:13px;font-weight:700;color:var(--hl)}
+.fi input,.fi textarea{width:100%;border:1.5px solid var(--ln);background:var(--s2);border-radius:14px;padding:12px 14px;outline:none;resize:none;font:inherit;transition:border-color .25s,box-shadow .25s}
+.fi input:focus,.fi textarea:focus{border-color:var(--fc);box-shadow:0 0 0 4px var(--glow)}
+#eh{display:block;min-height:18px;color:var(--co);font-size:13px;font-weight:600;margin:-4px 0 8px 2px}
+#esv{width:100%}
+.uv-av{display:grid;justify-items:center;text-align:center;gap:4px;margin-bottom:6px}
+.uv-av .av{width:96px;height:96px;font-size:40px;margin:6px 0 10px;box-shadow:0 0 0 4px var(--s1),0 0 0 6.5px var(--hl)}
+#unm{font:700 22px var(--fd);letter-spacing:-.04em}
+#uun{color:var(--hl);font-weight:700}
+#ubo{color:var(--sub);max-width:85%;margin-top:6px}
+#ust{font-size:13px;font-weight:700;color:var(--sub)}
+#ust.on{color:var(--hl)}
+.uv-a{display:flex;gap:8px;margin-top:18px}
+.uv-a .btn{flex:1}
+
+/* ---------- Loading ---------- */
+#splash .bar{width:120px;height:3px;border-radius:3px;background:var(--ln);overflow:hidden;margin-top:6px}
+#splash .bar::after{content:"";display:block;width:42%;height:100%;border-radius:3px;background:var(--hl);animation:load 1.25s var(--ease) infinite}
+#splash .ldr .i{animation:breathe 2.2s ease-in-out infinite}
+@keyframes load{from{transform:translateX(-110%)}to{transform:translateX(260%)}}
+@keyframes breathe{50%{transform:scale(1.07)}}
+.sk{animation:in .4s var(--ease) both}
+.sk:nth-child(2){animation-delay:.06s}
+.sk:nth-child(3){animation-delay:.12s}
+.sk:nth-child(4){animation-delay:.18s}
+.pc .av{transition:transform .5s var(--ease)}
+.pc .av:hover{transform:scale(1.03)}
 </style>
 </head>
 <body>
@@ -251,9 +321,10 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
 <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
 <symbol id="i-google" viewBox="0 0 48 48"><g stroke="none"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></symbol>
 </svg>
 
-<div id="splash"><div class="ldr"><i class="ring"></i><svg class="i"><use href="#i-logo"/></svg></div><b>HaloKita</b><div class="dots"><i></i><i></i><i></i></div></div>
+<div id="splash"><div class="ldr"><i class="ring"></i><svg class="i"><use href="#i-logo"/></svg></div><b>HaloKita</b><div class="bar"></div><div class="dots"><i></i><i></i><i></i></div></div>
 
 <div id="auth"><div class="card">
   <div class="brand"><svg class="i"><use href="#i-logo"/></svg><h1>HaloKita</h1></div>
@@ -296,15 +367,10 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <div class="lt"><h1>Profil</h1></div>
         <div class="pc"><div id="pv"></div><b id="pnn"></b><small id="pun"></small><p id="pbo"></p>
           <div class="st"><div><b id="s1">0</b><small>Obrolan</small></div><div><b id="s2">0</b><small>Kontak</small></div></div>
-          <div class="pa"><button id="sc" class="btn sm">Salin username</button><button id="sb2" class="btn sm ghost">Bagikan</button></div>
+          <div class="pa"><button id="ep" class="btn sm">Edit profil</button><button id="sc" class="btn sm ghost">Salin</button><button id="sb2" class="btn sm ghost">Bagikan</button></div>
         </div>
-        <div class="gl">Informasi</div>
-        <div class="grp">
-          <label class="sr"><span class="k">Nama</span><input id="pnm" placeholder="Nama kamu" maxlength="30"></label>
-          <label class="sr"><span class="k">Bio</span><input id="bio" placeholder="Tulis bio singkat" maxlength="120"></label>
-          <div class="sr"><span class="k">Email</span><span class="v" id="pem"></span></div>
-        </div>
-        <button id="sv" class="btn w">Simpan perubahan</button>
+        <div class="gl">Akun</div>
+        <div class="grp"><div class="sr"><span class="k">Email</span><span class="v" id="pem"></span></div></div>
       </section>
       <section class="pg" id="pg3">
         <div class="lt"><h1>Pengaturan</h1></div>
@@ -323,20 +389,27 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         </div>
         <div class="gl">Privasi</div>
         <div class="grp"><div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Teman bisa melihat kamu online</small></span><button id="sh" class="sw" aria-label="Status online"></button></div></div>
+        <div class="gl">Data</div>
+        <div class="grp">
+          <button id="ex" class="sr ch"><svg class="i"><use href="#i-down"/></svg><span class="mid"><b>Unduh data</b><small>Simpan profil, kontak, dan obrolan ke file</small></span></button>
+          <button id="im" class="sr ch"><svg class="i"><use href="#i-up"/></svg><span class="mid"><b>Unggah data</b><small>Pulihkan dari file cadangan HaloKita</small></span></button>
+        </div>
+        <input id="imf" type="file" accept="application/json,.json" hidden>
         <div class="gl">Akun</div>
         <div class="grp">
           <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small>Kirim tautan reset ke email</small></span></button>
           <button id="dc" class="sr ch"><svg class="i"><use href="#i-x"/></svg><span class="mid"><b>Kosongkan daftar obrolan</b></span></button>
           <button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button>
         </div>
-        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.0, dibuat dengan Firebase</small></span></div></div>
+        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.1, dibuat dengan Firebase</small></span></div></div>
       </section>
     </div>
     <nav class="tabs">
-      <button class="on"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" hidden></em></button>
-      <button><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span></button>
-      <button><svg class="i"><use href="#i-user"/></svg><span>Profil</span></button>
-      <button><svg class="i"><use href="#i-set"/></svg><span>Atur</span></button>
+      <i class="pill"></i>
+      <button class="on" aria-label="Chat"><svg class="i"><use href="#i-chat"/></svg><em id="ub" hidden></em></button>
+      <button aria-label="Kontak"><svg class="i"><use href="#i-kon"/></svg></button>
+      <button aria-label="Profil"><svg class="i"><use href="#i-user"/></svg></button>
+      <button aria-label="Pengaturan"><svg class="i"><use href="#i-set"/></svg></button>
     </nav>
   </div>
   <div id="main">
@@ -344,8 +417,7 @@ small{color:var(--sub);font-size:13px;font-weight:600}
     <div id="cv" hidden>
       <div class="h">
         <button id="bk" class="ic" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></button>
-        <span id="cav"></span>
-        <div class="mid"><b id="cn"></b><small id="cs"></small></div>
+        <button id="chd" class="chd" aria-label="Lihat profil"><span id="cav"></span><span class="mid"><b id="cn"></b><small id="cs"></small></span></button>
       </div>
       <div id="msgs"></div>
       <div class="cp">
@@ -353,6 +425,27 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <button id="sd" class="ic" aria-label="Kirim"><svg class="i"><use href="#i-send"/></svg></button>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="wrap" id="esh"><div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="eshT">
+    <div class="grab"></div>
+    <div class="sh-h"><b id="eshT">Edit profil</b><button class="ic" data-close="esh" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <label class="fi"><span>Nama</span><input id="en" maxlength="30" autocomplete="name"></label>
+    <label class="fi"><span>Username</span><input id="eu" maxlength="20" autocapitalize="none" autocomplete="username"></label>
+    <label class="fi"><span>Bio</span><textarea id="eb" rows="3" maxlength="120"></textarea></label>
+    <small id="eh"></small>
+    <button id="esv" class="btn">Simpan</button>
+  </div>
+</div>
+
+<div class="wrap" id="ush"><div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="Profil">
+    <div class="grab"></div>
+    <div class="sh-h"><span></span><button class="ic" data-close="ush" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="uv-av"><div id="uav"></div><b id="unm"></b><span id="uun"></span><p id="ubo"></p><small id="ust"></small></div>
+    <div class="uv-a"><button id="ucm" class="btn">Kirim pesan</button><button id="uck" class="btn ghost">Tambah kontak</button></div>
   </div>
 </div>
 <script type="module">
@@ -496,12 +589,25 @@ async function start(uid) {
 }
 
 /* ---------- Daftar obrolan & pencarian ---------- */
+let S = {}, kon = {}, chatF = 'all', tmr, tt, uCur = null;
+const cl = {}, onl = {};
+const USER_RE = /^[a-z0-9_]{4,20}$/;
+const SK = '<div class="sk"><i class="av"></i><div><u></u><u></u></div></div>'.repeat(6);
+const stag = b => [...b.children].forEach((r, k) => r.style.animation = `slide .45s var(--ease) ${Math.min(k, 8) * 45}ms both`);
+try { S = JSON.parse(localStorage.getItem('hk') || '{}'); } catch {}
+const saveS = () => { try { localStorage.setItem('hk', JSON.stringify(S)); } catch {} };
+const sum = o => Object.values(o).reduce((a, c) => a + (c.unread || 0), 0);
+const stats = () => { $('#s1').textContent = Object.keys(chats).length; $('#s2').textContent = Object.keys(kon).length; };
+const busy = (b, on) => b.classList.toggle('ld', on);
+
 function row(u, sub, ts, unread) {
   const r = el('div', 'row' + (unread ? ' un' : ''));
-  const mid = el('div', 'mid'); mid.append(el('b', '', u.name), el('small', '', sub || ''));
+  const a = av(u.name, u.uid);
+  a.onclick = e => { e.stopPropagation(); openU(u.uid, u.name, u.username); };
+  const mid = el('div', 'mid'); mid.append(el('b', '', u.name || '?'), el('small', '', sub || ''));
   const rt = el('div', 'rt', tm(ts));
   if (unread) rt.append(document.createElement('br'), el('span', 'bd', unread));
-  r.append(av(u.name, u.uid), mid, rt);
+  r.append(a, mid, rt);
   r.onclick = () => open({uid: u.uid, name: u.name, username: u.username});
   return r;
 }
@@ -509,23 +615,22 @@ function list(res) {
   const q = norm($('#q').value), box = $('#list');
   const un = sum(chats); $('#ub').textContent = un; $('#ub').hidden = !un; stats();
   box.replaceChildren();
-  if (res) box.append(el('div', 'lb', 'Hasil pencarian'), row(res, '@' + res.username));
+  if (res) box.append(el('div', 'sec', 'Hasil pencarian'), row(res, '@' + res.username));
   Object.values(chats)
     .filter(c => c.with && (chatF == 'all' || c.unread) && (!q || (c.name + c.username).toLowerCase().includes(q)))
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
     .forEach(c => box.append(row({uid: c.with, name: c.name, username: c.username}, c.last, c.ts, c.unread)));
-  if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg><br>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
+  if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
   else if (!list.d && !res) { list.d = 1; stag(box); }
 }
-let tmr;
 $('#q').oninput = () => {
   clearTimeout(tmr);
   tmr = setTimeout(async () => {
     const q = norm($('#q').value); let res;
-    if (q.length >= 4 && q != me.username) {
+    if (USER_RE.test(q) && q != me.username) {
       try {
         const s = await get(ref(db, 'usernames/' + q));
-        if (s.exists()) { const u = await get(ref(db, 'users/' + s.val())); res = {uid: s.val(), ...u.val()}; }
+        if (s.exists()) { const u = await get(ref(db, 'users/' + s.val())); if (u.exists()) res = {uid: s.val(), ...u.val()}; }
       } catch {}
     }
     list(res);
@@ -533,15 +638,7 @@ $('#q').oninput = () => {
 };
 
 /* ---------- Menu utama, kontak, profil, pengaturan ---------- */
-let S = {}, kon = {};
-const SK = '<div class="sk"><i class="av"></i><div><u></u><u></u></div></div>'.repeat(6);
-const stag = b => [...b.children].forEach((r, k) => r.style.animation = `slide .45s var(--ease) ${Math.min(k, 8) * 45}ms both`);
-try { S = JSON.parse(localStorage.getItem('hk') || '{}'); } catch {}
-const saveS = () => { try { localStorage.setItem('hk', JSON.stringify(S)); } catch {} };
-const sum = o => Object.values(o).reduce((a, c) => a + (c.unread || 0), 0);
-const NAMA = ['Chat', 'Kontak', 'Profil', 'Pengaturan'];
-let tt;
-function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => e.classList.remove('on'), 2200); }
+function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => e.classList.remove('on'), 2400); }
 function beep() {
   try {
     const c = new (window.AudioContext || window.webkitAudioContext)(), o = c.createOscillator(), g = c.createGain();
@@ -557,6 +654,7 @@ function go(i) {
 }
 document.querySelectorAll('.tabs button').forEach((b, k) => b.onclick = () => go(k));
 $('#meav').onclick = () => go(2);
+
 function ui() {
   const R = document.documentElement; R.dataset.theme = S.theme || 'dark'; R.style.setProperty('--fs', (S.fs || 15) + 'px');
   try { document.querySelector('meta[name=theme-color]').content = getComputedStyle(R).getPropertyValue('--bg').trim() || '#06140f'; } catch {}
@@ -565,9 +663,10 @@ function ui() {
   $('#sn').classList.toggle('on', S.snd !== false); $('#vb').classList.toggle('on', S.vib !== false); $('#sh').classList.toggle('on', !S.hide);
 }
 document.querySelectorAll('#seg button').forEach(b => b.onclick = () => { S.theme = b.dataset.t; saveS(); ui(); });
+document.querySelectorAll('#fs button').forEach(b => b.onclick = () => { S.fs = +b.dataset.s; saveS(); ui(); });
 $('#sn').onclick = () => { S.snd = S.snd === false; saveS(); ui(); };
+$('#vb').onclick = () => { S.vib = S.vib === false; saveS(); ui(); };
 $('#sh').onclick = () => { S.hide = !S.hide; saveS(); ui(); update(ref(db, 'users/' + me.uid), {online: !S.hide}); };
-ui();
 
 function fillProf() {
   $('#pv').replaceChildren(av(me.name, me.uid)); $('#ma').replaceChildren(av(me.name, me.uid));
@@ -575,14 +674,76 @@ function fillProf() {
   $('#pun').textContent = $('#au').textContent = '@' + me.username;
   $('#pbo').textContent = me.bio || 'Belum ada bio';
   $('#pem').textContent = auth.currentUser?.email || '-';
-  $('#pnm').value = me.name; $('#bio').value = me.bio || ''; stats();
+  stats();
 }
-$('#sv').onclick = async () => {
-  const n = $('#pnm').value.trim() || me.username, b = $('#bio').value.trim().slice(0, 120);
-  try { await update(ref(db, 'users/' + me.uid), {name: n, bio: b}); me.name = n; me.bio = b; fillProf(); toast('Profil disimpan'); }
-  catch { toast('Gagal menyimpan profil'); }
+
+/* lembar bawah: edit profil & profil orang lain */
+const openSheet = id => $('#' + id).classList.add('open');
+const closeSheet = id => $('#' + id).classList.remove('open');
+document.querySelectorAll('.wrap').forEach(w => {
+  w.querySelector('.scrim').onclick = () => w.classList.remove('open');
+  w.querySelectorAll('[data-close]').forEach(b => b.onclick = () => w.classList.remove('open'));
+});
+document.addEventListener('keydown', e => { if (e.key == 'Escape') document.querySelectorAll('.wrap.open').forEach(w => w.classList.remove('open')); });
+
+$('#ep').onclick = () => {
+  $('#en').value = me.name || ''; $('#eu').value = me.username || ''; $('#eb').value = me.bio || ''; $('#eh').textContent = '';
+  openSheet('esh');
+};
+$('#esv').onclick = async () => {
+  const b = $('#esv'), n = $('#en').value.trim().slice(0, 30), nu = norm($('#eu').value), bio = $('#eb').value.trim().slice(0, 120);
+  if (!n) { $('#eh').textContent = 'Nama tidak boleh kosong'; return; }
+  if (!USER_RE.test(nu)) { $('#eh').textContent = 'Username 4–20 karakter: huruf, angka, atau _'; return; }
+  busy(b, true);
+  try {
+    const up = {[`users/${me.uid}/name`]: n, [`users/${me.uid}/bio`]: bio, [`users/${me.uid}/username`]: nu};
+    if (nu != me.username) {
+      if ((await get(ref(db, 'usernames/' + nu))).exists()) { $('#eh').textContent = 'Username sudah dipakai, pilih yang lain'; return; }
+      up['usernames/' + nu] = me.uid; up['usernames/' + me.username] = null;
+    }
+    await update(ref(db), up);
+    me = {...me, name: n, username: nu, bio}; fillProf(); closeSheet('esh'); toast('Profil disimpan');
+  } catch { $('#eh').textContent = 'Gagal menyimpan, coba lagi'; }
+  finally { busy(b, false); }
 };
 
+function paintU() {
+  if (!uCur) return;
+  const isMe = uCur.uid == me.uid, has = !!kon[uCur.uid];
+  $('#ucm').hidden = isMe; $('#uck').hidden = isMe;
+  $('#uck').textContent = has ? 'Hapus kontak' : 'Tambah kontak';
+  $('#uck').classList.toggle('ghost', has);
+}
+async function openU(uid, name, username) {
+  uCur = {uid, name, username};
+  $('#uav').replaceChildren(av(name, uid));
+  $('#unm').textContent = name || username || '?';
+  $('#uun').textContent = '@' + (username || '');
+  $('#ubo').textContent = ''; $('#ust').textContent = ''; $('#ust').classList.remove('on');
+  paintU(); openSheet('ush');
+  try {
+    const v = (await get(ref(db, 'users/' + uid))).val() || {};
+    if (uCur?.uid != uid) return;
+    $('#unm').textContent = v.name || name || '?';
+    $('#uun').textContent = '@' + (v.username || username || '');
+    $('#ubo').textContent = v.bio || 'Belum ada bio';
+    $('#ust').textContent = v.online ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : 'offline';
+    $('#ust').classList.toggle('on', !!v.online);
+  } catch { $('#ubo').textContent = 'Gagal memuat profil'; }
+}
+$('#ucm').onclick = () => { if (!uCur) return; closeSheet('ush'); go(0); open({uid: uCur.uid, name: uCur.name, username: uCur.username}); };
+$('#uck').onclick = async () => {
+  if (!uCur) return;
+  const {uid, name, username} = uCur, b = $('#uck');
+  busy(b, true);
+  try {
+    if (kon[uid]) { await remove(ref(db, `contacts/${me.uid}/${uid}`)); toast('Kontak dihapus'); }
+    else { await update(ref(db, `contacts/${me.uid}/${uid}`), {name: name || username, username: username || ''}); toast('Kontak ditambahkan'); }
+  } catch { toast('Gagal mengubah kontak'); }
+  finally { busy(b, false); paintU(); }
+};
+
+/* kontak */
 function paint(id) {
   document.querySelectorAll(`.row[data-u="${id}"]`).forEach(r => {
     const o = !!onl[id]; r.querySelector('.avw').classList.toggle('on', o);
@@ -591,47 +752,59 @@ function paint(id) {
 }
 function klist() {
   const b = $('#clist'), q = norm($('#cq').value); b.replaceChildren();
-  const a = Object.entries(kon).filter(([, c]) => !q || (c.name + c.username).toLowerCase().includes(q)).sort((x, y) => x[1].name.localeCompare(y[1].name));
+  const a = Object.entries(kon)
+    .filter(([, c]) => !q || ((c.name || '') + (c.username || '')).toLowerCase().includes(q))
+    .sort((x, y) => (x[1].name || '').localeCompare(y[1].name || ''));
   let L = '';
   a.forEach(([id, c]) => {
-    const l = (c.name[0] || '#').toUpperCase();
+    const nm = c.name || c.username || '?', l = nm[0].toUpperCase();
     if (l != L) { L = l; b.append(el('div', 'sec', l)); }
-    const r = row({uid: id, name: c.name, username: c.username}, '@' + c.username);
+    const r = row({uid: id, name: nm, username: c.username}, '@' + (c.username || ''));
+    r.onclick = () => openU(id, nm, c.username);
     r.dataset.u = id;
     const a0 = r.firstChild, w = el('div', 'avw'); a0.replaceWith(w); w.append(a0, el('i', 'dot'));
-    const x = el('button', 'ic'); x.title = 'Hapus kontak'; x.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
-    x.onclick = e => { e.stopPropagation(); remove(ref(db, `contacts/${me.uid}/${id}`)); toast('Kontak dihapus'); };
+    const x = el('button', 'ic'); x.title = 'Hapus kontak'; x.setAttribute('aria-label', 'Hapus kontak');
+    x.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+    x.onclick = e => {
+      e.stopPropagation();
+      remove(ref(db, `contacts/${me.uid}/${id}`)).then(() => toast('Kontak dihapus')).catch(() => toast('Gagal menghapus kontak'));
+    };
     r.append(x); b.append(r);
     if (!cl[id]) cl[id] = onValue(ref(db, 'users/' + id), s => { onl[id] = s.val()?.online; paint(id); });
     paint(id);
   });
-  if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg><br>' + (q ? 'Kontak tidak ditemukan.' : 'Belum ada kontak.<br>Tambahkan teman lewat @username.'); b.append(e); }
+  if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg>' + (q ? 'Kontak tidak ditemukan.' : 'Belum ada kontak.<br>Tambahkan teman lewat @username.'); b.append(e); }
   else if (!klist.d) { klist.d = 1; stag(b); }
   $('#cc').textContent = Object.keys(kon).length + ' kontak'; stats();
 }
 async function tambah() {
-  const q = norm($('#ci').value);
-  if (q.length < 4) return toast('Masukkan username teman');
+  const b = $('#ca'), q = norm($('#ci').value);
+  if (!q) return toast('Masukkan @username teman');
+  if (!USER_RE.test(q)) return toast('Username: 4–20 huruf, angka, atau _');
+  if (q == me.username) return toast('Itu akun kamu sendiri');
+  busy(b, true);
   try {
     const s = await get(ref(db, 'usernames/' + q));
     if (!s.exists()) return toast('Username tidak ditemukan');
-    if (s.val() == me.uid) return toast('Itu akun kamu sendiri');
-    const u = (await get(ref(db, 'users/' + s.val()))).val();
-    await update(ref(db, `contacts/${me.uid}/${s.val()}`), {name: u.name, username: u.username});
+    const uid = s.val();
+    if (uid == me.uid) return toast('Itu akun kamu sendiri');
+    if (kon[uid]) return toast('Sudah ada di kontak');
+    const u = (await get(ref(db, 'users/' + uid))).val();
+    if (!u) return toast('Profil teman tidak ditemukan');
+    await update(ref(db, `contacts/${me.uid}/${uid}`), {name: u.name || q, username: u.username || q});
     $('#ci').value = ''; toast('Kontak ditambahkan');
-  } catch { toast('Gagal menambah kontak'); }
+  } catch (x) {
+    toast(x?.code == 'PERMISSION_DENIED' ? 'Tidak diizinkan menambah kontak ini' : 'Gagal menambah kontak, coba lagi');
+  } finally { busy(b, false); }
 }
 $('#ca').onclick = tambah;
 $('#ci').onkeydown = e => { if (e.key == 'Enter') tambah(); };
+$('#cq').oninput = () => klist();
 
-let chatF = 'all'; const cl = {}, onl = {};
-const stats = () => { $('#s1').textContent = Object.keys(chats).length; $('#s2').textContent = Object.keys(kon).length; };
+/* tombol lain */
 document.querySelectorAll('#fl button').forEach(b => b.onclick = () => { chatF = b.dataset.f; document.querySelectorAll('#fl button').forEach(x => x.classList.toggle('on', x == b)); list(); });
 $('#nw').onclick = () => { go(1); setTimeout(() => $('#ci').focus(), 350); };
 $('#ac').onclick = () => go(2);
-$('#cq').oninput = () => klist();
-document.querySelectorAll('#fs button').forEach(b => b.onclick = () => { S.fs = +b.dataset.s; saveS(); ui(); });
-$('#vb').onclick = () => { S.vib = S.vib === false; saveS(); ui(); };
 $('#sc').onclick = async () => { try { await navigator.clipboard.writeText('@' + me.username); toast('Username disalin'); } catch { toast('Gagal menyalin'); } };
 const bagi = async () => {
   const t = `Chat dengan saya di HaloKita: @${me.username}`;
@@ -645,6 +818,64 @@ $('#dc').onclick = async () => {
   await update(ref(db), Object.fromEntries(k.map(i => [`userChats/${me.uid}/${i}`, null]))); toast('Daftar obrolan dikosongkan');
 };
 
+/* simpan & pulihkan data */
+$('#ex').onclick = async () => {
+  const b = $('#ex');
+  busy(b, true);
+  try {
+    const cs = (await get(ref(db, 'userChats/' + me.uid))).val() || {}, pesan = {};
+    for (const id of Object.keys(cs)) {
+      const m = {};
+      (await get(ref(db, `chats/${id}/messages`))).forEach(c => { m[c.key] = c.val(); });
+      pesan[id] = m;
+    }
+    const data = {app: 'HaloKita', versi: 1, diekspor: new Date().toISOString(),
+      profil: {name: me.name, username: me.username, bio: me.bio || ''}, kontak: kon, obrolan: cs, pesan};
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'}));
+    const a = el('a'); a.href = url; a.download = `halokita-${me.username}-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+    toast('Data diunduh');
+  } catch { toast('Gagal mengunduh data'); }
+  finally { busy(b, false); }
+};
+$('#im').onclick = () => $('#imf').click();
+$('#imf').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  const b = $('#im');
+  busy(b, true);
+  try {
+    const d = JSON.parse(await f.text());
+    if (d?.app !== 'HaloKita') throw new Error('bukan');
+    if (!confirm('Pulihkan profil, kontak, dan obrolan dari file ini?')) return;
+    let kn = 0, pn = 0, sk = 0;
+    const up = {};
+    if (d.profil?.bio != null) up[`users/${me.uid}/bio`] = String(d.profil.bio).slice(0, 120);
+    for (const [id, c] of Object.entries(d.kontak || {})) {
+      if (id == me.uid || !c) continue;
+      up[`contacts/${me.uid}/${id}`] = {name: c.name || c.username || '?', username: c.username || ''}; kn++;
+    }
+    for (const [id, c] of Object.entries(d.obrolan || {})) {
+      if (!c?.with || !id.split('_').includes(me.uid)) continue;
+      up[`userChats/${me.uid}/${id}`] = {with: c.with, name: c.name || '', username: c.username || '', last: c.last || '', ts: c.ts || Date.now(), unread: 0};
+    }
+    await update(ref(db), up);
+    for (const [id, m] of Object.entries(d.pesan || {})) {
+      if (!id.split('_').includes(me.uid)) continue;
+      const mu = {};
+      for (const [k, v] of Object.entries(m || {})) {
+        if (v?.from != me.uid) { sk++; continue; }
+        mu[`chats/${id}/messages/${k}`] = {from: me.uid, text: String(v.text ?? ''), ts: v.ts || Date.now()}; pn++;
+      }
+      if (Object.keys(mu).length) await update(ref(db), mu);
+    }
+    toast(`Dipulihkan: ${kn} kontak, ${pn} pesan` + (sk ? `, ${sk} pesan lawan bicara dilewati` : ''));
+  } catch (x) {
+    toast(x instanceof SyntaxError || x.message == 'bukan' ? 'File ini bukan cadangan HaloKita' : 'Gagal memulihkan data');
+  } finally { busy(b, false); }
+};
+
 /* ---------- Obrolan ---------- */
 function clr() {
   if (!cur) return;
@@ -656,11 +887,12 @@ function open(u) {
   cur = u;
   $('#app').classList.add('chat'); $('#ph').hidden = true; $('#cv').hidden = false;
   $('#cv').classList.remove('in'); void $('#cv').offsetWidth; $('#cv').classList.add('in');
-  $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid)); $('#msgs').innerHTML = '<div class="sb l"></div><div class="sb r"></div><div class="sb l s"></div>';
+  $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid));
+  $('#msgs').innerHTML = '<div class="sb l"></div><div class="sb r"></div><div class="sb l s"></div>';
   unS = onValue(ref(db, 'users/' + u.uid), s => {
-    const v = s.val() || {};
-    $('#cs').textContent = v.online ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : '@' + u.username;
-    $('#cs').classList.toggle('on', !!v.online); $('#cav').classList.toggle('on', !!v.online);
+    const v = s.val() || {}, on = !!v.online;
+    $('#cs').textContent = on ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : '@' + u.username;
+    $('#cs').classList.toggle('on', on); $('#cav').classList.toggle('on', on);
   });
   const seen = new Set(); let first = true;
   unM = onValue(query(ref(db, `chats/${cid(me.uid, u.uid)}/messages`), limitToLast(150)), s => {
@@ -673,10 +905,8 @@ function open(u) {
     b.scrollTo({top: b.scrollHeight, behavior: first ? 'auto' : 'smooth'}); first = false; clr();
   });
 }
-$('#bk').onclick = () => {
-  unM && unM(); unS && unS(); cur = null;
-  $('#app').classList.remove('chat');
-};
+$('#bk').onclick = () => { unM && unM(); unS && unS(); cur = null; $('#app').classList.remove('chat'); };
+$('#chd').onclick = () => { if (cur) openU(cur.uid, cur.name, cur.username); };
 async function kirim() {
   const t = $('#mi').value.trim();
   if (!t || !cur) return;
@@ -692,6 +922,8 @@ async function kirim() {
 }
 $('#sd').onclick = kirim;
 $('#mi').onkeydown = e => { if (e.key == 'Enter') kirim(); };
+
+ui();
 </script>
 <div id="toast"></div>
 </body>
