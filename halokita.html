@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#3390ec">
 <title>HaloKita</title>
 <style>
-:root{--bg:#fff;--bg2:#eaf1f8;--ln:rgba(15,23,34,.07);--tx:#0f1722;--sub:#6b7a8c;--pr:#2f7ff0;--ot:#fff;--sh:0 2px 8px rgba(30,60,110,.12);--ease:cubic-bezier(.22,.8,.24,1)}
-@media(prefers-color-scheme:dark){:root{--bg:#16202b;--bg2:#0d141c;--ln:rgba(255,255,255,.07);--tx:#eef3f8;--sub:#8497ab;--pr:#4a9bff;--ot:#212f3e;--sh:0 2px 8px rgba(0,0,0,.35)}}
+:root{--bg:#fff;--bg2:#eaf1f8;--ln:rgba(15,23,34,.07);--tx:#0f1722;--sub:#6b7a8c;--pr:#2f7ff0;--ot:#fff;--sh:0 2px 8px rgba(30,60,110,.12);--ease:cubic-bezier(.22,.8,.24,1);--card:rgba(255,255,255,.95)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#16202b;--bg2:#0d141c;--ln:rgba(255,255,255,.07);--tx:#eef3f8;--sub:#8497ab;--pr:#4a9bff;--ot:#212f3e;--sh:0 2px 8px rgba(0,0,0,.35);--card:rgba(22,32,43,.95)}}:root[data-theme=dark]{--bg:#16202b;--bg2:#0d141c;--ln:rgba(255,255,255,.07);--tx:#eef3f8;--sub:#8497ab;--pr:#4a9bff;--ot:#212f3e;--sh:0 2px 8px rgba(0,0,0,.35);--card:rgba(22,32,43,.95)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{height:100%;overflow:hidden}
@@ -18,8 +18,7 @@ button:active{transform:scale(.94)}
 .i{width:26px;height:26px;flex:none;filter:drop-shadow(0 2px 2px rgba(20,40,90,.28))}
 .i.big{width:110px;height:110px;filter:drop-shadow(0 8px 8px rgba(20,40,90,.3))}
 #auth{height:100%;display:grid;place-items:center;padding:20px;overflow:auto;background:radial-gradient(circle at 15% 12%,#6cc3ff 0,transparent 45%),radial-gradient(circle at 88% 92%,#a07bff 0,transparent 50%),linear-gradient(160deg,#2f7ff0,#3f4fd8)}
-.card{width:100%;max-width:350px;background:rgba(255,255,255,.95);color:#0f1722;border-radius:28px;padding:26px 22px 18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 24px 60px rgba(10,20,80,.35);animation:rise .7s var(--ease) both}
-@media(prefers-color-scheme:dark){.card{background:rgba(22,32,43,.95);color:#eef3f8}}
+.card{width:100%;max-width:350px;background:var(--card);color:var(--tx);border-radius:28px;padding:26px 22px 18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 24px 60px rgba(10,20,80,.35);animation:rise .7s var(--ease) both}
 .card .i.big{width:96px;height:96px;margin:-4px auto 0;animation:bob 4s ease-in-out infinite}
 .card h1{font-size:26px;letter-spacing:-.3px}
 .card p{color:var(--sub);margin-bottom:6px}
@@ -76,6 +75,39 @@ small{color:var(--sub);font-size:13px}
 .cp input:focus{border-color:var(--pr);background:var(--bg)}
 #sd .i{width:40px;height:40px}
 .cp input:placeholder-shown+#sd{opacity:.4;transform:scale(.85)}
+#pgs{flex:1;position:relative;overflow:hidden}
+.pg{position:absolute;inset:0;overflow-y:auto;background:var(--bg);opacity:0;transform:translateY(10px);pointer-events:none;visibility:hidden;transition:opacity .3s,transform .4s var(--ease),visibility 0s .4s}
+.pg.on{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
+#pg2,#pg3{background:var(--bg2)}
+.arow{display:flex;gap:4px;align-items:center;margin:10px 12px}
+.arow .fld{flex:1}
+#ca .i{width:40px;height:40px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);position:relative;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--bg);box-shadow:0 -6px 20px rgba(20,40,90,.08);z-index:3}
+.tabs::before{content:"";position:absolute;top:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px));width:calc((100% - 16px)/4);left:calc(8px + var(--t) * (100% - 16px) / 4);border-radius:16px;background:rgba(47,127,240,.13);transition:left .45s var(--ease)}
+.tabs button{position:relative;display:grid;justify-items:center;gap:1px;padding:6px 0;font-size:11px;color:var(--sub);font-weight:500;transition:color .3s,transform .18s var(--ease)}
+.tabs .i{width:28px;height:28px;transition:transform .45s var(--ease)}
+.tabs .on{color:var(--pr);font-weight:600}
+.tabs .on .i{transform:translateY(-2px) scale(1.15)}
+#ub{position:absolute;top:0;left:calc(50% + 6px);margin:0;font-style:normal;font-size:11px}
+.pf{display:grid;justify-items:center;gap:3px;padding:26px 16px 22px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,#3b8cf5,#5a56e0);border-radius:0 0 28px 28px;box-shadow:0 8px 22px rgba(47,90,220,.3)}
+.pf .av{width:92px;height:92px;font-size:38px;border:3px solid rgba(255,255,255,.75);margin-bottom:6px}
+.pf b{font-size:20px}
+.pf small{color:rgba(255,255,255,.85)}
+.grp{margin:0 12px 14px;background:var(--bg);border-radius:18px;box-shadow:var(--sh);overflow:hidden}
+.sr{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.sr+.sr{border-top:1px solid var(--ln)}
+.sr .fld,.sr .seg{flex:1}
+.w{width:calc(100% - 24px);margin:0 12px}
+.lo{width:100%;text-align:left;color:#e5384a;font-weight:600}
+.seg{display:flex;background:var(--bg2);border-radius:12px;padding:3px}
+.seg button{flex:1;padding:7px 4px;border-radius:10px;font-size:13px;color:var(--sub);transition:background .3s,color .3s,box-shadow .3s}
+.seg .on{background:var(--bg);box-shadow:var(--sh);color:var(--pr);font-weight:600}
+.sw{position:relative;width:50px;height:30px;border-radius:15px;background:var(--bg2);flex:none;transition:background .3s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.3);transition:transform .35s var(--ease)}
+.sw.on{background:var(--pr)}
+.sw.on::after{transform:translateX(20px)}
+#toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:rgba(20,30,45,.92);color:#fff;padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .3s,transform .4s var(--ease);z-index:9;max-width:80%;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
 @keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}}
@@ -110,6 +142,22 @@ small{color:var(--sub);font-size:13px}
 <symbol id="i-user" viewBox="0 0 48 48"><use href="#pu" y="3" fill="#4d2aa8"/><use href="#pu" fill="url(#gP)"/></symbol>
 <symbol id="i-at" viewBox="0 0 48 48"><use href="#pc" y="4" fill="#1b46a8"/><use href="#pc" fill="url(#gB)"/><path d="M6 20a18 18 0 0 1 36 0z" fill="url(#gH)" opacity=".6"/><text x="24" y="31" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" font-family="system-ui,sans-serif">@</text></symbol>
 <symbol id="i-google" viewBox="0 0 48 48"><circle cx="24" cy="26" r="21" fill="#a9b4c6"/><circle cx="24" cy="23" r="21" fill="url(#gW)"/><g transform="translate(11 10) scale(.54)"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
+<defs>
+<linearGradient id="gS" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#c6d2e3"/><stop offset="1" stop-color="#6f819b"/></linearGradient>
+<g id="pK"><circle cx="17" cy="14" r="7"/><path d="M3 40a14 12 0 0 1 28 0z"/><circle cx="34" cy="17" r="6"/><path d="M26 29a11 10 0 0 1 19 11H31z"/></g>
+<g id="pG" fill="none"><circle cx="24" cy="24" r="12" stroke-width="7"/><circle cx="24" cy="24" r="16" stroke-width="7" stroke-dasharray="6 6.57"/></g>
+<g id="pP" fill="none" stroke-width="8" stroke-linecap="round"><path d="M24 9v30M9 24h30"/></g>
+<path id="pL" d="M24 5a3 3 0 0 1 3 3v1.2c5 1.3 8 5.5 8 10.8v8l4 5H9l4-5v-8c0-5.3 3-9.5 8-10.8V8a3 3 0 0 1 3-3zM19 40h10a5 5 0 0 1-10 0z"/>
+<path id="pM" d="M30 6A19 19 0 1 0 42 32 15 15 0 0 1 30 6z"/>
+<g id="pX" fill="none" stroke-width="8" stroke-linecap="round"><path d="M13 13l22 22M35 13L13 35"/></g>
+</defs>
+<symbol id="i-kon" viewBox="0 0 48 48"><use href="#pK" y="3" fill="#0f6b3a"/><use href="#pK" fill="url(#gG)"/></symbol>
+<symbol id="i-set" viewBox="0 0 48 48"><use href="#pG" y="3" stroke="#4a5a72"/><use href="#pG" stroke="url(#gS)"/></symbol>
+<symbol id="i-add" viewBox="0 0 48 48"><use href="#pP" y="3" stroke="#167a41"/><use href="#pP" stroke="url(#gG)"/></symbol>
+<symbol id="i-bell" viewBox="0 0 48 48"><use href="#pL" y="3" fill="#b8480f"/><use href="#pL" fill="url(#gO)"/></symbol>
+<symbol id="i-moon" viewBox="0 0 48 48"><use href="#pM" y="3" fill="#4d2aa8"/><use href="#pM" fill="url(#gP)"/></symbol>
+<symbol id="i-x" viewBox="0 0 48 48"><use href="#pX" y="3" stroke="#a21f2f"/><use href="#pX" stroke="url(#gR)"/></symbol>
+<symbol id="i-info" viewBox="0 0 48 48"><use href="#pc" y="4" fill="#1b46a8"/><use href="#pc" fill="url(#gB)"/><text x="24" y="32" text-anchor="middle" font-size="24" font-weight="800" fill="#fff" font-family="Georgia,serif">i</text></symbol>
 </svg>
 
 <div id="auth"><div class="card">
@@ -133,9 +181,41 @@ small{color:var(--sub);font-size:13px}
 
 <div id="app" hidden>
   <div id="side">
-    <div class="h"><span id="meav"></span><h2>HaloKita</h2><button id="out" class="ic" title="Keluar" aria-label="Keluar"><svg class="i"><use href="#i-out"/></svg></button></div>
-    <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="q" placeholder="Cari @username teman" autocapitalize="none"></label>
-    <div id="list"></div>
+    <div class="h"><span id="meav"></span><h2>Chat</h2></div>
+    <div id="pgs">
+      <section class="pg on" id="pg0">
+        <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="q" placeholder="Cari @username teman" autocapitalize="none"></label>
+        <div id="list"></div>
+      </section>
+      <section class="pg" id="pg1">
+        <div class="arow"><label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="ci" placeholder="Tambah kontak lewat @username" autocapitalize="none"></label><button id="ca" class="ic" aria-label="Tambah kontak"><svg class="i"><use href="#i-add"/></svg></button></div>
+        <div id="clist"></div>
+      </section>
+      <section class="pg" id="pg2">
+        <div class="pf"><div id="pv"></div><b id="pnn"></b><small id="pun"></small><small id="pem"></small></div>
+        <div class="grp">
+          <div class="sr"><label class="fld"><svg class="i"><use href="#i-user"/></svg><input id="pnm" placeholder="Nama" maxlength="30"></label></div>
+          <div class="sr"><label class="fld"><svg class="i"><use href="#i-chat"/></svg><input id="bio" placeholder="Bio singkat" maxlength="120"></label></div>
+        </div>
+        <button id="sv" class="btn w">Simpan profil</button>
+      </section>
+      <section class="pg" id="pg3">
+        <div class="grp">
+          <div class="sr"><svg class="i"><use href="#i-moon"/></svg><b>Tema</b></div>
+          <div class="sr"><div id="seg" class="seg"><button data-t="auto">Otomatis</button><button data-t="light">Terang</button><button data-t="dark">Gelap</button></div></div>
+          <div class="sr"><svg class="i"><use href="#i-bell"/></svg><span class="mid"><b>Suara pesan</b><small>Bunyi saat ada pesan baru</small></span><button id="sn" class="sw" aria-label="Suara pesan"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Tampilkan ke teman</small></span><button id="sh" class="sw" aria-label="Status online"></button></div>
+        </div>
+        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>Tentang HaloKita</b><small>Versi 1.0, dibuat dengan Firebase</small></span></div></div>
+        <div class="grp"><button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button></div>
+      </section>
+    </div>
+    <nav class="tabs" style="--t:0">
+      <button class="on"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" class="bd" hidden></em></button>
+      <button><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span></button>
+      <button><svg class="i"><use href="#i-user"/></svg><span>Profil</span></button>
+      <button><svg class="i"><use href="#i-set"/></svg><span>Pengaturan</span></button>
+    </nav>
   </div>
   <div id="main">
     <div id="ph"><svg class="i big"><use href="#i-chat"/></svg><b>HaloKita</b><span>Pilih obrolan untuk mulai</span></div>
@@ -157,7 +237,7 @@ small{color:var(--sub);font-size:13px}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getDatabase,ref,get,update,push,onValue,query,limitToLast,serverTimestamp,onDisconnect,increment} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import {getDatabase,ref,get,update,push,onValue,query,limitToLast,serverTimestamp,onDisconnect,increment,remove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBEPzUM9EresZ-yvphzDusVs7AUqdLuCNQ",
@@ -277,9 +357,15 @@ async function start(uid) {
   onValue(ref(db, '.info/connected'), c => {
     if (!c.val()) return;
     const r = ref(db, 'users/' + uid);
-    onDisconnect(r).update({online: false, lastSeen: serverTimestamp()}).then(() => update(r, {online: true}));
+    onDisconnect(r).update({online: false, lastSeen: serverTimestamp()}).then(() => update(r, {online: !S.hide}));
   });
-  onValue(ref(db, 'userChats/' + uid), s => { chats = s.val() || {}; list(); clr(); });
+  onValue(ref(db, 'userChats/' + uid), s => {
+    const nw = s.val() || {};
+    if (sum(nw) > sum(chats) && S.snd !== false) beep();
+    chats = nw; list(); clr();
+  });
+  onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); });
+  fillProf(); ui();
 }
 
 /* ---------- Daftar obrolan & pencarian ---------- */
@@ -294,6 +380,7 @@ function row(u, sub, ts, unread) {
 }
 function list(res) {
   const q = norm($('#q').value), box = $('#list');
+  const un = sum(chats); $('#ub').textContent = un; $('#ub').hidden = !un;
   box.replaceChildren();
   if (res) box.append(el('div', 'lb', 'Hasil pencarian'), row(res, '@' + res.username));
   Object.values(chats)
@@ -316,6 +403,77 @@ $('#q').oninput = () => {
     list(res);
   }, 300);
 };
+
+/* ---------- Menu utama, kontak, profil, pengaturan ---------- */
+let S = {}, kon = {};
+try { S = JSON.parse(localStorage.getItem('hk') || '{}'); } catch {}
+const saveS = () => { try { localStorage.setItem('hk', JSON.stringify(S)); } catch {} };
+const sum = o => Object.values(o).reduce((a, c) => a + (c.unread || 0), 0);
+const NAMA = ['Chat', 'Kontak', 'Profil', 'Pengaturan'];
+let tt;
+function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => e.classList.remove('on'), 2200); }
+function beep() {
+  try {
+    const c = new (window.AudioContext || window.webkitAudioContext)(), o = c.createOscillator(), g = c.createGain();
+    o.connect(g); g.connect(c.destination); o.frequency.value = 880;
+    g.gain.setValueAtTime(.15, c.currentTime); g.gain.exponentialRampToValueAtTime(.001, c.currentTime + .25);
+    o.start(); o.stop(c.currentTime + .25);
+  } catch {}
+}
+function go(i) {
+  document.querySelectorAll('.pg').forEach((p, k) => p.classList.toggle('on', k == i));
+  document.querySelectorAll('.tabs button').forEach((b, k) => b.classList.toggle('on', k == i));
+  $('.tabs').style.setProperty('--t', i); $('#side .h h2').textContent = NAMA[i];
+}
+document.querySelectorAll('.tabs button').forEach((b, k) => b.onclick = () => go(k));
+$('#meav').onclick = () => go(2);
+function ui() {
+  document.documentElement.dataset.theme = S.theme || 'auto';
+  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.t == (S.theme || 'auto')));
+  $('#sn').classList.toggle('on', S.snd !== false); $('#sh').classList.toggle('on', !S.hide);
+}
+document.querySelectorAll('#seg button').forEach(b => b.onclick = () => { S.theme = b.dataset.t; saveS(); ui(); });
+$('#sn').onclick = () => { S.snd = S.snd === false; saveS(); ui(); };
+$('#sh').onclick = () => { S.hide = !S.hide; saveS(); ui(); update(ref(db, 'users/' + me.uid), {online: !S.hide}); };
+ui();
+
+function fillProf() {
+  $('#pv').replaceChildren(av(me.name, me.uid)); $('#pnn').textContent = me.name;
+  $('#pun').textContent = '@' + me.username; $('#pem').textContent = auth.currentUser?.email || '';
+  $('#pnm').value = me.name; $('#bio').value = me.bio || '';
+  $('#meav').replaceChildren(av(me.name, me.uid));
+}
+$('#sv').onclick = async () => {
+  const n = $('#pnm').value.trim() || me.username, b = $('#bio').value.trim().slice(0, 120);
+  try { await update(ref(db, 'users/' + me.uid), {name: n, bio: b}); me.name = n; me.bio = b; fillProf(); toast('Profil disimpan'); }
+  catch { toast('Gagal menyimpan profil'); }
+};
+
+function klist() {
+  const b = $('#clist'); b.replaceChildren();
+  const a = Object.entries(kon).sort((x, y) => x[1].name.localeCompare(y[1].name));
+  a.forEach(([id, c]) => {
+    const r = row({uid: id, name: c.name, username: c.username}, '@' + c.username);
+    const x = el('button', 'ic'); x.title = 'Hapus kontak'; x.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+    x.onclick = e => { e.stopPropagation(); remove(ref(db, `contacts/${me.uid}/${id}`)); toast('Kontak dihapus'); };
+    r.append(x); b.append(r);
+  });
+  if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg><br>Belum ada kontak.<br>Tambahkan teman lewat @username.'; b.append(e); }
+}
+async function tambah() {
+  const q = norm($('#ci').value);
+  if (q.length < 4) return toast('Masukkan username teman');
+  try {
+    const s = await get(ref(db, 'usernames/' + q));
+    if (!s.exists()) return toast('Username tidak ditemukan');
+    if (s.val() == me.uid) return toast('Itu akun kamu sendiri');
+    const u = (await get(ref(db, 'users/' + s.val()))).val();
+    await update(ref(db, `contacts/${me.uid}/${s.val()}`), {name: u.name, username: u.username});
+    $('#ci').value = ''; toast('Kontak ditambahkan');
+  } catch { toast('Gagal menambah kontak'); }
+}
+$('#ca').onclick = tambah;
+$('#ci').onkeydown = e => { if (e.key == 'Enter') tambah(); };
 
 /* ---------- Obrolan ---------- */
 function clr() {
@@ -363,5 +521,6 @@ async function kirim() {
 $('#sd').onclick = kirim;
 $('#mi').onkeydown = e => { if (e.key == 'Enter') kirim(); };
 </script>
+<div id="toast"></div>
 </body>
 </html>
