@@ -299,6 +299,47 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 .sk:nth-child(4){animation-delay:.18s}
 .pc .av{transition:transform .5s var(--ease)}
 .pc .av:hover{transform:scale(1.03)}
+
+/* ---------- Loading: logo membelah lalu menyatu ---------- */
+.split{position:relative;width:74px;height:74px}
+#splash .ldr .split .i{position:absolute;inset:0;width:74px;height:74px;animation:none}
+#splash .ldr .split .l{clip-path:inset(0 50% 0 0);transform-origin:30% 62%;animation:splL 2.6s cubic-bezier(.55,0,.2,1) infinite}
+#splash .ldr .split .r{clip-path:inset(0 0 0 50%);transform-origin:70% 62%;animation:splR 2.6s cubic-bezier(.55,0,.2,1) infinite}
+@keyframes splL{0%,10%{transform:none}34%,52%{transform:translate(-30px,-5px) rotate(-18deg)}68%{transform:translate(5px,0) scale(1.07)}80%{transform:translate(-1px,0)}100%{transform:none}}
+@keyframes splR{0%,10%{transform:none}34%,52%{transform:translate(30px,5px) rotate(18deg)}68%{transform:translate(-5px,0) scale(1.07)}80%{transform:translate(1px,0)}100%{transform:none}}
+.ldr .burst{position:absolute;inset:20px;border-radius:50%;background:radial-gradient(circle,var(--hl),transparent 70%);opacity:0;animation:burst 2.6s ease-out infinite}
+@keyframes burst{0%,64%{opacity:0;transform:scale(.3)}70%{opacity:.75}100%{opacity:0;transform:scale(2)}}
+.ldr .ring2{position:absolute;inset:11px;border-radius:50%;border:2px dashed var(--ln);animation:spin 7s linear infinite reverse}
+#splash b{animation:in .7s var(--ease) both}
+
+/* ---------- Dock navigasi baru ---------- */
+.tabs{left:14px;right:14px;padding:6px;border-radius:32px;box-shadow:var(--dsh),inset 0 1px 0 rgba(255,255,255,.06)}
+.tabs .pill{border-radius:25px;box-shadow:var(--edge),0 10px 26px -8px var(--glow)}
+.tabs .pill::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.28),transparent 55%)}
+.tabs.mv .pill{animation:squish .6s var(--ease)}
+@keyframes squish{35%{scale:1.16 .88}70%{scale:.97 1.04}}
+.tabs button{height:58px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+.tabs button span{max-width:none;opacity:.8;font:800 10.5px/1 var(--fb);letter-spacing:.01em;transition:opacity .3s,transform .45s var(--ease)}
+.tabs button.on span{opacity:1;transform:translateY(-1px)}
+.tabs button.on .i{animation:navpop .6s var(--ease) both}
+@keyframes navpop{0%{transform:translateY(4px) scale(.7) rotate(-12deg)}45%{transform:translateY(-5px) scale(1.22) rotate(6deg)}75%{transform:translateY(1px) scale(.97)}100%{transform:scale(1.08)}}
+#ub{animation:bpulse 2s ease-out infinite}
+@keyframes bpulse{0%{box-shadow:0 0 0 0 var(--co)}70%,100%{box-shadow:0 0 0 8px transparent}}
+
+/* ---------- Centang status pesan ---------- */
+.m i{opacity:1}
+.me i{color:rgba(6,20,15,.6)}
+.ot i{color:var(--sub)}
+.tk{display:inline-block;vertical-align:-3px;margin-left:4px;line-height:0}
+.tk .i{width:17px;height:17px;stroke-width:2.6}
+.tk[data-s="3"]{color:#0b5cff}
+.tk[data-s="f"]{color:#c2351f}
+.tk.pop .i{animation:tkpop .45s var(--ease)}
+@keyframes tkpop{from{transform:scale(.4);opacity:0}}
+.dsep{align-self:center;margin:14px 0 8px;padding:4px 13px;border-radius:999px;background:var(--s2);color:var(--sub);font:700 12px var(--fb)}
+#net{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:50%;transform:translate(-50%,-160%);background:var(--co);color:var(--on-co);font:800 13px var(--fb);padding:8px 16px;border-radius:999px;z-index:31;transition:transform .45s var(--ease);box-shadow:var(--dsh)}
+#net.on{transform:translate(-50%,0)}
+:root[data-motion=reduce] *{animation:none!important;transition:none!important}
 </style>
 </head>
 <body>
@@ -321,10 +362,10 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
 <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
 <symbol id="i-google" viewBox="0 0 48 48"><g stroke="none"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
-<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol><symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></symbol><symbol id="i-ck1" viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 7"/></symbol><symbol id="i-ck2" viewBox="0 0 24 24"><path d="M1.5 12.5 7 18 17.5 7"/><path d="M10 16.5l1.5 1.5L22 7"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-warn" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></symbol>
 </svg>
 
-<div id="splash"><div class="ldr"><i class="ring"></i><svg class="i"><use href="#i-logo"/></svg></div><b>HaloKita</b><div class="bar"></div><div class="dots"><i></i><i></i><i></i></div></div>
+<div id="splash"><div class="ldr"><i class="ring"></i><i class="ring2"></i><i class="burst"></i><div class="split"><svg class="i l"><use href="#i-logo"/></svg><svg class="i r"><use href="#i-logo"/></svg></div></div><b>HaloKita</b><div class="bar"></div><div class="dots"><i></i><i></i><i></i></div></div>
 
 <div id="auth"><div class="card">
   <div class="brand"><svg class="i"><use href="#i-logo"/></svg><h1>HaloKita</h1></div>
@@ -343,6 +384,7 @@ small{color:var(--sub);font-size:13px;font-weight:600}
   </div>
   <div id="or">atau</div>
   <button id="gg" class="gbtn"><svg class="i"><use href="#i-google"/></svg>Lanjutkan dengan Google</button>
+  <button id="fg" class="lnk">Lupa kata sandi?</button>
   <button id="tg" class="lnk">Belum punya akun? Daftar</button>
 </div></div>
 
@@ -381,14 +423,18 @@ small{color:var(--sub);font-size:13px;font-weight:600}
           <div class="sr"><div id="seg" class="seg"><button data-t="auto">Otomatis</button><button data-t="light">Terang</button><button data-t="dark">Gelap</button></div></div>
           <div class="sr"><svg class="i"><use href="#i-chat"/></svg><b>Ukuran teks</b></div>
           <div class="sr"><div id="fs" class="seg"><button data-s="14">Kecil</button><button data-s="15">Normal</button><button data-s="17">Besar</button></div></div>
+          <div class="sr"><svg class="i"><use href="#i-moon"/></svg><span class="mid"><b>Kurangi animasi</b><small>Matikan gerakan dan transisi</small></span><button id="rm" class="sw" aria-label="Kurangi animasi"></button></div>
         </div>
         <div class="gl">Notifikasi</div>
         <div class="grp">
           <div class="sr"><svg class="i"><use href="#i-bell"/></svg><span class="mid"><b>Suara pesan</b><small>Bunyi saat pesan masuk</small></span><button id="sn" class="sw" aria-label="Suara pesan"></button></div>
           <div class="sr"><svg class="i"><use href="#i-kon"/></svg><span class="mid"><b>Getar</b><small>Getar saat pesan masuk</small></span><button id="vb" class="sw" aria-label="Getar"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-bell"/></svg><span class="mid"><b>Notifikasi sistem</b><small>Muncul saat aplikasi di latar belakang</small></span><button id="nt" class="sw" aria-label="Notifikasi sistem"></button></div>
         </div>
         <div class="gl">Privasi</div>
-        <div class="grp"><div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Teman bisa melihat kamu online</small></span><button id="sh" class="sw" aria-label="Status online"></button></div></div>
+        <div class="grp"><div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Teman bisa melihat kamu online</small></span><button id="sh" class="sw" aria-label="Status online"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Terakhir dilihat</b><small>Tampilkan jam terakhir kamu aktif</small></span><button id="ls" class="sw" aria-label="Terakhir dilihat"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-send"/></svg><span class="mid"><b>Tanda dibaca</b><small>Jika dimatikan, centang biru tidak tampil untuk kedua pihak</small></span><button id="rr" class="sw" aria-label="Tanda dibaca"></button></div></div>
         <div class="gl">Data</div>
         <div class="grp">
           <button id="ex" class="sr ch"><svg class="i"><use href="#i-down"/></svg><span class="mid"><b>Unduh data</b><small>Simpan profil, kontak, dan obrolan ke file</small></span></button>
@@ -401,15 +447,17 @@ small{color:var(--sub);font-size:13px;font-weight:600}
           <button id="dc" class="sr ch"><svg class="i"><use href="#i-x"/></svg><span class="mid"><b>Kosongkan daftar obrolan</b></span></button>
           <button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button>
         </div>
-        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.1, dibuat dengan Firebase</small></span></div></div>
+        <div class="gl">Lainnya</div>
+        <div class="grp"><button id="rs" class="sr ch"><svg class="i"><use href="#i-set"/></svg><span class="mid"><b>Setel ulang pengaturan</b><small>Kembalikan tema, suara, dan privasi ke awal</small></span></button>
+        <div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.2, dibuat dengan Firebase</small></span></div></div>
       </section>
     </div>
     <nav class="tabs">
       <i class="pill"></i>
-      <button class="on" aria-label="Chat"><svg class="i"><use href="#i-chat"/></svg><em id="ub" hidden></em></button>
-      <button aria-label="Kontak"><svg class="i"><use href="#i-kon"/></svg></button>
-      <button aria-label="Profil"><svg class="i"><use href="#i-user"/></svg></button>
-      <button aria-label="Pengaturan"><svg class="i"><use href="#i-set"/></svg></button>
+      <button class="on" aria-label="Chat"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" hidden></em></button>
+      <button aria-label="Kontak"><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span></button>
+      <button aria-label="Profil"><svg class="i"><use href="#i-user"/></svg><span>Profil</span></button>
+      <button aria-label="Pengaturan"><svg class="i"><use href="#i-set"/></svg><span>Atur</span></button>
     </nav>
   </div>
   <div id="main">
@@ -421,7 +469,7 @@ small{color:var(--sub);font-size:13px;font-weight:600}
       </div>
       <div id="msgs"></div>
       <div class="cp">
-        <input id="mi" placeholder="Tulis pesan" autocomplete="off">
+        <input id="mi" placeholder="Tulis pesan" autocomplete="off" maxlength="2000" enterkeyhint="send">
         <button id="sd" class="ic" aria-label="Kirim"><svg class="i"><use href="#i-send"/></svg></button>
       </div>
     </div>
@@ -489,6 +537,7 @@ $('#tg').onclick = () => {
   $('#rg').classList.toggle('off', mode == 'login');
   $('#go').textContent = mode == 'login' ? 'Masuk' : 'Daftar';
   $('#tg').textContent = mode == 'login' ? 'Belum punya akun? Daftar' : 'Sudah punya akun? Masuk';
+  $('#fg').hidden = mode != 'login';
   $('#err').textContent = '';
 };
 const pesan = x => ({
@@ -526,7 +575,7 @@ function setup() {
   $('#cr').classList.add('off'); $('#gg').hidden = $('#or').hidden = true;
   $('#rg').classList.remove('off');
   $('#go').textContent = 'Lanjutkan';
-  $('#tg').textContent = 'Batal';
+  $('#tg').textContent = 'Batal'; $('#fg').hidden = true;
   $('#nm').value = u.displayName || '';
   $('#un').value = (u.email || '').split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
   $('#err').textContent = '';
@@ -563,7 +612,8 @@ setTimeout(hideSplash, 7000);
 onAuthStateChanged(auth, u => { if (!reg && u) start(u.uid).finally(hideSplash); else hideSplash(); });
 
 $('#out').onclick = async () => {
-  await update(ref(db, 'users/' + me.uid), {online: false, lastSeen: serverTimestamp()});
+  if (!confirm('Keluar dari akun ini?')) return;
+  await update(ref(db, 'users/' + me.uid), {online: false, ...(S.nls ? {} : {lastSeen: serverTimestamp()})});
   await signOut(auth); location.reload();
 };
 
@@ -575,14 +625,20 @@ async function start(uid) {
   $('#auth').hidden = true; $('#app').hidden = false;
   $('#meav').replaceChildren(av(me.name, uid));
   onValue(ref(db, '.info/connected'), c => {
+    $('#net').classList.toggle('on', !c.val());
     if (!c.val()) return;
-    const r = ref(db, 'users/' + uid);
-    onDisconnect(r).update({online: false, lastSeen: serverTimestamp()}).then(() => update(r, {online: !S.hide}));
+    presence();
   });
+  let ucF = true;
   onValue(ref(db, 'userChats/' + uid), s => {
     const nw = s.val() || {};
-    if (sum(nw) > sum(chats)) { if (S.snd !== false) beep(); if (S.vib !== false) navigator.vibrate?.(60); }
-    chats = nw; list(); clr();
+    for (const [k, c] of Object.entries(nw)) if (c.unread && dl[k] != c.ts) { dl[k] = c.ts; update(ref(db, `chats/${k}/dlv`), {[uid]: serverTimestamp()}).catch(() => {}); }
+    if (!ucF && sum(nw) > sum(chats)) {
+      if (S.snd !== false) beep(); if (S.vib !== false) navigator.vibrate?.(60);
+      const n = Object.entries(nw).find(([k, c]) => (c.unread || 0) > (chats[k]?.unread || 0))?.[1];
+      if (n && S.nt && document.hidden && window.Notification && Notification.permission == 'granted') try { new Notification(n.name || 'HaloKita', {body: n.last || '', tag: 'hk' + n.with}); } catch {}
+    }
+    ucF = false; chats = nw; list(); clr();
   });
   onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); });
   $('#list').innerHTML = SK; fillProf(); ui();
@@ -590,7 +646,8 @@ async function start(uid) {
 
 /* ---------- Daftar obrolan & pencarian ---------- */
 let S = {}, kon = {}, chatF = 'all', tmr, tt, uCur = null;
-const cl = {}, onl = {};
+const cl = {}, onl = {}, dl = {}, pend = new Set();
+let unR, unD, rd = {r: 0, d: 0}, tkm = {};
 const USER_RE = /^[a-z0-9_]{4,20}$/;
 const SK = '<div class="sk"><i class="av"></i><div><u></u><u></u></div></div>'.repeat(6);
 const stag = b => [...b.children].forEach((r, k) => r.style.animation = `slide .45s var(--ease) ${Math.min(k, 8) * 45}ms both`);
@@ -651,16 +708,19 @@ function go(i) {
   document.querySelectorAll('.pg').forEach((p, k) => p.classList.toggle('on', k == i));
   document.querySelectorAll('.tabs button').forEach((b, k) => b.classList.toggle('on', k == i));
   $('.tabs').style.setProperty('--t', i);
+  const nv = $('.tabs'); nv.classList.remove('mv'); void nv.offsetWidth; nv.classList.add('mv');
 }
 document.querySelectorAll('.tabs button').forEach((b, k) => b.onclick = () => go(k));
 $('#meav').onclick = () => go(2);
 
 function ui() {
-  const R = document.documentElement; R.dataset.theme = S.theme || 'dark'; R.style.setProperty('--fs', (S.fs || 15) + 'px');
+  const R = document.documentElement; R.dataset.theme = S.theme || 'dark'; R.style.setProperty('--fs', (S.fs || 15) + 'px'); R.dataset.motion = S.rm ? 'reduce' : '';
   try { document.querySelector('meta[name=theme-color]').content = getComputedStyle(R).getPropertyValue('--bg').trim() || '#06140f'; } catch {}
   const mk = (q, fn) => document.querySelectorAll(q).forEach(b => b.classList.toggle('on', fn(b)));
   mk('#seg button', b => b.dataset.t == (S.theme || 'dark')); mk('#fs button', b => +b.dataset.s == (S.fs || 15));
   $('#sn').classList.toggle('on', S.snd !== false); $('#vb').classList.toggle('on', S.vib !== false); $('#sh').classList.toggle('on', !S.hide);
+  $('#ls').classList.toggle('on', !S.nls); $('#rr').classList.toggle('on', S.rr !== false); $('#rm').classList.toggle('on', !!S.rm);
+  $('#nt').classList.toggle('on', !!S.nt && window.Notification?.permission == 'granted');
 }
 document.querySelectorAll('#seg button').forEach(b => b.onclick = () => { S.theme = b.dataset.t; saveS(); ui(); });
 document.querySelectorAll('#fs button').forEach(b => b.onclick = () => { S.fs = +b.dataset.s; saveS(); ui(); });
@@ -880,11 +940,17 @@ $('#imf').onchange = async e => {
 function clr() {
   if (!cur) return;
   const k = cid(me.uid, cur.uid);
-  if (chats[k]?.unread) update(ref(db, `userChats/${me.uid}/${k}`), {unread: 0});
+  if (document.hidden) return;
+  if (chats[k]?.unread) {
+    update(ref(db, `userChats/${me.uid}/${k}`), {unread: 0});
+    if (S.rr !== false) update(ref(db, `chats/${k}/read`), {[me.uid]: serverTimestamp()}).catch(() => {});
+  }
 }
 function open(u) {
   unM && unM(); unS && unS();
+  unR && unR(); unD && unD();
   cur = u;
+  if (matchMedia('(hover:hover)').matches) setTimeout(() => $('#mi').focus(), 350);
   $('#app').classList.add('chat'); $('#ph').hidden = true; $('#cv').hidden = false;
   $('#cv').classList.remove('in'); void $('#cv').offsetWidth; $('#cv').classList.add('in');
   $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid));
@@ -894,18 +960,25 @@ function open(u) {
     $('#cs').textContent = on ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : '@' + u.username;
     $('#cs').classList.toggle('on', on); $('#cav').classList.toggle('on', on);
   });
+  const id = cid(me.uid, u.uid); let day = ''; rd = {r: 0, d: 0}; tkm = {};
+  unR = onValue(ref(db, `chats/${id}/read/${u.uid}`), s => { rd.r = s.val() || 0; paintTk(); }, () => {});
+  unD = onValue(ref(db, `chats/${id}/dlv/${u.uid}`), s => { rd.d = s.val() || 0; paintTk(); }, () => {});
   const seen = new Set(); let first = true;
-  unM = onValue(query(ref(db, `chats/${cid(me.uid, u.uid)}/messages`), limitToLast(150)), s => {
+  unM = onValue(query(ref(db, `chats/${id}/messages`), limitToLast(150)), s => {
     const b = $('#msgs'); if (first) b.replaceChildren();
     s.forEach(m => {
       if (seen.has(m.key)) return; seen.add(m.key);
-      const v = m.val(), d = el('div', 'm ' + (v.from == me.uid ? 'me' : 'ot') + (first ? '' : ' new'));
-      d.append(v.text, el('i', '', tm(v.ts))); b.append(d);
+      const v = m.val(), mine = v.from == me.uid, d = el('div', 'm ' + (mine ? 'me' : 'ot') + (first ? '' : ' new')), t = el('i', '', tm(v.ts));
+      const dy = new Date(v.ts || Date.now()).toDateString();
+      if (dy != day) { day = dy; b.append(el('div', 'dsep', dlab(v.ts))); }
+      if (mine) { const k = el('span', 'tk'); t.append(k); tkm[m.key] = {k, ts: v.ts}; }
+      d.append(v.text, t); b.append(d);
     });
+    paintTk();
     b.scrollTo({top: b.scrollHeight, behavior: first ? 'auto' : 'smooth'}); first = false; clr();
   });
 }
-$('#bk').onclick = () => { unM && unM(); unS && unS(); cur = null; $('#app').classList.remove('chat'); };
+$('#bk').onclick = () => { unM && unM(); unS && unS(); unR && unR(); unD && unD(); cur = null; $('#app').classList.remove('chat'); };
 $('#chd').onclick = () => { if (cur) openU(cur.uid, cur.name, cur.username); };
 async function kirim() {
   const t = $('#mi').value.trim();
@@ -913,18 +986,64 @@ async function kirim() {
   $('#mi').value = '';
   $('#sd').classList.remove('fly'); void $('#sd').offsetWidth; $('#sd').classList.add('fly');
   const id = cid(me.uid, cur.uid), k = push(ref(db, `chats/${id}/messages`)).key, ts = serverTimestamp();
+  pend.add(k);
   const a = `userChats/${me.uid}/${id}/`, b = `userChats/${cur.uid}/${id}/`;
   await update(ref(db), {
     [`chats/${id}/messages/${k}`]: {from: me.uid, text: t, ts},
     [a + 'with']: cur.uid, [a + 'name']: cur.name, [a + 'username']: cur.username, [a + 'last']: t, [a + 'ts']: ts, [a + 'unread']: 0,
     [b + 'with']: me.uid, [b + 'name']: me.name, [b + 'username']: me.username, [b + 'last']: t, [b + 'ts']: ts, [b + 'unread']: increment(1)
-  });
+  }).then(() => { pend.delete(k); paintTk(); }).catch(() => { pend.delete(k); if (tkm[k]) tkm[k].f = 1; paintTk(); toast('Pesan gagal terkirim'); });
 }
 $('#sd').onclick = kirim;
 $('#mi').onkeydown = e => { if (e.key == 'Enter') kirim(); };
 
+/* ---------- Tambahan v1.2 ---------- */
+const dlab = t => { const d = new Date(t || Date.now()).toDateString();
+  return d == new Date().toDateString() ? 'Hari ini' : d == new Date(Date.now() - 864e5).toDateString() ? 'Kemarin' : new Date(t).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'}); };
+function paintTk() {
+  const rr = S.rr !== false, NM = {0: 'Mengirim…', 1: 'Terkirim', 2: 'Tersampaikan', 3: 'Dibaca', f: 'Gagal terkirim'}, IC = {0: 'clock', 1: 'ck1', 2: 'ck2', 3: 'ck2', f: 'warn'};
+  for (const [key, o] of Object.entries(tkm)) {
+    const t = o.ts || Infinity;
+    const st = o.f ? 'f' : pend.has(key) ? '0' : rr && rd.r >= t ? '3' : (rd.d >= t || rd.r >= t) ? '2' : '1';
+    if (o.k.dataset.s == st) continue;
+    const fresh = o.k.dataset.s != null;
+    o.k.dataset.s = st; o.k.title = NM[st]; o.k.setAttribute('aria-label', NM[st]);
+    o.k.innerHTML = `<svg class="i"><use href="#i-${IC[st]}"/></svg>`; o.k.classList.toggle('pop', fresh);
+  }
+}
+function presence() {
+  if (!me) return;
+  const r = ref(db, 'users/' + me.uid);
+  return onDisconnect(r).update(S.nls ? {online: false} : {online: false, lastSeen: serverTimestamp()}).then(() => update(r, {online: !S.hide})).catch(() => {});
+}
+$('#ls').onclick = () => { S.nls = !S.nls; saveS(); ui(); presence(); };
+$('#rr').onclick = () => { S.rr = S.rr === false; saveS(); ui(); paintTk(); };
+$('#rm').onclick = () => { S.rm = !S.rm; saveS(); ui(); };
+$('#nt').onclick = async () => {
+  if (S.nt) S.nt = false;
+  else {
+    if (!window.Notification) return toast('Browser ini tidak mendukung notifikasi');
+    S.nt = (await Notification.requestPermission()) == 'granted';
+    if (!S.nt) toast('Izin notifikasi ditolak di browser');
+  }
+  saveS(); ui();
+};
+$('#rs').onclick = () => {
+  if (!confirm('Setel ulang semua pengaturan tampilan, suara, dan privasi?')) return;
+  S = {}; saveS(); ui(); presence(); toast('Pengaturan disetel ulang');
+};
+$('#sn').addEventListener('click', () => { if (S.snd !== false) beep(); });
+$('#vb').addEventListener('click', () => { if (S.vib !== false) navigator.vibrate?.(60); });
+$('#fg').onclick = async () => {
+  const e = $('#em').value.trim();
+  if (!e) { $('#err').textContent = 'Isi email dulu, lalu tekan "Lupa kata sandi?" lagi'; return; }
+  try { await sendPasswordResetEmail(auth, e); $('#err').textContent = ''; toast('Tautan reset dikirim ke ' + e); } catch (x) { $('#err').textContent = pesan(x); }
+};
+['#em', '#pw', '#nm', '#un'].forEach(q => $(q).onkeydown = e => { if (e.key == 'Enter') $('#go').click(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && me) clr(); });
+
 ui();
 </script>
-<div id="toast"></div>
+<div id="net" role="status">Menyambungkan ulang…</div><div id="toast"></div>
 </body>
 </html>
