@@ -11,7 +11,7 @@
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 html,body{height:100%;overflow:hidden}
-body{font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+body{font:var(--fs,15px)/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;transition:transform .18s var(--ease),opacity .25s,filter .2s}
 button:active{transform:scale(.94)}
@@ -79,33 +79,6 @@ small{color:var(--sub);font-size:13px}
 .pg{position:absolute;inset:0;overflow-y:auto;background:var(--bg);opacity:0;transform:translateY(10px);pointer-events:none;visibility:hidden;transition:opacity .3s,transform .4s var(--ease),visibility 0s .4s}
 .pg.on{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition-delay:0s}
 #pg2,#pg3{background:var(--bg2)}
-.arow{display:flex;gap:4px;align-items:center;margin:10px 12px}
-.arow .fld{flex:1}
-#ca .i{width:40px;height:40px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);position:relative;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--bg);box-shadow:0 -6px 20px rgba(20,40,90,.08);z-index:3}
-.tabs::before{content:"";position:absolute;top:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px));width:calc((100% - 16px)/4);left:calc(8px + var(--t) * (100% - 16px) / 4);border-radius:16px;background:rgba(47,127,240,.13);transition:left .45s var(--ease)}
-.tabs button{position:relative;display:grid;justify-items:center;gap:1px;padding:6px 0;font-size:11px;color:var(--sub);font-weight:500;transition:color .3s,transform .18s var(--ease)}
-.tabs .i{width:28px;height:28px;transition:transform .45s var(--ease)}
-.tabs .on{color:var(--pr);font-weight:600}
-.tabs .on .i{transform:translateY(-2px) scale(1.15)}
-#ub{position:absolute;top:0;left:calc(50% + 6px);margin:0;font-style:normal;font-size:11px}
-.pf{display:grid;justify-items:center;gap:3px;padding:26px 16px 22px;margin-bottom:14px;color:#fff;background:linear-gradient(135deg,#3b8cf5,#5a56e0);border-radius:0 0 28px 28px;box-shadow:0 8px 22px rgba(47,90,220,.3)}
-.pf .av{width:92px;height:92px;font-size:38px;border:3px solid rgba(255,255,255,.75);margin-bottom:6px}
-.pf b{font-size:20px}
-.pf small{color:rgba(255,255,255,.85)}
-.grp{margin:0 12px 14px;background:var(--bg);border-radius:18px;box-shadow:var(--sh);overflow:hidden}
-.sr{display:flex;align-items:center;gap:12px;padding:12px 14px}
-.sr+.sr{border-top:1px solid var(--ln)}
-.sr .fld,.sr .seg{flex:1}
-.w{width:calc(100% - 24px);margin:0 12px}
-.lo{width:100%;text-align:left;color:#e5384a;font-weight:600}
-.seg{display:flex;background:var(--bg2);border-radius:12px;padding:3px}
-.seg button{flex:1;padding:7px 4px;border-radius:10px;font-size:13px;color:var(--sub);transition:background .3s,color .3s,box-shadow .3s}
-.seg .on{background:var(--bg);box-shadow:var(--sh);color:var(--pr);font-weight:600}
-.sw{position:relative;width:50px;height:30px;border-radius:15px;background:var(--bg2);flex:none;transition:background .3s}
-.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.3);transition:transform .35s var(--ease)}
-.sw.on{background:var(--pr)}
-.sw.on::after{transform:translateX(20px)}
 #toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);background:rgba(20,30,45,.92);color:#fff;padding:10px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .3s,transform .4s var(--ease);z-index:9;max-width:80%;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 #splash{position:fixed;inset:0;z-index:20;display:grid;place-content:center;justify-items:center;gap:14px;color:#fff;background:radial-gradient(circle at 15% 12%,#6cc3ff 0,transparent 45%),radial-gradient(circle at 88% 92%,#a07bff 0,transparent 50%),linear-gradient(160deg,#2f7ff0,#3f4fd8);transition:opacity .6s var(--ease),transform .6s var(--ease),visibility 0s .6s}
@@ -139,9 +112,6 @@ small{color:var(--sub);font-size:13px}
 .card>:nth-child(n+2){animation-delay:.12s}
 .card>:nth-child(n+5){animation-delay:.22s}
 .card>:nth-child(n+7){animation-delay:.32s}
-#cav .av,#pv .av{animation:pop .5s var(--ease)}
-.tabs .on .i{animation:tap .6s var(--ease)}
-.tabs button:active .i{transform:scale(.85)}
 #sd.fly .i{animation:fly .5s var(--ease)}
 @media(hover:hover){.ic:hover .i{transform:translateY(-2px) rotate(-6deg)}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -151,6 +121,64 @@ small{color:var(--sub);font-size:13px}
 @keyframes pulse{0%,80%,100%{opacity:.35;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
 @keyframes tap{0%{transform:scale(.75)}45%{transform:translateY(-7px) scale(1.28) rotate(-6deg)}100%{transform:translateY(-2px) scale(1.15)}}
 @keyframes fly{40%{transform:translate(10px,-10px) rotate(-14deg) scale(1.15)}60%{opacity:0}61%{transform:translate(-10px,10px)}100%{transform:none}}
+#side{position:relative}
+.pg{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.lt{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top,0px)) 18px 2px;min-height:62px}
+.lt h1{font-size:34px;font-weight:800;letter-spacing:-.8px}
+.lt .ic .i{width:38px;height:38px}
+.srch{margin:6px 16px 8px}
+.srch input,.arow .fld input{border-radius:12px;padding:10px 12px 10px 46px}
+.seg{display:flex;background:var(--bg2);border-radius:10px;padding:2px}
+.seg button{flex:1;padding:6px 4px;border-radius:8px;font-size:13px;color:var(--sub);transition:background .3s,color .3s,box-shadow .3s}
+.seg .on{background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.15);color:var(--tx);font-weight:600}
+#fl{margin:0 16px 4px}
+.sec{padding:5px 18px;background:var(--bg2);color:var(--sub);font-size:13px;font-weight:600;position:sticky;top:0;z-index:1}
+.foot{padding:14px;text-align:center;color:var(--sub);font-size:13px}
+.row{position:relative;padding:9px 16px}
+.row::after{content:"";position:absolute;left:84px;right:0;bottom:0;border-bottom:.5px solid var(--ln)}
+.mid b{font-size:16px}
+.mid small{font-size:14px}
+.avw{position:relative;flex:none}
+.avw .dot{position:absolute;right:0;bottom:0;width:15px;height:15px;border-radius:50%;background:#34c759;border:3px solid var(--bg);transform:scale(0);transition:transform .35s var(--ease)}
+.avw.on .dot{transform:scale(1)}
+.row .ic .i{width:26px;height:26px}
+.arow{display:flex;gap:8px;align-items:center;margin:6px 16px 8px}
+.arow .fld{flex:1}
+.btn.sm{padding:10px 16px;font-size:14px;border-radius:12px}
+.btn.ghost{background:var(--bg2);color:var(--pr);box-shadow:none}
+.w{width:calc(100% - 32px);margin:6px 16px}
+.pc{display:grid;justify-items:center;gap:3px;margin:8px 16px 6px;padding:22px 16px 16px;background:var(--bg);border-radius:20px;text-align:center}
+.pc .av{width:96px;height:96px;font-size:40px;margin-bottom:6px}
+.pc b{font-size:22px}
+.pc p{color:var(--sub);max-width:90%}
+.st{display:grid;grid-template-columns:1fr 1fr;width:100%;margin:10px 0 12px;padding:10px 0;border-top:.5px solid var(--ln);border-bottom:.5px solid var(--ln)}
+.st div+div{border-left:.5px solid var(--ln)}
+.st b{display:block;font-size:20px}
+.pa{display:flex;gap:8px}
+.gl{margin:18px 32px 6px;font-size:13px;color:var(--sub);font-weight:500}
+.grp{margin:0 16px 8px;background:var(--bg);border-radius:14px;overflow:hidden}
+.sr{display:flex;align-items:center;gap:12px;padding:11px 14px;min-height:50px;width:100%;text-align:left}
+.sr+.sr{border-top:.5px solid var(--ln)}
+.sr .seg{flex:1}
+.k{width:78px;color:var(--sub);flex:none}
+.v{flex:1;color:var(--sub);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr input{flex:1;min-width:0;border:0;background:none;outline:none;text-align:right}
+.ch::after{content:"›";color:var(--sub);font-size:24px;margin-left:auto}
+.lo{color:#ff3b30;font-weight:600}
+.acc{display:flex;align-items:center;gap:14px;padding:14px;width:calc(100% - 32px);margin:8px 16px 4px;background:var(--bg);border-radius:14px;text-align:left}
+.acc .av{width:60px;height:60px;font-size:25px}
+.sw{position:relative;width:51px;height:31px;border-radius:16px;background:rgba(120,130,150,.3);flex:none;transition:background .3s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.3);transition:transform .35s var(--ease)}
+.sw.on{background:#34c759}
+.sw.on::after{transform:translateX(20px)}
+.tabs{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);padding:6px 4px calc(4px + env(safe-area-inset-bottom,0px));background:var(--bg);background:color-mix(in srgb,var(--bg) 76%,transparent);-webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-top:.5px solid var(--ln);z-index:3}
+.tabs button{position:relative;display:grid;justify-items:center;gap:2px;padding:4px 0 2px;font-size:10px;font-weight:500;color:var(--sub);transition:color .3s}
+.tabs .i{width:30px;height:30px;transition:transform .45s var(--ease),filter .35s}
+.tabs button:not(.on) .i{filter:grayscale(.85) opacity(.7) drop-shadow(0 1px 1px rgba(20,40,90,.2))}
+.tabs .on{color:var(--pr)}
+.tabs .on .i{animation:tap .6s var(--ease)}
+.tabs button:active .i{transform:scale(.85)}
+#ub{position:absolute;top:0;left:calc(50% + 8px);margin:0;background:#ff3b30;color:#fff;border-radius:10px;min-width:18px;padding:0 5px;font-size:11px;font-style:normal;box-shadow:none}
 @keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}}
 @keyframes bob{50%{transform:translateY(-6px)}}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}}
@@ -227,37 +255,63 @@ small{color:var(--sub);font-size:13px}
 
 <div id="app" hidden>
   <div id="side">
-    <div class="h"><span id="meav"></span><h2>Chat</h2></div>
+    <span id="meav" hidden></span>
     <div id="pgs">
       <section class="pg on" id="pg0">
+        <div class="lt"><h1>Chat</h1><button id="nw" class="ic" aria-label="Chat baru"><svg class="i"><use href="#i-add"/></svg></button></div>
         <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="q" placeholder="Cari @username teman" autocapitalize="none"></label>
+        <div id="fl" class="seg"><button class="on" data-f="all">Semua</button><button data-f="unr">Belum dibaca</button></div>
         <div id="list"></div>
       </section>
       <section class="pg" id="pg1">
-        <div class="arow"><label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="ci" placeholder="Tambah kontak lewat @username" autocapitalize="none"></label><button id="ca" class="ic" aria-label="Tambah kontak"><svg class="i"><use href="#i-add"/></svg></button></div>
+        <div class="lt"><h1>Kontak</h1><button id="iv" class="ic" aria-label="Undang teman"><svg class="i"><use href="#i-send"/></svg></button></div>
+        <div class="arow"><label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="ci" placeholder="Tambah lewat @username" autocapitalize="none"></label><button id="ca" class="btn sm">Tambah</button></div>
+        <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="cq" placeholder="Cari kontak"></label>
         <div id="clist"></div>
+        <div class="foot" id="cc"></div>
       </section>
       <section class="pg" id="pg2">
-        <div class="pf"><div id="pv"></div><b id="pnn"></b><small id="pun"></small><small id="pem"></small></div>
-        <div class="grp">
-          <div class="sr"><label class="fld"><svg class="i"><use href="#i-user"/></svg><input id="pnm" placeholder="Nama" maxlength="30"></label></div>
-          <div class="sr"><label class="fld"><svg class="i"><use href="#i-chat"/></svg><input id="bio" placeholder="Bio singkat" maxlength="120"></label></div>
+        <div class="lt"><h1>Profil</h1></div>
+        <div class="pc"><div id="pv"></div><b id="pnn"></b><small id="pun"></small><p id="pbo"></p>
+          <div class="st"><div><b id="s1">0</b><small>Obrolan</small></div><div><b id="s2">0</b><small>Kontak</small></div></div>
+          <div class="pa"><button id="sc" class="btn sm">Salin username</button><button id="sb2" class="btn sm ghost">Bagikan</button></div>
         </div>
-        <button id="sv" class="btn w">Simpan profil</button>
+        <div class="gl">Informasi</div>
+        <div class="grp">
+          <label class="sr"><span class="k">Nama</span><input id="pnm" placeholder="Nama kamu" maxlength="30"></label>
+          <label class="sr"><span class="k">Bio</span><input id="bio" placeholder="Tulis bio singkat" maxlength="120"></label>
+          <div class="sr"><span class="k">Email</span><span class="v" id="pem"></span></div>
+        </div>
+        <button id="sv" class="btn w">Simpan perubahan</button>
       </section>
       <section class="pg" id="pg3">
+        <div class="lt"><h1>Pengaturan</h1></div>
+        <button id="ac" class="acc"><span id="ma"></span><span class="mid"><b id="an"></b><small id="au"></small></span></button>
+        <div class="gl">Tampilan</div>
         <div class="grp">
           <div class="sr"><svg class="i"><use href="#i-moon"/></svg><b>Tema</b></div>
           <div class="sr"><div id="seg" class="seg"><button data-t="auto">Otomatis</button><button data-t="light">Terang</button><button data-t="dark">Gelap</button></div></div>
-          <div class="sr"><svg class="i"><use href="#i-bell"/></svg><span class="mid"><b>Suara pesan</b><small>Bunyi saat ada pesan baru</small></span><button id="sn" class="sw" aria-label="Suara pesan"></button></div>
-          <div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Tampilkan ke teman</small></span><button id="sh" class="sw" aria-label="Status online"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-chat"/></svg><b>Ukuran teks</b></div>
+          <div class="sr"><div id="fs" class="seg"><button data-s="14">Kecil</button><button data-s="15">Normal</button><button data-s="17">Besar</button></div></div>
         </div>
-        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>Tentang HaloKita</b><small>Versi 1.0, dibuat dengan Firebase</small></span></div></div>
-        <div class="grp"><button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button></div>
+        <div class="gl">Notifikasi</div>
+        <div class="grp">
+          <div class="sr"><svg class="i"><use href="#i-bell"/></svg><span class="mid"><b>Suara pesan</b><small>Bunyi saat pesan masuk</small></span><button id="sn" class="sw"></button></div>
+          <div class="sr"><svg class="i"><use href="#i-kon"/></svg><span class="mid"><b>Getar</b><small>Getar saat pesan masuk</small></span><button id="vb" class="sw"></button></div>
+        </div>
+        <div class="gl">Privasi</div>
+        <div class="grp"><div class="sr"><svg class="i"><use href="#i-at"/></svg><span class="mid"><b>Status online</b><small>Teman bisa melihat kamu online</small></span><button id="sh" class="sw"></button></div></div>
+        <div class="gl">Akun</div>
+        <div class="grp">
+          <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small>Kirim tautan reset ke email</small></span></button>
+          <button id="dc" class="sr ch"><svg class="i"><use href="#i-x"/></svg><span class="mid"><b>Kosongkan daftar obrolan</b></span></button>
+          <button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button>
+        </div>
+        <div class="grp"><div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.0, dibuat dengan Firebase</small></span></div></div>
       </section>
     </div>
     <nav class="tabs" style="--t:0">
-      <button class="on"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" class="bd" hidden></em></button>
+      <button class="on"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" hidden></em></button>
       <button><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span></button>
       <button><svg class="i"><use href="#i-user"/></svg><span>Profil</span></button>
       <button><svg class="i"><use href="#i-set"/></svg><span>Pengaturan</span></button>
@@ -282,7 +336,7 @@ small{color:var(--sub);font-size:13px}
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getDatabase,ref,get,update,push,onValue,query,limitToLast,serverTimestamp,onDisconnect,increment,remove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -412,7 +466,7 @@ async function start(uid) {
   });
   onValue(ref(db, 'userChats/' + uid), s => {
     const nw = s.val() || {};
-    if (sum(nw) > sum(chats) && S.snd !== false) beep();
+    if (sum(nw) > sum(chats)) { if (S.snd !== false) beep(); if (S.vib !== false) navigator.vibrate?.(60); }
     chats = nw; list(); clr();
   });
   onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); });
@@ -431,11 +485,11 @@ function row(u, sub, ts, unread) {
 }
 function list(res) {
   const q = norm($('#q').value), box = $('#list');
-  const un = sum(chats); $('#ub').textContent = un; $('#ub').hidden = !un;
+  const un = sum(chats); $('#ub').textContent = un; $('#ub').hidden = !un; stats();
   box.replaceChildren();
   if (res) box.append(el('div', 'lb', 'Hasil pencarian'), row(res, '@' + res.username));
   Object.values(chats)
-    .filter(c => c.with && (!q || (c.name + c.username).toLowerCase().includes(q)))
+    .filter(c => c.with && (chatF == 'all' || c.unread) && (!q || (c.name + c.username).toLowerCase().includes(q)))
     .sort((a, b) => (b.ts || 0) - (a.ts || 0))
     .forEach(c => box.append(row({uid: c.with, name: c.name, username: c.username}, c.last, c.ts, c.unread)));
   if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg><br>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
@@ -477,14 +531,15 @@ function beep() {
 function go(i) {
   document.querySelectorAll('.pg').forEach((p, k) => p.classList.toggle('on', k == i));
   document.querySelectorAll('.tabs button').forEach((b, k) => b.classList.toggle('on', k == i));
-  $('.tabs').style.setProperty('--t', i); $('#side .h h2').textContent = NAMA[i];
+  $('.tabs').style.setProperty('--t', i);
 }
 document.querySelectorAll('.tabs button').forEach((b, k) => b.onclick = () => go(k));
 $('#meav').onclick = () => go(2);
 function ui() {
-  document.documentElement.dataset.theme = S.theme || 'auto';
-  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.t == (S.theme || 'auto')));
-  $('#sn').classList.toggle('on', S.snd !== false); $('#sh').classList.toggle('on', !S.hide);
+  const R = document.documentElement; R.dataset.theme = S.theme || 'auto'; R.style.setProperty('--fs', (S.fs || 15) + 'px');
+  const mk = (q, fn) => document.querySelectorAll(q).forEach(b => b.classList.toggle('on', fn(b)));
+  mk('#seg button', b => b.dataset.t == (S.theme || 'auto')); mk('#fs button', b => +b.dataset.s == (S.fs || 15));
+  $('#sn').classList.toggle('on', S.snd !== false); $('#vb').classList.toggle('on', S.vib !== false); $('#sh').classList.toggle('on', !S.hide);
 }
 document.querySelectorAll('#seg button').forEach(b => b.onclick = () => { S.theme = b.dataset.t; saveS(); ui(); });
 $('#sn').onclick = () => { S.snd = S.snd === false; saveS(); ui(); };
@@ -492,10 +547,12 @@ $('#sh').onclick = () => { S.hide = !S.hide; saveS(); ui(); update(ref(db, 'user
 ui();
 
 function fillProf() {
-  $('#pv').replaceChildren(av(me.name, me.uid)); $('#pnn').textContent = me.name;
-  $('#pun').textContent = '@' + me.username; $('#pem').textContent = auth.currentUser?.email || '';
-  $('#pnm').value = me.name; $('#bio').value = me.bio || '';
-  $('#meav').replaceChildren(av(me.name, me.uid));
+  $('#pv').replaceChildren(av(me.name, me.uid)); $('#ma').replaceChildren(av(me.name, me.uid));
+  $('#pnn').textContent = $('#an').textContent = me.name;
+  $('#pun').textContent = $('#au').textContent = '@' + me.username;
+  $('#pbo').textContent = me.bio || 'Belum ada bio';
+  $('#pem').textContent = auth.currentUser?.email || '-';
+  $('#pnm').value = me.name; $('#bio').value = me.bio || ''; stats();
 }
 $('#sv').onclick = async () => {
   const n = $('#pnm').value.trim() || me.username, b = $('#bio').value.trim().slice(0, 120);
@@ -503,17 +560,31 @@ $('#sv').onclick = async () => {
   catch { toast('Gagal menyimpan profil'); }
 };
 
+function paint(id) {
+  document.querySelectorAll(`.row[data-u="${id}"]`).forEach(r => {
+    const o = !!onl[id]; r.querySelector('.avw').classList.toggle('on', o);
+    r.querySelector('small').textContent = o ? 'online' : '@' + (kon[id]?.username || '');
+  });
+}
 function klist() {
-  const b = $('#clist'); b.replaceChildren();
-  const a = Object.entries(kon).sort((x, y) => x[1].name.localeCompare(y[1].name));
+  const b = $('#clist'), q = norm($('#cq').value); b.replaceChildren();
+  const a = Object.entries(kon).filter(([, c]) => !q || (c.name + c.username).toLowerCase().includes(q)).sort((x, y) => x[1].name.localeCompare(y[1].name));
+  let L = '';
   a.forEach(([id, c]) => {
+    const l = (c.name[0] || '#').toUpperCase();
+    if (l != L) { L = l; b.append(el('div', 'sec', l)); }
     const r = row({uid: id, name: c.name, username: c.username}, '@' + c.username);
+    r.dataset.u = id;
+    const a0 = r.firstChild, w = el('div', 'avw'); a0.replaceWith(w); w.append(a0, el('i', 'dot'));
     const x = el('button', 'ic'); x.title = 'Hapus kontak'; x.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
     x.onclick = e => { e.stopPropagation(); remove(ref(db, `contacts/${me.uid}/${id}`)); toast('Kontak dihapus'); };
     r.append(x); b.append(r);
+    if (!cl[id]) cl[id] = onValue(ref(db, 'users/' + id), s => { onl[id] = s.val()?.online; paint(id); });
+    paint(id);
   });
-  if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg><br>Belum ada kontak.<br>Tambahkan teman lewat @username.'; b.append(e); }
+  if (!a.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-kon"/></svg><br>' + (q ? 'Kontak tidak ditemukan.' : 'Belum ada kontak.<br>Tambahkan teman lewat @username.'); b.append(e); }
   else if (!klist.d) { klist.d = 1; stag(b); }
+  $('#cc').textContent = Object.keys(kon).length + ' kontak'; stats();
 }
 async function tambah() {
   const q = norm($('#ci').value);
@@ -529,6 +600,27 @@ async function tambah() {
 }
 $('#ca').onclick = tambah;
 $('#ci').onkeydown = e => { if (e.key == 'Enter') tambah(); };
+
+let chatF = 'all'; const cl = {}, onl = {};
+const stats = () => { $('#s1').textContent = Object.keys(chats).length; $('#s2').textContent = Object.keys(kon).length; };
+document.querySelectorAll('#fl button').forEach(b => b.onclick = () => { chatF = b.dataset.f; document.querySelectorAll('#fl button').forEach(x => x.classList.toggle('on', x == b)); list(); });
+$('#nw').onclick = () => { go(1); setTimeout(() => $('#ci').focus(), 350); };
+$('#ac').onclick = () => go(2);
+$('#cq').oninput = () => klist();
+document.querySelectorAll('#fs button').forEach(b => b.onclick = () => { S.fs = +b.dataset.s; saveS(); ui(); });
+$('#vb').onclick = () => { S.vib = S.vib === false; saveS(); ui(); };
+$('#sc').onclick = async () => { try { await navigator.clipboard.writeText('@' + me.username); toast('Username disalin'); } catch { toast('Gagal menyalin'); } };
+const bagi = async () => {
+  const t = `Chat dengan saya di HaloKita: @${me.username}`;
+  try { if (navigator.share) await navigator.share({title: 'HaloKita', text: t}); else { await navigator.clipboard.writeText(t); toast('Ajakan disalin'); } } catch {}
+};
+$('#sb2').onclick = bagi; $('#iv').onclick = bagi;
+$('#pr').onclick = async () => { try { await sendPasswordResetEmail(auth, auth.currentUser.email); toast('Tautan reset dikirim ke email'); } catch { toast('Gagal mengirim email reset'); } };
+$('#dc').onclick = async () => {
+  const k = Object.keys(chats); if (!k.length) return toast('Daftar obrolan sudah kosong');
+  if (!confirm('Kosongkan semua daftar obrolan?')) return;
+  await update(ref(db), Object.fromEntries(k.map(i => [`userChats/${me.uid}/${i}`, null]))); toast('Daftar obrolan dikosongkan');
+};
 
 /* ---------- Obrolan ---------- */
 function clr() {
