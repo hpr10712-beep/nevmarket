@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#3390ec">
+<title>HaloKita</title>
+<style>
+:root{--bg:#fff;--bg2:#eaf1f8;--ln:rgba(15,23,34,.07);--tx:#0f1722;--sub:#6b7a8c;--pr:#2f7ff0;--ot:#fff;--sh:0 2px 8px rgba(30,60,110,.12);--ease:cubic-bezier(.22,.8,.24,1)}
+@media(prefers-color-scheme:dark){:root{--bg:#16202b;--bg2:#0d141c;--ln:rgba(255,255,255,.07);--tx:#eef3f8;--sub:#8497ab;--pr:#4a9bff;--ot:#212f3e;--sh:0 2px 8px rgba(0,0,0,.35)}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;overflow:hidden}
+body{font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;transition:transform .18s var(--ease),opacity .25s,filter .2s}
+button:active{transform:scale(.94)}
+.i{width:26px;height:26px;flex:none;filter:drop-shadow(0 2px 2px rgba(20,40,90,.28))}
+.i.big{width:110px;height:110px;filter:drop-shadow(0 8px 8px rgba(20,40,90,.3))}
+#auth{height:100%;display:grid;place-items:center;padding:20px;overflow:auto;background:radial-gradient(circle at 15% 12%,#6cc3ff 0,transparent 45%),radial-gradient(circle at 88% 92%,#a07bff 0,transparent 50%),linear-gradient(160deg,#2f7ff0,#3f4fd8)}
+.card{width:100%;max-width:350px;background:rgba(255,255,255,.95);color:#0f1722;border-radius:28px;padding:26px 22px 18px;display:flex;flex-direction:column;gap:10px;text-align:center;box-shadow:0 24px 60px rgba(10,20,80,.35);animation:rise .7s var(--ease) both}
+@media(prefers-color-scheme:dark){.card{background:rgba(22,32,43,.95);color:#eef3f8}}
+.card .i.big{width:96px;height:96px;margin:-4px auto 0;animation:bob 4s ease-in-out infinite}
+.card h1{font-size:26px;letter-spacing:-.3px}
+.card p{color:var(--sub);margin-bottom:6px}
+.fld{position:relative;display:block}
+.fld .i{position:absolute;left:13px;top:50%;margin-top:-12px;width:24px;height:24px;filter:drop-shadow(0 1px 1px rgba(20,40,90,.3));pointer-events:none}
+.fld input{width:100%;border:2px solid transparent;background:var(--bg2);border-radius:14px;padding:13px 14px 13px 48px;outline:none;transition:border-color .25s,background .25s,box-shadow .25s}
+.fld input:focus{border-color:var(--pr);background:var(--bg);box-shadow:0 0 0 4px rgba(47,127,240,.15)}
+.fold{display:grid;grid-template-rows:1fr;transition:grid-template-rows .4s var(--ease),opacity .3s,margin .4s var(--ease)}
+.fold>div{overflow:hidden;min-height:0;display:flex;flex-direction:column;gap:10px;padding:4px;margin:-4px}
+.fold.off{grid-template-rows:0fr;opacity:0;margin-bottom:-10px;pointer-events:none}
+.btn{background:linear-gradient(180deg,#5db4ff,#2f7ff0);color:#fff;border-radius:14px;padding:13px;font-weight:600;box-shadow:0 6px 16px rgba(47,127,240,.4),inset 0 1px 0 rgba(255,255,255,.4)}
+.btn:hover{filter:brightness(1.07)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--bg);border:1px solid var(--ln);border-radius:14px;padding:10px;font-weight:600;box-shadow:var(--sh)}
+.lnk{color:var(--pr);padding:6px;font-weight:500}
+#or{color:var(--sub);font-size:13px}
+#err{color:#e5384a;font-size:13px;min-height:18px}
+#app{position:relative;display:flex;height:100%}
+#app:not([hidden]){animation:fade .5s var(--ease)}
+#side{width:350px;flex:none;display:flex;flex-direction:column;background:var(--bg);border-right:1px solid var(--ln);z-index:1}
+#main{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg2)}
+.h{display:flex;align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;min-height:64px;background:var(--bg);box-shadow:0 1px 0 var(--ln),0 4px 14px rgba(20,40,90,.05);z-index:2}
+#side .h{background:linear-gradient(135deg,#3b8cf5,#5a56e0);color:#fff;box-shadow:0 6px 18px rgba(47,90,220,.3)}
+.h h2{flex:1;font-size:20px;letter-spacing:-.2px}
+.h .av{width:40px;height:40px;font-size:17px}
+.srch{margin:10px 12px}
+.srch input{border-radius:22px;padding:11px 14px 11px 48px}
+#list{flex:1;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom,0px)}
+.lb{padding:28px 18px;color:var(--sub);font-size:13px;text-align:center}
+.lb .i.big{margin-bottom:8px;animation:bob 4s ease-in-out infinite}
+.row{display:flex;gap:12px;padding:10px 14px;align-items:center;cursor:pointer;transition:background .2s,transform .18s var(--ease)}
+.row:hover{background:var(--bg2)}
+.row:active{transform:scale(.98)}
+.av{width:52px;height:52px;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:700;font-size:21px;flex:none;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:inset 0 2px 3px rgba(255,255,255,.5),inset 0 -4px 6px rgba(0,0,0,.18),0 3px 8px rgba(20,40,90,.25)}
+.mid{flex:1;min-width:0}
+.mid b,.mid small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+small{color:var(--sub);font-size:13px}
+.rt{text-align:right;font-size:12px;color:var(--sub)}
+.bd{background:linear-gradient(180deg,#5db4ff,#2f7ff0);color:#fff;border-radius:11px;padding:1px 7px;min-width:22px;display:inline-block;margin-top:4px;font-weight:600;box-shadow:0 2px 5px rgba(47,127,240,.4);animation:pop .3s var(--ease)}
+#ph{flex:1;display:grid;place-content:center;justify-items:center;gap:6px;color:var(--sub);text-align:center}
+#ph b{color:var(--tx);font-size:18px}
+#cv{flex:1;display:flex;flex-direction:column;min-height:0}
+#cv.in{animation:fade .35s var(--ease)}
+.ic{display:grid;place-items:center;padding:6px;border-radius:50%}
+#bk{display:none}
+#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:5px;background:radial-gradient(rgba(47,127,240,.12) 1.3px,transparent 1.5px) 0 0/24px 24px,var(--bg2)}
+.m{max-width:80%;padding:7px 11px 5px;border-radius:18px;white-space:pre-wrap;word-break:break-word;box-shadow:var(--sh)}
+.m i{font-size:11px;opacity:.6;float:right;margin:8px 0 0 10px;font-style:normal}
+.me{align-self:flex-end;background:linear-gradient(135deg,#4eaaff,#2f7ff0);color:#fff;border-bottom-right-radius:5px}
+.ot{align-self:flex-start;background:var(--ot);border-bottom-left-radius:5px}
+.new.me{animation:inR .35s var(--ease)}
+.new.ot{animation:inL .35s var(--ease)}
+.cp{display:flex;gap:8px;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:var(--bg);align-items:center;box-shadow:0 -4px 14px rgba(20,40,90,.05)}
+.cp input{flex:1;border:2px solid transparent;background:var(--bg2);border-radius:22px;padding:11px 16px;outline:none;transition:border-color .25s,background .25s}
+.cp input:focus{border-color:var(--pr);background:var(--bg)}
+#sd .i{width:40px;height:40px}
+.cp input:placeholder-shown+#sd{opacity:.4;transform:scale(.85)}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+@keyframes pop{from{opacity:0;transform:scale(.5)}}
+@keyframes inR{from{opacity:0;transform:translateX(24px) scale(.9)}}
+@keyframes inL{from{opacity:0;transform:translateX(-24px) scale(.9)}}
+@media(max-width:700px){#side,#main{position:absolute;inset:0;width:100%;transition:transform .42s var(--ease)}#main{transform:translateX(100%)}#app.chat #main{transform:none}#app.chat #side{transform:translateX(-28%)}#bk{display:grid}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gB" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#8fd2ff"/><stop offset="1" stop-color="#2c78ea"/></linearGradient><linearGradient id="gG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#8cf0b0"/><stop offset="1" stop-color="#22a455"/></linearGradient><linearGradient id="gO" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#ffd08a"/><stop offset="1" stop-color="#f27a28"/></linearGradient><linearGradient id="gP" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#d4b3ff"/><stop offset="1" stop-color="#7a4be0"/></linearGradient><linearGradient id="gR" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#ffa8a8"/><stop offset="1" stop-color="#e53a4b"/></linearGradient><linearGradient id="gW" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="48"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d9e0eb"/></linearGradient>
+<linearGradient id="gH" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="24"><stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<path id="pb" d="M8 10a7 7 0 0 1 7-7h18a7 7 0 0 1 7 7v14a7 7 0 0 1-7 7H22l-9 8v-8h-2a7 7 0 0 1-3-7z"/>
+<path id="ps" d="M5 22L43 6L31 42L22 29Z"/>
+<path id="pa" d="M31 8L15 24L31 40" fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="pm" fill="none" stroke-width="7" stroke-linecap="round"><circle cx="21" cy="21" r="12"/><path d="M30 30L41 41"/></g>
+<path id="po" d="M8 6h19a3 3 0 0 1 3 3v6h-5v-4H13v26h12v-4h5v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3zM28 17l12 7-12 7v-5H18v-4h10z"/>
+<rect id="pe" x="5" y="11" width="38" height="27" rx="6"/>
+<rect id="pk" x="9" y="22" width="30" height="21" rx="6"/>
+<g id="pu"><circle cx="24" cy="14" r="9"/><path d="M6 43a18 14 0 0 1 36 0z"/></g>
+<circle id="pc" cx="24" cy="23" r="19"/>
+</defs>
+<symbol id="i-chat" viewBox="0 0 48 48"><use href="#pb" y="4" fill="#1b46a8"/><use href="#pb" fill="url(#gB)"/><path d="M8 10a7 7 0 0 1 7-7h18a7 7 0 0 1 7 7v5H8z" fill="url(#gH)" opacity=".7"/><g fill="#fff"><circle cx="17" cy="17" r="2.6"/><circle cx="24" cy="17" r="2.6"/><circle cx="31" cy="17" r="2.6"/></g></symbol>
+<symbol id="i-send" viewBox="0 0 48 48"><use href="#ps" y="3" fill="#1b46a8"/><use href="#ps" fill="url(#gB)"/><path d="M43 6L22 29L25 38Z" fill="#000" opacity=".18"/><path d="M5 22L43 6L24 20Z" fill="#fff" opacity=".4"/></symbol>
+<symbol id="i-back" viewBox="0 0 48 48"><use href="#pa" y="3" stroke="#1b46a8"/><use href="#pa" stroke="url(#gB)"/></symbol>
+<symbol id="i-search" viewBox="0 0 48 48"><use href="#pm" y="3" stroke="#b8480f"/><use href="#pm" stroke="url(#gO)"/></symbol>
+<symbol id="i-out" viewBox="0 0 48 48"><use href="#po" y="3" fill="#a21f2f"/><use href="#po" fill="url(#gR)"/></symbol>
+<symbol id="i-mail" viewBox="0 0 48 48"><use href="#pe" y="3" fill="#b8480f"/><use href="#pe" fill="url(#gO)"/><path d="M8 16l16 12 16-12" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/></symbol>
+<symbol id="i-lock" viewBox="0 0 48 48"><path d="M16 23v-7a8 8 0 0 1 16 0v7" fill="none" stroke="#8795a8" stroke-width="5.5" stroke-linecap="round" transform="translate(0 2)"/><path d="M16 23v-7a8 8 0 0 1 16 0v7" fill="none" stroke="#dfe6f0" stroke-width="5.5" stroke-linecap="round"/><use href="#pk" y="3" fill="#167a41"/><use href="#pk" fill="url(#gG)"/><circle cx="24" cy="31" r="3.2" fill="#0f5a31"/><path d="M24 33v5" stroke="#0f5a31" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-user" viewBox="0 0 48 48"><use href="#pu" y="3" fill="#4d2aa8"/><use href="#pu" fill="url(#gP)"/></symbol>
+<symbol id="i-at" viewBox="0 0 48 48"><use href="#pc" y="4" fill="#1b46a8"/><use href="#pc" fill="url(#gB)"/><path d="M6 20a18 18 0 0 1 36 0z" fill="url(#gH)" opacity=".6"/><text x="24" y="31" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" font-family="system-ui,sans-serif">@</text></symbol>
+<symbol id="i-google" viewBox="0 0 48 48"><circle cx="24" cy="26" r="21" fill="#a9b4c6"/><circle cx="24" cy="23" r="21" fill="url(#gW)"/><g transform="translate(11 10) scale(.54)"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.4 28.7A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.7l-7.8-6.1A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48z"/></g></symbol>
+</svg>
+
+<div id="auth"><div class="card">
+  <svg class="i big"><use href="#i-chat"/></svg>
+  <h1>HaloKita</h1>
+  <p>Ngobrol cepat dengan teman</p>
+  <div id="rg" class="fold off"><div>
+    <label class="fld"><svg class="i"><use href="#i-user"/></svg><input id="nm" placeholder="Nama" autocomplete="name"></label>
+    <label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="un" placeholder="Username (huruf, angka, _)" autocapitalize="none"></label>
+  </div></div>
+  <div id="cr" class="fold"><div>
+    <label class="fld"><svg class="i"><use href="#i-mail"/></svg><input id="em" type="email" placeholder="Email" autocomplete="email"></label>
+    <label class="fld"><svg class="i"><use href="#i-lock"/></svg><input id="pw" type="password" placeholder="Kata sandi (min. 6 karakter)" autocomplete="current-password"></label>
+  </div></div>
+  <div id="err"></div>
+  <button id="go" class="btn">Masuk</button>
+  <div id="or">atau</div>
+  <button id="gg" class="gbtn"><svg class="i"><use href="#i-google"/></svg>Lanjutkan dengan Google</button>
+  <button id="tg" class="lnk">Belum punya akun? Daftar</button>
+</div></div>
+
+<div id="app" hidden>
+  <div id="side">
+    <div class="h"><span id="meav"></span><h2>HaloKita</h2><button id="out" class="ic" title="Keluar" aria-label="Keluar"><svg class="i"><use href="#i-out"/></svg></button></div>
+    <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="q" placeholder="Cari @username teman" autocapitalize="none"></label>
+    <div id="list"></div>
+  </div>
+  <div id="main">
+    <div id="ph"><svg class="i big"><use href="#i-chat"/></svg><b>HaloKita</b><span>Pilih obrolan untuk mulai</span></div>
+    <div id="cv" hidden>
+      <div class="h">
+        <button id="bk" class="ic" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></button>
+        <span id="cav"></span>
+        <div class="mid"><b id="cn"></b><small id="cs"></small></div>
+      </div>
+      <div id="msgs"></div>
+      <div class="cp">
+        <input id="mi" placeholder="Tulis pesan" autocomplete="off">
+        <button id="sd" class="ic" aria-label="Kirim"><svg class="i"><use href="#i-send"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getDatabase,ref,get,update,push,onValue,query,limitToLast,serverTimestamp,onDisconnect,increment} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBEPzUM9EresZ-yvphzDusVs7AUqdLuCNQ",
+  authDomain: "mygame-68b24.firebaseapp.com",
+  databaseURL: "https://mygame-68b24-default-rtdb.firebaseio.com",
+  projectId: "mygame-68b24",
+  storageBucket: "mygame-68b24.firebasestorage.app",
+  messagingSenderId: "1003182873390",
+  appId: "1:1003182873390:web:aabf3248f759cbc9d678bf"
+};
+const fb = initializeApp(firebaseConfig), auth = getAuth(fb), db = getDatabase(fb);
+const $ = s => document.querySelector(s);
+let me, cur, chats = {}, unM, unS, mode = 'login', reg = false;
+
+const cid = (a, b) => [a, b].sort().join('_');
+const col = s => { const h = Math.abs([...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7)) % 360; return `linear-gradient(145deg,hsl(${h} 75% 66%),hsl(${h} 65% 44%))`; };
+const tm = t => t ? new Date(t).toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'}) : '';
+const norm = s => s.trim().toLowerCase().replace(/^@/, '');
+function av(name, uid) {
+  const d = document.createElement('div');
+  d.className = 'av'; d.textContent = (name || '?')[0].toUpperCase(); d.style.background = col(uid);
+  return d;
+}
+function el(tag, cls, txt) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls; if (txt != null) e.textContent = txt;
+  return e;
+}
+
+/* ---------- Auth ---------- */
+$('#tg').onclick = () => {
+  if (mode == 'setup') { signOut(auth).then(() => location.reload()); return; }
+  mode = mode == 'login' ? 'reg' : 'login';
+  $('#rg').classList.toggle('off', mode == 'login');
+  $('#go').textContent = mode == 'login' ? 'Masuk' : 'Daftar';
+  $('#tg').textContent = mode == 'login' ? 'Belum punya akun? Daftar' : 'Sudah punya akun? Masuk';
+  $('#err').textContent = '';
+};
+const pesan = x => ({
+  'auth/invalid-credential': 'Email atau kata sandi salah',
+  'auth/email-already-in-use': 'Email sudah terdaftar',
+  'auth/weak-password': 'Kata sandi minimal 6 karakter',
+  'auth/invalid-email': 'Format email tidak valid',
+  'auth/operation-not-allowed': 'Metode login ini belum diaktifkan di Firebase',
+  'auth/unauthorized-domain': 'Domain belum diizinkan di Firebase (Authentication → Settings → Authorized domains)',
+  'auth/network-request-failed': 'Tidak ada koneksi internet'
+}[x.code] || x.message || 'Terjadi kesalahan');
+
+$('#gg').onclick = async () => {
+  $('#err').textContent = '';
+  const pv = new GoogleAuthProvider();
+  try {
+    const nat = window.Capacitor?.Plugins?.FirebaseAuthentication;
+    if (window.Capacitor?.isNativePlatform?.() && nat) {
+      const r = await nat.signInWithGoogle({skipNativeAuth: true});
+      await signInWithCredential(auth, GoogleAuthProvider.credential(r.credential.idToken));
+    } else await signInWithPopup(auth, pv);
+  } catch (x) {
+    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(x.code)) signInWithRedirect(auth, pv);
+    else if (!['auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(x.code)) $('#err').textContent = pesan(x);
+  }
+};
+
+// Pengguna baru (Google atau email tanpa profil): pilih nama & username dulu
+function setup() {
+  const u = auth.currentUser;
+  mode = 'setup';
+  $('.card p').textContent = 'Pilih username untuk mulai';
+  $('#cr').classList.add('off'); $('#gg').hidden = $('#or').hidden = true;
+  $('#rg').classList.remove('off');
+  $('#go').textContent = 'Lanjutkan';
+  $('#tg').textContent = 'Batal';
+  $('#nm').value = u.displayName || '';
+  $('#un').value = (u.email || '').split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, '').slice(0, 20);
+  $('#err').textContent = '';
+  $('#auth').hidden = false; $('#app').hidden = true;
+}
+
+$('#go').onclick = async () => {
+  const e = $('#em').value.trim(), p = $('#pw').value, u = norm($('#un').value), n = $('#nm').value.trim();
+  $('#err').textContent = '';
+  try {
+    if (mode == 'setup') {
+      if (!/^[a-z0-9_]{4,20}$/.test(u)) throw {message: 'Username 4–20 karakter: huruf, angka, atau _'};
+      if ((await get(ref(db, 'usernames/' + u))).exists()) throw {message: 'Username sudah dipakai, pilih yang lain'};
+      const uid = auth.currentUser.uid;
+      await update(ref(db), {['usernames/' + u]: uid, ['users/' + uid]: {name: n || u, username: u, online: true}});
+      start(uid); return;
+    }
+    if (mode == 'login') { await signInWithEmailAndPassword(auth, e, p); return; }
+    if (!/^[a-z0-9_]{4,20}$/.test(u)) throw {message: 'Username 4–20 karakter: huruf, angka, atau _'};
+    reg = true;
+    const cr = await createUserWithEmailAndPassword(auth, e, p);
+    if ((await get(ref(db, 'usernames/' + u))).exists()) {
+      await cr.user.delete();
+      throw {message: 'Username sudah dipakai, pilih yang lain'};
+    }
+    const uid = cr.user.uid;
+    await update(ref(db), {['usernames/' + u]: uid, ['users/' + uid]: {name: n || u, username: u, online: true}});
+    reg = false; start(uid);
+  } catch (x) { reg = false; $('#err').textContent = pesan(x); }
+};
+onAuthStateChanged(auth, u => { if (!reg && u) start(u.uid); });
+
+$('#out').onclick = async () => {
+  await update(ref(db, 'users/' + me.uid), {online: false, lastSeen: serverTimestamp()});
+  await signOut(auth); location.reload();
+};
+
+/* ---------- Mulai ---------- */
+async function start(uid) {
+  const s = await get(ref(db, 'users/' + uid));
+  if (!s.exists()) { setup(); return; }
+  me = {uid, ...s.val()};
+  $('#auth').hidden = true; $('#app').hidden = false;
+  $('#meav').replaceChildren(av(me.name, uid));
+  onValue(ref(db, '.info/connected'), c => {
+    if (!c.val()) return;
+    const r = ref(db, 'users/' + uid);
+    onDisconnect(r).update({online: false, lastSeen: serverTimestamp()}).then(() => update(r, {online: true}));
+  });
+  onValue(ref(db, 'userChats/' + uid), s => { chats = s.val() || {}; list(); clr(); });
+}
+
+/* ---------- Daftar obrolan & pencarian ---------- */
+function row(u, sub, ts, unread) {
+  const r = el('div', 'row');
+  const mid = el('div', 'mid'); mid.append(el('b', '', u.name), el('small', '', sub || ''));
+  const rt = el('div', 'rt', tm(ts));
+  if (unread) rt.append(document.createElement('br'), el('span', 'bd', unread));
+  r.append(av(u.name, u.uid), mid, rt);
+  r.onclick = () => open({uid: u.uid, name: u.name, username: u.username});
+  return r;
+}
+function list(res) {
+  const q = norm($('#q').value), box = $('#list');
+  box.replaceChildren();
+  if (res) box.append(el('div', 'lb', 'Hasil pencarian'), row(res, '@' + res.username));
+  Object.values(chats)
+    .filter(c => c.with && (!q || (c.name + c.username).toLowerCase().includes(q)))
+    .sort((a, b) => (b.ts || 0) - (a.ts || 0))
+    .forEach(c => box.append(row({uid: c.with, name: c.name, username: c.username}, c.last, c.ts, c.unread)));
+  if (!box.children.length) { const e = el('div', 'lb'); e.innerHTML = '<svg class="i big"><use href="#i-chat"/></svg><br>Belum ada obrolan.<br>Cari @username teman di atas.'; box.append(e); }
+}
+let tmr;
+$('#q').oninput = () => {
+  clearTimeout(tmr);
+  tmr = setTimeout(async () => {
+    const q = norm($('#q').value); let res;
+    if (q.length >= 4 && q != me.username) {
+      try {
+        const s = await get(ref(db, 'usernames/' + q));
+        if (s.exists()) { const u = await get(ref(db, 'users/' + s.val())); res = {uid: s.val(), ...u.val()}; }
+      } catch {}
+    }
+    list(res);
+  }, 300);
+};
+
+/* ---------- Obrolan ---------- */
+function clr() {
+  if (!cur) return;
+  const k = cid(me.uid, cur.uid);
+  if (chats[k]?.unread) update(ref(db, `userChats/${me.uid}/${k}`), {unread: 0});
+}
+function open(u) {
+  unM && unM(); unS && unS();
+  cur = u;
+  $('#app').classList.add('chat'); $('#ph').hidden = true; $('#cv').hidden = false;
+  $('#cv').classList.remove('in'); void $('#cv').offsetWidth; $('#cv').classList.add('in');
+  $('#cn').textContent = u.name; $('#cav').replaceChildren(av(u.name, u.uid)); $('#msgs').replaceChildren();
+  unS = onValue(ref(db, 'users/' + u.uid), s => {
+    const v = s.val() || {};
+    $('#cs').textContent = v.online ? 'online' : v.lastSeen ? 'terakhir dilihat ' + tm(v.lastSeen) : '@' + u.username;
+  });
+  const seen = new Set(); let first = true;
+  unM = onValue(query(ref(db, `chats/${cid(me.uid, u.uid)}/messages`), limitToLast(150)), s => {
+    const b = $('#msgs');
+    s.forEach(m => {
+      if (seen.has(m.key)) return; seen.add(m.key);
+      const v = m.val(), d = el('div', 'm ' + (v.from == me.uid ? 'me' : 'ot') + (first ? '' : ' new'));
+      d.append(v.text, el('i', '', tm(v.ts))); b.append(d);
+    });
+    b.scrollTo({top: b.scrollHeight, behavior: first ? 'auto' : 'smooth'}); first = false; clr();
+  });
+}
+$('#bk').onclick = () => {
+  unM && unM(); unS && unS(); cur = null;
+  $('#app').classList.remove('chat');
+};
+async function kirim() {
+  const t = $('#mi').value.trim();
+  if (!t || !cur) return;
+  $('#mi').value = '';
+  const id = cid(me.uid, cur.uid), k = push(ref(db, `chats/${id}/messages`)).key, ts = serverTimestamp();
+  const a = `userChats/${me.uid}/${id}/`, b = `userChats/${cur.uid}/${id}/`;
+  await update(ref(db), {
+    [`chats/${id}/messages/${k}`]: {from: me.uid, text: t, ts},
+    [a + 'with']: cur.uid, [a + 'name']: cur.name, [a + 'username']: cur.username, [a + 'last']: t, [a + 'ts']: ts, [a + 'unread']: 0,
+    [b + 'with']: me.uid, [b + 'name']: me.name, [b + 'username']: me.username, [b + 'last']: t, [b + 'ts']: ts, [b + 'unread']: increment(1)
+  });
+}
+$('#sd').onclick = kirim;
+$('#mi').onkeydown = e => { if (e.key == 'Enter') kirim(); };
+</script>
+</body>
+</html>
