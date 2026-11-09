@@ -117,7 +117,7 @@ h2{font:700 14px var(--fd);letter-spacing:-.03em;margin:22px 0 10px;color:var(--
 <div id="login" class="center"><div class="box">
   <svg class="lg i"><use href="#i-logo"/></svg>
   <h1>HaloKita Admin</h1>
-  <small>Khusus admin. Masuk dengan akun yang sudah didaftarkan sebagai admin.</small>
+  <small>Khusus admin. Akun pertama yang masuk setelah aturan Firebase dipasang otomatis menjadi admin, jadi masuklah lebih dulu sendiri.</small>
   <div class="panel">
     <label class="fld"><span>Email</span><input id="em" type="email" autocomplete="email" placeholder="email@admin.com"></label>
     <label class="fld"><span>Kata sandi</span><input id="pw" type="password" autocomplete="current-password" placeholder="Kata sandi"></label>
@@ -131,9 +131,8 @@ h2{font:700 14px var(--fd);letter-spacing:-.03em;margin:22px 0 10px;color:var(--
 <div id="deny" class="center" hidden><div class="box">
   <svg class="lg i" style="color:var(--co)"><use href="#i-warn"/></svg>
   <h1>Bukan admin</h1>
-  <small>Akun <b id="dem" style="color:var(--tx)"></b> belum terdaftar sebagai admin. Untuk menjadikannya admin, buka Firebase Console → Realtime Database, lalu tambahkan node berikut secara manual:</small>
-  <div class="uid"><span id="dpath" style="flex:1"></span><button id="dcp" class="btn sm ghost">Salin</button></div>
-  <small>Nilainya harus <b style="color:var(--tx)">true</b> (boolean). Setelah itu muat ulang halaman ini.</small>
+  <small>Akun <b id="dem" style="color:var(--tx)"></b> bukan admin. Admin pertama sudah terdaftar otomatis, jadi akun baru harus ditambahkan oleh admin yang sudah ada. Kirim UID berikut ke admin:</small>
+  <div class="uid"><span id="duid" style="flex:1"></span><button id="dcp" class="btn sm ghost">Salin</button></div>
   <button id="dout" class="btn ghost">Keluar</button>
 </div></div>
 
@@ -216,7 +215,7 @@ function fu(uid) { return uc[uid] || (uc[uid] = get(ref(db, 'users/' + uid)).the
 const badge = id => { if (!vf[id]) return null; const s = el('span', 'vb'); s.innerHTML = '<svg class="i"><use href="#i-verif"/></svg>'; return s; };
 function nameB(t, id) { const b = el('b', '', t), x = badge(id); if (x) b.append(x); return b; }
 function warn(node) {
-  $('#warnt').textContent = `Akses ke "${node}" ditolak. Pasang dulu aturan Firebase tambahan (file aturan-firebase-tambahan.json) dan pastikan akun ini ada di admins/${me?.uid}.`;
+  $('#warnt').textContent = `Akses ke "${node}" ditolak. Pasang dulu aturan Firebase tambahan (file aturan-firebase-tambahan.json).`;
   $('#warn').hidden = false;
 }
 const lis = (path, fn) => onValue(ref(db, path), fn, () => warn(path));
@@ -254,8 +253,13 @@ onAuthStateChanged(auth, async u => {
   let ok = false;
   try { ok = (await get(ref(db, 'admins/' + u.uid))).val() === true; } catch {}
   if (!ok) {
-    $('#dem').textContent = u.email || u.uid; $('#dpath').textContent = 'admins/' + u.uid + ' = true';
-    $('#dcp').onclick = async () => { try { await navigator.clipboard.writeText('admins/' + u.uid); toast('Path disalin'); } catch { toast('Gagal menyalin'); } };
+    // tanpa verifikasi manual: akun pertama yang masuk otomatis jadi admin (aturan database hanya mengizinkan ini selama belum ada admin)
+    try { await update(ref(db, 'admins'), {[u.uid]: true}); ok = true; } catch {}
+  }
+  if (!ok) {
+    $('#dem').textContent = u.email || u.uid;
+    $('#dcp').onclick = async () => { try { await navigator.clipboard.writeText(u.uid); toast('UID disalin'); } catch { toast('Gagal menyalin'); } };
+    $('#duid').textContent = u.uid;
     $('#deny').hidden = false; $('#app').hidden = true; return;
   }
   $('#deny').hidden = true; $('#app').hidden = false; $('#me').textContent = u.email || '';
