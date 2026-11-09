@@ -661,6 +661,119 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 .sc-l{margin-top:-6px;font-size:11.5px}
 .sc-x{display:flex;gap:8px}
 .sc-x .btn{flex:1}
+
+/* ---------- v1.7: permintaan berteman, status ke samping, profil, ubah sandi ---------- */
+.jh-c{font-size:27px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.jh-t{flex:1}
+
+/* status: kartu 3:4 digeser ke samping */
+.sg{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;padding:12px 20px 6px;scroll-padding:0 20px;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.sg::-webkit-scrollbar{display:none}
+.stc{--c:#9ee86f;position:relative;flex:0 0 min(41vw,164px);aspect-ratio:3/4;scroll-snap-align:start;overflow:hidden;display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:24px;cursor:pointer;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 36%,var(--s1)),var(--s1) 72%);border:1px solid color-mix(in srgb,var(--c) 46%,var(--ln));box-shadow:0 6px 16px rgba(0,0,0,.09);transition:transform .18s var(--ease)}
+.stc:active{transform:scale(.97)}
+.stc::before{content:"\201C";position:absolute;right:10px;top:-8px;font:800 78px/1 var(--fd);color:color-mix(in srgb,var(--c) 70%,var(--tx) 30%);opacity:.15;pointer-events:none}
+.stc>*{position:relative}
+.stc.lift{visibility:hidden}
+.stc-h{display:flex;align-items:center;gap:8px;min-width:0}
+.stc-h .srg{padding:2px}
+.stc-h .srg .av{width:32px;height:32px;font-size:13px;border-width:2px}
+.stc-h .mid{min-width:0;flex:1}
+.stc-h .mid b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stc-h .mid small{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stc-h .vb{width:14px;height:14px;margin-left:3px;vertical-align:-2px}
+.stc-t{flex:1;min-height:0;display:flex;align-items:center;font-weight:800;line-height:1.28;letter-spacing:-.01em;word-break:break-word}
+.stc-t span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden;white-space:pre-wrap}
+.stc-bar{height:3.5px;border-radius:2px;background:color-mix(in srgb,var(--c) 26%,transparent);overflow:hidden}
+.stc-bar i{display:block;height:100%;border-radius:2px;background:color-mix(in srgb,var(--c) 72%,var(--tx) 28%)}
+.stc-b{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:14px;background:color-mix(in srgb,var(--c) 32%,var(--s2));font-weight:800;font-size:12.5px;transition:transform .18s var(--ease)}
+.stc-b:active{transform:scale(.94)}
+.stc-b .i{width:15px;height:15px}
+.stc-bb{display:flex;gap:6px}
+.stc-bb .stc-b{flex:1}
+.stc.add{align-items:center;justify-content:center;gap:10px;text-align:center;background:none;border:1.5px dashed var(--s3);box-shadow:none}
+.stc.add .jp{width:46px;height:46px}
+.stc.add b{font-size:13.5px;line-height:1.25}
+.stc.add small{font-size:11.5px;line-height:1.3}
+.jhint{display:block;margin:6px 20px 0;font-size:12.5px;line-height:1.45}
+
+/* pop up status */
+.nmi.sv{padding:20px 18px 22px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 42%,var(--s1)),var(--s1))}
+.sv-h{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.sv-h .mid b{display:block;font-size:16px}
+.sv-h .mid small{display:block}
+.sv-t{font:800 24px/1.32 var(--fb);letter-spacing:-.02em;white-space:pre-wrap;word-break:break-word;min-height:110px}
+#nmx{display:flex;gap:8px;margin-top:6px}
+#nmx .btn{flex:1;padding:13px;font-size:15px}
+
+/* permintaan berteman */
+#kb{position:absolute;top:4px;left:calc(50% + 4px);margin:0;background:var(--co);color:var(--on-co);border-radius:10px;min-width:18px;padding:0 5px;font:800 11px/18px var(--fb);font-style:normal;text-align:center;animation:bpulse 2s ease-out infinite}
+.tabs .on #kb{display:none}
+#creq{margin:6px 20px 4px}
+.rqh{display:flex;align-items:center;gap:8px;padding:8px 0 6px;color:var(--hl);font:800 15px var(--fd)}
+.rqh em{font-style:normal;background:var(--co);color:var(--on-co);border-radius:10px;min-width:20px;padding:0 6px;font:800 12px/20px var(--fb);text-align:center}
+.rqh.o{color:var(--sub);font-size:13px}
+.rq{display:flex;align-items:center;gap:12px;padding:10px 12px;margin-bottom:8px;background:var(--s1);border:1px solid var(--ln);border-radius:20px;cursor:pointer;animation:in .35s var(--ease) both}
+.rq .av{width:42px;height:42px;font-size:16px}
+.rq .mid{flex:1;min-width:0}
+.rq .mid b,.rq .mid small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rq-a{display:flex;gap:6px;flex:none}
+.rq-a button{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:var(--s2);color:var(--tx);transition:transform .18s var(--ease)}
+.rq-a button:active{transform:scale(.9)}
+.rq-a .ok{background:var(--acc);color:var(--on-acc)}
+.rq-a .tx{width:auto;padding:0 14px;font-weight:800;font-size:13px}
+
+/* profil orang lain */
+#ush .gx{height:116px}
+.uv-av{margin:12px 0 0;gap:5px}
+.uv-av .av{width:92px;height:92px;font-size:38px;margin:0 0 6px;box-shadow:0 0 0 5px var(--s1),0 0 0 7.5px var(--hl)}
+.uv-nm{display:flex;align-items:center;justify-content:center;max-width:100%}
+#unm{font:800 23px/1.2 var(--fd);letter-spacing:-.04em;max-width:100%;overflow-wrap:anywhere}
+#uun{font-size:14.5px}
+#ust{display:inline-flex;align-items:center;gap:6px;margin-top:2px;padding:4px 12px;border-radius:999px;background:var(--s2);font-size:12.5px;font-weight:700;color:var(--sub)}
+#ust:empty{display:none}
+#ust::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sub);opacity:.6}
+#ust.on{color:#34d27b;background:rgba(52,210,123,.14)}
+#ust.on::before{background:#34d27b;opacity:1}
+.uv-card{margin-top:10px;padding:12px 15px;background:var(--s2);border-radius:20px;text-align:left}
+.uv-k{display:block;font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin-bottom:3px}
+.uv-card p{font-size:15px;line-height:1.5;font-weight:500;white-space:pre-wrap;word-break:break-word}
+#ubo{max-width:none;margin:0;color:var(--tx)}
+#ubo:empty::before{content:"Belum ada bio";color:var(--sub)}
+.uv-card small:not(.uv-k){display:block;margin-top:3px}
+.uv-rq{display:grid;gap:10px;background:color-mix(in srgb,var(--hl) 14%,var(--s2));border:1px solid color-mix(in srgb,var(--hl) 36%,var(--ln))}
+.uv-rq b{display:block}
+.uv-rq .uv-a{margin-top:0}
+.uv-rq .btn{padding:11px;font-size:14.5px}
+.uv-a{margin-top:12px}
+.uv-a .btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 10px;font-size:15px;border-radius:16px}
+.uv-a .btn .i{width:18px;height:18px}
+.uv-g{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px;margin-top:10px}
+.uv-t{display:grid;justify-items:center;align-content:center;gap:6px;padding:12px 4px;border-radius:18px;background:var(--s2);font-weight:700;font-size:12.5px;line-height:1.2;transition:transform .18s var(--ease),background .25s}
+.uv-t:hover{background:var(--s3)}
+.uv-t:active{transform:scale(.95)}
+.uv-t .i{width:21px;height:21px}
+.uv-t.uv-bk{color:var(--co)}
+
+/* balas status di chat */
+.qt.qs b::before,#rb.st b::before{content:"";display:inline-block;width:9px;height:9px;margin-right:6px;border-radius:50%;border:2px solid currentColor;vertical-align:-1px}
+
+/* ubah kata sandi */
+.pwo{display:grid;gap:10px;margin-bottom:14px}
+.pwo button{display:flex;align-items:center;gap:12px;padding:14px;text-align:left;border-radius:20px;background:var(--s2);border:1.5px solid transparent;transition:border-color .25s,background .25s}
+.pwo button.on{border-color:var(--hl);background:color-mix(in srgb,var(--hl) 12%,var(--s2))}
+.pwo .ib{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:14px;background:var(--s1);color:var(--hl)}
+.pwo b{display:block;font-weight:800}
+.pwo small{display:block;line-height:1.35}
+.pwp{display:grid;gap:2px}
+.pwp .btn{margin-top:4px}
+
+/* kartu sapaan: jam di kanan atas, tanggal lebar penuh */
+.jhero{display:grid;grid-template-columns:1fr auto;grid-template-areas:"gr ck" "dt dt" "hj hj";align-items:center;row-gap:2px}
+.jh-t{display:contents}
+#jgr{grid-area:gr}
+#jck{grid-area:ck;font-size:26px}
+#jdt{grid-area:dt;font:800 20px/1.2 var(--fd);letter-spacing:-.04em;margin-top:4px}
+#jhj{grid-area:hj}
 </style>
 </head>
 <body>
@@ -722,7 +835,8 @@ small{color:var(--sub);font-size:13px;font-weight:600}
       </section>
       <section class="pg" id="pg1">
         <div class="lt"><h1>Kontak</h1><button id="iv" class="ic" aria-label="Undang teman"><svg class="i"><use href="#i-send"/></svg></button></div>
-        <div class="arow"><label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="ci" placeholder="Tambah @username" autocapitalize="none"></label><button id="ca" class="btn sm">Tambah</button></div>
+        <div class="arow"><label class="fld"><svg class="i"><use href="#i-at"/></svg><input id="ci" placeholder="Cari @username teman" autocapitalize="none"></label><button id="ca" class="btn sm">Cari</button></div>
+        <div id="creq"></div>
         <label class="fld srch"><svg class="i"><use href="#i-search"/></svg><input id="cq" placeholder="Cari kontak"></label>
         <div id="clist"></div>
         <div class="foot" id="cc"></div>
@@ -733,8 +847,8 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <div class="gl">Sedang online</div>
         <div class="jon" id="jon"></div>
         <div class="gl">Status teman</div>
-        <div id="jme"></div>
-        <div id="jfr"></div>
+        <div class="sg" id="jsg"></div>
+        <small class="jhint" id="jsh" hidden></small>
         <div class="gl">Berita</div>
         <div id="jnews"></div>
         <button class="jinv" id="jinv"><i class="ib"><svg class="i"><use href="#i-share"/></svg></i><span><b>Ajak temanmu</b><small>Bagikan link HaloKita lewat aplikasi lain</small></span></button>
@@ -796,7 +910,7 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <input id="imf" type="file" accept="application/json,.json" hidden>
         <div class="gl">Akun</div>
         <div class="grp">
-          <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small id="prs">Kirim tautan reset ke email (maks. 1× per hari)</small></span></button>
+          <button id="pr" class="sr ch"><svg class="i"><use href="#i-lock"/></svg><span class="mid"><b>Ubah kata sandi</b><small id="prs">Pakai sandi lama atau reset lewat email (maks. 1× per 3 hari)</small></span></button>
           <button id="dc" class="sr ch"><svg class="i"><use href="#i-x"/></svg><span class="mid"><b>Kosongkan daftar obrolan</b></span></button>
           <button id="out" class="sr lo"><svg class="i"><use href="#i-out"/></svg>Keluar</button>
         </div>
@@ -804,13 +918,13 @@ small{color:var(--sub);font-size:13px;font-weight:600}
         <div class="grp"><button id="hp" class="sr ch"><svg class="i"><use href="#i-help"/></svg><span class="mid"><b>Kirim bantuan lewat email</b><small>Laporkan masalah atau tanya tim HaloKita</small></span></button></div>
         <div class="gl">Lainnya</div>
         <div class="grp"><button id="rs" class="sr ch"><svg class="i"><use href="#i-set"/></svg><span class="mid"><b>Setel ulang pengaturan</b><small>Kembalikan tema, suara, dan privasi ke awal</small></span></button>
-        <div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.6, dibuat dengan Firebase</small></span></div></div>
+        <div class="sr"><svg class="i"><use href="#i-info"/></svg><span class="mid"><b>HaloKita</b><small>Versi 1.7, dibuat dengan Firebase</small></span></div></div>
       </section>
     </div>
     <nav class="tabs">
       <i class="pill"></i>
       <button class="on" aria-label="Chat"><svg class="i"><use href="#i-chat"/></svg><span>Chat</span><em id="ub" hidden></em></button>
-      <button aria-label="Kontak"><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span></button>
+      <button aria-label="Kontak"><svg class="i"><use href="#i-kon"/></svg><span>Kontak</span><em id="kb" hidden></em></button>
       <button aria-label="Jelajah"><svg class="i"><use href="#i-explore"/></svg><span>Jelajah</span></button>
       <button aria-label="Profil"><svg class="i"><use href="#i-user"/></svg><span>Profil</span></button>
       <button aria-label="Pengaturan"><svg class="i"><use href="#i-set"/></svg><span>Atur</span></button>
@@ -863,11 +977,16 @@ small{color:var(--sub);font-size:13px;font-weight:600}
     <div class="gx" aria-hidden="true"><i class="gx-n"></i><i class="gx-g"></i><i class="gx-g2"></i><i class="gx-c"></i><i class="gx-m"></i><i class="gx-m m2"></i><i class="gx-m m3"></i></div>
     <div class="grab"></div>
     <div class="sh-h"><span></span><button class="ic" data-close="ush" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <div class="uv-av"><div id="uav"></div><b id="unm"></b><small id="unr" hidden></small><span id="uun"></span><p id="ubo"></p><small id="ust"></small></div>
-    <div class="uv-a"><button id="ucm" class="btn">Kirim pesan</button><button id="uck" class="btn ghost">Tambah kontak</button></div>
-    <button id="uan" class="btn ghost uv-an"><svg class="i"><use href="#i-edit"/></svg>Simpan nama berbeda</button>
-    <button id="ubk" class="btn ghost uv-an uv-bk"><svg class="i"><use href="#i-block"/></svg><span id="ubkt">Blokir kontak</span></button>
-    <button id="urp" class="btn ghost uv-an uv-bk"><svg class="i"><use href="#i-flag"/></svg>Laporkan pengguna</button>
+    <div class="uv-av"><div id="uav"></div><div class="uv-nm"><b id="unm"></b></div><small id="unr" hidden></small><span id="uun"></span><small id="ust"></small></div>
+    <div class="uv-card"><small class="uv-k">Tentang</small><p id="ubo"></p></div>
+    <div class="uv-card" id="usc" hidden><small class="uv-k">Status saat ini</small><p id="usx"></p><small id="ust2"></small></div>
+    <div class="uv-card uv-rq" id="urq" hidden><div><b id="urqt"></b><small>mengirim permintaan berteman kepadamu</small></div><div class="uv-a"><button id="urqa" class="btn">Terima</button><button id="urqn" class="btn ghost">Tolak</button></div></div>
+    <div class="uv-a"><button id="ucm" class="btn"><svg class="i"><use href="#i-chat"/></svg>Kirim pesan</button><button id="uck" class="btn ghost"></button></div>
+    <div class="uv-g" id="uvg">
+      <button id="uan" class="uv-t"><svg class="i"><use href="#i-edit"/></svg><span>Nama lain</span></button>
+      <button id="ubk" class="uv-t uv-bk"><svg class="i"><use href="#i-block"/></svg><span id="ubkt">Blokir</span></button>
+      <button id="urp" class="uv-t uv-bk"><svg class="i"><use href="#i-flag"/></svg><span>Laporkan</span></button>
+    </div>
     <div id="ual" class="uv-al" hidden>
       <label class="fi"><span>Nama untuk teman ini</span><input id="uai" maxlength="30" autocomplete="off" placeholder="Contoh: Bestie, Kak Dina"></label>
       <small class="hn">Hanya terlihat olehmu. Kosongkan untuk memakai nama asli.</small>
@@ -922,13 +1041,36 @@ small{color:var(--sub);font-size:13px;font-weight:600}
     <button id="bout" class="btn ghost">Keluar dari akun</button>
   </div>
 </div>
+<div class="wrap" id="psh"><div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="pshT">
+    <div class="grab"></div>
+    <div class="sh-h"><b id="pshT">Ubah kata sandi</b><button class="ic" data-close="psh" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <small class="hn" id="pwl" style="margin-bottom:12px"></small>
+    <div class="pwo" id="pwo">
+      <button data-m="old"><i class="ib"><svg class="i"><use href="#i-lock"/></svg></i><span><b>Pakai sandi lama</b><small>Konfirmasi sandi lama, lalu masukkan sandi baru</small></span></button>
+      <button data-m="mail"><i class="ib"><svg class="i"><use href="#i-send"/></svg></i><span><b>Reset lewat email</b><small>Kami kirim tautan untuk membuat sandi baru ke emailmu</small></span></button>
+    </div>
+    <div class="pwp" id="pwa" hidden>
+      <label class="fi"><span>Sandi lama</span><input id="pwx0" type="password" autocomplete="current-password" placeholder="Sandi yang dipakai sekarang"></label>
+      <label class="fi"><span>Sandi baru</span><input id="pwx1" type="password" autocomplete="new-password" placeholder="Minimal 6 karakter"></label>
+      <label class="fi"><span>Ulangi sandi baru</span><input id="pwx2" type="password" autocomplete="new-password" placeholder="Ketik ulang sandi baru"></label>
+      <small id="pwh" class="err"></small>
+      <button id="pws" class="btn">Simpan sandi baru</button>
+    </div>
+    <div class="pwp" id="pwb" hidden>
+      <small class="hn" style="margin-bottom:8px">Tautan reset akan dikirim ke <b id="pwem" style="color:var(--tx)"></b>. Buka emailnya, lalu ikuti langkah untuk membuat sandi baru.</small>
+      <small id="pwh2" class="err"></small>
+      <button id="pwm" class="btn">Kirim tautan reset</button>
+    </div>
+  </div>
+</div>
 <div id="nmod"><div class="nms"></div>
-  <div class="nmc" id="nmc" role="dialog" aria-modal="true" aria-label="Berita"><div class="nmi" id="nmi"></div><div class="nmb"><small id="nmd"></small><p id="nmt"></p></div></div>
+  <div class="nmc" id="nmc" role="dialog" aria-modal="true" aria-label="Berita"><div class="nmi" id="nmi"></div><div class="nmb"><small id="nmd"></small><p id="nmt"></p><div id="nmx" hidden></div></div></div>
   <small class="nmh">Ketuk area kosong untuk menutup</small>
 </div>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential,sendPasswordResetEmail,sendEmailVerification} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,signInWithCredential,sendPasswordResetEmail,sendEmailVerification,EmailAuthProvider,reauthenticateWithCredential,updatePassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getDatabase,ref,get,update,push,onValue,query,limitToLast,serverTimestamp,onDisconnect,increment,remove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -1072,11 +1214,13 @@ async function start(uid) {
     }
     ucF = false; chats = nw; list(); clr();
   });
-  onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); namesSync(); stWatch(); jRender(); });
+  onValue(ref(db, 'contacts/' + uid), s => { kon = s.val() || {}; klist(); namesSync(); stWatch(); jRender(); rqPaint(); });
   onValue(ref(db, 'users/' + uid + '/blk'), s => { blk = s.val() || {}; blkSync(); }, () => {});
   onValue(ref(db, 'bans/' + uid), s => { ban = s.val(); banPaint(); }, () => {});
   onValue(ref(db, 'appeals/' + uid), s => { apl = s.val(); banPaint(); }, () => {});
   onValue(ref(db, 'verified'), s => { vf = s.val() || {}; vfSync(); }, () => {});
+  onValue(ref(db, 'reqs/' + uid), s => { rqIn = s.val() || {}; rqPaint(); }, () => {});
+  onValue(ref(db, 'reqOut/' + uid), s => { rqOut = s.val() || {}; rqWatch(); rqPaint(); }, () => {});
   onValue(ref(db, 'statuses/' + uid), s => { mySt = s.val(); jRender(); }, () => {});
   onValue(query(ref(db, 'news'), limitToLast(12)), s => { const a = []; s.forEach(c => { a.push({k: c.key, ...c.val()}); }); news = a.reverse(); nRender(); }, () => {});
   jRender(); nRender(); if (!jTmr) jTmr = setInterval(jRender, 60000);
@@ -1182,7 +1326,7 @@ function fillProf() {
 /* lembar bawah: edit profil & profil orang lain */
 /* ---------- Riwayat (#) agar tombol kembali HP berfungsi ---------- */
 const TABS = ['chat', 'kontak', 'jelajah', 'profil', 'atur'];
-const LNAME = {chat: 'obrolan', esh: 'edit-profil', ush: 'profil-pengguna', bsh: 'diblokir', ssh: 'status-baru', rsh: 'laporkan', nmod: 'berita'};
+const LNAME = {psh: 'ubah-sandi', chat: 'obrolan', esh: 'edit-profil', ush: 'profil-pengguna', bsh: 'diblokir', ssh: 'status-baru', rsh: 'laporkan', nmod: 'berita'};
 const layers = [];
 let hq = Promise.resolve(), hSil = 0;
 const tabNow = () => go.p ?? 0;
@@ -1252,15 +1396,6 @@ $('#esv').onclick = async () => {
   finally { busy(b, false); }
 };
 
-function paintU() {
-  if (!uCur) return;
-  const isMe = uCur.uid == me.uid, has = !!kon[uCur.uid];
-  $('#ucm').hidden = isMe; $('#uck').hidden = isMe;
-  $('#uan').hidden = isMe || !$('#ual').hidden; if (isMe) $('#ual').hidden = true;
-  $('#ubk').hidden = isMe; $('#urp').hidden = isMe; $('#ubkt').textContent = isBlk(uCur.uid) ? 'Buka blokir' : 'Blokir kontak'; $('#ubk').classList.toggle('uv-bk', !isBlk(uCur.uid));
-  $('#uck').textContent = has ? 'Hapus kontak' : 'Tambah kontak';
-  $('#uck').classList.toggle('ghost', has);
-}
 async function openU(uid, name, username) {
   uCur = {uid, name, username};
   $('#ual').hidden = true; paintNames();
@@ -1278,16 +1413,6 @@ async function openU(uid, name, username) {
   } catch { $('#ubo').textContent = 'Gagal memuat profil'; }
 }
 $('#ucm').onclick = () => { if (!uCur) return; closeSheet('ush'); go(0); open({uid: uCur.uid, name: uCur.name, username: uCur.username}); };
-$('#uck').onclick = async () => {
-  if (!uCur) return;
-  const {uid, name, username} = uCur, b = $('#uck');
-  busy(b, true);
-  try {
-    if (kon[uid]) { await remove(ref(db, `contacts/${me.uid}/${uid}`)); toast('Kontak dihapus'); }
-    else { await update(ref(db, `contacts/${me.uid}/${uid}`), {name: name || username, username: username || ''}); toast('Kontak ditambahkan'); }
-  } catch { toast('Gagal mengubah kontak'); }
-  finally { busy(b, false); paintU(); }
-};
 
 /* kontak */
 function paint(id) {
@@ -1323,28 +1448,6 @@ function klist() {
   else if (!klist.d) { klist.d = 1; stag(b); }
   $('#cc').textContent = Object.keys(kon).length + ' kontak'; stats();
 }
-async function tambah() {
-  const b = $('#ca'), q = norm($('#ci').value);
-  if (!q) return toast('Masukkan @username teman');
-  if (!USER_RE.test(q)) return toast('Username: 4–20 huruf, angka, atau _');
-  if (q == me.username) return toast('Itu akun kamu sendiri');
-  busy(b, true);
-  try {
-    const s = await get(ref(db, 'usernames/' + q));
-    if (!s.exists()) return toast('Username tidak ditemukan');
-    const uid = s.val();
-    if (uid == me.uid) return toast('Itu akun kamu sendiri');
-    if (kon[uid]) return toast('Sudah ada di kontak');
-    const u = (await get(ref(db, 'users/' + uid))).val();
-    if (!u) return toast('Profil teman tidak ditemukan');
-    await update(ref(db, `contacts/${me.uid}/${uid}`), {name: u.name || q, username: u.username || q});
-    $('#ci').value = ''; toast('Kontak ditambahkan');
-  } catch (x) {
-    toast(x?.code == 'PERMISSION_DENIED' ? 'Tidak diizinkan menambah kontak ini' : 'Gagal menambah kontak, coba lagi');
-  } finally { busy(b, false); }
-}
-$('#ca').onclick = tambah;
-$('#ci').onkeydown = e => { if (e.key == 'Enter') tambah(); };
 $('#cq').oninput = () => klist();
 
 /* tombol lain */
@@ -1357,11 +1460,6 @@ const bagi = async () => {
   try { if (navigator.share) await navigator.share({title: 'HaloKita', text: t}); else { await navigator.clipboard.writeText(t); toast('Ajakan disalin'); } } catch {}
 };
 $('#sb2').onclick = bagi; $('#iv').onclick = bagi;
-$('#pr').onclick = async () => {
-  const w = limLeft('pw');
-  if (w) return toast('Ubah kata sandi hanya 1× per hari. Coba lagi dalam ' + sisa(w));
-  try { await sendPasswordResetEmail(auth, auth.currentUser.email); await limMark('pw'); limUI(); toast('Tautan reset dikirim ke email'); } catch { toast('Gagal mengirim email reset'); }
-};
 $('#dc').onclick = async () => {
   const k = Object.keys(chats); if (!k.length) return toast('Daftar obrolan sudah kosong');
   if (!confirm('Kosongkan semua daftar obrolan?')) return;
@@ -1471,7 +1569,7 @@ function open(u) {
       if (dy != day) { day = dy; b.append(el('div', 'dsep', dlab(v.ts))); }
       if (mine) { const k = el('span', 'tk'); t.append(k); tkm[m.key] = {k, ts: v.ts}; }
       mel[m.key] = d;
-      if (v.rk) { const q = el('div', 'qt'); q.append(el('b', '', v.rf == me.uid ? 'Kamu' : u.name), el('span', '', v.rt || '')); q.onclick = () => jump(v.rk); d.append(q); }
+      if (v.rk) { const st = v.rk == 'status', q = el('div', 'qt' + (st ? ' qs' : '')); q.append(el('b', '', st ? 'Status ' + (v.rf == me.uid ? 'kamu' : u.name) : (v.rf == me.uid ? 'Kamu' : u.name)), el('span', '', v.rt || '')); q.onclick = () => st ? toast('Status hanya tampil 24 jam') : jump(v.rk); d.append(q); }
       swipe(d, () => setRep(m.key, v)); d.ondblclick = () => setRep(m.key, v);
       d.append(v.text, t); b.append(d);
     });
@@ -1544,7 +1642,7 @@ $('#fg').onclick = async () => {
   if (!e) { $('#err').textContent = 'Isi email dulu, lalu tekan "Lupa kata sandi?" lagi'; return; }
   const kk = 'hk_pwf_' + e.toLowerCase(); let last = 0;
   try { last = +localStorage.getItem(kk) || 0; } catch {}
-  if (last && Date.now() - last < LIM.pw) { $('#err').textContent = 'Reset kata sandi hanya 1× per hari. Coba lagi dalam ' + sisa(last + LIM.pw - Date.now()); return; }
+  if (last && Date.now() - last < LIM.pw) { $('#err').textContent = 'Reset kata sandi hanya 1× per 3 hari. Coba lagi dalam ' + sisa(last + LIM.pw - Date.now()); return; }
   try { await sendPasswordResetEmail(auth, e); try { localStorage.setItem(kk, Date.now()); } catch {} $('#err').textContent = ''; toast('Tautan reset dikirim ke ' + e); } catch (x) { $('#err').textContent = pesan(x); }
 };
 ['#em', '#pw', '#nm', '#un'].forEach(q => $(q).onkeydown = e => { if (e.key == 'Enter') $('#go').click(); });
@@ -1556,7 +1654,7 @@ function setRep(k, v) {
   $('#rbn').textContent = v.from == me.uid ? 'Kamu' : cur.name; $('#rbt').textContent = rep.t;
   $('#rb').hidden = false; $('#mi').focus();
 }
-function clrRep() { rep = null; $('#rb').hidden = true; }
+function clrRep() { rep = null; $('#rb').hidden = true; $('#rb').classList.remove('st'); }
 function jump(k) {
   const e = mel[k]; if (!e) return toast('Pesan asli tidak ada di riwayat');
   e.scrollIntoView({behavior: 'smooth', block: 'center'}); e.classList.remove('fl'); void e.offsetWidth; e.classList.add('fl');
@@ -1600,7 +1698,7 @@ $('#pw').onfocus = () => $('#auth').classList.add('pw'); $('#pw').onblur = () =>
 
 /* ---------- v1.3: batas ubah, bantuan email, nama teman, galaxy ---------- */
 const HELP_EMAIL = 'hpr10712@gmail.com';
-const LIM = {pw: 864e5, un: 30 * 864e5, nm: 7 * 864e5}; // sandi 1×/hari, username 1×/bulan, nama 1×/minggu
+const LIM = {pw: 3 * 864e5, un: 30 * 864e5, nm: 7 * 864e5}; // sandi 1×/3 hari, username 1×/bulan, nama 1×/minggu
 const sisa = ms => { const m = Math.ceil(ms / 6e4); if (m < 60) return m + ' menit'; const h = Math.ceil(m / 60); return h < 24 ? h + ' jam' : Math.ceil(h / 24) + ' hari'; };
 const limKey = k => `hk_lim_${me?.uid || ''}_${k}`;
 function limLast(k) { let b = 0; try { b = +localStorage.getItem(limKey(k)) || 0; } catch {} return Math.max(me?.lim?.[k] || 0, b); }
@@ -1613,8 +1711,9 @@ async function limMark(k) {
 }
 function limUI() {
   if (!me) return;
+  $('#pr').hidden = !hasPw();
   const w = limLeft('pw');
-  $('#prs').textContent = w ? 'Bisa diubah lagi dalam ' + sisa(w) : 'Kirim tautan reset ke email (maks. 1× per hari)';
+  $('#prs').textContent = w ? 'Bisa diubah lagi dalam ' + sisa(w) : 'Pakai sandi lama atau reset lewat email (maks. 1× per 3 hari)';
 }
 function limEdit() {
   [['en', 'nm', 'Nama', 'minggu'], ['eu', 'un', 'Username', 'bulan']].forEach(([id, k, lb, per]) => {
@@ -1626,7 +1725,7 @@ function limEdit() {
 
 $('#hp').onclick = () => {
   const sub = `Bantuan HaloKita - @${me.username}`;
-  const body = `Halo tim HaloKita,\n\nSaya butuh bantuan terkait:\n(tulis masalah atau pertanyaanmu di sini)\n\n----- Info akun (jangan dihapus) -----\nUsername: @${me.username}\nNama: ${me.name}\nID akun: ${me.uid}\nVersi: HaloKita 1.6\nPerangkat: ${navigator.userAgent}`;
+  const body = `Halo tim HaloKita,\n\nSaya butuh bantuan terkait:\n(tulis masalah atau pertanyaanmu di sini)\n\n----- Info akun (jangan dihapus) -----\nUsername: @${me.username}\nNama: ${me.name}\nID akun: ${me.uid}\nVersi: HaloKita 1.7\nPerangkat: ${navigator.userAgent}`;
   location.href = `mailto:${HELP_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
   setTimeout(async () => {
     if (document.hidden) return;
@@ -1804,46 +1903,6 @@ function vfSync() {
 }
 
 /* ---- Jelajah: status teks 24 jam ---- */
-function jRender() {
-  if (!me) return;
-  jExtra();
-  if (mySt && typeof mySt.ts == 'number' && !alive(mySt)) { mySt = null; remove(ref(db, 'statuses/' + me.uid)).catch(() => {}); }
-  const m = $('#jme'), f = $('#jfr'); m.replaceChildren(); f.replaceChildren();
-  if (alive(mySt)) {
-    const c = scard(me.uid, me.name, 'Statusmu', null, mySt), x = el('div', 'sc-x'), e = el('button', 'btn sm ghost', 'Ubah'), d = el('button', 'btn sm ghost', 'Hapus');
-    e.onclick = openStatus;
-    d.onclick = async () => { busy(d, true); try { await remove(ref(db, 'statuses/' + me.uid)); toast('Status dihapus'); } catch { toast('Gagal menghapus status'); } finally { busy(d, false); } };
-    x.append(e, d); c.append(x); c.style.cursor = 'default'; m.append(c);
-  } else {
-    const c = el('div', 'jc own add'), h = el('div', 'jc-h'), mid = el('div', 'mid'), p = el('span', 'jp');
-    p.innerHTML = '<svg class="i"><use href="#i-add"/></svg>';
-    mid.append(el('b', '', 'Bagikan status'), el('small', '', 'Tulis status singkat, hilang dalam 24 jam'));
-    h.append(p, mid); c.append(h); c.onclick = openStatus; m.append(c);
-  }
-  const L = Object.entries(sts).filter(([id, s]) => kon[id] && !isBlk(id) && alive(s)).sort((a, b) => b[1].ts - a[1].ts);
-  L.forEach(([id, s]) => {
-    const k = kon[id], rn = k.name || k.username || '?', nm = alias(id) || rn;
-    const cd = scard(id, nm, null, '@' + (k.username || ''), s), b = el('button', 'sc-b2');
-    b.innerHTML = '<svg class="i"><use href="#i-chat"/></svg>Balas'; b.setAttribute('aria-label', 'Balas status ' + nm);
-    b.onclick = e => { e.stopPropagation(); open({uid: id, name: nm, rname: rn, username: k.username}); };
-    cd.querySelector('.sc-h').append(b);
-    cd.onclick = () => openU(id, rn, k.username);
-    f.append(cd);
-  });
-  if (!L.length) f.append(el('div', 'jlb', 'Belum ada status dari temanmu. Status yang dibagikan kontakmu muncul di sini selama 24 jam.'));
-}
-/* kartu status: cincin avatar, warna khas tiap teman, sisa waktu 24 jam */
-function scard(id, name, title, sub, s) {
-  const c = el('div', 'sc'), hd = el('div', 'sc-h'), rg = el('div', 'srg'), md = el('div', 'mid');
-  c.style.setProperty('--c', col(id));
-  rg.append(av(name, id));
-  if (title) md.append(el('b', '', title)); else md.append(nb(name, id));
-  md.append(el('small', '', (sub ? sub + ' · ' : '') + ago(s.ts)));
-  hd.append(rg, md);
-  const bar = el('div', 'sc-bar'), fl = el('i'); fl.style.width = Math.max(3, Math.min(100, 100 - (Date.now() - s.ts) / SLIFE * 100)) + '%'; bar.append(fl);
-  c.append(hd, el('div', 'sc-t', s.text), bar, el('small', 'sc-l', 'Hilang dalam ' + left(s.ts)));
-  return c;
-}
 function stWatch() {
   for (const id of Object.keys(kon)) if (!sw[id]) sw[id] = onValue(ref(db, 'statuses/' + id), s => { sts[id] = s.val(); jRender(); }, () => {});
   for (const id of Object.keys(sw)) if (!kon[id]) { sw[id](); delete sw[id]; delete sts[id]; }
@@ -1950,7 +2009,7 @@ function jExtra() {
   let hj = '';
   try { hj = new Intl.DateTimeFormat('id-u-ca-islamic-umalqura', {day: 'numeric', month: 'long', year: 'numeric'}).format(d); } catch {}
   $('#jhj').textContent = hj;
-  $('#jck').textContent = String(h).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  $('#jck').textContent = clk();
   jOnline();
 }
 function jOnline() {
@@ -1998,7 +2057,180 @@ function nRender() {
 }
 
 
-/* ---- berita: kartu membesar jadi pop up di tengah layar ---- */
+// undang teman
+$('#jinv').onclick = async () => {
+  const url = location.href.split('#')[0];
+  try { if (navigator.share) await navigator.share({title: 'HaloKita', text: 'Yuk ngobrol di HaloKita!', url}); else { await navigator.clipboard.writeText(url); toast('Link HaloKita disalin'); } }
+  catch (e) { if (e.name != 'AbortError') toast('Gagal membagikan'); }
+};
+
+/* ---------- v1.7: permintaan berteman, status ke samping, ubah sandi ---------- */
+let rqIn = {}, rqOut = {};
+const rqW = {};
+const rqHas = id => !!(rqIn[id] && !rqIn[id].st);
+const rqMsg = x => x?.code == 'PERMISSION_DENIED' ? 'Ditolak server. Pasang aturan Firebase terbaru untuk permintaan berteman' : 'Gagal, coba lagi';
+async function rqSend(uid, name, username) {
+  const o = {ts: serverTimestamp(), name: name || username || '', username: username || ''};
+  try {
+    await update(ref(db), {[`reqs/${uid}/${me.uid}`]: {ts: serverTimestamp(), name: me.name, username: me.username}, [`reqOut/${me.uid}/${uid}`]: o});
+    toast('Permintaan berteman terkirim');
+  } catch (x) { toast(rqMsg(x)); }
+}
+async function rqCancel(uid) {
+  try { await update(ref(db), {[`reqs/${uid}/${me.uid}`]: null, [`reqOut/${me.uid}/${uid}`]: null}); toast('Permintaan dibatalkan'); } catch (x) { toast(rqMsg(x)); }
+}
+async function rqAccept(f) {
+  const r = rqIn[f]; if (!r) return;
+  try {
+    await update(ref(db), {[`contacts/${me.uid}/${f}`]: {name: r.name || r.username || '', username: r.username || ''}, [`reqs/${me.uid}/${f}/st`]: 'ok'});
+    toast('Kamu berteman dengan ' + (r.name || '@' + r.username));
+  } catch (x) { toast(rqMsg(x)); }
+}
+async function rqDecline(f) {
+  try { await update(ref(db), {[`reqs/${me.uid}/${f}/st`]: 'no'}); toast('Permintaan ditolak'); } catch (x) { toast(rqMsg(x)); }
+}
+function rqWatch() {
+  if (!me) return;
+  for (const t of Object.keys(rqOut)) if (!rqW[t]) rqW[t] = onValue(ref(db, `reqs/${t}/${me.uid}`), s => rqSeen(t, s.val()), () => {});
+  for (const t of Object.keys(rqW)) if (!rqOut[t]) { rqW[t](); delete rqW[t]; }
+}
+async function rqSeen(t, v) {
+  const o = rqOut[t]; if (!o) return;
+  const un = o.username ? '@' + o.username : o.name || 'Pengguna', both = {[`reqs/${t}/${me.uid}`]: null, [`reqOut/${me.uid}/${t}`]: null};
+  try {
+    if (v && v.st == 'ok') { await update(ref(db), {...both, [`contacts/${me.uid}/${t}`]: {name: o.name || o.username || '', username: o.username || ''}}); toast(un + ' menerima permintaan berteman'); }
+    else if (v && v.st == 'no') { await update(ref(db), both); toast(un + ' belum menerima permintaan berteman'); }
+    else if (!v) await remove(ref(db, `reqOut/${me.uid}/${t}`));
+  } catch {}
+}
+function rqPaint() {
+  if (!me) return;
+  const inc = Object.entries(rqIn).filter(([f, r]) => !r.st && !kon[f] && !isBlk(f)).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
+  const out = Object.entries(rqOut).filter(([t]) => !kon[t]);
+  const b = $('#creq'); b.replaceChildren();
+  if (inc.length) {
+    const h = el('div', 'rqh'); h.append(el('span', '', 'Permintaan berteman'), el('em', '', inc.length)); b.append(h);
+    inc.forEach(([f, r]) => {
+      const c = el('div', 'rq'), m = el('div', 'mid'), a = el('div', 'rq-a'), ok = el('button', 'ok'), no = el('button', 'no');
+      m.append(nb(r.name || r.username || '?', f), el('small', '', '@' + (r.username || '')));
+      ok.innerHTML = '<svg class="i"><use href="#i-ck1"/></svg>'; ok.setAttribute('aria-label', 'Terima'); ok.title = 'Terima';
+      no.innerHTML = '<svg class="i"><use href="#i-x"/></svg>'; no.setAttribute('aria-label', 'Tolak'); no.title = 'Tolak';
+      ok.onclick = e => { e.stopPropagation(); rqAccept(f); };
+      no.onclick = e => { e.stopPropagation(); rqDecline(f); };
+      a.append(ok, no); c.append(av(r.name || r.username, f), m, a);
+      c.onclick = () => openU(f, r.name || r.username, r.username);
+      b.append(c);
+    });
+  }
+  if (out.length) {
+    const h = el('div', 'rqh o', 'Menunggu persetujuan'); b.append(h);
+    out.forEach(([t, o]) => {
+      const c = el('div', 'rq'), m = el('div', 'mid'), a = el('div', 'rq-a'), x = el('button', 'tx', 'Batalkan');
+      m.append(nb(o.name || o.username || '?', t), el('small', '', '@' + (o.username || '') + ' · ' + ago(o.ts || Date.now())));
+      x.onclick = e => { e.stopPropagation(); rqCancel(t); };
+      a.append(x); c.append(av(o.name || o.username, t), m, a);
+      c.onclick = () => openU(t, o.name || o.username, o.username);
+      b.append(c);
+    });
+  }
+  const n = inc.length; $('#kb').textContent = n; $('#kb').hidden = !n;
+  paintU();
+}
+
+// cari dulu: tampilkan kartu profil, baru minta berteman
+async function tambah() {
+  const b = $('#ca'), q = norm($('#ci').value);
+  if (!q) return toast('Masukkan @username teman');
+  if (!USER_RE.test(q)) return toast('Username: 4–20 huruf, angka, atau _');
+  if (q == me.username) return toast('Itu akun kamu sendiri');
+  busy(b, true);
+  try {
+    const s = await get(ref(db, 'usernames/' + q));
+    if (!s.exists()) return toast('Username tidak ditemukan');
+    const uid = s.val();
+    if (uid == me.uid) return toast('Itu akun kamu sendiri');
+    const u = (await get(ref(db, 'users/' + uid))).val();
+    if (!u) return toast('Profil teman tidak ditemukan');
+    $('#ci').value = ''; openU(uid, u.name || q, u.username || q);
+  } catch { toast('Gagal mencari pengguna, coba lagi'); }
+  finally { busy(b, false); }
+}
+$('#ca').onclick = tambah;
+$('#ci').onkeydown = e => { if (e.key == 'Enter') tambah(); };
+
+function paintU() {
+  if (!uCur) return;
+  const id = uCur.uid, isMe = id == me.uid, has = !!kon[id], inc = rqHas(id), out = !!rqOut[id];
+  $('#ucm').hidden = isMe; $('#uck').hidden = isMe || (inc && !has); $('#uvg').hidden = isMe;
+  $('#urq').hidden = isMe || has || !inc; $('#urqt').textContent = uCur.name || '@' + uCur.username;
+  $('#uan').hidden = isMe || !$('#ual').hidden; if (isMe) $('#ual').hidden = true;
+  $('#ubkt').textContent = isBlk(id) ? 'Buka blokir' : 'Blokir'; $('#ubk').classList.toggle('uv-bk', !isBlk(id));
+  const k = $('#uck'), ic = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
+  k.innerHTML = has ? ic('ck1') + 'Berteman' : out ? ic('clock') + 'Terkirim' : ic('add') + 'Minta berteman';
+  k.classList.toggle('ghost', has || out);
+  const s = sts[id]; $('#usc').hidden = !alive(s);
+  if (alive(s)) { $('#usx').textContent = s.text; $('#ust2').textContent = ago(s.ts) + ' · hilang dalam ' + left(s.ts); }
+}
+$('#uck').onclick = async () => {
+  if (!uCur) return;
+  const {uid, name, username} = uCur, b = $('#uck'), tag = username ? '@' + username : name;
+  if (kon[uid]) {
+    if (!confirm(`Hapus ${tag} dari kontak?`)) return;
+    busy(b, true); try { await remove(ref(db, `contacts/${me.uid}/${uid}`)); toast('Kontak dihapus'); } catch { toast('Gagal menghapus kontak'); } finally { busy(b, false); paintU(); }
+  } else if (rqOut[uid]) { if (confirm('Batalkan permintaan berteman?')) { busy(b, true); await rqCancel(uid); busy(b, false); } }
+  else { busy(b, true); await rqSend(uid, name, username); busy(b, false); }
+};
+$('#urqa').onclick = async () => { if (uCur) { busy($('#urqa'), true); await rqAccept(uCur.uid); busy($('#urqa'), false); } };
+$('#urqn').onclick = async () => { if (uCur) { busy($('#urqn'), true); await rqDecline(uCur.uid); busy($('#urqn'), false); closeSheet('ush'); } };
+
+/* ---- status: kartu 3:4 ke samping + pop up + balas di chat ---- */
+function skCard(id, name, sub, s, mine) {
+  const c = el('div', 'stc'), hd = el('div', 'stc-h'), rg = el('div', 'srg'), md = el('div', 'mid');
+  c.style.setProperty('--c', col(id)); rg.append(av(name, id));
+  if (mine) md.append(el('b', '', 'Statusmu')); else md.append(nb(name, id));
+  md.append(el('small', '', ago(s.ts))); hd.append(rg, md);
+  const n = [...s.text].length, tx = el('div', 'stc-t'), sp = el('span', '', s.text);
+  tx.style.fontSize = (n <= 24 ? 21 : n <= 50 ? 18 : n <= 90 ? 15.5 : 14) + 'px'; tx.append(sp);
+  const bar = el('div', 'stc-bar'), fl = el('i'); fl.style.width = Math.max(3, Math.min(100, 100 - (Date.now() - s.ts) / SLIFE * 100)) + '%'; bar.append(fl);
+  c.append(hd, tx, bar);
+  return c;
+}
+function jRender() {
+  if (!me) return;
+  jExtra();
+  if (mySt && typeof mySt.ts == 'number' && !alive(mySt)) { mySt = null; remove(ref(db, 'statuses/' + me.uid)).catch(() => {}); }
+  const g = $('#jsg'); g.replaceChildren();
+  if (alive(mySt)) {
+    const c = skCard(me.uid, me.name, null, mySt, true), x = el('div', 'stc-bb'), e = el('button', 'stc-b', 'Ubah'), d = el('button', 'stc-b', 'Hapus');
+    e.onclick = ev => { ev.stopPropagation(); openStatus(); };
+    d.onclick = async ev => { ev.stopPropagation(); busy(d, true); try { await remove(ref(db, 'statuses/' + me.uid)); toast('Status dihapus'); } catch { toast('Gagal menghapus status'); } finally { busy(d, false); } };
+    x.append(e, d); c.append(x); c.onclick = () => skOpen(me.uid, me.name, me.name, me.username, mySt, true, c); g.append(c);
+  } else {
+    const c = el('div', 'stc add'), p = el('span', 'jp');
+    p.innerHTML = '<svg class="i"><use href="#i-add"/></svg>';
+    c.append(p, el('b', '', 'Bagikan status'), el('small', '', 'Hilang dalam 24 jam')); c.onclick = openStatus; g.append(c);
+  }
+  const L = Object.entries(sts).filter(([id, s]) => kon[id] && !isBlk(id) && alive(s)).sort((a, b) => b[1].ts - a[1].ts);
+  L.forEach(([id, s]) => {
+    const k = kon[id], rn = k.name || k.username || '?', nm = alias(id) || rn, c = skCard(id, nm, null, s, false), b = el('button', 'stc-b');
+    b.innerHTML = '<svg class="i"><use href="#i-chat"/></svg>Balas'; b.setAttribute('aria-label', 'Balas status ' + nm);
+    b.onclick = e => { e.stopPropagation(); replyStatus(id, nm, rn, k.username, s); };
+    c.append(b); c.onclick = () => skOpen(id, nm, rn, k.username, s, false, c); g.append(c);
+  });
+  $('#jsh').textContent = L.length ? '' : 'Belum ada status dari temanmu. Status yang dibagikan kontakmu muncul di sini selama 24 jam.';
+  $('#jsh').hidden = !!L.length;
+}
+function replyStatus(id, nm, rn, username, s) {
+  open({uid: id, name: nm, rname: rn, username});
+  setTimeout(() => {
+    if (!cur || cur.uid != id) return;
+    rep = {k: 'status', f: id, t: String(s.text).slice(0, 120)};
+    $('#rbn').textContent = 'Membalas status ' + nm; $('#rbt').textContent = rep.t;
+    $('#rb').classList.add('st'); $('#rb').hidden = false; $('#mi').focus();
+  }, 80);
+}
+
+/* ---- pop up di tengah layar: berita & status ---- */
 let nmSrc = null;
 function nmVars(card) {
   const c = $('#nmc'), r = c.getBoundingClientRect(), k = card.getBoundingClientRect();
@@ -2006,20 +2238,11 @@ function nmVars(card) {
   c.style.setProperty('--dy', (k.top + k.height / 2 - (r.top + r.height / 2)) + 'px');
   c.style.setProperty('--sc', Math.max(.25, Math.min(1, k.width / r.width)));
 }
-function openNews(n, card) {
-  const c = $('#nmc'), im = $('#nmi'); im.replaceChildren(); im.className = 'nmi';
-  if (okImg(n.img)) { const i = document.createElement('img'); i.alt = ''; i.onerror = () => { i.remove(); im.className = 'nmi nx'; im.innerHTML = '<svg class="i"><use href="#i-news"/></svg>'; }; i.src = n.img; im.append(i); }
-  else { im.className = 'nmi nx'; im.innerHTML = '<svg class="i"><use href="#i-news"/></svg>'; }
-  $('#nmt').textContent = n.text || ''; $('#nmd').textContent = 'Berita · ' + tgl(n.ts);
-  nmSrc = card;
-  const go0 = () => {
-    c.style.transition = 'none'; ['--dx', '--dy'].forEach(p => c.style.setProperty(p, '0px')); c.style.setProperty('--sc', 1);
-    nmVars(card); void c.offsetWidth; c.style.transition = '';
-    card.classList.add('lift'); $('#nmod').classList.add('open'); pushLayer('nmod');
-  };
-  const i0 = im.querySelector('img');
-  if (i0 && !i0.complete) { let d = 0; const f = () => { if (!d++) go0(); }; i0.onload = f; i0.onerror = () => { i0.remove(); im.className = 'nmi nx'; im.innerHTML = '<svg class="i"><use href="#i-news"/></svg>'; f(); }; setTimeout(f, 700); }
-  else go0();
+function popShow(card) {
+  const c = $('#nmc'); nmSrc = card;
+  c.style.transition = 'none'; ['--dx', '--dy'].forEach(p => c.style.setProperty(p, '0px')); c.style.setProperty('--sc', 1);
+  nmVars(card); void c.offsetWidth; c.style.transition = '';
+  card.classList.add('lift'); $('#nmod').classList.add('open'); pushLayer('nmod');
 }
 function nmClose() {
   const card = nmSrc;
@@ -2027,13 +2250,93 @@ function nmClose() {
   $('#nmod').classList.remove('open');
   if (card) setTimeout(() => { if (!$('#nmod').classList.contains('open')) card.classList.remove('lift'); }, 460);
 }
+function openNews(n, card) {
+  const im = $('#nmi'); im.replaceChildren(); im.className = 'nmi'; im.style.cssText = '';
+  $('#nmt').hidden = false; $('#nmx').hidden = true;
+  const nx = () => { im.className = 'nmi nx'; im.innerHTML = '<svg class="i"><use href="#i-news"/></svg>'; };
+  if (okImg(n.img)) { const i = document.createElement('img'); i.alt = ''; i.src = n.img; im.append(i); } else nx();
+  $('#nmt').textContent = n.text || ''; $('#nmd').textContent = 'Berita · ' + tgl(n.ts);
+  const i0 = im.querySelector('img');
+  if (i0 && !i0.complete) { let d = 0; const f = () => { if (!d++) popShow(card); }; i0.onload = f; i0.onerror = () => { i0.remove(); nx(); f(); }; setTimeout(f, 700); }
+  else { if (i0) i0.onerror = () => { i0.remove(); nx(); }; popShow(card); }
+}
+function skOpen(id, nm, rn, username, s, mine, card) {
+  const im = $('#nmi'); im.replaceChildren(); im.className = 'nmi sv'; im.style.setProperty('--c', col(id));
+  const h = el('div', 'sv-h'), rg = el('div', 'srg'), md = el('div', 'mid');
+  rg.append(av(nm, id)); if (mine) md.append(el('b', '', 'Statusmu')); else md.append(nb(nm, id));
+  md.append(el('small', '', (mine ? '@' + me.username : '@' + (username || '')) + ' · ' + ago(s.ts))); h.append(rg, md);
+  im.append(h, el('div', 'sv-t', s.text));
+  $('#nmt').hidden = true; $('#nmd').textContent = 'Hilang dalam ' + left(s.ts);
+  const x = $('#nmx'); x.replaceChildren(); x.hidden = false;
+  if (mine) {
+    const e = el('button', 'btn', 'Ubah'), d = el('button', 'btn ghost', 'Hapus');
+    e.onclick = () => { popLayer('nmod'); openStatus(); };
+    d.onclick = async () => { try { await remove(ref(db, 'statuses/' + me.uid)); popLayer('nmod'); toast('Status dihapus'); } catch { toast('Gagal menghapus status'); } };
+    x.append(e, d);
+  } else {
+    const b = el('button', 'btn', 'Balas status'), p = el('button', 'btn ghost', 'Lihat profil');
+    b.onclick = () => { popLayer('nmod'); replyStatus(id, nm, rn, username, s); };
+    p.onclick = () => { popLayer('nmod'); openU(id, rn, username); };
+    x.append(b, p);
+  }
+  popShow(card);
+}
 $('#nmod').onclick = e => { if (!e.target.closest('#nmc')) popLayer('nmod'); };
 document.addEventListener('keydown', e => { if (e.key == 'Escape' && $('#nmod').classList.contains('open')) popLayer('nmod'); });
-// undang teman
-$('#jinv').onclick = async () => {
-  const url = location.href.split('#')[0];
-  try { if (navigator.share) await navigator.share({title: 'HaloKita', text: 'Yuk ngobrol di HaloKita!', url}); else { await navigator.clipboard.writeText(url); toast('Link HaloKita disalin'); } }
-  catch (e) { if (e.name != 'AbortError') toast('Gagal membagikan'); }
+
+/* jam Jelajah berdetak tiap detik */
+const clk = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()); };
+setInterval(() => { const e = $('#jck'); if (e && !document.hidden) e.textContent = clk(); }, 1000);
+
+/* ---- ubah kata sandi (hanya akun email & sandi) ---- */
+const hasPw = () => !!auth.currentUser?.providerData?.some(p => p.providerId == 'password');
+function pwView(m) {
+  $('#pwa').hidden = m != 'old'; $('#pwb').hidden = m != 'mail';
+  document.querySelectorAll('#pwo button').forEach(b => b.classList.toggle('on', b.dataset.m == m));
+  $('#pwh').textContent = $('#pwh2').textContent = '';
+  if (m == 'old') setTimeout(() => $('#pwx0').focus(), 60);
+}
+function pwOpen() {
+  ['#pwx0', '#pwx1', '#pwx2'].forEach(q => $(q).value = ''); pwView('');
+  const w = limLeft('pw'), em = auth.currentUser?.email || '-';
+  $('#pwem').textContent = em;
+  $('#pwl').textContent = w ? 'Kata sandi baru bisa diubah lagi dalam ' + sisa(w) + '.' : 'Pilih cara mengubah kata sandi. Bisa dilakukan 1× per 3 hari untuk tiap akun.';
+  $('#pwo').style.opacity = w ? .5 : 1;
+  openSheet('psh');
+}
+$('#pr').onclick = pwOpen;
+document.querySelectorAll('#pwo button').forEach(b => b.onclick = () => {
+  const w = limLeft('pw'); if (w) return toast('Kata sandi hanya bisa diubah 1× per 3 hari. Coba lagi dalam ' + sisa(w));
+  pwView(b.dataset.m);
+});
+$('#pws').onclick = async () => {
+  const h = $('#pwh'), w = limLeft('pw'), U = auth.currentUser, b = $('#pws');
+  const o = $('#pwx0').value, n = $('#pwx1').value, n2 = $('#pwx2').value;
+  if (w) { h.textContent = 'Bisa diubah lagi dalam ' + sisa(w); return; }
+  if (!o) { h.textContent = 'Masukkan sandi lama'; return; }
+  if (n.length < 6) { h.textContent = 'Sandi baru minimal 6 karakter'; return; }
+  if (n != n2) { h.textContent = 'Ulangi sandi baru dengan sama persis'; return; }
+  if (n == o) { h.textContent = 'Sandi baru harus berbeda dari sandi lama'; return; }
+  h.textContent = ''; busy(b, true);
+  try {
+    await reauthenticateWithCredential(U, EmailAuthProvider.credential(U.email, o));
+    await updatePassword(U, n);
+    await limMark('pw'); limUI(); closeSheet('psh'); toast('Kata sandi berhasil diubah');
+  } catch (x) {
+    h.textContent = ['auth/invalid-credential', 'auth/wrong-password'].includes(x.code) ? 'Sandi lama salah'
+      : x.code == 'auth/weak-password' ? 'Sandi baru terlalu lemah, minimal 6 karakter'
+      : x.code == 'auth/too-many-requests' ? 'Terlalu banyak percobaan, coba lagi nanti'
+      : x.code == 'auth/requires-recent-login' ? 'Sesi terlalu lama, keluar lalu masuk lagi'
+      : x.code == 'auth/network-request-failed' ? 'Tidak ada koneksi internet' : 'Gagal mengubah kata sandi, coba lagi';
+  } finally { busy(b, false); }
+};
+$('#pwm').onclick = async () => {
+  const h = $('#pwh2'), w = limLeft('pw'), b = $('#pwm');
+  if (w) { h.textContent = 'Bisa diubah lagi dalam ' + sisa(w); return; }
+  h.textContent = ''; busy(b, true);
+  try { await sendPasswordResetEmail(auth, auth.currentUser.email); await limMark('pw'); limUI(); closeSheet('psh'); toast('Tautan reset dikirim ke ' + auth.currentUser.email); }
+  catch { h.textContent = 'Gagal mengirim email reset, coba lagi'; }
+  finally { busy(b, false); }
 };
 
 /* riwayat awal: tiap menu punya # sendiri */
