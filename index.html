@@ -22,8 +22,6 @@ button:disabled{opacity:.5}
 .i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 small{color:var(--sub);font-size:12.5px;font-weight:600}
 .err{color:var(--co);font-size:13px;font-weight:600;min-height:16px}
-.vb{display:inline-block;width:17px;height:17px;vertical-align:-3px;margin-left:3px}
-.vb svg{width:100%;height:100%}
 
 /* login */
 #login{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:24px;background:var(--bg);overflow:auto}
@@ -46,6 +44,8 @@ small{color:var(--sub);font-size:12.5px;font-weight:600}
 .top .mid{flex:1;min-width:0}
 .top b{font:800 16px var(--fd);letter-spacing:-.03em;display:flex;align-items:center;flex-wrap:wrap}
 .top small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vb{display:inline-block;width:17px;height:17px;margin-left:4px}
+.vb svg{width:100%;height:100%}
 .out{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--s2);color:var(--co)}
 .tabs{display:flex;gap:6px;padding:8px 12px;background:var(--s1);border-bottom:1px solid var(--ln)}
 .tabs button{flex:1;padding:9px;border-radius:14px;font-weight:700;font-size:13.5px;color:var(--sub);background:var(--s2)}
@@ -61,6 +61,7 @@ small{color:var(--sub);font-size:12.5px;font-weight:600}
 .ot{align-self:flex-start;background:var(--rcv);color:var(--tx);border-bottom-left-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
 .tk{display:inline-block;margin-left:3px;vertical-align:-3px;line-height:0}
 .tk .i{width:15px;height:15px;stroke-width:2.6}
+.tk.fail{font:800 13px var(--fb);color:#ffb4a8}
 .day{align-self:center;font-size:12px;color:var(--sub);background:var(--s2);border-radius:999px;padding:4px 12px;margin:6px 0}
 .cp{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--ln);background:var(--s1);align-items:center}
 .cp input{flex:1;min-width:0;border:1.5px solid var(--ln);background:var(--s2);border-radius:999px;padding:12px 16px;outline:none}
@@ -104,7 +105,7 @@ small{color:var(--sub);font-size:12.5px;font-weight:600}
   <div class="top">
     <div class="logo sm"><svg viewBox="0 0 48 48"><circle cx="24" cy="22" r="19" fill="#06140f"/><path d="M9 32.5 5.5 44.5l12-5.5z" fill="#06140f"/><circle cx="17.5" cy="19.5" r="2.6" fill="#c9f73a"/><circle cx="30.5" cy="19.5" r="2.6" fill="#c9f73a"/><path d="M16 27c2 3.2 4.6 4.8 8 4.8s6-1.6 8-4.8" fill="none" stroke="#c9f73a" stroke-width="3.2" stroke-linecap="round"/></svg></div>
     <div class="mid">
-      <b>Agent HaloKita<span class="vb" id="vbTop"></span></b>
+      <b>Agent HaloKita<span class="vb"><svg viewBox="0 0 24 24"><path d="M22.5 12 21 13.5 22 15 20.5 16.5 19 17 17.5 18.5 16 18 14.5 19.5 12 19 9.5 19.5 8 18 6.5 17 5 16.5 4 15 3 13.5 4 12 3 10.5 4 9 5 7.5 6.5 6.5 8 6 9.5 4.5 12 5 14.5 4.5 16 6 17.5 6.5 19 7.5 20.5 9 21 10.5 20.5 12 22 13.5Z" fill="#1d9bf0"/><path d="m7.8 12.4 3 3 5.6-6.2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></b>
       <small id="whoTxt"></small>
     </div>
     <button class="out" id="outBtn" aria-label="Keluar"><svg class="i" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button>
@@ -116,7 +117,7 @@ small{color:var(--sub);font-size:12.5px;font-weight:600}
   </div>
 
   <section class="pg on" id="pChat">
-    <div id="msgs" style="flex:1;display:flex;flex-direction:column;overflow-y:auto;padding:14px 12px;gap:6px;background:var(--bg)"></div>
+    <div id="msgs"></div>
     <div class="cp">
       <input id="mi" placeholder="Tulis pesan ke Agent" maxlength="1000" autocomplete="off">
       <button class="send" id="sd" aria-label="Kirim"><svg class="i" viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
@@ -149,7 +150,7 @@ small{color:var(--sub);font-size:12.5px;font-weight:600}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,setPersistence,browserSessionPersistence,getRedirectResult,onAuthStateChanged,signInWithPopup,signInWithRedirect,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,updateProfile} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getDatabase,ref,push,onValue,update,query,limitToLast,serverTimestamp,get,remove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import {getDatabase,ref,push,set,onValue,update,query,limitToLast,serverTimestamp,get,remove} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const app = initializeApp({
   apiKey: "AIzaSyBEPzUM9EresZ-yvphzDusVs7AUqdLuCNQ",
@@ -163,11 +164,14 @@ const app = initializeApp({
 const auth = getAuth(app), db = getDatabase(app);
 const $ = s => document.querySelector(s);
 const SLIFE = 864e5;
-let U = null, NAME = "", chatOff = [], seenMsg = new Set(), lastDay = "", started = false;
+let U = null, NAME = "", chatOff = [], lastDay = "", started = false;
+const shown = new Map();   // id pesan saya -> elemen centang
+const seenMsg = new Set(); // id pesan yang sudah tampil di layar
 
 const CHECK = '<svg class="i" viewBox="0 0 24 24"><path d="M1.5 12.5 7 18 17.5 7"/><path d="M10 16.5l1.5 1.5L22 7"/></svg>';
+const CLOCK = '<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
-function toast(t) { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 2200); }
+function toast(t) { const e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 3000); }
 const ago = t => { const m = Math.max(0, Math.floor((Date.now() - t) / 6e4)); return m < 1 ? "baru saja" : m < 60 ? m + " menit lalu" : Math.floor(m / 60) + " jam lalu"; };
 const tm = t => t ? new Date(t).toLocaleTimeString("id-ID", {hour: "2-digit", minute: "2-digit"}) : "";
 const alive = s => !!(s && s.text && typeof s.ts == "number" && Date.now() - s.ts < SLIFE);
@@ -176,8 +180,6 @@ const VERIFIED = '<svg viewBox="0 0 24 24" width="17" height="17"><path d="M22.5
 
 /* ---------- Login: sesi hanya bertahan selama tab terbuka ---------- */
 await setPersistence(auth, browserSessionPersistence);
-// Kalau baru kembali dari login Google (redirect), biarkan masuk.
-// Selain itu, hapus sesi lama agar halaman login selalu muncul.
 const redir = await getRedirectResult(auth).catch(() => null);
 if (!redir?.user) await signOut(auth).catch(() => {});
 $("#login").hidden = false;
@@ -233,18 +235,22 @@ onAuthStateChanged(auth, async u => {
 
 /* ---------- Chat pribadi dengan Agent ---------- */
 function start() {
-  $("#msgs").innerHTML = "";
-  addMsg("Halo " + NAME + "! Saya Agent HaloKita. Tulis pesanmu, saya akan membalas. Pengumuman resmi ada di tab Broadcast.", "ot", Date.now(), true);
+  $("#msgs").innerHTML = ""; lastDay = "";
+  addMsg("Halo " + NAME + "! Saya Agent HaloKita. Tulis pesanmu, saya akan membalas. Pengumuman resmi ada di tab Broadcast.", "ot", Date.now());
   chatOff.push(onValue(query(ref(db, "agent/chats/" + U.uid + "/messages"), limitToLast(120)), s => {
     s.forEach(c => {
-      if (seenMsg.has(c.key)) return; seenMsg.add(c.key);
-      const v = c.val();
-      if (v.from == U.uid) addMsg(v.text, "me", v.ts, false, true);
+      const v = c.val(), id = c.key;
+      if (v.from != U.uid) return;
+      if (shown.has(id)) { setTick(id, "ok"); return; } // pesan sendiri sudah tampil, tinggal tandai terkirim
+      seenMsg.add(id);
+      addMsg(v.text, "me", v.ts, false, "ok", id);
     });
   }));
   loadBroadcast(); loadStatus();
+  flushOutbox();
 }
-function addMsg(text, cls, ts, verified, tick) {
+
+function addMsg(text, cls, ts, tick, state, id) {
   const b = $("#msgs"), d = new Date(ts || Date.now());
   if (d.toDateString() != lastDay) {
     lastDay = d.toDateString();
@@ -254,20 +260,68 @@ function addMsg(text, cls, ts, verified, tick) {
   const m = document.createElement("div"); m.className = "m " + cls;
   m.append(document.createTextNode(text));
   const t = document.createElement("i"); t.textContent = tm(ts);
-  if (tick) { const c = document.createElement("span"); c.className = "tk"; c.innerHTML = CHECK; t.append(c); }
+  const c = document.createElement("span"); c.className = "tk";
+  if (tick) t.append(c);
   m.append(t); b.append(m); b.scrollTop = b.scrollHeight;
+  if (tick) { c.dataset.s = ""; if (id) shown.set(id, c); setTick(id, state || "wait"); }
+  return c;
 }
+
+function setTick(id, state) {
+  const c = shown.get(id); if (!c) return;
+  if (c.dataset.s == state) return;
+  c.dataset.s = state;
+  if (state == "ok") { c.className = "tk"; c.innerHTML = CHECK; c.title = "Terkirim"; }
+  else if (state == "fail") { c.className = "tk fail"; c.textContent = "!"; c.title = "Gagal, akan dicoba lagi"; }
+  else { c.className = "tk"; c.innerHTML = CLOCK; c.title = "Mengirim"; }
+}
+
+const OUT_KEY = () => "hk_agent_out_" + U.uid;
+const outbox = () => { try { return JSON.parse(localStorage.getItem(OUT_KEY()) || "[]"); } catch { return []; } };
+const saveOut = list => { try { localStorage.setItem(OUT_KEY(), JSON.stringify(list)); } catch {} };
+
+async function sendOne(item, isNew) {
+  try {
+    await set(ref(db, "agent/chats/" + U.uid + "/messages/" + item.id), {from: U.uid, text: item.text, ts: item.ts});
+    saveOut(outbox().filter(x => x.id != item.id));
+    seenMsg.add(item.id);
+    setTick(item.id, "ok");
+    if (isNew) setTimeout(() => autoReply(item.text), 700);
+    return true;
+  } catch (x) {
+    console.error("Gagal kirim:", x);
+    setTick(item.id, "fail");
+    toast("Gagal: " + (x.code || x.message || "tidak diketahui") + ". Akan dicoba lagi.");
+    return false;
+  }
+}
+
 async function kirimChat() {
   const t = $("#mi").value.trim().slice(0, 1000);
   if (!t || !U) return;
   $("#mi").value = "";
-  const k = push(ref(db, "agent/chats/" + U.uid + "/messages")).key;
-  try {
-    await update(ref(db), {["agent/chats/" + U.uid + "/messages/" + k]: {from: U.uid, text: t, ts: serverTimestamp()}});
-    seenMsg.add(k); addMsg(t, "me", Date.now(), false, true);
-    setTimeout(() => autoReply(t), 700);
-  } catch { toast("Pesan gagal terkirim"); $("#mi").value = t; }
+  const item = {id: push(ref(db, "agent/chats/" + U.uid + "/messages")).key, text: t, ts: Date.now()};
+  saveOut([...outbox(), item]);
+  seenMsg.add(item.id);
+  addMsg(t, "me", item.ts, true, "wait", item.id);
+  await sendOne(item, true);
 }
+
+// Kirim ulang pesan yang tertunda (dari localStorage)
+let flushing = false;
+async function flushOutbox() {
+  if (!U || flushing) return;
+  flushing = true;
+  try {
+    for (const item of outbox()) {
+      if (!shown.has(item.id)) addMsg(item.text, "me", item.ts, true, "wait", item.id);
+      else setTick(item.id, "wait");
+      await sendOne(item, false);
+    }
+  } finally { flushing = false; }
+}
+onValue(ref(db, ".info/connected"), c => { if (c.val()) flushOutbox(); });
+
 function autoReply(q) {
   const s = q.toLowerCase();
   const r = /halo|hai|\bhi\b/.test(s) ? "Halo! Ada yang bisa saya bantu?"
@@ -275,7 +329,7 @@ function autoReply(q) {
     : /broadcast|pengumuman/.test(s) ? "Pengumuman terbaru ada di tab Broadcast."
     : /status/.test(s) ? "Status terbaru Agent ada di tab Status."
     : "Pesanmu sudah saya terima. Tim HaloKita akan membalas sesegera mungkin.";
-  addMsg(r, "ot", Date.now(), true);
+  addMsg(r, "ot", Date.now());
 }
 $("#sd").onclick = kirimChat;
 $("#mi").onkeydown = e => { if (e.key == "Enter") kirimChat(); };
@@ -291,7 +345,7 @@ function card(data, path) {
   ft.append(sm);
   if (path && U && data.by == U.uid) {
     const d = document.createElement("button"); d.className = "del"; d.textContent = "Hapus";
-    d.onclick = async () => { try { await remove(ref(db, path)); toast("Dihapus"); } catch { toast("Gagal menghapus"); } };
+    d.onclick = async () => { try { await remove(ref(db, path)); toast("Dihapus"); } catch (x) { toast("Gagal: " + (x.code || "menghapus")); } };
     ft.append(d);
   }
   c.append(hd, p, ft); return c;
@@ -304,7 +358,7 @@ function loadBroadcast() {
     a.reverse().forEach(b => box.append(card(b, "agent/broadcast/" + b.k)));
     const top = a[0];
     if (loadBroadcast.seen === undefined) loadBroadcast.seen = top.k;
-    else if (top.k != loadBroadcast.seen) { loadBroadcast.seen = top.k; addMsg("📢 Broadcast baru: " + top.text, "ot", top.ts, true); }
+    else if (top.k != loadBroadcast.seen) { loadBroadcast.seen = top.k; addMsg("📢 Broadcast baru: " + top.text, "ot", top.ts); }
   }));
 }
 $("#bcS").onclick = async () => {
@@ -314,7 +368,7 @@ $("#bcS").onclick = async () => {
   try {
     await push(ref(db, "agent/broadcast"), {text: t, ts: serverTimestamp(), by: U.uid, name: NAME});
     $("#bcT").value = ""; $("#bcE").textContent = ""; toast("Broadcast terkirim ke semua user");
-  } catch { $("#bcE").textContent = "Gagal mengirim. Cek aturan database."; }
+  } catch (x) { $("#bcE").textContent = "Gagal: " + (x.code || x.message || "cek aturan database"); }
   finally { busy(b, false); }
 };
 
@@ -333,7 +387,7 @@ $("#stS").onclick = async () => {
   try {
     await update(ref(db, "agent/status"), {text: t, ts: serverTimestamp(), by: U.uid, name: NAME});
     $("#stT").value = ""; $("#stE").textContent = ""; toast("Status dibagikan");
-  } catch { $("#stE").textContent = "Gagal membagikan status. Status hanya bisa diubah oleh pembuatnya."; }
+  } catch (x) { $("#stE").textContent = "Gagal: " + (x.code || "status hanya bisa diubah pembuatnya"); }
   finally { busy(b, false); }
 };
 
