@@ -534,18 +534,32 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 #bapf{display:grid;gap:8px}
 #bapf .fi{margin-bottom:0}
 
-/* maskot mengetik di header obrolan */
-#hmas{flex:none;width:88px;height:62px;margin-right:-4px;align-self:center;pointer-events:none}
+/* header obrolan: panggung maskot */
+#cv>.h{position:relative;overflow:hidden;gap:10px;background:linear-gradient(100deg,var(--blur) 38%,color-mix(in srgb,var(--hl) 13%,var(--blur)) 100%);border-bottom-color:color-mix(in srgb,var(--hl) 34%,var(--ln))}
+#cv>.h::before{content:"";position:absolute;right:-30px;top:-60px;width:230px;height:230px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--hl) 24%,transparent),transparent);pointer-events:none}
+#cv>.h::after{content:"";position:absolute;inset:auto 0 0 0;height:2px;background:linear-gradient(90deg,transparent,var(--hl),transparent);opacity:.5;pointer-events:none}
+#cv>.h>*{position:relative;z-index:1}
+#hmas{flex:none;width:clamp(92px,26vw,112px);aspect-ratio:2/1;margin:-4px -4px -4px 0;pointer-events:none}
 #hmas svg{display:block;width:100%;height:100%;overflow:visible}
-#hmas .hmb,#hmas .hl,#hmas .hr,#hmas .hey,#hmas .hk,#hmas .hd1,#hmas .hd2,#hmas .hd3{transform-box:fill-box;transform-origin:center}
-#hmas .hb2{opacity:0;transform-box:fill-box;transform-origin:left bottom;transform:scale(.55);transition:opacity .25s,transform .4s var(--ease)}
+#hmas [class]{transform-box:fill-box;transform-origin:center}
+#hmas .hb2{opacity:0;transform-origin:left bottom;transform:scale(.5);transition:opacity .25s,transform .45s var(--ease)}
 #hmas.kt .hb2{opacity:1;transform:none}
-#hmas .hlk{transition:transform .3s var(--ease)}
-#hmas.kt .hlk{transform:translateY(2px)}
+#hmas .hp{transition:transform .3s var(--ease)}
+#hmas.kt .hp{transform:translateY(1.3px)}
+#hmas .hbu{opacity:.55}
 #hmas.kt .hmb{animation:hbob .5s ease-in-out infinite alternate!important}
 #hmas.kt .hl{animation:htap .24s ease-in-out infinite alternate!important}
 #hmas.kt .hr{animation:htap .24s ease-in-out .12s infinite alternate!important}
 #hmas.kt .hey{animation:hblk 3.2s ease-in-out infinite!important}
+#hmas.kt .ha{animation:hant .6s ease-in-out infinite alternate!important}
+#hmas.kt .hw{animation:hline 1.1s steps(6,end) infinite alternate!important;transform-origin:left center}
+#hmas.kt .hw2{animation-delay:.35s!important}
+#hmas.kt .hc{animation:hcur .6s steps(1) infinite!important}
+#hmas.kt .hbu{animation:hflt 1.7s ease-in infinite!important}
+#hmas.kt .hbu2{animation-delay:.6s!important}
+#hmas.kt .hsp{animation:hspk 1s ease-in-out infinite!important}
+#hmas.kt .hsp2{animation-delay:.35s!important}
+#hmas.kt .hsp3{animation-delay:.7s!important}
 #hmas.kt .hd1{animation:hdot .9s ease-in-out infinite!important}
 #hmas.kt .hd2{animation:hdot .9s ease-in-out .15s infinite!important}
 #hmas.kt .hd3{animation:hdot .9s ease-in-out .3s infinite!important}
@@ -554,6 +568,11 @@ small{color:var(--sub);font-size:13px;font-weight:600}
 @keyframes hbob{to{transform:translateY(1.6px) rotate(-1.4deg)}}
 @keyframes htap{to{transform:translateY(-5px)}}
 @keyframes hblk{0%,90%,100%{transform:none}94%{transform:scaleY(.1)}}
+@keyframes hant{from{transform:scale(1);opacity:.8}to{transform:scale(1.5);opacity:1}}
+@keyframes hline{from{transform:scaleX(.2)}to{transform:scaleX(1)}}
+@keyframes hcur{50%{opacity:0}}
+@keyframes hflt{0%{transform:translateY(8px) scale(.6);opacity:0}25%{opacity:.9}100%{transform:translateY(-16px) scale(1);opacity:0}}
+@keyframes hspk{0%,100%{transform:scale(.55) rotate(0);opacity:.5}50%{transform:scale(1.25) rotate(45deg);opacity:1}}
 @keyframes hdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-3px);opacity:1}}
 @keyframes hkey{0%{fill:var(--s1)}50%{fill:var(--hl)}}
 </style>
@@ -714,12 +733,17 @@ small{color:var(--sub);font-size:13px;font-weight:600}
       <div class="h">
         <button id="bk" class="ic" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></button>
         <button id="chd" class="chd" aria-label="Lihat profil"><span id="cav"></span><span class="mid"><b id="cn"></b><small id="cs"></small></span></button>
-      <div id="hmas" aria-hidden="true"><svg viewBox="0 0 120 84"><defs><radialGradient id="hm-b" cx=".42" cy=".36" r=".72" fx=".3" fy=".24"><stop offset="0" stop-color="#f6ffb8"/><stop offset=".3" stop-color="#d6ff4d"/><stop offset=".72" stop-color="#8fcf0a"/><stop offset="1" stop-color="#3f7a05"/></radialGradient><radialGradient id="hm-e" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#2b4a3a"/><stop offset="1" stop-color="#050f0a"/></radialGradient></defs>
-<g class="hb2"><rect x="80" y="1" width="36" height="19" rx="9.5" fill="var(--s2)" stroke="var(--ln)"/><path d="M85 19 80 26 91 20Z" fill="var(--s2)"/><circle class="hd1" cx="91" cy="10.5" r="2.5" fill="var(--hl)"/><circle class="hd2" cx="98" cy="10.5" r="2.5" fill="var(--hl)"/><circle class="hd3" cx="105" cy="10.5" r="2.5" fill="var(--hl)"/></g>
-<rect x="24" y="64" width="72" height="17" rx="6.5" fill="var(--s3)"/>
-<g fill="var(--s1)"><rect class="hk" style="--d:0s" x="30" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.21s" x="39.5" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.07s" x="49" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.35s" x="58.5" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.14s" x="68" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.28s" x="77.5" y="67" width="7" height="4.4" rx="1.4"/><rect class="hk" style="--d:.42s" x="87" y="67" width="4" height="4.4" rx="1.4"/><rect x="38" y="73.6" width="44" height="4" rx="1.6"/></g>
-<g class="hmb"><circle cx="60" cy="37" r="26" fill="url(#hm-b)"/><ellipse cx="49" cy="23" rx="9.5" ry="4.6" transform="rotate(-32 49 23)" fill="#fff" opacity=".5"/><circle cx="64" cy="14.5" r="1.6" fill="#fff" opacity=".6"/><ellipse cx="45" cy="45" rx="5" ry="3.2" fill="#ff6b57" opacity=".5"/><ellipse cx="75" cy="45" rx="5" ry="3.2" fill="#ff6b57" opacity=".5"/><g class="hlk"><g class="hey"><ellipse cx="51" cy="36" rx="4.2" ry="5.4" fill="url(#hm-e)"/><circle cx="52.6" cy="33.6" r="1.7" fill="#fff"/><ellipse cx="69" cy="36" rx="4.2" ry="5.4" fill="url(#hm-e)"/><circle cx="70.6" cy="33.6" r="1.7" fill="#fff"/></g></g><path d="M54.5 46Q60 55 65.5 46Z" fill="#06140f"/><path d="M57.2 50Q60 48.4 62.8 50Q60 53 57.2 50Z" fill="#ff6b57"/></g>
-<circle class="hl" cx="42" cy="66" r="7" fill="url(#hm-b)"/><circle class="hr" cx="78" cy="66" r="7" fill="url(#hm-b)"/></svg></div>
+      <div id="hmas" aria-hidden="true"><svg viewBox="0 0 160 80"><defs><radialGradient id="hm-b" cx=".42" cy=".36" r=".72" fx=".3" fy=".24"><stop offset="0" stop-color="#f6ffb8"/><stop offset=".3" stop-color="#d6ff4d"/><stop offset=".72" stop-color="#8fcf0a"/><stop offset="1" stop-color="#3f7a05"/></radialGradient><radialGradient id="hm-e" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#2b4a3a"/><stop offset="1" stop-color="#050f0a"/></radialGradient><linearGradient id="hm-st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--hl);stop-opacity:.26"/><stop offset="1" style="stop-color:var(--hl);stop-opacity:.05"/></linearGradient><pattern id="hm-dt" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1" style="fill:var(--hl);opacity:.28"/></pattern><clipPath id="hm-cp"><rect x="1" y="3" width="158" height="74" rx="24"/></clipPath></defs>
+<rect x="1" y="3" width="158" height="74" rx="24" fill="url(#hm-st)" style="stroke:var(--ln)"/>
+<g clip-path="url(#hm-cp)"><rect x="1" y="3" width="158" height="74" fill="url(#hm-dt)"/><circle cx="92" cy="40" r="38" style="fill:var(--hl);opacity:.17"/><rect x="0" y="70" width="160" height="10" style="fill:var(--hl);opacity:.12"/></g>
+<g transform="translate(10 17)"><rect width="46" height="35" rx="7" style="fill:var(--s1);stroke:var(--ln)"/><circle cx="7" cy="6" r="1.8" fill="#ff6b57"/><circle cx="12.6" cy="6" r="1.8" fill="#ffd84a"/><circle cx="18.2" cy="6" r="1.8" fill="#5fe3b3"/><rect class="hw hw1" x="7" y="13" width="32" height="3.4" rx="1.7" style="fill:var(--s3)"/><rect class="hw hw2" x="7" y="19.5" width="24" height="3.4" rx="1.7" style="fill:var(--s3)"/><rect class="hc" x="7" y="26" width="1.8" height="5" rx=".9" style="fill:var(--hl)"/></g>
+<path class="hsp hsp1" d="M66 9L67.2 11.8L70 13L67.2 14.2L66 17L64.8 14.2L62 13L64.8 11.8Z" style="fill:var(--hl)"/><path class="hsp hsp2" d="M147 54.4L148.08 56.92L150.6 58L148.08 59.08L147 61.6L145.92 59.08L143.4 58L145.92 56.92Z" style="fill:var(--hl)"/><path class="hsp hsp3" d="M30 62.8L30.96 65.04L33.2 66L30.96 66.96L30 69.2L29.04 66.96L26.8 66L29.04 65.04Z" style="fill:var(--hl)"/>
+<circle class="hbu hbu1" cx="132" cy="40" r="2.7" fill="none" stroke-width="1.4" style="stroke:var(--hl)"/><circle class="hbu hbu2" cx="141" cy="47" r="1.9" fill="none" stroke-width="1.4" style="stroke:var(--hl)"/>
+<g class="hb2"><rect x="116" y="8" width="35" height="18" rx="9" style="fill:var(--s1);stroke:var(--ln)"/><path d="M121 25 116 32 128 26Z" style="fill:var(--s1)"/><circle class="hd1" cx="127" cy="17" r="2.5" style="fill:var(--hl)"/><circle class="hd2" cx="133.5" cy="17" r="2.5" style="fill:var(--hl)"/><circle class="hd3" cx="140" cy="17" r="2.5" style="fill:var(--hl)"/></g>
+<rect x="60" y="62" width="64" height="14" rx="6" style="fill:var(--s3)"/>
+<g style="fill:var(--s1)"><rect class="hk" style="--d:0s" x="66.0" y="64.6" width="6" height="3.8" rx="1.3"/><rect class="hk" style="--d:0.21s" x="74.2" y="64.6" width="6" height="3.8" rx="1.3"/><rect class="hk" style="--d:0.07s" x="82.4" y="64.6" width="6" height="3.8" rx="1.3"/><rect class="hk" style="--d:0.35s" x="90.6" y="64.6" width="6" height="3.8" rx="1.3"/><rect class="hk" style="--d:0.14s" x="98.8" y="64.6" width="6" height="3.8" rx="1.3"/><rect class="hk" style="--d:0.28s" x="107.0" y="64.6" width="6" height="3.8" rx="1.3"/><rect x="72" y="70.2" width="40" height="3.4" rx="1.5"/></g>
+<g class="hmb"><path d="M92 17Q89.5 11 94.5 7.5" fill="none" stroke="#3f7a05" stroke-width="2" stroke-linecap="round"/><circle class="ha" cx="95" cy="6.8" r="3.3" fill="#ff6b57"/><circle cx="92" cy="38" r="22" fill="url(#hm-b)"/><ellipse cx="83" cy="26" rx="8" ry="4" transform="rotate(-32 83 26)" fill="#fff" opacity=".5"/><circle cx="96" cy="20" r="1.5" fill="#fff" opacity=".6"/><ellipse cx="78.5" cy="44.5" rx="4.3" ry="2.7" fill="#ff6b57" opacity=".5"/><ellipse cx="105.5" cy="44.5" rx="4.3" ry="2.7" fill="#ff6b57" opacity=".5"/><g class="hey"><g class="hp"><ellipse cx="85" cy="36" rx="3.6" ry="4.7" fill="url(#hm-e)"/><circle cx="86.4" cy="34" r="1.5" fill="#fff"/><ellipse cx="99" cy="36" rx="3.6" ry="4.7" fill="url(#hm-e)"/><circle cx="100.4" cy="34" r="1.5" fill="#fff"/></g></g><path d="M87.6 45Q92 52.5 96.4 45Z" fill="#06140f"/><path d="M90 48.8Q92 47.4 94 48.8Q92 51 90 48.8Z" fill="#ff6b57"/></g>
+<circle class="hl" cx="77" cy="63" r="6" fill="url(#hm-b)"/><circle class="hr" cx="107" cy="63" r="6" fill="url(#hm-b)"/></svg></div>
       </div>
       <div id="msgs"></div>
       <div id="rb" hidden><div class="rbq"><b id="rbn"></b><span id="rbt"></span></div><button id="rbx" class="ic" aria-label="Batal balas"><svg class="i"><use href="#i-x"/></svg></button></div>
