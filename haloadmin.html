@@ -121,12 +121,23 @@ $('#ab').onclick = async () => {
   if (++tries >= 5) { lock = Date.now() + 60000; tries = 0; }
   e.textContent = 'Kode salah.';
 };
+
+/* ==== DIUBAH: langsung masuk panel tanpa kode admin ==== */
 onAuthStateChanged(auth, async u => {
   me = u; $('#gate').hidden = true; $('#app').hidden = true;
-  if (!u) { try { await signInAnonymously(auth); } catch { $('#gate').hidden = false; $('#ge').textContent = 'Aktifkan "Anonymous" di Firebase Console → Authentication → Sign-in method.'; } return; }
-  let c = null; try { c = await val(`admins/${u.uid}/code`); } catch {}
-  if (c && await verify(c) === true) enter(); else $('#gate').hidden = false;
+  if (!u) {
+    try { await signInAnonymously(auth); }
+    catch (e) {
+      console.error(e);
+      $('#gate').hidden = false;
+      $('#ge').textContent = 'Anonymous auth gagal — aktifkan di Firebase Console → Authentication → Sign-in method.';
+    }
+    return;
+  }
+  enter();
 });
+/* ==== akhir bagian yang diubah ==== */
+
 const TABS = [['home', 'Ringkasan'], ['usr', 'Pengguna'], ['rep', 'Laporan'], ['apl', 'Banding'], ['grp', 'Grup & Saluran'], ['news', 'Berita'], ['db', 'Database']];
 function enter() {
   $('#gate').hidden = true; $('#app').hidden = false; $('#who').textContent = me.email || 'Admin';
