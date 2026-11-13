@@ -4,18 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 <title>Panel Admin HaloKita</title>
 <style>
-:root{--bg:#f3f6ee;--card:#fff;--ink:#0b1a10;--sub:#5d6e63;--ln:#e0e7d8;--acc:#0b1a10;--on:#c9f73a;--red:#d4382a;--red-bg:#fdeceb;--grn:#1a7f4b;--grn-bg:#e6f5ec;--amb:#a8650a;--amb-bg:#fdf1dc;--blue:#1273c9;--blue-bg:#e3f1fd;--chip:#eef2e8;--sh:0 1px 2px rgba(10,32,22,.06),0 8px 24px -16px rgba(10,32,22,.25)}
-@media(prefers-color-scheme:dark){:root{--bg:#08130d;--card:#0f2017;--ink:#eaf3e0;--sub:#8ba495;--ln:#1e3427;--acc:#c9f73a;--on:#08130d;--red:#ff7a6b;--red-bg:#2b1512;--grn:#5fe3a0;--grn-bg:#10281b;--amb:#f2b24c;--amb-bg:#2b2010;--blue:#6db8ff;--blue-bg:#102a40;--chip:#16291e;--sh:none}}
+:root{--bg:#fff;--card:#fff;--ink:#0b1220;--sub:#68707d;--ln:#e8eaee;--acc:#0f172a;--on:#c9f73a;--red:#d4382a;--red-bg:#fdeceb;--grn:#1a7f4b;--grn-bg:#e6f5ec;--amb:#a8650a;--amb-bg:#fdf1dc;--blue:#1273c9;--blue-bg:#e3f1fd;--chip:#f4f5f7;--sh:0 1px 2px rgba(9,12,20,.05),0 8px 24px -16px rgba(9,12,20,.2)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
 body{font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--ln);border-radius:12px;padding:11px 13px;outline:none;transition:border-color .2s}
 input:focus,textarea:focus,select:focus{border-color:var(--ink)}
-@media(prefers-color-scheme:dark){input:focus,textarea:focus,select:focus{border-color:#c9f73a}}
 textarea{resize:vertical}
 small{color:var(--sub);font-size:13px}
 .i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -36,15 +34,9 @@ small{color:var(--sub);font-size:13px}
 .tag.amb{background:var(--amb-bg);color:var(--amb)}
 .tag.blue{background:var(--blue-bg);color:var(--blue)}
 
-/* login / ditolak / memuat */
-#boot{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);color:var(--sub);font-weight:700;z-index:50}
-.center{min-height:100vh;display:grid;place-items:center;padding:24px 18px}
-.box{width:100%;max-width:380px;background:var(--card);border:1px solid var(--ln);border-radius:24px;padding:26px 22px;box-shadow:var(--sh);display:grid;gap:12px}
 .logo{width:54px;height:54px;border-radius:18px;background:#c9f73a;color:#06140f;display:grid;place-items:center;font-weight:900;font-size:26px}
-.box h1{font-size:22px;letter-spacing:-.02em}
 .err{color:var(--red);font-size:13px;font-weight:600;min-height:0}
 .err:empty{display:none}
-.lnk{font-weight:700;text-decoration:underline;text-underline-offset:4px;justify-self:center;padding:4px;color:var(--sub);font-size:14px}
 .uidbox{display:flex;align-items:center;gap:8px;background:var(--chip);border-radius:12px;padding:10px 12px}
 .uidbox code{flex:1;min-width:0;word-break:break-all;font-size:13px}
 
@@ -118,13 +110,12 @@ button.item:hover{border-color:var(--sub)}
 .kv div{word-break:break-word;white-space:pre-wrap}
 
 /* lembar & dialog */
-.ov{position:fixed;inset:0;z-index:20;background:rgba(5,12,8,.55);display:grid;place-items:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s .2s}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(9,12,20,.5);display:grid;place-items:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s .2s}
 .ov.open{opacity:1;visibility:visible;transition:opacity .2s}
 #dlg{z-index:30}
-.sheet{width:100%;max-width:520px;max-height:90vh;overflow:auto;background:var(--card);border-radius:22px;padding:20px;box-shadow:0 30px 70px -20px rgba(0,0,0,.5);transform:translateY(14px);transition:transform .25s}
+.sheet{width:100%;max-width:520px;max-height:90vh;overflow:auto;background:var(--card);border-radius:22px;padding:20px;box-shadow:0 30px 70px -20px rgba(0,0,0,.35);transform:translateY(14px);transition:transform .25s}
 .ov.open .sheet{transform:none}
 .sheet h3{font-size:19px;letter-spacing:-.01em}
-.sheet .x{position:absolute}
 .dbox{display:grid;gap:12px}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{padding:6px 12px;border-radius:999px;background:var(--chip);font-weight:700;font-size:13px}
@@ -139,8 +130,6 @@ button.item:hover{border-color:var(--sub)}
 @media(min-width:781px){#toast{bottom:28px}}
 
 /* ===== tampilan lengkap & layar lebar ===== */
-body{background:radial-gradient(900px 420px at 92% -8%,rgba(201,247,58,.28),transparent 65%) fixed,var(--bg)}
-@media(prefers-color-scheme:dark){body{background:radial-gradient(900px 420px at 92% -8%,rgba(201,247,58,.07),transparent 65%) fixed,var(--bg)}}
 ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--ln);border-radius:9px;border:2px solid var(--bg)}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -155,38 +144,24 @@ body{background:radial-gradient(900px 420px at 92% -8%,rgba(201,247,58,.28),tran
 .split>:first-child>.card{margin:0}
 .split>:last-child>.sec:first-child{margin-top:0}
 @media(max-width:1000px){.split{grid-template-columns:1fr}.split>:first-child{position:static}}
-.code{background:var(--chip);border-radius:12px;padding:12px;font:12px/1.55 ui-monospace,Consolas,monospace;overflow:auto;max-height:280px;white-space:pre}
 .stat .i{width:26px;height:26px;margin-bottom:8px;color:var(--sub)}
 .stat.warn .i{color:var(--amb)}
 .av.sm{width:36px;height:36px;font-size:15px}
 .top small{display:block;margin-top:2px}
-.auth{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
-.hero{display:none;flex-direction:column;justify-content:space-between;gap:32px;padding:52px 64px;color:#eaf3e0;background:radial-gradient(720px 420px at 15% 8%,rgba(201,247,58,.3),transparent 62%),radial-gradient(600px 400px at 100% 100%,rgba(26,127,75,.45),transparent 60%),#08130d}
-.hero .brand{padding:0;font-size:22px}
-.hero h2{font-size:clamp(34px,3.6vw,56px);line-height:1.07;letter-spacing:-.03em;max-width:14ch}
-.hero h2 em{font-style:normal;color:#c9f73a}
-.hero p{color:#a9c4b2;max-width:46ch;font-size:17px;margin-top:16px}
-.hero small{color:#8ba495}
-.feat{display:grid;grid-template-columns:1fr 1fr;gap:12px;list-style:none;padding:0;margin-top:30px;max-width:520px}
-.feat li{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 16px;font-weight:700}
-.pane{display:grid;place-items:center;padding:32px 20px}
-.pane .box{max-width:420px;padding:34px 30px}
-@media(min-width:900px){.hero{display:flex}}
-@media(max-width:899px){.auth{grid-template-columns:1fr}}
 @media(min-width:781px){
 #app{grid-template-columns:276px minmax(0,1fr)}
-aside{padding:24px 16px;gap:6px;background:linear-gradient(180deg,var(--card),transparent 140%)}
+aside{padding:24px 16px;gap:6px}
 .brand{font-size:20px;padding:2px 10px 24px}.brand .logo{width:42px;height:42px;font-size:21px}
 .nv{padding:13px 15px;font-size:15px}.nv:hover{transform:translateX(3px)}
 .nv.on{box-shadow:0 12px 26px -14px rgba(11,26,16,.6)}
 main{max-width:1560px;margin:0 auto;padding:0 44px 64px}
-.top{position:sticky;top:0;z-index:6;margin:0 -44px 26px;padding:20px 44px;background:color-mix(in srgb,var(--bg) 80%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--ln)}
+.top{position:sticky;top:0;z-index:6;margin:0 -44px 26px;padding:20px 44px;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--ln)}
 .top h1{font-size:30px}
 .stats{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:10px}
 .stat{padding:22px 24px;border-radius:22px;cursor:pointer}
-.stat:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(10,32,22,.45)}
+.stat:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(10,32,22,.28)}
 .stat b{font-size:42px}.stat span{font-size:14px}
-.card{padding:20px;border-radius:20px}.card:hover{box-shadow:0 14px 34px -18px rgba(10,32,22,.4)}
+.card{padding:20px;border-radius:20px}.card:hover{box-shadow:0 14px 34px -18px rgba(10,32,22,.25)}
 .item{padding:14px 16px}
 .sheet{max-width:660px;padding:26px}#dlg .sheet{max-width:520px}
 .searchbar input{padding:13px 16px}
@@ -196,48 +171,8 @@ main{max-width:1560px;margin:0 auto;padding:0 44px 64px}
 </head>
 <body>
 
-<div id="boot">Memuat…</div>
-
-<!-- Masuk -->
-<div id="login" class="auth" hidden>
-  <section class="hero">
-    <div class="brand"><div class="logo">H</div>HaloKita</div>
-    <div>
-      <h2>Kelola komunitas <em>dengan tenang.</em></h2>
-      <p>Tinjau laporan, tangani banding, verifikasi akun, dan terbitkan berita dari satu tempat.</p>
-      <ul class="feat"><li>Laporan &amp; moderasi</li><li>Banding &amp; ban</li><li>Centang biru</li><li>Tim &amp; riwayat aktivitas</li></ul>
-    </div>
-    <small>Akun pertama yang masuk otomatis menjadi Pemilik utama dan terverifikasi.</small>
-  </section>
-  <section class="pane"><div class="box">
-    <div class="logo">H</div>
-    <h1>Panel Admin HaloKita</h1>
-    <small>Masuk dengan akun HaloKita milikmu. Akun pertama yang masuk otomatis menjadi Pemilik utama; setelah itu hanya akun yang didaftarkan di menu Tim yang bisa masuk.</small>
-    <input id="lem" type="email" placeholder="Email" autocomplete="email">
-    <input id="lpw" type="password" placeholder="Kata sandi" autocomplete="current-password">
-    <label class="chk"><input type="checkbox" id="lsp">Tampilkan kata sandi</label>
-    <div id="lerr" class="err"></div>
-    <button id="lgo" class="btn wide">Masuk</button>
-    <button id="lgg" class="btn ghost wide">Masuk dengan Google</button>
-    <button id="lfg" class="lnk">Lupa kata sandi?</button>
-  </div></section>
-</div>
-
-<!-- Belum punya akses -->
-<div id="deny" class="center" hidden>
-  <div class="box">
-    <div class="logo">!</div>
-    <h1>Akun ini belum punya akses</h1>
-    <small>Masuk sebagai <b id="dmail"></b>. Minta pemilik panel menambahkan kamu di menu Tim (pakai @username HaloKita kamu), atau kirim ID akun di bawah ini.</small>
-    <div class="uidbox"><code id="duid"></code><button id="dcp" class="btn sm ghost">Salin</button></div>
-    <div id="derr" class="err"></div>
-    <button id="drl" class="btn ghost wide">Pasang pertama kali? Salin aturan Firebase</button>
-    <button id="dout" class="btn ghost wide">Keluar</button>
-  </div>
-</div>
-
 <!-- Panel -->
-<div id="app" hidden>
+<div id="app">
   <aside>
     <div class="brand"><div class="logo">H</div>HaloKita</div>
     <div id="snav"></div>
@@ -245,7 +180,7 @@ main{max-width:1560px;margin:0 auto;padding:0 44px 64px}
   <main>
     <div class="top">
       <div><h1 id="pt"></h1><small id="ps"></small></div>
-      <div class="me"><span class="av sm" id="mav"></span><span class="nm" id="mn"></span><span class="tag" id="mr"></span><button id="lo" class="btn sm ghost">Keluar</button></div>
+      <div class="me"><span class="av sm" id="mav"></span><span class="nm" id="mn"></span><span class="tag" id="mr"></span></div>
     </div>
     <div id="warn" hidden></div>
     <div id="views"></div>
@@ -259,7 +194,6 @@ main{max-width:1560px;margin:0 auto;padding:0 44px 64px}
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut,GoogleAuthProvider,signInWithPopup,signInWithRedirect,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getDatabase,ref,get,set,update,push,remove,onValue,query,limitToFirst,limitToLast,orderByKey,startAt,endAt,startAfter,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -271,7 +205,7 @@ const firebaseConfig = {
   messagingSenderId: "1003182873390",
   appId: "1:1003182873390:web:aabf3248f759cbc9d678bf"
 };
-const fbApp = initializeApp(firebaseConfig), auth = getAuth(fbApp), db = getDatabase(fbApp);
+const fbApp = initializeApp(firebaseConfig), db = getDatabase(fbApp);
 
 /* ================= alat bantu ================= */
 const $ = s => document.querySelector(s);
@@ -324,7 +258,7 @@ async function copyTx(t) {
   try { await navigator.clipboard.writeText(t); toast('Disalin'); }
   catch { const a = el('textarea'); a.value = t; document.body.append(a); a.select(); try { document.execCommand('copy'); toast('Disalin'); } catch { toast('Gagal menyalin'); } a.remove(); }
 }
-const errMsg = e => /permission_denied/i.test((e?.code || '') + ' ' + (e?.message || '')) ? 'Ditolak server. Peranmu belum diizinkan oleh aturan Firebase.'
+const errMsg = e => /permission_denied/i.test((e?.code || '') + ' ' + (e?.message || '')) ? 'Ditolak server. Aturan Firebase belum mengizinkan panel membaca data ini.'
   : /network|offline/i.test(e?.message || '') ? 'Tidak ada koneksi internet' : 'Terjadi kesalahan, coba lagi';
 async function run(b, fn) {
   if (b.disabled) return; b.disabled = true;
@@ -336,30 +270,16 @@ function btn(text, cls, fn, icon) {
 }
 const empty = t => el('div', 'empty', t);
 const sec = (t, n) => { const h = el('h2', 'sec', t); if (n != null) h.append(el('span', 'tag', String(n))); return h; };
-const pesan = x => ({
-  'auth/invalid-credential': 'Email atau kata sandi salah', 'auth/invalid-email': 'Format email tidak valid',
-  'auth/too-many-requests': 'Terlalu banyak percobaan, coba lagi nanti', 'auth/network-request-failed': 'Tidak ada koneksi internet',
-  'auth/unauthorized-domain': 'Domain ' + location.hostname + ' belum diizinkan. Tambahkan di Firebase Console → Authentication → Settings → Authorized domains, atau masuk pakai email dan kata sandi.'
-}[x.code] || x.message || 'Terjadi kesalahan');
 
 /* ================= peran ================= */
 const ROLES = {owner: 'Pemilik', admin: 'Admin', moderator: 'Karyawan'};
 const ROLE_OPTS = [['moderator', 'Karyawan'], ['admin', 'Admin'], ['owner', 'Pemilik']];
-const OWN = "root.child('admins/'+auth.uid+'/role').val() === 'owner'", STAFF = "root.child('admins/'+auth.uid+'/role').exists()", FIRST = "!root.child('admins').exists() && auth.uid === $uid";
-const RULES = {
-  admins: {".read": "auth != null && " + STAFF, "$uid": {
-    ".read": "auth != null && auth.uid === $uid",
-    ".write": "auth != null && ((" + OWN + " && !root.child('admins/'+$uid+'/main').exists() && !newData.child('main').exists()) || (" + FIRST + " && newData.child('role').val() === 'owner' && newData.child('main').val() === true))",
-    ".validate": "!newData.exists() || newData.child('role').val() === 'owner' || newData.child('role').val() === 'admin' || newData.child('role').val() === 'moderator'"}},
-  verified: {".read": true, "$uid": {".write": "auth != null && (" + OWN + " || root.child('admins/'+auth.uid+'/role').val() === 'admin' || (" + FIRST + "))"}},
-  adminLog: {".read": "auth != null && " + OWN, ".write": "auth != null && " + STAFF}
-};
 const PERM = {
   owner: ['reports', 'appeals', 'ban', 'users', 'verify', 'news', 'team'],
   admin: ['reports', 'appeals', 'ban', 'users', 'verify', 'news'],
   moderator: ['reports', 'appeals', 'ban', 'users']
 };
-let me = null;
+let me = {uid: 'panel-admin', name: 'Admin HaloKita', role: 'owner'};
 const can = k => !!me && (PERM[me.role] || []).includes(k);
 const NAV = [['home', 'Beranda', 'home', null], ['reports', 'Laporan', 'flag', 'reports'], ['appeals', 'Banding', 'shield', 'appeals'], ['users', 'Pengguna', 'users', 'users'], ['news', 'Berita', 'news', 'news'], ['team', 'Tim', 'user', 'team']];
 
@@ -389,7 +309,7 @@ function onData() {
 }
 function warnPaint() {
   const w = $('#warn'); w.hidden = !errs.size;
-  if (errs.size) w.textContent = 'Belum bisa membaca: ' + [...errs].map(k => LBL[k] || k).join(', ') + '. Aturan Firebase belum mengizinkan peranmu. Lihat PANDUAN-ADMIN.md.';
+  if (errs.size) w.textContent = 'Belum bisa membaca: ' + [...errs].map(k => LBL[k] || k).join(', ') + '. Periksa aturan Realtime Database.';
 }
 function badges() {
   const r = openReports().length, a = Object.keys(S.appeals).length;
@@ -432,7 +352,7 @@ function log(action, t, detail) {
   if (!me) return;
   push(ref(db, 'adminLog'), {by: me.uid, byName: me.name || '', role: me.role, action, target: t?.uid || '', targetUser: t?.username || '', detail: String(detail || '').slice(0, 300), ts: serverTimestamp()}).catch(() => {});
 }
-const LOGL = {ban: 'memban', unban: 'membuka ban', 'banding-terima': 'menerima banding', 'banding-tolak': 'menolak banding', verifikasi: 'memberi centang biru', 'cabut-verifikasi': 'mencabut centang biru', 'berita-terbit': 'menerbitkan berita', 'berita-hapus': 'menghapus berita', 'pemilik-awal': 'menjadi pemilik utama', 'staf-tambah': 'menambah anggota tim', 'staf-hapus': 'menghapus anggota tim', 'staf-peran': 'mengubah peran', 'laporan-selesai': 'menyelesaikan laporan', 'laporan-abaikan': 'mengabaikan laporan', 'laporan-buka': 'membuka ulang laporan'};
+const LOGL = {ban: 'memban', unban: 'membuka ban', 'banding-terima': 'menerima banding', 'banding-tolak': 'menolak banding', verifikasi: 'memberi centang biru', 'cabut-verifikasi': 'mencabut centang biru', 'berita-terbit': 'menerbitkan berita', 'berita-hapus': 'menghapus berita', 'staf-tambah': 'menambah anggota tim', 'staf-hapus': 'menghapus anggota tim', 'staf-peran': 'mengubah peran', 'laporan-selesai': 'menyelesaikan laporan', 'laporan-abaikan': 'mengabaikan laporan', 'laporan-buka': 'membuka ulang laporan'};
 
 async function banFlow(u) {
   if (u.uid == me.uid) return toast('Kamu tidak bisa memban dirimu sendiri');
@@ -751,11 +671,9 @@ function buildTeam() {
     await set(ref(db, 'admins/' + uid), {role: rl.value, name: i.name || q || 'Anggota', username: q, ts: serverTimestamp(), by: me.uid});
     log('staf-tambah', {uid, username: q}, ROLES[rl.value]); un.value = ''; toast(`${q ? '@' + q : 'Akun'} ditambahkan sebagai ${ROLES[rl.value]}`);
   }, 'plus');
-  form.append(el('b', '', 'Tambah anggota tim'), row, add, el('small', '', 'Isi @username, atau tempel ID akun (tampil di layar "belum punya akses"). Karyawan: laporan, banding, ban. Admin: ditambah centang biru dan berita. Pemilik: ditambah kelola tim dan riwayat. Pemilik utama tidak bisa dihapus atau diturunkan.'));
-  const left = el('div'), right = el('div'), g = el('div', 'card'), pre = el('pre', 'code'); root.className = 'split';
-  pre.textContent = JSON.stringify({rules: RULES}, null, 2);
-  g.append(el('b', '', 'Aturan keamanan Firebase'), el('small', '', 'Gabungkan blok admins, verified, dan adminLog ini ke Realtime Database → Rules. Tanpa ini akun pertama tidak bisa otomatis jadi Pemilik utama dan tim tidak terlindungi.'), pre, btn('Salin aturan', 'ghost sm', () => copyTx(pre.textContent), 'copy'));
-  left.append(form, g); right.append(list, logw); root.append(left, right);
+  form.append(el('b', '', 'Tambah anggota tim'), row, add, el('small', '', 'Isi @username, atau tempel ID akun. Karyawan: laporan, banding, ban. Admin: ditambah centang biru dan berita. Pemilik: ditambah kelola tim dan riwayat.'));
+  const left = el('div'), right = el('div'); root.className = 'split';
+  left.append(form); right.append(list, logw); root.append(left, right);
   return {root, paint() {
     clear(list); clear(logw);
     const A = Object.entries(S.admins).map(([uid, a]) => ({uid, ...a})).sort((a, b) => ['owner', 'admin', 'moderator'].indexOf(a.role) - ['owner', 'admin', 'moderator'].indexOf(b.role));
@@ -787,7 +705,6 @@ function buildTeam() {
 }
 
 /* ================= navigasi & mulai ================= */
-function show(n) { ['login', 'deny', 'app'].forEach(x => $('#' + x).hidden = x != n); }
 function go(tab) {
   if (!V[tab]) tab = 'home'; TAB = tab;
   document.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b.dataset.t == tab));
@@ -806,11 +723,9 @@ function buildNav() {
     a.onclick = b.onclick = () => go(k); sn.append(a); bn.append(b);
   });
 }
-function stopAll() {
-  unsubs.forEach(f => { try { f(); } catch {} }); unsubs = []; errs.clear(); Object.assign(S, EMPTY()); V = {}; closeModal(); $('#dlg').classList.remove('open'); RT = null;
-}
 function startApp() {
-  show('app'); $('#mn').textContent = me.name; $('#mr').textContent = ROLES[me.role]; $('#mav').textContent = (me.name.trim().charAt(0) || '?').toUpperCase(); $('#mav').style.backgroundColor = col(me.uid);
+  $('#mn').textContent = me.name; $('#mr').textContent = ROLES[me.role];
+  $('#mav').textContent = (me.name.trim().charAt(0) || '?').toUpperCase(); $('#mav').style.backgroundColor = col(me.uid);
   buildNav();
   const vw = $('#views'); clear(vw);
   V = {home: buildHome()};
@@ -825,65 +740,10 @@ function startApp() {
   sub('verified', ref(db, 'verified'));
   if (can('news')) sub('news', query(ref(db, 'news'), limitToLast(40)));
   if (can('team')) { sub('admins', ref(db, 'admins')); sub('log', query(ref(db, 'adminLog'), limitToLast(80))); }
-  let first = true;
-  unsubs.push(onValue(ref(db, 'admins/' + me.uid), s => {
-    if (first) { first = false; return; }
-    const v = s.val();
-    if (!v || !ROLES[v.role]) { stopAll(); deny(auth.currentUser, ''); }
-    else if (v.role != me.role) location.reload();
-  }, () => {}));
   go(V[location.hash.slice(1)] ? location.hash.slice(1) : 'home'); badges();
 }
-function deny(u, err) {
-  show('deny'); $('#dmail').textContent = u?.email || '(tanpa email)'; $('#duid').textContent = u?.uid || '';
-  $('#derr').textContent = err ? err + ' Salin aturan Firebase lewat tombol di bawah, lalu gabungkan ke Realtime Database → Rules.' : '';
-}
-$('#dcp').onclick = () => copyTx($('#duid').textContent);
-$('#drl').onclick = () => copyTx(JSON.stringify({rules: RULES}, null, 2));
-$('#dout').onclick = $('#lo').onclick = () => signOut(auth).then(() => location.reload()).catch(() => location.reload());
 
-/* ================= masuk ================= */
-$('#lgo').onclick = async () => {
-  const b = $('#lgo'), e = $('#lem').value.trim(), p = $('#lpw').value; $('#lerr').textContent = '';
-  if (!e || !p) { $('#lerr').textContent = 'Isi email dan kata sandi'; return; }
-  b.disabled = true;
-  try { await signInWithEmailAndPassword(auth, e, p); } catch (x) { $('#lerr').textContent = pesan(x); } finally { b.disabled = false; }
-};
-$('#lsp').onchange = e => { $('#lpw').type = e.target.checked ? 'text' : 'password'; };
-['#lem', '#lpw'].forEach(q => $(q).onkeydown = e => { if (e.key == 'Enter') $('#lgo').click(); });
-$('#lgg').onclick = async () => {
-  $('#lerr').textContent = ''; const pv = new GoogleAuthProvider();
-  try { await signInWithPopup(auth, pv); }
-  catch (x) {
-    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(x.code)) signInWithRedirect(auth, pv);
-    else if (!['auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(x.code)) $('#lerr').textContent = pesan(x);
-  }
-};
-$('#lfg').onclick = async () => {
-  const e = $('#lem').value.trim(); if (!e) { $('#lerr').textContent = 'Isi email dulu, lalu tekan "Lupa kata sandi?" lagi'; return; }
-  try { await sendPasswordResetEmail(auth, e); $('#lerr').textContent = ''; toast('Tautan reset dikirim ke ' + e); } catch (x) { $('#lerr').textContent = pesan(x); }
-};
-
-onAuthStateChanged(auth, async u => {
-  stopAll(); $('#boot').hidden = false;
-  if (!u) { me = null; $('#boot').hidden = true; show('login'); return; }
-  me = {uid: u.uid, email: u.email || '', role: '', name: ''};
-  let a = null, err = '';
-  try { a = (await get(ref(db, 'admins/' + u.uid))).val(); } catch (e) { err = errMsg(e); }
-  let first = false;
-  if (!a && !err) {
-    try {
-      const i = await uinfo(u.uid), nm = i.name || u.displayName || (u.email || '').split('@')[0] || 'Pemilik';
-      await update(ref(db), {['admins/' + u.uid]: {role: 'owner', main: true, name: nm, username: i.username || '', ts: serverTimestamp(), by: u.uid}, ['verified/' + u.uid]: true});
-      a = {role: 'owner', name: nm}; first = true;
-    } catch {}
-  }
-  $('#boot').hidden = true;
-  if (!a || !ROLES[a.role]) { deny(u, err); return; }
-  me.role = a.role; me.name = a.name || u.displayName || (u.email || '').split('@')[0] || 'Admin';
-  startApp();
-  if (first) { log('pemilik-awal', null, 'Akun pertama yang masuk'); go('team'); toast('Kamu otomatis jadi Pemilik utama dan terverifikasi'); }
-});
+startApp();
 </script>
 </body>
 </html>
