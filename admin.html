@@ -339,7 +339,7 @@ const sec = (t, n) => { const h = el('h2', 'sec', t); if (n != null) h.append(el
 const pesan = x => ({
   'auth/invalid-credential': 'Email atau kata sandi salah', 'auth/invalid-email': 'Format email tidak valid',
   'auth/too-many-requests': 'Terlalu banyak percobaan, coba lagi nanti', 'auth/network-request-failed': 'Tidak ada koneksi internet',
-  'auth/unauthorized-domain': 'Domain ini belum diizinkan di Firebase (Authentication → Settings → Authorized domains)'
+  'auth/unauthorized-domain': 'Domain ' + location.hostname + ' belum diizinkan. Tambahkan di Firebase Console → Authentication → Settings → Authorized domains, atau masuk pakai email dan kata sandi.'
 }[x.code] || x.message || 'Terjadi kesalahan');
 
 /* ================= peran ================= */
